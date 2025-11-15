@@ -36,8 +36,6 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
 - **Class Titles** – Full class name for easy reference
-- **Info Button** - shows current version info and link to repo
-- **Lunch Selection** - the lunch selection in setting will not show up unless
 - **Pack Up Reminders** - Will remind you to pack up before class (via a notification showing up on the side of your screen), will be user adjustable in settings (with default pack up time 3 min, and options are (1, 3, 5, 7, 10))
 - **Estimated Travel Time** - Estimates travel time to next class, based on room number
 
