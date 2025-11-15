@@ -213,11 +213,11 @@
       backdrop-filter: blur(5px);
     }
 
-    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active {
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active {
       display: flex;
     }
 
-    #holidaysOverlay, #settingsOverlay, #welcomeOverlay {
+    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay {
       display: none;
       position: fixed;
       top: 0;
@@ -455,6 +455,19 @@
       <button id="closeBtn" onclick="toggleSettings()">×</button>
       <h2>Settings</h2>
       <div class="settingsRow">
+        <button class="mainBtn" onclick="toggleLunchSettings()">Lunch Preferences</button>
+      </div>
+      <div class="settingsRow">
+        <button class="mainBtn" style="opacity: 0.5; cursor: not-allowed; background: #555;" disabled>Classes (Coming Soon)</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="lunchSettingsOverlay" onclick="closeLunchSettingsOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="toggleLunchSettings()">×</button>
+      <h2>Lunch Preferences</h2>
+      <div class="settingsRow">
         <label>Monday Lunch:</label>
         <div class="lunchButtons" id="mondayButtons">
           <button class="lunchBtn" id="mondayA" onclick="selectDayLunch('Monday', 'A')">A Lunch</button>
@@ -665,6 +678,11 @@
       overlay.classList.toggle('active');
     }
 
+    function toggleLunchSettings() {
+      const overlay = document.getElementById('lunchSettingsOverlay');
+      overlay.classList.toggle('active');
+    }
+
     function closeOverlay(event) {
       if (event.target === document.getElementById('scheduleOverlay')) {
         toggleSchedule();
@@ -680,6 +698,12 @@
     function closeSettingsOverlay(event) {
       if (event.target === document.getElementById('settingsOverlay')) {
         toggleSettings();
+      }
+    }
+
+    function closeLunchSettingsOverlay(event) {
+      if (event.target === document.getElementById('lunchSettingsOverlay')) {
+        toggleLunchSettings();
       }
     }
 
