@@ -37,6 +37,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 - **Room Numbers** – See the classroom for every period
 - **Class Titles** – Full class name for easy reference
 - **Info Button** - shows current version info and link to repo
+- **Lunch Selection** - the lunch selection in setting will not show up unless
 
 These features aim to make LW Schedule fully customizable for every student’s unique day
 
