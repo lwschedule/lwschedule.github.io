@@ -348,7 +348,7 @@
     }
 
     #holidayCountdown {
-      font-size: clamp(2em, 8vw, 5em);
+      font-size: clamp(1.5em, 6vw, 3.5em);
       font-weight: 700;
       text-align: center;
       color: var(--purple-light);
@@ -783,7 +783,6 @@
         return {
           Monday: [], // No school - MLK Jr. Day
           Tuesday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+20 },
             { name:"Period 2", start: 9*60+30, end: 10*60+50 },
             ...(lunch === 'A' ? [
@@ -794,20 +793,16 @@
               { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
             ]),
             { name:"Period 4", start: 13*60, end: 13*60+45 },
-            { name:"Period 6", start: 13*60+55, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 13*60+55, end: 15*60+15 }
           ],
           Wednesday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+55 },
             { name:"Period 3", start: 10*60+5, end: 11*60+25 },
             { name:"Period 5", start: 11*60+35, end: 12*60+55 },
             { name:"Lunch", start: 13*60, end: 13*60+30 },
-            { name:"LEAP", start: 13*60+30, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"LEAP", start: 13*60+30, end: 15*60+15 }
           ],
           Thursday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 2", start: 8*60+35, end: 9*60+55 },
             { name:"Period 3", start: 10*60+5, end: 10*60+50 },
             ...(lunch === 'A' ? [
@@ -818,11 +813,9 @@
               { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
             ]),
             { name:"Period 5", start: 13*60, end: 13*60+45 },
-            { name:"Period 6", start: 13*60+55, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 13*60+55, end: 15*60+15 }
           ],
           Friday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+55 },
             { name:"Period 2", start: 10*60+5, end: 10*60+50 },
             ...(lunch === 'A' ? [
@@ -833,8 +826,7 @@
               { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
             ]),
             { name:"Period 5", start: 13*60, end: 14*60+20 },
-            { name:"Period 6", start: 14*60+30, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+30, end: 15*60+15 }
           ]
         };
       }
@@ -843,7 +835,6 @@
       if (isThanksgivingWeek()) {
         return {
           Monday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
             { name:"Period 2", start: 9*60+38, end: 10*60+33 },
             { name:"Period 3", start: 10*60+41, end: 11*60+36 },
@@ -855,11 +846,9 @@
               { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
             ]),
             { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 }
           ],
           Tuesday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+23 },
             { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
             { name:"Period 2", start: 10*60+17, end: 11*60+5 },
@@ -872,11 +861,9 @@
             ]),
             { name:"Period 4", start: 12*60+37, end: 13*60+25 },
             { name:"Period 5", start: 13*60+32, end: 14*60+20 },
-            { name:"Period 6", start: 14*60+27, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+27, end: 15*60+15 }
           ],
           Wednesday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60 },
             { name:"Period 2", start: 9*60+7, end: 9*60+32 },
             { name:"Period 3", start: 9*60+39, end: 10*60+4 },
@@ -894,7 +881,6 @@
       if (isVeteransWeek()) {
         return {
           Monday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
             { name:"Period 2", start: 9*60+38, end: 10*60+33 },
             { name:"Period 3", start: 10*60+41, end: 11*60+36 },
@@ -906,12 +892,10 @@
               { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
             ]),
             { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 }
           ],
           Tuesday: [], // No school - Veterans Day
           Wednesday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+12 },
             { name:"Period 2", start: 9*60+19, end: 9*60+56 },
             { name:"Period 3", start: 10*60+3, end: 10*60+40 },
@@ -919,11 +903,9 @@
             { name:"Period 5", start: 11*60+31, end: 12*60+8 },
             { name:"Period 6", start: 12*60+15, end: 12*60+52 },
             { name:"Lunch", start: 12*60+52, end: 13*60+30 },
-            { name:"LEAP", start: 13*60+30, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"LEAP", start: 13*60+30, end: 15*60+15 }
           ],
           Thursday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
             { name:"Period 2", start: 9*60+38, end: 10*60+33 },
             { name:"Period 3", start: 10*60+41, end: 11*60+36 },
@@ -935,11 +917,9 @@
               { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
             ]),
             { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 }
           ],
           Friday: [
-            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
             { name:"Period 1", start: 8*60+35, end: 9*60+23 },
             { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
             { name:"Period 2", start: 10*60+17, end: 11*60+5 },
@@ -952,8 +932,7 @@
             ]),
             { name:"Period 4", start: 12*60+37, end: 13*60+25 },
             { name:"Period 5", start: 13*60+32, end: 14*60+20 },
-            { name:"Period 6", start: 14*60+27, end: 15*60+15 },
-            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+            { name:"Period 6", start: 14*60+27, end: 15*60+15 }
           ]
         };
       }
@@ -1035,16 +1014,22 @@
     }
 
     function format(m) {
-      const h = Math.floor(m/60);
+      let h = Math.floor(m/60);
       const mm = m%60;
-      return `${h}:${mm.toString().padStart(2,'0')}`;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12; // the hour '0' should be '12'
+      return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
     }
 
     function formatTime(minutes, seconds) {
-      const h = Math.floor(minutes/60);
+      let h = Math.floor(minutes/60);
       const m = minutes%60;
       const s = seconds;
-      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      h = h ? h : 12; // the hour '0' should be '12'
+      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')} ${ampm}`;
     }
 
     // Holiday countdown
