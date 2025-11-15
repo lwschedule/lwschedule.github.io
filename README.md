@@ -9,11 +9,11 @@
 
 **LW Schedule** is a minimalist, dark-themed school schedule viewer that shows:
 
-- Current period and time remaining.
-- Next period.
-- Full schedule for the day.
-- Upcoming holidays with countdown.
-- Lunch selection (A/B).
+- Current period and time remaining
+- Next period
+- Full schedule for the day
+- Upcoming holidays with countdown
+- Lunch selection (A/B)
 
 Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive interface with glow effects and rounded cards.
 
@@ -32,13 +32,13 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 
 ## Upcoming Features
 
-- **Custom Schedules per User** – Students can input their own personalized schedule.  
-- **Teacher Info for Each Period** – Display the teacher assigned for each class.  
-- **Room Numbers** – See the classroom for every period.  
-- **Class Titles** – Full class name for easy reference.
+- **Custom Schedules per User** – Students can input their own personalized schedule
+- **Teacher Info for Each Period** – Display the teacher assigned for each class
+- **Room Numbers** – See the classroom for every period
+- **Class Titles** – Full class name for easy reference
 - **Info Button** - shows current version info and link to repo
 
-These features aim to make LW Schedule fully customizable for every student’s unique day.
+These features aim to make LW Schedule fully customizable for every student’s unique day
 
 ---
 
