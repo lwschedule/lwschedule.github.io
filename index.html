@@ -1,1176 +1,1157 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LW Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #4b2e83;
+      --purple-light: #6a4fb3;
+      --text-light: #e8e8e8;
+      --bg-dark: #1a1a1a;
+      --card-dark: #262626;
+      --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+    }
+
+    * {
+      font-family: 'Comfortaa', cursive;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      margin: 0;
+      padding: 20px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--purple-light);
+      font-weight: 700;
+    }
+
+    #digitalClock {
+      font-size: 5em;
+      font-weight: 700;
+      text-align: center;
+      color: var(--purple-light);
+      background: var(--card-dark);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      max-width: 650px;
+      margin: 20px auto;
+      letter-spacing: 0.05em;
+    }
+
+    #clockLabel {
+      font-size: 0.3em;
+      margin-bottom: 10px;
+      color: var(--text-light);
+      opacity: 0.8;
+      font-weight: 400;
+    }
+
+    #timer {
+      font-size: 1.1em;
+      margin-top: 20px;
+      text-align: center;
+      background: var(--card-dark);
+      padding: 15px;
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      max-width: 650px;
+      margin: 20px auto;
+    }
+
+    #timer.hidden {
+      display: none;
+    }
+
+    select {
+      background: var(--card-dark);
+      color: var(--text-light);
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--purple-light);
+      box-shadow: var(--glow);
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .mainButtons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      max-width: 650px;
+      margin: 30px auto;
+      flex-wrap: wrap;
+    }
+
+    .mainBtn {
+      flex: 1;
+      min-width: 200px;
+      background: var(--purple-light);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+
+    .mainBtn:hover {
+      background: var(--purple);
+      transform: scale(1.05);
+    }
+
+    .lunchButtons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .lunchBtn {
+      flex: 1;
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--purple-light);
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+
+    .lunchBtn:hover {
+      background: var(--purple-light);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .lunchBtn.selected {
+      background: var(--purple-light);
+      color: white;
+      box-shadow: var(--glow);
+    }
+
+    .lunchBtn:disabled {
+      opacity: 1;
+      cursor: default;
+    }
+
+    .continueBtn {
+      display: block;
+      width: 100%;
+      background: var(--purple-light);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      transition: all 0.3s;
+      font-weight: 700;
+      margin-top: 20px;
+    }
+
+    .continueBtn:hover {
+      background: var(--purple);
+      transform: scale(1.05);
+    }
+
+    #settingsBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--purple-light);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #settingsBtn:hover {
+      background: var(--purple);
+      transform: rotate(90deg);
+    }
+
+    #scheduleOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active {
+      display: flex;
+    }
+
+    #holidaysOverlay, #settingsOverlay, #welcomeOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    #scheduleModal {
+      background: var(--card-dark);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      max-width: 650px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #scheduleModal::-webkit-scrollbar {
+      display: none;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--purple-light);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      line-height: 1;
+      transition: all 0.3s;
+    }
+
+    #closeBtn:hover {
+      background: var(--purple);
+      transform: rotate(90deg);
+    }
+
+    #schedule {
+      margin-top: 20px;
+    }
+
+    .scheduleTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #1f1f1f;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .scheduleTable th {
+      background: var(--purple-light);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .scheduleTable td {
+      padding: 12px;
+      border-bottom: 1px solid #444;
+    }
+
+    .scheduleTable tr:last-child td {
+      border-bottom: none;
+    }
+
+    .scheduleTable tr.highlight {
+      background: var(--purple-light);
+      color: white;
+      font-weight: 700;
+    }
+
+    .scheduleTable tr:not(.highlight):hover {
+      background: #2a2a2a;
+    }
+
+    .holidayTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #1f1f1f;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .holidayTable th {
+      background: var(--purple-light);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .holidayTable td {
+      padding: 12px;
+      border-bottom: 1px solid #444;
+    }
+
+    .holidayTable tr:last-child td {
+      border-bottom: none;
+    }
+
+    .holidayTable tr:hover {
+      background: #2a2a2a;
+    }
+
+    #scheduleModal h2 {
+      margin-top: 0;
+      color: var(--purple-light);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    #holidayCountdown {
+      font-size: clamp(2em, 8vw, 5em);
+      font-weight: 700;
+      text-align: center;
+      color: var(--purple-light);
+      background: var(--card-dark);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      margin: 20px 0;
+      letter-spacing: 0.05em;
+    }
+
+    #holidayCountdownLabel {
+      font-size: 0.3em;
+      margin-bottom: 10px;
+      color: var(--text-light);
+      opacity: 0.8;
+      font-weight: 400;
+    }
+
+    #holidayCountdownTime {
+      font-size: 1em;
+    }
+
+    .settingsRow {
+      padding: 15px;
+      margin: 10px 0;
+      background: #1f1f1f;
+      border-radius: 12px;
+    }
+
+    .settingsRow label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .dayLabel {
+      font-size: 0.9em;
+      color: var(--text-light);
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+
+    .notSetLabel {
+      text-align: center;
+      color: var(--text-light);
+      opacity: 0.6;
+      font-style: italic;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;LW Schedule&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--purple: #4b2e83;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--purple-light: #6a4fb3;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--text-light: #e8e8e8;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--bg-dark: #1a1a1a;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--card-dark: #262626;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--glow: 0 0 12px rgba(107, 76, 183, 0.8);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Comfortaa', cursive;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--bg-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>scrollbar-width: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-ms-overflow-style: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>body::-webkit-scrollbar {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#digitalClock {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 5em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 650px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px auto;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#clockLabel {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.3em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 400;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#timer {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 650px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px auto;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#timer.hidden {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>select {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 8px 14px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.mainButtons {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 650px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 30px auto;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-wrap: wrap;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.mainBtn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>min-width: 200px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px 30px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.mainBtn:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(1.05);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.lunchButtons {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.lunchBtn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px 24px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.lunchBtn:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(1.05);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.lunchBtn.selected {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.lunchBtn:disabled {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: default;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.continueBtn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px 40px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.continueBtn:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transform: scale(1.05);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#settingsBtn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: fixed;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>right: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 50px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.5em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#settingsBtn:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transform: rotate(90deg);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#scheduleOverlay {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: fixed;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(0, 0, 0, 0.85);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>z-index: 1000;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(5px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#holidaysOverlay, #settingsOverlay, #welcomeOverlay {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: fixed;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(0, 0, 0, 0.85);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>z-index: 1000;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(5px);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#scheduleModal {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 650px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 90%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-height: 80vh;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow-y: auto;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>scrollbar-width: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>-ms-overflow-style: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#scheduleModal::-webkit-scrollbar {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#closeBtn {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>top: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>right: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 40px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.5em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#closeBtn:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>transform: rotate(90deg);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#schedule {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-collapse: collapse;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #1f1f1f;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable th {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: left;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable td {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #444;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable tr:last-child td {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable tr.highlight {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.scheduleTable tr:not(.highlight):hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #2a2a2a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.holidayTable {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-collapse: collapse;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #1f1f1f;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.holidayTable th {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: left;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.holidayTable td {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #444;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.holidayTable tr:last-child td {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: none;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.holidayTable tr:hover {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #2a2a2a;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#scheduleModal h2 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#holidayCountdown {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: clamp(2em, 8vw, 5em);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--purple-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-dark);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 30px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.05em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#holidayCountdownLabel {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.3em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 400;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>#holidayCountdownTime {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1em;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.settingsRow {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 10px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #1f1f1f;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.settingsRow label {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.dayLabel {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9em;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 0.8;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>.notSetLabel {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-light);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>opacity: 0.6;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;LW Schedule&lt;/h1&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;button id="settingsBtn" onclick="toggleSettings()"&gt;⚙️&lt;/button&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="digitalClock"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="clockLabel"&gt;TIME REMAINING&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="clockDisplay"&gt;--:--:--&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="timer"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="mainButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="mainBtn" onclick="toggleSchedule()"&gt;View Full Schedule&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="mainBtn" onclick="toggleHolidays()"&gt;Upcoming Holidays&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="scheduleOverlay" onclick="closeOverlay(event)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="scheduleModal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="closeBtn" onclick="toggleSchedule()"&gt;×&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Today's Schedule&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="schedule"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="holidaysOverlay" onclick="closeHolidaysOverlay(event)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="scheduleModal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="closeBtn" onclick="toggleHolidays()"&gt;×&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Upcoming Holidays 2025-26&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="holidayCountdown"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="holidayCountdownLabel"&gt;NEXT HOLIDAY&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="holidayCountdownTime"&gt;--d --h --m --s&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="holidays"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;table class="holidayTable"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;th&gt;Holiday&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;th&gt;Date&lt;/th&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/thead&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Labor Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;September 1, 2025&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;LEAP Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;October 17, 2025&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;LEAP Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;November 4, 2025&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Veterans Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;November 11, 2025&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Thanksgiving Break&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;November 27-28, 2025&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Winter Break&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;December 22-26, 29-31, 2025 &amp; January 1-2, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;MLK Jr. Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;January 19, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Mid-Winter Break&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;February 12-13, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Presidents Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;February 16, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;LEAP Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;March 13, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Spring Break&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;April 13-17, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;LEAP Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;May 22, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Memorial Day&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;May 25, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;&lt;b&gt;Last Day of School&lt;/b&gt;&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">              </span>&lt;td&gt;June 17, 2026&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="settingsOverlay" onclick="closeSettingsOverlay(event)"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="scheduleModal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="closeBtn" onclick="toggleSettings()"&gt;×&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Settings&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Monday Lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons" id="mondayButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="mondayA" onclick="selectDayLunch('Monday', 'A')"&gt;A Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="mondayB" onclick="selectDayLunch('Monday', 'B')"&gt;B Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="notSetLabel" id="mondayNotSet" style="display:none;"&gt;Lunch not selected yet&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Tuesday Lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons" id="tuesdayButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="tuesdayA" onclick="selectDayLunch('Tuesday', 'A')"&gt;A Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="tuesdayB" onclick="selectDayLunch('Tuesday', 'B')"&gt;B Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="notSetLabel" id="tuesdayNotSet" style="display:none;"&gt;Lunch not selected yet&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Wednesday Lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn selected" disabled&gt;All School Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Thursday Lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons" id="thursdayButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="thursdayA" onclick="selectDayLunch('Thursday', 'A')"&gt;A Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="thursdayB" onclick="selectDayLunch('Thursday', 'B')"&gt;B Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="notSetLabel" id="thursdayNotSet" style="display:none;"&gt;Lunch not selected yet&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label&gt;Friday Lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons" id="fridayButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="fridayA" onclick="selectDayLunch('Friday', 'A')"&gt;A Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="fridayB" onclick="selectDayLunch('Friday', 'B')"&gt;B Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="notSetLabel" id="fridayNotSet" style="display:none;"&gt;Lunch not selected yet&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="welcomeOverlay"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="scheduleModal"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Select Your Lunch&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="dayLabel" id="welcomeDayLabel"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="settingsRow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;label id="welcomeLabel"&gt;Please select your lunch:&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="lunchButtons"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="welcomeA" onclick="selectWelcomeLunch('A')"&gt;A Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="lunchBtn" id="welcomeB" onclick="selectWelcomeLunch('B')"&gt;B Lunch&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="continueBtn" onclick="saveWelcomeLunch()"&gt;Continue&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Save lunch choices per day</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let lunchPreferences = {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Monday: null,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Tuesday: null,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Wednesday: 'All',</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Thursday: null,</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Friday: null</p>
-<p class="p1"><span class="Apple-converted-space">    </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let selectedWelcomeLunch = 'A';</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function loadLunchPreferences() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const result = await window.storage.get('lunch-preferences');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (result &amp;&amp; result.value) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>lunchPreferences = JSON.parse(result.value);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>console.log('No saved preferences, using defaults');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Update settings buttons</p>
-<p class="p1"><span class="Apple-converted-space">      </span>updateSettingsButtons();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function updateSettingsButtons() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>days.forEach(day =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const dayLower = day.toLowerCase();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const hasSelection = lunchPreferences[day] !== null;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Always show buttons, hide "not set" label when there's a selection</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`${dayLower}Buttons`).style.display = 'flex';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`${dayLower}NotSet`).style.display = hasSelection ? 'none' : 'block';</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// Update button selection state</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`${dayLower}A`).classList.toggle('selected', lunchPreferences[day] === 'A');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById(`${dayLower}B`).classList.toggle('selected', lunchPreferences[day] === 'B');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function selectWelcomeLunch(lunch) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>selectedWelcomeLunch = lunch;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('welcomeA').classList.toggle('selected', lunch === 'A');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('welcomeB').classList.toggle('selected', lunch === 'B');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function selectDayLunch(day, lunch) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>lunchPreferences[day] = lunch;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>updateSettingsButtons();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>saveDayLunch(day);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function saveDayLunch(day) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>await window.storage.set(`lunch-set-${day}`, new Date().toDateString());</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>console.error('Failed to save lunch preference:', error);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function saveWelcomeLunch() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const today = dayName();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (today === 'Wednesday') {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>lunchPreferences[today] = 'All';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>lunchPreferences[today] = selectedWelcomeLunch;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>await window.storage.set(`lunch-set-${today}`, new Date().toDateString());</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>console.error('Failed to save lunch preference:', error);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>updateSettingsButtons();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('welcomeOverlay').classList.remove('active');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function checkIfNeedsLunchSelection() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const today = dayName();</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Wednesday always has all-school lunch, no need to ask</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (today === 'Wednesday') {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return false;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Check if not a school day</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!today || today === 'Saturday' || today === 'Sunday') {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return false;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const result = await window.storage.get(`lunch-set-${today}`);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const todayDate = new Date().toDateString();</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// If lunch is null or not set for today, show popup</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (lunchPreferences[today] === null || !result || result.value !== todayDate) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>// Haven't set lunch for today yet</p>
-<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>selectedWelcomeLunch = lunchPreferences[today] || 'A';</p>
-<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');</p>
-<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');</p>
-<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('welcomeOverlay').classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">          </span>return true;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// No record exists, show welcome</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>selectedWelcomeLunch = lunchPreferences[today] || 'A';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('welcomeOverlay').classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return true;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>return false;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Initialize app</p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function initApp() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>await loadLunchPreferences();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const needsLunch = await checkIfNeedsLunchSelection();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!needsLunch) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>render();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>setInterval(render, 1000);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>setInterval(updateHolidayCountdown, 1000);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>initApp();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function toggleSchedule() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const overlay = document.getElementById('scheduleOverlay');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overlay.classList.toggle('active');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function toggleHolidays() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const overlay = document.getElementById('holidaysOverlay');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overlay.classList.toggle('active');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (overlay.classList.contains('active')) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>updateHolidayCountdown();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function toggleSettings() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const overlay = document.getElementById('settingsOverlay');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overlay.classList.toggle('active');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function closeOverlay(event) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (event.target === document.getElementById('scheduleOverlay')) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>toggleSchedule();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function closeHolidaysOverlay(event) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (event.target === document.getElementById('holidaysOverlay')) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>toggleHolidays();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function closeSettingsOverlay(event) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (event.target === document.getElementById('settingsOverlay')) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>toggleSettings();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Check if current date is Veterans Day week (Nov 10-14, 2025)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function isVeteransWeek() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const year = now.getFullYear();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const month = now.getMonth();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const date = now.getDate();</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// November 2025, dates 10-14</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return year === 2025 &amp;&amp; month === 10 &amp;&amp; date &gt;= 10 &amp;&amp; date &lt;= 14;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Check if current date is Thanksgiving week (Nov 24-28, 2025)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function isThanksgivingWeek() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const year = now.getFullYear();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const month = now.getMonth();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const date = now.getDate();</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// November 2025, dates 24-28</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return year === 2025 &amp;&amp; month === 10 &amp;&amp; date &gt;= 24 &amp;&amp; date &lt;= 28;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Check if current date is MLK Jr. Day / Finals week (Jan 19-23, 2026)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function isFinalsWeek() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const year = now.getFullYear();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const month = now.getMonth();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const date = now.getDate();</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// January 2026, dates 19-23</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return year === 2026 &amp;&amp; month === 0 &amp;&amp; date &gt;= 19 &amp;&amp; date &lt;= 23;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Bell schedule (simplified times in minutes after midnight)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>function getSchedules() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const today = dayName();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const lunch = lunchPreferences[today] || 'A';</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Finals week special schedule (Jan 19-23, 2026)</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (isFinalsWeek()) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Monday: [], // No school - MLK Jr. Day</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Tuesday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+30, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 13*60, end: 13*60+45 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 13*60+55, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Wednesday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+5, end: 11*60+25 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 11*60+35, end: 12*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Lunch", start: 13*60, end: 13*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"LEAP", start: 13*60+30, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Thursday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+5, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60, end: 13*60+45 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 13*60+55, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Friday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 10*60+5, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60, end: 14*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+30, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Thanksgiving week special schedule (Nov 24-28, 2025)</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (isThanksgivingWeek()) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Monday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+38, end: 10*60+33 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+41, end: 11*60+36 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 11*60+36, end: 12*60+6 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 12*60+14, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60+44, end: 12*60+39 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+39, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60+17, end: 14*60+12 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+20, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Tuesday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+23 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 10*60+17, end: 11*60+5 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 11*60+5, end: 11*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60+42, end: 12*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60+12, end: 12*60 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60, end: 12*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 12*60+37, end: 13*60+25 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60+32, end: 14*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+27, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Wednesday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+7, end: 9*60+32 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 9*60+39, end: 10*60+4 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 10*60+11, end: 10*60+36 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 10*60+43, end: 11*60+8 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 11*60+15, end: 11*60+40 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Breakfast Served - No Lunch", start: 11*60+40, end: 11*60+40 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Thursday: [], // No school - Thanksgiving Break</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Friday: [] // No school - Thanksgiving Break</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Veterans Day week special schedule (Nov 10-14, 2025)</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (isVeteransWeek()) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Monday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+38, end: 10*60+33 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+41, end: 11*60+36 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 11*60+36, end: 12*60+6 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 12*60+14, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60+44, end: 12*60+39 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+39, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60+17, end: 14*60+12 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+20, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Tuesday: [], // No school - Veterans Day</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Wednesday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+12 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+19, end: 9*60+56 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+3, end: 10*60+40 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 10*60+47, end: 11*60+24 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 11*60+31, end: 12*60+8 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 12*60+15, end: 12*60+52 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Lunch", start: 12*60+52, end: 13*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"LEAP", start: 13*60+30, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Thursday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 9*60+38, end: 10*60+33 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 10*60+41, end: 11*60+36 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 11*60+36, end: 12*60+6 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 12*60+14, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 4", start: 11*60+44, end: 12*60+39 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60+39, end: 13*60+9 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60+17, end: 14*60+12 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+20, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>],</p>
-<p class="p1"><span class="Apple-converted-space">          </span>Friday: [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 7*60+30, end: 8*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 1", start: 8*60+35, end: 9*60+23 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 2", start: 10*60+17, end: 11*60+5 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"A Lunch", start: 11*60+5, end: 11*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60+42, end: 12*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"Period 3", start: 11*60+12, end: 12*60 },</p>
-<p class="p1"><span class="Apple-converted-space">              </span>{ name:"B Lunch", start: 12*60, end: 12*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 12*60+37, end: 13*60+25 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 5", start: 13*60+32, end: 14*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 6", start: 14*60+27, end: 15*60+15 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Planning &amp; Preparation", start: 15*60+15, end: 15*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Regular schedule</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Monday: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 1", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 2", start: 10*60+5, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 5", start: 13*60, end: 14*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 6", start: 14*60+30, end: 15*60+15 }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Tuesday: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 1", start: 8*60+35, end: 9*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 2", start: 9*60+30, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 6", start: 13*60+55, end: 15*60+15 }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Wednesday: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 1", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 3", start: 10*60+5, end: 11*60+25 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Lunch", start: 13*60, end: 13*60+30 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"LEAP", start: 13*60+30, end: 15*60+15 }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Thursday: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 2", start: 8*60+35, end: 9*60+55 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 3", start: 10*60+5, end: 10*60+50 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 11*60+30, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 4", start: 11*60, end: 12*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 6", start: 13*60+55, end: 15*60+15 }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>],</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Friday: [</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 1", start: 8*60+35, end: 9*60+23 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Homeroom", start: 9*60+30, end: 10*60+10 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 2", start: 10*60+17, end: 11*60+5 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>...(lunch === 'A' ? [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"A Lunch", start: 11*60+5, end: 11*60+35 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 11*60+42, end: 12*60 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>] : [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"Period 3", start: 11*60+42, end: 12*60 },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ name:"B Lunch", start: 12*60, end: 12*60+30 }</p>
-<p class="p1"><span class="Apple-converted-space">          </span>]),</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 4", start: 12*60+37, end: 13*60+25 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 5", start: 13*60+32, end: 14*60+20 },</p>
-<p class="p1"><span class="Apple-converted-space">          </span>{ name:"Period 6", start: 14*60+27, end: 15*60+15 }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>]</p>
-<p class="p1"><span class="Apple-converted-space">      </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function dayName() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return new Date().toLocaleDateString('en-US', { weekday: 'long' });</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function minutesNow() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const d = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return d.getHours()*60 + d.getMinutes();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function secondsNow() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return new Date().getSeconds();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function format(m) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const h = Math.floor(m/60);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const mm = m%60;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return `${h}:${mm.toString().padStart(2,'0')}`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function formatTime(minutes, seconds) {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const h = Math.floor(minutes/60);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const m = minutes%60;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const s = seconds;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// Holiday countdown</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const holidays = [</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Labor Day", date: new Date(2025, 8, 1) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "LEAP Day", date: new Date(2025, 9, 17) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "LEAP Day", date: new Date(2025, 10, 4) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Veterans Day", date: new Date(2025, 10, 11) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Thanksgiving Break", date: new Date(2025, 10, 27) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Winter Break", date: new Date(2025, 11, 22) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "MLK Jr. Day", date: new Date(2026, 0, 19) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Mid-Winter Break", date: new Date(2026, 1, 12) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Presidents Day", date: new Date(2026, 1, 16) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "LEAP Day", date: new Date(2026, 2, 13) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Spring Break", date: new Date(2026, 3, 13) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "LEAP Day", date: new Date(2026, 4, 22) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Memorial Day", date: new Date(2026, 4, 25) },</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{ name: "Last Day of School", date: new Date(2026, 5, 17) }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function updateHolidayCountdown() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = new Date();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const upcoming = holidays.find(h =&gt; h.date &gt; now);</p>
-<p class="p2"><span class="Apple-converted-space">      </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (upcoming) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const diff = upcoming.date - now;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const days = Math.floor(diff / (1000 * 60 * 60 * 24));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const seconds = Math.floor((diff % (1000 * 60)) / 1000);</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('holidayCountdownLabel').innerHTML = `NEXT HOLIDAY - ${upcoming.name}`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('holidayCountdownTime').innerHTML =<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">          </span>`${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('holidayCountdownTime').innerHTML = 'End of school year';</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function render() {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const schedules = getSchedules();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const today = schedules[dayName()];</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!today) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockDisplay').innerHTML = "--:--:--";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockLabel').innerHTML = "NO SCHOOL TODAY";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('timer').innerHTML = "Enjoy your day off!";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('timer').classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>const now = minutesNow();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const secs = secondsNow();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let html = "&lt;table class='scheduleTable'&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Period&lt;/th&gt;&lt;th&gt;Start&lt;/th&gt;&lt;th&gt;End&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;";</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let current = null;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let next = null;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>let inPassingPeriod = false;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// Check if we're in a period</p>
-<p class="p1"><span class="Apple-converted-space">      </span>for (let i=0; i&lt;today.length; i++) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const p = today[i];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const active = now &gt;= p.start &amp;&amp; now &lt; p.end;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (active) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>current = p;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>next = today[i+1] || null;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>html += `&lt;tr class='${active?"highlight":""}'&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${p.name}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${format(p.start)}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;td&gt;${format(p.end)}&lt;/td&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/tr&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>html += "&lt;/tbody&gt;&lt;/table&gt;";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>// If not in a period, check if we're in a passing period</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (!current) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>for (let i=0; i&lt;today.length-1; i++) {</p>
-<p class="p1"><span class="Apple-converted-space">          </span>if (now &gt;= today[i].end &amp;&amp; now &lt; today[i+1].start) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>inPassingPeriod = true;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>current = { name: "Passing Period", start: today[i].end, end: today[i+1].start };</p>
-<p class="p1"><span class="Apple-converted-space">            </span>next = today[i+1];</p>
-<p class="p1"><span class="Apple-converted-space">            </span>break;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('schedule').innerHTML = html;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (current) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const remainingMinutes = current.end - now - 1;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const remainingSeconds = 60 - secs;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockDisplay').innerHTML = formatTime(remainingMinutes, remainingSeconds);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const nextName = next ? `${next.name}&lt;br&gt;${format(next.start)} - ${format(next.end)}` : "School Day Complete";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('timer').innerHTML =</p>
-<p class="p1"><span class="Apple-converted-space">          </span>`Current: &lt;b&gt;${current.name}&lt;/b&gt;&lt;br&gt;Next: ${nextName}`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('timer').classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockDisplay').innerHTML = "--:--:--";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('timer').classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">      </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+  <h1>LW Schedule</h1>
+
+  <button id="settingsBtn" onclick="toggleSettings()">⚙️</button>
+
+  <div id="digitalClock">
+    <div id="clockLabel">TIME REMAINING</div>
+    <div id="clockDisplay">--:--:--</div>
+  </div>
+
+  <div id="timer"></div>
+
+  <div class="mainButtons">
+    <button class="mainBtn" onclick="toggleSchedule()">View Full Schedule</button>
+    <button class="mainBtn" onclick="toggleHolidays()">Upcoming Holidays</button>
+  </div>
+
+  <div id="scheduleOverlay" onclick="closeOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="toggleSchedule()">×</button>
+      <h2>Today's Schedule</h2>
+      <div id="schedule"></div>
+    </div>
+  </div>
+
+  <div id="holidaysOverlay" onclick="closeHolidaysOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="toggleHolidays()">×</button>
+      <h2>Upcoming Holidays 2025-26</h2>
+      <div id="holidayCountdown">
+        <div id="holidayCountdownLabel">NEXT HOLIDAY</div>
+        <div id="holidayCountdownTime">--d --h --m --s</div>
+      </div>
+      <div id="holidays">
+        <table class="holidayTable">
+          <thead>
+            <tr>
+              <th>Holiday</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Labor Day</b></td>
+              <td>September 1, 2025</td>
+            </tr>
+            <tr>
+              <td><b>LEAP Day</b></td>
+              <td>October 17, 2025</td>
+            </tr>
+            <tr>
+              <td><b>LEAP Day</b></td>
+              <td>November 4, 2025</td>
+            </tr>
+            <tr>
+              <td><b>Veterans Day</b></td>
+              <td>November 11, 2025</td>
+            </tr>
+            <tr>
+              <td><b>Thanksgiving Break</b></td>
+              <td>November 27-28, 2025</td>
+            </tr>
+            <tr>
+              <td><b>Winter Break</b></td>
+              <td>December 22-26, 29-31, 2025 & January 1-2, 2026</td>
+            </tr>
+            <tr>
+              <td><b>MLK Jr. Day</b></td>
+              <td>January 19, 2026</td>
+            </tr>
+            <tr>
+              <td><b>Mid-Winter Break</b></td>
+              <td>February 12-13, 2026</td>
+            </tr>
+            <tr>
+              <td><b>Presidents Day</b></td>
+              <td>February 16, 2026</td>
+            </tr>
+            <tr>
+              <td><b>LEAP Day</b></td>
+              <td>March 13, 2026</td>
+            </tr>
+            <tr>
+              <td><b>Spring Break</b></td>
+              <td>April 13-17, 2026</td>
+            </tr>
+            <tr>
+              <td><b>LEAP Day</b></td>
+              <td>May 22, 2026</td>
+            </tr>
+            <tr>
+              <td><b>Memorial Day</b></td>
+              <td>May 25, 2026</td>
+            </tr>
+            <tr>
+              <td><b>Last Day of School</b></td>
+              <td>June 17, 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="settingsOverlay" onclick="closeSettingsOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="toggleSettings()">×</button>
+      <h2>Settings</h2>
+      <div class="settingsRow">
+        <label>Monday Lunch:</label>
+        <div class="lunchButtons" id="mondayButtons">
+          <button class="lunchBtn" id="mondayA" onclick="selectDayLunch('Monday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="mondayB" onclick="selectDayLunch('Monday', 'B')">B Lunch</button>
+        </div>
+        <div class="notSetLabel" id="mondayNotSet" style="display:none;">Lunch not selected yet</div>
+      </div>
+      <div class="settingsRow">
+        <label>Tuesday Lunch:</label>
+        <div class="lunchButtons" id="tuesdayButtons">
+          <button class="lunchBtn" id="tuesdayA" onclick="selectDayLunch('Tuesday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="tuesdayB" onclick="selectDayLunch('Tuesday', 'B')">B Lunch</button>
+        </div>
+        <div class="notSetLabel" id="tuesdayNotSet" style="display:none;">Lunch not selected yet</div>
+      </div>
+      <div class="settingsRow">
+        <label>Wednesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" disabled>All School Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Thursday Lunch:</label>
+        <div class="lunchButtons" id="thursdayButtons">
+          <button class="lunchBtn" id="thursdayA" onclick="selectDayLunch('Thursday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="thursdayB" onclick="selectDayLunch('Thursday', 'B')">B Lunch</button>
+        </div>
+        <div class="notSetLabel" id="thursdayNotSet" style="display:none;">Lunch not selected yet</div>
+      </div>
+      <div class="settingsRow">
+        <label>Friday Lunch:</label>
+        <div class="lunchButtons" id="fridayButtons">
+          <button class="lunchBtn" id="fridayA" onclick="selectDayLunch('Friday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="fridayB" onclick="selectDayLunch('Friday', 'B')">B Lunch</button>
+        </div>
+        <div class="notSetLabel" id="fridayNotSet" style="display:none;">Lunch not selected yet</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="welcomeOverlay">
+    <div id="scheduleModal">
+      <h2>Select Your Lunch</h2>
+      <div class="dayLabel" id="welcomeDayLabel"></div>
+      <div class="settingsRow">
+        <label id="welcomeLabel">Please select your lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn" id="welcomeA" onclick="selectWelcomeLunch('A')">A Lunch</button>
+          <button class="lunchBtn" id="welcomeB" onclick="selectWelcomeLunch('B')">B Lunch</button>
+        </div>
+      </div>
+      <button class="continueBtn" onclick="saveWelcomeLunch()">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    // Save lunch choices per day
+    let lunchPreferences = {
+      Monday: null,
+      Tuesday: null,
+      Wednesday: 'All',
+      Thursday: null,
+      Friday: null
+    };
+    let selectedWelcomeLunch = 'A';
+    
+    async function loadLunchPreferences() {
+      try {
+        const result = await window.storage.get('lunch-preferences');
+        if (result && result.value) {
+          lunchPreferences = JSON.parse(result.value);
+        }
+      } catch (error) {
+        console.log('No saved preferences, using defaults');
+      }
+      
+      // Update settings buttons
+      updateSettingsButtons();
+    }
+
+    function updateSettingsButtons() {
+      const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
+      
+      days.forEach(day => {
+        const dayLower = day.toLowerCase();
+        const hasSelection = lunchPreferences[day] !== null;
+        
+        // Always show buttons, hide "not set" label when there's a selection
+        document.getElementById(`${dayLower}Buttons`).style.display = 'flex';
+        document.getElementById(`${dayLower}NotSet`).style.display = hasSelection ? 'none' : 'block';
+        
+        // Update button selection state
+        document.getElementById(`${dayLower}A`).classList.toggle('selected', lunchPreferences[day] === 'A');
+        document.getElementById(`${dayLower}B`).classList.toggle('selected', lunchPreferences[day] === 'B');
+      });
+    }
+
+    function selectWelcomeLunch(lunch) {
+      selectedWelcomeLunch = lunch;
+      document.getElementById('welcomeA').classList.toggle('selected', lunch === 'A');
+      document.getElementById('welcomeB').classList.toggle('selected', lunch === 'B');
+    }
+
+    function selectDayLunch(day, lunch) {
+      lunchPreferences[day] = lunch;
+      updateSettingsButtons();
+      saveDayLunch(day);
+    }
+    
+    async function saveDayLunch(day) {
+      try {
+        await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));
+        await window.storage.set(`lunch-set-${day}`, new Date().toDateString());
+      } catch (error) {
+        console.error('Failed to save lunch preference:', error);
+      }
+      render();
+    }
+
+    async function saveWelcomeLunch() {
+      const today = dayName();
+      if (today === 'Wednesday') {
+        lunchPreferences[today] = 'All';
+      } else {
+        lunchPreferences[today] = selectedWelcomeLunch;
+      }
+      
+      try {
+        await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));
+        await window.storage.set(`lunch-set-${today}`, new Date().toDateString());
+      } catch (error) {
+        console.error('Failed to save lunch preference:', error);
+      }
+      
+      updateSettingsButtons();
+      document.getElementById('welcomeOverlay').classList.remove('active');
+      render();
+    }
+
+    async function checkIfNeedsLunchSelection() {
+      const today = dayName();
+      
+      // Wednesday always has all-school lunch, no need to ask
+      if (today === 'Wednesday') {
+        return false;
+      }
+      
+      // Check if not a school day
+      if (!today || today === 'Saturday' || today === 'Sunday') {
+        return false;
+      }
+      
+      try {
+        const result = await window.storage.get(`lunch-set-${today}`);
+        const todayDate = new Date().toDateString();
+        
+        // If lunch is null or not set for today, show popup
+        if (lunchPreferences[today] === null || !result || result.value !== todayDate) {
+          // Haven't set lunch for today yet
+          document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;
+          document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
+          selectedWelcomeLunch = lunchPreferences[today] || 'A';
+          document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
+          document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');
+          document.getElementById('welcomeOverlay').classList.add('active');
+          return true;
+        }
+      } catch (error) {
+        // No record exists, show welcome
+        document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;
+        document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
+        selectedWelcomeLunch = lunchPreferences[today] || 'A';
+        document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
+        document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');
+        document.getElementById('welcomeOverlay').classList.add('active');
+        return true;
+      }
+      
+      return false;
+    }
+
+    // Initialize app
+    async function initApp() {
+      await loadLunchPreferences();
+      const needsLunch = await checkIfNeedsLunchSelection();
+      if (!needsLunch) {
+        render();
+      }
+      setInterval(render, 1000);
+      setInterval(updateHolidayCountdown, 1000);
+    }
+
+    initApp();
+
+    function toggleSchedule() {
+      const overlay = document.getElementById('scheduleOverlay');
+      overlay.classList.toggle('active');
+    }
+
+    function toggleHolidays() {
+      const overlay = document.getElementById('holidaysOverlay');
+      overlay.classList.toggle('active');
+      if (overlay.classList.contains('active')) {
+        updateHolidayCountdown();
+      }
+    }
+
+    function toggleSettings() {
+      const overlay = document.getElementById('settingsOverlay');
+      overlay.classList.toggle('active');
+    }
+
+    function closeOverlay(event) {
+      if (event.target === document.getElementById('scheduleOverlay')) {
+        toggleSchedule();
+      }
+    }
+
+    function closeHolidaysOverlay(event) {
+      if (event.target === document.getElementById('holidaysOverlay')) {
+        toggleHolidays();
+      }
+    }
+
+    function closeSettingsOverlay(event) {
+      if (event.target === document.getElementById('settingsOverlay')) {
+        toggleSettings();
+      }
+    }
+
+    // Check if current date is Veterans Day week (Nov 10-14, 2025)
+    function isVeteransWeek() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const date = now.getDate();
+      
+      // November 2025, dates 10-14
+      return year === 2025 && month === 10 && date >= 10 && date <= 14;
+    }
+
+    // Check if current date is Thanksgiving week (Nov 24-28, 2025)
+    function isThanksgivingWeek() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const date = now.getDate();
+      
+      // November 2025, dates 24-28
+      return year === 2025 && month === 10 && date >= 24 && date <= 28;
+    }
+
+    // Check if current date is MLK Jr. Day / Finals week (Jan 19-23, 2026)
+    function isFinalsWeek() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const date = now.getDate();
+      
+      // January 2026, dates 19-23
+      return year === 2026 && month === 0 && date >= 19 && date <= 23;
+    }
+
+    // Bell schedule (simplified times in minutes after midnight)
+    function getSchedules() {
+      const today = dayName();
+      const lunch = lunchPreferences[today] || 'A';
+      
+      // Finals week special schedule (Jan 19-23, 2026)
+      if (isFinalsWeek()) {
+        return {
+          Monday: [], // No school - MLK Jr. Day
+          Tuesday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+20 },
+            { name:"Period 2", start: 9*60+30, end: 10*60+50 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+              { name:"Period 4", start: 11*60+30, end: 12*60+50 }
+            ] : [
+              { name:"Period 4", start: 11*60, end: 12*60+20 },
+              { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+            ]),
+            { name:"Period 4", start: 13*60, end: 13*60+45 },
+            { name:"Period 6", start: 13*60+55, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Wednesday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+55 },
+            { name:"Period 3", start: 10*60+5, end: 11*60+25 },
+            { name:"Period 5", start: 11*60+35, end: 12*60+55 },
+            { name:"Lunch", start: 13*60, end: 13*60+30 },
+            { name:"LEAP", start: 13*60+30, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Thursday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 2", start: 8*60+35, end: 9*60+55 },
+            { name:"Period 3", start: 10*60+5, end: 10*60+50 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+              { name:"Period 4", start: 11*60+30, end: 12*60+50 }
+            ] : [
+              { name:"Period 4", start: 11*60, end: 12*60+20 },
+              { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+            ]),
+            { name:"Period 5", start: 13*60, end: 13*60+45 },
+            { name:"Period 6", start: 13*60+55, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Friday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+55 },
+            { name:"Period 2", start: 10*60+5, end: 10*60+50 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+              { name:"Period 3", start: 11*60+30, end: 12*60+50 }
+            ] : [
+              { name:"Period 3", start: 11*60, end: 12*60+20 },
+              { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+            ]),
+            { name:"Period 5", start: 13*60, end: 14*60+20 },
+            { name:"Period 6", start: 14*60+30, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ]
+        };
+      }
+      
+      // Thanksgiving week special schedule (Nov 24-28, 2025)
+      if (isThanksgivingWeek()) {
+        return {
+          Monday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+30 },
+            { name:"Period 2", start: 9*60+38, end: 10*60+33 },
+            { name:"Period 3", start: 10*60+41, end: 11*60+36 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
+              { name:"Period 4", start: 12*60+14, end: 13*60+9 }
+            ] : [
+              { name:"Period 4", start: 11*60+44, end: 12*60+39 },
+              { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
+            ]),
+            { name:"Period 5", start: 13*60+17, end: 14*60+12 },
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Tuesday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+23 },
+            { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
+            { name:"Period 2", start: 10*60+17, end: 11*60+5 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
+              { name:"Period 3", start: 11*60+42, end: 12*60+30 }
+            ] : [
+              { name:"Period 3", start: 11*60+12, end: 12*60 },
+              { name:"B Lunch", start: 12*60, end: 12*60+30 }
+            ]),
+            { name:"Period 4", start: 12*60+37, end: 13*60+25 },
+            { name:"Period 5", start: 13*60+32, end: 14*60+20 },
+            { name:"Period 6", start: 14*60+27, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Wednesday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60 },
+            { name:"Period 2", start: 9*60+7, end: 9*60+32 },
+            { name:"Period 3", start: 9*60+39, end: 10*60+4 },
+            { name:"Period 4", start: 10*60+11, end: 10*60+36 },
+            { name:"Period 5", start: 10*60+43, end: 11*60+8 },
+            { name:"Period 6", start: 11*60+15, end: 11*60+40 },
+            { name:"Breakfast Served - No Lunch", start: 11*60+40, end: 11*60+40 }
+          ],
+          Thursday: [], // No school - Thanksgiving Break
+          Friday: [] // No school - Thanksgiving Break
+        };
+      }
+      
+      // Veterans Day week special schedule (Nov 10-14, 2025)
+      if (isVeteransWeek()) {
+        return {
+          Monday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+30 },
+            { name:"Period 2", start: 9*60+38, end: 10*60+33 },
+            { name:"Period 3", start: 10*60+41, end: 11*60+36 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
+              { name:"Period 4", start: 12*60+14, end: 13*60+9 }
+            ] : [
+              { name:"Period 4", start: 11*60+44, end: 12*60+39 },
+              { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
+            ]),
+            { name:"Period 5", start: 13*60+17, end: 14*60+12 },
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Tuesday: [], // No school - Veterans Day
+          Wednesday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+12 },
+            { name:"Period 2", start: 9*60+19, end: 9*60+56 },
+            { name:"Period 3", start: 10*60+3, end: 10*60+40 },
+            { name:"Period 4", start: 10*60+47, end: 11*60+24 },
+            { name:"Period 5", start: 11*60+31, end: 12*60+8 },
+            { name:"Period 6", start: 12*60+15, end: 12*60+52 },
+            { name:"Lunch", start: 12*60+52, end: 13*60+30 },
+            { name:"LEAP", start: 13*60+30, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Thursday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+30 },
+            { name:"Period 2", start: 9*60+38, end: 10*60+33 },
+            { name:"Period 3", start: 10*60+41, end: 11*60+36 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
+              { name:"Period 4", start: 12*60+14, end: 13*60+9 }
+            ] : [
+              { name:"Period 4", start: 11*60+44, end: 12*60+39 },
+              { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
+            ]),
+            { name:"Period 5", start: 13*60+17, end: 14*60+12 },
+            { name:"Period 6", start: 14*60+20, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ],
+          Friday: [
+            { name:"Planning & Preparation", start: 7*60+30, end: 8*60+35 },
+            { name:"Period 1", start: 8*60+35, end: 9*60+23 },
+            { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
+            { name:"Period 2", start: 10*60+17, end: 11*60+5 },
+            ...(lunch === 'A' ? [
+              { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
+              { name:"Period 3", start: 11*60+42, end: 12*60+30 }
+            ] : [
+              { name:"Period 3", start: 11*60+12, end: 12*60 },
+              { name:"B Lunch", start: 12*60, end: 12*60+30 }
+            ]),
+            { name:"Period 4", start: 12*60+37, end: 13*60+25 },
+            { name:"Period 5", start: 13*60+32, end: 14*60+20 },
+            { name:"Period 6", start: 14*60+27, end: 15*60+15 },
+            { name:"Planning & Preparation", start: 15*60+15, end: 15*60+30 }
+          ]
+        };
+      }
+      
+      // Regular schedule
+      return {
+        Monday: [
+          { name:"Period 1", start: 8*60+35, end: 9*60+55 },
+          { name:"Period 2", start: 10*60+5, end: 10*60+50 },
+          ...(lunch === 'A' ? [
+            { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+            { name:"Period 3", start: 11*60+30, end: 12*60+50 }
+          ] : [
+            { name:"Period 3", start: 11*60, end: 12*60+20 },
+            { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+          ]),
+          { name:"Period 5", start: 13*60, end: 14*60+20 },
+          { name:"Period 6", start: 14*60+30, end: 15*60+15 }
+        ],
+        Tuesday: [
+          { name:"Period 1", start: 8*60+35, end: 9*60+20 },
+          { name:"Period 2", start: 9*60+30, end: 10*60+50 },
+          ...(lunch === 'A' ? [
+            { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+            { name:"Period 4", start: 11*60+30, end: 12*60+50 }
+          ] : [
+            { name:"Period 4", start: 11*60, end: 12*60+20 },
+            { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+          ]),
+          { name:"Period 6", start: 13*60+55, end: 15*60+15 }
+        ],
+        Wednesday: [
+          { name:"Period 1", start: 8*60+35, end: 9*60+55 },
+          { name:"Period 3", start: 10*60+5, end: 11*60+25 },
+          { name:"Lunch", start: 13*60, end: 13*60+30 },
+          { name:"LEAP", start: 13*60+30, end: 15*60+15 }
+        ],
+        Thursday: [
+          { name:"Period 2", start: 8*60+35, end: 9*60+55 },
+          { name:"Period 3", start: 10*60+5, end: 10*60+50 },
+          ...(lunch === 'A' ? [
+            { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+            { name:"Period 4", start: 11*60+30, end: 12*60+50 }
+          ] : [
+            { name:"Period 4", start: 11*60, end: 12*60+20 },
+            { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+          ]),
+          { name:"Period 6", start: 13*60+55, end: 15*60+15 }
+        ],
+        Friday: [
+          { name:"Period 1", start: 8*60+35, end: 9*60+23 },
+          { name:"Homeroom", start: 9*60+30, end: 10*60+10 },
+          { name:"Period 2", start: 10*60+17, end: 11*60+5 },
+          ...(lunch === 'A' ? [
+            { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
+            { name:"Period 3", start: 11*60+42, end: 12*60 }
+          ] : [
+            { name:"Period 3", start: 11*60+42, end: 12*60 },
+            { name:"B Lunch", start: 12*60, end: 12*60+30 }
+          ]),
+          { name:"Period 4", start: 12*60+37, end: 13*60+25 },
+          { name:"Period 5", start: 13*60+32, end: 14*60+20 },
+          { name:"Period 6", start: 14*60+27, end: 15*60+15 }
+        ]
+      };
+    }
+
+    function dayName() {
+      return new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    }
+
+    function minutesNow() {
+      const d = new Date();
+      return d.getHours()*60 + d.getMinutes();
+    }
+
+    function secondsNow() {
+      return new Date().getSeconds();
+    }
+
+    function format(m) {
+      const h = Math.floor(m/60);
+      const mm = m%60;
+      return `${h}:${mm.toString().padStart(2,'0')}`;
+    }
+
+    function formatTime(minutes, seconds) {
+      const h = Math.floor(minutes/60);
+      const m = minutes%60;
+      const s = seconds;
+      return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }
+
+    // Holiday countdown
+    const holidays = [
+      { name: "Labor Day", date: new Date(2025, 8, 1) },
+      { name: "LEAP Day", date: new Date(2025, 9, 17) },
+      { name: "LEAP Day", date: new Date(2025, 10, 4) },
+      { name: "Veterans Day", date: new Date(2025, 10, 11) },
+      { name: "Thanksgiving Break", date: new Date(2025, 10, 27) },
+      { name: "Winter Break", date: new Date(2025, 11, 22) },
+      { name: "MLK Jr. Day", date: new Date(2026, 0, 19) },
+      { name: "Mid-Winter Break", date: new Date(2026, 1, 12) },
+      { name: "Presidents Day", date: new Date(2026, 1, 16) },
+      { name: "LEAP Day", date: new Date(2026, 2, 13) },
+      { name: "Spring Break", date: new Date(2026, 3, 13) },
+      { name: "LEAP Day", date: new Date(2026, 4, 22) },
+      { name: "Memorial Day", date: new Date(2026, 4, 25) },
+      { name: "Last Day of School", date: new Date(2026, 5, 17) }
+    ];
+
+    function updateHolidayCountdown() {
+      const now = new Date();
+      const upcoming = holidays.find(h => h.date > now);
+      
+      if (upcoming) {
+        const diff = upcoming.date - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById('holidayCountdownLabel').innerHTML = `NEXT HOLIDAY - ${upcoming.name}`;
+        document.getElementById('holidayCountdownTime').innerHTML = 
+          `${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+      } else {
+        document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';
+        document.getElementById('holidayCountdownTime').innerHTML = 'End of school year';
+      }
+    }
+
+    function render() {
+      const schedules = getSchedules();
+      const today = schedules[dayName()];
+      if (!today) {
+        document.getElementById('clockDisplay').innerHTML = "--:--:--";
+        document.getElementById('clockLabel').innerHTML = "NO SCHOOL TODAY";
+        document.getElementById('timer').innerHTML = "Enjoy your day off!";
+        document.getElementById('timer').classList.remove('hidden');
+        return;
+      }
+
+      const now = minutesNow();
+      const secs = secondsNow();
+      let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th></tr></thead><tbody>";
+      let current = null;
+      let next = null;
+      let inPassingPeriod = false;
+
+      // Check if we're in a period
+      for (let i=0; i<today.length; i++) {
+        const p = today[i];
+        const active = now >= p.start && now < p.end;
+        if (active) {
+          current = p;
+          next = today[i+1] || null;
+        }
+        html += `<tr class='${active?"highlight":""}'>
+          <td>${p.name}</td>
+          <td>${format(p.start)}</td>
+          <td>${format(p.end)}</td>
+        </tr>`;
+      }
+
+      html += "</tbody></table>";
+
+      // If not in a period, check if we're in a passing period
+      if (!current) {
+        for (let i=0; i<today.length-1; i++) {
+          if (now >= today[i].end && now < today[i+1].start) {
+            inPassingPeriod = true;
+            current = { name: "Passing Period", start: today[i].end, end: today[i+1].start };
+            next = today[i+1];
+            break;
+          }
+        }
+      }
+
+      document.getElementById('schedule').innerHTML = html;
+
+      if (current) {
+        const remainingMinutes = current.end - now - 1;
+        const remainingSeconds = 60 - secs;
+        
+        document.getElementById('clockDisplay').innerHTML = formatTime(remainingMinutes, remainingSeconds);
+        document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;
+        
+        const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
+        document.getElementById('timer').innerHTML =
+          `Current: <b>${current.name}</b><br>Next: ${nextName}`;
+        document.getElementById('timer').classList.remove('hidden');
+      } else {
+        document.getElementById('clockDisplay').innerHTML = "--:--:--";
+        document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
+        document.getElementById('timer').classList.add('hidden');
+      }
+    }
+
+  </script>
 </body>
 </html>
-
-
-
