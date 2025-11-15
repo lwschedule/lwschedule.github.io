@@ -442,63 +442,8 @@
               <th>Date</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><b>Labor Day</b></td>
-              <td>September 1, 2025</td>
-            </tr>
-            <tr>
-              <td><b>LEAP Day</b></td>
-              <td>October 17, 2025</td>
-            </tr>
-            <tr>
-              <td><b>LEAP Day</b></td>
-              <td>November 4, 2025</td>
-            </tr>
-            <tr>
-              <td><b>Veterans Day</b></td>
-              <td>November 11, 2025</td>
-            </tr>
-            <tr>
-              <td><b>Thanksgiving Break</b></td>
-              <td>November 27-28, 2025</td>
-            </tr>
-            <tr>
-              <td><b>Winter Break</b></td>
-              <td>December 22-26, 29-31, 2025 & January 1-2, 2026</td>
-            </tr>
-            <tr>
-              <td><b>MLK Jr. Day</b></td>
-              <td>January 19, 2026</td>
-            </tr>
-            <tr>
-              <td><b>Mid-Winter Break</b></td>
-              <td>February 12-13, 2026</td>
-            </tr>
-            <tr>
-              <td><b>Presidents Day</b></td>
-              <td>February 16, 2026</td>
-            </tr>
-            <tr>
-              <td><b>LEAP Day</b></td>
-              <td>March 13, 2026</td>
-            </tr>
-            <tr>
-              <td><b>Spring Break</b></td>
-              <td>April 13-17, 2026</td>
-            </tr>
-            <tr>
-              <td><b>LEAP Day</b></td>
-              <td>May 22, 2026</td>
-            </tr>
-            <tr>
-              <td><b>Memorial Day</b></td>
-              <td>May 25, 2026</td>
-            </tr>
-            <tr>
-              <td><b>Last Day of School</b></td>
-              <td>June 17, 2026</td>
-            </tr>
+          <tbody id="holidayTableBody">
+            <!-- Holidays will be dynamically populated -->
           </tbody>
         </table>
       </div>
@@ -576,11 +521,11 @@
     };
     let selectedWelcomeLunch = 'A';
     
-    async function loadLunchPreferences() {
+    function loadLunchPreferences() {
       try {
-        const result = await window.storage.get('lunch-preferences');
-        if (result && result.value) {
-          lunchPreferences = JSON.parse(result.value);
+        const saved = localStorage.getItem('lunch-preferences');
+        if (saved) {
+          lunchPreferences = JSON.parse(saved);
         }
       } catch (error) {
         console.log('No saved preferences, using defaults');
@@ -619,17 +564,17 @@
       saveDayLunch(day);
     }
     
-    async function saveDayLunch(day) {
+    function saveDayLunch(day) {
       try {
-        await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));
-        await window.storage.set(`lunch-set-${day}`, new Date().toDateString());
+        localStorage.setItem('lunch-preferences', JSON.stringify(lunchPreferences));
+        localStorage.setItem(`lunch-set-${day}`, new Date().toDateString());
       } catch (error) {
         console.error('Failed to save lunch preference:', error);
       }
       render();
     }
 
-    async function saveWelcomeLunch() {
+    function saveWelcomeLunch() {
       const today = dayName();
       if (today === 'Wednesday') {
         lunchPreferences[today] = 'All';
@@ -638,8 +583,8 @@
       }
       
       try {
-        await window.storage.set('lunch-preferences', JSON.stringify(lunchPreferences));
-        await window.storage.set(`lunch-set-${today}`, new Date().toDateString());
+        localStorage.setItem('lunch-preferences', JSON.stringify(lunchPreferences));
+        localStorage.setItem(`lunch-set-${today}`, new Date().toDateString());
       } catch (error) {
         console.error('Failed to save lunch preference:', error);
       }
@@ -649,7 +594,7 @@
       render();
     }
 
-    async function checkIfNeedsLunchSelection() {
+    function checkIfNeedsLunchSelection() {
       const today = dayName();
       
       // Wednesday always has all-school lunch, no need to ask
@@ -663,11 +608,11 @@
       }
       
       try {
-        const result = await window.storage.get(`lunch-set-${today}`);
+        const lastSet = localStorage.getItem(`lunch-set-${today}`);
         const todayDate = new Date().toDateString();
         
         // If lunch is null or not set for today, show popup
-        if (lunchPreferences[today] === null || !result || result.value !== todayDate) {
+        if (lunchPreferences[today] === null || !lastSet || lastSet !== todayDate) {
           // Haven't set lunch for today yet
           document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;
           document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
@@ -692,9 +637,9 @@
     }
 
     // Initialize app
-    async function initApp() {
-      await loadLunchPreferences();
-      const needsLunch = await checkIfNeedsLunchSelection();
+    function initApp() {
+      loadLunchPreferences();
+      const needsLunch = checkIfNeedsLunchSelection();
       if (!needsLunch) {
         render();
       }
