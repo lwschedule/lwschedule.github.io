@@ -659,6 +659,7 @@
       overlay.classList.toggle('active');
       if (overlay.classList.contains('active')) {
         updateHolidayCountdown();
+        updateHolidayTable();
       }
     }
 
@@ -979,21 +980,44 @@
 
     // Holiday countdown
     const holidays = [
-      { name: "Labor Day", date: new Date(2025, 8, 1) },
-      { name: "LEAP Day", date: new Date(2025, 9, 17) },
-      { name: "LEAP Day", date: new Date(2025, 10, 4) },
-      { name: "Veterans Day", date: new Date(2025, 10, 11) },
-      { name: "Thanksgiving Break", date: new Date(2025, 10, 27) },
-      { name: "Winter Break", date: new Date(2025, 11, 22) },
-      { name: "MLK Jr. Day", date: new Date(2026, 0, 19) },
-      { name: "Mid-Winter Break", date: new Date(2026, 1, 12) },
-      { name: "Presidents Day", date: new Date(2026, 1, 16) },
-      { name: "LEAP Day", date: new Date(2026, 2, 13) },
-      { name: "Spring Break", date: new Date(2026, 3, 13) },
-      { name: "LEAP Day", date: new Date(2026, 4, 22) },
-      { name: "Memorial Day", date: new Date(2026, 4, 25) },
-      { name: "Last Day of School", date: new Date(2026, 5, 17) }
+      { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025" },
+      { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025" },
+      { name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025" },
+      { name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025" },
+      { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-28, 2025" },
+      { name: "Winter Break", date: new Date(2025, 11, 22), displayDate: "December 22, 2025 - January 2, 2026" },
+      { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026" },
+      { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-13, 2026" },
+      { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026" },
+      { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026" },
+      { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026" },
+      { name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026" },
+      { name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026" },
+      { name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026" }
     ];
+
+    function updateHolidayTable() {
+      const now = new Date();
+      const upcomingHolidays = holidays.filter(h => h.date > now);
+      const tbody = document.getElementById('holidayTableBody');
+      
+      if (upcomingHolidays.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No more holidays this school year!</td></tr>';
+        return;
+      }
+      
+      let html = '';
+      upcomingHolidays.forEach((holiday, index) => {
+        // Highlight the next holiday
+        const isNext = index === 0;
+        html += `<tr class="${isNext ? 'highlight' : ''}">
+          <td><b>${holiday.name}</b></td>
+          <td>${holiday.displayDate}</td>
+        </tr>`;
+      });
+      
+      tbody.innerHTML = html;
+    }
 
     function updateHolidayCountdown() {
       const now = new Date();
@@ -1013,6 +1037,8 @@
         document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';
         document.getElementById('holidayCountdownTime').innerHTML = 'End of school year';
       }
+      
+      updateHolidayTable();
     }
 
     function render() {
