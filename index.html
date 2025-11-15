@@ -498,7 +498,6 @@
   <div id="welcomeOverlay">
     <div id="scheduleModal">
       <h2>Select Your Lunch</h2>
-      <div class="dayLabel" id="welcomeDayLabel"></div>
       <div class="settingsRow">
         <label id="welcomeLabel">Please select your lunch:</label>
         <div class="lunchButtons">
@@ -614,7 +613,6 @@
         // If lunch is null or not set for today, show popup
         if (lunchPreferences[today] === null || !lastSet || lastSet !== todayDate) {
           // Haven't set lunch for today yet
-          document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;
           document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
           selectedWelcomeLunch = lunchPreferences[today] || 'A';
           document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
@@ -624,7 +622,6 @@
         }
       } catch (error) {
         // No record exists, show welcome
-        document.getElementById('welcomeDayLabel').innerHTML = `Today is ${today}`;
         document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
         selectedWelcomeLunch = lunchPreferences[today] || 'A';
         document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
