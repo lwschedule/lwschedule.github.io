@@ -1,4 +1,4 @@
-# LW Schedule 🕒
+# LW Schedule
 
 **Version:** v1.0 (Current Release)  
 **Link:** [LW Schedule](https://lwschedule.github.io/)
