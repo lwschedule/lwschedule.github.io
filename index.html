@@ -356,13 +356,14 @@
 /* NEW — apply fade-out when JS adds .closing */
 .overlay.closing {
   animation: fadeOut 0.3s ease-out;
+}
 
-  /* Make sure closing overlays stay visible and animate out */
+/* Make sure closing overlays stay visible and animate out */
 .overlay.active.closing {
   display: flex !important;
   animation: fadeOut 0.3s ease-out !important;
 }
-}
+
 
     h1 {
       animation: fadeInUp 0.6s ease-out;
@@ -2130,7 +2131,7 @@
       }
       
       updateSettingsButtons();
-closeOverlayGracefully('welcomeOverlay');
+      closeOverlayGracefully('welcomeOverlay');
       render();
     }
 
