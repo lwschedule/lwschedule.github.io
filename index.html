@@ -342,6 +342,21 @@
         transform: translateY(0);
       }
     }
+/* NEW — fadeOut animation */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* NEW — apply fade-in to all overlays */
+.overlay.active {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* NEW — apply fade-out when JS adds .closing */
+.overlay.closing {
+  animation: fadeOut 0.3s ease-out;
+}
 
     h1 {
       animation: fadeInUp 0.6s ease-out;
@@ -1560,7 +1575,7 @@
     <button class="mainBtn" onclick="toggleHolidays()">Upcoming Holidays</button>
   </div>
 
-  <div id="scheduleOverlay" onclick="closeOverlay(event)">
+  <div id="scheduleOverlay" class="overlay" onclick="closeOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('scheduleOverlay')">×</button>
       <h2>Today's Schedule</h2>
@@ -1568,7 +1583,7 @@
     </div>
   </div>
 
-  <div id="holidaysOverlay" onclick="closeHolidaysOverlay(event)">
+<div id="holidaysOverlay" class="overlay" onclick="closeHolidaysOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('holidaysOverlay')">×</button>
       <h2>Upcoming Holidays 2025-26</h2>
@@ -1592,7 +1607,7 @@
     </div>
   </div>
 
-  <div id="settingsOverlay" onclick="closeSettingsOverlay(event)">
+<div id="settingsOverlay" class="overlay" onclick="closeSettingsOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('settingsOverlay')">×</button>
       <h2>Settings</h2>
@@ -1613,7 +1628,7 @@
     </div>
   </div>
 
-  <div id="infoOverlay" onclick="closeInfoOverlay(event)">
+<div id="infoOverlay" class="overlay" onclick="closeInfoOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')">×</button>
       <h2>About</h2>
@@ -1633,7 +1648,7 @@
     </div>
   </div>
 
-  <div id="themeOverlay" onclick="closeThemeOverlay(event)">
+<div id="themeOverlay" class="overlay" onclick="closeThemeOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('themeOverlay')">×</button>
       <h2>Choose Your Theme</h2>
@@ -1687,7 +1702,7 @@
     </div>
   </div>
 
-  <div id="lunchSettingsOverlay" onclick="closeLunchSettingsOverlay(event)">
+<div id="lunchSettingsOverlay" class="overlay" onclick="closeLunchSettingsOverlay(event)">
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('lunchSettingsOverlay')">×</button>
       <h2>Lunch Preferences</h2>
