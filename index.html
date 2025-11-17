@@ -79,6 +79,8 @@
       scrollbar-width: none;
       -ms-overflow-style: none;
       transition: all 0.3s ease;
+      /* Add padding-bottom to prevent bottomBar from overlapping content */
+      padding-bottom: 100px;
     }
 
     /* Gradient mode */
@@ -91,117 +93,165 @@
     body.gradient-mode .mainBtn:not(.disabledBtn) {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode .lunchBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .continueBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode #settingsBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode #infoBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #settingsBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #infoBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode .scheduleTable th {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .holidayTable th {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .scheduleTable tr.highlight {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .modeBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .gradientBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .confirmBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode .versionBadge {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode #settingsNotification {
       border-color: var(--primary-light);
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
+    }
+    
+    /* v1.3 Add gradient to bottomBar */
+    body.gradient-mode #bottomBar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+      background-size: 200% 200% !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #settingsNotification {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
+    }
+    
+    /* v1.3 Add gradient to bottomBar */
+    body.gradient-mode.light-mode #bottomBar {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
+      background-size: 200% 200% !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
     }
 
-    body.gradient-mode.light-mode #digitalClock,
-    body.gradient-mode.light-mode .mainBtn:not(.disabledBtn),
-    body.gradient-mode.light-mode .lunchBtn.selected,
-    body.gradient-mode.light-mode .continueBtn,
-    body.gradient-mode.light-mode #settingsBtn,
-    body.gradient-mode.light-mode #infoBtn,
-    body.gradient-mode.light-mode .scheduleTable th,
-    body.gradient-mode.light-mode .holidayTable th,
-    body.gradient-mode.light-mode .scheduleTable tr.highlight,
-    body.gradient-mode.light-mode .modeBtn.selected,
-    body.gradient-mode.light-mode .gradientBtn.selected,
-    body.gradient-mode.light-mode .confirmBtn,
-    body.gradient-mode.light-mode .versionBadge {
+    /* v1.4 - Removed large combined rule and split into groups */
+    body.gradient-mode.light-mode #digitalClock {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
       animation: gradientShift 8s ease infinite !important;
     }
+    
+    body.gradient-mode.light-mode .mainBtn:not(.disabledBtn),
+    body.gradient-mode.light-mode .continueBtn,
+    body.gradient-mode.light-mode .confirmBtn {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
+      background-size: 200% 200% !important;
+      animation: gradientShift2 8s ease infinite !important;
+    }
+    
+    body.gradient-mode.light-mode .lunchBtn.selected,
+    body.gradient-mode.light-mode .modeBtn.selected,
+    body.gradient-mode.light-mode .gradientBtn.selected {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
+      background-size: 200% 200% !important;
+      animation: gradientShift4 8s ease infinite !important;
+    }
+    
+    body.gradient-mode.light-mode .scheduleTable th,
+    body.gradient-mode.light-mode .holidayTable th,
+    body.gradient-mode.light-mode .scheduleTable tr.highlight,
+    body.gradient-mode.light-mode .versionBadge {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
+      background-size: 200% 200% !important;
+      animation: gradientShift5 8s ease infinite !important;
+    }
+    /* v1.4 - End of split rules */
+
 
     @keyframes gradientShift {
       0% {
@@ -295,65 +345,13 @@
 
     h1 {
       animation: fadeInUp 0.6s ease-out;
-    }
-
-    #digitalClock {
-      animation: fadeInUp 0.6s ease-out 0.1s both;
-    }
-
-    #timer {
-      animation: fadeInUp 0.6s ease-out 0.2s both;
-    }
-
-    .mainButtons {
-      animation: fadeInUp 0.6s ease-out 0.3s both;
-    }
-
-    #settingsBtn {
-      animation: fadeInUp 0.6s ease-out 0.4s both;
-    }
-
-    #infoBtn {
-      animation: fadeInUp 0.6s ease-out 0.4s both;
-    }
-
-    /* Light mode */
-    body.light-mode {
-      --bg-dark: #f5f5f5;
-      --card-dark: #ffffff;
-      --text-light: #2c2c2c;
-    }
-
-    body.light-mode #scheduleOverlay,
-    body.light-mode #holidaysOverlay,
-    body.light-mode #settingsOverlay,
-    body.light-mode #welcomeOverlay,
-    body.light-mode #lunchSettingsOverlay,
-    body.light-mode #themeOverlay,
-    body.light-mode #infoOverlay {
-      background: rgba(255, 255, 255, 0.85);
-    }
-
-    body::-webkit-scrollbar {
-      display: none;
-    }
-
-    h1 {
       text-align: center;
-      color: var(--primary-light);
-      font-weight: 700;
     }
 
-    body.gradient-mode h1 {
-      color: white;
-    }
-
-    body.gradient-mode.light-mode h1 {
-      color: #2c2c2c;
-    }
-
+    /* v1.3 - This animation was already present, as requested */
     #digitalClock {
-      font-size: 5em;
+      /* v1.3 - Made font size responsive */
+      font-size: clamp(3em, 12vw, 5em);
       font-weight: 700;
       text-align: center;
       color: var(--primary-light);
@@ -412,7 +410,8 @@
     }
 
     #timer {
-      font-size: 1.1em;
+      /* v1.3 - Made font size responsive */
+      font-size: clamp(0.9em, 4vw, 1.1em);
       margin-top: 20px;
       text-align: center;
       background: var(--card-dark);
@@ -599,6 +598,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 1001; /* v1.3 - Ensure it's above overlays */
     }
 
     #settingsBtn:hover {
@@ -623,6 +623,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 1001; /* v1.3 - Ensure it's above overlays */
     }
 
     #infoBtn:hover {
@@ -738,13 +739,15 @@
     body.gradient-mode #closeBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #closeBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      animation: gradientShift 8s ease infinite !important;
+      /* v1.4 - Randomized gradient */
+      animation: gradientShift3 8s ease infinite !important;
     }
 
     #schedule {
@@ -1355,12 +1358,15 @@
       max-width: 300px;
       z-index: 999;
       border: 2px solid var(--primary-light);
-      animation: slideInFromRight 0.5s ease-out;
+      /* v1.3 - Animation is now applied when .show is added */
+      /* animation: slideInFromRight 0.5s ease-out; */
       display: none;
     }
 
     #settingsNotification.show {
       display: block;
+      /* v1.3 - Apply animation when shown */
+      animation: slideInFromRight 0.5s ease-out;
     }
 
     @keyframes slideInFromRight {
@@ -1455,7 +1461,85 @@
         left: 20px;
         max-width: none;
       }
+      
+      /* v1.4 - Adjust cookie bar for mobile */
+      #bottomBar {
+        left: 0;
+        right: 0;
+        bottom: -200px; /* v1.4 - Match hidden state */
+        padding: 15px;
+        border-radius: 0; /* v1.4 - Full width */
+      }
+      
+      #bottomBar.show {
+        bottom: 0;
+      }
+      
+      #closeBottomBar {
+        font-size: 1.2em;
+        padding: 5px;
+      }
     }
+    
+    /* v1.4 - Styles for new Bottom Bar (Cookie Bar style) */
+    #bottomBar {
+      position: fixed;
+      bottom: -200px; /* Start off-screen */
+      left: 0; /* v1.4 - Full width */
+      right: 0; /* v1.4 - Full width */
+      z-index: 998;
+      background: var(--bg-dark); /* v1.3 - Blend with background */
+      color: var(--text-light);
+      padding: 20px 30px; /* v1.4 - Adjusted padding */
+      border-radius: 16px 16px 0 0; /* v1.4 - Rounded top corners */
+      /* v1.3 - Removed glow to blend */
+      /* box-shadow: var(--glow); */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      transition: bottom 0.6s ease-out;
+      font-size: 0.9em;
+    }
+    
+    #bottomBar.show {
+      bottom: 0; /* Slide in to the bottom edge */
+    }
+    
+    #closeBottomBar {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      opacity: 0.7;
+      font-size: 1.5em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 0 5px;
+      line-height: 1;
+    }
+    
+    #closeBottomBar:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    
+    body.gradient-mode #closeBottomBar {
+      color: white;
+    }
+    
+    body.gradient-mode.light-mode #closeBottomBar {
+      color: #2c2c2c;
+    }
+    
+    body.gradient-mode #bottomBar p {
+      color: white;
+    }
+    
+    body.gradient-mode.light-mode #bottomBar p {
+      color: #2c2c2c;
+    }
+
   </style>
 </head>
 <body class="theme-purple">
@@ -1521,6 +1605,10 @@
       <div class="settingsRow">
         <button class="mainBtn disabledBtn" disabled>Classes (Coming Soon)</button>
       </div>
+      <!-- v1.3 Added Pack Up Reminder Button -->
+      <div class="settingsRow">
+        <button class="mainBtn disabledBtn" disabled>Pack Up Reminder (Coming Soon)</button>
+      </div>
       <button class="resetBtn" onclick="resetAllSettings()">Reset All Settings to Default</button>
     </div>
   </div>
@@ -1530,7 +1618,8 @@
       <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')">×</button>
       <h2>About</h2>
       <div class="infoContent">
-        <div class="versionBadge">Version 1.2</div>
+        <!-- v1.3 Updated Version Badge -->
+        <div class="versionBadge">Version 1.3</div>
         
         <h3>Created By</h3>
         <p>Sanchit P.</p>
@@ -1676,6 +1765,12 @@
     <button class="dismissBtn" onclick="dismissNotification()">Dismiss</button>
   </div>
 
+  <!-- v1.3 Added Bottom Bar -->
+  <div id="bottomBar">
+    <p>Made by Sanchit P. • Inspired by Rudy P.</p>
+    <button id="closeBottomBar" onclick="closeBottomBar()">×</button>
+  </div>
+
   <script>
     // Save lunch choices per day
     let lunchPreferences = {
@@ -1691,6 +1786,9 @@
     let gradientMode = 'on';
     let confirmCallback = null;
     let currentHolidayMessage = null;
+    // v1.3 - Add state for after school message
+    let currentAfterSchoolMessage = null;
+    let lastMessageDay = null;
     
     function showConfirm(title, message, callback) {
       document.getElementById('confirmTitle').textContent = title;
@@ -1924,6 +2022,8 @@
             localStorage.removeItem('mode');
             localStorage.removeItem('gradient');
             localStorage.removeItem('lunch-preferences');
+            localStorage.removeItem('has-opened-settings'); // v1.3 - also reset notification
+            localStorage.removeItem('bottom-bar-dismissed'); // v1.3 - also reset bottom bar
             const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
             days.forEach(day => {
               localStorage.removeItem(`lunch-set-${day}`);
@@ -1937,6 +2037,10 @@
           updateModeSelection();
           updateGradientSelection();
           render();
+          
+          // v1.3 - Reshow notifications after reset
+          checkSettingsNotification();
+          checkBottomBar();
         }
       );
     }
@@ -2053,16 +2157,37 @@
       
       // Show settings notification if user hasn't opened settings before
       checkSettingsNotification();
+      
+      // v1.3 - Show bottom bar
+      checkBottomBar();
+    }
+
+    // v1.3 - New function to show bottom bar
+    function checkBottomBar() {
+      setTimeout(() => {
+        document.getElementById('bottomBar').classList.add('show');
+      }, 1500);
+  }
+
+
+    // v1.3 - New function to close bottom bar
+    function closeBottomBar() {
+      document.getElementById('bottomBar').classList.remove('show');
+      try {
+        // localStorage.setItem('bottom-bar-dismissed', 'true');
+      } catch (error) {
+        console.error('Failed to save bottom bar status:', error);
+      }
     }
 
     function checkSettingsNotification() {
       try {
         const hasOpenedSettings = localStorage.getItem('has-opened-settings');
         if (!hasOpenedSettings) {
-          // Show notification after 3 seconds
+          // v1.3 - Show notification after 5 seconds
           setTimeout(() => {
             document.getElementById('settingsNotification').classList.add('show');
-          }, 3000);
+          }, 5000);
         }
       } catch (error) {
         console.log('Could not check settings notification status');
@@ -2517,6 +2642,26 @@
       return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')} ${ampm}`;
     }
 
+    // v1.3 - New function to correctly format countdowns
+    function formatCountdown(totalMinutes, totalSeconds) {
+      // Handle the 60 seconds -> 0 seconds, +1 minute case
+      if (totalSeconds === 60) {
+        totalMinutes += 1;
+        totalSeconds = 0;
+      }
+
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      const s = totalSeconds;
+
+      if (h > 0) {
+        return `${h.toString()}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      } else {
+        // Don't show 00: for hours if less than 1 hour
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      }
+    }
+
     const holidays = [
       { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025" },
       { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025" },
@@ -2613,6 +2758,10 @@
       let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th></tr></thead><tbody>";
       let current = null;
       let next = null;
+      
+      // v1.4 - Reset font size in case it was changed by after-school message
+      // v1.3 - Clear inline style to allow CSS clamp() to work
+      document.getElementById('clockDisplay').style.fontSize = "";
 
       for (let i=0; i<today.length; i++) {
         const p = today[i];
@@ -2642,21 +2791,62 @@
 
       document.getElementById('schedule').innerHTML = html;
 
+      // v1.3 - Reworked logic for current/before/after school
       if (current) {
         const remainingMinutes = current.end - now - 1;
         const remainingSeconds = 60 - secs;
         
-        document.getElementById('clockDisplay').innerHTML = formatTime(remainingMinutes, remainingSeconds);
+        // v1.3 - Use new formatCountdown function
+        document.getElementById('clockDisplay').innerHTML = formatCountdown(remainingMinutes, remainingSeconds);
         document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;
         
         const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
         document.getElementById('timer').innerHTML =
           `Current: <b>${current.name}</b><br>Next: ${nextName}`;
         document.getElementById('timer').classList.remove('hidden');
+        
       } else {
-        document.getElementById('clockDisplay').innerHTML = "--:--:--";
-        document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
-        document.getElementById('timer').classList.add('hidden');
+        // Not in a period. Check if before or after school.
+        const firstPeriod = today[0];
+        const lastPeriod = today[today.length - 1];
+        
+        if (now < firstPeriod.start) {
+          // v1.3 - Before school
+          const remainingMinutes = firstPeriod.start - now - 1;
+          const remainingSeconds = 60 - secs;
+          
+          document.getElementById('clockDisplay').innerHTML = formatCountdown(remainingMinutes, remainingSeconds);
+          document.getElementById('clockLabel').innerHTML = "UNTIL SCHOOL STARTS";
+          document.getElementById('timer').innerHTML = 
+            `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
+          document.getElementById('timer').classList.remove('hidden');
+          
+        } else if (now >= lastPeriod.end) {
+          // v1.3 - After school
+          const todayStr = new Date().toDateString();
+          if (currentAfterSchoolMessage === null || lastMessageDay !== todayStr) {
+            const homeworkMessages = [
+              "Homework Time!",
+              "Time to Study!",
+              "Get Those Assignments Done!",
+              "Focus on Your Schoolwork!",
+              "Let's Finish That Homework!"
+            ];
+            currentAfterSchoolMessage = homeworkMessages[Math.floor(Math.random() * homeworkMessages.length)];
+            lastMessageDay = todayStr;
+          }
+          document.getElementById('clockDisplay').innerHTML = currentAfterSchoolMessage;
+          document.getElementById('clockDisplay').style.fontSize = "3.5em"; // Adjust font size for longer text
+          document.getElementById('clockLabel').innerHTML = "SCHOOL IS OVER";
+          document.getElementById('timer').innerHTML = "See you tomorrow!";
+          document.getElementById('timer').classList.remove('hidden');
+          
+        } else {
+          // In-between periods, but not caught by passing period logic (should be rare)
+          document.getElementById('clockDisplay').innerHTML = "--:--:--";
+          document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
+          document.getElementById('timer').classList.add('hidden');
+        }
       }
     }
 
