@@ -36,6 +36,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 - Fix ALL circle buttons emojis and text to make sure they are centered on the button
 - All timers in all windows should be rolling displays (old number moves up and fades, and new number comes up from bottom and fades in)
 - Lunches should reset when semester changes (Jan 24)
+- Focus on HW type text should be autosized exactly like the main timer
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
