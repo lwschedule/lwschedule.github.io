@@ -33,6 +33,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 ## Upcoming Features
 
 - Fix Light Mode
+- Fix ALL circle buttons emojis and text to make sure they are centered on the button
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
