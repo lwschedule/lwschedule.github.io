@@ -1279,6 +1279,15 @@
     #confirmOverlay.closing {
       animation: fadeOut 0.3s ease-out;
     }
+/* WELCOME OVERLAY FADE FIX */
+#welcomeOverlay.active {
+  display: flex;
+  animation: fadeIn 0.3s ease-out;
+}
+
+#welcomeOverlay.closing {
+  animation: fadeOut 0.3s ease-out;
+}
 
     #confirmModal {
       background: var(--card-dark);
@@ -1754,7 +1763,7 @@
     </div>
   </div>
 
-  <div id="welcomeOverlay">
+<div id="welcomeOverlay" class="overlay">
     <div id="scheduleModal">
       <h2>Select Your Lunch</h2>
       <div class="settingsRow">
