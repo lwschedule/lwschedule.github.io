@@ -1,6 +1,6 @@
 # LW Schedule
 
-**Version:** v1.2 (Current Release)  
+**Version:** v1.3 (Current Release)  
 **Link:** [LW Schedule](https://lwschedule.github.io/)
 
 ---
@@ -50,4 +50,4 @@ MIT License
 
 ---
 
-**v1.2 – Current Release**
+**v1.3 – Current Release**
