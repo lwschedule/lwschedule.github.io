@@ -2326,14 +2326,18 @@
       }
     }
 
-    function closeOverlayGracefully(overlayId) {
-      const overlay = document.getElementById(overlayId);
-      overlay.classList.add('closing');
-      setTimeout(() => {
-        overlay.classList.remove('active');
-        overlay.classList.remove('closing');
-      }, 300);
-    }
+  function closeOverlayGracefully(overlayId) {
+  const overlay = document.getElementById(overlayId);
+  
+  // Start fade out
+  overlay.classList.add('closing');
+  
+  // Wait for animation to complete, then hide
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    overlay.classList.remove('closing');
+  }, 300); // Match your animation duration
+}
 
     function closeOverlay(event) {
       if (event.target === document.getElementById('scheduleOverlay')) {
