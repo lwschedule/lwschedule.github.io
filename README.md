@@ -33,9 +33,8 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 ## Upcoming Features
 
 - Add spaces between each unit of time in upcoming holidays
-- After school will now count down to the next school day, but will still display the motivational messages
+- After school will now count down to the next school day, but and will remove display the motivational messages
 - Holiday countdown will be changed to count down till the end of school right before the holiday, rather than the holiday itself
-- Motivational text after school is too big, reduce text size and make sure letters aren't cut off by new animation
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - Clubs support, student manually adds clubs and meeting times to their schedule, and can set to repeat weekly
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
