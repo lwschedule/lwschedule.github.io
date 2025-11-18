@@ -37,6 +37,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 - Holiday countdown will be changed to count down till the end of school right before the holiday, rather than the holiday itself
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - Clubs support, student manually adds clubs and meeting times to their schedule, and can set to repeat weekly
+- fix schedule manager link in info
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
 - **Class Titles** – Full class name for easy reference
