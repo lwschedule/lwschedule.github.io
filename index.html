@@ -82,6 +82,298 @@
       /* Add padding-bottom to prevent bottomBar from overlapping content */
       padding-bottom: 100px;
     }
+    
+    /* v1.4 Light Mode Styles */
+    body.light-mode {
+      background: #f0f2f5;
+      color: #2c2c2c;
+    }
+    body.light-mode .overlay {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(5px);
+    }
+    body.light-mode #confirmOverlay {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+    }
+    body.light-mode #digitalClock {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode #clockLabel {
+      color: #555;
+    }
+    body.light-mode #clockDisplay {
+      color: var(--primary);
+    }
+    body.light-mode #timer {
+      background: #ffffff;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode .mainBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .mainBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode .mainBtn.disabledBtn {
+      background: #ccc;
+      color: #888;
+    }
+    body.light-mode .mainBtn.disabledBtn:hover {
+      background: #ccc;
+    }
+    body.light-mode select {
+      background: #ffffff;
+      color: #333;
+      border-color: var(--primary);
+    }
+    body.light-mode #scheduleModal {
+      background: #fdfdfd;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    body.light-mode #closeBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode #closeBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode #scheduleModal h2 {
+      color: var(--primary);
+    }
+    body.light-mode #scheduleModal p,
+    body.light-mode #scheduleModal label,
+    body.light-mode #welcomeLabel {
+      color: #333;
+    }
+    body.light-mode .scheduleTable {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .scheduleTable th {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .scheduleTable td {
+      border-bottom-color: #eee;
+    }
+    body.light-mode .scheduleTable tr.highlight {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .scheduleTable tr:not(.highlight):hover {
+      background: #f5f5f5;
+    }
+    body.light-mode .holidayTable {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .holidayTable th {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .holidayTable td {
+      border-bottom-color: #eee;
+    }
+    body.light-mode .holidayTable tr:hover {
+      background: #f5f5f5;
+    }
+    body.light-mode .weekTable {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .weekTable th {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .weekTable td {
+      border-bottom-color: #eee;
+    }
+    body.light-mode .weekTable tr:hover {
+      background: #f5f5f5;
+    }
+    body.light-mode #holidayCountdown {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode #holidayCountdownLabel {
+      color: #555;
+    }
+    body.light-mode #holidayCountdownTime {
+      color: var(--primary);
+    }
+    body.light-mode .settingsRow {
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .settingsRow label {
+      color: #333;
+    }
+    body.light-mode .notSetLabel {
+      color: #777;
+    }
+    body.light-mode .noSchoolMessage h3 {
+      color: var(--primary);
+    }
+    body.light-mode .noSchoolMessage p {
+      color: #333;
+    }
+    body.light-mode .themeName {
+      color: #333;
+    }
+    body.light-mode .modeToggle {
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .gradientToggle {
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .modeBtn {
+      background: #eee;
+      color: #555;
+      border-color: var(--primary);
+    }
+    body.light-mode .modeBtn.selected {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .modeBtn:hover:not(.selected) {
+      background: #e0e0e0;
+      color: #333;
+    }
+    body.light-mode .gradientBtn {
+      background: #eee;
+      color: #555;
+      border-color: var(--primary);
+    }
+    body.light-mode .gradientBtn.selected {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .gradientBtn:hover:not(.selected) {
+      background: #e0e0e0;
+      color: #333;
+    }
+    body.light-mode .lunchBtn {
+      background: #eee;
+      color: #555;
+      border-color: var(--primary);
+    }
+    body.light-mode .lunchBtn.selected {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .lunchBtn:hover:not(.selected) {
+      background: #e0e0e0;
+      color: #333;
+    }
+    body.light-mode .continueBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .continueBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode .resetBtn {
+      background: #777;
+    }
+    body.light-mode .resetBtn:hover {
+      background: #c41e3a;
+    }
+    body.light-mode #settingsBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode #settingsBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode #infoBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode #infoBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode .infoContent h3 {
+      color: var(--primary);
+    }
+    body.light-mode .infoContent p {
+      color: #333;
+    }
+    body.light-mode .infoContent a {
+      color: var(--primary);
+    }
+    body.light-mode .versionBadge {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode #confirmModal {
+      background: #fdfdfd;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    body.light-mode #confirmModal h3 {
+      color: var(--primary);
+    }
+    body.light-mode #confirmModal p {
+      color: #333;
+    }
+    body.light-mode .confirmBtn {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode .confirmBtn:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode .cancelBtn {
+      background: #777;
+    }
+    body.light-mode .cancelBtn:hover {
+      background: #888;
+    }
+    body.light-mode #settingsNotification {
+      background: #ffffff;
+      color: #333;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode #settingsNotification h4 {
+      color: var(--primary);
+    }
+    body.light-mode #settingsNotification p {
+      color: #333;
+    }
+    body.light-mode #settingsNotification button {
+      background: var(--primary);
+      color: var(--text-on-primary);
+    }
+    body.light-mode #settingsNotification button:hover {
+      background: var(--primary-light);
+    }
+    body.light-mode #settingsNotification .dismissBtn {
+      background: #777;
+    }
+    body.light-mode #settingsNotification .dismissBtn:hover {
+      background: #888;
+    }
+    body.light-mode #bottomBar {
+      background: #ffffff;
+      color: #333;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    body.light-mode #closeBottomBar {
+      color: #555;
+    }
+    body.light-mode #closeBottomBar:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    /* End v1.4 Light Mode Styles */
+
 
     /* Gradient mode */
     body.gradient-mode #digitalClock {
@@ -93,98 +385,90 @@
     body.gradient-mode .mainBtn:not(.disabledBtn) {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode .lunchBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .continueBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode #settingsBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode #infoBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #settingsBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #infoBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode .scheduleTable th {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .holidayTable th {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
+      animation: gradientShift5 8s ease infinite !important;
+    }
+    
+    body.gradient-mode .weekTable th {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+      background-size: 200% 200% !important;
       animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .scheduleTable tr.highlight {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode .modeBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .gradientBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift4 8s ease infinite !important;
     }
 
     body.gradient-mode .confirmBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift2 8s ease infinite !important;
     }
 
     body.gradient-mode .versionBadge {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift5 8s ease infinite !important;
     }
 
@@ -192,34 +476,37 @@
       border-color: var(--primary-light);
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
-      animation: gradientShift5 8s ease infinite !important;
+      /* v1.4 - Apply base animation + gradient animation */
+      animation: gradientShift5 8s ease infinite, slideInFromRight 0.5s ease-out;
     }
     
-    /* v1.3 Add gradient to bottomBar */
+    body.gradient-mode #settingsNotification.hiding {
+      animation: gradientShift5 8s ease infinite, slideOutToRight 0.5s ease-out;
+    }
+    
     body.gradient-mode #bottomBar {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift5 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #settingsNotification {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
-      animation: gradientShift5 8s ease infinite !important;
+      animation: gradientShift5 8s ease infinite, slideInFromRight 0.5s ease-out;
     }
     
-    /* v1.3 Add gradient to bottomBar */
+    body.gradient-mode.light-mode #settingsNotification.hiding {
+      animation: gradientShift5 8s ease infinite, slideOutToRight 0.5s ease-out;
+    }
+    
     body.gradient-mode.light-mode #bottomBar {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift5 8s ease infinite !important;
     }
 
-    /* v1.4 - Removed large combined rule and split into groups */
+    /* v1.4 - Gradient light mode overrides */
     body.gradient-mode.light-mode #digitalClock {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
@@ -244,13 +531,14 @@
     
     body.gradient-mode.light-mode .scheduleTable th,
     body.gradient-mode.light-mode .holidayTable th,
+    body.gradient-mode.light-mode .weekTable th,
     body.gradient-mode.light-mode .scheduleTable tr.highlight,
     body.gradient-mode.light-mode .versionBadge {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
       animation: gradientShift5 8s ease infinite !important;
     }
-    /* v1.4 - End of split rules */
+    /* v1.4 - End of gradient rules */
 
 
     @keyframes gradientShift {
@@ -330,6 +618,42 @@
         background-position: 75% 25%;
       }
     }
+    
+    /* v1.4 Rolling Timer Animations */
+    @keyframes rollUpIn {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes rollUpOut {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100%); opacity: 0; }
+    }
+    .digit-roller {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      line-height: 1em; /* Match font size */
+      height: 1em; /* Match font size */
+      vertical-align: middle; /* Align middle of box with middle of text */
+    }
+    .digit-roller span {
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center; /* Ensure centered */
+    }
+    .digit-roller .old {
+      animation: rollUpOut 0.4s ease-out forwards;
+    }
+    .digit-roller .new {
+      transform: translateY(100%);
+      animation: rollUpIn 0.4s ease-out forwards;
+    }
+    .static-char {
+      display: inline-block;
+      vertical-align: middle; /* Align middle of char with middle of text */
+    }
 
     /* Fade in animation */
     @keyframes fadeInUp {
@@ -370,9 +694,7 @@
       text-align: center;
     }
 
-    /* v1.3 - This animation was already present, as requested */
     #digitalClock {
-      /* v1.3 - Made font size responsive */
       font-size: clamp(3em, 12vw, 5em);
       font-weight: 700;
       text-align: center;
@@ -390,14 +712,28 @@
       background: var(--primary-light);
       color: var(--text-on-primary);
     }
+    
+    body:not(.gradient-mode).light-mode #digitalClock {
+      background: #ffffff;
+      color: var(--primary);
+    }
 
     body:not(.gradient-mode) #clockLabel {
       color: var(--text-on-primary);
       opacity: 0.9;
     }
+    
+    body:not(.gradient-mode).light-mode #clockLabel {
+      color: #555;
+      opacity: 1;
+    }
 
     body:not(.gradient-mode) #clockDisplay {
       color: var(--text-on-primary);
+    }
+    
+    body:not(.gradient-mode).light-mode #clockDisplay {
+      color: var(--primary);
     }
 
     #clockLabel {
@@ -432,7 +768,6 @@
     }
 
     #timer {
-      /* v1.3 - Made font size responsive */
       font-size: clamp(0.9em, 4vw, 1.1em);
       margin-top: 20px;
       text-align: center;
@@ -542,6 +877,10 @@
       color: white;
       transform: scale(1.05);
     }
+    
+    body:not(.gradient-mode) .lunchBtn:hover {
+      color: var(--text-on-primary);
+    }
 
     .lunchBtn.selected {
       background: var(--primary-light);
@@ -620,7 +959,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1001; /* v1.3 - Ensure it's above overlays */
+      z-index: 1001;
+      padding: 0; /* v1.4 centering */
+      line-height: 1.1; /* v1.4 centering tweak */
+    }
+
+    body:not(.gradient-mode) #settingsBtn {
+      color: var(--text-on-primary);
     }
 
     #settingsBtn:hover {
@@ -645,7 +990,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1001; /* v1.3 - Ensure it's above overlays */
+      z-index: 1001;
+      padding: 0; /* v1.4 centering */
+      line-height: 1.1; /* v1.4 centering tweak */
+    }
+    
+    body:not(.gradient-mode) #infoBtn {
+      color: var(--text-on-primary);
     }
 
     #infoBtn:hover {
@@ -667,7 +1018,7 @@
       backdrop-filter: blur(5px);
     }
 
-    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active {
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active {
       display: flex;
       animation: fadeIn 0.3s ease-out;
     }
@@ -692,7 +1043,7 @@
       }
     }
 
-    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay {
+    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay {
       display: none;
       position: fixed;
       top: 0;
@@ -751,6 +1102,15 @@
       cursor: pointer;
       line-height: 1;
       transition: all 0.3s;
+      padding: 0; /* v1.4 centering */
+      display: flex; /* v1.4 centering */
+      align-items: center; /* v1.4 centering */
+      justify-content: center; /* v1.4 centering */
+      line-height: 1.1; /* v1.4 centering tweak */
+    }
+    
+    body:not(.gradient-mode) #closeBtn {
+      color: var(--text-on-primary);
     }
 
     #closeBtn:hover {
@@ -761,18 +1121,20 @@
     body.gradient-mode #closeBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     body.gradient-mode.light-mode #closeBtn {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
-      /* v1.4 - Randomized gradient */
       animation: gradientShift3 8s ease infinite !important;
     }
 
     #schedule {
+      margin-top: 20px;
+    }
+    
+    #weekSchedule {
       margin-top: 20px;
     }
 
@@ -783,11 +1145,6 @@
       background: #1f1f1f;
       border-radius: 12px;
       overflow: hidden;
-    }
-
-    body.light-mode .scheduleTable {
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .scheduleTable th {
@@ -805,10 +1162,6 @@
     .scheduleTable td {
       padding: 12px;
       border-bottom: 1px solid #444;
-    }
-
-    body.light-mode .scheduleTable td {
-      border-bottom: 1px solid #e0e0e0;
     }
 
     .scheduleTable tr:last-child td {
@@ -829,10 +1182,6 @@
       background: #2a2a2a;
     }
 
-    body.light-mode .scheduleTable tr:not(.highlight):hover {
-      background: #f0f0f0;
-    }
-
     .holidayTable {
       width: 100%;
       border-collapse: collapse;
@@ -840,11 +1189,6 @@
       background: #1f1f1f;
       border-radius: 12px;
       overflow: hidden;
-    }
-
-    body.light-mode .holidayTable {
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .holidayTable th {
@@ -864,10 +1208,6 @@
       border-bottom: 1px solid #444;
     }
 
-    body.light-mode .holidayTable td {
-      border-bottom: 1px solid #e0e0e0;
-    }
-
     .holidayTable tr:last-child td {
       border-bottom: none;
     }
@@ -875,9 +1215,50 @@
     .holidayTable tr:hover {
       background: #2a2a2a;
     }
+    
+    .weekTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #1f1f1f;
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: clamp(0.9em, 2.5vw, 1em);
+    }
 
-    body.light-mode .holidayTable tr:hover {
-      background: #f0f0f0;
+    .weekTable th {
+      background: var(--primary-light);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    
+    body:not(.gradient-mode) .weekTable th {
+      color: var(--text-on-primary);
+    }
+
+    .weekTable td {
+      padding: 12px;
+      border-bottom: 1px solid #444;
+      line-height: 1.5;
+    }
+    
+    .weekTable td:first-child {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    
+    .weekTable td:last-child {
+      text-align: right;
+    }
+
+    .weekTable tr:last-child td {
+      border-bottom: none;
+    }
+
+    .weekTable tr:hover {
+      background: #2a2a2a;
     }
 
     #scheduleModal h2 {
@@ -928,14 +1309,28 @@
       background: var(--primary-light);
       color: var(--text-on-primary);
     }
+    
+    body:not(.gradient-mode).light-mode #holidayCountdown {
+      background: #ffffff;
+      color: var(--primary);
+    }
 
     body:not(.gradient-mode) #holidayCountdownLabel {
       color: var(--text-on-primary);
       opacity: 0.9;
     }
+    
+    body:not(.gradient-mode).light-mode #holidayCountdownLabel {
+      color: #555;
+      opacity: 1;
+    }
 
     body:not(.gradient-mode) #holidayCountdownTime {
       color: var(--text-on-primary);
+    }
+    
+    body:not(.gradient-mode).light-mode #holidayCountdownTime {
+      color: var(--primary);
     }
 
     #holidayCountdownLabel {
@@ -994,11 +1389,6 @@
     .settingsRow:nth-of-type(3) { animation-delay: 0.25s; }
     .settingsRow:nth-of-type(4) { animation-delay: 0.3s; }
     .settingsRow:nth-of-type(5) { animation-delay: 0.35s; }
-
-    body.light-mode .settingsRow {
-      background: #f9f9f9;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
 
     .settingsRow label {
       display: block;
@@ -1076,11 +1466,6 @@
       border-radius: 12px;
     }
 
-    body.light-mode .modeToggle {
-      background: #f9f9f9;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
     .modeBtn {
       flex: 1;
       background: var(--card-dark);
@@ -1099,11 +1484,19 @@
       color: white;
       transform: scale(1.05);
     }
+    
+    body:not(.gradient-mode) .modeBtn:hover {
+      color: var(--text-on-primary);
+    }
 
     .modeBtn.selected {
       background: var(--primary-light);
       color: white;
       box-shadow: var(--glow);
+    }
+    
+    body:not(.gradient-mode) .modeBtn.selected {
+      color: var(--text-on-primary);
     }
 
     .gradientToggle {
@@ -1114,11 +1507,6 @@
       padding: 15px;
       background: #1f1f1f;
       border-radius: 12px;
-    }
-
-    body.light-mode .gradientToggle {
-      background: #f9f9f9;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .gradientBtn {
@@ -1139,11 +1527,19 @@
       color: white;
       transform: scale(1.05);
     }
+    
+    body:not(.gradient-mode) .gradientBtn:hover {
+      color: var(--text-on-primary);
+    }
 
     .gradientBtn.selected {
       background: var(--primary-light);
       color: white;
       box-shadow: var(--glow);
+    }
+    
+    body:not(.gradient-mode) .gradientBtn.selected {
+      color: var(--text-on-primary);
     }
 
     .themeOption {
@@ -1181,6 +1577,10 @@
     .themeOption.selected .themeCircle {
       border-color: white;
       box-shadow: 0 0 20px currentColor;
+    }
+    
+    body.light-mode .themeOption.selected .themeCircle {
+      border-color: #000;
     }
 
     .themeName {
@@ -1389,14 +1789,11 @@
       max-width: 300px;
       z-index: 999;
       border: 2px solid var(--primary-light);
-      /* v1.3 - Animation is now applied when .show is added */
-      /* animation: slideInFromRight 0.5s ease-out; */
       display: none;
     }
 
     #settingsNotification.show {
       display: block;
-      /* v1.3 - Apply animation when shown */
       animation: slideInFromRight 0.5s ease-out;
     }
 
@@ -1470,6 +1867,10 @@
       transition: all 0.3s;
       margin-bottom: 8px;
     }
+    
+    body:not(.gradient-mode) #settingsNotification button {
+      color: var(--text-on-primary);
+    }
 
     #settingsNotification button:hover {
       background: var(--primary);
@@ -1480,51 +1881,139 @@
       background: #555;
       margin-bottom: 0;
     }
+    
+    body:not(.gradient-mode) #settingsNotification .dismissBtn {
+      color: white;
+    }
 
     #settingsNotification .dismissBtn:hover {
       background: #666;
     }
+    
+    /* v1.4 General Notification Styles */
+    .notification-pop {
+      display: none; /* Hidden by default */
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--card-dark);
+      color: var(--text-light);
+      padding: 20px 25px;
+      border-radius: 16px;
+      box-shadow: var(--glow);
+      max-width: 300px;
+      z-index: 999;
+      border: 2px solid var(--primary-light);
+    }
+    .notification-pop.show {
+      display: block;
+      animation: slideInFromRight 0.5s ease-out;
+    }
+    .notification-pop.hiding {
+      animation: slideOutToRight 0.5s ease-out;
+    }
+    .notification-pop h4 {
+      margin: 0 0 10px 0;
+      color: var(--primary-light);
+      font-size: 1.2em;
+    }
+    .notification-pop p {
+      margin: 0 0 15px 0;
+      line-height: 1.5;
+      font-size: 0.95em;
+    }
+    .notification-pop .dismissBtn {
+      width: 100%;
+      background: #555;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1em;
+      transition: all 0.3s;
+      margin-bottom: 0;
+    }
+    .notification-pop .dismissBtn:hover {
+      background: #666;
+    }
+    /* Light mode */
+    body.light-mode .notification-pop {
+      background: #ffffff;
+      color: #333;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode .notification-pop h4 {
+      color: var(--primary);
+    }
+    body.light-mode .notification-pop p {
+      color: #333;
+    }
+    body.light-mode .notification-pop .dismissBtn {
+      background: #777;
+    }
+    body.light-mode .notification-pop .dismissBtn:hover {
+      background: #888;
+    }
+    /* Gradient mode */
+    body.gradient-mode .notification-pop {
+      border-color: var(--primary-light);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+      background-size: 200% 200% !important;
+      animation: gradientShift5 8s ease infinite, slideInFromRight 0.5s ease-out;
+    }
+    body.gradient-mode .notification-pop.hiding {
+        animation: gradientShift5 8s ease infinite, slideOutToRight 0.5s ease-out;
+    }
+    body.gradient-mode .notification-pop h4,
+    body.gradient-mode .notification-pop p {
+        color: white;
+    }
+    body.gradient-mode.light-mode .notification-pop {
+        background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
+        animation: gradientShift5 8s ease infinite, slideInFromRight 0.5s ease-out;
+    }
+    body.gradient-mode.light-mode .notification-pop.hiding {
+        animation: gradientShift5 8s ease infinite, slideOutToRight 0.5s ease-out;
+    }
+    body.gradient-mode.light-mode .notification-pop h4,
+    body.gradient-mode.light-mode .notification-pop p {
+        color: #2c2c2c;
+    }
 
     @media (max-width: 600px) {
-      #settingsNotification {
+      #settingsNotification, .notification-pop {
         bottom: 20px;
         right: 20px;
         left: 20px;
         max-width: none;
       }
       
-      /* v1.4 - Adjust cookie bar for mobile */
       #bottomBar {
         left: 0;
         right: 0;
-        bottom: -200px; /* v1.4 - Match hidden state */
+        bottom: -200px;
         padding: 15px;
-        border-radius: 0; /* v1.4 - Full width */
+        border-radius: 0;
       }
       
       #bottomBar.show {
         bottom: 0;
       }
-      
-      #closeBottomBar {
-        font-size: 1.2em;
-        padding: 5px;
-      }
     }
     
-    /* v1.4 - Styles for new Bottom Bar (Cookie Bar style) */
     #bottomBar {
       position: fixed;
       bottom: -200px; /* Start off-screen */
-      left: 0; /* v1.4 - Full width */
-      right: 0; /* v1.4 - Full width */
+      left: 0;
+      right: 0;
       z-index: 998;
-      background: var(--bg-dark); /* v1.3 - Blend with background */
+      background: var(--bg-dark);
       color: var(--text-light);
-      padding: 20px 30px; /* v1.4 - Adjusted padding */
-      border-radius: 16px 16px 0 0; /* v1.4 - Rounded top corners */
-      /* v1.3 - Removed glow to blend */
-      /* box-shadow: var(--glow); */
+      padding: 20px 30px;
+      border-radius: 16px 16px 0 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1546,13 +2035,22 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s;
-      padding: 0 5px;
       line-height: 1;
+      /* v1.4 Centering */
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1.1; /* v1.4 centering tweak */
     }
     
     #closeBottomBar:hover {
       opacity: 1;
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(90deg);
+      background: rgba(255, 255, 255, 0.1);
     }
     
     body.gradient-mode #closeBottomBar {
@@ -1587,7 +2085,8 @@
   <div id="timer"></div>
 
   <div class="mainButtons">
-    <button class="mainBtn" id="scheduleBtn" onclick="toggleSchedule()">View Full Schedule</button>
+    <button class="mainBtn" id="scheduleBtn" onclick="toggleSchedule()">View Today's Schedule</button>
+    <button class="mainBtn" onclick="toggleWeekSchedule()">View Week's Schedule</button>
     <button class="mainBtn" onclick="toggleHolidays()">Upcoming Holidays</button>
   </div>
 
@@ -1596,6 +2095,14 @@
       <button id="closeBtn" onclick="closeOverlayGracefully('scheduleOverlay')">×</button>
       <h2>Today's Schedule</h2>
       <div id="schedule"></div>
+    </div>
+  </div>
+
+  <div id="weekOverlay" class="overlay" onclick="closeWeekScheduleOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="closeOverlayGracefully('weekOverlay')">×</button>
+      <h2>This Week's Schedule</h2>
+      <div id="weekSchedule"></div>
     </div>
   </div>
 
@@ -1636,7 +2143,6 @@
       <div class="settingsRow">
         <button class="mainBtn disabledBtn" disabled>Classes (Coming Soon)</button>
       </div>
-      <!-- v1.3 Added Pack Up Reminder Button -->
       <div class="settingsRow">
         <button class="mainBtn disabledBtn" disabled>Pack Up Reminder (Coming Soon)</button>
       </div>
@@ -1649,8 +2155,7 @@
       <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')">×</button>
       <h2>About</h2>
       <div class="infoContent">
-        <!-- v1.3 Updated Version Badge -->
-        <div class="versionBadge">Version 1.3</div>
+        <div class="versionBadge">Version 1.4</div>
         
         <h3>Created By</h3>
         <p>Sanchit P.</p>
@@ -1796,10 +2301,15 @@
     <button class="dismissBtn" onclick="dismissNotification()">Dismiss</button>
   </div>
 
-  <!-- v1.3 Added Bottom Bar -->
   <div id="bottomBar">
     <p>Made by Sanchit P. • Inspired by Rudy P.</p>
     <button id="closeBottomBar" onclick="closeBottomBar()">×</button>
+  </div>
+  
+  <div id="generalNotification" class="notification-pop">
+    <h4 id="notificationTitle"></h4>
+    <p id="notificationMessage"></p>
+    <button class="dismissBtn" onclick="dismissGeneralNotification()">Dismiss</button>
   </div>
 
   <script>
@@ -1817,9 +2327,73 @@
     let gradientMode = 'on';
     let confirmCallback = null;
     let currentHolidayMessage = null;
-    // v1.3 - Add state for after school message
     let currentAfterSchoolMessage = null;
     let lastMessageDay = null;
+    let currentNotificationId = null;
+    
+    // v1.4 Holiday List (for reset logic and countdown)
+    const holidays = [
+      { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025" },
+      { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025" },
+      { name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025" },
+      { name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025" },
+      { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-28, 2025" },
+      { name: "Winter Break", date: new Date(2025, 11, 22), displayDate: "December 22, 2025 - January 2, 2026" },
+      { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026" },
+      { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-13, 2026" },
+      { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026" },
+      { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026" },
+      { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026" },
+      { name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026" },
+      { name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026" },
+      { name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026" }
+    ];
+    
+    // v1.4 Function to update rolling timers
+    function updateRollingText(element, newText) {
+        let oldText = element.dataset.previousText || element.textContent;
+        
+        if (oldText === newText) {
+            return; // No change
+        }
+
+        // If it's not a timer (e.g., "Homework Time!"), just update
+        if (!newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
+             if (oldText !== newText) element.textContent = newText;
+             element.dataset.previousText = newText;
+             return;
+        }
+
+        element.dataset.previousText = newText;
+        
+        let html = '';
+        let newChars = newText.split('');
+        let oldChars = oldText.split('');
+        
+        let len = Math.max(newChars.length, oldChars.length);
+
+        for (let i = 0; i < len; i++) {
+            let newChar = newChars[i] || '';
+            let oldChar = oldChars[i] || '';
+
+            if (newChar === oldChar) {
+                html += `<span class="static-char">${newChar}</span>`;
+            } else {
+                // Estimate width
+                let width = '0.6em'; // Default for numbers
+                if (newChar === ':' || newChar === '.') width = '0.3em';
+                if (newChar === ' ') width = '0.2em';
+                if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
+
+                html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
+                html += `<span class="old">${oldChar}</span>`;
+                html += `<span class="new">${newChar}</span>`;
+                html += `</span>`;
+            }
+        }
+        element.innerHTML = html;
+    }
+
     
     function showConfirm(title, message, callback) {
       document.getElementById('confirmTitle').textContent = title;
@@ -1976,7 +2550,7 @@
         () => {
           currentTheme = 'purple';
           currentMode = 'dark';
-          gradientMode = 'off';
+          gradientMode = 'on'; // v1.4 - Default gradient is ON
           applyTheme();
           applyMode();
           applyGradient();
@@ -1984,7 +2558,7 @@
           try {
             localStorage.setItem('theme', 'purple');
             localStorage.setItem('mode', 'dark');
-            localStorage.setItem('gradient', 'off');
+            localStorage.setItem('gradient', 'on');
           } catch (error) {
             console.error('Failed to save theme:', error);
           }
@@ -2033,7 +2607,7 @@
           // Reset theme
           currentTheme = 'purple';
           currentMode = 'dark';
-          gradientMode = 'off';
+          gradientMode = 'on'; // v1.4 - Default gradient is ON
           applyTheme();
           applyMode();
           applyGradient();
@@ -2053,8 +2627,13 @@
             localStorage.removeItem('mode');
             localStorage.removeItem('gradient');
             localStorage.removeItem('lunch-preferences');
-            localStorage.removeItem('has-opened-settings'); // v1.3 - also reset notification
-            localStorage.removeItem('bottom-bar-dismissed'); // v1.3 - also reset bottom bar
+            localStorage.removeItem('has-opened-settings');
+            localStorage.removeItem('bottom-bar-dismissed');
+            // v1.4 - Clear notification flags
+            localStorage.removeItem('semester-reset-2026');
+            localStorage.removeItem('notify-sem-2026');
+            localStorage.removeItem('notify-q3-2026');
+            
             const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
             days.forEach(day => {
               localStorage.removeItem(`lunch-set-${day}`);
@@ -2069,7 +2648,6 @@
           updateGradientSelection();
           render();
           
-          // v1.3 - Reshow notifications after reset
           checkSettingsNotification();
           checkBottomBar();
         }
@@ -2116,7 +2694,7 @@
     }
 
     function saveWelcomeLunch() {
-      const today = dayName();
+      const today = currentDayName();
       if (today === 'Wednesday') {
         lunchPreferences[today] = 'All';
       } else {
@@ -2136,7 +2714,7 @@
     }
 
     function checkIfNeedsLunchSelection() {
-      const today = dayName();
+      const today = currentDayName();
       
       // Wednesday always has all-school lunch, no need to ask
       if (today === 'Wednesday') {
@@ -2174,9 +2752,68 @@
       
       return false;
     }
+    
+    // v1.4 Semester Lunch Reset Check
+    function checkSemesterReset() {
+      try {
+        // Find the last day of school to determine the current school year
+        const lastDay = holidays.find(h => h.name === "Last Day of School");
+        if (!lastDay) return; // Can't determine school year
+        
+        const schoolYearEnd = lastDay.date;
+        const schoolYear = schoolYearEnd.getFullYear(); // e.g., 2026
+        
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth(); // 0 = Jan
+        const currentDate = now.getDate(); // 1-31
+
+        // Reset date is Jan 24.
+        // If school year ends in 2026, the reset date is Jan 24, 2026.
+        const resetYear = schoolYear; 
+        const resetMonth = 0; // January
+        const resetDate = 24;
+        
+        // Check if today is the reset date for the *current* school year
+        if (currentYear === resetYear && currentMonth === resetMonth && currentDate === resetDate) {
+          const resetFlag = `semester-reset-${resetYear}`;
+          const hasReset = localStorage.getItem(resetFlag);
+          
+          if (!hasReset) {
+            // Perform the reset
+            
+            // 1. Clear lunch preferences
+            lunchPreferences = {
+              Monday: null,
+              Tuesday: null,
+              Wednesday: 'All',
+              Thursday: null,
+              Friday: null
+            };
+            localStorage.removeItem('lunch-preferences');
+            
+            // 2. Clear all 'lunch-set' keys
+            const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
+            days.forEach(day => {
+              localStorage.removeItem(`lunch-set-${day}`);
+            });
+            
+            // 3. Set the flag so it doesn't run again this year
+            localStorage.setItem(resetFlag, 'true');
+            
+            // 4. Force welcome overlay to show (will be triggered by checkIfNeedsLunchSelection)
+            // This function runs before loadLunchPreferences, so the cleared prefs
+            // will be loaded, and then checkIfNeedsLunchSelection will trigger the popup.
+          }
+        }
+      } catch (error) {
+        console.error('Error during semester reset check:', error);
+      }
+    }
 
     // Initialize app
     function initApp() {
+      checkSemesterReset(); // v1.4 - Run this first
       loadTheme();
       loadLunchPreferences();
       const needsLunch = checkIfNeedsLunchSelection();
@@ -2186,44 +2823,119 @@
       setInterval(render, 1000);
       setInterval(updateHolidayCountdown, 1000);
       
-      // Show settings notification if user hasn't opened settings before
       checkSettingsNotification();
-      
-      // v1.3 - Show bottom bar
+      checkAnnualNotifications(); // v1.4 - Add this
       checkBottomBar();
+      
+      // v1.4 - Check notifications periodically
+      setInterval(checkAnnualNotifications, 60 * 1000); // Check every minute
     }
 
-    // v1.3 - New function to show bottom bar
     function checkBottomBar() {
       setTimeout(() => {
         document.getElementById('bottomBar').classList.add('show');
       }, 1500);
-  }
+    }
 
 
-    // v1.3 - New function to close bottom bar
     function closeBottomBar() {
       document.getElementById('bottomBar').classList.remove('show');
-      try {
-        // localStorage.setItem('bottom-bar-dismissed', 'true');
-      } catch (error) {
-        console.error('Failed to save bottom bar status:', error);
-      }
     }
 
     function checkSettingsNotification() {
       try {
         const hasOpenedSettings = localStorage.getItem('has-opened-settings');
         if (!hasOpenedSettings) {
-          // v1.3 - Show notification after 5 seconds
           setTimeout(() => {
-            document.getElementById('settingsNotification').classList.add('show');
+            // v1.4 - Don't show if another notification is already up
+            if (!document.getElementById('generalNotification').classList.contains('show')) {
+              document.getElementById('settingsNotification').classList.add('show');
+            }
           }, 5000);
         }
       } catch (error) {
         console.log('Could not check settings notification status');
       }
     }
+    
+    // v1.4 General Notifications
+    function checkAnnualNotifications() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth(); // 0 = Jan, 3 = Apr
+      const date = now.getDate();
+      
+      let notification = null;
+      
+      // Jan 23: Semester ending
+      if (month === 0 && date === 23) {
+        notification = {
+          id: `notify-sem-${year}`,
+          title: "🔔 Heads Up!",
+          message: "The semester is ending soon. Good luck on finals!"
+        };
+      }
+      
+      // Apr 3: Quarter 3 ending
+      if (month === 3 && date === 3) {
+        notification = {
+          id: `notify-q3-${year}`,
+          title: "🔔 Heads Up!",
+          message: "Quarter 3 is ending soon. Finish strong!"
+        };
+      }
+      
+      if (notification) {
+        try {
+          const hasSeen = localStorage.getItem(notification.id);
+          if (!hasSeen) {
+            // Show notification, but only if school is not over
+            const schedules = getSchedules(new Date());
+            const today = schedules[currentDayName()];
+            if (today && today.length > 0) {
+                const lastPeriod = today[today.length - 1];
+                const nowMins = minutesNow();
+                if (nowMins < lastPeriod.end) {
+                     showGeneralNotification(notification.id, notification.title, notification.message);
+                }
+            }
+          }
+        } catch (error) {
+          console.error('Failed to check notification status:', error);
+        }
+      }
+    }
+    
+    function showGeneralNotification(id, title, message) {
+      // Don't show if settings notification is already up
+      if (document.getElementById('settingsNotification').classList.contains('show')) {
+        return;
+      }
+      
+      currentNotificationId = id;
+      document.getElementById('notificationTitle').textContent = title;
+      document.getElementById('notificationMessage').textContent = message;
+      document.getElementById('generalNotification').classList.add('show');
+    }
+    
+    function dismissGeneralNotification() {
+      const notification = document.getElementById('generalNotification');
+      notification.classList.add('hiding');
+      setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.remove('hiding');
+      }, 500);
+      
+      if (currentNotificationId) {
+        try {
+          localStorage.setItem(currentNotificationId, 'true');
+        } catch (error) {
+          console.error('Failed to save notification status:', error);
+        }
+        currentNotificationId = null;
+      }
+    }
+    // End v1.4 Notifications
 
     function dismissNotification() {
       const notification = document.getElementById('settingsNotification');
@@ -2259,8 +2971,8 @@
       } else {
         overlay.classList.add('active');
         // Generate new message if opening and it's a holiday
-        const schedules = getSchedules();
-        const today = schedules[dayName()];
+        const schedules = getSchedules(new Date());
+        const today = schedules[currentDayName()];
         if (!today || today.length === 0) {
           const funMessages = [
             "Have fun!",
@@ -2282,6 +2994,16 @@
             </div>
           `;
         }
+      }
+    }
+    
+    function toggleWeekSchedule() {
+      const overlay = document.getElementById('weekOverlay');
+      if (overlay.classList.contains('active')) {
+        closeOverlayGracefully('weekOverlay');
+      } else {
+        overlay.classList.add('active');
+        updateWeekSchedule();
       }
     }
 
@@ -2357,74 +3079,80 @@
 
     function closeOverlay(event) {
       if (event.target === document.getElementById('scheduleOverlay')) {
-        toggleSchedule();
+        closeOverlayGracefully('scheduleOverlay');
+      }
+    }
+    
+    function closeWeekScheduleOverlay(event) {
+      if (event.target === document.getElementById('weekOverlay')) {
+        closeOverlayGracefully('weekOverlay');
       }
     }
 
     function closeHolidaysOverlay(event) {
       if (event.target === document.getElementById('holidaysOverlay')) {
-        toggleHolidays();
+        closeOverlayGracefully('holidaysOverlay');
       }
     }
 
     function closeSettingsOverlay(event) {
       if (event.target === document.getElementById('settingsOverlay')) {
-        toggleSettings();
+        closeOverlayGracefully('settingsOverlay');
       }
     }
 
     function closeInfoOverlay(event) {
       if (event.target === document.getElementById('infoOverlay')) {
-        toggleInfo();
+        closeOverlayGracefully('infoOverlay');
       }
     }
 
     function closeLunchSettingsOverlay(event) {
       if (event.target === document.getElementById('lunchSettingsOverlay')) {
-        toggleLunchSettings();
+        closeOverlayGracefully('lunchSettingsOverlay');
       }
     }
 
     // Check if current date is Veterans Day week (Nov 10-14, 2025)
-    function isVeteransWeek() {
-      const now = new Date();
+    function isVeteransWeek(date) {
+      const now = date;
       const year = now.getFullYear();
       const month = now.getMonth();
-      const date = now.getDate();
+      const day = now.getDate();
       
       // November 2025, dates 10-14
-      return year === 2025 && month === 10 && date >= 10 && date <= 14;
+      return year === 2025 && month === 10 && day >= 10 && day <= 14;
     }
 
     // Check if current date is Thanksgiving week (Nov 24-28, 2025)
-    function isThanksgivingWeek() {
-      const now = new Date();
+    function isThanksgivingWeek(date) {
+      const now = date;
       const year = now.getFullYear();
       const month = now.getMonth();
-      const date = now.getDate();
+      const day = now.getDate();
       
       // November 2025, dates 24-28
-      return year === 2025 && month === 10 && date >= 24 && date <= 28;
+      return year === 2025 && month === 10 && day >= 24 && day <= 28;
     }
 
     // Check if current date is MLK Jr. Day / Finals week (Jan 19-23, 2026)
-    function isFinalsWeek() {
-      const now = new Date();
+    function isFinalsWeek(date) {
+      const now = date;
       const year = now.getFullYear();
       const month = now.getMonth();
-      const date = now.getDate();
+      const day = now.getDate();
       
       // January 2026, dates 19-23
-      return year === 2026 && month === 0 && date >= 19 && date <= 23;
+      return year === 2026 && month === 0 && day >= 19 && day <= 23;
     }
 
     // Bell schedule (simplified times in minutes after midnight)
-    function getSchedules() {
-      const today = dayName();
+    function getSchedules(date) {
+      const today = getDayNameFromDate(date);
       const lunch = lunchPreferences[today] || 'A';
       
       // Finals week special schedule (Jan 19-23, 2026)
-      if (isFinalsWeek()) {
+      if (isFinalsWeek(date)) {
         return {
           Monday: [], // No school - MLK Jr. Day
           Tuesday: [
@@ -2445,7 +3173,6 @@
             { name:"Period 3", start: 10*60+5, end: 11*60+25 },
             { name:"Period 5", start: 11*60+35, end: 12*60+55 },
             { name:"Lunch", start: 13*60, end: 13*60+30 },
-            { name:"LEAP", start: 13*60+30, end: 15*60+15 }
           ],
           Thursday: [
             { name:"Period 2", start: 8*60+35, end: 9*60+55 },
@@ -2477,7 +3204,7 @@
       }
       
       // Thanksgiving week special schedule (Nov 24-28, 2025)
-      if (isThanksgivingWeek()) {
+      if (isThanksgivingWeek(date)) {
         return {
           Monday: [
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
@@ -2523,7 +3250,7 @@
       }
       
       // Veterans Day week special schedule (Nov 10-14, 2025)
-      if (isVeteransWeek()) {
+      if (isVeteransWeek(date)) {
         return {
           Monday: [
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
@@ -2548,7 +3275,6 @@
             { name:"Period 5", start: 11*60+31, end: 12*60+8 },
             { name:"Period 6", start: 12*60+15, end: 12*60+52 },
             { name:"Lunch", start: 12*60+52, end: 13*60+30 },
-            { name:"LEAP", start: 13*60+30, end: 15*60+15 }
           ],
           Thursday: [
             { name:"Period 1", start: 8*60+35, end: 9*60+30 },
@@ -2597,23 +3323,25 @@
           { name:"Period 5", start: 13*60, end: 14*60+20 },
           { name:"Period 6", start: 14*60+30, end: 15*60+15 }
         ],
-        Tuesday: [
-          { name:"Period 1", start: 8*60+35, end: 9*60+20 },
-          { name:"Period 2", start: 9*60+30, end: 10*60+50 },
+        Tuesday: [ // v1.4 - Tuesday P4 Override
+          { name:"Period 1", start: 8*60+35, end: 9*60+20 }, // 8:35 - 9:20
+          { name:"Period 2", start: 9*60+30, end: 10*60+50 }, // 9:30 - 10:50
           ...(lunch === 'A' ? [
-            { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
-            { name:"Period 4", start: 11*60+30, end: 12*60+50 }
+            { name:"A Lunch", start: 10*60+50, end: 11*60+20 }, // 10:50 - 11:20
+            { name:"Period 4 (Part 1)", start: 11*60+30, end: 12*60+50 }, // 11:30 - 12:50
           ] : [
-            { name:"Period 4", start: 11*60, end: 12*60+20 },
-            { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+            { name:"Period 4 (Part 1)", start: 11*60, end: 12*60+20 }, // 11:00 - 12:20
+            { name:"B Lunch", start: 12*60+20, end: 12*60+50 }, // 12:20 - 12:50
           ]),
-          { name:"Period 6", start: 13*60+55, end: 15*60+15 }
+          { name:"Break", start: 12*60+50, end: 13*60 }, // 12:50 - 1:00
+          { name:"Period 4 (Part 2)", start: 13*60, end: 13*60+45 }, // 1:00 - 1:45
+          { name:"Period 6", start: 13*60+55, end: 15*60+15 } // 1:55 - 3:15
         ],
         Wednesday: [
           { name:"Period 1", start: 8*60+35, end: 9*60+55 },
           { name:"Period 3", start: 10*60+5, end: 11*60+25 },
+          { name:"Period 5", start: 11*60+35, end: 12*60+55 },
           { name:"Lunch", start: 13*60, end: 13*60+30 },
-          { name:"LEAP", start: 13*60+30, end: 15*60+15 }
         ],
         Thursday: [
           { name:"Period 2", start: 8*60+35, end: 9*60+55 },
@@ -2645,8 +3373,12 @@
       };
     }
 
-    function dayName() {
-      return new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    function getDayNameFromDate(date) {
+      return date.toLocaleDateString('en-US', { weekday: 'long' });
+    }
+
+    function currentDayName() {
+      return getDayNameFromDate(new Date());
     }
 
     function minutesNow() {
@@ -2677,9 +3409,7 @@
       return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')} ${ampm}`;
     }
 
-    // v1.3 - New function to correctly format countdowns
     function formatCountdown(totalMinutes, totalSeconds) {
-      // Handle the 60 seconds -> 0 seconds, +1 minute case
       if (totalSeconds === 60) {
         totalMinutes += 1;
         totalSeconds = 0;
@@ -2690,29 +3420,11 @@
       const s = totalSeconds;
 
       if (h > 0) {
-        return `${h.toString()}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        return `${h.toString()} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
       } else {
-        // Don't show 00: for hours if less than 1 hour
-        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        return `${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
       }
     }
-
-    const holidays = [
-      { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025" },
-      { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025" },
-      { name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025" },
-      { name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025" },
-      { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-28, 2025" },
-      { name: "Winter Break", date: new Date(2025, 11, 22), displayDate: "December 22, 2025 - January 2, 2026" },
-      { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026" },
-      { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-13, 2026" },
-      { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026" },
-      { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026" },
-      { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026" },
-      { name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026" },
-      { name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026" },
-      { name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026" }
-    ];
 
     function updateHolidayTable() {
       const now = new Date();
@@ -2735,10 +3447,121 @@
       
       tbody.innerHTML = html;
     }
+    
+    function getHolidayForDate(date) {
+      const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+
+      for (const holiday of holidays) {
+        const holidayTime = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate()).getTime();
+
+        // Check for single-day holiday
+        if (checkTime === holidayTime) {
+          return holiday.name;
+        }
+
+        // Check for multi-day breaks
+        // Thanksgiving Break
+        if (holiday.name === "Thanksgiving Break") {
+            const start = holidayTime;
+            const end = new Date(2025, 10, 28).getTime();
+            if (checkTime >= start && checkTime <= end) return holiday.name;
+        }
+        // Winter Break
+        if (holiday.name === "Winter Break") {
+            const start = holidayTime;
+            const end = new Date(2026, 0, 2).getTime();
+            if (checkTime >= start && checkTime <= end) return holiday.name;
+        }
+        // Mid-Winter Break
+        if (holiday.name === "Mid-Winter Break") {
+            const start = holidayTime;
+            const end = new Date(2026, 1, 13).getTime();
+            if (checkTime >= start && checkTime <= end) return holiday.name;
+        }
+        // Spring Break
+        if (holiday.name === "Spring Break") {
+            const start = holidayTime;
+            const end = new Date(2026, 3, 17).getTime();
+            if (checkTime >= start && checkTime <= end) return holiday.name;
+        }
+      }
+      return null; // No holiday found
+    }
+    
+    function updateWeekSchedule() {
+      const scheduleEl = document.getElementById('weekSchedule');
+      let html = `<table class="weekTable">
+                    <thead>
+                      <tr>
+                        <th>Day</th>
+                        <th>Schedule</th>
+                      </tr>
+                    </thead>
+                    <tbody>`;
+      
+      const now = new Date();
+      const currentDayOfWeek = now.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+      const monday = new Date(now);
+      const diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Get to Monday
+      monday.setDate(now.getDate() + diff);
+      
+      const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      
+      for (let i = 0; i < 5; i++) {
+        const dayDate = new Date(monday);
+        dayDate.setDate(monday.getDate() + i);
+        
+        const dayNameStr = weekDays[i];
+        const holidayName = getHolidayForDate(dayDate);
+        
+        let summary = '';
+        
+        if (holidayName) {
+          summary = holidayName;
+        } else {
+          const schedules = getSchedules(dayDate);
+          const schedule = schedules[dayNameStr];
+        
+          if (!schedule || schedule.length === 0) {
+            summary = 'No School';
+          } else {
+            let names = schedule.map(p => p.name);
+            // Filter out breaks
+            names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
+            
+            const simplifiedNames = names.map(n => {
+              if (n.startsWith("Period 1")) return "1";
+              if (n.startsWith("Period 2")) return "2";
+              if (n.startsWith("Period 3")) return "3";
+              if (n.startsWith("Period 4")) return "4";
+              if (n.startsWith("Period 5")) return "5";
+              if (n.startsWith("Period 6")) return "6";
+              if (n.includes("Lunch")) return "Lunch";
+              if (n.includes("Homeroom")) return "HR";
+              // LEAP removed as requested
+              if (n === "Breakfast Served - No Lunch") return "Min. Day";
+              return n;
+            });
+          
+            const uniqueNames = [...new Set(simplifiedNames)];
+            summary = uniqueNames.join(', ');
+          }
+        }
+        
+        html += `<tr>
+                  <td>${dayNameStr}</td>
+                  <td>${summary}</td>
+                </tr>`;
+      }
+      
+      html += '</tbody></table>';
+      scheduleEl.innerHTML = html;
+    }
 
     function updateHolidayCountdown() {
       const now = new Date();
       const upcoming = holidays.find(h => h.date > now);
+      const countdownEl = document.getElementById('holidayCountdownTime');
       
       if (upcoming) {
         const diff = upcoming.date - now;
@@ -2748,35 +3571,35 @@
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         
         document.getElementById('holidayCountdownLabel').innerHTML = `NEXT HOLIDAY - ${upcoming.name}`;
-        document.getElementById('holidayCountdownTime').innerHTML = 
-          `${days}d ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+        updateRollingText(countdownEl, 
+          `${days} d ${hours.toString().padStart(2,'0')} h ${minutes.toString().padStart(2,'0')} m ${seconds.toString().padStart(2,'0')} s`);
       } else {
         document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';
-        document.getElementById('holidayCountdownTime').innerHTML = 'End of school year';
+        updateRollingText(countdownEl, 'End of school year');
       }
       
       updateHolidayTable();
     }
 
     function render() {
-      const schedules = getSchedules();
-      const today = schedules[dayName()];
+      const schedules = getSchedules(new Date());
+      const today = schedules[currentDayName()];
+      const clockDisplay = document.getElementById('clockDisplay');
       
-      // Update schedule button text based on whether it's a school day
       const scheduleBtn = document.getElementById('scheduleBtn');
       if (!today || today.length === 0) {
         scheduleBtn.textContent = 'Holiday Today';
       } else {
-        scheduleBtn.textContent = 'View Full Schedule';
+        scheduleBtn.textContent = "View Today's Schedule";
       }
       
       if (!today || today.length === 0) {
-        document.getElementById('clockDisplay').innerHTML = "--:--:--";
+        updateRollingText(clockDisplay, "--:--:--");
+        clockDisplay.style.fontSize = ''; // v1.4 Reset font size
         document.getElementById('clockLabel').innerHTML = "NO SCHOOL TODAY";
         document.getElementById('timer').innerHTML = "Enjoy your day off!";
         document.getElementById('timer').classList.remove('hidden');
         
-        // Only update schedule modal if there's a current message (window is open)
         if (currentHolidayMessage) {
           document.getElementById('schedule').innerHTML = `
             <div class="noSchoolMessage">
@@ -2794,9 +3617,7 @@
       let current = null;
       let next = null;
       
-      // v1.4 - Reset font size in case it was changed by after-school message
-      // v1.3 - Clear inline style to allow CSS clamp() to work
-      document.getElementById('clockDisplay').style.fontSize = "";
+      clockDisplay.style.fontSize = ''; // v1.4 Reset font size override
 
       for (let i=0; i<today.length; i++) {
         const p = today[i];
@@ -2826,13 +3647,11 @@
 
       document.getElementById('schedule').innerHTML = html;
 
-      // v1.3 - Reworked logic for current/before/after school
       if (current) {
         const remainingMinutes = current.end - now - 1;
         const remainingSeconds = 60 - secs;
         
-        // v1.3 - Use new formatCountdown function
-        document.getElementById('clockDisplay').innerHTML = formatCountdown(remainingMinutes, remainingSeconds);
+        updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
         document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;
         
         const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
@@ -2841,23 +3660,20 @@
         document.getElementById('timer').classList.remove('hidden');
         
       } else {
-        // Not in a period. Check if before or after school.
         const firstPeriod = today[0];
         const lastPeriod = today[today.length - 1];
         
         if (now < firstPeriod.start) {
-          // v1.3 - Before school
           const remainingMinutes = firstPeriod.start - now - 1;
           const remainingSeconds = 60 - secs;
           
-          document.getElementById('clockDisplay').innerHTML = formatCountdown(remainingMinutes, remainingSeconds);
+          updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
           document.getElementById('clockLabel').innerHTML = "UNTIL SCHOOL STARTS";
           document.getElementById('timer').innerHTML = 
             `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
           document.getElementById('timer').classList.remove('hidden');
           
         } else if (now >= lastPeriod.end) {
-          // v1.3 - After school
           const todayStr = new Date().toDateString();
           if (currentAfterSchoolMessage === null || lastMessageDay !== todayStr) {
             const homeworkMessages = [
@@ -2870,15 +3686,15 @@
             currentAfterSchoolMessage = homeworkMessages[Math.floor(Math.random() * homeworkMessages.length)];
             lastMessageDay = todayStr;
           }
-          document.getElementById('clockDisplay').innerHTML = currentAfterSchoolMessage;
-          document.getElementById('clockDisplay').style.fontSize = "3.5em"; // Adjust font size for longer text
+          updateRollingText(clockDisplay, currentAfterSchoolMessage);
+          // v1.4 Make HW text responsive
+          clockDisplay.style.fontSize = "clamp(2.0em, 8vw, 3.5em)";
           document.getElementById('clockLabel').innerHTML = "SCHOOL IS OVER";
           document.getElementById('timer').innerHTML = "See you tomorrow!";
           document.getElementById('timer').classList.remove('hidden');
           
         } else {
-          // In-between periods, but not caught by passing period logic (should be rare)
-          document.getElementById('clockDisplay').innerHTML = "--:--:--";
+          updateRollingText(clockDisplay, "--:--:--");
           document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
           document.getElementById('timer').classList.add('hidden');
         }
