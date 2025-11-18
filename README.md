@@ -1,6 +1,6 @@
 # LW Schedule
 
-**Version:** v1.3 (Current Release)  
+**Version:** v1.4 (Current Release)  
 **Link:** [LW Schedule](https://lwschedule.github.io/)
 
 ---
@@ -32,13 +32,8 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 
 ## Upcoming Features
 
-- Fix Light Mode
-- Fix ALL circle buttons emojis and text to make sure they are centered on the button, so when they spin for animation they don't move to side
-- All timers in all windows should be rolling displays (old number moves up and fades, and new number comes up from bottom and fades in)
-- Lunches should reset when semester changes (Jan 24)
-- Focus on HW type text should be autosized exactly like the main timer
-- Period 4 on tuesdays (normal schedule), should be 11:30-12:50, then 10 min break, and then continue with period 4 1:00-1:45
-- Notification on Jan 23 for semester ending, notification on quarter 3 ending (apr 3)
+- Add spaces between each unit of time in upcoming holidays
+- After school will now count down to the next school day, but will still display the motivational messages
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
@@ -54,4 +49,4 @@ MIT License
 
 ---
 
-**v1.3 – Current Release**
+**v1.4 – Current Release**
