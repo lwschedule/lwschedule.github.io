@@ -38,7 +38,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 - Lunches should reset when semester changes (Jan 24)
 - Focus on HW type text should be autosized exactly like the main timer
 - Period 4 on tuesdays (normal schedule), should be 11:30-12:50, then 10 min break, and then continue with period 4 1:00-1:45
-- Notification on Jan 23 for semester ending, notification on 
+- Notification on Jan 23 for semester ending, notification on quarter 3 ending (apr 3)
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
 - **Room Numbers** – See the classroom for every period
