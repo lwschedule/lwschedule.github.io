@@ -2112,7 +2112,8 @@
       <h2>Upcoming Holidays 2025-26</h2>
       <div id="holidayCountdown">
         <div id="holidayCountdownLabel">NEXT HOLIDAY</div>
-        <div id="holidayCountdownTime">--d --h --m --s</div>
+        <!-- CHANGE: Added more spacing for readability -->
+        <div id="holidayCountdownTime">--d&nbsp;&nbsp;&nbsp;--h&nbsp;&nbsp;&nbsp;--m&nbsp;&nbsp;&nbsp;--s</div>
       </div>
       <div id="holidays">
         <table class="holidayTable">
@@ -3448,6 +3449,62 @@
       tbody.innerHTML = html;
     }
     
+    // ADDED: Helper function to find the start of the next school day
+    function getNextSchoolDayStartTime() {
+      let nextDay = new Date();
+      nextDay.setDate(nextDay.getDate() + 1);
+      nextDay.setHours(0, 0, 0, 0); // Start of tomorrow
+
+      for (let i = 0; i < 14; i++) { // Check up to 2 weeks
+        const dayName = getDayNameFromDate(nextDay);
+        const holiday = getHolidayForDate(nextDay);
+        
+        if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
+          const schedules = getSchedules(nextDay);
+          const schedule = schedules[dayName];
+          if (schedule && schedule.length > 0) {
+            const firstPeriod = schedule[0];
+            const startTime = new Date(nextDay);
+            startTime.setMinutes(firstPeriod.start);
+            return startTime;
+          }
+        }
+        
+        // Not a school day, check next day
+        nextDay.setDate(nextDay.getDate() + 1);
+      }
+      return null; // Couldn't find next school day
+    }
+
+    // ADDED: Helper function to find the end of the last school day before a date
+    function getLastSchoolDayEndTime(beforeDate) {
+      // Start checking from the day before the holiday
+      let checkDay = new Date(beforeDate.getFullYear(), beforeDate.getMonth(), beforeDate.getDate());
+      checkDay.setDate(checkDay.getDate() - 1);
+      checkDay.setHours(23, 59, 59, 999); // End of the day
+
+      for (let i = 0; i < 7; i++) { // Check back up to a week
+        const dayName = getDayNameFromDate(checkDay);
+        const holiday = getHolidayForDate(checkDay);
+        
+        if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
+          const schedules = getSchedules(checkDay);
+          const schedule = schedules[dayName];
+          if (schedule && schedule.length > 0) {
+            const lastPeriod = schedule[schedule.length - 1];
+            const endTime = new Date(checkDay);
+            endTime.setHours(0, 0, 0, 0); // Start of the day
+            endTime.setMinutes(lastPeriod.end); // Set to end time
+            return endTime;
+          }
+        }
+        
+        // Not a school day, check day before
+        checkDay.setDate(checkDay.getDate() - 1);
+      }
+      return null; // Couldn't find last school day
+    }
+    
     function getHolidayForDate(date) {
       const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
@@ -3558,21 +3615,36 @@
       scheduleEl.innerHTML = html;
     }
 
+    // CHANGED: This function now counts down to the end of the last school day
+    // before the holiday, and adds more spacing.
     function updateHolidayCountdown() {
       const now = new Date();
       const upcoming = holidays.find(h => h.date > now);
       const countdownEl = document.getElementById('holidayCountdownTime');
       
       if (upcoming) {
-        const diff = upcoming.date - now;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        // Get start of the holiday day
+        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+        const lastSchoolDayEnd = getLastSchoolDayEndTime(holidayStartDate);
+
+        if (lastSchoolDayEnd && lastSchoolDayEnd > now) {
+          const diff = lastSchoolDayEnd - now;
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          
+          document.getElementById('holidayCountdownLabel').innerHTML = `UNTIL ${upcoming.name}`;
+          // Added 3 spaces between units
+          updateRollingText(countdownEl, 
+            `${days} d   ${hours.toString().padStart(2,'0')} h   ${minutes.toString().padStart(2,'0')} m   ${seconds.toString().padStart(2,'0')} s`);
+
+        } else {
+          // Holiday has started or no school day found before it
+          document.getElementById('holidayCountdownLabel').innerHTML = `ENJOY ${upcoming.name}`;
+          updateRollingText(countdownEl, 'Break in Progress');
+        }
         
-        document.getElementById('holidayCountdownLabel').innerHTML = `NEXT HOLIDAY - ${upcoming.name}`;
-        updateRollingText(countdownEl, 
-          `${days} d ${hours.toString().padStart(2,'0')} h ${minutes.toString().padStart(2,'0')} m ${seconds.toString().padStart(2,'0')} s`);
       } else {
         document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';
         updateRollingText(countdownEl, 'End of school year');
@@ -3673,25 +3745,56 @@
             `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
           document.getElementById('timer').classList.remove('hidden');
           
+        // CHANGED: This block now counts down to the next school day and removes motivational messages.
         } else if (now >= lastPeriod.end) {
-          const todayStr = new Date().toDateString();
-          if (currentAfterSchoolMessage === null || lastMessageDay !== todayStr) {
-            const homeworkMessages = [
-              "Homework Time!",
-              "Time to Study!",
-              "Get Those Assignments Done!",
-              "Focus on Your Schoolwork!",
-              "Let's Finish That Homework!"
-            ];
-            currentAfterSchoolMessage = homeworkMessages[Math.floor(Math.random() * homeworkMessages.length)];
-            lastMessageDay = todayStr;
+          const nextSchoolStartTime = getNextSchoolDayStartTime();
+            
+          if (nextSchoolStartTime) {
+            const nowMillis = new Date().getTime();
+            const diff = nextSchoolStartTime.getTime() - nowMillis;
+            
+            if (diff > 0) {
+              const totalSeconds = Math.floor(diff / 1000);
+              const s = totalSeconds % 60;
+              const totalMinutes = Math.floor(totalSeconds / 60);
+              const m = totalMinutes % 60;
+              const totalHours = Math.floor(totalMinutes / 60);
+              const h = totalHours % 24;
+              const d = Math.floor(totalHours / 24);
+              
+              let countdownStr = "";
+              if (d > 0) {
+                // Format with spaces
+                countdownStr = `${d}d   ${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
+              } else {
+                // Format with spaces
+                countdownStr = `${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
+              }
+              
+              updateRollingText(clockDisplay, countdownStr);
+              // Reset font size just in case it was on motivational message
+              clockDisplay.style.fontSize = ""; 
+              document.getElementById('clockLabel').innerHTML = "UNTIL NEXT SCHOOL DAY";
+              document.getElementById('timer').innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
+              document.getElementById('timer').classList.remove('hidden');
+
+            } else {
+              // This should not happen if getNextSchoolDayStartTime is correct
+              updateRollingText(clockDisplay, "See You Soon!");
+              clockDisplay.style.fontSize = ""; // Reset font size
+              document.getElementById('clockLabel').innerHTML = "SCHOOL IS OVER";
+              document.getElementById('timer').innerHTML = "See you tomorrow!";
+              document.getElementById('timer').classList.remove('hidden');
+            }
+            
+          } else {
+            // No next school day found (e.g., summer)
+            updateRollingText(clockDisplay, "Enjoy Your Break!");
+            clockDisplay.style.fontSize = ""; // Reset font size
+            document.getElementById('clockLabel').innerHTML = "SCHOOL'S OUT";
+            document.getElementById('timer').innerHTML = "Have a great break!";
+            document.getElementById('timer').classList.remove('hidden');
           }
-          updateRollingText(clockDisplay, currentAfterSchoolMessage);
-          // v1.4 Make HW text responsive
-          clockDisplay.style.fontSize = "clamp(2.0em, 8vw, 3.5em)";
-          document.getElementById('clockLabel').innerHTML = "SCHOOL IS OVER";
-          document.getElementById('timer').innerHTML = "See you tomorrow!";
-          document.getElementById('timer').classList.remove('hidden');
           
         } else {
           updateRollingText(clockDisplay, "--:--:--");
