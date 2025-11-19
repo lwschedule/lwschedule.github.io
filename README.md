@@ -20,6 +20,14 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
 
 ## Upcoming Features
 
+### Settings Redesign (New Order)
+
+1. Lunch Preferences
+2. Theme
+3. Classes (Coming Soon)
+4. Clubs (Coming Soon)
+5. Pack-Up Reminder (Coming Soon)
+
 ### Theme & UI Changes
 
 * Complete removal of **Light Mode**
