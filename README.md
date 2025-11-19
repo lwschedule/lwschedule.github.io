@@ -20,6 +20,8 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
 
 ## Upcoming Features
 
+- The pack up setup window should have a save and continue button, like lunches setup
+
 ### Schedule Enhancements
 
 * **Custom Schedules** – Students define their own class periods
