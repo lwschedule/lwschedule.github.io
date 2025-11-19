@@ -1655,6 +1655,22 @@
       color: white;
     }
     
+    /* v1.8: Style for bottom bar link */
+    #bottomBar a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+    #bottomBar a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+    body.gradient-mode #bottomBar a {
+      color: white;
+    }
+    /* End v1.8 */
+    
   </style>
 </head>
 <body class="theme-purple">
@@ -1968,7 +1984,7 @@
   </div>
 
   <div id="bottomBar" class="show"> <!-- <-- ADDED "show" CLASS HERE -->
-    <p>Made by Sanchit P. • Inspired by Rudy P.</p>
+    <p>Made by Sanchit P. • Inspired by <a href="https://schedule-manager.lwhsftc.org/" target="_blank">Schedule Manager</a></p>
     <button id="closeBottomBar" onclick="closeBottomBar()">×</button>
   </div>
   
