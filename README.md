@@ -33,6 +33,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 ## Upcoming Features
 
 - In view week's schedule today's day should be highlighted
+- revise the holiday countdown to look more like schedule manager
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - Clubs support, student manually adds clubs and meeting times to their schedule, and can set to repeat weekly on certain days
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
