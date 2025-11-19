@@ -1,6 +1,6 @@
 # LW Schedule
 
-**Version:** `v1.4`
+**Version:** `v1.6`
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
 
 A sleek, dark-themed schedule viewer built for students who want a fast, simple way to check their classes, time remaining, lunch schedule, and holidays — all in one place.
