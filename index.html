@@ -2105,10 +2105,11 @@
     }
 
     function confirmAction() {
-      if (confirmCallback) {
-        confirmCallback();
+      const callback = confirmCallback; // Store the callback
+      closeConfirm(); // Start closing immediately
+      if (callback) {
+        callback(); // Execute the stored callback
       }
-      closeConfirm();
     }
     
     function loadLunchPreferences() {
