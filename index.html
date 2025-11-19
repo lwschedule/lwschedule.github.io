@@ -429,6 +429,9 @@
       box-shadow: var(--glow);
       font-size: 1em;
       cursor: pointer;
+      /* --- NEW --- */
+      width: 100%;
+      box-sizing: border-box; /* Include padding in width */
     }
 
     .mainButtons {
@@ -640,7 +643,7 @@
       backdrop-filter: blur(5px);
     }
 
-    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active {
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active, #packUpOverlay.active { /* MODIFIED */
       display: flex;
       animation: fadeIn 0.3s ease-out;
     }
@@ -665,7 +668,7 @@
       }
     }
 
-    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay {
+    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay, #packUpOverlay { /* MODIFIED */
       display: none;
       position: fixed;
       top: 0;
@@ -1033,6 +1036,9 @@
     .settingsRow:nth-of-type(3) { animation-delay: 0.25s; }
     .settingsRow:nth-of-type(4) { animation-delay: 0.3s; }
     .settingsRow:nth-of-type(5) { animation-delay: 0.35s; }
+    /* --- NEW --- */
+    .settingsRow:nth-of-type(6) { animation-delay: 0.4s; }
+
 
     .settingsRow label {
       display: block;
@@ -1594,7 +1600,9 @@
       border-radius: 16px 16px 0 0;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      /* justify-content: space-between; --- EDITED --- */
+      justify-content: center; /* --- EDITED --- */
+      position: relative; /* --- EDITED --- */
       gap: 15px;
       transition: bottom 0.6s ease-out;
       font-size: 0.9em;
@@ -1623,6 +1631,8 @@
       justify-content: center;
       padding: 0;
       line-height: 1.1; /* v1.4 centering tweak */
+      position: absolute; /* --- EDITED --- */
+      right: 30px; /* --- EDITED --- */
     }
     
     #closeBottomBar:hover {
@@ -1730,14 +1740,15 @@
       <div class="settingsRow">
         <button class="mainBtn" onclick="toggleTheme()">Theme</button>
       </div>
+      <!-- --- EDITED --- -->
+      <div class="settingsRow">
+        <button class="mainBtn" onclick="togglePackUpSettings()">Pack-Up Reminders</button>
+      </div>
       <div class="settingsRow">
         <button class="mainBtn disabledBtn" disabled>Classes (Coming Soon)</button>
       </div>
       <div class="settingsRow">
         <button class="mainBtn disabledBtn" disabled>Clubs (Coming Soon)</button>
-      </div>
-      <div class="settingsRow">
-        <button class="mainBtn disabledBtn" disabled>Pack-Up Reminder (Coming Soon)</button>
       </div>
       <button class="resetBtn" onclick="resetAllSettings()">Reset All Settings to Default</button>
     </div>
@@ -1748,7 +1759,7 @@
       <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')">×</button>
       <h2>About</h2>
       <div class="infoContent">
-        <div class="versionBadge">Version 1.5</div>
+        <div class="versionBadge">Version 1.6</div>
         
         <h3>Created By</h3>
         <p>Sanchit P.</p>
@@ -1859,6 +1870,29 @@
     </div>
   </div>
 
+<!-- --- NEW Pack-Up Reminder Overlay --- -->
+<div id="packUpOverlay" class="overlay" onclick="closePackUpOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="closeOverlayGracefully('packUpOverlay')">×</button>
+      <h2>Pack-Up Reminders</h2>
+      <div class="settingsRow">
+        <label for="packUpTime">Notify me before class ends:</label>
+        <select id="packUpTime" onchange="savePackUpTime(this.value)">
+          <option value="0">Off</option>
+          <option value="1">1 Minute</option>
+          <option value="3">3 Minutes</option>
+          <option value="5">5 Minutes</option>
+          <option value="7">7 Minutes</option>
+          <option value="10">10 Minutes</option>
+        </select>
+      </div>
+      <p style="text-align: center; opacity: 0.8; font-size: 0.9em; margin-top: 20px;">
+        You will get a pop-up notification this many minutes before the end of each period.
+      </p>
+    </div>
+  </div>
+<!-- --- END Pack-Up Reminder Overlay --- -->
+
 <div id="welcomeOverlay" class="overlay">
     <div id="scheduleModal">
       <h2>Select Your Lunch</h2>
@@ -1920,6 +1954,12 @@
     let currentAfterSchoolMessage = null;
     let lastMessageDay = null;
     let currentNotificationId = null;
+    
+    // --- NEW Pack-Up Reminder Vars ---
+    let packUpTime = 0; // In minutes
+    let packUpNotificationShown = false;
+    let lastPeriodName = null;
+    // --- END ---
     
     // v1.4 Holiday List (for reset logic and countdown)
     const holidays = [
@@ -2033,6 +2073,19 @@
       // Update settings buttons
       updateSettingsButtons();
     }
+
+    // --- NEW ---
+    function loadPackUpTime() {
+      try {
+        const saved = localStorage.getItem('pack-up-time');
+        if (saved !== null) {
+          packUpTime = parseInt(saved, 10) || 0;
+        }
+      } catch (error) {
+        console.log('No saved pack-up time, using default (0)');
+      }
+    }
+    // --- END ---
 
     function loadTheme() {
       try {
@@ -2203,7 +2256,7 @@
     function resetAllSettings() {
       showConfirm(
         'Reset All Settings',
-        'Are you sure you want to reset ALL settings to default? This will reset your theme and lunch preferences.',
+        'Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.', // EDITED
         () => {
           // Reset theme
           currentTheme = 'purple';
@@ -2222,6 +2275,9 @@
             Friday: null
           };
           
+          // --- NEW ---
+          packUpTime = 0;
+          
           try {
             // Clear all stored data
             localStorage.removeItem('theme');
@@ -2230,6 +2286,7 @@
             localStorage.removeItem('lunch-preferences');
             localStorage.removeItem('has-opened-settings');
             localStorage.removeItem('bottom-bar-dismissed');
+            localStorage.removeItem('pack-up-time'); // --- NEW ---
             // v1.4 - Clear notification flags
             localStorage.removeItem('semester-reset-2026');
             localStorage.removeItem('notify-sem-2026');
@@ -2294,6 +2351,17 @@
       render();
     }
 
+    // --- NEW ---
+    function savePackUpTime(value) {
+      packUpTime = parseInt(value, 10) || 0;
+      try {
+        localStorage.setItem('pack-up-time', packUpTime);
+      } catch (error) {
+        console.error('Failed to save pack-up time:', error);
+      }
+    }
+    // --- END ---
+
     function saveWelcomeLunch() {
       const today = currentDayName();
       if (today === 'Wednesday') {
@@ -2311,6 +2379,12 @@
       
       updateSettingsButtons();
       closeOverlayGracefully('welcomeOverlay');
+      
+      // --- NEW ---
+      // After setting lunch, check if we need to show pack-up settings
+      checkPackUpSettings();
+      // --- END ---
+      
       render();
     }
 
@@ -2417,16 +2491,21 @@
       checkSemesterReset(); // v1.4 - Run this first
       loadTheme();
       loadLunchPreferences();
+      loadPackUpTime(); // --- NEW ---
+      
       const needsLunch = checkIfNeedsLunchSelection();
-      if (!needsLunch) {
-        render();
-      }
-      setInterval(render, 1000);
-      setInterval(updateHolidayCountdown, 1000);
       
       checkSettingsNotification();
       checkAnnualNotifications(); // v1.4 - Add this
       checkBottomBar();
+      
+      if (!needsLunch) {
+        checkPackUpSettings(); // --- NEW --- Check for pack-up setup *after* settings notification
+        render();
+      }
+      
+      setInterval(render, 1000);
+      setInterval(updateHolidayCountdown, 1000);
       
       // v1.4 - Check notifications periodically
       setInterval(checkAnnualNotifications, 60 * 1000); // Check every minute
@@ -2442,6 +2521,24 @@
     function closeBottomBar() {
       document.getElementById('bottomBar').classList.remove('show');
     }
+
+    // --- NEW ---
+    function checkPackUpSettings() {
+      try {
+        const saved = localStorage.getItem('pack-up-time');
+        // If it's never been set (is null), then show the popup.
+        if (saved === null) {
+          // Don't show if settings notification or general notification is already up
+          if (!document.getElementById('settingsNotification').classList.contains('show') && 
+              !document.getElementById('generalNotification').classList.contains('show')) {
+             togglePackUpSettings();
+          }
+        }
+      } catch (error) {
+        console.log('Could not check pack-up settings status');
+      }
+    }
+    // --- END ---
 
     function checkSettingsNotification() {
       try {
@@ -2508,12 +2605,13 @@
     }
     
     function showGeneralNotification(id, title, message) {
-      // Don't show if settings notification is already up
-      if (document.getElementById('settingsNotification').classList.contains('show')) {
+      // Don't show if settings notification is already up or another general one
+      if (document.getElementById('settingsNotification').classList.contains('show') ||
+          document.getElementById('generalNotification').classList.contains('show')) {
         return;
       }
       
-      currentNotificationId = id;
+      currentNotificationId = id; // id can be null for pack-up reminders
       document.getElementById('notificationTitle').textContent = title;
       document.getElementById('notificationMessage').textContent = message;
       document.getElementById('generalNotification').classList.add('show');
@@ -2560,7 +2658,7 @@
       }, 500);
     }
 
-    initApp();
+    // initApp(); // Already called below
 
     function toggleSchedule() {
       const overlay = document.getElementById('scheduleOverlay');
@@ -2653,6 +2751,19 @@
       }
     }
 
+    // --- NEW ---
+    function togglePackUpSettings() {
+      const overlay = document.getElementById('packUpOverlay');
+      if (overlay.classList.contains('active')) {
+        closeOverlayGracefully('packUpOverlay');
+      } else {
+        overlay.classList.add('active');
+        // Load current setting into select
+        document.getElementById('packUpTime').value = packUpTime;
+      }
+    }
+    // --- END ---
+
     function toggleTheme() {
       const overlay = document.getElementById('themeOverlay');
       if (overlay.classList.contains('active')) {
@@ -2713,6 +2824,14 @@
         closeOverlayGracefully('lunchSettingsOverlay');
       }
     }
+
+    // --- NEW ---
+    function closePackUpOverlay(event) {
+      if (event.target === document.getElementById('packUpOverlay')) {
+        closeOverlayGracefully('packUpOverlay');
+      }
+    }
+    // --- END ---
 
     function closeThemeOverlay(event) {
       if (event.target === document.getElementById('themeOverlay')) {
@@ -3279,6 +3398,9 @@
       const today = schedules[currentDayName()];
       const clockDisplay = document.getElementById('clockDisplay');
       
+      // --- NEW: Period Change Check ---
+      let currentPeriodName = null;
+      
       const scheduleBtn = document.getElementById('scheduleBtn');
       if (!today || today.length === 0) {
         scheduleBtn.textContent = 'Holiday Today';
@@ -3287,6 +3409,7 @@
       }
       
       if (!today || today.length === 0) {
+        currentPeriodName = "No School"; // --- NEW ---
         updateRollingText(clockDisplay, "--:--:--");
         clockDisplay.style.fontSize = ''; // v1.4 Reset font size
         document.getElementById('clockLabel').innerHTML = "NO SCHOOL TODAY";
@@ -3300,6 +3423,12 @@
               <p>${currentHolidayMessage}</p>
             </div>
           `;
+        }
+        
+        // --- NEW: Reset Pack-up Notification ---
+        if (lastPeriodName !== currentPeriodName) {
+          packUpNotificationShown = false;
+          lastPeriodName = currentPeriodName;
         }
         return;
       }
@@ -3341,8 +3470,31 @@
       document.getElementById('schedule').innerHTML = html;
 
       if (current) {
+        currentPeriodName = current.name; // --- NEW ---
         const remainingMinutes = current.end - now - 1;
         const remainingSeconds = 60 - secs;
+        
+        // --- NEW Pack-Up Logic START ---
+        if (packUpTime > 0 && 
+            current.name !== "Passing Period" && 
+            !current.name.includes("Lunch") && 
+            !current.name.includes("Homeroom") &&
+            !current.name.includes("Break"))
+        {
+          const totalRemainingSeconds = (remainingMinutes * 60) + remainingSeconds;
+          const triggerTimeInSeconds = packUpTime * 60;
+          
+          // Trigger exactly when it hits the mark
+          if (totalRemainingSeconds === triggerTimeInSeconds && !packUpNotificationShown) {
+             showGeneralNotification(
+               null, // No ID to save, it's transient
+               "🎒 Pack-Up Reminder", 
+               `Time to pack up! ${current.name} ends in ${packUpTime} minute${packUpTime > 1 ? 's' : ''}.`
+             );
+             packUpNotificationShown = true;
+          }
+        }
+        // --- NEW Pack-Up Logic END ---
         
         updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
         document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;
@@ -3357,6 +3509,7 @@
         const lastPeriod = today[today.length - 1];
         
         if (now < firstPeriod.start) {
+          currentPeriodName = "Before School"; // --- NEW ---
           const remainingMinutes = firstPeriod.start - now - 1;
           const remainingSeconds = 60 - secs;
           
@@ -3368,6 +3521,7 @@
           
         // CHANGED: This block now counts down to the next school day and removes motivational messages.
         } else if (now >= lastPeriod.end) {
+          currentPeriodName = "After School"; // --- NEW ---
           const nextSchoolStartTime = getNextSchoolDayStartTime();
             
           if (nextSchoolStartTime) {
@@ -3418,12 +3572,22 @@
           }
           
         } else {
+          currentPeriodName = "No Period"; // --- NEW ---
           updateRollingText(clockDisplay, "--:--:--");
           document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
           document.getElementById('timer').classList.add('hidden');
         }
       }
+      
+      // --- NEW: Reset Pack-up Notification ---
+      if (lastPeriodName !== currentPeriodName) {
+        packUpNotificationShown = false;
+        lastPeriodName = currentPeriodName;
+      }
     }
+    
+    // Call initApp at the end
+    initApp();
 
   </script>
 </body>
