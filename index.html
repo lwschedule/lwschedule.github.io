@@ -541,24 +541,6 @@
     }
     /* v1.4 - End of gradient rules */
 
-    /* NEW Animation for Clock Update */
-    @keyframes expandContractClock {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.02); /* Very subtle expand */
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    #digitalClock.clock-update {
-      animation: expandContractClock 0.4s ease-out;
-    }
-    /* END NEW Animation */
-
 
     @keyframes gradientShift {
       0% {
@@ -2268,8 +2250,9 @@
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('settingsOverlay')">×</button>
       <h2>Settings</h2>
-      
-      <!-- Button order changed as requested -->
+      <div class="settingsRow">
+        <button class="mainBtn" onclick="toggleLunchSettings()">Lunch Preferences</button>
+      </div>
       <div class="settingsRow">
         <button class="mainBtn" onclick="toggleTheme()">Theme</button>
       </div>
@@ -2277,15 +2260,8 @@
         <button class="mainBtn disabledBtn" disabled>Classes (Coming Soon)</button>
       </div>
       <div class="settingsRow">
-        <button class="mainBtn disabledBtn" disabled>Clubs (Coming Soon)</button>
+        <button class="mainBtn disabledBtn" disabled>Pack Up Reminder (Coming Soon)</button>
       </div>
-      <div class="settingsRow">
-        <button class="mainBtn disabledBtn" disabled>Pack-Up Reminder (Coming Soon)</button>
-      </div>
-      
-      <!-- Note: Lunch Preferences button was here, but removed per your list. -->
-      <!-- You can still access it via the welcome prompt or by asking me to add it back. -->
-      
       <button class="resetBtn" onclick="resetAllSettings()">Reset All Settings to Default</button>
     </div>
   </div>
@@ -2470,7 +2446,6 @@
     let currentAfterSchoolMessage = null;
     let lastMessageDay = null;
     let currentNotificationId = null;
-    let currentClockLabelHTML = ''; // To track clock label changes
     
     // v1.4 Holiday List (for reset logic and countdown)
     const holidays = [
@@ -2544,27 +2519,6 @@
             }
         }
         element.innerHTML = html;
-    }
-
-    // NEW Function to update clock label with animation
-    function setClockLabelHTML(newHTML) {
-      const clockEl = document.getElementById('digitalClock');
-      const labelEl = document.getElementById('clockLabel');
-      
-      if (!labelEl || !clockEl) return; // Safety check
-
-      if (currentClockLabelHTML !== newHTML) {
-        currentClockLabelHTML = newHTML;
-        labelEl.innerHTML = newHTML;
-        
-        // Apply animation to the main clock container
-        clockEl.classList.add('clock-update');
-        
-        // Remove class after animation
-        setTimeout(() => {
-          clockEl.classList.remove('clock-update');
-        }, 400); // Duration matches CSS animation
-      }
     }
 
     
@@ -3855,7 +3809,7 @@
       if (!today || today.length === 0) {
         updateRollingText(clockDisplay, "--:--:--");
         clockDisplay.style.fontSize = ''; // v1.4 Reset font size
-        setClockLabelHTML("NO SCHOOL TODAY"); // Use new function
+        document.getElementById('clockLabel').innerHTML = "NO SCHOOL TODAY";
         document.getElementById('timer').innerHTML = "Enjoy your day off!";
         document.getElementById('timer').classList.remove('hidden');
         
@@ -3911,7 +3865,7 @@
         const remainingSeconds = 60 - secs;
         
         updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
-        setClockLabelHTML(`TIME REMAINING - ${current.name}`); // Use new function
+        document.getElementById('clockLabel').innerHTML = `TIME REMAINING - ${current.name}`;
         
         const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
         document.getElementById('timer').innerHTML =
@@ -3927,7 +3881,7 @@
           const remainingSeconds = 60 - secs;
           
           updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
-          setClockLabelHTML("UNTIL SCHOOL STARTS"); // Use new function
+          document.getElementById('clockLabel').innerHTML = "UNTIL SCHOOL STARTS";
           document.getElementById('timer').innerHTML = 
             `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
           document.getElementById('timer').classList.remove('hidden');
@@ -3961,7 +3915,7 @@
               updateRollingText(clockDisplay, countdownStr);
               // Reset font size just in case it was on motivational message
               clockDisplay.style.fontSize = ""; 
-              setClockLabelHTML("UNTIL NEXT SCHOOL DAY"); // Use new function
+              document.getElementById('clockLabel').innerHTML = "UNTIL NEXT SCHOOL DAY";
               document.getElementById('timer').innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
               document.getElementById('timer').classList.remove('hidden');
 
@@ -3969,7 +3923,7 @@
               // This should not happen if getNextSchoolDayStartTime is correct
               updateRollingText(clockDisplay, "See You Soon!");
               clockDisplay.style.fontSize = ""; // Reset font size
-              setClockLabelHTML("SCHOOL IS OVER"); // Use new function
+              document.getElementById('clockLabel').innerHTML = "SCHOOL IS OVER";
               document.getElementById('timer').innerHTML = "See you tomorrow!";
               document.getElementById('timer').classList.remove('hidden');
             }
@@ -3978,14 +3932,14 @@
             // No next school day found (e.g., summer)
             updateRollingText(clockDisplay, "Enjoy Your Break!");
             clockDisplay.style.fontSize = ""; // Reset font size
-            setClockLabelHTML("SCHOOL'S OUT"); // Use new function
+            document.getElementById('clockLabel').innerHTML = "SCHOOL'S OUT";
             document.getElementById('timer').innerHTML = "Have a great break!";
             document.getElementById('timer').classList.remove('hidden');
           }
           
         } else {
           updateRollingText(clockDisplay, "--:--:--");
-          setClockLabelHTML("NO PERIOD SCHEDULED"); // Use new function
+          document.getElementById('clockLabel').innerHTML = "NO PERIOD SCHEDULED";
           document.getElementById('timer').classList.add('hidden');
         }
       }
