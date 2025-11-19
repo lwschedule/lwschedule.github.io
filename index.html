@@ -546,6 +546,19 @@
       background: var(--primary);
       transform: scale(1.05);
     }
+    
+    /* v1.7: Style disabled continue button */
+    .continueBtn.disabledBtn {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #555;
+    }
+    
+    .continueBtn.disabledBtn:hover {
+      background: #555;
+      transform: none;
+    }
+
 
     .resetBtn {
       display: block;
@@ -643,7 +656,8 @@
       backdrop-filter: blur(5px);
     }
 
-    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #welcomeOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active, #packUpOverlay.active { /* MODIFIED */
+    /* MODIFIED v1.7: Added #weeklyLunchSetupOverlay */
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #weeklyLunchSetupOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active, #packUpOverlay.active {
       display: flex;
       animation: fadeIn 0.3s ease-out;
     }
@@ -668,7 +682,8 @@
       }
     }
 
-    #holidaysOverlay, #settingsOverlay, #welcomeOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay, #packUpOverlay { /* MODIFIED */
+    /* MODIFIED v1.7: Added #weeklyLunchSetupOverlay, removed #welcomeOverlay */
+    #holidaysOverlay, #settingsOverlay, #weeklyLunchSetupOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay, #packUpOverlay {
       display: none;
       position: fixed;
       top: 0;
@@ -893,8 +908,7 @@
     body.gradient-mode #scheduleModal p,
     body.gradient-mode #scheduleModal label,
     body.gradient-mode .infoContent p,
-    body.gradient-mode .settingsRow label,
-    body.gradient-mode #welcomeLabel {
+    body.gradient-mode .settingsRow label {
       color: white;
     }
 
@@ -1309,15 +1323,7 @@
     #confirmOverlay.closing {
       animation: fadeOut 0.3s ease-out;
     }
-/* WELCOME OVERLAY FADE FIX */
-#welcomeOverlay.active {
-  display: flex;
-  animation: fadeIn 0.3s ease-out;
-}
-
-#welcomeOverlay.closing {
-  animation: fadeOut 0.3s ease-out;
-}
+/* WELCOME OVERLAY FADE FIX - REMOVED v1.7 */
 
     #confirmModal {
       background: var(--card-dark);
@@ -1893,19 +1899,55 @@
   </div>
 <!-- --- END Pack-Up Reminder Overlay --- -->
 
-<div id="welcomeOverlay" class="overlay">
+<!-- REMOVED welcomeOverlay v1.7 -->
+
+<!-- NEW Weekly Lunch Setup Overlay v1.7 -->
+<div id="weeklyLunchSetupOverlay" class="overlay"> <!-- No onclick here to prevent closing -->
     <div id="scheduleModal">
-      <h2>Select Your Lunch</h2>
+      <!-- No close button -->
+      <h2>Set Your Weekly Lunches</h2>
+      <p style="text-align: center; opacity: 0.8; font-size: 0.9em; margin: -10px 0 20px;">
+        Please set your lunch preference for each day.
+      </p>
       <div class="settingsRow">
-        <label id="welcomeLabel">Please select your lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" id="welcomeA" onclick="selectWelcomeLunch('A')">A Lunch</button>
-          <button class="lunchBtn" id="welcomeB" onclick="selectWelcomeLunch('B')">B Lunch</button>
+        <label>Monday Lunch:</label>
+        <div class="lunchButtons" id="setupMondayButtons">
+          <button class="lunchBtn" id="setupMondayA" onclick="selectWeeklySetupLunch('Monday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="setupMondayB" onclick="selectWeeklySetupLunch('Monday', 'B')">B Lunch</button>
         </div>
       </div>
-      <button class="continueBtn" onclick="saveWelcomeLunch()">Continue</button>
+      <div class="settingsRow">
+        <label>Tuesday Lunch:</label>
+        <div class="lunchButtons" id="setupTuesdayButtons">
+          <button class="lunchBtn" id="setupTuesdayA" onclick="selectWeeklySetupLunch('Tuesday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="setupTuesdayB" onclick="selectWeeklySetupLunch('Tuesday', 'B')">B Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Wednesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" disabled>All School Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Thursday Lunch:</label>
+        <div class="lunchButtons" id="setupThursdayButtons">
+          <button class="lunchBtn" id="setupThursdayA" onclick="selectWeeklySetupLunch('Thursday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="setupThursdayB" onclick="selectWeeklySetupLunch('Thursday', 'B')">B Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Friday Lunch:</label>
+        <div class="lunchButtons" id="setupFridayButtons">
+          <button class="lunchBtn" id="setupFridayA" onclick="selectWeeklySetupLunch('Friday', 'A')">A Lunch</button>
+          <button class="lunchBtn" id="setupFridayB" onclick="selectWeeklySetupLunch('Friday', 'B')">B Lunch</button>
+        </div>
+      </div>
+      <button class="continueBtn" id="saveWeeklyLunchesBtn" onclick="saveWeeklyLunches()">Save & Continue</button>
     </div>
   </div>
+<!-- END Weekly Lunch Setup Overlay v1.7 -->
+
 
   <div id="confirmOverlay">
     <div id="confirmModal">
@@ -1945,7 +1987,16 @@
       Thursday: null,
       Friday: null
     };
-    let selectedWelcomeLunch = 'A';
+    
+    // v1.7: Temp state for weekly setup
+    let weeklySetupPreferences = {
+      Monday: null,
+      Tuesday: null,
+      Thursday: null,
+      Friday: null
+    };
+    
+    // let selectedWelcomeLunch = 'A'; // REMOVED v1.7
     let currentTheme = 'purple';
     // let currentMode = 'dark'; // REMOVED
     let gradientMode = 'on';
@@ -2239,6 +2290,7 @@
           
           try {
             localStorage.removeItem('lunch-preferences');
+            localStorage.removeItem('weekly-lunch-setup-complete'); // v1.7
             const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
             days.forEach(day => {
               localStorage.removeItem(`lunch-set-${day}`);
@@ -2284,6 +2336,7 @@
             // localStorage.removeItem('mode'); // REMOVED
             localStorage.removeItem('gradient');
             localStorage.removeItem('lunch-preferences');
+            localStorage.removeItem('weekly-lunch-setup-complete'); // v1.7
             localStorage.removeItem('has-opened-settings');
             localStorage.removeItem('bottom-bar-dismissed');
             localStorage.removeItem('pack-up-time'); // --- NEW ---
@@ -2329,11 +2382,7 @@
       });
     }
 
-    function selectWelcomeLunch(lunch) {
-      selectedWelcomeLunch = lunch;
-      document.getElementById('welcomeA').classList.toggle('selected', lunch === 'A');
-      document.getElementById('welcomeB').classList.toggle('selected', lunch === 'B');
-    }
+    // REMOVED selectWelcomeLunch(lunch) v1.7
 
     function selectDayLunch(day, lunch) {
       lunchPreferences[day] = lunch;
@@ -2362,71 +2411,123 @@
     }
     // --- END ---
 
-    function saveWelcomeLunch() {
-      const today = currentDayName();
-      if (today === 'Wednesday') {
-        lunchPreferences[today] = 'All';
+    // REMOVED saveWelcomeLunch() v1.7
+
+    // REMOVED checkIfNeedsLunchSelection() v1.7
+    
+    // --- NEW v1.7: Weekly lunch setup functions ---
+    function selectWeeklySetupLunch(day, lunch) {
+      weeklySetupPreferences[day] = lunch;
+      
+      const dayLower = day.toLowerCase();
+      document.getElementById(`setup${day}A`).classList.toggle('selected', lunch === 'A');
+      document.getElementById(`setup${day}B`).classList.toggle('selected', lunch === 'B');
+      
+      checkAllLunchesSet();
+    }
+
+    function checkAllLunchesSet() {
+      const allSet = weeklySetupPreferences.Monday &&
+                     weeklySetupPreferences.Tuesday &&
+                     weeklySetupPreferences.Thursday &&
+                     weeklySetupPreferences.Friday;
+      
+      const saveBtn = document.getElementById('saveWeeklyLunchesBtn');
+      if (allSet) {
+        saveBtn.disabled = false;
+        saveBtn.classList.remove('disabledBtn');
+        saveBtn.textContent = 'Save & Continue';
       } else {
-        lunchPreferences[today] = selectedWelcomeLunch;
+        saveBtn.disabled = true;
+        saveBtn.classList.add('disabledBtn');
+        saveBtn.textContent = 'Please select all lunches';
       }
+      return allSet;
+    }
+
+    function saveWeeklyLunches() {
+      if (!checkAllLunchesSet()) {
+        return; // Don't save if not all are set
+      }
+      
+      lunchPreferences.Monday = weeklySetupPreferences.Monday;
+      lunchPreferences.Tuesday = weeklySetupPreferences.Tuesday;
+      lunchPreferences.Thursday = weeklySetupPreferences.Thursday;
+      lunchPreferences.Friday = weeklySetupPreferences.Friday;
+      lunchPreferences.Wednesday = 'All'; // Ensure this is set
       
       try {
         localStorage.setItem('lunch-preferences', JSON.stringify(lunchPreferences));
-        localStorage.setItem(`lunch-set-${today}`, new Date().toDateString());
+        // Mark all as "set" for today's date to prevent popups
+        const todayDate = new Date().toDateString();
+        const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
+        days.forEach(day => {
+          localStorage.setItem(`lunch-set-${day}`, todayDate);
+        });
+        
+        // Also set a flag that weekly setup is complete
+        localStorage.setItem('weekly-lunch-setup-complete', 'true');
+        
       } catch (error) {
-        console.error('Failed to save lunch preference:', error);
+        console.error('Failed to save weekly lunch preferences:', error);
       }
       
-      updateSettingsButtons();
-      closeOverlayGracefully('welcomeOverlay');
+      updateSettingsButtons(); // Update the main settings overlay
+      closeOverlayGracefully('weeklyLunchSetupOverlay');
       
-      // --- NEW ---
       // After setting lunch, check if we need to show pack-up settings
       checkPackUpSettings();
-      // --- END ---
-      
       render();
     }
 
-    function checkIfNeedsLunchSelection() {
-      const today = currentDayName();
-      
-      // Wednesday always has all-school lunch, no need to ask
-      if (today === 'Wednesday') {
-        return false;
-      }
-      
-      // Check if not a school day
-      if (!today || today === 'Saturday' || today === 'Sunday') {
-        return false;
-      }
-      
+    function checkIfNeedsWeekLunchSelection() {
       try {
-        const lastSet = localStorage.getItem(`lunch-set-${today}`);
-        const todayDate = new Date().toDateString();
-        
-        // If lunch is null or not set for today, show popup
-        if (lunchPreferences[today] === null || !lastSet || lastSet !== todayDate) {
-          // Haven't set lunch for today yet
-          document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
-          selectedWelcomeLunch = lunchPreferences[today] || 'A';
-          document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
-          document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');
-          document.getElementById('welcomeOverlay').classList.add('active');
-          return true;
+        // Check local storage flag first
+        const setupComplete = localStorage.getItem('weekly-lunch-setup-complete');
+        if (setupComplete === 'true') {
+          return false; // Already done
         }
+        
+        // Fallback check on the preferences object itself
+        const needsSetup = lunchPreferences.Monday === null ||
+                           lunchPreferences.Tuesday === null ||
+                           lunchPreferences.Thursday === null ||
+                           lunchPreferences.Friday === null;
+                           
+        if (needsSetup) {
+          // Initialize temp state from saved state
+          weeklySetupPreferences.Monday = lunchPreferences.Monday;
+          weeklySetupPreferences.Tuesday = lunchPreferences.Tuesday;
+          weeklySetupPreferences.Thursday = lunchPreferences.Thursday;
+          weeklySetupPreferences.Friday = lunchPreferences.Friday;
+          
+          // Update the buttons in the setup overlay
+          const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
+          days.forEach(day => {
+            const lunch = weeklySetupPreferences[day];
+            if (lunch) {
+              const dayLower = day.toLowerCase();
+              document.getElementById(`setup${day}A`).classList.toggle('selected', lunch === 'A');
+              document.getElementById(`setup${day}B`).classList.toggle('selected', lunch === 'B');
+            }
+          });
+          
+          checkAllLunchesSet(); // Disable button if not complete
+          document.getElementById('weeklyLunchSetupOverlay').classList.add('active');
+          return true;
+        } else {
+            // All preferences are set, but the flag wasn't. Set the flag.
+            localStorage.setItem('weekly-lunch-setup-complete', 'true');
+            return false;
+        }
+        
       } catch (error) {
-        // No record exists, show welcome
-        document.getElementById('welcomeLabel').innerHTML = `Select your lunch for ${today}:`;
-        selectedWelcomeLunch = lunchPreferences[today] || 'A';
-        document.getElementById('welcomeA').classList.toggle('selected', selectedWelcomeLunch === 'A');
-        document.getElementById('welcomeB').classList.toggle('selected', selectedWelcomeLunch === 'B');
-        document.getElementById('welcomeOverlay').classList.add('active');
-        return true;
+        console.error('Error checking weekly lunch setup:', error);
+        // Default to false to avoid blocking app
+        return false;
       }
-      
-      return false;
     }
+    // --- END v1.7 ---
     
     // v1.4 Semester Lunch Reset Check
     function checkSemesterReset() {
@@ -2466,6 +2567,7 @@
               Friday: null
             };
             localStorage.removeItem('lunch-preferences');
+            localStorage.removeItem('weekly-lunch-setup-complete'); // v1.7
             
             // 2. Clear all 'lunch-set' keys
             const days = ['Monday', 'Tuesday', 'Thursday', 'Friday'];
@@ -2493,7 +2595,7 @@
       loadLunchPreferences();
       loadPackUpTime(); // --- NEW ---
       
-      const needsLunch = checkIfNeedsLunchSelection();
+      const needsLunch = checkIfNeedsWeekLunchSelection(); // MODIFIED v1.7
       
       checkSettingsNotification();
       checkAnnualNotifications(); // v1.4 - Add this
