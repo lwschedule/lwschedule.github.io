@@ -1,53 +1,58 @@
 # LW Schedule
 
-**Version:** v1.4 (Current Release)  
-**Link:** [LW Schedule](https://lwschedule.github.io/)
+**Version:** `v1.4`
+**Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
 
----
-
-## Overview
-
-**LW Schedule** is a minimalist, dark-themed school schedule viewer that shows:
-
-- Current period and time remaining
-- Next period
-- Full schedule for the day
-- Upcoming holidays with countdown
-- Lunch selection (A/B)
-
-Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive interface with glow effects and rounded cards.
+A sleek, dark-themed schedule viewer built for students who want a fast, simple way to check their classes, time remaining, lunch schedule, and holidays — all in one place.
 
 ---
 
 ## Features
 
-- Digital Clock & Timer
-- Next Period Preview
-- Full Schedule View
-- Holiday Countdown
-- Lunch Preferences
-- Dark Mode Theme
+* **Digital Clock & Rolling Timer**
+* **Next Period Preview**
+* **Full Daily Schedule**
+* **Upcoming Holiday Countdown**
+* **Lunch Preferences (A/B)**
+* **Dark Theme**
 
 ---
 
 ## Upcoming Features
 
-- Reorder and rename settings buttons to: Theme, Classes (Coming Soon), Clubs (Coming Soon), Pack-Up Reminder (Coming Soon)
-- Remove light mode, and remove the option to change it as well from theme
-- **Custom Schedules per User** – Students can input their own personalized schedule
-- Clubs support, student manually adds clubs and meeting times to their schedule, and can set to repeat weekly on certain days
-- **Teacher Info for Each Period** – Display the teacher assigned for each class
-- **Room Numbers** – See the classroom for every period
-- **Class Titles** – Full class name for easy reference
-- **Pack Up Reminders** - Will remind you to pack up before class (via a notification showing up on the side of your screen), will be user adjustable in settings (with default pack up time 3 min, and options are (1, 3, 5, 7, 10))
-- **Estimated Travel Time** - Estimates travel time to next class, based on room number
+### Theme & UI Changes
+
+* Complete removal of **Light Mode**
+* Light Mode toggle removed from Theme settings
+* All Light Mode CSS & JavaScript removed
+
+### Schedule Enhancements
+
+* **Custom Schedules** – Students define their own class periods
+* **Teacher Info** – Assign teachers to each period
+* **Room Numbers** – Display classroom locations
+* **Class Titles** – Full course names
+
+### Experience Improvements
+
+* **Pack-Up Reminders**
+
+  * Notification appears before class ends
+  * Options: 1, 3, 5, 7, or 10 minutes
+* **Estimated Travel Time**
+
+  * Calculates time needed to get to the next class
+* **Clubs Support**
+
+  * Add club meeting times
+  * Set weekly repeat days
 
 ---
 
 ## License
 
-MIT License
+**MIT License**
 
 ---
 
-**v1.4 – Current Release**
+### Current Release: `v1.4`
