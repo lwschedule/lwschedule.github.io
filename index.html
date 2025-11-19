@@ -161,7 +161,7 @@
     body.light-mode .scheduleTable td {
       border-bottom-color: #eee;
     }
-    body.light-mode .scheduleTable tr.highlight {
+    body.light-mode .scheduleTable tr.highlight, body.light-mode .weekTable tr.highlight {
       background: var(--primary);
       color: var(--text-on-primary);
     }
@@ -442,7 +442,7 @@
       animation: gradientShift5 8s ease infinite !important;
     }
 
-    body.gradient-mode .scheduleTable tr.highlight {
+    body.gradient-mode .scheduleTable tr.highlight, body.gradient-mode .weekTable tr.highlight {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
       animation: gradientShift5 8s ease infinite !important;
@@ -533,6 +533,7 @@
     body.gradient-mode.light-mode .holidayTable th,
     body.gradient-mode.light-mode .weekTable th,
     body.gradient-mode.light-mode .scheduleTable tr.highlight,
+    body.gradient-mode.light-mode .weekTable tr.highlight,
     body.gradient-mode.light-mode .versionBadge {
       background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-light)) !important;
       background-size: 200% 200% !important;
@@ -961,7 +962,7 @@
       justify-content: center;
       z-index: 1001;
       padding: 0; /* v1.4 centering */
-      line-height: 1.1; /* v1.4 centering tweak */
+      /* line-height: 1; */ /* v1.4 centering tweak */
     }
 
     body:not(.gradient-mode) #settingsBtn {
@@ -992,7 +993,7 @@
       justify-content: center;
       z-index: 1001;
       padding: 0; /* v1.4 centering */
-      line-height: 1.1; /* v1.4 centering tweak */
+      /* line-height: 1; */ /* v1.4 centering tweak */
     }
     
     body:not(.gradient-mode) #infoBtn {
@@ -1100,13 +1101,12 @@
       border-radius: 50%;
       font-size: 1.5em;
       cursor: pointer;
-      line-height: 1;
+      /* line-height: 1; */
       transition: all 0.3s;
       padding: 0; /* v1.4 centering */
       display: flex; /* v1.4 centering */
       align-items: center; /* v1.4 centering */
       justify-content: center; /* v1.4 centering */
-      line-height: 1.1; /* v1.4 centering tweak */
     }
     
     body:not(.gradient-mode) #closeBtn {
@@ -1168,13 +1168,13 @@
       border-bottom: none;
     }
 
-    .scheduleTable tr.highlight {
+    .scheduleTable tr.highlight, .weekTable tr.highlight {
       background: var(--primary-light);
       color: white;
       font-weight: 700;
     }
 
-    body:not(.gradient-mode) .scheduleTable tr.highlight {
+    body:not(.gradient-mode) .scheduleTable tr.highlight, body:not(.gradient-mode) .weekTable tr.highlight {
       color: var(--text-on-primary);
     }
 
@@ -1293,16 +1293,16 @@
     }
 
     #holidayCountdown {
-      font-size: clamp(1.5em, 6vw, 3.5em);
+      /* font-size: clamp(1.5em, 6vw, 3.5em); */ /* REMOVED - Handled by children */
       font-weight: 700;
       text-align: center;
       color: var(--primary-light);
       background: var(--card-dark);
-      padding: 30px;
+      padding: 20px; /* WAS 30px */
       border-radius: 16px;
       box-shadow: var(--glow);
       margin: 20px 0;
-      letter-spacing: 0.05em;
+      /* letter-spacing: 0.05em; */ /* REMOVED */
     }
 
     body:not(.gradient-mode) #holidayCountdown {
@@ -1339,6 +1339,9 @@
       color: var(--text-light);
       opacity: 0.8;
       font-weight: 400;
+      /* Style inherited from #holidayCountdown */
+      font-size: 0.8em;
+      font-weight: 700;
     }
 
     body.gradient-mode #holidayCountdownLabel {
@@ -1353,16 +1356,109 @@
     }
 
     #holidayCountdownTime {
-      font-size: 1em;
+      /* font-size: 1em; */ /* REMOVED */
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px; /* Gap between blocks */
+      margin-top: 15px; /* Space from label */
     }
 
     body.gradient-mode #holidayCountdownTime {
-      color: white;
+      color: white; /* This was on the old element, move to new ones */
     }
 
     body.gradient-mode.light-mode #holidayCountdownTime {
-      color: #2c2c2c;
+      color: #2c2c2c; /* This was on the old element, move to new ones */
     }
+    
+    /* NEW Countdown Block Styles */
+    .countdown-block {
+      background: rgba(0, 0, 0, 0.2); /* Darker than card bg */
+      border-radius: 12px;
+      padding: 15px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    body.light-mode .countdown-block {
+      background: rgba(0, 0, 0, 0.05); /* Lighter bg for light mode */
+    }
+
+    .countdown-value {
+      font-size: clamp(1.8em, 6vw, 2.8em); /* Big number */
+      font-weight: 700;
+      color: var(--primary-light);
+      line-height: 1.1;
+      text-align: center; /* ADDED to center the numbers */
+      /* Allow updateRollingText to set width */
+    }
+    
+    /* Match text color to parent block */
+    body:not(.gradient-mode) .countdown-value {
+      color: var(--text-on-primary);
+    }
+    body.light-mode .countdown-value {
+      color: var(--primary);
+    }
+    body.gradient-mode .countdown-value {
+      color: white;
+    }
+    body.gradient-mode.light-mode .countdown-value {
+        color: #2c2c2c;
+    }
+
+
+    .countdown-label {
+      font-size: 0.7em; /* Small label */
+      font-weight: 400;
+      color: var(--text-light);
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    /* Match text color to parent block */
+    body:not(.gradient-mode) .countdown-label {
+      color: var(--text-on-primary);
+        opacity: 0.8;
+    }
+    body.light-mode .countdown-label {
+      color: #555;
+      opacity: 1;
+    }
+    body.gradient-mode .countdown-label {
+      color: white;
+        opacity: 0.9;
+    }
+    body.gradient-mode.light-mode .countdown-label {
+        color: #2c2c2c;
+        opacity: 0.9;
+    }
+    
+    /* Fix rolling text alignment */
+    .countdown-value .digit-roller {
+        height: 1em; /* Match font size */
+        line-height: 1em; /* Match font size */
+    }
+    
+    /* Light mode message */
+    body.light-mode #holidayCountdownMessage {
+        color: var(--primary);
+    }
+    
+    /* Gradient mode message */
+    body.gradient-mode #holidayCountdownMessage {
+        color: white;
+    }
+    
+    body.gradient-mode.light-mode #holidayCountdownMessage {
+        color: #2c2c2c;
+    }
+    /* END NEW Countdown Block Styles */
+
 
     body.gradient-mode #holidayCountdown {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
@@ -2110,11 +2206,30 @@
     <div id="scheduleModal">
       <button id="closeBtn" onclick="closeOverlayGracefully('holidaysOverlay')">×</button>
       <h2>Upcoming Holidays 2025-26</h2>
+      <!-- UPDATED HTML for Holiday Countdown -->
       <div id="holidayCountdown">
         <div id="holidayCountdownLabel">NEXT HOLIDAY</div>
-        <!-- CHANGE: Added more spacing for readability -->
-        <div id="holidayCountdownTime">--d&nbsp;&nbsp;&nbsp;--h&nbsp;&nbsp;&nbsp;--m&nbsp;&nbsp;&nbsp;--s</div>
+        <div id="holidayCountdownTime" class="countdown-grid">
+          <div class="countdown-block">
+            <span id="countdown-days" class="countdown-value">--</span>
+            <span class="countdown-label">DAYS</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-hours" class="countdown-value">--</span>
+            <span class="countdown-label">HOURS</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-minutes" class="countdown-value">--</span>
+            <span class="countdown-label">MINUTES</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-seconds" class="countdown-value">--</span>
+            <span class="countdown-label">SECONDS</span>
+          </div>
+        </div>
+        <div id="holidayCountdownMessage" style="display:none; font-size: 1.5em; text-align: center; padding: 30px 0;"></div>
       </div>
+      <!-- END UPDATED HTML -->
       <div id="holidays">
         <table class="holidayTable">
           <thead>
@@ -2352,11 +2467,22 @@
     
     // v1.4 Function to update rolling timers
     function updateRollingText(element, newText) {
+        if (!element) return; // Guard against null elements
         let oldText = element.dataset.previousText || element.textContent;
         
         if (oldText === newText) {
             return; // No change
         }
+        
+        // --- NEW FIX ---
+        // On first load (from "--") or if text length changes, just set the text directly.
+        // This avoids the mis-aligned roller issue from different lengths.
+        if (oldText === "--" || oldText.length !== newText.length) {
+            element.textContent = newText;
+            element.dataset.previousText = newText;
+            return;
+        }
+        // --- END NEW FIX ---
 
         // If it's not a timer (e.g., "Homework Time!"), just update
         if (!newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
@@ -3545,6 +3671,7 @@
       return null; // No holiday found
     }
     
+    // UPDATED to highlight current day
     function updateWeekSchedule() {
       const scheduleEl = document.getElementById('weekSchedule');
       let html = `<table class="weekTable">
@@ -3563,12 +3690,14 @@
       monday.setDate(now.getDate() + diff);
       
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      const todayName = currentDayName(); // Get current day name
       
       for (let i = 0; i < 5; i++) {
         const dayDate = new Date(monday);
         dayDate.setDate(monday.getDate() + i);
         
         const dayNameStr = weekDays[i];
+        const isToday = (dayNameStr === todayName); // Check if this is today
         const holidayName = getHolidayForDate(dayDate);
         
         let summary = '';
@@ -3605,7 +3734,8 @@
           }
         }
         
-        html += `<tr>
+        // Add 'highlight' class if isToday is true
+        html += `<tr class="${isToday ? 'highlight' : ''}">
                   <td>${dayNameStr}</td>
                   <td>${summary}</td>
                 </tr>`;
@@ -3615,12 +3745,13 @@
       scheduleEl.innerHTML = html;
     }
 
-    // CHANGED: This function now counts down to the end of the last school day
-    // before the holiday, and adds more spacing.
+    // UPDATED to use new countdown HTML
     function updateHolidayCountdown() {
       const now = new Date();
       const upcoming = holidays.find(h => h.date > now);
-      const countdownEl = document.getElementById('holidayCountdownTime');
+      
+      const countdownGrid = document.getElementById('holidayCountdownTime');
+      const countdownMsg = document.getElementById('holidayCountdownMessage');
       
       if (upcoming) {
         // Get start of the holiday day
@@ -3628,6 +3759,9 @@
         const lastSchoolDayEnd = getLastSchoolDayEndTime(holidayStartDate);
 
         if (lastSchoolDayEnd && lastSchoolDayEnd > now) {
+          countdownGrid.style.display = 'grid';
+          countdownMsg.style.display = 'none';
+
           const diff = lastSchoolDayEnd - now;
           const days = Math.floor(diff / (1000 * 60 * 60 * 24));
           const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -3635,19 +3769,26 @@
           const seconds = Math.floor((diff % (1000 * 60)) / 1000);
           
           document.getElementById('holidayCountdownLabel').innerHTML = `UNTIL ${upcoming.name}`;
-          // Added 3 spaces between units
-          updateRollingText(countdownEl, 
-            `${days} d   ${hours.toString().padStart(2,'0')} h   ${minutes.toString().padStart(2,'0')} m   ${seconds.toString().padStart(2,'0')} s`);
+          
+          // Update individual blocks
+          updateRollingText(document.getElementById('countdown-days'), days.toString());
+          updateRollingText(document.getElementById('countdown-hours'), hours.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('countdown-minutes'), minutes.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('countdown-seconds'), seconds.toString().padStart(2,'0'));
 
         } else {
           // Holiday has started or no school day found before it
+          countdownGrid.style.display = 'none';
+          countdownMsg.style.display = 'block';
+          updateRollingText(countdownMsg, 'Break in Progress'); // Use updateRollingText
           document.getElementById('holidayCountdownLabel').innerHTML = `ENJOY ${upcoming.name}`;
-          updateRollingText(countdownEl, 'Break in Progress');
         }
         
       } else {
+        countdownGrid.style.display = 'none';
+        countdownMsg.style.display = 'block';
+        updateRollingText(countdownMsg, 'End of school year'); // Use updateRollingText
         document.getElementById('holidayCountdownLabel').innerHTML = 'NO UPCOMING HOLIDAYS';
-        updateRollingText(countdownEl, 'End of school year');
       }
       
       updateHolidayTable();
