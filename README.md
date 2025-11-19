@@ -32,6 +32,7 @@ Built with **HTML, CSS, and JavaScript**, LW Schedule has a smooth, interactive 
 
 ## Upcoming Features
 
+- Reorder and rename settings buttons to: Theme, Classes (Coming Soon), Clubs (Coming Soon), Pack-Up Reminder (Coming Soon)
 - **Custom Schedules per User** – Students can input their own personalized schedule
 - Clubs support, student manually adds clubs and meeting times to their schedule, and can set to repeat weekly on certain days
 - **Teacher Info for Each Period** – Display the teacher assigned for each class
