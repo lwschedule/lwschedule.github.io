@@ -53,8 +53,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 
 ## 🚧 Upcoming Features (Planned)
 
-### 🧭 Pack-Up Enhancements
-
 ### 🏫 Custom Classes
 
 * Custom period names
