@@ -21,6 +21,7 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
 ## Upcoming Features
 
 - The pack up setup window should have a save and continue button, like lunches setup
+- Quarters/semesters button, showing days (if less than day, then hours, then minutes etc.) till each quarter and semester ending and starting, highlights current quarter and displays completed on completed quarters and semesters
 
 ### Schedule Enhancements
 
@@ -48,7 +49,7 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
   * Set weekly repeat days
   * Displays on initial setup (and if not already set up)
  
- Phone Caddy numbers for each class (will notify 2 min before class starts.
+ Phone Caddy numbers for each class (will notify 2 min before class starts), requires setting up classes
 
 ---
 
