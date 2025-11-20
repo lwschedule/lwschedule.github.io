@@ -55,13 +55,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 
 ### 🧭 Pack-Up Enhancements
 
-* Add **Save & Continue** button for Pack-Up setup (Lunch Setup already has this)
-
-### 📅 Schedule Improvements
-
-* Add **Period 5** for Thursday (1:00–1:45 PM)
-* Fully reorder home screen buttons in UI (functionality is updated internally, but UI still needs reordering)
-
 ### 🏫 Custom Classes
 
 * Custom period names
@@ -69,22 +62,26 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 * Teacher names
 * Room numbers
 * Integrate into Today’s Schedule & notifications
+* Will be able to skip in setup
 
 ### 🚶 Travel Time Estimates
 
 * Auto-calculate travel time between rooms
 * Adjust notifications based on walking distance
+* Will be able to skip in setup
 
 ### ⭐ Clubs Support
 
 * Add recurring clubs
 * Weekly repeat days
 * First-time setup reminder
+* Will be able to skip in setup
 
 ### 📱 Phone Caddy Alerts
 
 * Enter your caddy number per class
 * Two-minute warnings before class starts
+* Will be able to skip in setup
 
 ---
 
