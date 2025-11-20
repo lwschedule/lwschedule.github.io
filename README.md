@@ -35,13 +35,6 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
 * Notifications say "Head to *Class*", "In *Room Number*", and "With *Teacher*"
 
 ### Experience Improvements
-
-* **Pack-Up Reminders**
-
-  * Notification appears before class ends
-  * Options: 1, 3, 5, 7, or 10 minutes
-  * Displays on setup (and if not already set up)
-
 * **Estimated Travel Time**
   * Calculates time needed to get to the next class
   * Based on entered room numbers
