@@ -146,6 +146,14 @@
       background-size: 200% 200% !important;
       animation: gradientShift5 8s ease infinite !important;
     }
+    
+    /* MODIFIED: Added gradient mode for .term-card.highlight */
+    body.gradient-mode .term-card.highlight {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+      background-size: 200% 200% !important;
+      animation: gradientShift5 8s ease infinite !important;
+      color: white;
+    }
 
     body.gradient-mode .modeBtn.selected {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
@@ -158,11 +166,28 @@
       background-size: 200% 200% !important;
       animation: gradientShift4 8s ease infinite !important;
     }
+    
+    /* MODIFIED: Added gradient mode for .term-completed-badge */
+    body.gradient-mode .term-completed-badge {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+      background-size: 200% 200%;
+      animation: gradientShift4 8s ease infinite;
+      color: white;
+      opacity: 0.8;
+    }
 
     body.gradient-mode .confirmBtn {
       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
       background-size: 200% 200% !important;
       animation: gradientShift2 8s ease infinite !important;
+    }
+    
+    /* v1.7: Added gradient for pack-up-presets */
+    body.gradient-mode .pack-up-preset:hover {
+       background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+       background-size: 200% 200% !important;
+       animation: gradientShift4 8s ease infinite !important;
+       color: white;
     }
 
     body.gradient-mode .versionBadge {
@@ -433,19 +458,75 @@
       width: 100%;
       box-sizing: border-box; /* Include padding in width */
     }
+    
+    /* v1.7: Pack up input styles */
+    input[type="number"].pack-up-input {
+      background: var(--card-dark);
+      color: var(--text-light);
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-light);
+      box-shadow: var(--glow);
+      font-size: 1.2em;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box; /* Include padding in width */
+      text-align: center;
+      -moz-appearance: textfield; /* Firefox */
+    }
+    
+    input[type="number"].pack-up-input::-webkit-outer-spin-button,
+    input[type="number"].pack-up-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    /* v1.8: Style for placeholder */
+    input[type="number"].pack-up-input::placeholder {
+      color: var(--text-light);
+      opacity: 0.5;
+      font-weight: 400;
+      font-size: 0.9em;
+    }
+    
+    .pack-up-presets {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    
+    .pack-up-preset {
+      flex: 1;
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--primary-light);
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+    
+    .pack-up-preset:hover {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      transform: scale(1.05);
+    }
+    /* End v1.7 styles */
 
     .mainButtons {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
       justify-content: center;
       max-width: 650px;
       margin: 30px auto;
-      flex-wrap: wrap;
     }
 
     .mainBtn {
-      flex: 1;
-      min-width: 200px;
       background: var(--primary-light);
       color: white;
       border: none;
@@ -656,8 +737,8 @@
       backdrop-filter: blur(5px);
     }
 
-    /* MODIFIED v1.7: Added #weeklyLunchSetupOverlay */
-    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #weeklyLunchSetupOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active, #packUpOverlay.active {
+    /* MODIFIED: Added #quartersOverlay.active */
+    #scheduleOverlay.active, #holidaysOverlay.active, #settingsOverlay.active, #weeklyLunchSetupOverlay.active, #lunchSettingsOverlay.active, #themeOverlay.active, #infoOverlay.active, #weekOverlay.active, #packUpOverlay.active, #quartersOverlay.active {
       display: flex;
       animation: fadeIn 0.3s ease-out;
     }
@@ -682,8 +763,8 @@
       }
     }
 
-    /* MODIFIED v1.7: Added #weeklyLunchSetupOverlay, removed #welcomeOverlay */
-    #holidaysOverlay, #settingsOverlay, #weeklyLunchSetupOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay, #packUpOverlay {
+    /* MODIFIED: Added #quartersOverlay */
+    #holidaysOverlay, #settingsOverlay, #weeklyLunchSetupOverlay, #lunchSettingsOverlay, #themeOverlay, #infoOverlay, #weekOverlay, #packUpOverlay, #quartersOverlay {
       display: none;
       position: fixed;
       top: 0;
@@ -893,6 +974,116 @@
     .weekTable tr:hover {
       background: #2a2a2a;
     }
+    
+    /* --- NEW Quarters/Semesters Styles --- */
+    .academic-term-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .term-card {
+      background: #1f1f1f;
+      border-radius: 12px;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      /* border-left: 5px solid #444; */ /* REMOVED */
+      transition: all 0.3s ease;
+    }
+    
+    .term-card.highlight {
+      background: var(--primary-light);
+      /* border-left-color: white; */ /* REMOVED */
+      box-shadow: var(--glow);
+    }
+    
+    body:not(.gradient-mode) .term-card.highlight {
+      color: var(--text-on-primary);
+    }
+    
+    /* Gradient mode style for .term-card.highlight is above with other gradient rules */
+    
+    .term-info {
+      flex: 1;
+      min-width: 150px;
+    }
+    
+    .term-name {
+      font-size: 1.2em;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .term-dates {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+    
+    .term-card.highlight .term-dates {
+      opacity: 0.9;
+    }
+    
+    .term-countdown {
+      flex-shrink: 0;
+    }
+    
+    .term-countdown-block {
+      text-align: right;
+    }
+    
+    /* Re-use countdown styles but adjust size */
+    .term-countdown-block .countdown-value {
+      font-size: clamp(1.5em, 5vw, 2em);
+      font-weight: 700;
+      color: var(--primary-light);
+      line-height: 1.1;
+    }
+    
+    .term-countdown-block .countdown-label {
+      font-size: 0.7em;
+      font-weight: 400;
+      color: var(--text-light);
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    
+    /* Highlighted card countdown text */
+    .term-card.highlight .countdown-value {
+      color: white;
+    }
+    
+    body:not(.gradient-mode) .term-card.highlight .countdown-value {
+      color: var(--text-on-primary);
+    }
+    
+    .term-card.highlight .countdown-label {
+      color: white;
+      opacity: 0.8;
+    }
+    
+    body:not(.gradient-mode) .term-card.highlight .countdown-label {
+       color: var(--text-on-primary);
+       opacity: 0.9;
+    }
+    
+    .term-completed-badge {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 700;
+      opacity: 0.7; /* Make it subtle */
+    }
+    
+    /* Gradient mode style for .term-completed-badge is above with other gradient rules */
+    /* --- END Quarters/Semesters Styles --- */
 
     #scheduleModal h2 {
       margin-top: 0;
@@ -1676,8 +1867,8 @@
 <body class="theme-purple">
   <h1>LW Schedule</h1>
 
-  <button id="infoBtn" onclick="toggleInfo()">i</button>
-  <button id="settingsBtn" onclick="toggleSettings()">⚙️</button>
+  <button id="infoBtn" onclick="toggleInfo()" aria-label="Open About section">i</button>
+  <button id="settingsBtn" onclick="toggleSettings()" aria-label="Open Settings">⚙️</button>
 
   <div id="digitalClock">
     <div id="clockLabel">TIME REMAINING</div>
@@ -1686,15 +1877,18 @@
 
   <div id="timer"></div>
 
+  <!-- MODIFIED: Added Quarters/Semesters button and aria-labels -->
+  <!-- v1.7: Renamed buttons -->
   <div class="mainButtons">
-    <button class="mainBtn" id="scheduleBtn" onclick="toggleSchedule()">View Today's Schedule</button>
-    <button class="mainBtn" onclick="toggleWeekSchedule()">View Week's Schedule</button>
-    <button class="mainBtn" onclick="toggleHolidays()">Upcoming Holidays</button>
+    <button class="mainBtn" id="scheduleBtn" onclick="toggleSchedule()" aria-label="Open Today's Schedule">Today's Schedule</button>
+    <button class="mainBtn" onclick="toggleWeekSchedule()" aria-label="Open Week's Schedule">Week's Schedule</button>
+    <button class="mainBtn" onclick="toggleHolidays()" aria-label="Open Upcoming Holidays">Upcoming Holidays</button>
+    <button class="mainBtn" id="quartersBtn" onclick="toggleQuarters()" aria-label="Open Quarters and Semesters">Quarters/Semesters</button>
   </div>
 
   <div id="scheduleOverlay" class="overlay" onclick="closeOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('scheduleOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('scheduleOverlay')" aria-label="Close Today's Schedule">×</button>
       <h2>Today's Schedule</h2>
       <div id="schedule"></div>
     </div>
@@ -1702,7 +1896,7 @@
 
   <div id="weekOverlay" class="overlay" onclick="closeWeekScheduleOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('weekOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('weekOverlay')" aria-label="Close Week's Schedule">×</button>
       <h2>This Week's Schedule</h2>
       <div id="weekSchedule"></div>
     </div>
@@ -1710,7 +1904,7 @@
 
 <div id="holidaysOverlay" class="overlay" onclick="closeHolidaysOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('holidaysOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('holidaysOverlay')" aria-label="Close Upcoming Holidays">×</button>
       <h2>Upcoming Holidays 2025-26</h2>
       <!-- UPDATED HTML for Holiday Countdown -->
       <div id="holidayCountdown">
@@ -1752,9 +1946,28 @@
     </div>
   </div>
 
+<!-- NEW QUARTERS/SEMESTERS OVERLAY -->
+<div id="quartersOverlay" class="overlay" onclick="closeQuartersOverlay(event)">
+    <div id="scheduleModal">
+      <button id="closeBtn" onclick="closeOverlayGracefully('quartersOverlay')" aria-label="Close Quarters and Semesters">×</button>
+      <h2>Quarters & Semesters</h2>
+      
+      <h3 style="color: var(--primary-light); margin-top: 20px; margin-bottom: 10px; animation-delay: 0.1s;">Quarters 2025-26</h3>
+      <div id="quartersList" class="academic-term-list" style="animation-delay: 0.15s;">
+        <!-- Dynamic content will be injected here -->
+      </div>
+      
+      <h3 style="color: var(--primary-light); margin-top: 30px; margin-bottom: 10px; animation-delay: 0.2s;">Semesters 2025-26</h3>
+      <div id="semestersList" class="academic-term-list" style="animation-delay: 0.25s;">
+        <!-- Dynamic content will be injected here -->
+      </div>
+    </div>
+  </div>
+<!-- END QUARTERS/SEMESTERS OVERLAY -->
+
 <div id="settingsOverlay" class="overlay" onclick="closeSettingsOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('settingsOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('settingsOverlay')" aria-label="Close Settings">×</button>
       <h2>Settings</h2>
       <div class="settingsRow">
         <button class="mainBtn" onclick="toggleTheme()">Theme</button>
@@ -1778,10 +1991,11 @@
 
 <div id="infoOverlay" class="overlay" onclick="closeInfoOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('infoOverlay')" aria-label="Close About section">×</button>
       <h2>About</h2>
       <div class="infoContent">
-        <div class="versionBadge">Version 1.6</div>
+        <!-- v1.7: Updated version number -->
+        <div class="versionBadge">Version 1.7</div>
         
         <h3>Created By</h3>
         <p>Sanchit P.</p>
@@ -1797,7 +2011,7 @@
 
 <div id="themeOverlay" class="overlay" onclick="closeThemeOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('themeOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('themeOverlay')" aria-label="Close Theme settings">×</button>
       <h2>Choose Your Theme</h2>
       
       <!-- REMOVED modeToggle div -->
@@ -1848,7 +2062,7 @@
 
 <div id="lunchSettingsOverlay" class="overlay" onclick="closeLunchSettingsOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('lunchSettingsOverlay')">×</button>
+      <button id="closeBtn" onclick="closeOverlayGracefully('lunchSettingsOverlay')" aria-label="Close Lunch settings">×</button>
       <h2>Lunch Preferences</h2>
       <div class="settingsRow">
         <label>Monday Lunch:</label>
@@ -1892,25 +2106,35 @@
     </div>
   </div>
 
-<!-- --- NEW Pack-Up Reminder Overlay --- -->
+<!-- --- v1.7: MODIFIED Pack-Up Reminder Overlay --- -->
 <div id="packUpOverlay" class="overlay" onclick="closePackUpOverlay(event)">
     <div id="scheduleModal">
-      <button id="closeBtn" onclick="closeOverlayGracefully('packUpOverlay')">×</button>
+      <!-- v1.8: Removed close button -->
+      <!-- <button id="closeBtn" onclick="closeOverlayGracefully('packUpOverlay')" aria-label="Close Pack-Up settings">×</button> -->
       <h2>Pack-Up Reminders</h2>
       <div class="settingsRow">
-        <label for="packUpTime">Notify me before class ends:</label>
-        <select id="packUpTime" onchange="savePackUpTime(this.value)">
-          <option value="0">Off</option>
-          <option value="1">1 Minute</option>
-          <option value="3">3 Minutes</option>
-          <option value="5">5 Minutes</option>
-          <option value="7">7 Minutes</option>
-          <option value="10">10 Minutes</option>
-        </select>
+        <label for="packUpTimeInput">Notify me minutes before class ends:</label>
+        <!-- Replaced select with number input -->
+        <!-- v1.8: Replaced value="0" with placeholder -->
+        <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below" onchange="validatePackUpInput()">
+        <!-- Added preset buttons -->
+        <div class="pack-up-presets">
+            <button class="pack-up-preset" onclick="setPackUpPreset(0)">Off</button>
+            <button class="pack-up-preset" onclick="setPackUpPreset(1)">1</button>
+            <button class="pack-up-preset" onclick="setPackUpPreset(3)">3</button>
+            <button class="pack-up-preset" onclick="setPackUpPreset(5)">5</button>
+            <button class="pack-up-preset" onclick="setPackUpPreset(7)">7</button>
+            <button class="pack-up-preset" onclick="setPackUpPreset(10)">10</button>
+        </div>
       </div>
+      <!-- v1.8: Removed 'Set to 0' text -->
+      <!--
       <p style="text-align: center; opacity: 0.8; font-size: 0.9em; margin-top: 20px;">
-        You will get a pop-up notification this many minutes before the end of each period.
+        Set to "0" to turn off reminders.
       </p>
+      -->
+      <!-- Save button (was already here, just re-using) -->
+      <button class="continueBtn" id="savePackUpBtn" onclick="savePackUpSettings()">Save & Continue</button>
     </div>
   </div>
 <!-- --- END Pack-Up Reminder Overlay --- -->
@@ -1985,7 +2209,7 @@
 
   <div id="bottomBar" class="show"> <!-- <-- ADDED "show" CLASS HERE -->
     <p>Made by Sanchit P. • Inspired by <a href="https://schedule-manager.lwhsftc.org/" target="_blank">Schedule Manager</a></p>
-    <button id="closeBottomBar" onclick="closeBottomBar()">×</button>
+    <button id="closeBottomBar" onclick="closeBottomBar()" aria-label="Close bottom bar">×</button>
   </div>
   
   <div id="generalNotification" class="notification-pop">
@@ -2028,6 +2252,10 @@
     let lastPeriodName = null;
     // --- END ---
     
+    // --- NEW: Quarters/Semesters interval timer ---
+    let quartersInterval = null;
+    // --- END ---
+    
     // v1.4 Holiday List (for reset logic and countdown)
     const holidays = [
       { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025" },
@@ -2045,6 +2273,21 @@
       { name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026" },
       { name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026" }
     ];
+    
+    // --- NEW Academic Term Data ---
+    const academicTerms = {
+      quarters: [
+        { name: "1st Quarter", start: new Date(2025, 8, 2, 0, 0, 0), end: new Date(2025, 10, 4, 23, 59, 59) },
+        { name: "2nd Quarter", start: new Date(2025, 10, 5, 0, 0, 0), end: new Date(2026, 0, 23, 23, 59, 59) },
+        { name: "3rd Quarter", start: new Date(2026, 0, 24, 0, 0, 0), end: new Date(2026, 3, 3, 23, 59, 59) },
+        { name: "4th Quarter", start: new Date(2026, 3, 4, 0, 0, 0), end: new Date(2026, 5, 17, 23, 59, 59) }
+      ],
+      semesters: [
+        { name: "1st Semester", start: new Date(2025, 8, 2, 0, 0, 0), end: new Date(2026, 0, 23, 23, 59, 59) },
+        { name: "2nd Semester", start: new Date(2026, 0, 24, 0, 0, 0), end: new Date(2026, 5, 17, 23, 59, 59) }
+      ]
+    };
+    // --- END Academic Term Data ---
     
     // v1.4 Function to update rolling timers
     function updateRollingText(element, newText) {
@@ -2377,7 +2620,7 @@
           render();
           
           checkSettingsNotification();
-          checkBottomBar();
+          // checkBottomBar(); // <-- REMOVED THIS LINE
         }
       );
     }
@@ -2417,13 +2660,77 @@
       render();
     }
 
-    // --- NEW ---
+    // --- v1.7: MODIFIED ---
     function savePackUpTime(value) {
-      packUpTime = parseInt(value, 10) || 0;
+      // Validate the value
+      let numValue = parseInt(value, 10);
+      if (isNaN(numValue) || numValue < 0) {
+        numValue = 0;
+      }
+      if (numValue > 30) {
+        numValue = 30;
+      }
+      
+      packUpTime = numValue;
+      
       try {
         localStorage.setItem('pack-up-time', packUpTime);
       } catch (error) {
         console.error('Failed to save pack-up time:', error);
+        // Throw error to be caught by savePackUpSettings
+        throw new Error('Failed to save pack-up time to localStorage.');
+      }
+      
+      // Update the input field to the validated value
+      const inputEl = document.getElementById('packUpTimeInput');
+      if (inputEl) {
+          // v1.8: Set to empty string if 0 to show placeholder
+          inputEl.value = packUpTime > 0 ? packUpTime : '';
+      }
+    }
+    // --- END ---
+
+    // --- v1.7: NEW ---
+    function setPackUpPreset(value) {
+        const inputEl = document.getElementById('packUpTimeInput');
+        if (inputEl) {
+            // v1.8: Set to empty string if 0 to show placeholder
+            inputEl.value = value > 0 ? value : '';
+        }
+    }
+    
+    // v1.7: NEW
+    // v1.8: Modified validation
+    function validatePackUpInput() {
+        const inputEl = document.getElementById('packUpTimeInput');
+        if (inputEl) {
+            if (inputEl.value === '') return; // Empty is fine (means 0)
+            
+            let value = parseInt(inputEl.value, 10);
+            
+            if (isNaN(value) || value < 0) {
+                inputEl.value = ''; // Clear invalid text or negative numbers
+            }
+            if (value > 30) {
+                inputEl.value = 30;
+            }
+        }
+    }
+
+    // --- v1.7: MODIFIED ---
+    function savePackUpSettings() {
+      try {
+        // Read value from the new input
+        const value = document.getElementById('packUpTimeInput').value;
+        savePackUpTime(value); // savePackUpTime now handles validation
+        closeOverlayGracefully('packUpOverlay');
+      } catch (error) {
+        // This will now catch the error from savePackUpTime
+        showGeneralNotification(
+          null, 
+          "Error Saving", 
+          "Could not save your pack-up reminder setting. Please try again."
+        );
       }
     }
     // --- END ---
@@ -2837,6 +3144,21 @@
         updateHolidayTable();
       }
     }
+    
+    // --- NEW ---
+    function toggleQuarters() {
+      const overlay = document.getElementById('quartersOverlay');
+      if (overlay.classList.contains('active')) {
+        closeOverlayGracefully('quartersOverlay');
+        // Interval is cleared in closeOverlayGracefully
+      } else {
+        overlay.classList.add('active');
+        updateQuartersAndSemesters(); // Initial render
+        if (quartersInterval) clearInterval(quartersInterval); // Clear any existing
+        quartersInterval = setInterval(updateQuartersAndSemesters, 1000); // Refresh every second
+      }
+    }
+    // --- END ---
 
     function toggleSettings() {
       const overlay = document.getElementById('settingsOverlay');
@@ -2872,15 +3194,17 @@
       }
     }
 
-    // --- NEW ---
+    // --- v1.7: MODIFIED ---
     function togglePackUpSettings() {
       const overlay = document.getElementById('packUpOverlay');
       if (overlay.classList.contains('active')) {
         closeOverlayGracefully('packUpOverlay');
       } else {
         overlay.classList.add('active');
-        // Load current setting into select
-        document.getElementById('packUpTime').value = packUpTime;
+        // Load current setting into the new input
+        // v1.8: Set to empty string if 0 to show placeholder
+        const inputEl = document.getElementById('packUpTimeInput');
+        inputEl.value = packUpTime > 0 ? packUpTime : '';
       }
     }
     // --- END ---
@@ -2897,18 +3221,26 @@
       }
     }
 
+  // MODIFIED: Added quarters overlay interval clear
   function closeOverlayGracefully(overlayId) {
-  const overlay = document.getElementById(overlayId);
-  
-  // Start fade out
-  overlay.classList.add('closing');
-  
-  // Wait for animation to complete, then hide
-  setTimeout(() => {
-    overlay.classList.remove('active');
-    overlay.classList.remove('closing');
-  }, 300); // Match your animation duration
-}
+    const overlay = document.getElementById(overlayId);
+    
+    // --- NEW ---
+    if (overlayId === 'quartersOverlay' && quartersInterval) {
+      clearInterval(quartersInterval);
+      quartersInterval = null;
+    }
+    // --- END ---
+    
+    // Start fade out
+    overlay.classList.add('closing');
+    
+    // Wait for animation to complete, then hide
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      overlay.classList.remove('closing');
+    }, 300); // Match your animation duration
+  }
 
     function closeOverlay(event) {
       if (event.target === document.getElementById('scheduleOverlay')) {
@@ -2927,6 +3259,15 @@
         closeOverlayGracefully('holidaysOverlay');
       }
     }
+    
+    // --- NEW ---
+    function closeQuartersOverlay(event) {
+      if (event.target === document.getElementById('quartersOverlay')) {
+        closeOverlayGracefully('quartersOverlay');
+        // Interval is cleared in closeOverlayGracefully
+      }
+    }
+    // --- END ---
 
     function closeSettingsOverlay(event) {
       if (event.target === document.getElementById('settingsOverlay')) {
@@ -3190,6 +3531,7 @@
           { name:"Period 5", start: 11*60+35, end: 12*60+55 },
           { name:"Lunch", start: 13*60, end: 13*60+30 },
         ],
+        // MODIFIED: Added Period 5 to Thursday
         Thursday: [
           { name:"Period 2", start: 8*60+35, end: 9*60+55 },
           { name:"Period 3", start: 10*60+5, end: 10*60+50 },
@@ -3200,6 +3542,7 @@
             { name:"Period 4", start: 11*60, end: 12*60+20 },
             { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
           ]),
+          { name:"Period 5", start: 13*60, end: 13*60+45 },
           { name:"Period 6", start: 13*60+55, end: 15*60+15 }
         ],
         Friday: [
@@ -3278,6 +3621,8 @@
       const upcomingHolidays = holidays.filter(h => h.date > now);
       const tbody = document.getElementById('holidayTableBody');
       
+      if (!tbody) return; // Guard if overlay isn't open
+      
       if (upcomingHolidays.length === 0) {
         tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No more holidays this school year!</td></tr>';
         return;
@@ -3294,6 +3639,115 @@
       
       tbody.innerHTML = html;
     }
+    
+    // --- NEW Academic Term Render Functions ---
+    
+    // Helper for formatting dates (e.g., "Sep 2, 2025")
+    function formatTermDate(date) {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    
+    // Helper for formatting the countdown logic
+    function getCountdownHTML(now, start, end) {
+      const nowTime = now.getTime();
+      const startTime = start.getTime();
+      const endTime = end.getTime();
+      
+      if (nowTime > endTime) {
+        // Completed
+        return `<div class="term-completed-badge">Completed</div>`;
+      }
+      
+      let diff, label;
+      if (nowTime < startTime) {
+        // Starts in...
+        diff = startTime - nowTime;
+        label = "Starts in";
+      } else {
+        // Ends in...
+        diff = endTime - nowTime;
+        label = "Ends in";
+      }
+      
+      const totalSeconds = Math.floor(diff / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const totalHours = Math.floor(totalMinutes / 60);
+      const totalDays = Math.floor(totalHours / 24);
+      
+      let value, unit;
+      
+      if (totalDays > 0) {
+        value = totalDays;
+        unit = totalDays === 1 ? "Day" : "Days";
+      } else if (totalHours > 0) {
+        value = totalHours;
+        unit = totalHours === 1 ? "Hour" : "Hours";
+      } else if (totalMinutes > 0) {
+        value = totalMinutes;
+        unit = totalMinutes === 1 ? "Minute" : "Minutes";
+      } else {
+        value = totalSeconds;
+        unit = totalSeconds === 1 ? "Second" : "Seconds";
+      }
+      
+      return `
+        <div class="term-countdown-block">
+          <span class="countdown-label">${label}</span>
+          <span class="countdown-value">${value} ${unit}</span>
+        </div>
+      `;
+    }
+
+    function updateQuartersAndSemesters() {
+      const now = new Date();
+      const quartersListEl = document.getElementById('quartersList');
+      const semestersListEl = document.getElementById('semestersList');
+      
+      if (!quartersListEl || !semestersListEl) {
+          // Overlay not open, clear interval just in case
+          if (quartersInterval) {
+              clearInterval(quartersInterval);
+              quartersInterval = null;
+          }
+          return; 
+      }
+      
+      let quartersHTML = '';
+      academicTerms.quarters.forEach(term => {
+        const isActive = now >= term.start && now <= term.end;
+        quartersHTML += `
+          <div class="term-card ${isActive ? 'highlight' : ''}">
+            <div class="term-info">
+              <div class="term-name">${term.name}</div>
+              <div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div>
+            </div>
+            <div class="term-countdown">
+              ${getCountdownHTML(now, term.start, term.end)}
+            </div>
+          </div>
+        `;
+      });
+      
+      let semestersHTML = '';
+      academicTerms.semesters.forEach(term => {
+        const isActive = now >= term.start && now <= term.end;
+        semestersHTML += `
+          <div class="term-card ${isActive ? 'highlight' : ''}">
+            <div class="term-info">
+              <div class="term-name">${term.name}</div>
+              <div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div>
+            </div>
+            <div class="term-countdown">
+              ${getCountdownHTML(now, term.start, term.end)}
+            </div>
+          </div>
+        `;
+      });
+      
+      quartersListEl.innerHTML = quartersHTML;
+      semestersListEl.innerHTML = semestersHTML;
+    }
+    // --- END Academic Term Render Functions ---
     
     // ADDED: Helper function to find the start of the next school day
     function getNextSchoolDayStartTime() {
@@ -3473,6 +3927,9 @@
       const countdownGrid = document.getElementById('holidayCountdownTime');
       const countdownMsg = document.getElementById('holidayCountdownMessage');
       
+      // Guard if overlay isn't open
+      if (!countdownGrid || !countdownMsg) return;
+      
       if (upcoming) {
         // Get start of the holiday day
         const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
@@ -3523,10 +3980,11 @@
       let currentPeriodName = null;
       
       const scheduleBtn = document.getElementById('scheduleBtn');
+      // v1.7: Use new button text
       if (!today || today.length === 0) {
         scheduleBtn.textContent = 'Holiday Today';
       } else {
-        scheduleBtn.textContent = "View Today's Schedule";
+        scheduleBtn.textContent = "Today's Schedule";
       }
       
       if (!today || today.length === 0) {
@@ -3537,8 +3995,10 @@
         document.getElementById('timer').innerHTML = "Enjoy your day off!";
         document.getElementById('timer').classList.remove('hidden');
         
-        if (currentHolidayMessage) {
-          document.getElementById('schedule').innerHTML = `
+        // Guard against scheduleEl being null if overlay not open
+        const scheduleEl = document.getElementById('schedule');
+        if (scheduleEl && currentHolidayMessage) {
+          scheduleEl.innerHTML = `
             <div class="noSchoolMessage">
               <h3>No School Today</h3>
               <p>${currentHolidayMessage}</p>
@@ -3587,8 +4047,12 @@
           }
         }
       }
-
-      document.getElementById('schedule').innerHTML = html;
+      
+      // Guard against scheduleEl being null if overlay not open
+      const scheduleEl = document.getElementById('schedule');
+      if (scheduleEl) {
+         scheduleEl.innerHTML = html;
+      }
 
       if (current) {
         currentPeriodName = current.name; // --- NEW ---
@@ -3713,4 +4177,3 @@
   </script>
 </body>
 </html>
-
