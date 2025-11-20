@@ -47,6 +47,8 @@ A sleek, dark-themed schedule viewer built for students who want a fast, simple 
   * Add club meeting times
   * Set weekly repeat days
   * Displays on initial setup (and if not already set up)
+ 
+ Phone Caddy numbers for each class (will notify 2 min before class starts.
 
 ---
 
