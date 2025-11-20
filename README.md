@@ -1,57 +1,107 @@
 # LW Schedule
 
-**Version:** `v1.6`
+A fast, clean, dark-themed schedule viewer built for LW students. Check today’s schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
+
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-
-A sleek, dark-themed schedule viewer built for students who want a fast, simple way to check their classes, time remaining, lunch schedule, and holidays — all in one place.
+**Current Version:** `v1.7`
 
 ---
 
-## Features
+## ✨ Features
 
-* **Digital Clock & Rolling Timer**
+### 🕒 Smart Timekeeping
+
+* **Digital Clock**
+* **Rolling Time Remaining**
 * **Next Period Preview**
-* **Full Daily Schedule**
-* **Upcoming Holiday Countdown**
-* **Lunch Preferences (A/B)**
-* **Dark Theme**
+* **Auto-highlighting current period**
+
+### 📅 Schedules
+
+* **Today's Schedule** — updated based on day of week & holidays
+* **Week’s Schedule** — shows a full week layout
+* **Upcoming Holidays** — full list + live countdown
+* **Quarters/Semesters** *(new in v1.7)*
+
+  * Shows start/end dates
+  * Highlights current active term
+  * Shows time remaining (days → hours → minutes → seconds)
+  * Marks completed terms automatically
+
+### 🍽 Lunch Preferences
+
+* Set A/B lunch for Monday, Tuesday, Thursday, Friday
+* Wednesday automatically assigned to all-school lunch
+* First-time setup screen included
+
+### 🎒 Pack-Up Reminder *(updated in v1.8-ready UI)*
+
+* Numeric input field
+* Optional presets (`Off`, `1`, `3`, `5`, `7`, `10`)
+* Save & Continue button
+* Reminder notifies X minutes before a period ends
+
+### 🎨 Themes
+
+* 8 color themes
+* Static or animated gradient mode
+* Fully persistent using localStorage
 
 ---
 
-## Upcoming Features
+## 🚧 Upcoming Features (Planned)
 
-- The pack up setup window should have a save and continue button, like lunches setup
-- Quarters/semesters button, showing days (if less than day, then hours, then minutes etc.) till each quarter and semester ending and starting, highlights current quarter and displays completed on completed quarters and semesters
-- rename and reorder main screen buttons to "Today's Schedule", "Week's Schedule", "Upcoming Holidays", "Quarters/Semesters"
-- Add period 5 on normal schedule on thursdays 1-145 PM
+### 🧭 Pack-Up Enhancements
 
-### Schedule Enhancements
+* Add **Save & Continue** button for Pack-Up setup (Lunch Setup already has this)
 
-* **Custom Schedules** – Students define their own class periods
-* **Teacher Info** – Assign teachers to each period
-* **Room Numbers** – Display classroom locations
-* **Class Titles** – Full course names
-* The "View Today's Schedule" will be update with the class title replacing periods (if the user has classes set-up)
-* Notifications say "Head to *Class*", "In *Room Number*", and "With *Teacher*"
+### 📅 Schedule Improvements
 
-### Experience Improvements
-* **Estimated Travel Time**
-  * Calculates time needed to get to the next class
-  * Based on entered room numbers
+* Add **Period 5** for Thursday (1:00–1:45 PM)
+* Fully reorder home screen buttons in UI (functionality is updated internally, but UI still needs reordering)
 
-* **Clubs Support**
-  * Add club meeting times
-  * Set weekly repeat days
-  * Displays on initial setup (and if not already set up)
- 
- Phone Caddy numbers for each class (will notify 2 min before class starts), requires setting up classes
+### 🏫 Custom Classes
+
+* Custom period names
+* Class titles
+* Teacher names
+* Room numbers
+* Integrate into Today’s Schedule & notifications
+
+### 🚶 Travel Time Estimates
+
+* Auto-calculate travel time between rooms
+* Adjust notifications based on walking distance
+
+### ⭐ Clubs Support
+
+* Add recurring clubs
+* Weekly repeat days
+* First-time setup reminder
+
+### 📱 Phone Caddy Alerts
+
+* Enter your caddy number per class
+* Two-minute warnings before class starts
 
 ---
 
-## License
+## 📝 Tech Stack
 
-**MIT License**
+* **HTML / CSS / JavaScript (Vanilla)**
+* Animations via CSS keyframes
+* Persistent settings via `localStorage`
+* Hosted with **GitHub Pages**
 
 ---
 
-### Current Release: `v1.4`
+## 📜 License
+
+This project is released under the **MIT License**.
+
+---
+
+## 💡 Credits
+
+**Created by:** Sanchit P.
+**Inspired by:** LW Schedule Manager by Rudra Pandit
