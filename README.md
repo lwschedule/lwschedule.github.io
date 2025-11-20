@@ -81,6 +81,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
+UI on smaller screens all buttons should be in a 1x4 grid rather than 2x2
 ---
 
 ## 📝 Tech Stack
