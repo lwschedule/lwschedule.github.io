@@ -89,7 +89,7 @@ Winter break starts dec 20, and ends jan 4
 Edit holidays to include weekends, if it is a long weekend or break attached to weekend
 Monthly calnedar will be sep 2025, to jun2026
 add skip option to pick up reminders setup, then value will be set to off
-
+Fix issue on friday where 3 period starts 1142 and ends 1230
 ---
 
 ## 📝 Tech Stack
