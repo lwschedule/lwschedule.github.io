@@ -87,6 +87,8 @@ Add durations for classes in today's schedule
 Add months schedule, that looks like calendar, half days orange, and days off red, each day should show the numbers/summary of schedule (e.g. 1,2,3,L,4,5,6)
 Winter break starts dec 20, and ends jan 4
 Edit holidays to include weekends, if it is a long weekend or break attached to weekend
+Monthly calnedar will be sep 2025, to jun2026
+
 ---
 
 ## 📝 Tech Stack
