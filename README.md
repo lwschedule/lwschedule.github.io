@@ -90,6 +90,9 @@ Edit holidays to include weekends, if it is a long weekend or break attached to 
 Monthly calnedar will be sep 2025, to jun2026
 add skip option to pick up reminders setup, then value will be set to off
 Fix issue on friday where 3 period should starts 1142 and ends 1230
+remove all comments and commented code
+if time until
+next school day is graeter than 1 day then it should show x:x:x:x
 
 ---
 
