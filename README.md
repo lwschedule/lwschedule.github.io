@@ -82,6 +82,11 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 * Will be able to skip in setup
 
 UI on smaller screens all buttons should be in a 1x4 grid rather than 2x2
+Add all schedules button, which shows more info about normal schedule, and special schedule (each hidden behind buttons)
+Add durations for classes in today's schedule
+Add months schedule, that looks like calendar, half days orange, and days off red, each day should show the numbers/summary of schedule (e.g. 1,2,3,L,4,5,6)
+Winter break starts dec 20, and ends jan 4
+Edit holidays to include weekends, if it is a long weekend or break attached to weekend
 ---
 
 ## 📝 Tech Stack
