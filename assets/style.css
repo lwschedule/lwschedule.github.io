@@ -131,8 +131,9 @@ h2, h3 {
   padding: 30px;
   border-radius: 16px;
   box-shadow: var(--glow);
-  margin: 20px 0;
   letter-spacing: 0.05em;
+  max-width: 650px;
+  margin: 20px auto;
 }
 #clockLabel {
   font-size: 0.3em;
@@ -152,8 +153,9 @@ h2, h3 {
   padding: 15px;
   border-radius: 16px;
   box-shadow: var(--glow);
-  margin: 20px 0;
   color: var(--text-light);
+  max-width: 650px;
+  margin: 20px auto;
 }
 #timer.hidden {
   display: none;
@@ -163,7 +165,8 @@ h2, h3 {
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   justify-content: center;
-  margin: 30px 0;
+  max-width: 650px;
+  margin: 30px auto;
 }
 .mainBtn {
   background: var(--primary-light);
@@ -205,9 +208,9 @@ h2, h3 {
   transform: scale(1.05);
 }
 .pageContainer {
-  width: 100%;
+  max-width: 650px;
   margin: 0 auto;
-  padding: 80px 20px 20px 20px;
+  padding: 80px 0 20px 0;
   animation: fadeInUp 0.6s ease-out;
 }
 .scheduleTable {
@@ -456,6 +459,74 @@ h2, h3 {
 .footer {
   text-align: center;
   margin-top: 40px;
+}
+.infoContent {
+  text-align: center;
+  padding: 20px;
+}
+.infoContent h3 {
+  color: var(--primary-light);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.infoContent p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.infoContent a {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 700;
+}
+.infoContent a:hover {
+  text-decoration: underline;
+}
+.settingsRow {
+  padding: 15px;
+  margin: 10px 0;
+  background: #1f1f1f;
+  border-radius: 12px;
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+.settingsRow .mainBtn {
+  width: 100%;
+}
+.mainBtn.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #555;
+}
+.mainBtn.disabledBtn:hover {
+  background: #555;
+  transform: none;
+}
+.resetBtn {
+  display: block;
+  width: 100%;
+  background: #555;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 700;
+  margin-top: 20px;
+  text-decoration: none;
+  text-align: center;
+}
+.resetBtn:hover {
+  background: #c41e3a;
+  transform: scale(1.05);
+}
+.resetBtn.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.resetBtn.disabledBtn:hover {
+  background: #555;
+  transform: none;
 }
 @media (max-width: 600px) {
   .mainButtons {
