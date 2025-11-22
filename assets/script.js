@@ -13,10 +13,10 @@ const holidays = [
   { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025" },
   { name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025" },
   { name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025" },
-  { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-28, 2025" },
-  { name: "Winter Break", date: new Date(2025, 11, 22), displayDate: "December 22, 2025 - January 2, 2026" },
+  { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-29, 2025" },
+  { name: "Winter Break", date: new Date(2025, 11, 20), displayDate: "December 20, 2025 - January 4, 2026" },
   { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026" },
-  { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-13, 2026" },
+  { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-16, 2026" },
   { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026" },
   { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026" },
   { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026" },
@@ -322,14 +322,14 @@ function getSchedules(date) {
       { name:"Period 2", start: 10*60+17, end: 11*60+5 },
       ...(lunch === 'A' ? [
         { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
-        { name:"Period 3", start: 11*60+42, end: 12*60 }
+        { name:"Period 3", start: 11*60+42, end: 12*60+30 }
       ] : [
-        { name:"Period 3", start: 11*60+42, end: 12*60 },
-        { name:"B Lunch", start: 12*60, end: 12*60+30 }
+        { name:"Period 3", start: 11*60+42, end: 12*60+30 },
+        { name:"B Lunch", start: 12*60+30, end: 13*60 }
       ]),
-      { name:"Period 4", start: 12*60+37, end: 13*60+25 },
-      { name:"Period 5", start: 13*60+32, end: 14*60+20 },
-      { name:"Period 6", start: 14*60+27, end: 15*60+15 }
+      { name:"Period 4", start: 13*60+7, end: 13*60+55 },
+      { name:"Period 5", start: 14*60+2, end: 14*60+50 },
+      { name:"Period 6", start: 14*60+57, end: 15*60+15 }
     ]
   };
 }
@@ -559,22 +559,22 @@ function getHolidayForDate(date) {
     }
 
     if (holiday.name === "Thanksgiving Break") {
-        const start = holidayTime;
-        const end = new Date(2025, 10, 28).getTime();
+        const start = new Date(2025, 10, 27).getTime();
+        const end = new Date(2025, 10, 29).getTime();
         if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Winter Break") {
-        const start = holidayTime;
-        const end = new Date(2026, 0, 2).getTime();
+        const start = new Date(2025, 11, 20).getTime();
+        const end = new Date(2026, 0, 4).getTime();
         if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Mid-Winter Break") {
-        const start = holidayTime;
-        const end = new Date(2026, 1, 13).getTime();
+        const start = new Date(2026, 1, 12).getTime();
+        const end = new Date(2026, 1, 16).getTime();
         if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Spring Break") {
-        const start = holidayTime;
+        const start = new Date(2026, 3, 13).getTime();
         const end = new Date(2026, 3, 17).getTime();
         if (checkTime >= start && checkTime <= end) return holiday.name;
     }
@@ -825,7 +825,7 @@ function updateClock() {
           const d = Math.floor(totalHours / 24);
           
           let countdownStr = "";
-          if (d > 0) {
+          if (d > 1) {
             countdownStr = `${d}d   ${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
           } else {
             countdownStr = `${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
