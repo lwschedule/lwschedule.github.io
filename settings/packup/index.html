@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pack-Up Reminders - LW Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .settingsRow label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .pack-up-input {
+      background: var(--card-dark);
+      color: var(--text-light);
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-light);
+      box-shadow: var(--glow);
+      font-size: 1.2em;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      -moz-appearance: textfield;
+    }
+    .pack-up-input::-webkit-outer-spin-button,
+    .pack-up-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .pack-up-input::placeholder {
+      color: var(--text-light);
+      opacity: 0.5;
+      font-weight: 400;
+      font-size: 0.9em;
+    }
+    .pack-up-presets {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    .pack-up-preset {
+      flex: 1;
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--primary-light);
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+    .pack-up-preset:hover {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      transform: scale(1.05);
+    }
+    .saveBtn {
+      display: block;
+      width: 100%;
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      transition: all 0.3s;
+      font-weight: 700;
+      margin-top: 20px;
+    }
+    .saveBtn:hover {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+    .description {
+      text-align: center;
+      opacity: 0.8;
+      font-size: 0.9em;
+      margin: 10px 0 20px;
+    }
+  </style>
+</head>
+<body class="theme-purple">
+  <a href="/settings" class="backBtn">← Back</a>
+  <div class="pageContainer">
+    <h2>Pack-Up Reminders</h2>
+    <p class="description">Get notified before class ends so you have time to pack up.</p>
+    <div class="settingsRow">
+      <label for="packUpTimeInput">Notify me minutes before class ends:</label>
+      <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below">
+      <div class="pack-up-presets">
+        <button class="pack-up-preset" data-value="0">Off</button>
+        <button class="pack-up-preset" data-value="1">1</button>
+        <button class="pack-up-preset" data-value="3">3</button>
+        <button class="pack-up-preset" data-value="5">5</button>
+        <button class="pack-up-preset" data-value="7">7</button>
+        <button class="pack-up-preset" data-value="10">10</button>
+      </div>
+    </div>
+    <button class="saveBtn" id="saveBtn">Save</button>
+  </div>
+  <script src="/assets/script.js"></script>
+  <script>
+    let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+    const input = document.getElementById('packUpTimeInput');
+    
+    if (packUpTime > 0) {
+      input.value = packUpTime;
+    }
+    
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.value, 10);
+        input.value = val > 0 ? val : '';
+      });
+    });
+    
+    input.addEventListener('change', () => {
+      let val = parseInt(input.value, 10);
+      if (isNaN(val) || val < 0) input.value = '';
+      if (val > 30) input.value = 30;
+    });
+    
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      let val = parseInt(input.value, 10);
+      if (isNaN(val) || val < 0) val = 0;
+      if (val > 30) val = 30;
+      localStorage.setItem('pack-up-time', val);
+      alert('Pack-up reminder saved!');
+      location.href = '/settings';
+    });
+  </script>
+</body>
+</html>

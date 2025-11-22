@@ -71,34 +71,111 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
-.topRightButtons {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 1000;
+body.gradient-mode #digitalClock {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift 8s ease infinite !important;
 }
-.circleBtn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--primary-light);
-  color: var(--text-on-primary);
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-  box-shadow: var(--glow);
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-weight: 700;
+body.gradient-mode #timer {
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
 }
-.circleBtn:hover {
-  background: var(--primary);
-  transform: scale(1.1);
+body.gradient-mode .mainBtn:not(.disabledBtn) {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift2 8s ease infinite !important;
+}
+body.gradient-mode .circleBtn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift3 8s ease infinite !important;
+}
+body.gradient-mode .backBtn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift3 8s ease infinite !important;
+}
+body.gradient-mode .scheduleTable th,
+body.gradient-mode .holidayTable th,
+body.gradient-mode .weekTable th {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift5 8s ease infinite !important;
+}
+body.gradient-mode .scheduleTable tr.highlight,
+body.gradient-mode .weekTable tr.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift5 8s ease infinite !important;
+}
+body.gradient-mode .term-card.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift5 8s ease infinite !important;
+  color: white;
+}
+body.gradient-mode .term-completed-badge {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift4 8s ease infinite;
+  color: white;
+  opacity: 0.8;
+}
+body.gradient-mode .versionBadge {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+  background-size: 200% 200% !important;
+  animation: gradientShift5 8s ease infinite !important;
+}
+body.gradient-mode #holidayCountdown {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+body.gradient-mode .noSchoolMessage h3 {
+  color: white;
+}
+body.gradient-mode .noSchoolMessage p {
+  color: white;
+  opacity: 1;
+}
+body.gradient-mode h2, body.gradient-mode h3 {
+  color: white;
+}
+body.gradient-mode .infoContent a {
+  color: white;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 25%; }
+  50% { background-position: 0% 75%; }
+  75% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes gradientShift2 {
+  0% { background-position: 100% 0%; }
+  33% { background-position: 0% 100%; }
+  66% { background-position: 50% 50%; }
+  100% { background-position: 100% 0%; }
+}
+@keyframes gradientShift3 {
+  0% { background-position: 50% 100%; }
+  30% { background-position: 100% 0%; }
+  60% { background-position: 0% 50%; }
+  100% { background-position: 50% 100%; }
+}
+@keyframes gradientShift4 {
+  0% { background-position: 25% 75%; }
+  40% { background-position: 75% 25%; }
+  80% { background-position: 0% 100%; }
+  100% { background-position: 25% 75%; }
+}
+@keyframes gradientShift5 {
+  0% { background-position: 75% 25%; }
+  35% { background-position: 25% 75%; }
+  70% { background-position: 100% 100%; }
+  100% { background-position: 75% 25%; }
 }
 @keyframes rollUpIn {
   from { transform: translateY(100%); opacity: 0; }
@@ -135,14 +212,8 @@ body::-webkit-scrollbar {
   vertical-align: middle;
 }
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 h1, h2, h3 {
   animation: fadeInUp 0.6s ease-out;
@@ -151,28 +222,83 @@ h1, h2, h3 {
 h2, h3 {
   color: var(--primary-light);
 }
+.topRightButtons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+.circleBtn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--text-on-primary);
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  box-shadow: var(--glow);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 700;
+}
+.circleBtn:hover {
+  background: var(--primary);
+  transform: scale(1.1);
+}
 #digitalClock {
-  font-size: clamp(3em, 12vw, 5em);
   font-weight: 700;
   text-align: center;
   color: var(--text-on-primary);
   background: var(--primary-light);
-  padding: 30px;
+  padding: 20px;
   border-radius: 16px;
   box-shadow: var(--glow);
-  letter-spacing: 0.05em;
   max-width: 650px;
   margin: 20px auto;
 }
 #clockLabel {
-  font-size: 0.3em;
+  font-size: 0.8em;
   margin-bottom: 10px;
   color: var(--text-on-primary);
   opacity: 0.9;
-  font-weight: 400;
+  font-weight: 700;
 }
 #clockDisplay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+.time-block {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.time-value {
+  font-size: clamp(1.8em, 6vw, 2.8em);
+  font-weight: 700;
   color: var(--text-on-primary);
+  line-height: 1.1;
+  text-align: center;
+}
+.time-label {
+  font-size: 0.7em;
+  font-weight: 400;
+  color: var(--text-on-primary);
+  opacity: 0.8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 5px;
 }
 #timer {
   font-size: clamp(0.9em, 4vw, 1.1em);
@@ -214,6 +340,16 @@ h2, h3 {
 .mainBtn:hover {
   background: var(--primary);
   transform: scale(1.05);
+}
+.mainBtn.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #555 !important;
+  animation: none !important;
+}
+.mainBtn.disabledBtn:hover {
+  background: #555 !important;
+  transform: none;
 }
 .backBtn {
   position: absolute;
@@ -511,23 +647,18 @@ h2, h3 {
   text-decoration: underline;
 }
 .settingsRow {
-  padding: 15px;
-  margin: 10px 0;
-  background: #1f1f1f;
-  border-radius: 12px;
+  padding: 0;
+  margin: 15px 0;
+  background: transparent;
   animation: fadeInUp 0.5s ease-out backwards;
 }
+.settingsRow:nth-of-type(1) { animation-delay: 0.1s; }
+.settingsRow:nth-of-type(2) { animation-delay: 0.15s; }
+.settingsRow:nth-of-type(3) { animation-delay: 0.2s; }
+.settingsRow:nth-of-type(4) { animation-delay: 0.25s; }
+.settingsRow:nth-of-type(5) { animation-delay: 0.3s; }
 .settingsRow .mainBtn {
   width: 100%;
-}
-.mainBtn.disabledBtn {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: #555;
-}
-.mainBtn.disabledBtn:hover {
-  background: #555;
-  transform: none;
 }
 .resetBtn {
   display: block;
@@ -548,14 +679,6 @@ h2, h3 {
 .resetBtn:hover {
   background: #c41e3a;
   transform: scale(1.05);
-}
-.resetBtn.disabledBtn {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.resetBtn.disabledBtn:hover {
-  background: #555;
-  transform: none;
 }
 @media (max-width: 600px) {
   .mainButtons {
@@ -578,5 +701,8 @@ h2, h3 {
     width: 45px;
     height: 45px;
     font-size: 1.3em;
+  }
+  #clockDisplay {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

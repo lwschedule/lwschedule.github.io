@@ -38,83 +38,77 @@ const academicTerms = {
   ]
 };
 
+function loadLunchPreferences() {
+  try {
+    const saved = localStorage.getItem('lunchPreferences');
+    if (saved) {
+      lunchPreferences = JSON.parse(saved);
+    }
+  } catch (e) {}
+}
+
 function updateRollingText(element, newText) {
-    if (!element) return;
-    let oldText = element.dataset.previousText || element.textContent;
-    
-    if (oldText === newText) {
-        return;
-    }
-    
-    if (oldText === "--" || (oldText && oldText.length !== newText.length)) {
-        element.textContent = newText;
-        element.dataset.previousText = newText;
-        return;
-    }
-
-    if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
-         if (oldText !== newText) element.textContent = newText;
-         element.dataset.previousText = newText;
-         return;
-    }
-
+  if (!element) return;
+  let oldText = element.dataset.previousText || element.textContent;
+  if (oldText === newText) return;
+  if (oldText === "--" || (oldText && oldText.length !== newText.length)) {
+    element.textContent = newText;
     element.dataset.previousText = newText;
-    
-    let html = '';
-    let newChars = newText.split('');
-    let oldChars = oldText.split('');
-    
-    let len = Math.max(newChars.length, oldChars.length);
-
-    for (let i = 0; i < len; i++) {
-        let newChar = newChars[i] || '';
-        let oldChar = oldChars[i] || '';
-
-        if (newChar === oldChar) {
-            html += `<span class="static-char">${newChar}</span>`;
-        } else {
-            let width = '0.6em';
-            if (newChar === ':' || newChar === '.') width = '0.3em';
-            if (newChar === ' ') width = '0.2em';
-            if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
-
-            html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
-            html += `<span class="old">${oldChar}</span>`;
-            html += `<span class="new">${newChar}</span>`;
-            html += `</span>`;
-        }
+    return;
+  }
+  if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
+    if (oldText !== newText) element.textContent = newText;
+    element.dataset.previousText = newText;
+    return;
+  }
+  element.dataset.previousText = newText;
+  let html = '';
+  let newChars = newText.split('');
+  let oldChars = oldText.split('');
+  let len = Math.max(newChars.length, oldChars.length);
+  for (let i = 0; i < len; i++) {
+    let newChar = newChars[i] || '';
+    let oldChar = oldChars[i] || '';
+    if (newChar === oldChar) {
+      html += `<span class="static-char">${newChar}</span>`;
+    } else {
+      let width = '0.6em';
+      if (newChar === ':' || newChar === '.') width = '0.3em';
+      if (newChar === ' ') width = '0.2em';
+      if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
+      html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
+      html += `<span class="old">${oldChar}</span>`;
+      html += `<span class="new">${newChar}</span>`;
+      html += `</span>`;
     }
-    element.innerHTML = html;
+  }
+  element.innerHTML = html;
 }
 
 function isVeteransWeek(date) {
-  const now = date;
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const day = now.getDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
   return year === 2025 && month === 10 && day >= 10 && day <= 14;
 }
 
 function isThanksgivingWeek(date) {
-  const now = date;
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const day = now.getDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
   return year === 2025 && month === 10 && day >= 24 && day <= 28;
 }
 
 function isFinalsWeek(date) {
-  const now = date;
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const day = now.getDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
   return year === 2026 && month === 0 && day >= 19 && day <= 23;
 }
 
 function getSchedules(date) {
   const today = getDayNameFromDate(date);
   const lunch = lunchPreferences[today] || 'A';
-  
   if (isFinalsWeek(date)) {
     return {
       Monday: [],
@@ -135,7 +129,7 @@ function getSchedules(date) {
         { name:"Period 1", start: 8*60+35, end: 9*60+55 },
         { name:"Period 3", start: 10*60+5, end: 11*60+25 },
         { name:"Period 5", start: 11*60+35, end: 12*60+55 },
-        { name:"Lunch", start: 13*60, end: 13*60+30 },
+        { name:"Lunch", start: 13*60, end: 13*60+30 }
       ],
       Thursday: [
         { name:"Period 2", start: 8*60+35, end: 9*60+55 },
@@ -165,7 +159,6 @@ function getSchedules(date) {
       ]
     };
   }
-  
   if (isThanksgivingWeek(date)) {
     return {
       Monday: [
@@ -210,7 +203,6 @@ function getSchedules(date) {
       Friday: []
     };
   }
-  
   if (isVeteransWeek(date)) {
     return {
       Monday: [
@@ -235,7 +227,7 @@ function getSchedules(date) {
         { name:"Period 4", start: 10*60+47, end: 11*60+24 },
         { name:"Period 5", start: 11*60+31, end: 12*60+8 },
         { name:"Period 6", start: 12*60+15, end: 12*60+52 },
-        { name:"Lunch", start: 12*60+52, end: 13*60+30 },
+        { name:"Lunch", start: 12*60+52, end: 13*60+30 }
       ],
       Thursday: [
         { name:"Period 1", start: 8*60+35, end: 9*60+30 },
@@ -268,7 +260,6 @@ function getSchedules(date) {
       ]
     };
   }
-  
   return {
     Monday: [
       { name:"Period 1", start: 8*60+35, end: 9*60+55 },
@@ -288,10 +279,10 @@ function getSchedules(date) {
       { name:"Period 2", start: 9*60+30, end: 10*60+50 },
       ...(lunch === 'A' ? [
         { name:"A Lunch", start: 10*60+50, end: 11*60+20 },
-        { name:"Period 4 (Part 1)", start: 11*60+30, end: 12*60+50 },
+        { name:"Period 4 (Part 1)", start: 11*60+30, end: 12*60+50 }
       ] : [
         { name:"Period 4 (Part 1)", start: 11*60, end: 12*60+20 },
-        { name:"B Lunch", start: 12*60+20, end: 12*60+50 },
+        { name:"B Lunch", start: 12*60+20, end: 12*60+50 }
       ]),
       { name:"Break", start: 12*60+50, end: 13*60 },
       { name:"Period 4 (Part 2)", start: 13*60, end: 13*60+45 },
@@ -301,7 +292,7 @@ function getSchedules(date) {
       { name:"Period 1", start: 8*60+35, end: 9*60+55 },
       { name:"Period 3", start: 10*60+5, end: 11*60+25 },
       { name:"Period 5", start: 11*60+35, end: 12*60+55 },
-      { name:"Lunch", start: 13*60, end: 13*60+30 },
+      { name:"Lunch", start: 13*60, end: 13*60+30 }
     ],
     Thursday: [
       { name:"Period 2", start: 8*60+35, end: 9*60+55 },
@@ -360,65 +351,37 @@ function format(m) {
   return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
 }
 
-function formatCountdown(totalMinutes, totalSeconds) {
-  if (totalSeconds === 60) {
-    totalMinutes += 1;
-    totalSeconds = 0;
+function displayTimeBlocks(container, data) {
+  let html = '';
+  if (data.days !== undefined) {
+    html += `<div class="time-block"><span class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
   }
-  const h = Math.floor(totalMinutes / 60);
-  const m = totalMinutes % 60;
-  const s = totalSeconds;
-  
-  return { hours: h, minutes: m, seconds: s };
+  if (data.hours !== undefined) {
+    html += `<div class="time-block"><span class="time-value">${data.hours.toString().padStart(2, '0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
+  }
+  html += `<div class="time-block"><span class="time-value">${data.minutes.toString().padStart(2, '0')}</span><span class="time-label">MINUTES</span></div>`;
+  html += `<div class="time-block"><span class="time-value">${data.seconds.toString().padStart(2, '0')}</span><span class="time-label">SECONDS</span></div>`;
+  container.innerHTML = html;
 }
 
-function displayCountdownBlocks(container, hours, minutes, seconds) {
-  let html = '';
-  
-  if (hours > 0) {
-    html += `
-      <div class="time-block">
-        <span class="time-value">${hours}</span>
-        <span class="time-label">${hours === 1 ? 'HOUR' : 'HOURS'}</span>
-      </div>
-    `;
-  }
-  
-  html += `
-    <div class="time-block">
-      <span class="time-value">${minutes.toString().padStart(2, '0')}</span>
-      <span class="time-label">MINUTES</span>
-    </div>
-    <div class="time-block">
-      <span class="time-value">${seconds.toString().padStart(2, '0')}</span>
-      <span class="time-label">SECONDS</span>
-    </div>
-  `;
-  
-  container.innerHTML = html;
+function displayMessage(container, message) {
+  container.innerHTML = `<div class="time-block" style="grid-column: 1/-1;"><span class="time-value" style="font-size: 1.5em;">${message}</span></div>`;
 }
 
 function updateHolidayTable() {
   const tbody = document.getElementById('holidayTableBody');
   if (!tbody) return;
-  
   const now = new Date();
   const upcomingHolidays = holidays.filter(h => h.date > now);
-  
   if (upcomingHolidays.length === 0) {
     tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No more holidays this school year!</td></tr>';
     return;
   }
-  
   let html = '';
   upcomingHolidays.forEach((holiday, index) => {
     const isNext = index === 0;
-    html += `<tr class="${isNext ? 'highlight' : ''}">
-      <td><b>${holiday.name}</b></td>
-      <td>${holiday.displayDate}</td>
-    </tr>`;
+    html += `<tr class="${isNext ? 'highlight' : ''}"><td><b>${holiday.name}</b></td><td>${holiday.displayDate}</td></tr>`;
   });
-  
   tbody.innerHTML = html;
 }
 
@@ -430,11 +393,9 @@ function getCountdownHTML(now, start, end) {
   const nowTime = now.getTime();
   const startTime = start.getTime();
   const endTime = end.getTime();
-  
   if (nowTime > endTime) {
     return `<div class="term-completed-badge">Completed</div>`;
   }
-  
   let diff, label;
   if (nowTime < startTime) {
     diff = startTime - nowTime;
@@ -443,14 +404,11 @@ function getCountdownHTML(now, start, end) {
     diff = endTime - nowTime;
     label = "Ends in";
   }
-  
   const totalSeconds = Math.floor(diff / 1000);
   const totalMinutes = Math.floor(totalSeconds / 60);
   const totalHours = Math.floor(totalMinutes / 60);
   const totalDays = Math.floor(totalHours / 24);
-  
   let value, unit;
-  
   if (totalDays > 0) {
     value = totalDays;
     unit = totalDays === 1 ? "Day" : "Days";
@@ -464,60 +422,30 @@ function getCountdownHTML(now, start, end) {
     value = totalSeconds;
     unit = totalSeconds === 1 ? "Second" : "Seconds";
   }
-  
-  return `
-    <div class="term-countdown-block">
-      <span class="countdown-label">${label}</span>
-      <span class="countdown-value">${value} ${unit}</span>
-    </div>
-  `;
+  return `<div class="term-countdown-block"><span class="countdown-label">${label}</span><span class="countdown-value">${value} ${unit}</span></div>`;
 }
 
 function updateQuartersAndSemesters() {
   const now = new Date();
   const quartersListEl = document.getElementById('quartersList');
   const semestersListEl = document.getElementById('semestersList');
-  
   if (!quartersListEl || !semestersListEl) {
-      if (quartersInterval) {
-          clearInterval(quartersInterval);
-          quartersInterval = null;
-      }
-      return; 
+    if (quartersInterval) {
+      clearInterval(quartersInterval);
+      quartersInterval = null;
+    }
+    return;
   }
-  
   let quartersHTML = '';
   academicTerms.quarters.forEach(term => {
     const isActive = now >= term.start && now <= term.end;
-    quartersHTML += `
-      <div class="term-card ${isActive ? 'highlight' : ''}">
-        <div class="term-info">
-          <div class="term-name">${term.name}</div>
-          <div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div>
-        </div>
-        <div class="term-countdown">
-          ${getCountdownHTML(now, term.start, term.end)}
-        </div>
-      </div>
-    `;
+    quartersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
   });
-  
   let semestersHTML = '';
   academicTerms.semesters.forEach(term => {
     const isActive = now >= term.start && now <= term.end;
-    semestersHTML += `
-      <div class="term-card ${isActive ? 'highlight' : ''}">
-        <div class="term-info">
-          <div class="term-name">${term.name}</div>
-          <div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div>
-        </div>
-        <div class="term-countdown">
-          ${getCountdownHTML(now, term.start, term.end)}
-        </div>
-      </div>
-    `;
+    semestersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
   });
-  
   quartersListEl.innerHTML = quartersHTML;
   semestersListEl.innerHTML = semestersHTML;
 }
@@ -525,12 +453,10 @@ function updateQuartersAndSemesters() {
 function getNextSchoolDayStartTime() {
   let nextDay = new Date();
   nextDay.setDate(nextDay.getDate() + 1);
-  nextDay.setHours(0, 0, 0, 0); 
-
+  nextDay.setHours(0, 0, 0, 0);
   for (let i = 0; i < 14; i++) {
     const dayName = getDayNameFromDate(nextDay);
     const holiday = getHolidayForDate(nextDay);
-    
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(nextDay);
       const schedule = schedules[dayName];
@@ -549,12 +475,10 @@ function getNextSchoolDayStartTime() {
 function getLastSchoolDayEndTime(beforeDate) {
   let checkDay = new Date(beforeDate.getFullYear(), beforeDate.getMonth(), beforeDate.getDate());
   checkDay.setDate(checkDay.getDate() - 1);
-  checkDay.setHours(23, 59, 59, 999); 
-
+  checkDay.setHours(23, 59, 59, 999);
   for (let i = 0; i < 7; i++) {
     const dayName = getDayNameFromDate(checkDay);
     const holiday = getHolidayForDate(checkDay);
-    
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(checkDay);
       const schedule = schedules[dayName];
@@ -573,33 +497,28 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayForDate(date) {
   const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-
   for (const holiday of holidays) {
     const holidayTime = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate()).getTime();
-
-    if (checkTime === holidayTime) {
-      return holiday.name;
-    }
-
+    if (checkTime === holidayTime) return holiday.name;
     if (holiday.name === "Thanksgiving Break") {
-        const start = new Date(2025, 10, 27).getTime();
-        const end = new Date(2025, 10, 29).getTime();
-        if (checkTime >= start && checkTime <= end) return holiday.name;
+      const start = new Date(2025, 10, 27).getTime();
+      const end = new Date(2025, 10, 29).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Winter Break") {
-        const start = new Date(2025, 11, 20).getTime();
-        const end = new Date(2026, 0, 4).getTime();
-        if (checkTime >= start && checkTime <= end) return holiday.name;
+      const start = new Date(2025, 11, 20).getTime();
+      const end = new Date(2026, 0, 4).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Mid-Winter Break") {
-        const start = new Date(2026, 1, 12).getTime();
-        const end = new Date(2026, 1, 16).getTime();
-        if (checkTime >= start && checkTime <= end) return holiday.name;
+      const start = new Date(2026, 1, 12).getTime();
+      const end = new Date(2026, 1, 16).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Spring Break") {
-        const start = new Date(2026, 3, 13).getTime();
-        const end = new Date(2026, 3, 17).getTime();
-        if (checkTime >= start && checkTime <= end) return holiday.name;
+      const start = new Date(2026, 3, 13).getTime();
+      const end = new Date(2026, 3, 17).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
     }
   }
   return null;
@@ -608,47 +527,31 @@ function getHolidayForDate(date) {
 function updateWeekSchedule() {
   const scheduleEl = document.getElementById('weekContent');
   if (!scheduleEl) return;
-
-  let html = `<table class="weekTable">
-                <thead>
-                  <tr>
-                    <th>Day</th>
-                    <th>Schedule</th>
-                  </tr>
-                </thead>
-                <tbody>`;
-  
+  let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th></tr></thead><tbody>`;
   const now = new Date();
   const currentDayOfWeek = now.getDay();
   const monday = new Date(now);
   const diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
   monday.setDate(now.getDate() + diff);
-  
   const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const todayName = currentDayName();
-  
   for (let i = 0; i < 5; i++) {
     const dayDate = new Date(monday);
     dayDate.setDate(monday.getDate() + i);
-    
     const dayNameStr = weekDays[i];
     const isToday = (dayNameStr === todayName);
     const holidayName = getHolidayForDate(dayDate);
-    
     let summary = '';
-    
     if (holidayName) {
       summary = holidayName;
     } else {
       const schedules = getSchedules(dayDate);
       const schedule = schedules[dayNameStr];
-    
       if (!schedule || schedule.length === 0) {
         summary = 'No School';
       } else {
         let names = schedule.map(p => p.name);
         names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
-        
         const simplifiedNames = names.map(n => {
           if (n.startsWith("Period 1")) return "1";
           if (n.startsWith("Period 2")) return "2";
@@ -661,18 +564,12 @@ function updateWeekSchedule() {
           if (n === "Breakfast Served - No Lunch") return "Min. Day";
           return n;
         });
-      
         const uniqueNames = [...new Set(simplifiedNames)];
         summary = uniqueNames.join(', ');
       }
     }
-    
-    html += `<tr class="${isToday ? 'highlight' : ''}">
-              <td>${dayNameStr}</td>
-              <td>${summary}</td>
-            </tr>`;
+    html += `<tr class="${isToday ? 'highlight' : ''}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
   }
-  
   html += '</tbody></table>';
   scheduleEl.innerHTML = html;
 }
@@ -681,40 +578,31 @@ function updateHolidayCountdown() {
   const countdownGrid = document.getElementById('holidayCountdownTime');
   const countdownMsg = document.getElementById('holidayCountdownMessage');
   const countdownLabel = document.getElementById('holidayCountdownLabel');
-  
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
-  
   const now = new Date();
   const upcoming = holidays.find(h => h.date > now);
-  
   if (upcoming) {
     const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
     const lastSchoolDayEnd = getLastSchoolDayEndTime(holidayStartDate);
-
     if (lastSchoolDayEnd && lastSchoolDayEnd > now) {
       countdownGrid.style.display = 'grid';
       countdownMsg.style.display = 'none';
-
       const diff = lastSchoolDayEnd - now;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
       countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
-      
       updateRollingText(document.getElementById('countdown-days'), days.toString());
       updateRollingText(document.getElementById('countdown-hours'), hours.toString().padStart(2,'0'));
       updateRollingText(document.getElementById('countdown-minutes'), minutes.toString().padStart(2,'0'));
       updateRollingText(document.getElementById('countdown-seconds'), seconds.toString().padStart(2,'0'));
-
     } else {
       countdownGrid.style.display = 'none';
       countdownMsg.style.display = 'block';
       updateRollingText(countdownMsg, 'Break in Progress');
       countdownLabel.innerHTML = `ENJOY ${upcoming.name}`;
     }
-    
   } else {
     countdownGrid.style.display = 'none';
     countdownMsg.style.display = 'block';
@@ -724,70 +612,47 @@ function updateHolidayCountdown() {
 }
 
 function updateTodaySchedule() {
-    const scheduleEl = document.getElementById('todayContent');
-    if (!scheduleEl) return;
-    
-    const schedules = getSchedules(new Date());
-    const today = schedules[currentDayName()];
-    
-    if (!today || today.length === 0) {
-      if (!currentHolidayMessage) {
-         const funMessages = [
-            "Have fun!", "Go outside!", "Relax and recharge!", "Enjoy your free time!",
-            "Make it a great day!", "Time to unwind!", "Do something you love!",
-            "Rest up for tomorrow!", "Adventure awaits!", "Explore something new!"
-          ];
-          currentHolidayMessage = funMessages[Math.floor(Math.random() * funMessages.length)];
-      }
-      scheduleEl.innerHTML = `
-        <div class="noSchoolMessage">
-          <h3>No School Today</h3>
-          <p>${currentHolidayMessage}</p>
-        </div>
-      `;
-      return;
+  const scheduleEl = document.getElementById('todayContent');
+  if (!scheduleEl) return;
+  const schedules = getSchedules(new Date());
+  const today = schedules[currentDayName()];
+  if (!today || today.length === 0) {
+    if (!currentHolidayMessage) {
+      const funMessages = ["Have fun!", "Go outside!", "Relax and recharge!", "Enjoy your free time!", "Make it a great day!", "Time to unwind!", "Do something you love!", "Rest up for tomorrow!", "Adventure awaits!", "Explore something new!"];
+      currentHolidayMessage = funMessages[Math.floor(Math.random() * funMessages.length)];
     }
-    
-    const now = minutesNow();
-    let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th></tr></thead><tbody>";
-    
-    for (let i=0; i<today.length; i++) {
-        const p = today[i];
-        const active = now >= p.start && now < p.end;
-        html += `<tr class='${active?"highlight":""}'>
-          <td>${p.name}</td>
-          <td>${format(p.start)}</td>
-          <td>${format(p.end)}</td>
-        </tr>`;
-    }
-    
-    html += "</tbody></table>";
-    scheduleEl.innerHTML = html;
+    scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>No School Today</h3><p>${currentHolidayMessage}</p></div>`;
+    return;
+  }
+  const now = minutesNow();
+  let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th></tr></thead><tbody>";
+  for (let i=0; i<today.length; i++) {
+    const p = today[i];
+    const active = now >= p.start && now < p.end;
+    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td></tr>`;
+  }
+  html += "</tbody></table>";
+  scheduleEl.innerHTML = html;
 }
 
 function updateClock() {
   const clockDisplay = document.getElementById('clockDisplay');
   const clockLabel = document.getElementById('clockLabel');
   const timerEl = document.getElementById('timer');
-  
   if (!clockDisplay || !clockLabel || !timerEl) return;
-
   const schedules = getSchedules(new Date());
   const today = schedules[currentDayName()];
-  
   if (!today || today.length === 0) {
-    clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">--:--:--</span></div>';
+    displayMessage(clockDisplay, "--:--:--");
     clockLabel.innerHTML = "NO SCHOOL TODAY";
     timerEl.innerHTML = "Enjoy your day off!";
     timerEl.classList.remove('hidden');
     return;
   }
-
   const now = minutesNow();
   const secs = secondsNow();
   let current = null;
   let next = null;
-  
   for (let i=0; i<today.length; i++) {
     const p = today[i];
     const active = now >= p.start && now < p.end;
@@ -796,7 +661,6 @@ function updateClock() {
       next = today[i+1] || null;
     }
   }
-
   if (!current) {
     for (let i=0; i<today.length-1; i++) {
       if (now >= today[i].end && now < today[i+1].start) {
@@ -806,40 +670,43 @@ function updateClock() {
       }
     }
   }
-  
   if (current) {
     const remainingMinutes = current.end - now - 1;
     const remainingSeconds = 60 - secs;
-    
-    const time = formatCountdown(remainingMinutes, remainingSeconds);
-    displayCountdownBlocks(clockDisplay, time.hours, time.minutes, time.seconds);
+    const h = Math.floor(remainingMinutes / 60);
+    const m = remainingMinutes % 60;
+    const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+    if (h > 0) {
+      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+    } else {
+      displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+    }
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
-    
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
     timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
     timerEl.classList.remove('hidden');
-    
   } else {
     const firstPeriod = today[0];
     const lastPeriod = today[today.length - 1];
-    
     if (now < firstPeriod.start) {
       const remainingMinutes = firstPeriod.start - now - 1;
       const remainingSeconds = 60 - secs;
-      
-      const time = formatCountdown(remainingMinutes, remainingSeconds);
-      displayCountdownBlocks(clockDisplay, time.hours, time.minutes, time.seconds);
+      const h = Math.floor(remainingMinutes / 60);
+      const m = remainingMinutes % 60;
+      const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+      if (h > 0) {
+        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      } else {
+        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+      }
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
-      
     } else if (now >= lastPeriod.end) {
       const nextSchoolStartTime = getNextSchoolDayStartTime();
-        
       if (nextSchoolStartTime) {
         const nowMillis = new Date().getTime();
         const diff = nextSchoolStartTime.getTime() - nowMillis;
-        
         if (diff > 0) {
           const totalSeconds = Math.floor(diff / 1000);
           const s = totalSeconds % 60;
@@ -848,97 +715,69 @@ function updateClock() {
           const totalHours = Math.floor(totalMinutes / 60);
           const h = totalHours % 24;
           const d = Math.floor(totalHours / 24);
-          
           if (d > 1) {
-            clockDisplay.innerHTML = `
-              <div class="time-block">
-                <span class="time-value">${d}</span>
-                <span class="time-label">DAYS</span>
-              </div>
-              <div class="time-block">
-                <span class="time-value">${h.toString().padStart(2, '0')}</span>
-                <span class="time-label">HOURS</span>
-              </div>
-              <div class="time-block">
-                <span class="time-value">${m.toString().padStart(2, '0')}</span>
-                <span class="time-label">MINUTES</span>
-              </div>
-              <div class="time-block">
-                <span class="time-value">${s.toString().padStart(2, '0')}</span>
-                <span class="time-label">SECONDS</span>
-              </div>
-            `;
+            displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
           } else {
-            displayCountdownBlocks(clockDisplay, h, m, s);
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
           }
-          
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
           timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
           timerEl.classList.remove('hidden');
-
         } else {
-          clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">See You Soon!</span></div>';
+          displayMessage(clockDisplay, "See You Soon!");
           clockLabel.innerHTML = "SCHOOL IS OVER";
           timerEl.innerHTML = "See you tomorrow!";
           timerEl.classList.remove('hidden');
         }
-        
       } else {
-        clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">Enjoy Your Break!</span></div>';
+        displayMessage(clockDisplay, "Enjoy Your Break!");
         clockLabel.innerHTML = "SCHOOL'S OUT";
         timerEl.innerHTML = "Have a great break!";
         timerEl.classList.remove('hidden');
       }
-      
     } else {
-      clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">--:--:--</span></div>';
+      displayMessage(clockDisplay, "--:--:--");
       clockLabel.innerHTML = "NO PERIOD SCHEDULED";
       timerEl.classList.add('hidden');
     }
   }
 }
 
-function initApp() {
-    loadThemeOnPage();
-    
-    if (document.getElementById('digitalClock')) {
-        updateClock();
-        setInterval(updateClock, 1000);
-    }
-    
-    if (document.getElementById('todayContent')) {
-        updateTodaySchedule();
-        setInterval(updateTodaySchedule, 1000);
-    }
-    
-    if (document.getElementById('weekContent')) {
-        updateWeekSchedule();
-    }
-    
-    if (document.getElementById('holidayCountdown')) {
-        updateHolidayCountdown();
-        setInterval(updateHolidayCountdown, 1000);
-    }
-    
-    if (document.getElementById('holidayTableBody')) {
-        updateHolidayTable();
-    }
-    
-    if (document.getElementById('quartersList')) {
-        updateQuartersAndSemesters();
-        if (quartersInterval) clearInterval(quartersInterval);
-        quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
-    }
+function loadThemeOnPage() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  const gradient = localStorage.getItem('gradient') || 'on';
+  document.body.className = `theme-${theme}`;
+  if (gradient === 'on') {
+    document.body.classList.add('gradient-mode');
+  }
 }
 
-function loadThemeOnPage() {
-    const theme = localStorage.getItem('theme') || 'purple';
-    const gradient = localStorage.getItem('gradient') || 'on';
-    
-    document.body.className = `theme-${theme}`;
-    if (gradient === 'on') {
-        document.body.classList.add('gradient-mode');
-    }
+function initApp() {
+  loadThemeOnPage();
+  loadLunchPreferences();
+  if (document.getElementById('digitalClock')) {
+    updateClock();
+    setInterval(updateClock, 1000);
+  }
+  if (document.getElementById('todayContent')) {
+    updateTodaySchedule();
+    setInterval(updateTodaySchedule, 1000);
+  }
+  if (document.getElementById('weekContent')) {
+    updateWeekSchedule();
+  }
+  if (document.getElementById('holidayCountdown')) {
+    updateHolidayCountdown();
+    setInterval(updateHolidayCountdown, 1000);
+  }
+  if (document.getElementById('holidayTableBody')) {
+    updateHolidayTable();
+  }
+  if (document.getElementById('quartersList')) {
+    updateQuartersAndSemesters();
+    if (quartersInterval) clearInterval(quartersInterval);
+    quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
+  }
 }
 
 initApp();
