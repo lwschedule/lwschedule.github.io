@@ -8,28 +8,212 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .settingsRow {
+      padding: 0;
+      margin: 15px 0;
+      background: transparent;
+    }
+    .settingLabel {
+      color: var(--primary-light);
+      font-size: 1.2em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .themeGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .themeBtn {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+    }
+    .themeBtn:hover {
+      transform: scale(1.05);
+      border-color: white;
+    }
+    .themeBtn.active {
+      border-color: white;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+    .themeBtn.purple { background: #6a4fb3; }
+    .themeBtn.red { background: #e63946; }
+    .themeBtn.orange { background: #e67e22; }
+    .themeBtn.yellow { background: #f1c40f; }
+    .themeBtn.green { background: #2ecc71; }
+    .themeBtn.blue { background: #3498db; }
+    .themeBtn.indigo { background: #5c6bc0; }
+    .themeBtn.pink { background: #e91e63; }
+    .lunchGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .lunchDay {
+      background: #1f1f1f;
+      padding: 15px;
+      border-radius: 12px;
+    }
+    .lunchDay label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-light);
+    }
+    .lunchButtons {
+      display: flex;
+      gap: 8px;
+    }
+    .lunchBtn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #444;
+      background: #2a2a2a;
+      color: var(--text-light);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+    .lunchBtn:hover {
+      background: #3a3a3a;
+    }
+    .lunchBtn.active {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      border-color: var(--primary-light);
+    }
+    .lunchBtn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body class="theme-purple">
   <a href="https://lwschedule.github.io" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>Settings</h2>
+    
     <div class="settingsRow">
-      <a class="mainBtn disabledBtn">Theme (Coming Soon)</a>
+      <span class="settingLabel">Theme</span>
+      <div class="themeGrid">
+        <button class="themeBtn purple active" data-theme="purple" title="Purple">💜</button>
+        <button class="themeBtn red" data-theme="red" title="Red">❤️</button>
+        <button class="themeBtn orange" data-theme="orange" title="Orange">🧡</button>
+        <button class="themeBtn yellow" data-theme="yellow" title="Yellow">💛</button>
+        <button class="themeBtn green" data-theme="green" title="Green">💚</button>
+        <button class="themeBtn blue" data-theme="blue" title="Blue">💙</button>
+        <button class="themeBtn indigo" data-theme="indigo" title="Indigo">💜</button>
+        <button class="themeBtn pink" data-theme="pink" title="Pink">💗</button>
+      </div>
     </div>
+
     <div class="settingsRow">
-      <a class="mainBtn disabledBtn">Lunch Preferences (Coming Soon)</a>
+      <span class="settingLabel">Lunch Preferences</span>
+      <div class="lunchGrid">
+        <div class="lunchDay">
+          <label>Monday</label>
+          <div class="lunchButtons">
+            <button class="lunchBtn active" data-day="Monday" data-lunch="A">A</button>
+            <button class="lunchBtn" data-day="Monday" data-lunch="B">B</button>
+          </div>
+        </div>
+        <div class="lunchDay">
+          <label>Tuesday</label>
+          <div class="lunchButtons">
+            <button class="lunchBtn active" data-day="Tuesday" data-lunch="A">A</button>
+            <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B</button>
+          </div>
+        </div>
+        <div class="lunchDay">
+          <label>Wednesday</label>
+          <div class="lunchButtons">
+            <button class="lunchBtn active" data-day="Wednesday" data-lunch="All" disabled>All School</button>
+          </div>
+        </div>
+        <div class="lunchDay">
+          <label>Thursday</label>
+          <div class="lunchButtons">
+            <button class="lunchBtn active" data-day="Thursday" data-lunch="A">A</button>
+            <button class="lunchBtn" data-day="Thursday" data-lunch="B">B</button>
+          </div>
+        </div>
+        <div class="lunchDay">
+          <label>Friday</label>
+          <div class="lunchButtons">
+            <button class="lunchBtn active" data-day="Friday" data-lunch="A">A</button>
+            <button class="lunchBtn" data-day="Friday" data-lunch="B">B</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="settingsRow">
-      <a class="mainBtn disabledBtn">Classes (Coming Soon)</a>
-    </div>
-    <div class="settingsRow">
-      <a class="mainBtn disabledBtn">Clubs (Coming Soon)</a>
-    </div>
-    <div class="settingsRow">
-      <a class="mainBtn disabledBtn">Pack-Up Reminders (Coming Soon)</a>
-    </div>
-    <a class="resetBtn disabledBtn">Reset All Settings (Coming Soon)</a>
+
+    <a class="resetBtn" id="resetBtn">Reset All Settings</a>
   </div>
+
   <script src="/assets/script.js"></script>
+  <script>
+    function loadSettings() {
+      const theme = localStorage.getItem('theme') || 'purple';
+      const lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
+      
+      document.body.className = `theme-${theme}`;
+      document.querySelectorAll('.themeBtn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === theme);
+      });
+      
+      Object.entries(lunchPrefs).forEach(([day, lunch]) => {
+        document.querySelectorAll(`[data-day="${day}"]`).forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.lunch === lunch);
+        });
+      });
+    }
+
+    document.querySelectorAll('.themeBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        localStorage.setItem('theme', theme);
+        document.body.className = `theme-${theme}`;
+        document.querySelectorAll('.themeBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.lunchBtn:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        
+        const lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
+        lunchPrefs[day] = lunch;
+        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+        
+        document.querySelectorAll(`[data-day="${day}"]`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        location.reload();
+      });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all settings to default?')) {
+        localStorage.clear();
+        location.href = '/';
+      }
+    });
+
+    loadSettings();
+  </script>
 </body>
 </html>

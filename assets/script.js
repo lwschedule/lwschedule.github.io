@@ -368,11 +368,34 @@ function formatCountdown(totalMinutes, totalSeconds) {
   const h = Math.floor(totalMinutes / 60);
   const m = totalMinutes % 60;
   const s = totalSeconds;
-  if (h > 0) {
-    return `${h.toString()} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
-  } else {
-    return `${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
+  
+  return { hours: h, minutes: m, seconds: s };
+}
+
+function displayCountdownBlocks(container, hours, minutes, seconds) {
+  let html = '';
+  
+  if (hours > 0) {
+    html += `
+      <div class="time-block">
+        <span class="time-value">${hours}</span>
+        <span class="time-label">${hours === 1 ? 'HOUR' : 'HOURS'}</span>
+      </div>
+    `;
   }
+  
+  html += `
+    <div class="time-block">
+      <span class="time-value">${minutes.toString().padStart(2, '0')}</span>
+      <span class="time-label">MINUTES</span>
+    </div>
+    <div class="time-block">
+      <span class="time-value">${seconds.toString().padStart(2, '0')}</span>
+      <span class="time-label">SECONDS</span>
+    </div>
+  `;
+  
+  container.innerHTML = html;
 }
 
 function updateHolidayTable() {
@@ -753,7 +776,7 @@ function updateClock() {
   const today = schedules[currentDayName()];
   
   if (!today || today.length === 0) {
-    updateRollingText(clockDisplay, "--:--:--");
+    clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">--:--:--</span></div>';
     clockLabel.innerHTML = "NO SCHOOL TODAY";
     timerEl.innerHTML = "Enjoy your day off!";
     timerEl.classList.remove('hidden');
@@ -788,7 +811,8 @@ function updateClock() {
     const remainingMinutes = current.end - now - 1;
     const remainingSeconds = 60 - secs;
     
-    updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
+    const time = formatCountdown(remainingMinutes, remainingSeconds);
+    displayCountdownBlocks(clockDisplay, time.hours, time.minutes, time.seconds);
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
@@ -803,7 +827,8 @@ function updateClock() {
       const remainingMinutes = firstPeriod.start - now - 1;
       const remainingSeconds = 60 - secs;
       
-      updateRollingText(clockDisplay, formatCountdown(remainingMinutes, remainingSeconds));
+      const time = formatCountdown(remainingMinutes, remainingSeconds);
+      displayCountdownBlocks(clockDisplay, time.hours, time.minutes, time.seconds);
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
@@ -824,34 +849,49 @@ function updateClock() {
           const h = totalHours % 24;
           const d = Math.floor(totalHours / 24);
           
-          let countdownStr = "";
           if (d > 1) {
-            countdownStr = `${d}d   ${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
+            clockDisplay.innerHTML = `
+              <div class="time-block">
+                <span class="time-value">${d}</span>
+                <span class="time-label">DAYS</span>
+              </div>
+              <div class="time-block">
+                <span class="time-value">${h.toString().padStart(2, '0')}</span>
+                <span class="time-label">HOURS</span>
+              </div>
+              <div class="time-block">
+                <span class="time-value">${m.toString().padStart(2, '0')}</span>
+                <span class="time-label">MINUTES</span>
+              </div>
+              <div class="time-block">
+                <span class="time-value">${s.toString().padStart(2, '0')}</span>
+                <span class="time-label">SECONDS</span>
+              </div>
+            `;
           } else {
-            countdownStr = `${h.toString().padStart(2, '0')} : ${m.toString().padStart(2, '0')} : ${s.toString().padStart(2, '0')}`;
+            displayCountdownBlocks(clockDisplay, h, m, s);
           }
           
-          updateRollingText(clockDisplay, countdownStr);
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
           timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
           timerEl.classList.remove('hidden');
 
         } else {
-          updateRollingText(clockDisplay, "See You Soon!");
+          clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">See You Soon!</span></div>';
           clockLabel.innerHTML = "SCHOOL IS OVER";
           timerEl.innerHTML = "See you tomorrow!";
           timerEl.classList.remove('hidden');
         }
         
       } else {
-        updateRollingText(clockDisplay, "Enjoy Your Break!");
+        clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">Enjoy Your Break!</span></div>';
         clockLabel.innerHTML = "SCHOOL'S OUT";
         timerEl.innerHTML = "Have a great break!";
         timerEl.classList.remove('hidden');
       }
       
     } else {
-      updateRollingText(clockDisplay, "--:--:--");
+      clockDisplay.innerHTML = '<div class="time-block" style="grid-column: 1/-1;"><span class="time-value">--:--:--</span></div>';
       clockLabel.innerHTML = "NO PERIOD SCHEDULED";
       timerEl.classList.add('hidden');
     }
@@ -859,6 +899,8 @@ function updateClock() {
 }
 
 function initApp() {
+    loadThemeOnPage();
+    
     if (document.getElementById('digitalClock')) {
         updateClock();
         setInterval(updateClock, 1000);
@@ -886,6 +928,16 @@ function initApp() {
         updateQuartersAndSemesters();
         if (quartersInterval) clearInterval(quartersInterval);
         quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
+    }
+}
+
+function loadThemeOnPage() {
+    const theme = localStorage.getItem('theme') || 'purple';
+    const gradient = localStorage.getItem('gradient') || 'on';
+    
+    document.body.className = `theme-${theme}`;
+    if (gradient === 'on') {
+        document.body.classList.add('gradient-mode');
     }
 }
 
