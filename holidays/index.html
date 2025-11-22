@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holidays - LW Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body class="theme-purple">
+  <a href="https://lwschedule.github.io" class="backBtn">← Back</a>
+  <div class="pageContainer">
+    <h2>Upcoming Holidays 2025-26</h2>
+      <div id="holidayCountdown">
+        <div id="holidayCountdownLabel">NEXT HOLIDAY</div>
+        <div id="holidayCountdownTime" class="countdown-grid">
+          <div class="countdown-block">
+            <span id="countdown-days" class="countdown-value">--</span>
+            <span class="countdown-label">DAYS</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-hours" class="countdown-value">--</span>
+            <span class="countdown-label">HOURS</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-minutes" class="countdown-value">--</span>
+            <span class="countdown-label">MINUTES</span>
+          </div>
+          <div class="countdown-block">
+            <span id="countdown-seconds" class="countdown-value">--</span>
+            <span class="countdown-label">SECONDS</span>
+          </div>
+        </div>
+        <div id="holidayCountdownMessage" style="display:none; font-size: 1.5em; text-align: center; padding: 30px 0;"></div>
+      </div>
+      <div id="holidays">
+        <table class="holidayTable">
+          <thead>
+            <tr>
+              <th>Holiday</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="holidayTableBody">
+            <tr><td colspan="2">Loading holidays...</td></tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+  <script src="/assets/script.js"></script>
+</body>
+</html>
