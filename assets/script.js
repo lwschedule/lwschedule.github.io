@@ -41,9 +41,7 @@ const academicTerms = {
 function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
-    if (saved) {
-      lunchPreferences = JSON.parse(saved);
-    }
+    if (saved) lunchPreferences = JSON.parse(saved);
   } catch (e) {}
 }
 
@@ -85,20 +83,6 @@ function updateRollingText(element, newText) {
   element.innerHTML = html;
 }
 
-function isVeteransWeek(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  return year === 2025 && month === 10 && day >= 10 && day <= 14;
-}
-
-function isThanksgivingWeek(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  return year === 2025 && month === 10 && day >= 24 && day <= 28;
-}
-
 function isFinalsWeek(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -109,6 +93,7 @@ function isFinalsWeek(date) {
 function getSchedules(date) {
   const today = getDayNameFromDate(date);
   const lunch = lunchPreferences[today] || 'A';
+  
   if (isFinalsWeek(date)) {
     return {
       Monday: [],
@@ -159,107 +144,7 @@ function getSchedules(date) {
       ]
     };
   }
-  if (isThanksgivingWeek(date)) {
-    return {
-      Monday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+30 },
-        { name:"Period 2", start: 9*60+38, end: 10*60+33 },
-        { name:"Period 3", start: 10*60+41, end: 11*60+36 },
-        ...(lunch === 'A' ? [
-          { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
-          { name:"Period 4", start: 12*60+14, end: 13*60+9 }
-        ] : [
-          { name:"Period 4", start: 11*60+44, end: 12*60+39 },
-          { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
-        ]),
-        { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-        { name:"Period 6", start: 14*60+20, end: 15*60+15 }
-      ],
-      Tuesday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+23 },
-        { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
-        { name:"Period 2", start: 10*60+17, end: 11*60+5 },
-        ...(lunch === 'A' ? [
-          { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
-          { name:"Period 3", start: 11*60+42, end: 12*60+30 }
-        ] : [
-          { name:"Period 3", start: 11*60+12, end: 12*60 },
-          { name:"B Lunch", start: 12*60, end: 12*60+30 }
-        ]),
-        { name:"Period 4", start: 12*60+37, end: 13*60+25 },
-        { name:"Period 5", start: 13*60+32, end: 14*60+20 },
-        { name:"Period 6", start: 14*60+27, end: 15*60+15 }
-      ],
-      Wednesday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60 },
-        { name:"Period 2", start: 9*60+7, end: 9*60+32 },
-        { name:"Period 3", start: 9*60+39, end: 10*60+4 },
-        { name:"Period 4", start: 10*60+11, end: 10*60+36 },
-        { name:"Period 5", start: 10*60+43, end: 11*60+8 },
-        { name:"Period 6", start: 11*60+15, end: 11*60+40 },
-        { name:"Breakfast Served - No Lunch", start: 11*60+40, end: 11*60+40 }
-      ],
-      Thursday: [],
-      Friday: []
-    };
-  }
-  if (isVeteransWeek(date)) {
-    return {
-      Monday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+30 },
-        { name:"Period 2", start: 9*60+38, end: 10*60+33 },
-        { name:"Period 3", start: 10*60+41, end: 11*60+36 },
-        ...(lunch === 'A' ? [
-          { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
-          { name:"Period 4", start: 12*60+14, end: 13*60+9 }
-        ] : [
-          { name:"Period 4", start: 11*60+44, end: 12*60+39 },
-          { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
-        ]),
-        { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-        { name:"Period 6", start: 14*60+20, end: 15*60+15 }
-      ],
-      Tuesday: [],
-      Wednesday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+12 },
-        { name:"Period 2", start: 9*60+19, end: 9*60+56 },
-        { name:"Period 3", start: 10*60+3, end: 10*60+40 },
-        { name:"Period 4", start: 10*60+47, end: 11*60+24 },
-        { name:"Period 5", start: 11*60+31, end: 12*60+8 },
-        { name:"Period 6", start: 12*60+15, end: 12*60+52 },
-        { name:"Lunch", start: 12*60+52, end: 13*60+30 }
-      ],
-      Thursday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+30 },
-        { name:"Period 2", start: 9*60+38, end: 10*60+33 },
-        { name:"Period 3", start: 10*60+41, end: 11*60+36 },
-        ...(lunch === 'A' ? [
-          { name:"A Lunch", start: 11*60+36, end: 12*60+6 },
-          { name:"Period 4", start: 12*60+14, end: 13*60+9 }
-        ] : [
-          { name:"Period 4", start: 11*60+44, end: 12*60+39 },
-          { name:"B Lunch", start: 12*60+39, end: 13*60+9 }
-        ]),
-        { name:"Period 5", start: 13*60+17, end: 14*60+12 },
-        { name:"Period 6", start: 14*60+20, end: 15*60+15 }
-      ],
-      Friday: [
-        { name:"Period 1", start: 8*60+35, end: 9*60+23 },
-        { name:"Homeroom/Personalization", start: 9*60+30, end: 10*60+10 },
-        { name:"Period 2", start: 10*60+17, end: 11*60+5 },
-        ...(lunch === 'A' ? [
-          { name:"A Lunch", start: 11*60+5, end: 11*60+35 },
-          { name:"Period 3", start: 11*60+42, end: 12*60+30 }
-        ] : [
-          { name:"Period 3", start: 11*60+12, end: 12*60 },
-          { name:"B Lunch", start: 12*60, end: 12*60+30 }
-        ]),
-        { name:"Period 4", start: 12*60+37, end: 13*60+25 },
-        { name:"Period 5", start: 13*60+32, end: 14*60+20 },
-        { name:"Period 6", start: 14*60+27, end: 15*60+15 }
-      ]
-    };
-  }
+  
   return {
     Monday: [
       { name:"Period 1", start: 8*60+35, end: 9*60+55 },
@@ -351,6 +236,13 @@ function format(m) {
   return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
 }
 
+function formatDuration(minutes) {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+
 function displayTimeBlocks(container, data) {
   let html = '';
   if (data.days !== undefined) {
@@ -393,35 +285,19 @@ function getCountdownHTML(now, start, end) {
   const nowTime = now.getTime();
   const startTime = start.getTime();
   const endTime = end.getTime();
-  if (nowTime > endTime) {
-    return `<div class="term-completed-badge">Completed</div>`;
-  }
+  if (nowTime > endTime) return `<div class="term-completed-badge">Completed</div>`;
   let diff, label;
-  if (nowTime < startTime) {
-    diff = startTime - nowTime;
-    label = "Starts in";
-  } else {
-    diff = endTime - nowTime;
-    label = "Ends in";
-  }
+  if (nowTime < startTime) { diff = startTime - nowTime; label = "Starts in"; }
+  else { diff = endTime - nowTime; label = "Ends in"; }
   const totalSeconds = Math.floor(diff / 1000);
   const totalMinutes = Math.floor(totalSeconds / 60);
   const totalHours = Math.floor(totalMinutes / 60);
   const totalDays = Math.floor(totalHours / 24);
   let value, unit;
-  if (totalDays > 0) {
-    value = totalDays;
-    unit = totalDays === 1 ? "Day" : "Days";
-  } else if (totalHours > 0) {
-    value = totalHours;
-    unit = totalHours === 1 ? "Hour" : "Hours";
-  } else if (totalMinutes > 0) {
-    value = totalMinutes;
-    unit = totalMinutes === 1 ? "Minute" : "Minutes";
-  } else {
-    value = totalSeconds;
-    unit = totalSeconds === 1 ? "Second" : "Seconds";
-  }
+  if (totalDays > 0) { value = totalDays; unit = totalDays === 1 ? "Day" : "Days"; }
+  else if (totalHours > 0) { value = totalHours; unit = totalHours === 1 ? "Hour" : "Hours"; }
+  else if (totalMinutes > 0) { value = totalMinutes; unit = totalMinutes === 1 ? "Minute" : "Minutes"; }
+  else { value = totalSeconds; unit = totalSeconds === 1 ? "Second" : "Seconds"; }
   return `<div class="term-countdown-block"><span class="countdown-label">${label}</span><span class="countdown-value">${value} ${unit}</span></div>`;
 }
 
@@ -430,10 +306,7 @@ function updateQuartersAndSemesters() {
   const quartersListEl = document.getElementById('quartersList');
   const semestersListEl = document.getElementById('semestersList');
   if (!quartersListEl || !semestersListEl) {
-    if (quartersInterval) {
-      clearInterval(quartersInterval);
-      quartersInterval = null;
-    }
+    if (quartersInterval) { clearInterval(quartersInterval); quartersInterval = null; }
     return;
   }
   let quartersHTML = '';
@@ -559,19 +432,24 @@ function updateWeekSchedule() {
           if (n.startsWith("Period 4")) return "4";
           if (n.startsWith("Period 5")) return "5";
           if (n.startsWith("Period 6")) return "6";
-          if (n.includes("Lunch")) return "Lunch";
+          if (n.includes("Lunch")) return "L";
           if (n.includes("Homeroom")) return "HR";
-          if (n === "Breakfast Served - No Lunch") return "Min. Day";
           return n;
         });
         const uniqueNames = [...new Set(simplifiedNames)];
         summary = uniqueNames.join(', ');
       }
     }
-    html += `<tr class="${isToday ? 'highlight' : ''}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
+    html += `<tr class="${isToday ? 'highlight' : ''} clickable-row" data-day="${dayNameStr.toLowerCase()}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
   }
   html += '</tbody></table>';
   scheduleEl.innerHTML = html;
+  document.querySelectorAll('.clickable-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const day = row.dataset.day;
+      window.location.href = `/week/${day}/`;
+    });
+  });
 }
 
 function updateHolidayCountdown() {
@@ -611,28 +489,61 @@ function updateHolidayCountdown() {
   }
 }
 
+function renderScheduleTable(schedule, now) {
+  if (!schedule || schedule.length === 0) {
+    if (!currentHolidayMessage) {
+      const funMessages = ["Have fun!", "Go outside!", "Relax and recharge!", "Enjoy your free time!", "Make it a great day!", "Time to unwind!", "Do something you love!", "Rest up for tomorrow!", "Adventure awaits!", "Explore something new!"];
+      currentHolidayMessage = funMessages[Math.floor(Math.random() * funMessages.length)];
+    }
+    return `<div class="noSchoolMessage"><h3>No School</h3><p>${currentHolidayMessage}</p></div>`;
+  }
+  let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th><th>Duration</th></tr></thead><tbody>";
+  for (let i = 0; i < schedule.length; i++) {
+    const p = schedule[i];
+    const duration = p.end - p.start;
+    const active = now !== null && now >= p.start && now < p.end;
+    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td><td>${formatDuration(duration)}</td></tr>`;
+  }
+  html += "</tbody></table>";
+  return html;
+}
+
 function updateTodaySchedule() {
   const scheduleEl = document.getElementById('todayContent');
   if (!scheduleEl) return;
   const schedules = getSchedules(new Date());
   const today = schedules[currentDayName()];
-  if (!today || today.length === 0) {
-    if (!currentHolidayMessage) {
-      const funMessages = ["Have fun!", "Go outside!", "Relax and recharge!", "Enjoy your free time!", "Make it a great day!", "Time to unwind!", "Do something you love!", "Rest up for tomorrow!", "Adventure awaits!", "Explore something new!"];
-      currentHolidayMessage = funMessages[Math.floor(Math.random() * funMessages.length)];
-    }
-    scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>No School Today</h3><p>${currentHolidayMessage}</p></div>`;
+  scheduleEl.innerHTML = renderScheduleTable(today, minutesNow());
+}
+
+function updateDaySchedule() {
+  const scheduleEl = document.getElementById('dayContent');
+  const titleEl = document.getElementById('dayTitle');
+  if (!scheduleEl || !titleEl) return;
+  const path = window.location.pathname;
+  const dayMatch = path.match(/\/week\/(\w+)\//);
+  if (!dayMatch) return;
+  const dayName = dayMatch[1].charAt(0).toUpperCase() + dayMatch[1].slice(1);
+  titleEl.textContent = `${dayName}'s Schedule`;
+  const now = new Date();
+  const currentDayOfWeek = now.getDay();
+  const monday = new Date(now);
+  const diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+  monday.setDate(now.getDate() + diff);
+  const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const dayIndex = weekDays.indexOf(dayName);
+  if (dayIndex === -1) return;
+  const dayDate = new Date(monday);
+  dayDate.setDate(monday.getDate() + dayIndex);
+  const holidayName = getHolidayForDate(dayDate);
+  if (holidayName) {
+    scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>${holidayName}</h3><p>No school today!</p></div>`;
     return;
   }
-  const now = minutesNow();
-  let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th></tr></thead><tbody>";
-  for (let i=0; i<today.length; i++) {
-    const p = today[i];
-    const active = now >= p.start && now < p.end;
-    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td></tr>`;
-  }
-  html += "</tbody></table>";
-  scheduleEl.innerHTML = html;
+  const schedules = getSchedules(dayDate);
+  const schedule = schedules[dayName];
+  const isToday = dayName === currentDayName();
+  scheduleEl.innerHTML = renderScheduleTable(schedule, isToday ? minutesNow() : null);
 }
 
 function updateClock() {
@@ -653,16 +564,15 @@ function updateClock() {
   const secs = secondsNow();
   let current = null;
   let next = null;
-  for (let i=0; i<today.length; i++) {
+  for (let i = 0; i < today.length; i++) {
     const p = today[i];
-    const active = now >= p.start && now < p.end;
-    if (active) {
+    if (now >= p.start && now < p.end) {
       current = p;
       next = today[i+1] || null;
     }
   }
   if (!current) {
-    for (let i=0; i<today.length-1; i++) {
+    for (let i = 0; i < today.length-1; i++) {
       if (now >= today[i].end && now < today[i+1].start) {
         current = { name: "Passing Period", start: today[i].end, end: today[i+1].start };
         next = today[i+1];
@@ -676,11 +586,8 @@ function updateClock() {
     const h = Math.floor(remainingMinutes / 60);
     const m = remainingMinutes % 60;
     const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-    if (h > 0) {
-      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-    } else {
-      displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-    }
+    if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+    else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
     timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
@@ -694,11 +601,8 @@ function updateClock() {
       const h = Math.floor(remainingMinutes / 60);
       const m = remainingMinutes % 60;
       const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-      if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      }
+      if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
@@ -715,11 +619,8 @@ function updateClock() {
           const totalHours = Math.floor(totalMinutes / 60);
           const h = totalHours % 24;
           const d = Math.floor(totalHours / 24);
-          if (d > 1) {
-            displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-          } else {
-            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-          }
+          if (d > 1) displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+          else displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
           timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
           timerEl.classList.remove('hidden');
@@ -747,9 +648,7 @@ function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   const gradient = localStorage.getItem('gradient') || 'on';
   document.body.className = `theme-${theme}`;
-  if (gradient === 'on') {
-    document.body.classList.add('gradient-mode');
-  }
+  if (gradient === 'on') document.body.classList.add('gradient-mode');
 }
 
 function initApp() {
@@ -762,6 +661,10 @@ function initApp() {
   if (document.getElementById('todayContent')) {
     updateTodaySchedule();
     setInterval(updateTodaySchedule, 1000);
+  }
+  if (document.getElementById('dayContent')) {
+    updateDaySchedule();
+    setInterval(updateDaySchedule, 1000);
   }
   if (document.getElementById('weekContent')) {
     updateWeekSchedule();
