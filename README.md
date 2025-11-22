@@ -1,4 +1,4 @@
-d# LW Schedule
+# LW Schedule
 
 [Features](#-features) · [Upcoming Features](#-upcoming-features-planned) · [Tech Stack](#-tech-stack) · [License](#-license) · [Credits](#-credits)
 
