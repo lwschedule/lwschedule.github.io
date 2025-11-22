@@ -1,4 +1,4 @@
-# LW Schedule
+d# LW Schedule
 
 [Features](#-features) · [Upcoming Features](#-upcoming-features-planned) · [Tech Stack](#-tech-stack) · [License](#-license) · [Credits](#-credits)
 
@@ -68,9 +68,9 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today’
 * Adjust notifications based on walking distance
 * Will be able to skip in setup
 
-### ⭐ Clubs Support
+### ⭐ Sports/Clubs Support
 
-* Add recurring clubs
+* Add recurring sports/clubs
 * Weekly repeat days
 * First-time setup reminder
 * Will be able to skip in setup
@@ -93,6 +93,7 @@ Fix issue on friday where 3 period should starts 1142 and ends 1230
 remove all comments and commented code
 if time until
 next school day is graeter than 1 day then it should show x:x:x:x
+remove skip setup from pack up reminders
 
 ---
 
