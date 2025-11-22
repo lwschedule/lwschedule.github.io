@@ -94,6 +94,7 @@ remove all comments and commented code
 if time until
 next school day is graeter than 1 day then it should show x:x:x:x
 remove skip setup from pack up reminders
+if the day is a holiday, still count down till the next school day
 
 ---
 
