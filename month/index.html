@@ -47,31 +47,31 @@
       border-radius: 12px;
       padding: 15px;
       overflow-x: auto;
-      max-width: 900px;
+      max-width: 100%;
       margin: 0 auto;
     }
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      min-width: 600px;
+      gap: 10px;
+      min-width: 700px;
     }
     .calendar-day-header {
       text-align: center;
       font-weight: 700;
       padding: 10px 5px;
       color: var(--primary-light);
-      font-size: 0.9em;
+      font-size: 1em;
     }
     .calendar-day {
       aspect-ratio: 1;
-      border: 2px solid #333;
-      border-radius: 8px;
-      padding: 5px;
+      border: 3px solid #444;
+      border-radius: 10px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 70px;
+      min-height: 90px;
       background: var(--card-dark);
       transition: all 0.2s;
       cursor: pointer;
@@ -79,9 +79,10 @@
     .calendar-day:hover {
       background: #2a2a2a;
       transform: scale(1.02);
+      border-color: var(--primary-light);
     }
     .calendar-day.today {
-      border: 3px solid var(--primary-light);
+      border: 4px solid var(--primary-light);
       box-shadow: var(--glow);
     }
     .calendar-day.other-month {
@@ -89,35 +90,51 @@
     }
     .calendar-day.holiday {
       background: #7a0000;
-      border-color: #aa0000;
+      border-color: #cc0000;
     }
     .calendar-day.half-day {
       background: #8a5700;
-      border-color: #ba7700;
+      border-color: #dd8800;
     }
     .day-number {
       font-weight: 700;
-      font-size: 0.95em;
+      font-size: 1.1em;
     }
     .day-schedule {
-      font-size: 0.75em;
+      font-size: 0.85em;
       opacity: 0.9;
       text-align: center;
       margin-top: auto;
     }
+    @media (max-width: 768px) {
+      .calendar-grid {
+        min-width: 500px;
+      }
+      .calendar-day {
+        min-height: 70px;
+        padding: 5px;
+      }
+      .day-number {
+        font-size: 0.95em;
+      }
+      .day-schedule {
+        font-size: 0.75em;
+      }
+    }
     @media (max-width: 600px) {
       .calendar-grid {
-        min-width: 300px;
+        min-width: 350px;
       }
       .calendar-day {
         min-height: 50px;
         padding: 3px;
+        border-width: 2px;
       }
       .day-number {
         font-size: 0.8em;
       }
       .day-schedule {
-        font-size: 0.6em;
+        font-size: 0.65em;
       }
     }
   </style>
@@ -137,13 +154,14 @@
   </div>
   <script src="/assets/script.js"></script>
   <script>
-    let currentMonth = new Date().getMonth();
-    let currentYear = new Date().getFullYear();
-    const schoolYearStart = new Date(2025, 10, 1);
-    const schoolYearEnd = new Date(2026, 5, 30);
+    const now = new Date();
+    let currentMonth = now.getMonth();
+    let currentYear = now.getFullYear();
     
-    if (currentMonth < 10 && currentYear === 2025) {
+    // Force start at November 2025 if before that
+    if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 10)) {
       currentMonth = 10;
+      currentYear = 2025;
     }
     
     function renderCalendar() {
@@ -153,15 +171,15 @@
       const prevBtn = document.getElementById('prevMonth');
       const nextBtn = document.getElementById('nextMonth');
       
-      const isBeforeNov2025 = (currentYear === 2025 && currentMonth < 10) || currentYear < 2025;
-      const isAfterJune2026 = (currentYear === 2026 && currentMonth > 5) || currentYear > 2026;
-      
+      // Disable previous before November 2025
       prevBtn.disabled = (currentYear === 2025 && currentMonth === 10);
+      // Disable next after June 2026
       nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
       
       const grid = document.getElementById('calendarGrid');
       grid.innerHTML = '';
       
+      // Day headers
       ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
         const header = document.createElement('div');
         header.className = 'calendar-day-header';
@@ -173,6 +191,7 @@
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
       
+      // Previous month days
       for (let i = firstDay - 1; i >= 0; i--) {
         const day = daysInPrevMonth - i;
         const cell = createDayCell(day, true, currentMonth - 1, currentYear);
@@ -180,12 +199,14 @@
       }
       
       const today = new Date();
+      // Current month days
       for (let day = 1; day <= daysInMonth; day++) {
         const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
         const cell = createDayCell(day, false, currentMonth, currentYear, isToday);
         grid.appendChild(cell);
       }
       
+      // Next month days
       const totalCells = firstDay + daysInMonth;
       const remainingCells = 7 - (totalCells % 7);
       if (remainingCells < 7) {
@@ -255,6 +276,7 @@
         currentMonth = 11;
         currentYear--;
       }
+      // Block before November 2025
       if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 10)) {
         currentMonth = 10;
         currentYear = 2025;
@@ -268,6 +290,7 @@
         currentMonth = 0;
         currentYear++;
       }
+      // Block after June 2026
       if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
         currentMonth = 5;
         currentYear = 2026;

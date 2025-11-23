@@ -45,7 +45,8 @@ function checkSetupComplete() {
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
   
-  if (!setupComplete && window.location.pathname === '/') {
+  // Only redirect to setup if not on setup page and setup is not complete
+  if (!setupComplete && !window.location.pathname.includes('/setup')) {
     if (!theme || !gradient || !lunch || packup === null) {
       window.location.href = '/setup';
       return false;
@@ -654,7 +655,7 @@ function updateDaySchedule() {
   const schedule = schedules[dayName];
   const now = new Date();
   const isToday = dayName === currentDayName() && dayDate.toDateString() === now.toDateString();
-  scheduleEl.innerHTML = renderScheduleTable(schedule, isToday ? minutesNow() : null, false);
+  scheduleEl.innerHTML = renderScheduleTable(schedule, isToday ? minutesNow() : null, true);
 }
 
 function updateClock() {
