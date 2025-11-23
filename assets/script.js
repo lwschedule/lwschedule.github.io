@@ -479,13 +479,13 @@ function updateWeekSchedule() {
   
   if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {
     diff += 7;
-  }
-  
-  const lastWeekFriday = new Date(now);
-  lastWeekFriday.setDate(now.getDate() + (5 - currentDayOfWeek + (currentDayOfWeek === 0 ? -7 : 0)));
-  const fridayHoliday = getHolidayForDate(lastWeekFriday);
-  if (fridayHoliday) {
-    diff += 7;
+  } else {
+    const thisFriday = new Date(now);
+    thisFriday.setDate(now.getDate() + (5 - currentDayOfWeek));
+    const fridayHoliday = getHolidayForDate(thisFriday);
+    if (fridayHoliday) {
+      diff += 7;
+    }
   }
   
   monday.setDate(now.getDate() + diff);
@@ -608,13 +608,13 @@ function updateDaySchedule() {
     
     if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {
       diff += 7;
-    }
-    
-    const lastWeekFriday = new Date(now);
-    lastWeekFriday.setDate(now.getDate() + (5 - currentDayOfWeek + (currentDayOfWeek === 0 ? -7 : 0)));
-    const fridayHoliday = getHolidayForDate(lastWeekFriday);
-    if (fridayHoliday) {
-      diff += 7;
+    } else {
+      const thisFriday = new Date(now);
+      thisFriday.setDate(now.getDate() + (5 - currentDayOfWeek));
+      const fridayHoliday = getHolidayForDate(thisFriday);
+      if (fridayHoliday) {
+        diff += 7;
+      }
     }
     
     monday.setDate(now.getDate() + diff);
