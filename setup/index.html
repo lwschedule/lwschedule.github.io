@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pack-Up Reminders - LW Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/images/logo.png">
+  <style>
+    .settingsRow label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .pack-up-presets {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    .pack-up-preset {
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--primary-light);
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+    .pack-up-preset:hover {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      transform: scale(1.05);
+    }
+    .pack-up-preset.selected {
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      box-shadow: var(--glow);
+    }
+    .saveBtn {
+      display: block;
+      width: 100%;
+      background: var(--primary-light);
+      color: var(--text-on-primary);
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--glow);
+      transition: all 0.3s;
+      font-weight: 700;
+      margin-top: 20px;
+    }
+    .saveBtn:hover {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+    .description {
+      text-align: center;
+      opacity: 0.8;
+      font-size: 0.9em;
+      margin: 10px 0 20px;
+    }
+  </style>
+</head>
+<body class="theme-purple">
+  <a href="/settings" class="backBtn">← Back</a>
+  <div class="pageContainer">
+    <h2>Pack-Up Reminders</h2>
+    <p class="description">Get notified before class ends so you have time to pack up.</p>
+    <div class="settingsRow">
+      <label>Notify me minutes before class ends:</label>
+      <div class="pack-up-presets">
+        <button class="pack-up-preset" data-value="0">Off</button>
+        <button class="pack-up-preset" data-value="1">1 min</button>
+        <button class="pack-up-preset" data-value="3">3 min</button>
+        <button class="pack-up-preset" data-value="5">5 min</button>
+        <button class="pack-up-preset" data-value="7">7 min</button>
+        <button class="pack-up-preset" data-value="10">10 min</button>
+      </div>
+    </div>
+    <button class="saveBtn" id="saveBtn">Save</button>
+  </div>
+  <script src="/assets/script.js"></script>
+  <script>
+    let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+    
+    function updateUI() {
+      document.querySelectorAll('.pack-up-preset').forEach(btn => {
+        const val = parseInt(btn.dataset.value, 10);
+        btn.classList.toggle('selected', val === packUpTime);
+      });
+    }
+    
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        packUpTime = parseInt(btn.dataset.value, 10);
+        updateUI();
+      });
+    });
+    
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      localStorage.setItem('pack-up-time', packUpTime);
+      alert('Pack-up reminder saved!');
+      location.href = '/settings';
+    });
+    
+    updateUI();
+  </script>
+</body>
+</html>

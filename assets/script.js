@@ -38,6 +38,22 @@ const academicTerms = {
   ]
 };
 
+function checkSetupComplete() {
+  const theme = localStorage.getItem('theme');
+  const gradient = localStorage.getItem('gradient');
+  const lunch = localStorage.getItem('lunchPreferences');
+  const packup = localStorage.getItem('pack-up-time');
+  const setupComplete = localStorage.getItem('setup-complete');
+  
+  if (!setupComplete && window.location.pathname === '/') {
+    if (!theme || !gradient || !lunch || packup === null) {
+      window.location.href = '/setup';
+      return false;
+    }
+  }
+  return true;
+}
+
 function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
@@ -297,13 +313,17 @@ function formatDuration(minutes) {
 function displayTimeBlocks(container, data) {
   let html = '';
   if (data.days !== undefined) {
-    html += `<div class="time-block"><span class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
+    const daysId = container.id ? container.id.replace('Display', '') + '-days' : '';
+    html += `<div class="time-block"><span id="${daysId}" class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
   }
   if (data.hours !== undefined) {
-    html += `<div class="time-block"><span class="time-value">${data.hours.toString().padStart(2, '0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
+    const hoursId = container.id ? container.id.replace('Display', '') + '-hours' : '';
+    html += `<div class="time-block"><span id="${hoursId}" class="time-value">${data.hours.toString().padStart(2, '0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
   }
-  html += `<div class="time-block"><span class="time-value">${data.minutes.toString().padStart(2, '0')}</span><span class="time-label">MINUTES</span></div>`;
-  html += `<div class="time-block"><span class="time-value">${data.seconds.toString().padStart(2, '0')}</span><span class="time-label">SECONDS</span></div>`;
+  const minutesId = container.id ? container.id.replace('Display', '') + '-minutes' : '';
+  const secondsId = container.id ? container.id.replace('Display', '') + '-seconds' : '';
+  html += `<div class="time-block"><span id="${minutesId}" class="time-value">${data.minutes.toString().padStart(2, '0')}</span><span class="time-label">MINUTES</span></div>`;
+  html += `<div class="time-block"><span id="${secondsId}" class="time-value">${data.seconds.toString().padStart(2, '0')}</span><span class="time-label">SECONDS</span></div>`;
   container.innerHTML = html;
 }
 
@@ -657,9 +677,22 @@ function updateClock() {
         const totalHours = Math.floor(totalMinutes / 60);
         const h = totalHours % 24;
         const d = Math.floor(totalHours / 24);
-        if (d > 1) displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        else if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-        else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+        if (d > 0) {
+          displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+          updateRollingText(document.getElementById('clockDisplay-days'), d.toString());
+          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        } else if (h > 0) {
+          displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        } else {
+          displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        }
         clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
         timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
         timerEl.classList.remove('hidden');
@@ -703,8 +736,16 @@ function updateClock() {
     const h = Math.floor(remainingMinutes / 60);
     const m = remainingMinutes % 60;
     const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-    if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-    else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+    if (h > 0) {
+      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+      updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+      updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+    } else {
+      displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+      updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+      updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+    }
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
     timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
@@ -718,8 +759,16 @@ function updateClock() {
       const h = Math.floor(remainingMinutes / 60);
       const m = remainingMinutes % 60;
       const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-      if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+      if (h > 0) {
+        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+        updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+        updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+        updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+      } else {
+        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+        updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+        updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+      }
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
@@ -736,9 +785,22 @@ function updateClock() {
           const totalHours = Math.floor(totalMinutes / 60);
           const h = totalHours % 24;
           const d = Math.floor(totalHours / 24);
-          if (d > 1) displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-          else if (h > 0) displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-          else displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          if (d > 0) {
+            displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+            updateRollingText(document.getElementById('clockDisplay-days'), d.toString());
+            updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+          } else if (h > 0) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+            updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
+            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+          } else {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
+            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+          }
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
           timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
           timerEl.classList.remove('hidden');
@@ -770,6 +832,7 @@ function loadThemeOnPage() {
 }
 
 function initApp() {
+  checkSetupComplete();
   loadThemeOnPage();
   loadLunchPreferences();
   if (document.getElementById('digitalClock')) {

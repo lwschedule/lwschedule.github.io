@@ -30,9 +30,13 @@
       font-weight: 700;
       transition: all 0.3s;
     }
-    .calendar-nav button:hover {
+    .calendar-nav button:hover:not(:disabled) {
       background: var(--primary);
       transform: scale(1.05);
+    }
+    .calendar-nav button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
     .calendar-nav h3 {
       margin: 0;
@@ -43,12 +47,14 @@
       border-radius: 12px;
       padding: 15px;
       overflow-x: auto;
+      max-width: 900px;
+      margin: 0 auto;
     }
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      min-width: 300px;
+      gap: 8px;
+      min-width: 600px;
     }
     .calendar-day-header {
       text-align: center;
@@ -59,13 +65,13 @@
     }
     .calendar-day {
       aspect-ratio: 1;
-      border: 1px solid #333;
+      border: 2px solid #333;
       border-radius: 8px;
       padding: 5px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 60px;
+      min-height: 70px;
       background: var(--card-dark);
       transition: all 0.2s;
       cursor: pointer;
@@ -75,7 +81,7 @@
       transform: scale(1.02);
     }
     .calendar-day.today {
-      border: 2px solid var(--primary-light);
+      border: 3px solid var(--primary-light);
       box-shadow: var(--glow);
     }
     .calendar-day.other-month {
@@ -83,21 +89,26 @@
     }
     .calendar-day.holiday {
       background: #7a0000;
+      border-color: #aa0000;
     }
     .calendar-day.half-day {
       background: #8a5700;
+      border-color: #ba7700;
     }
     .day-number {
       font-weight: 700;
-      font-size: 0.9em;
+      font-size: 0.95em;
     }
     .day-schedule {
-      font-size: 0.7em;
-      opacity: 0.8;
+      font-size: 0.75em;
+      opacity: 0.9;
       text-align: center;
       margin-top: auto;
     }
     @media (max-width: 600px) {
+      .calendar-grid {
+        min-width: 300px;
+      }
       .calendar-day {
         min-height: 50px;
         padding: 3px;
@@ -128,12 +139,25 @@
   <script>
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
-    const schoolYearStart = new Date(2025, 8, 1);
+    const schoolYearStart = new Date(2025, 10, 1);
     const schoolYearEnd = new Date(2026, 5, 30);
+    
+    if (currentMonth < 10 && currentYear === 2025) {
+      currentMonth = 10;
+    }
     
     function renderCalendar() {
       const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+      
+      const prevBtn = document.getElementById('prevMonth');
+      const nextBtn = document.getElementById('nextMonth');
+      
+      const isBeforeNov2025 = (currentYear === 2025 && currentMonth < 10) || currentYear < 2025;
+      const isAfterJune2026 = (currentYear === 2026 && currentMonth > 5) || currentYear > 2026;
+      
+      prevBtn.disabled = (currentYear === 2025 && currentMonth === 10);
+      nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
       
       const grid = document.getElementById('calendarGrid');
       grid.innerHTML = '';
@@ -231,6 +255,10 @@
         currentMonth = 11;
         currentYear--;
       }
+      if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 10)) {
+        currentMonth = 10;
+        currentYear = 2025;
+      }
       renderCalendar();
     });
     
@@ -240,13 +268,12 @@
         currentMonth = 0;
         currentYear++;
       }
+      if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
+        currentMonth = 5;
+        currentYear = 2026;
+      }
       renderCalendar();
     });
-    
-    if (currentMonth < 8) {
-      currentMonth = 8;
-      currentYear = 2025;
-    }
     
     renderCalendar();
   </script>
