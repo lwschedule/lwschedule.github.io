@@ -1,0 +1,65 @@
+/* Week schedule page specific styles */
+
+.backBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 12px;
+    z-index: 100;
+  }
+  
+  .weekTable {
+    font-size: clamp(0.9em, 2.5vw, 1em);
+  }
+  
+  .weekTable td:first-child {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  .weekTable td:last-child {
+    text-align: right;
+  }
+  
+  .weekTable tr.clickable-row {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .weekTable tr.clickable-row:hover {
+    background: #2a2a2a;
+    transform: scale(1.01);
+  }
+  
+  .weekTable tr.clickable-row.highlight:hover {
+    filter: brightness(1.1);
+  }
+  
+  body.gradient-mode .weekTable th {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+    background-size: 200% 200% !important;
+    animation: gradientShift5 8s ease infinite !important;
+  }
+  
+  body.gradient-mode .weekTable tr.highlight {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+    background-size: 200% 200% !important;
+    animation: gradientShift5 8s ease infinite !important;
+  }
+  
+  body.gradient-mode .backBtn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+    background-size: 200% 200% !important;
+    animation: gradientShift3 8s ease infinite !important;
+  }
+  
+  @media (max-width: 600px) {
+    .backBtn {
+      position: static;
+      display: block;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }

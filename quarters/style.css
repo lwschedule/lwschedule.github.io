@@ -1,0 +1,129 @@
+/* Quarters page specific styles */
+
+.backBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border-radius: 12px;
+    z-index: 100;
+  }
+  
+  .academic-term-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .term-card {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .term-card.highlight {
+    background: var(--primary-light);
+    box-shadow: var(--glow);
+    color: var(--text-on-primary);
+  }
+  
+  .term-info {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .term-name {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .term-dates {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+  
+  .term-card.highlight .term-dates {
+    opacity: 0.9;
+  }
+  
+  .term-countdown {
+    flex-shrink: 0;
+  }
+  
+  .term-countdown-block {
+    text-align: right;
+  }
+  
+  .term-countdown-block .countdown-value {
+    font-size: clamp(1.5em, 5vw, 2em);
+    font-weight: 700;
+    color: var(--primary-light);
+    line-height: 1.1;
+  }
+  
+  .term-countdown-block .countdown-label {
+    font-size: 0.7em;
+    font-weight: 400;
+    color: var(--text-light);
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  
+  .term-card.highlight .countdown-value {
+    color: var(--text-on-primary);
+  }
+  
+  .term-card.highlight .countdown-label {
+    color: var(--text-on-primary);
+    opacity: 0.9;
+  }
+  
+  .term-completed-badge {
+    background: var(--primary-light);
+    color: var(--text-on-primary);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+  
+  body.gradient-mode .term-card.highlight {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+    background-size: 200% 200% !important;
+    animation: gradientShift5 8s ease infinite !important;
+    color: white;
+  }
+  
+  body.gradient-mode .term-completed-badge {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+    background-size: 200% 200%;
+    animation: gradientShift4 8s ease infinite;
+    color: white;
+    opacity: 0.8;
+  }
+  
+  body.gradient-mode .backBtn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important;
+    background-size: 200% 200% !important;
+    animation: gradientShift3 8s ease infinite !important;
+  }
+  
+  @media (max-width: 600px) {
+    .backBtn {
+      position: static;
+      display: block;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
