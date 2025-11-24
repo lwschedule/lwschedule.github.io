@@ -62,7 +62,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 * **Finals Week** (January 19-23, 2026) — special schedule with modified periods
 * **Thanksgiving Week** (November 24-26, 2025) — shortened days
-* **Winter Break** (December 20, 2025 - January 4, 2026)
 * Automatic detection and switching between schedule types
 
 ---
