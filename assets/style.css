@@ -127,6 +127,7 @@ h2, h3 { color: var(--primary-light); }
 .settingsRow .mainBtn { width: 100%; }
 .resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
 .resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
+.schedule-image { width: 100%; max-width: 650px; margin: 20px auto; border-radius: 12px; box-shadow: var(--glow); display: block; }
 @media (max-width: 600px) {
   .mainButtons { grid-template-columns: 1fr; }
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }

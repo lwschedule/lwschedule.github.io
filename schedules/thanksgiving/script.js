@@ -1,0 +1,17 @@
+const content = document.getElementById('thanksgivingScheduleContent');
+const thanksgivingDate = new Date(2025, 10, 24);
+const schedules = getSchedules(thanksgivingDate);
+const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+let html = '';
+weekDays.forEach(day => {
+  html += `<h3 style="color: var(--primary-light); margin-top: 30px;">${day}</h3>`;
+  const schedule = schedules[day];
+  if (!schedule || schedule.length === 0) {
+    html += '<p style="text-align: center; opacity: 0.8;">No School - Thanksgiving Break</p>';
+  } else {
+    html += renderScheduleTable(schedule, null, true);
+  }
+});
+
+content.innerHTML = html;

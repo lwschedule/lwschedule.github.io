@@ -8,46 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/settings/lunch/style.css">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
-  <style>
-    .settingsRow label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-    .lunchButtons {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    .lunchBtn {
-      flex: 1;
-      background: var(--card-dark);
-      color: var(--text-light);
-      border: 2px solid var(--primary-light);
-      padding: 12px 24px;
-      font-size: 1em;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 700;
-    }
-    .lunchBtn:hover {
-      background: var(--primary-light);
-      color: var(--text-on-primary);
-      transform: scale(1.05);
-    }
-    .lunchBtn.selected {
-      background: var(--primary-light);
-      color: var(--text-on-primary);
-      box-shadow: var(--glow);
-    }
-    .lunchBtn:disabled {
-      opacity: 1;
-      cursor: default;
-    }
-  </style>
 </head>
 <body class="theme-purple">
   <a href="/settings" class="backBtn">← Back</a>
@@ -90,36 +53,6 @@
     <button class="resetBtn" id="resetLunchBtn">Reset All Lunches</button>
   </div>
   <script src="/assets/script.js"></script>
-  <script>
-    let lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
-    
-    function updateUI() {
-      document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-        const day = btn.dataset.day;
-        const lunch = btn.dataset.lunch;
-        btn.classList.toggle('selected', lunchPrefs[day] === lunch);
-      });
-    }
-    
-    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const day = btn.dataset.day;
-        const lunch = btn.dataset.lunch;
-        lunchPrefs[day] = lunch;
-        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-        updateUI();
-      });
-    });
-    
-    document.getElementById('resetLunchBtn').addEventListener('click', () => {
-      if (confirm('Reset all lunch preferences to A Lunch?')) {
-        lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
-        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-        updateUI();
-      }
-    });
-    
-    updateUI();
-  </script>
+  <script src="/settings/lunch/script.js"></script>
 </body>
 </html>

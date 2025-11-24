@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finals Week - LW Schedule</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,15 +10,6 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
-  <style>
-    .schedule-image {
-      width: 100%;
-      max-width: 650px;
-      margin: 20px auto;
-      border-radius: 12px;
-      box-shadow: var(--glow);
-    }
-  </style>
 </head>
 <body class="theme-purple">
   <a href="/schedules" class="backBtn">← Back</a>
@@ -30,24 +20,6 @@
     <div id="finalsScheduleContent"></div>
   </div>
   <script src="/assets/script.js"></script>
-  <script>
-    const content = document.getElementById('finalsScheduleContent');
-    const finalsDate = new Date(2026, 0, 20);
-    const schedules = getSchedules(finalsDate);
-    const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    
-    let html = '';
-    weekDays.forEach(day => {
-      html += `<h3 style="color: var(--primary-light); margin-top: 30px;">${day}</h3>`;
-      const schedule = schedules[day];
-      if (!schedule || schedule.length === 0) {
-        html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
-      } else {
-        html += renderScheduleTable(schedule, null, true);
-      }
-    });
-    
-    content.innerHTML = html;
-  </script>
+  <script src="/schedules/finals/script.js"></script>
 </body>
 </html>

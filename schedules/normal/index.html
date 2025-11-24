@@ -10,15 +10,6 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
-  <style>
-    .schedule-image {
-      width: 100%;
-      max-width: 650px;
-      margin: 20px auto;
-      border-radius: 12px;
-      box-shadow: var(--glow);
-    }
-  </style>
 </head>
 <body class="theme-purple">
   <a href="/schedules" class="backBtn">← Back</a>
@@ -29,19 +20,6 @@
     <div id="normalScheduleContent"></div>
   </div>
   <script src="/assets/script.js"></script>
-  <script>
-    const content = document.getElementById('normalScheduleContent');
-    const normalDate = new Date(2025, 9, 1);
-    const schedules = getSchedules(normalDate);
-    const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    
-    let html = '';
-    weekDays.forEach(day => {
-      html += `<h3 style="color: var(--primary-light); margin-top: 30px;">${day}</h3>`;
-      html += renderScheduleTable(schedules[day], null, true);
-    });
-    
-    content.innerHTML = html;
-  </script>
+  <script src="/schedules/normal/script.js"></script>
 </body>
 </html>
