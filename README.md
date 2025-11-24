@@ -1,4 +1,4 @@
-**# LW Schedule
+# LW Schedule
 
 [Features](#-features) · [Upcoming Features](#-upcoming-features-planned) · [Tech Stack](#-tech-stack) · [License](#-license) · [Credits](#-credits)
 
@@ -96,6 +96,9 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Enter your caddy number per class
 * Two-minute warnings before class starts
 * Will be able to skip in setup
+
+Add sliding number animation from holidays
+Use new script.js and style.css files (within each folder) to reduce length of assets
 
 ---
 
