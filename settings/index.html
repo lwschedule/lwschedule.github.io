@@ -36,6 +36,14 @@
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
   </div>
   <script src="/assets/script.js"></script>
-  <script src="/settings/script.js"></script>
+  <script>
+    document.getElementById('resetBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
+        localStorage.clear();
+        location.href = '/';
+      }
+    });
+  </script>
 </body>
 </html>
