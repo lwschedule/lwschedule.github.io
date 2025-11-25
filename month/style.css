@@ -1,143 +1,138 @@
-.calendar-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
-    padding: 15px;
-    background: var(--card-dark);
-    border-radius: 12px;
-  }
-  .calendar-nav button {
-    background: var(--primary-light);
-    color: var(--text-on-primary);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.3s;
-  }
-  .calendar-nav button:hover:not(:disabled) {
-    background: var(--primary);
-    transform: scale(1.05);
-  }
-  .calendar-nav button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-  .calendar-nav h3 {
-    margin: 0;
-    font-size: 1.3em;
-  }
-  .calendar {
-    background: #1f1f1f;
-    border-radius: 12px;
-    padding: 20px;
-    overflow-x: auto;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    min-width: 800px;
-  }
-  .calendar-day-header {
-    text-align: center;
-    font-weight: 700;
-    padding: 12px 5px;
-    color: var(--primary-light);
-    font-size: 1em;
-  }
-  .calendar-day {
-    aspect-ratio: 1;
-    border: 3px solid #444;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 100px;
-    background: var(--card-dark);
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-  .calendar-day:hover {
-    background: #2a2a2a;
-    transform: scale(1.02);
-    border-color: var(--primary-light);
-  }
-  .calendar-day.today {
-    border: 4px solid var(--primary-light);
-    box-shadow: var(--glow);
-  }
-  .calendar-day.other-month {
-    opacity: 0.3;
-  }
-  .calendar-day.holiday {
-    background: #7a0000;
-    border-color: #cc0000;
-  }
-  .calendar-day.half-day {
-    background: #8a5700;
-    border-color: #dd8800;
-  }
-  .day-number {
-    font-weight: 700;
-    font-size: 1.1em;
-  }
-  .day-schedule {
-    font-size: 0.9em;
-    opacity: 0.9;
-    text-align: center;
-    margin-top: auto;
-  }
-  @media (max-width: 900px) {
-    .calendar-grid {
-      min-width: 650px;
-    }
-    .calendar-day {
-      min-height: 80px;
-      padding: 8px;
-    }
-  }
-  @media (max-width: 700px) {
-    .calendar-grid {
-      min-width: 500px;
-    }
-    .calendar-day {
-      min-height: 70px;
-      padding: 6px;
-    }
-    .day-number {
-      font-size: 1em;
-    }
-    .day-schedule {
-      font-size: 0.8em;
-    }
-  }
-  @media (max-width: 600px) {
-    .calendar-grid {
-      min-width: 400px;
-      gap: 8px;
-    }
-    .calendar-day {
-      min-height: 55px;
-      padding: 4px;
-      border-width: 2px;
-    }
-    .calendar-day.today {
-      border-width: 3px;
-    }
-    .day-number {
-      font-size: 0.85em;
-    }
-    .day-schedule {
-      font-size: 0.7em;
-    }
-    .calendar-day-header {
-      font-size: 0.9em;
-      padding: 8px 3px;
-    }
-  }
+:root {
+  --primary: #4b2e83;
+  --primary-light: #6a4fb3;
+  --text-light: #e8e8e8;
+  --bg-dark: #1a1a1a;
+  --card-dark: #262626;
+  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+}
+body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); --text-on-primary: white; }
+body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); --text-on-primary: white; }
+body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); --text-on-primary: white; }
+body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); --text-on-primary: black; }
+body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); --text-on-primary: white; }
+body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); --text-on-primary: white; }
+body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); --text-on-primary: white; }
+body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); --text-on-primary: white; }
+* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
+body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
+body::-webkit-scrollbar { display: none; }
+body.gradient-mode #digitalClock { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift 8s ease infinite !important; }
+body.gradient-mode #timer { color: white; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift 8s ease infinite; }
+body.gradient-mode .mainBtn:not(.disabledBtn) { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; }
+body.gradient-mode .circleBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; }
+body.gradient-mode .backBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; }
+body.gradient-mode .scheduleTable th, body.gradient-mode .holidayTable th, body.gradient-mode .weekTable th { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; }
+body.gradient-mode .scheduleTable tr.highlight, body.gradient-mode .weekTable tr.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; }
+body.gradient-mode .term-card.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; }
+body.gradient-mode .term-completed-badge { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift4 8s ease infinite; color: white; opacity: 0.8; }
+body.gradient-mode .versionBadge { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; }
+body.gradient-mode #holidayCountdown { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift 8s ease infinite; }
+body.gradient-mode .noSchoolMessage h3 { color: white; }
+body.gradient-mode .noSchoolMessage p { color: white; opacity: 1; }
+body.gradient-mode h2, body.gradient-mode h3 { color: white; }
+body.gradient-mode .infoContent a { color: white; }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 25% { background-position: 100% 25%; } 50% { background-position: 0% 75%; } 75% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes gradientShift2 { 0% { background-position: 100% 0%; } 33% { background-position: 0% 100%; } 66% { background-position: 50% 50%; } 100% { background-position: 100% 0%; } }
+@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
+@keyframes gradientShift4 { 0% { background-position: 25% 75%; } 40% { background-position: 75% 25%; } 80% { background-position: 0% 100%; } 100% { background-position: 25% 75%; } }
+@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
+@keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
+.digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; }
+.digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
+.digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
+.static-char { display: inline-block; vertical-align: middle; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; }
+h2, h3 { color: var(--primary-light); }
+.topRightButtons { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
+.circleBtn { width: 50px; height: 50px; border-radius: 50%; background: var(--primary-light); color: var(--text-on-primary); border: none; font-size: 1.5em; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 700; }
+.circleBtn:hover { background: var(--primary); transform: scale(1.1); }
+#digitalClock { font-weight: 700; text-align: center; color: var(--text-on-primary); background: var(--primary-light); padding: 20px; border-radius: 16px; box-shadow: var(--glow); max-width: 650px; margin: 20px auto; }
+#clockLabel { font-size: 0.8em; margin-bottom: 10px; color: var(--text-on-primary); opacity: 0.9; font-weight: 700; }
+#clockDisplay { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; margin-top: 15px; }
+.time-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.time-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: var(--text-on-primary); line-height: 1.1; text-align: center; }
+.time-label { font-size: 0.7em; font-weight: 400; color: var(--text-on-primary); opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
+#timer { font-size: clamp(0.9em, 4vw, 1.1em); margin-top: 20px; text-align: center; background: var(--card-dark); padding: 15px; border-radius: 16px; box-shadow: var(--glow); color: var(--text-light); max-width: 650px; margin: 20px auto; }
+#timer.hidden { display: none; }
+.mainButtons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; justify-content: center; max-width: 650px; margin: 30px auto; }
+.mainBtn { background: var(--primary-light); color: var(--text-on-primary); border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; }
+.mainBtn:hover { background: var(--primary); transform: scale(1.05); }
+.mainBtn.disabledBtn { opacity: 0.5; cursor: not-allowed; background: #555 !important; animation: none !important; }
+.mainBtn.disabledBtn:hover { background: #555 !important; transform: none; }
+.backBtn { position: absolute; top: 20px; left: 20px; background: var(--primary-light); color: var(--text-on-primary); border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
+.backBtn:hover { background: var(--primary); transform: scale(1.05); }
+.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
+.scheduleTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; }
+.scheduleTable th { background: var(--primary-light); color: var(--text-on-primary); padding: 12px; text-align: left; font-weight: 700; }
+.scheduleTable td { padding: 12px; border-bottom: 1px solid #444; }
+.scheduleTable tr:last-child td { border-bottom: none; }
+.scheduleTable tr.highlight, .weekTable tr.highlight { background: var(--primary-light); color: var(--text-on-primary); font-weight: 700; }
+.scheduleTable tr:not(.highlight):hover { background: #2a2a2a; }
+.holidayTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; }
+.holidayTable th { background: var(--primary-light); color: var(--text-on-primary); padding: 12px; text-align: left; font-weight: 700; }
+.holidayTable td { padding: 12px; border-bottom: 1px solid #444; }
+.holidayTable tr:last-child td { border-bottom: none; }
+.holidayTable tr:hover { background: #2a2a2a; }
+.weekTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; font-size: clamp(0.9em, 2.5vw, 1em); }
+.weekTable th { background: var(--primary-light); color: var(--text-on-primary); padding: 12px; text-align: left; font-weight: 700; }
+.weekTable td { padding: 12px; border-bottom: 1px solid #444; line-height: 1.5; }
+.weekTable td:first-child { font-weight: 700; white-space: nowrap; }
+.weekTable td:last-child { text-align: right; }
+.weekTable tr:last-child td { border-bottom: none; }
+.weekTable tr.clickable-row { cursor: pointer; transition: all 0.2s; }
+.weekTable tr.clickable-row:hover { background: #2a2a2a; transform: scale(1.01); }
+.weekTable tr.clickable-row.highlight:hover { filter: brightness(1.1); }
+.academic-term-list { display: flex; flex-direction: column; gap: 15px; }
+.term-card { background: #1f1f1f; border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
+.term-card.highlight { background: var(--primary-light); box-shadow: var(--glow); color: var(--text-on-primary); }
+.term-info { flex: 1; min-width: 150px; }
+.term-name { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; }
+.term-dates { font-size: 0.9em; opacity: 0.8; }
+.term-card.highlight .term-dates { opacity: 0.9; }
+.term-countdown { flex-shrink: 0; }
+.term-countdown-block { text-align: right; }
+.term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
+.term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.term-card.highlight .countdown-value { color: var(--text-on-primary); }
+.term-card.highlight .countdown-label { color: var(--text-on-primary); opacity: 0.9; }
+.term-completed-badge { background: var(--primary-light); color: var(--text-on-primary); padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; opacity: 0.7; }
+#holidayCountdown { font-weight: 700; text-align: center; color: var(--text-on-primary); background: var(--primary-light); padding: 20px; border-radius: 16px; box-shadow: var(--glow); margin: 20px 0; }
+#holidayCountdownLabel { font-size: 0.8em; margin-bottom: 10px; color: var(--text-on-primary); opacity: 0.9; font-weight: 700; }
+#holidayCountdownTime { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
+.countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: var(--text-on-primary); line-height: 1.1; text-align: center; }
+.countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-on-primary); opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
+.countdown-value .digit-roller { height: 1em; line-height: 1em; }
+.noSchoolMessage { text-align: center; padding: 40px 20px; font-size: 1.3em; }
+.noSchoolMessage h3 { font-size: 2em; margin-bottom: 20px; color: var(--primary-light); margin-top: 0; }
+.noSchoolMessage p { font-size: 1.2em; color: var(--text-light); opacity: 0.8; margin: 0; }
+.versionBadge { display: inline-block; background: var(--primary-light); color: var(--text-on-primary); padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
+.footer { text-align: center; margin-top: 40px; }
+.infoContent { text-align: center; padding: 20px; }
+.infoContent h3 { color: var(--primary-light); margin-top: 20px; margin-bottom: 10px; }
+.infoContent p { margin: 10px 0; line-height: 1.6; }
+.infoContent a { color: var(--primary-light); text-decoration: none; font-weight: 700; }
+.infoContent a:hover { text-decoration: underline; }
+.settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; animation: fadeInUp 0.5s ease-out backwards; }
+.settingsRow:nth-of-type(1) { animation-delay: 0.1s; }
+.settingsRow:nth-of-type(2) { animation-delay: 0.15s; }
+.settingsRow:nth-of-type(3) { animation-delay: 0.2s; }
+.settingsRow:nth-of-type(4) { animation-delay: 0.25s; }
+.settingsRow:nth-of-type(5) { animation-delay: 0.3s; }
+.settingsRow:nth-of-type(6) { animation-delay: 0.35s; }
+.settingsRow .mainBtn { width: 100%; }
+.resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
+.resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
+.schedule-image { width: 100%; max-width: 650px; margin: 20px auto; border-radius: 12px; box-shadow: var(--glow); display: block; }
+@media (max-width: 600px) {
+  .mainButtons { grid-template-columns: 1fr; }
+  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+  .pageContainer { padding: 20px 0 0 0; }
+  .topRightButtons { top: 10px; right: 10px; }
+  .circleBtn { width: 45px; height: 45px; font-size: 1.3em; }
+  #clockDisplay { grid-template-columns: repeat(2, 1fr); }
+}
