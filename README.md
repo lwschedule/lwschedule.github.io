@@ -96,8 +96,9 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
-Add sliding number animation from holidays
-Use new script.js and style.css files (within each folder) to reduce length of assets
+- Add sliding number animation from holidays to main timer on main screen
+- Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
+- Remove selecting between static colors and animated gradient in setup (animated gradient is now only theme, after static colors' functionality was removed
 
 ---
 
