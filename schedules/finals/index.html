@@ -7,11 +7,40 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
+  <style>
+:root {
+  --primary: #4b2e83;
+  --primary-light: #6a4fb3;
+  --text-light: #e8e8e8;
+  --bg-dark: #1a1a1a;
+  --card-dark: #262626;
+  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+}
+* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
+body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
+body::-webkit-scrollbar { display: none; }
+@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
+@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
+.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
+.backBtn:hover { transform: scale(1.05); }
+.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
+.scheduleTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; }
+.scheduleTable th { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 12px; text-align: left; font-weight: 700; }
+.scheduleTable td { padding: 12px; border-bottom: 1px solid #444; }
+.scheduleTable tr:last-child td { border-bottom: none; }
+.scheduleTable tr:not(.highlight):hover { background: #2a2a2a; }
+.schedule-image { width: 100%; max-width: 650px; margin: 20px auto; border-radius: 12px; box-shadow: var(--glow); display: block; }
+@media (max-width: 600px) {
+  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+  .pageContainer { padding: 20px 0 0 0; }
+}
+  </style>
 </head>
-<body class="theme-purple">
+<body>
   <a href="/schedules" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>Finals Week Schedule</h2>
@@ -19,7 +48,147 @@
     <img src="/images/finals-schedule.png" alt="Finals Schedule" class="schedule-image" onerror="this.style.display='none';">
     <div id="finalsScheduleContent"></div>
   </div>
-  <script src="/assets/script.js"></script>
-  <script src="/schedules/finals/script.js"></script>
+  <script>
+let lunchPreferences = {
+  Monday: 'A',
+  Tuesday: 'A',
+  Wednesday: 'All',
+  Thursday: 'A',
+  Friday: 'A'
+};
+function checkSetupComplete() {
+const theme = localStorage.getItem('theme');
+const gradient = localStorage.getItem('gradient');
+const lunch = localStorage.getItem('lunchPreferences');
+const packup = localStorage.getItem('pack-up-time');
+const setupComplete = localStorage.getItem('setup-complete');
+if (!setupComplete && !window.location.pathname.includes('/setup')) {
+if (!theme || !gradient || !lunch || packup === null) {
+window.location.href = '/setup';
+return false;
+}
+}
+return true;
+}
+function loadLunchPreferences() {
+try {
+const saved = localStorage.getItem('lunchPreferences');
+if (saved) lunchPreferences = JSON.parse(saved);
+} catch (e) {}
+}
+function isFinalsWeek(date) {
+const year = date.getFullYear();
+const month = date.getMonth();
+const day = date.getDate();
+return year === 2026 && month === 0 && day >= 19 && day <= 23;
+}
+function getDayNameFromDate(date) {
+return date.toLocaleDateString('en-US', { weekday: 'long' });
+}
+function getSchedules(date) {
+const today = getDayNameFromDate(date);
+const lunch = lunchPreferences[today] || 'A';
+if (isFinalsWeek(date)) {
+return {
+Monday: [],
+Tuesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+20 },
+{ name:"Period 2", start: 9*60+30, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 4", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Wednesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 11*60+25 },
+{ name:"Period 5", start: 11*60+35, end: 12*60+55 },
+{ name:"Lunch", start: 13*60, end: 13*60+30 }
+],
+Thursday: [
+{ name:"Period 2", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Friday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 2", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 3", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 3", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 14*60+20 },
+{ name:"Period 6", start: 14*60+30, end: 15*60+15 }
+]
+};
+}
+return {};
+}
+function format(m) {
+let h = Math.floor(m/60);
+const mm = m%60;
+const ampm = h >= 12 ? 'PM' : 'AM';
+h = h % 12;
+h = h ? h : 12;
+return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
+}
+function formatDuration(minutes) {
+if (minutes < 60) return `${minutes} min`;
+const h = Math.floor(minutes / 60);
+const m = minutes % 60;
+return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+function renderScheduleTable(schedule, now, showDuration = false) {
+if (!schedule || schedule.length === 0) {
+return `<div class="noSchoolMessage"><h3>No School</h3><p>Holiday</p></div>`;
+}
+let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
+if (showDuration) html += "<th>Duration</th>";
+html += "</tr></thead><tbody>";
+for (let i = 0; i < schedule.length; i++) {
+const p = schedule[i];
+const duration = p.end - p.start;
+const active = now !== null && now >= p.start && now < p.end;
+html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
+if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
+html += "</tr>";
+}
+html += "</tbody></table>";
+return html;
+}
+const content = document.getElementById('finalsScheduleContent');
+const finalsDate = new Date(2026, 0, 20);
+const schedules = getSchedules(finalsDate);
+const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+let html = '';
+weekDays.forEach(day => {
+html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
+const schedule = schedules[day];
+if (!schedule || schedule.length === 0) {
+html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+} else {
+html += renderScheduleTable(schedule, null, true);
+}
+});
+content.innerHTML = html;
+checkSetupComplete();
+loadLunchPreferences();
+</script>
 </body>
 </html>

@@ -7,11 +7,43 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/style.css">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
+  <style>
+:root {
+  --primary: #4b2e83;
+  --primary-light: #6a4fb3;
+  --text-light: #e8e8e8;
+  --bg-dark: #1a1a1a;
+  --card-dark: #262626;
+  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+}
+* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
+body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
+body::-webkit-scrollbar { display: none; }
+@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
+@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
+.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
+.backBtn:hover { transform: scale(1.05); }
+.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
+.scheduleTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; }
+.scheduleTable th { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 12px; text-align: left; font-weight: 700; }
+.scheduleTable td { padding: 12px; border-bottom: 1px solid #444; }
+.scheduleTable tr:last-child td { border-bottom: none; }
+.scheduleTable tr.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; font-weight: 700; }
+.scheduleTable tr:not(.highlight):hover { background: #2a2a2a; }
+.noSchoolMessage { text-align: center; padding: 40px 20px; font-size: 1.3em; }
+.noSchoolMessage h3 { font-size: 2em; margin-bottom: 20px; color: white; margin-top: 0; }
+.noSchoolMessage p { font-size: 1.2em; color: var(--text-light); opacity: 0.8; margin: 0; }
+@media (max-width: 600px) {
+  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+  .pageContainer { padding: 20px 0 0 0; }
+}
+  </style>
 </head>
-<body class="theme-purple">
+<body>
   <a href="/week" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2 id="dayTitle">Tuesday's Schedule</h2>
@@ -19,6 +51,294 @@
       <p>Loading schedule...</p>
     </div>
   </div>
-  <script src="/assets/script.js"></script>
+  <script>
+let lunchPreferences = {
+  Monday: 'A',
+  Tuesday: 'A',
+  Wednesday: 'All',
+  Thursday: 'A',
+  Friday: 'A'
+};
+const holidays = [
+{ name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025", isWeekend: false },
+{ name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025", isWeekend: false },
+{ name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025", isWeekend: false },
+{ name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025", isWeekend: false },
+{ name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-29, 2025", isWeekend: true },
+{ name: "Winter Break", date: new Date(2025, 11, 20), displayDate: "December 20, 2025 - January 4, 2026", isWeekend: true },
+{ name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026", isWeekend: true },
+{ name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-16, 2026", isWeekend: true },
+{ name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026", isWeekend: true },
+{ name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026", isWeekend: false },
+{ name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026", isWeekend: true },
+{ name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026", isWeekend: false },
+{ name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026", isWeekend: true },
+{ name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026", isWeekend: false }
+];
+function checkSetupComplete() {
+const theme = localStorage.getItem('theme');
+const gradient = localStorage.getItem('gradient');
+const lunch = localStorage.getItem('lunchPreferences');
+const packup = localStorage.getItem('pack-up-time');
+const setupComplete = localStorage.getItem('setup-complete');
+if (!setupComplete && !window.location.pathname.includes('/setup')) {
+if (!theme || !gradient || !lunch || packup === null) {
+window.location.href = '/setup';
+return false;
+}
+}
+return true;
+}
+function loadLunchPreferences() {
+try {
+const saved = localStorage.getItem('lunchPreferences');
+if (saved) lunchPreferences = JSON.parse(saved);
+} catch (e) {}
+}
+function isFinalsWeek(date) {
+const year = date.getFullYear();
+const month = date.getMonth();
+const day = date.getDate();
+return year === 2026 && month === 0 && day >= 19 && day <= 23;
+}
+function getSchedules(date) {
+const today = getDayNameFromDate(date);
+const lunch = lunchPreferences[today] || 'A';
+if (isFinalsWeek(date)) {
+return {
+Monday: [],
+Tuesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+20 },
+{ name:"Period 2", start: 9*60+30, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 4", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Wednesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 11*60+25 },
+{ name:"Period 5", start: 11*60+35, end: 12*60+55 },
+{ name:"Lunch", start: 13*60, end: 13*60+30 }
+],
+Thursday: [
+{ name:"Period 2", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Friday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 2", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 3", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 3", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 14*60+20 },
+{ name:"Period 6", start: 14*60+30, end: 15*60+15 }
+]
+};
+}
+return {
+Monday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 2", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 3", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 3", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 14*60+20 },
+{ name:"Period 6", start: 14*60+30, end: 15*60+15 }
+],
+Tuesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+20 },
+{ name:"Period 2", start: 9*60+30, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4 (Part 1)", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4 (Part 1)", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Break", start: 12*60+50, end: 13*60 },
+{ name:"Period 4 (Part 2)", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Wednesday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 11*60+25 },
+{ name:"Period 5", start: 11*60+35, end: 12*60+55 },
+{ name:"Lunch", start: 13*60, end: 13*60+30 }
+],
+Thursday: [
+{ name:"Period 2", start: 8*60+35, end: 9*60+55 },
+{ name:"Period 3", start: 10*60+5, end: 10*60+50 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 10*60+50, end: 11*60+20 },
+{ name:"Period 4", start: 11*60+30, end: 12*60+50 }
+] : [
+{ name:"Period 4", start: 11*60, end: 12*60+20 },
+{ name:"B Lunch", start: 12*60+20, end: 12*60+50 }
+]),
+{ name:"Period 5", start: 13*60, end: 13*60+45 },
+{ name:"Period 6", start: 13*60+55, end: 15*60+15 }
+],
+Friday: [
+{ name:"Period 1", start: 8*60+35, end: 9*60+23 },
+{ name:"Homeroom", start: 9*60+30, end: 10*60+10 },
+{ name:"Period 2", start: 10*60+17, end: 11*60+5 },
+...(lunch === 'A' ? [
+{ name:"A Lunch", start: 11*60+5, end: 11*60+35 },
+{ name:"Period 3", start: 11*60+42, end: 12*60+30 }
+] : [
+{ name:"Period 3", start: 11*60+12, end: 12*60 },
+{ name:"B Lunch", start: 12*60, end: 12*60+30 }
+]),
+{ name:"Period 4", start: 12*60+37, end: 13*60+25 },
+{ name:"Period 5", start: 13*60+32, end: 14*60+20 },
+{ name:"Period 6", start: 14*60+27, end: 15*60+15 }
+]
+};
+}
+function getDayNameFromDate(date) {
+return date.toLocaleDateString('en-US', { weekday: 'long' });
+}
+function currentDayName() {
+return getDayNameFromDate(new Date());
+}
+function minutesNow() {
+const d = new Date();
+return d.getHours()*60 + d.getMinutes();
+}
+function format(m) {
+let h = Math.floor(m/60);
+const mm = m%60;
+const ampm = h >= 12 ? 'PM' : 'AM';
+h = h % 12;
+h = h ? h : 12;
+return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
+}
+function formatDuration(minutes) {
+if (minutes < 60) return `${minutes} min`;
+const h = Math.floor(minutes / 60);
+const m = minutes % 60;
+return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+function getHolidayForDate(date) {
+const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+for (const holiday of holidays) {
+const holidayTime = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate()).getTime();
+if (checkTime === holidayTime) return holiday.name;
+if (holiday.name === "Thanksgiving Break") {
+const start = new Date(2025, 10, 27).getTime();
+const end = new Date(2025, 10, 29).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Winter Break") {
+const start = new Date(2025, 11, 20).getTime();
+const end = new Date(2026, 0, 4).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Mid-Winter Break") {
+const start = new Date(2026, 1, 12).getTime();
+const end = new Date(2026, 1, 16).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Spring Break") {
+const start = new Date(2026, 3, 13).getTime();
+const end = new Date(2026, 3, 17).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+}
+return null;
+}
+function renderScheduleTable(schedule, now, showDuration = false) {
+if (!schedule || schedule.length === 0) {
+return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
+}
+let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
+if (showDuration) html += "<th>Duration</th>";
+html += "</tr></thead><tbody>";
+for (let i = 0; i < schedule.length; i++) {
+const p = schedule[i];
+const duration = p.end - p.start;
+const active = now !== null && now >= p.start && now < p.end;
+html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
+if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
+html += "</tr>";
+}
+html += "</tbody></table>";
+return html;
+}
+function updateDaySchedule() {
+const scheduleEl = document.getElementById('dayContent');
+const titleEl = document.getElementById('dayTitle');
+if (!scheduleEl || !titleEl) return;
+const path = window.location.pathname;
+const dayMatch = path.match(/\/week\/(\w+)/);
+if (!dayMatch) return;
+const dayName = dayMatch[1].charAt(0).toUpperCase() + dayMatch[1].slice(1);
+titleEl.textContent = `${dayName}'s Schedule`;
+const urlParams = new URLSearchParams(window.location.search);
+const dateParam = urlParams.get('date');
+let dayDate;
+if (dateParam) {
+dayDate = new Date(dateParam);
+} else {
+const now = new Date();
+const currentDayOfWeek = now.getDay();
+const monday = new Date(now);
+let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {
+  diff += 7;
+} else {
+const thisFriday = new Date(now);
+thisFriday.setDate(now.getDate() + (5 - currentDayOfWeek));
+const fridayHoliday = getHolidayForDate(thisFriday);
+if (fridayHoliday) {
+diff += 7;
+}
+}
+monday.setDate(now.getDate() + diff);
+const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const dayIndex = weekDays.indexOf(dayName);
+if (dayIndex === -1) return;
+dayDate = new Date(monday);
+dayDate.setDate(monday.getDate() + dayIndex);
+}
+const holidayName = getHolidayForDate(dayDate);
+if (holidayName) {
+scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>${holidayName}</h3><p>No school today!</p></div>`;
+return;
+}
+const schedules = getSchedules(dayDate);
+const schedule = schedules[dayName];
+const now = new Date();
+const isToday = dayName === currentDayName() && dayDate.toDateString() === now.toDateString();
+scheduleEl.innerHTML = renderScheduleTable(schedule, isToday ? minutesNow() : null, true);
+}
+checkSetupComplete();
+loadLunchPreferences();
+updateDaySchedule();
+setInterval(updateDaySchedule, 1000);
+</script>
 </body>
 </html>
