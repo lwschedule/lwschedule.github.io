@@ -101,6 +101,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 - Remove selecting between static colors and animated gradient in setup (animated gradient is now only theme, after static colors' functionality was removed)
 - The orange days in the month calendar, will not be filled but have a border, just like the holidays
 - Fix holidays not working
+- Add support for installing browser PWA app
 
 ---
 
