@@ -26,61 +26,194 @@ body::-webkit-scrollbar { display: none; }
 h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
 .backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
 .backBtn:hover { transform: scale(1.05); }
-.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.calendar-controls button { background: var(--card-dark); color: var(--text-light); border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; }
-.calendar-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
-#currentMonthYear { font-size: 1.5em; font-weight: 700; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-.calendar-day-header { text-align: center; padding: 10px; font-weight: 700; background: var(--card-dark); border-radius: 8px; }
-.calendar-day { aspect-ratio: 1; background: var(--card-dark); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; }
-.calendar-day.other-month { opacity: 0.4; }
-.calendar-day.today { box-shadow: var(--glow); }
-.day-number { font-size: 1.1em; font-weight: 700; }
-.day-schedule { font-size: 0.8em; margin-top: auto; opacity: 0.9; }
-.holiday { background: rgba(255,255,255,0.1); }
-.special-school-day { border: 3px solid orange; }
-@media (max-width: 600px) {
-  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
-  .pageContainer { padding: 20px 0 0 0; }
-}
+.pageContainer { max-width: 100%; margin: 0 auto; padding: 80px 20px 20px 20px; animation: fadeInUp 0.6s ease-out; }
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    padding: 15px;
+    background: var(--card-dark);
+    border-radius: 12px;
+    max-width: 1200px;
+  }
+  .calendar-nav button {
+    background: var(--primary-light);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s;
+  }
+  .calendar-nav button:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+  .calendar-nav button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  .calendar-nav h3 {
+    margin: 0;
+    font-size: 1.3em;
+  }
+  .calendar {
+    background: #1f1f1f;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    min-width: 800px;
+  }
+  .calendar-day-header {
+    text-align: center;
+    font-weight: 700;
+    padding: 12px 5px;
+    color: white;
+    font-size: 1em;
+  }
+  .calendar-day {
+    aspect-ratio: 1;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+    background: var(--card-dark);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .calendar-day:hover {
+    background: #2a2a2a;
+    transform: scale(1.02);
+    border-color: var(--primary-light);
+  }
+  .calendar-day.today {
+    border: 4px solid var(--primary-light);
+    box-shadow: var(--glow);
+  }
+  .calendar-day.other-month {
+    opacity: 0.3;
+  }
+  .calendar-day.holiday {
+    border-color: #cc0000;
+  }
+  .day-number {
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+  .day-schedule {
+    font-size: 0.9em;
+    opacity: 0.9;
+    text-align: center;
+    margin-top: auto;
+  }
+  @media (max-width: 900px) {
+    .calendar-grid {
+      min-width: 650px;
+    }
+    .calendar-day {
+      min-height: 80px;
+      padding: 8px;
+    }
+  }
+  @media (max-width: 700px) {
+    .calendar-grid {
+      min-width: 500px;
+    }
+    .calendar-day {
+      min-height: 70px;
+      padding: 6px;
+    }
+    .day-number {
+      font-size: 1em;
+    }
+    .day-schedule {
+      font-size: 0.8em;
+    }
+  }
+  @media (max-width: 600px) {
+    .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; width: calc(100% - 40px); margin-left: auto; margin-right: auto; }
+    .pageContainer { padding: 20px 0 20px 0; }
+    .calendar-grid {
+      min-width: 400px;
+      gap: 8px;
+    }
+    .calendar-day {
+      min-height: 55px;
+      padding: 4px;
+      border-width: 2px;
+    }
+    .calendar-day.today {
+      border-width: 3px;
+    }
+    .day-number {
+      font-size: 0.85em;
+    }
+    .day-schedule {
+      font-size: 0.7em;
+    }
+    .calendar-day-header {
+      font-size: 0.9em;
+      padding: 8px 3px;
+    }
+  }
   </style>
 </head>
 <body>
-  <a href="/" class="backBtn">Back</a>
+  <a href="/" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>Monthly Calendar</h2>
-    <div class="calendar-header">
-      <button id="prevMonth">Previous</button>
-      <div id="currentMonthYear"></div>
-      <button id="nextMonth">Next</button>
+    <div class="calendar-nav">
+      <button id="prevMonth">← Previous</button>
+      <h3 id="currentMonthYear"></h3>
+      <button id="nextMonth">Next →</button>
     </div>
-    <div id="calendarGrid" class="calendar-grid"></div>
+    <div class="calendar">
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
   </div>
   <script>
+let lunchPreferences = {
+  Monday: 'A',
+  Tuesday: 'A',
+  Wednesday: 'All',
+  Thursday: 'A',
+  Friday: 'A'
+};
 const holidays = [
-  { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025", isWeekend: false },
-  { name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025", isWeekend: false },
-  { name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025", isWeekend: false },
-  { name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025", isWeekend: false },
-  { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-29, 2025", isWeekend: true },
-  { name: "Winter Break", date: new Date(2025, 11, 20), displayDate: "December 20, 2025 - January 4, 2026", isWeekend: true },
-  { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026", isWeekend: true },
-  { name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-16, 2026", isWeekend: true },
-  { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026", isWeekend: true },
-  { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026", isWeekend: false },
-  { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026", isWeekend: true },
-  { name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026", isWeekend: false },
-  { name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026", isWeekend: true },
-  { name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026", isWeekend: false }
+{ name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025", isWeekend: false },
+{ name: "LEAP Day", date: new Date(2025, 9, 17), displayDate: "October 17, 2025", isWeekend: false },
+{ name: "LEAP Day", date: new Date(2025, 10, 4), displayDate: "November 4, 2025", isWeekend: false },
+{ name: "Veterans Day", date: new Date(2025, 10, 11), displayDate: "November 11, 2025", isWeekend: false },
+{ name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-29, 2025", isWeekend: true },
+{ name: "Winter Break", date: new Date(2025, 11, 20), displayDate: "December 20, 2025 - January 4, 2026", isWeekend: true },
+{ name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026", isWeekend: true },
+{ name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-16, 2026", isWeekend: true },
+{ name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026", isWeekend: true },
+{ name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026", isWeekend: false },
+{ name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026", isWeekend: true },
+{ name: "LEAP Day", date: new Date(2026, 4, 22), displayDate: "May 22, 2026", isWeekend: false },
+{ name: "Memorial Day", date: new Date(2026, 4, 25), displayDate: "May 25, 2026", isWeekend: true },
+{ name: "Last Day of School", date: new Date(2026, 5, 17), displayDate: "June 17, 2026", isWeekend: false }
 ];
 function checkSetupComplete() {
 const theme = localStorage.getItem('theme');
+const gradient = localStorage.getItem('gradient');
 const lunch = localStorage.getItem('lunchPreferences');
 const packup = localStorage.getItem('pack-up-time');
 const setupComplete = localStorage.getItem('setup-complete');
 if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !lunch || packup === null) {
+if (!theme || !gradient || !lunch || packup === null) {
 window.location.href = '/setup';
 return false;
 }
@@ -216,8 +349,173 @@ Friday: [
 ]
 };
 }
-function getDayNameFromDate(date) { return date.toLocaleDateString('en-US', { weekday: 'long' }); }
-function currentDayName() { return getDayNameFromDate(new Date()); }
-function getHolidayForDate(date) { const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime(); for (const holiday of holidays) { const holidayTime = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate()).getTime(); if (checkTime === holidayTime) return holiday.name; if (holiday.name === "Thanksgiving Break") { const start = new Date(2025, 10, 27).getTime(); const end = new Date(2025, 10, 29).getTime(); if (checkTime >= start && checkTime <= end) return holiday.name; } if (holiday.name === "Winter Break") { const start = new Date(2025, 11, 20).getTime(); const end = new Date(2026, 0, 4).getTime(); if (checkTime >= start && checkTime <= end) return holiday.name; } if (holiday.name === "Mid-Winter Break") { const start = new Date(2026, 1, 12).getTime(); const end = new Date(2026, 1, 16).getTime(); if (checkTime >= start && checkTime <= end) return holiday.name; } if (holiday.name === "Spring Break") { const start = new Date(2026, 3, 13).getTime(); const end = new Date(2026, 3, 17).getTime(); if (checkTime >= start && checkTime <= end) return holiday.name; } } return null; } function getScheduleSummary(schedules, dayName) { const schedule = schedules[dayName]; if (!schedule || schedule.length === 0) return 'No School'; let names = schedule.map(p => p.name); names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)"); const simplifiedNames = names.map(n => { if (n.startsWith("Period 1")) return "1"; if (n.startsWith("Period 2")) return "2"; if (n.startsWith("Period 3")) return "3"; if (n.startsWith("Period 4")) return "4"; if (n.startsWith("Period 5")) return "5"; if (n.startsWith("Period 6")) return "6"; if (n.includes("Lunch")) return "L"; if (n.includes("Homeroom")) return "HR"; return n; }); const uniqueNames = [...new Set(simplifiedNames)]; return uniqueNames.join(','); } const now = new Date(); let currentMonth = now.getMonth(); let currentYear = now.getFullYear(); if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) { currentMonth = 8; currentYear = 2025; } function renderCalendar() { const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`; const prevBtn = document.getElementById('prevMonth'); const nextBtn = document.getElementById('nextMonth'); prevBtn.disabled = (currentYear === 2025 && currentMonth === 8); nextBtn.disabled = (currentYear === 2026 && currentMonth === 5); const grid = document.getElementById('calendarGrid'); grid.innerHTML = ''; ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => { const header = document.createElement('div'); header.className = 'calendar-day-header'; header.textContent = day; grid.appendChild(header); }); const firstDay = new Date(currentYear, currentMonth, 1).getDay(); const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate(); for (let i = firstDay - 1; i >= 0; i--) { const day = daysInPrevMonth - i; const cell = createDayCell(day, true, currentMonth - 1, currentYear); grid.appendChild(cell); } const today = new Date(); for (let day = 1; day <= daysInMonth; day++) { const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear(); const cell = createDayCell(day, false, currentMonth, currentYear, isToday); grid.appendChild(cell); } const totalCells = firstDay + daysInMonth; const remainingCells = 7 - (totalCells % 7); if (remainingCells < 7) { for (let day = 1; day <= remainingCells; day++) { const cell = createDayCell(day, true, currentMonth + 1, currentYear); grid.appendChild(cell); } } } function createDayCell(day, otherMonth, month, year, isToday = false) { const cell = document.createElement('div'); cell.className = 'calendar-day'; if (otherMonth) cell.classList.add('other-month'); if (isToday) cell.classList.add('today'); const date = new Date(year, month, day); const dayName = date.toLocaleDateString('en-US', { weekday: 'long' }); const dayNumber = document.createElement('div'); dayNumber.className = 'day-number'; dayNumber.textContent = day; const daySchedule = document.createElement('div'); daySchedule.className = 'day-schedule'; if (dayName === 'Saturday' || dayName === 'Sunday') { daySchedule.textContent = ''; cell.classList.add('holiday'); } else { const holidayName = getHolidayForDate(date); if (holidayName) { daySchedule.textContent = ''; cell.classList.add('holiday'); } else { const schedules = getSchedules(date); const schedule = schedules[dayName]; if (schedule && schedule.length > 0) { const summary = getScheduleSummary(schedules, dayName); daySchedule.textContent = summary; } else { daySchedule.textContent = ''; cell.classList.add('holiday'); } } } const isNov26 = month === 10 && day === 26 && year === 2025; const isJun17 = month === 5 && day === 17 && year === 2026; if (isNov26 || isJun17) { cell.classList.remove('holiday'); cell.classList.add('special-school-day'); } cell.appendChild(dayNumber); cell.appendChild(daySchedule); return cell; } document.getElementById('prevMonth').addEventListener('click', () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) { currentMonth = 8; currentYear = 2025; } renderCalendar(); }); document.getElementById('nextMonth').addEventListener('click', () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) { currentMonth = 5; currentYear = 2026; } renderCalendar(); }); checkSetupComplete(); loadLunchPreferences(); renderCalendar(); </script>
-
-</body> </html>
+function getDayNameFromDate(date) {
+return date.toLocaleDateString('en-US', { weekday: 'long' });
+}
+function currentDayName() {
+return getDayNameFromDate(new Date());
+}
+function getHolidayForDate(date) {
+const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+for (const holiday of holidays) {
+const holidayTime = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate()).getTime();
+if (checkTime === holidayTime) return holiday.name;
+if (holiday.name === "Thanksgiving Break") {
+const start = new Date(2025, 10, 27).getTime();
+const end = new Date(2025, 10, 29).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Winter Break") {
+const start = new Date(2025, 11, 20).getTime();
+const end = new Date(2026, 0, 4).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Mid-Winter Break") {
+const start = new Date(2026, 1, 12).getTime();
+const end = new Date(2026, 1, 16).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+if (holiday.name === "Spring Break") {
+const start = new Date(2026, 3, 13).getTime();
+const end = new Date(2026, 3, 17).getTime();
+if (checkTime >= start && checkTime <= end) return holiday.name;
+}
+}
+return null;
+}
+function getScheduleSummary(schedules, dayName) {
+const schedule = schedules[dayName];
+if (!schedule || schedule.length === 0) return 'No School';
+let names = schedule.map(p => p.name);
+names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
+const simplifiedNames = names.map(n => {
+if (n.startsWith("Period 1")) return "1";
+if (n.startsWith("Period 2")) return "2";
+if (n.startsWith("Period 3")) return "3";
+if (n.startsWith("Period 4")) return "4";
+if (n.startsWith("Period 5")) return "5";
+if (n.startsWith("Period 6")) return "6";
+if (n.includes("Lunch")) return "L";
+if (n.includes("Homeroom")) return "HR";
+return n;
+});
+const uniqueNames = [...new Set(simplifiedNames)];
+return uniqueNames.join(',');
+}
+const now = new Date();
+let currentMonth = now.getMonth();
+let currentYear = now.getFullYear();
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
+currentMonth = 8;
+currentYear = 2025;
+}
+function renderCalendar() {
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+const prevBtn = document.getElementById('prevMonth');
+const nextBtn = document.getElementById('nextMonth');
+prevBtn.disabled = (currentYear === 2025 && currentMonth === 8);
+nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
+const grid = document.getElementById('calendarGrid');
+grid.innerHTML = '';
+['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
+const header = document.createElement('div');
+header.className = 'calendar-day-header';
+header.textContent = day;
+grid.appendChild(header);
+});
+const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+for (let i = firstDay - 1; i >= 0; i--) {
+const day = daysInPrevMonth - i;
+const cell = createDayCell(day, true, currentMonth - 1, currentYear);
+grid.appendChild(cell);
+}
+const today = new Date();
+for (let day = 1; day <= daysInMonth; day++) {
+const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+const cell = createDayCell(day, false, currentMonth, currentYear, isToday);
+grid.appendChild(cell);
+}
+const totalCells = firstDay + daysInMonth;
+const remainingCells = 7 - (totalCells % 7);
+if (remainingCells < 7) {
+for (let day = 1; day <= remainingCells; day++) {
+const cell = createDayCell(day, true, currentMonth + 1, currentYear);
+grid.appendChild(cell);
+}
+}
+}
+function createDayCell(day, otherMonth, month, year, isToday = false) {
+const cell = document.createElement('div');
+cell.className = 'calendar-day';
+if (otherMonth) cell.classList.add('other-month');
+if (isToday) cell.classList.add('today');
+const date = new Date(year, month, day);
+const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+const dayNumber = document.createElement('div');
+dayNumber.className = 'day-number';
+dayNumber.textContent = day;
+const daySchedule = document.createElement('div');
+daySchedule.className = 'day-schedule';
+if (dayName === 'Saturday' || dayName === 'Sunday') {
+daySchedule.textContent = '';
+cell.classList.add('holiday');
+} else {
+const holidayName = getHolidayForDate(date);
+if (holidayName) {
+daySchedule.textContent = '';
+cell.classList.add('holiday');
+} else {
+const schedules = getSchedules(date);
+const schedule = schedules[dayName];
+if (schedule && schedule.length > 0) {
+const summary = getScheduleSummary(schedules, dayName);
+daySchedule.textContent = summary;
+} else {
+daySchedule.textContent = '';
+cell.classList.add('holiday');
+}
+}
+}
+const isNov26 = month === 10 && day === 26 && year === 2025;
+const isJun17 = month === 5 && day === 17 && year === 2026;
+if (isNov26 || isJun17) {
+cell.style.background = '#d35400';
+cell.classList.remove('holiday');
+}
+cell.appendChild(dayNumber);
+cell.appendChild(daySchedule);
+return cell;
+}
+document.getElementById('prevMonth').addEventListener('click', () => {
+currentMonth--;
+if (currentMonth < 0) {
+currentMonth = 11;
+currentYear--;
+}
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
+currentMonth = 8;
+currentYear = 2025;
+}
+renderCalendar();
+});
+document.getElementById('nextMonth').addEventListener('click', () => {
+currentMonth++;
+if (currentMonth > 11) {
+currentMonth = 0;
+currentYear++;
+}
+if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
+currentMonth = 5;
+currentYear = 2026;
+}
+renderCalendar();
+});
+checkSetupComplete();
+loadLunchPreferences();
+renderCalendar();
+</script>
+</body>
+</html>

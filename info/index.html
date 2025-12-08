@@ -41,11 +41,11 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   </style>
 </head>
 <body>
-  <a href="/" class="backBtn">Back</a>
+  <a href="/" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>About</h2>
     <div class="infoContent">
-      <div class="versionBadge">Version 1.9</div>
+      <div class="versionBadge">Version 1.8</div>
   <h3>Created By</h3>
   <p>Sanchit P.</p>
   
@@ -59,11 +59,12 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   <script>
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
+  const gradient = localStorage.getItem('gradient');
   const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
 if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !lunch || packup === null) {
+if (!theme || !gradient || !lunch || packup === null) {
 window.location.href = '/setup';
 return false;
 }

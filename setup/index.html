@@ -38,6 +38,10 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .setup-section:nth-of-type(3) { animation-delay: 0.3s; }
 .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
 .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
+.gradientToggle { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; }
+.gradientBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+.gradientBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+.gradientBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
 .themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
 .themeOption { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; }
 .themeOption:hover .themeCircle { transform: scale(1.1); }
@@ -68,6 +72,10 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
     <p class="setup-description">Let's set up your personalized schedule experience.</p>
 <div class="setup-section">
   <h3>1. Choose Your Theme</h3>
+  <div class="gradientToggle">
+    <button class="gradientBtn" id="gradientOffBtn">Static Colors</button>
+    <button class="gradientBtn selected" id="gradientOnBtn">✨ Animated Gradient</button>
+  </div>
   <div class="themeGrid">
     <div class="themeOption selected" data-theme="purple">
       <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
@@ -160,6 +168,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   </div>
   <script>
 let currentTheme = 'purple';
+let gradientMode = 'on';
 
 function applyTheme() {
   document.body.className = `theme-${currentTheme}`;
@@ -169,6 +178,8 @@ function updateThemeUI() {
   document.querySelectorAll('.themeOption').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.theme === currentTheme);
   });
+  document.getElementById('gradientOffBtn').classList.toggle('selected', gradientMode === 'off');
+  document.getElementById('gradientOnBtn').classList.toggle('selected', gradientMode === 'on');
 }
 
 document.querySelectorAll('.themeOption').forEach(opt => {
@@ -177,6 +188,16 @@ document.querySelectorAll('.themeOption').forEach(opt => {
     applyTheme();
     updateThemeUI();
   });
+});
+
+document.getElementById('gradientOffBtn').addEventListener('click', () => {
+  gradientMode = 'off';
+  updateThemeUI();
+});
+
+document.getElementById('gradientOnBtn').addEventListener('click', () => {
+  gradientMode = 'on';
+  updateThemeUI();
 });
 
 let lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
@@ -216,6 +237,7 @@ document.querySelectorAll('.pack-up-preset').forEach(btn => {
 
 document.getElementById('completeBtn').addEventListener('click', () => {
   localStorage.setItem('theme', currentTheme);
+  localStorage.setItem('gradient', gradientMode);
   localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
   localStorage.setItem('pack-up-time', packUpTime);
   localStorage.setItem('setup-complete', 'true');
