@@ -30,7 +30,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
   * Half days (Thanksgiving week) shown in orange
   * Each day displays schedule summary (e.g., "1,2,3,L,4,5,6")
   * Current day highlighted
-* **All Schedules** — access to Normal, Finals Week, and Thanksgiving Week schedules
+* **All Schedules** — access to Normal, Finals Week etc.
 * **Upcoming Holidays** — full list with live countdown
   * Countdown continues even if current day is a holiday
 * **Quarters/Semesters**
@@ -96,8 +96,12 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
-Add sliding number animation from holidays
-Use new script.js and style.css files (within each folder) to reduce length of assets
+- Add sliding number animation from holidays to main timer on main screen
+- Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
+- Remove selecting between static colors and animated gradient in setup (animated gradient is now only theme, after static colors' functionality was removed)
+- The orange days in the month calendar, will not be filled but have a border, just like the holidays
+- Fix holidays not working
+- Add support for installing browser PWA app
 
 ---
 
