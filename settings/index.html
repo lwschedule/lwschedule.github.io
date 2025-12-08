@@ -35,6 +35,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .settingsRow:nth-of-type(4) { animation-delay: 0.25s; }
 .settingsRow:nth-of-type(5) { animation-delay: 0.3s; }
 .settingsRow:nth-of-type(6) { animation-delay: 0.35s; }
+.settingsRow:nth-of-type(7) { animation-delay: 0.4s; }
 .settingsRow .mainBtn { width: 100%; }
 .mainBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; }
 .mainBtn:hover { transform: scale(1.05); }
@@ -49,7 +50,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 </style>
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
+  <a href="/" class="backBtn">Back</a>
   <div class="pageContainer">
     <h2>Settings</h2>
     <div class="settingsRow">
@@ -68,6 +69,9 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
       <button class="mainBtn disabledBtn" disabled>Sports (Coming Soon)</button>
     </div>
     <div class="settingsRow">
+      <button class="mainBtn disabledBtn" disabled>Phone Caddy Reminders (Coming Soon)</button>
+    </div>
+    <div class="settingsRow">
       <a class="mainBtn" href="/settings/packup">Pack-Up Reminders</a>
     </div>
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
@@ -75,12 +79,11 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   <script>
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
-  const gradient = localStorage.getItem('gradient');
   const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
 if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !gradient || !lunch || packup === null) {
+if (!theme || !lunch || packup === null) {
 window.location.href = '/setup';
 return false;
 }

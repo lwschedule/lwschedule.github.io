@@ -35,10 +35,6 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
 .backBtn:hover { transform: scale(1.05); }
 .pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.gradientToggle { display: flex; gap: 15px; justify-content: center; padding: 15px; background: #1f1f1f; border-radius: 12px; }
-.gradientBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
-.gradientBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
-.gradientBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
 .themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
 .themeOption { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; }
 .themeOption:hover .themeCircle { transform: scale(1.1); }
@@ -47,115 +43,6 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .themeName { font-size: 0.9em; color: var(--text-light); font-weight: 700; }
 .resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
 .resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
-@media (max-width: 600px) {
-  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
-  .pageContainer { padding: 20px 0 0 0; }
-  .themeGrid { grid-template-columns: repeat(2, 1fr); }
-}
-  </style>
-</head>
-<body class="theme-purple">
-  <a href="/settings" class="backBtn">← Back</a>
-  <div class="pageContainer">
-    <h2>Choose Your Theme</h2>
-    <div class="gradientToggle">
-      <button class="gradientBtn" id="gradientOffBtn">Static Colors</button>
-      <button class="gradientBtn selected" id="gradientOnBtn">✨ Animated Gradient</button>
-    </div>
-    <div class="themeGrid">
-      <div class="themeOption selected" data-theme="purple">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
-        <span class="themeName">Purple</span>
-      </div>
-      <div class="themeOption" data-theme="red">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div>
-        <span class="themeName">Red</span>
-      </div>
-      <div class="themeOption" data-theme="orange">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div>
-        <span class="themeName">Orange</span>
-      </div>
-      <div class="themeOption" data-theme="yellow">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div>
-        <span class="themeName">Yellow</span>
-      </div>
-      <div class="themeOption" data-theme="green">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
-        <span class="themeName">Green</span>
-      </div>
-      <div class="themeOption" data-theme="blue">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div>
-        <span class="themeName">Blue</span>
-      </div>
-      <div class="themeOption" data-theme="indigo">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div>
-        <span class="themeName">Indigo</span>
-      </div>
-      <div class="themeOption" data-theme="pink">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div>
-        <span class="themeName">Pink</span>
-      </div>
-    </div>
-    <button class="resetBtn" id="resetThemeBtn">Reset to Default Theme</button>
-  </div>
-  <script>
-function checkSetupComplete() {
-  const theme = localStorage.getItem('theme');
-  const gradient = localStorage.getItem('gradient');
-  const lunch = localStorage.getItem('lunchPreferences');
-  const packup = localStorage.getItem('pack-up-time');
-  const setupComplete = localStorage.getItem('setup-complete');
-if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !gradient || !lunch || packup === null) {
-window.location.href = '/setup';
-return false;
-}
-}
-return true;
-}
-let currentTheme = localStorage.getItem('theme') || 'purple';
-let gradientMode = localStorage.getItem('gradient') || 'on';
-function applyTheme() {
-document.body.className = `theme-${currentTheme}`;
-}
-function updateUI() {
-document.querySelectorAll('.themeOption').forEach(opt => {
-opt.classList.toggle('selected', opt.dataset.theme === currentTheme);
-});
-document.getElementById('gradientOffBtn').classList.toggle('selected', gradientMode === 'off');
-document.getElementById('gradientOnBtn').classList.toggle('selected', gradientMode === 'on');
-}
-document.querySelectorAll('.themeOption').forEach(opt => {
-opt.addEventListener('click', () => {
-currentTheme = opt.dataset.theme;
-localStorage.setItem('theme', currentTheme);
-applyTheme();
-updateUI();
-});
-});
-document.getElementById('gradientOffBtn').addEventListener('click', () => {
-gradientMode = 'off';
-localStorage.setItem('gradient', 'off');
-updateUI();
-});
-document.getElementById('gradientOnBtn').addEventListener('click', () => {
-gradientMode = 'on';
-localStorage.setItem('gradient', 'on');
-updateUI();
-});
-document.getElementById('resetThemeBtn').addEventListener('click', () => {
-if (confirm('Reset theme to default (Purple, Animated Gradient)?')) {
-currentTheme = 'purple';
-gradientMode = 'on';
-localStorage.setItem('theme', 'purple');
-localStorage.setItem('gradient', 'on');
-applyTheme();
-updateUI();
-}
-});
-checkSetupComplete();
-applyTheme();
-updateUI();
-</script>
-</body>
-</html>
+@media (max-width: 600px) { .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; } .pageContainer { padding: 20px 0 0 0; } .themeGrid { grid-template-columns: repeat(2, 1fr); } } </style>
+
+</head> <body class="theme-purple"> <a href="/settings" class="backBtn">Back</a> <div class="pageContainer"> <h2>Choose Your Theme</h2> <div class="themeGrid"> <div class="themeOption selected" data-theme="purple"> <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div> <span class="themeName">Purple</span> </div> <div class="themeOption" data-theme="red"> <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div> <span class="themeName">Red</span> </div> <div class="themeOption" data-theme="orange"> <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div> <span class="themeName">Orange</span> </div> <div class="themeOption" data-theme="yellow"> <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div> <span class="themeName">Yellow</span> </div> <div class="themeOption" data-theme="green"> <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div> <span class="themeName">Green</span> </div> <div class="themeOption" data-theme="blue"> <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div> <span class="themeName">Blue</span> </div> <div class="themeOption" data-theme="indigo"> <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div> <span class="themeName">Indigo</span> </div> <div class="themeOption" data-theme="pink"> <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div> <span class="themeName">Pink</span> </div> </div> <button class="resetBtn" id="resetThemeBtn">Reset to Default Theme</button> </div> <script> function checkSetupComplete() { const theme = localStorage.getItem('theme'); const lunch = localStorage.getItem('lunchPreferences'); const packup = localStorage.getItem('pack-up-time'); const setupComplete = localStorage.getItem('setup-complete'); if (!setupComplete && !window.location.pathname.includes('/setup')) { if (!theme || !lunch || packup === null) { window.location.href = '/setup'; return false; } } return true; } let currentTheme = localStorage.getItem('theme') || 'purple'; function applyTheme() { document.body.className = `theme-${currentTheme}`; } function updateUI() { document.querySelectorAll('.themeOption').forEach(opt => { opt.classList.toggle('selected', opt.dataset.theme === currentTheme); }); } document.querySelectorAll('.themeOption').forEach(opt => { opt.addEventListener('click', () => { currentTheme = opt.dataset.theme; localStorage.setItem('theme', currentTheme); applyTheme(); updateUI(); }); }); document.getElementById('resetThemeBtn').addEventListener('click', () => { if (confirm('Reset theme to default (Purple)?')) { currentTheme = 'purple'; localStorage.setItem('theme', 'purple'); applyTheme(); updateUI(); } }); checkSetupComplete(); applyTheme(); updateUI(); </script> </body> </html>

@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About - LW Schedule</title>
-  <link rel="icon" type="image/png" href="/images/logo.png">
-  <link rel="apple-touch-icon" href="/images/logo.png">
+  <title>Phone Caddy Reminders - LW Schedule</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/images/logo.png">
   <style>
 :root {
   --primary: #4b2e83;
@@ -22,18 +22,12 @@
 body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
 body::-webkit-scrollbar { display: none; }
 @keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
-@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
 .backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
 .backBtn:hover { transform: scale(1.05); }
 .pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.infoContent { text-align: center; padding: 20px; }
-.infoContent h3 { color: white; margin-top: 20px; margin-bottom: 10px; }
-.infoContent p { margin: 10px 0; line-height: 1.6; }
-.infoContent a { color: white; text-decoration: none; font-weight: 700; }
-.infoContent a:hover { text-decoration: underline; }
-.versionBadge { display: inline-block; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
+.comingSoon { text-align: center; font-size: 1.2em; opacity: 0.8; }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
   .pageContainer { padding: 20px 0 0 0; }
@@ -41,20 +35,10 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   </style>
 </head>
 <body>
-  <a href="/" class="backBtn">Back</a>
+  <a href="/settings" class="backBtn">Back</a>
   <div class="pageContainer">
-    <h2>About</h2>
-    <div class="infoContent">
-      <div class="versionBadge">Version 1.9</div>
-  <h3>Created By</h3>
-  <p>Sanchit P.</p>
-  
-  <h3>GitHub Repository</h3>
-  <p><a href="https://github.com/lwschedule/lwschedule.github.io" target="_blank">View on GitHub</a></p>
-  
-  <h3>Inspired By</h3>
-  <p><a href="https://schedule-manager.lwhsftc.org/" target="_blank">LW Schedule Manager</a><br>by Rudra Pandit</p>
-</div>
+    <h2>Phone Caddy Reminders</h2>
+    <p class="comingSoon">Coming Soon!</p>
   </div>
   <script>
 function checkSetupComplete() {
