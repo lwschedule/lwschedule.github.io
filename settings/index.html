@@ -35,7 +35,6 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .settingsRow:nth-of-type(4) { animation-delay: 0.25s; }
 .settingsRow:nth-of-type(5) { animation-delay: 0.3s; }
 .settingsRow:nth-of-type(6) { animation-delay: 0.35s; }
-.settingsRow:nth-of-type(7) { animation-delay: 0.4s; }
 .settingsRow .mainBtn { width: 100%; }
 .mainBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; }
 .mainBtn:hover { transform: scale(1.05); }
@@ -44,10 +43,10 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
 .resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
 @media (max-width: 600px) {
-  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
-  .pageContainer { padding: 20px 0 0 0; }
+.backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+.pageContainer { padding: 20px 0 0 0; }
 }
-  </style>
+</style>
 </head>
 <body>
   <a href="/" class="backBtn">← Back</a>
@@ -69,9 +68,6 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
       <button class="mainBtn disabledBtn" disabled>Sports (Coming Soon)</button>
     </div>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/phonecaddy">Phone Caddy Reminders (coming soon)</a>
-    </div>
-    <div class="settingsRow">
       <a class="mainBtn" href="/settings/packup">Pack-Up Reminders</a>
     </div>
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
@@ -79,25 +75,26 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
   <script>
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
+  const gradient = localStorage.getItem('gradient');
   const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
-  if (!setupComplete && !window.location.pathname.includes('/setup')) {
-    if (!theme || !lunch || packup === null) {
-      window.location.href = '/setup';
-      return false;
-    }
-  }
-  return true;
+if (!setupComplete && !window.location.pathname.includes('/setup')) {
+if (!theme || !gradient || !lunch || packup === null) {
+window.location.href = '/setup';
+return false;
+}
+}
+return true;
 }
 document.getElementById('resetBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
-    localStorage.clear();
-    location.href = '/';
-  }
+e.preventDefault();
+if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
+localStorage.clear();
+location.href = '/';
+}
 });
 checkSetupComplete();
-  </script>
+</script>
 </body>
 </html>
