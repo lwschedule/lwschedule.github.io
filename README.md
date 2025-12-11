@@ -124,4 +124,4 @@ This project is released under the **MIT License**.
 ## 💡 Credits
 
 **Created by:** Sanchit P.  
-**Inspired by:** [LW Schedule Manager](https://schedule-manager.lwhsftc.org/) by Rudra Pandit**
+**Inspired by:** [LW Schedule Manager](https://schedule-manager.lwhsftc.org/) by Rudra Pandit
