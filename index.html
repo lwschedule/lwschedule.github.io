@@ -88,8 +88,6 @@ let lunchPreferences = {
   Thursday: 'A',
   Friday: 'A'
 };
-let currentHolidayMessage = null;
-let quartersInterval = null;
 
 const holidays = [
   { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025", isWeekend: false },
@@ -123,13 +121,12 @@ const academicTerms = {
 
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
-  const gradient = localStorage.getItem('gradient');
   const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
   
   if (!setupComplete && !window.location.pathname.includes('/setup')) {
-    if (!theme || !gradient || !lunch || packup === null) {
+    if (!theme || !lunch || packup === null) {
       window.location.href = '/setup';
       return false;
     }
@@ -313,10 +310,6 @@ function getDayNameFromDate(date) {
   return date.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
-function currentDayName() {
-  return getDayNameFromDate(new Date());
-}
-
 function minutesNow() {
   const d = new Date();
   return d.getHours()*60 + d.getMinutes();
@@ -328,18 +321,11 @@ function secondsNow() {
 
 function format(m) {
   let h = Math.floor(m/60);
-  const mm = m%60;
+  const mm = m % 60;
   const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12;
   h = h ? h : 12;
   return `${h}:${mm.toString().padStart(2,'0')} ${ampm}`;
-}
-
-function formatDuration(minutes) {
-  if (minutes < 60) return `${minutes} min`;
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
 function displayTimeBlocks(container, data) {
@@ -381,29 +367,6 @@ function getNextSchoolDayStartTime() {
       }
     }
     nextDay.setDate(nextDay.getDate() + 1);
-  }
-  return null;
-}
-
-function getLastSchoolDayEndTime(beforeDate) {
-  let checkDay = new Date(beforeDate.getFullYear(), beforeDate.getMonth(), beforeDate.getDate());
-  checkDay.setDate(checkDay.getDate() - 1);
-  checkDay.setHours(23, 59, 59, 999);
-  for (let i = 0; i < 365; i++) {
-    const dayName = getDayNameFromDate(checkDay);
-    const holiday = getHolidayForDate(checkDay);
-    if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
-      const schedules = getSchedules(checkDay);
-      const schedule = schedules[dayName];
-      if (schedule && schedule.length > 0) {
-        const lastPeriod = schedule[schedule.length - 1];
-        const endTime = new Date(checkDay);
-        endTime.setHours(0, 0, 0, 0);
-        endTime.setMinutes(lastPeriod.end);
-        return endTime;
-      }
-    }
-    checkDay.setDate(checkDay.getDate() - 1);
   }
   return null;
 }
@@ -451,8 +414,11 @@ function updateClock() {
   const clockLabel = document.getElementById('clockLabel');
   const timerEl = document.getElementById('timer');
   if (!clockDisplay || !clockLabel || !timerEl) return;
-  const schedules = getSchedules(new Date());
+
+  const nowDate = new Date();
+  const schedules = getSchedules(nowDate);
   const today = schedules[currentDayName()];
+
   if (!today || today.length === 0) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
     if (nextSchoolStartTime) {
@@ -499,10 +465,12 @@ function updateClock() {
     }
     return;
   }
+
   const now = minutesNow();
   const secs = secondsNow();
   let current = null;
   let next = null;
+
   for (let i = 0; i < today.length; i++) {
     const p = today[i];
     if (now >= p.start && now < p.end) {
@@ -511,6 +479,7 @@ function updateClock() {
       break;
     }
   }
+
   if (!current) {
     for (let i = 0; i < today.length-1; i++) {
       if (now >= today[i].end && now < today[i+1].start) {
@@ -520,6 +489,7 @@ function updateClock() {
       }
     }
   }
+
   if (current) {
     const remainingMinutes = current.end - now - 1;
     const remainingSeconds = 60 - secs;
@@ -597,7 +567,7 @@ function updateClock() {
         } else {
           displayMessage(clockDisplay, "See You Soon!");
           clockLabel.innerHTML = "SCHOOL IS OVER";
-          timerEl.innerHTML = "See you tomorrow!";
+          timerEl.innerHTML = "See you at the next school day!";
           timerEl.classList.remove('hidden');
         }
       } else {
@@ -606,51 +576,14 @@ function updateClock() {
         timerEl.innerHTML = "Have a great break!";
         timerEl.classList.remove('hidden');
       }
-    } else {
-      const nextPeriod = getNextPeriodStart(today, now);
-      if (nextPeriod) {
-        const remainingMinutes = nextPeriod.start - now - 1;
-        const remainingSeconds = 60 - secs;
-        const h = Math.floor(remainingMinutes / 60);
-        const m = remainingMinutes % 60;
-        const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-        if (h > 0) {
-          displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
-        } else {
-          displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
-        }
-        clockLabel.innerHTML = "UNTIL NEXT PERIOD";
-        timerEl.innerHTML = `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`;
-        timerEl.classList.remove('hidden');
-      } else {
-        displayMessage(clockDisplay, "--:--:--");
-        clockLabel.innerHTML = "NO PERIOD SCHEDULED";
-        timerEl.classList.add('hidden');
-      }
     }
   }
 }
 
-function loadThemeOnPage() {
-  const theme = localStorage.getItem('theme') || 'purple';
-  const gradient = localStorage.getItem('gradient') || 'on';
-}
-
-function initApp() {
-  checkSetupComplete();
-  loadThemeOnPage();
-  loadLunchPreferences();
-  if (document.getElementById('digitalClock')) {
-    updateClock();
-    setInterval(updateClock, 1000);
-  }
-}
-initApp();
-</script>
+checkSetupComplete();
+loadLunchPreferences();
+setInterval(updateClock, 1000);
+updateClock();
+  </script>
 </body>
 </html>
