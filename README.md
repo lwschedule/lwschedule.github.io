@@ -96,9 +96,10 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
-- Add sliding number animation from holidays to main timer on main screen
+- Add sliding number animation to holidays and main timer. it shoud basically slide the old number up and fade out and slide the new number it and fade in
 - Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
 - Add support for installing browser PWA app
+- Fix issue in month calendar where months before dec 2025 are displayed
 
 ---
 
