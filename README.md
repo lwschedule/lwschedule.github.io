@@ -98,10 +98,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 - Add sliding number animation from holidays to main timer on main screen
 - Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
-- The orange days in the month calendar, will not be filled but have a border, just like the holidays
-- Fix holidays not working
 - Add support for installing browser PWA app
-- Fix themes, they only apply in /setup and /settings/themes currently, not everywhere
 
 ---
 
