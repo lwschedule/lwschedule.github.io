@@ -413,8 +413,8 @@ return uniqueNames.join(',');
 const now = new Date();
 let currentMonth = now.getMonth();
 let currentYear = now.getFullYear();
-if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
-currentMonth = 8;
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+currentMonth = 11;
 currentYear = 2025;
 }
 function renderCalendar() {
@@ -422,7 +422,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
 const prevBtn = document.getElementById('prevMonth');
 const nextBtn = document.getElementById('nextMonth');
-prevBtn.disabled = (currentYear === 2025 && currentMonth === 8);
+prevBtn.disabled = (currentYear === 2025 && currentMonth === 11);
 nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
 const grid = document.getElementById('calendarGrid');
 grid.innerHTML = '';
@@ -435,8 +435,19 @@ grid.appendChild(header);
 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+const isFirstMonth = (currentYear === 2025 && currentMonth === 11);
 for (let i = firstDay - 1; i >= 0; i--) {
 const day = daysInPrevMonth - i;
+if (isFirstMonth) {
+const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
+if (prevMonthDate.getFullYear() < 2025 || (prevMonthDate.getFullYear() === 2025 && prevMonthDate.getMonth() < 11)) {
+const emptyCell = document.createElement('div');
+emptyCell.className = 'calendar-day';
+emptyCell.style.visibility = 'hidden';
+grid.appendChild(emptyCell);
+continue;
+}
+}
 const cell = createDayCell(day, true, currentMonth - 1, currentYear);
 grid.appendChild(cell);
 }
@@ -503,8 +514,8 @@ if (currentMonth < 0) {
 currentMonth = 11;
 currentYear--;
 }
-if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
-currentMonth = 8;
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+currentMonth = 11;
 currentYear = 2025;
 }
 renderCalendar();
