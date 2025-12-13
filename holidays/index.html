@@ -150,7 +150,19 @@ function updateRollingText(element, newText) {
 if (!element) return;
 let oldText = element.dataset.previousText || element.textContent;
 if (oldText === newText) return;
-if (oldText === "--" || (oldText && oldText.length !== newText.length)) {
+const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
+if (oldText === "--") {
+element.textContent = newText;
+element.dataset.previousText = newText;
+return;
+}
+if (isNumeric && oldText !== newText) {
+element.dataset.previousText = newText;
+const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
+element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+return;
+}
+if (!isNumeric && oldText && oldText.length !== newText.length) {
 element.textContent = newText;
 element.dataset.previousText = newText;
 return;
