@@ -36,11 +36,10 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
 .backBtn:hover { transform: scale(1.05); }
 .pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.mainButtons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; justify-content: center; max-width: 650px; margin: 30px auto; }
-.mainBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; }
+.mainButtons { display: flex; flex-direction: column; gap: 15px; max-width: 650px; margin: 30px auto; }
+.mainBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; width: 100%; }
 .mainBtn:hover { transform: scale(1.05); }
 @media (max-width: 600px) {
-  .mainButtons { grid-template-columns: 1fr; }
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
   .pageContainer { padding: 20px 0 0 0; }
 }

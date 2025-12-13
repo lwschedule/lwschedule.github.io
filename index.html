@@ -363,19 +363,44 @@ function formatDuration(minutes) {
 }
 
 function displayTimeBlocks(container, data) {
-  let html = '';
-  if (data.days !== undefined) {
-    const daysId = container.id ? container.id.replace('Display', '') + '-days' : '';
-    html += `<div class="time-block"><span id="${daysId}" class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
-  }
-  if (data.hours !== undefined) {
-    const hoursId = container.id ? container.id.replace('Display', '') + '-hours' : '';
-    html += `<div class="time-block"><span id="${hoursId}" class="time-value">${data.hours.toString().padStart(2, '0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
-  }
+  const daysId = container.id ? container.id.replace('Display', '') + '-days' : '';
+  const hoursId = container.id ? container.id.replace('Display', '') + '-hours' : '';
   const minutesId = container.id ? container.id.replace('Display', '') + '-minutes' : '';
   const secondsId = container.id ? container.id.replace('Display', '') + '-seconds' : '';
-  html += `<div class="time-block"><span id="${minutesId}" class="time-value">${data.minutes.toString().padStart(2, '0')}</span><span class="time-label">MINUTES</span></div>`;
-  html += `<div class="time-block"><span id="${secondsId}" class="time-value">${data.seconds.toString().padStart(2, '0')}</span><span class="time-label">SECONDS</span></div>`;
+  
+  const existingDays = document.getElementById(daysId);
+  const existingHours = document.getElementById(hoursId);
+  const existingMinutes = document.getElementById(minutesId);
+  const existingSeconds = document.getElementById(secondsId);
+  
+  function getPreviousValue(elem, fallback) {
+    if (!elem) return fallback;
+    if (elem.dataset.previousText) return elem.dataset.previousText;
+    if (elem.querySelector('.digit-roller')) {
+      const newSpan = elem.querySelector('.new');
+      return newSpan ? newSpan.textContent : fallback;
+    }
+    return elem.textContent || fallback;
+  }
+  
+  const prevDays = getPreviousValue(existingDays, '');
+  const prevHours = getPreviousValue(existingHours, '');
+  const prevMinutes = getPreviousValue(existingMinutes, '');
+  const prevSeconds = getPreviousValue(existingSeconds, '');
+  
+  let html = '';
+  if (data.days !== undefined) {
+    const daysVal = data.days.toString();
+    html += `<div class="time-block"><span id="${daysId}" class="time-value" data-previous-text="${prevDays || daysVal}">${daysVal}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
+  }
+  if (data.hours !== undefined) {
+    const hoursVal = data.hours.toString().padStart(2, '0');
+    html += `<div class="time-block"><span id="${hoursId}" class="time-value" data-previous-text="${prevHours || hoursVal}">${hoursVal}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
+  }
+  const minutesVal = data.minutes.toString().padStart(2, '0');
+  const secondsVal = data.seconds.toString().padStart(2, '0');
+  html += `<div class="time-block"><span id="${minutesId}" class="time-value" data-previous-text="${prevMinutes || minutesVal}">${minutesVal}</span><span class="time-label">MINUTES</span></div>`;
+  html += `<div class="time-block"><span id="${secondsId}" class="time-value" data-previous-text="${prevSeconds || secondsVal}">${secondsVal}</span><span class="time-label">SECONDS</span></div>`;
   container.innerHTML = html;
 }
 
