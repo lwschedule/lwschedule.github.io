@@ -154,7 +154,14 @@ function loadLunchPreferences() {
 
 function updateRollingText(element, newText) {
   if (!element) return;
-  let oldText = element.dataset.previousText || element.textContent;
+  let oldText = element.dataset.previousText;
+  if (!oldText) {
+    if (element.querySelector('.digit-roller .new')) {
+      oldText = element.querySelector('.digit-roller .new').textContent;
+    } else {
+      oldText = element.textContent;
+    }
+  }
   if (oldText === newText) return;
   const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
   if (oldText === "--") {
@@ -163,9 +170,9 @@ function updateRollingText(element, newText) {
     return;
   }
   if (isNumeric && oldText !== newText) {
-    element.dataset.previousText = newText;
     const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
     element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+    element.dataset.previousText = newText;
     return;
   }
   if (!isNumeric && oldText && oldText.length !== newText.length) {
@@ -178,7 +185,6 @@ function updateRollingText(element, newText) {
     element.dataset.previousText = newText;
     return;
   }
-  element.dataset.previousText = newText;
   let html = '';
   let newChars = newText.split('');
   let oldChars = oldText.split('');
@@ -200,6 +206,7 @@ function updateRollingText(element, newText) {
     }
   }
   element.innerHTML = html;
+  element.dataset.previousText = newText;
 }
 
 function isFinalsWeek(date) {
@@ -511,19 +518,31 @@ function updateClock() {
         const totalHours = Math.floor(totalMinutes / 60);
         const h = totalHours % 24;
         const d = Math.floor(totalHours / 24);
+        const daysEl = document.getElementById('clockDisplay-days');
+        const hoursEl = document.getElementById('clockDisplay-hours');
+        const needsDays = d > 0;
+        const hasDays = daysEl !== null;
+        const needsHours = h > 0 || needsDays;
+        const hasHours = hoursEl !== null;
+        if (clockDisplay.children.length === 0 || (needsDays && !hasDays) || (!needsDays && hasDays && !needsHours) || (!needsHours && hasHours && !needsDays)) {
+          if (d > 0) {
+            displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+          } else if (h > 0) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          } else {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          }
+        }
         if (d > 0) {
-          displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
           updateRollingText(document.getElementById('clockDisplay-days'), d.toString());
           updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
           updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
           updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
         } else if (h > 0) {
-          displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
           updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
           updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
           updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
         } else {
-          displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
           updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
           updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
         }
