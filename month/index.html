@@ -478,7 +478,11 @@ dayNumber.className = 'day-number';
 dayNumber.textContent = day;
 const daySchedule = document.createElement('div');
 daySchedule.className = 'day-schedule';
-if (dayName === 'Saturday' || dayName === 'Sunday') {
+const isAfterLastDay = (year > 2026) || (year === 2026 && month > 5) || (year === 2026 && month === 5 && day >= 18);
+if (isAfterLastDay) {
+daySchedule.textContent = '';
+cell.classList.add('holiday');
+} else if (dayName === 'Saturday' || dayName === 'Sunday') {
 daySchedule.textContent = '';
 cell.classList.add('holiday');
 } else {
