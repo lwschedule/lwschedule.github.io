@@ -99,7 +99,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 - Add sliding number animation to holidays and main timer. it shoud basically slide the old number up and fade out and slide the new number it and fade in
 - Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
 - Add support for installing browser PWA app
-- Fix issue in month calendar where months before dec 2025 are displayed
 
 ---
 
