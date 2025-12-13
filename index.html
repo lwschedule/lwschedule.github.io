@@ -385,29 +385,37 @@ function displayTimeBlocks(container, data) {
     if (elem.dataset.previousText) return elem.dataset.previousText;
     if (elem.querySelector('.digit-roller')) {
       const newSpan = elem.querySelector('.new');
-      return newSpan ? newSpan.textContent : fallback;
+      if (newSpan) return newSpan.textContent;
     }
-    return elem.textContent || fallback;
+    const textContent = elem.textContent.trim();
+    if (textContent && textContent !== '--' && textContent !== '') {
+      return textContent;
+    }
+    return fallback;
   }
   
-  const prevDays = getPreviousValue(existingDays, '');
-  const prevHours = getPreviousValue(existingHours, '');
-  const prevMinutes = getPreviousValue(existingMinutes, '');
-  const prevSeconds = getPreviousValue(existingSeconds, '');
+  const prevDays = getPreviousValue(existingDays, null);
+  const prevHours = getPreviousValue(existingHours, null);
+  const prevMinutes = getPreviousValue(existingMinutes, null);
+  const prevSeconds = getPreviousValue(existingSeconds, null);
   
   let html = '';
   if (data.days !== undefined) {
     const daysVal = data.days.toString();
-    html += `<div class="time-block"><span id="${daysId}" class="time-value" data-previous-text="${prevDays || daysVal}">${daysVal}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
+    const daysPrevAttr = prevDays !== null ? `data-previous-text="${prevDays}"` : '';
+    html += `<div class="time-block"><span id="${daysId}" class="time-value" ${daysPrevAttr}>${daysVal}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
   }
   if (data.hours !== undefined) {
     const hoursVal = data.hours.toString().padStart(2, '0');
-    html += `<div class="time-block"><span id="${hoursId}" class="time-value" data-previous-text="${prevHours || hoursVal}">${hoursVal}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
+    const hoursPrevAttr = prevHours !== null ? `data-previous-text="${prevHours}"` : '';
+    html += `<div class="time-block"><span id="${hoursId}" class="time-value" ${hoursPrevAttr}>${hoursVal}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
   }
   const minutesVal = data.minutes.toString().padStart(2, '0');
   const secondsVal = data.seconds.toString().padStart(2, '0');
-  html += `<div class="time-block"><span id="${minutesId}" class="time-value" data-previous-text="${prevMinutes || minutesVal}">${minutesVal}</span><span class="time-label">MINUTES</span></div>`;
-  html += `<div class="time-block"><span id="${secondsId}" class="time-value" data-previous-text="${prevSeconds || secondsVal}">${secondsVal}</span><span class="time-label">SECONDS</span></div>`;
+  const minutesPrevAttr = prevMinutes !== null ? `data-previous-text="${prevMinutes}"` : '';
+  const secondsPrevAttr = prevSeconds !== null ? `data-previous-text="${prevSeconds}"` : '';
+  html += `<div class="time-block"><span id="${minutesId}" class="time-value" ${minutesPrevAttr}>${minutesVal}</span><span class="time-label">MINUTES</span></div>`;
+  html += `<div class="time-block"><span id="${secondsId}" class="time-value" ${secondsPrevAttr}>${secondsVal}</span><span class="time-label">SECONDS</span></div>`;
   container.innerHTML = html;
 }
 
@@ -533,18 +541,32 @@ function updateClock() {
             displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
           }
         }
-        if (d > 0) {
-          updateRollingText(document.getElementById('clockDisplay-days'), d.toString());
-          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
-        } else if (h > 0) {
-          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
-        } else {
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        const daysEl = document.getElementById('clockDisplay-days');
+        const hoursEl = document.getElementById('clockDisplay-hours');
+        const minutesEl = document.getElementById('clockDisplay-minutes');
+        const secondsEl = document.getElementById('clockDisplay-seconds');
+        
+        if (d > 0 && daysEl) {
+          if (!daysEl.dataset.previousText) daysEl.dataset.previousText = daysEl.textContent;
+          updateRollingText(daysEl, d.toString());
+          if (!hoursEl.dataset.previousText) hoursEl.dataset.previousText = hoursEl.textContent;
+          updateRollingText(hoursEl, h.toString().padStart(2,'0'));
+          if (!minutesEl.dataset.previousText) minutesEl.dataset.previousText = minutesEl.textContent;
+          updateRollingText(minutesEl, m.toString().padStart(2,'0'));
+          if (!secondsEl.dataset.previousText) secondsEl.dataset.previousText = secondsEl.textContent;
+          updateRollingText(secondsEl, s.toString().padStart(2,'0'));
+        } else if (h > 0 && hoursEl) {
+          if (!hoursEl.dataset.previousText) hoursEl.dataset.previousText = hoursEl.textContent;
+          updateRollingText(hoursEl, h.toString().padStart(2,'0'));
+          if (!minutesEl.dataset.previousText) minutesEl.dataset.previousText = minutesEl.textContent;
+          updateRollingText(minutesEl, m.toString().padStart(2,'0'));
+          if (!secondsEl.dataset.previousText) secondsEl.dataset.previousText = secondsEl.textContent;
+          updateRollingText(secondsEl, s.toString().padStart(2,'0'));
+        } else if (minutesEl) {
+          if (!minutesEl.dataset.previousText) minutesEl.dataset.previousText = minutesEl.textContent;
+          updateRollingText(minutesEl, m.toString().padStart(2,'0'));
+          if (!secondsEl.dataset.previousText) secondsEl.dataset.previousText = secondsEl.textContent;
+          updateRollingText(secondsEl, s.toString().padStart(2,'0'));
         }
         clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
         timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
@@ -590,15 +612,23 @@ function updateClock() {
     const h = Math.floor(remainingMinutes / 60);
     const m = remainingMinutes % 60;
     const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+    const hoursEl = document.getElementById('clockDisplay-hours');
+    const minutesEl = document.getElementById('clockDisplay-minutes');
+    const secondsEl = document.getElementById('clockDisplay-seconds');
     if (h > 0) {
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-      updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-      updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+      if (hoursEl && !hoursEl.dataset.previousText) hoursEl.dataset.previousText = hoursEl.textContent;
+      updateRollingText(hoursEl, h.toString().padStart(2,'0'));
+      if (minutesEl && !minutesEl.dataset.previousText) minutesEl.dataset.previousText = minutesEl.textContent;
+      updateRollingText(minutesEl, m.toString().padStart(2,'0'));
+      if (secondsEl && !secondsEl.dataset.previousText) secondsEl.dataset.previousText = secondsEl.textContent;
+      updateRollingText(secondsEl, s.toString().padStart(2,'0'));
     } else {
       displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-      updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+      if (minutesEl && !minutesEl.dataset.previousText) minutesEl.dataset.previousText = minutesEl.textContent;
+      updateRollingText(minutesEl, m.toString().padStart(2,'0'));
+      if (secondsEl && !secondsEl.dataset.previousText) secondsEl.dataset.previousText = secondsEl.textContent;
+      updateRollingText(secondsEl, s.toString().padStart(2,'0'));
     }
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
@@ -613,15 +643,23 @@ function updateClock() {
       const h = Math.floor(remainingMinutes / 60);
       const m = remainingMinutes % 60;
       const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+      const hoursEl2 = document.getElementById('clockDisplay-hours');
+      const minutesEl2 = document.getElementById('clockDisplay-minutes');
+      const secondsEl2 = document.getElementById('clockDisplay-seconds');
       if (h > 0) {
         displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-        updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-        updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-        updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        if (hoursEl2 && !hoursEl2.dataset.previousText) hoursEl2.dataset.previousText = hoursEl2.textContent;
+        updateRollingText(hoursEl2, h.toString().padStart(2,'0'));
+        if (minutesEl2 && !minutesEl2.dataset.previousText) minutesEl2.dataset.previousText = minutesEl2.textContent;
+        updateRollingText(minutesEl2, m.toString().padStart(2,'0'));
+        if (secondsEl2 && !secondsEl2.dataset.previousText) secondsEl2.dataset.previousText = secondsEl2.textContent;
+        updateRollingText(secondsEl2, s.toString().padStart(2,'0'));
       } else {
         displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-        updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-        updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+        if (minutesEl2 && !minutesEl2.dataset.previousText) minutesEl2.dataset.previousText = minutesEl2.textContent;
+        updateRollingText(minutesEl2, m.toString().padStart(2,'0'));
+        if (secondsEl2 && !secondsEl2.dataset.previousText) secondsEl2.dataset.previousText = secondsEl2.textContent;
+        updateRollingText(secondsEl2, s.toString().padStart(2,'0'));
       }
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
@@ -639,21 +677,34 @@ function updateClock() {
           const totalHours = Math.floor(totalMinutes / 60);
           const h = totalHours % 24;
           const d = Math.floor(totalHours / 24);
+          const daysEl3 = document.getElementById('clockDisplay-days');
+          const hoursEl3 = document.getElementById('clockDisplay-hours');
+          const minutesEl3 = document.getElementById('clockDisplay-minutes');
+          const secondsEl3 = document.getElementById('clockDisplay-seconds');
           if (d > 0) {
             displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-            updateRollingText(document.getElementById('clockDisplay-days'), d.toString());
-            updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+            if (daysEl3 && !daysEl3.dataset.previousText) daysEl3.dataset.previousText = daysEl3.textContent;
+            updateRollingText(daysEl3, d.toString());
+            if (hoursEl3 && !hoursEl3.dataset.previousText) hoursEl3.dataset.previousText = hoursEl3.textContent;
+            updateRollingText(hoursEl3, h.toString().padStart(2,'0'));
+            if (minutesEl3 && !minutesEl3.dataset.previousText) minutesEl3.dataset.previousText = minutesEl3.textContent;
+            updateRollingText(minutesEl3, m.toString().padStart(2,'0'));
+            if (secondsEl3 && !secondsEl3.dataset.previousText) secondsEl3.dataset.previousText = secondsEl3.textContent;
+            updateRollingText(secondsEl3, s.toString().padStart(2,'0'));
           } else if (h > 0) {
             displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-            updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+            if (hoursEl3 && !hoursEl3.dataset.previousText) hoursEl3.dataset.previousText = hoursEl3.textContent;
+            updateRollingText(hoursEl3, h.toString().padStart(2,'0'));
+            if (minutesEl3 && !minutesEl3.dataset.previousText) minutesEl3.dataset.previousText = minutesEl3.textContent;
+            updateRollingText(minutesEl3, m.toString().padStart(2,'0'));
+            if (secondsEl3 && !secondsEl3.dataset.previousText) secondsEl3.dataset.previousText = secondsEl3.textContent;
+            updateRollingText(secondsEl3, s.toString().padStart(2,'0'));
           } else {
             displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-            updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-            updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+            if (minutesEl3 && !minutesEl3.dataset.previousText) minutesEl3.dataset.previousText = minutesEl3.textContent;
+            updateRollingText(minutesEl3, m.toString().padStart(2,'0'));
+            if (secondsEl3 && !secondsEl3.dataset.previousText) secondsEl3.dataset.previousText = secondsEl3.textContent;
+            updateRollingText(secondsEl3, s.toString().padStart(2,'0'));
           }
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
           timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
@@ -678,15 +729,23 @@ function updateClock() {
         const h = Math.floor(remainingMinutes / 60);
         const m = remainingMinutes % 60;
         const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+        const hoursEl4 = document.getElementById('clockDisplay-hours');
+        const minutesEl4 = document.getElementById('clockDisplay-minutes');
+        const secondsEl4 = document.getElementById('clockDisplay-seconds');
         if (h > 0) {
           displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-          updateRollingText(document.getElementById('clockDisplay-hours'), h.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+          if (hoursEl4 && !hoursEl4.dataset.previousText) hoursEl4.dataset.previousText = hoursEl4.textContent;
+          updateRollingText(hoursEl4, h.toString().padStart(2,'0'));
+          if (minutesEl4 && !minutesEl4.dataset.previousText) minutesEl4.dataset.previousText = minutesEl4.textContent;
+          updateRollingText(minutesEl4, m.toString().padStart(2,'0'));
+          if (secondsEl4 && !secondsEl4.dataset.previousText) secondsEl4.dataset.previousText = secondsEl4.textContent;
+          updateRollingText(secondsEl4, s.toString().padStart(2,'0'));
         } else {
           displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-          updateRollingText(document.getElementById('clockDisplay-minutes'), m.toString().padStart(2,'0'));
-          updateRollingText(document.getElementById('clockDisplay-seconds'), s.toString().padStart(2,'0'));
+          if (minutesEl4 && !minutesEl4.dataset.previousText) minutesEl4.dataset.previousText = minutesEl4.textContent;
+          updateRollingText(minutesEl4, m.toString().padStart(2,'0'));
+          if (secondsEl4 && !secondsEl4.dataset.previousText) secondsEl4.dataset.previousText = secondsEl4.textContent;
+          updateRollingText(secondsEl4, s.toString().padStart(2,'0'));
         }
         clockLabel.innerHTML = "UNTIL NEXT PERIOD";
         timerEl.innerHTML = `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`;
