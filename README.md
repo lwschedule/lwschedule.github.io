@@ -102,6 +102,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 - The orange days in the month calendar, will not be filled but have a border, just like the holidays
 - Fix holidays not working
 - Add support for installing browser PWA app
+- Fix themes, they only apply in /setup and /settings/themes currently, not everywhere
 
 ---
 
