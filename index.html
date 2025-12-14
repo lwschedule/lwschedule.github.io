@@ -605,48 +605,76 @@ function updateClock() {
     const m = remainingMinutes % 60;
     const s = remainingSeconds === 60 ? 0 : remainingSeconds;
     if (h > 0) {
-      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       const hoursEl = document.getElementById('clockDisplay-hours');
       const minutesEl = document.getElementById('clockDisplay-minutes');
       const secondsEl = document.getElementById('clockDisplay-seconds');
-      if (hoursEl) updateRollingText(hoursEl, h.toString().padStart(2,'0'));
-      if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-      if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
+      const needsHours = h > 0;
+      const hasHours = hoursEl !== null;
+      const needsStructureChange = clockDisplay.children.length === 0 || (needsHours && !hasHours) || (!needsHours && hasHours);
+      if (needsStructureChange) {
+        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      }
+      const hoursElAfter = document.getElementById('clockDisplay-hours');
+      const minutesElAfter = document.getElementById('clockDisplay-minutes');
+      const secondsElAfter = document.getElementById('clockDisplay-seconds');
+      if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+      if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+      if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
     } else {
-      displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
       const minutesEl = document.getElementById('clockDisplay-minutes');
       const secondsEl = document.getElementById('clockDisplay-seconds');
-      if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-      if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
+      const hoursEl = document.getElementById('clockDisplay-hours');
+      const needsStructureChange = clockDisplay.children.length === 0 || hoursEl !== null;
+      if (needsStructureChange) {
+        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+      }
+      const minutesElAfter = document.getElementById('clockDisplay-minutes');
+      const secondsElAfter = document.getElementById('clockDisplay-seconds');
+      if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+      if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
     }
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
     timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
     timerEl.classList.remove('hidden');
-  } else {
-    const firstPeriod = today[0];
-    const lastPeriod = today[today.length - 1];
-    if (now < firstPeriod.start) {
-      const remainingMinutes = firstPeriod.start - now - 1;
-      const remainingSeconds = 60 - secs;
-      const h = Math.floor(remainingMinutes / 60);
-      const m = remainingMinutes % 60;
-      const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-      if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-        const hoursEl = document.getElementById('clockDisplay-hours');
-        const minutesEl = document.getElementById('clockDisplay-minutes');
-        const secondsEl = document.getElementById('clockDisplay-seconds');
-        if (hoursEl) updateRollingText(hoursEl, h.toString().padStart(2,'0'));
-        if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-        if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-        const minutesEl = document.getElementById('clockDisplay-minutes');
-        const secondsEl = document.getElementById('clockDisplay-seconds');
-        if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-        if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
-      }
+    } else {
+      const firstPeriod = today[0];
+      const lastPeriod = today[today.length - 1];
+      if (now < firstPeriod.start) {
+        const remainingMinutes = firstPeriod.start - now - 1;
+        const remainingSeconds = 60 - secs;
+        const h = Math.floor(remainingMinutes / 60);
+        const m = remainingMinutes % 60;
+        const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+        if (h > 0) {
+          const hoursEl = document.getElementById('clockDisplay-hours');
+          const minutesEl = document.getElementById('clockDisplay-minutes');
+          const secondsEl = document.getElementById('clockDisplay-seconds');
+          const needsHours = h > 0;
+          const hasHours = hoursEl !== null;
+          const needsStructureChange = clockDisplay.children.length === 0 || (needsHours && !hasHours) || (!needsHours && hasHours);
+          if (needsStructureChange) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          }
+          const hoursElAfter = document.getElementById('clockDisplay-hours');
+          const minutesElAfter = document.getElementById('clockDisplay-minutes');
+          const secondsElAfter = document.getElementById('clockDisplay-seconds');
+          if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+          if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+          if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
+        } else {
+          const minutesEl = document.getElementById('clockDisplay-minutes');
+          const secondsEl = document.getElementById('clockDisplay-seconds');
+          const hoursEl = document.getElementById('clockDisplay-hours');
+          const needsStructureChange = clockDisplay.children.length === 0 || hoursEl !== null;
+          if (needsStructureChange) {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          }
+          const minutesElAfter = document.getElementById('clockDisplay-minutes');
+          const secondsElAfter = document.getElementById('clockDisplay-seconds');
+          if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+          if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
+        }
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
       timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
@@ -720,29 +748,43 @@ function updateClock() {
         timerEl.innerHTML = "Have a great break!";
         timerEl.classList.remove('hidden');
       }
-    } else {
-      const nextPeriod = getNextPeriodStart(today, now);
-      if (nextPeriod) {
-        const remainingMinutes = nextPeriod.start - now - 1;
-        const remainingSeconds = 60 - secs;
-        const h = Math.floor(remainingMinutes / 60);
-        const m = remainingMinutes % 60;
-        const s = remainingSeconds === 60 ? 0 : remainingSeconds;
-        if (h > 0) {
-          displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-          const hoursEl = document.getElementById('clockDisplay-hours');
-          const minutesEl = document.getElementById('clockDisplay-minutes');
-          const secondsEl = document.getElementById('clockDisplay-seconds');
-          if (hoursEl) updateRollingText(hoursEl, h.toString().padStart(2,'0'));
-          if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-          if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
-        } else {
-          displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-          const minutesEl = document.getElementById('clockDisplay-minutes');
-          const secondsEl = document.getElementById('clockDisplay-seconds');
-          if (minutesEl) updateRollingText(minutesEl, m.toString().padStart(2,'0'));
-          if (secondsEl) updateRollingText(secondsEl, s.toString().padStart(2,'0'));
-        }
+      } else {
+        const nextPeriod = getNextPeriodStart(today, now);
+        if (nextPeriod) {
+          const remainingMinutes = nextPeriod.start - now - 1;
+          const remainingSeconds = 60 - secs;
+          const h = Math.floor(remainingMinutes / 60);
+          const m = remainingMinutes % 60;
+          const s = remainingSeconds === 60 ? 0 : remainingSeconds;
+          if (h > 0) {
+            const hoursEl = document.getElementById('clockDisplay-hours');
+            const minutesEl = document.getElementById('clockDisplay-minutes');
+            const secondsEl = document.getElementById('clockDisplay-seconds');
+            const needsHours = h > 0;
+            const hasHours = hoursEl !== null;
+            const needsStructureChange = clockDisplay.children.length === 0 || (needsHours && !hasHours) || (!needsHours && hasHours);
+            if (needsStructureChange) {
+              displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+            }
+            const hoursElAfter = document.getElementById('clockDisplay-hours');
+            const minutesElAfter = document.getElementById('clockDisplay-minutes');
+            const secondsElAfter = document.getElementById('clockDisplay-seconds');
+            if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+            if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+            if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
+          } else {
+            const minutesEl = document.getElementById('clockDisplay-minutes');
+            const secondsEl = document.getElementById('clockDisplay-seconds');
+            const hoursEl = document.getElementById('clockDisplay-hours');
+            const needsStructureChange = clockDisplay.children.length === 0 || hoursEl !== null;
+            if (needsStructureChange) {
+              displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+            }
+            const minutesElAfter = document.getElementById('clockDisplay-minutes');
+            const secondsElAfter = document.getElementById('clockDisplay-seconds');
+            if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
+            if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
+          }
         clockLabel.innerHTML = "UNTIL NEXT PERIOD";
         timerEl.innerHTML = `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`;
         timerEl.classList.remove('hidden');
