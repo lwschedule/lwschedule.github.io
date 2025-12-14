@@ -148,7 +148,14 @@ if (saved) lunchPreferences = JSON.parse(saved);
 }
 function updateRollingText(element, newText) {
 if (!element) return;
-let oldText = element.dataset.previousText || element.textContent;
+let oldText = element.dataset.previousText;
+if (!oldText) {
+if (element.querySelector('.digit-roller .new')) {
+oldText = element.querySelector('.digit-roller .new').textContent;
+} else {
+oldText = element.textContent;
+}
+}
 if (oldText === newText) return;
 const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
 if (oldText === "--") {
@@ -157,9 +164,9 @@ element.dataset.previousText = newText;
 return;
 }
 if (isNumeric && oldText !== newText) {
-element.dataset.previousText = newText;
 const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
 element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+element.dataset.previousText = newText;
 return;
 }
 if (!isNumeric && oldText && oldText.length !== newText.length) {
@@ -167,12 +174,11 @@ element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }
-if (newText && !newText.match(/^[\\d: -]+$/) && !newText.match(/d|h|m|s/)) {
+if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
 if (oldText !== newText) element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }
-element.dataset.previousText = newText;
 let html = '';
 let newChars = newText.split('');
 let oldChars = oldText.split('');
@@ -194,6 +200,7 @@ html += `</span>`;
 }
 }
 element.innerHTML = html;
+element.dataset.previousText = newText;
 }
 function isFinalsWeek(date) {
 const year = date.getFullYear();
@@ -428,10 +435,14 @@ const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
-updateRollingText(document.getElementById('countdown-days'), days.toString());
-updateRollingText(document.getElementById('countdown-hours'), hours.toString().padStart(2,'0'));
-updateRollingText(document.getElementById('countdown-minutes'), minutes.toString().padStart(2,'0'));
-updateRollingText(document.getElementById('countdown-seconds'), seconds.toString().padStart(2,'0'));
+const daysEl = document.getElementById('countdown-days');
+const hoursEl = document.getElementById('countdown-hours');
+const minutesEl = document.getElementById('countdown-minutes');
+const secondsEl = document.getElementById('countdown-seconds');
+if (daysEl) updateRollingText(daysEl, days.toString());
+if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
+if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
+if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
 } else {
 countdownGrid.style.display = 'none';
 countdownMsg.style.display = 'block';
