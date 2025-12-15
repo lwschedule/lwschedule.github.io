@@ -18,6 +18,14 @@
   --card-dark: #262626;
   --glow: 0 0 12px rgba(107, 76, 183, 0.8);
 }
+body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
+body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
+body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
+body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
+body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
+body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
+body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
+body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
 * { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
 body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
 body::-webkit-scrollbar { display: none; }
@@ -140,19 +148,37 @@ if (saved) lunchPreferences = JSON.parse(saved);
 }
 function updateRollingText(element, newText) {
 if (!element) return;
-let oldText = element.dataset.previousText || element.textContent;
+let oldText = element.dataset.previousText;
+if (!oldText) {
+if (element.querySelector('.digit-roller .new')) {
+oldText = element.querySelector('.digit-roller .new').textContent;
+} else {
+oldText = element.textContent;
+}
+}
 if (oldText === newText) return;
-if (oldText === "--" || (oldText && oldText.length !== newText.length)) {
+const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
+if (oldText === "--") {
 element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }
-if (newText && !newText.match(/^[\\d: -]+$/) && !newText.match(/d|h|m|s/)) {
+if (isNumeric && oldText !== newText) {
+const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
+element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+element.dataset.previousText = newText;
+return;
+}
+if (!isNumeric && oldText && oldText.length !== newText.length) {
+element.textContent = newText;
+element.dataset.previousText = newText;
+return;
+}
+if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
 if (oldText !== newText) element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }
-element.dataset.previousText = newText;
 let html = '';
 let newChars = newText.split('');
 let oldChars = oldText.split('');
@@ -174,6 +200,7 @@ html += `</span>`;
 }
 }
 element.innerHTML = html;
+element.dataset.previousText = newText;
 }
 function isFinalsWeek(date) {
 const year = date.getFullYear();
@@ -304,6 +331,28 @@ return date.toLocaleDateString('en-US', { weekday: 'long' });
 function currentDayName() {
 return getDayNameFromDate(new Date());
 }
+function getLastSchoolDayEndTime(beforeDate) {
+let checkDay = new Date(beforeDate.getFullYear(), beforeDate.getMonth(), beforeDate.getDate());
+checkDay.setDate(checkDay.getDate() - 1);
+checkDay.setHours(23, 59, 59, 999);
+for (let i = 0; i < 365; i++) {
+const dayName = getDayNameFromDate(checkDay);
+const holiday = getHolidayForDate(checkDay);
+if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
+const schedules = getSchedules(checkDay);
+const schedule = schedules[dayName];
+if (schedule && schedule.length > 0) {
+const lastPeriod = schedule[schedule.length - 1];
+const endTime = new Date(checkDay);
+endTime.setHours(0, 0, 0, 0);
+endTime.setMinutes(lastPeriod.end);
+return endTime;
+}
+}
+checkDay.setDate(checkDay.getDate() - 1);
+}
+return null;
+}
 function getHolidayForDate(date) {
 const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 for (const holiday of holidays) {
@@ -386,10 +435,14 @@ const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
-updateRollingText(document.getElementById('countdown-days'), days.toString());
-updateRollingText(document.getElementById('countdown-hours'), hours.toString().padStart(2,'0'));
-updateRollingText(document.getElementById('countdown-minutes'), minutes.toString().padStart(2,'0'));
-updateRollingText(document.getElementById('countdown-seconds'), seconds.toString().padStart(2,'0'));
+const daysEl = document.getElementById('countdown-days');
+const hoursEl = document.getElementById('countdown-hours');
+const minutesEl = document.getElementById('countdown-minutes');
+const secondsEl = document.getElementById('countdown-seconds');
+if (daysEl) updateRollingText(daysEl, days.toString());
+if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
+if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
+if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
 } else {
 countdownGrid.style.display = 'none';
 countdownMsg.style.display = 'block';
@@ -403,9 +456,14 @@ updateRollingText(countdownMsg, 'End of school year');
 countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
 }
 }
+function loadThemeOnPage() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  document.body.className = `theme-${theme}`;
+}
 function initApp() {
 checkSetupComplete();
 loadLunchPreferences();
+loadThemeOnPage();
 if (document.getElementById('holidayCountdown')) {
 updateHolidayCountdown();
 setInterval(updateHolidayCountdown, 1000);

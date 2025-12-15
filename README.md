@@ -96,11 +96,8 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
-- Add sliding number animation from holidays to main timer on main screen
-- Add phone caddy reminders coming soon in settings between sports and pack up reminders (will require new file/folder within settings
-- Remove selecting between static colors and animated gradient in setup (animated gradient is now only theme, after static colors' functionality was removed)
-- The orange days in the month calendar, will not be filled but have a border, just like the holidays
-- Fix holidays not working
+- Add sliding number animation to holidays and main timer. it shoud basically slide the old number up and fade out and slide the new number it and fade in
+- Main timer is frozen (today is a holiday), for some reason
 - Add support for installing browser PWA app
 
 ---
@@ -124,4 +121,4 @@ This project is released under the **MIT License**.
 ## 💡 Credits
 
 **Created by:** Sanchit P.  
-**Inspired by:** [LW Schedule Manager](https://schedule-manager.lwhsftc.org/) by Rudra Pandit**
+**Inspired by:** [LW Schedule Manager](https://schedule-manager.lwhsftc.org/) by Rudra Pandit

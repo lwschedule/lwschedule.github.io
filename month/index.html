@@ -18,6 +18,14 @@
   --card-dark: #262626;
   --glow: 0 0 12px rgba(107, 76, 183, 0.8);
 }
+body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
+body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
+body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
+body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
+body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
+body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
+body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
+body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
 * { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
 body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
 body::-webkit-scrollbar { display: none; }
@@ -405,8 +413,8 @@ return uniqueNames.join(',');
 const now = new Date();
 let currentMonth = now.getMonth();
 let currentYear = now.getFullYear();
-if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
-currentMonth = 8;
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+currentMonth = 11;
 currentYear = 2025;
 }
 function renderCalendar() {
@@ -414,7 +422,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
 const prevBtn = document.getElementById('prevMonth');
 const nextBtn = document.getElementById('nextMonth');
-prevBtn.disabled = (currentYear === 2025 && currentMonth === 8);
+prevBtn.disabled = (currentYear === 2025 && currentMonth === 11);
 nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
 const grid = document.getElementById('calendarGrid');
 grid.innerHTML = '';
@@ -427,8 +435,19 @@ grid.appendChild(header);
 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+const isFirstMonth = (currentYear === 2025 && currentMonth === 11);
 for (let i = firstDay - 1; i >= 0; i--) {
 const day = daysInPrevMonth - i;
+if (isFirstMonth) {
+const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
+if (prevMonthDate.getFullYear() < 2025 || (prevMonthDate.getFullYear() === 2025 && prevMonthDate.getMonth() < 11)) {
+const emptyCell = document.createElement('div');
+emptyCell.className = 'calendar-day';
+emptyCell.style.visibility = 'hidden';
+grid.appendChild(emptyCell);
+continue;
+}
+}
 const cell = createDayCell(day, true, currentMonth - 1, currentYear);
 grid.appendChild(cell);
 }
@@ -459,7 +478,11 @@ dayNumber.className = 'day-number';
 dayNumber.textContent = day;
 const daySchedule = document.createElement('div');
 daySchedule.className = 'day-schedule';
-if (dayName === 'Saturday' || dayName === 'Sunday') {
+const isAfterLastDay = (year > 2026) || (year === 2026 && month > 5) || (year === 2026 && month === 5 && day >= 18);
+if (isAfterLastDay) {
+daySchedule.textContent = '';
+cell.classList.add('holiday');
+} else if (dayName === 'Saturday' || dayName === 'Sunday') {
 daySchedule.textContent = '';
 cell.classList.add('holiday');
 } else {
@@ -482,7 +505,7 @@ cell.classList.add('holiday');
 const isNov26 = month === 10 && day === 26 && year === 2025;
 const isJun17 = month === 5 && day === 17 && year === 2026;
 if (isNov26 || isJun17) {
-cell.style.background = '#d35400';
+cell.style.borderColor = '#d35400';
 cell.classList.remove('holiday');
 }
 cell.appendChild(dayNumber);
@@ -495,8 +518,8 @@ if (currentMonth < 0) {
 currentMonth = 11;
 currentYear--;
 }
-if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 8)) {
-currentMonth = 8;
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+currentMonth = 11;
 currentYear = 2025;
 }
 renderCalendar();
@@ -513,8 +536,17 @@ currentYear = 2026;
 }
 renderCalendar();
 });
+function loadThemeOnPage() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  document.body.className = `theme-${theme}`;
+}
 checkSetupComplete();
 loadLunchPreferences();
+loadThemeOnPage();
+if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+currentMonth = 11;
+currentYear = 2025;
+}
 renderCalendar();
 </script>
 </body>
