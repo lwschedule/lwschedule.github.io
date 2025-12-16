@@ -42,10 +42,11 @@ body h2, body h3 { color: white; }
 @keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
 @keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
+.time-value { min-height: 1em; }
 .digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
-.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; }
-.digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
-.digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; width: 100%; }
+.digit-roller .old { top: 0; transform: translateY(0); opacity: 1; animation: rollUpOut 0.4s ease-out forwards; }
+.digit-roller .new { top: 0; transform: translateY(100%); opacity: 0; animation: rollUpIn 0.4s ease-out forwards; }
 .static-char { display: inline-block; vertical-align: middle; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; }
@@ -100,6 +101,7 @@ let lunchPreferences = {
 };
 let currentHolidayMessage = null;
 let quartersInterval = null;
+let clockInterval = null;
 
 const holidays = [
   { name: "Labor Day", date: new Date(2025, 8, 1), displayDate: "September 1, 2025", isWeekend: false },
@@ -158,35 +160,61 @@ function updateRollingText(element, newText) {
   if (!element) return;
   let oldText = element.dataset.previousText;
   if (!oldText) {
-    if (element.querySelector('.digit-roller .new')) {
-      oldText = element.querySelector('.digit-roller .new').textContent;
+    const newSpan = element.querySelector('.digit-roller .new');
+    if (newSpan) {
+      oldText = newSpan.textContent.trim();
     } else {
-      oldText = element.textContent;
+      oldText = element.textContent.trim();
     }
   }
   if (oldText === newText) return;
+  
   const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
-  if (oldText === "--") {
+  
+  if (oldText === "--" || oldText === "") {
     element.textContent = newText;
     element.dataset.previousText = newText;
     return;
   }
+  
   if (isNumeric && oldText !== newText) {
     element.dataset.previousText = newText;
     const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
-    element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+    element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em; display: inline-block; position: relative; overflow: hidden;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+    requestAnimationFrame(() => {
+      const roller = element.querySelector('.digit-roller');
+      if (roller) {
+        const oldSpan = roller.querySelector('.old');
+        const newSpan = roller.querySelector('.new');
+        if (oldSpan) {
+          oldSpan.style.animation = 'none';
+          requestAnimationFrame(() => {
+            oldSpan.style.animation = '';
+          });
+        }
+        if (newSpan) {
+          newSpan.style.animation = 'none';
+          requestAnimationFrame(() => {
+            newSpan.style.animation = '';
+          });
+        }
+      }
+    });
     return;
   }
+  
   if (!isNumeric && oldText && oldText.length !== newText.length) {
     element.textContent = newText;
     element.dataset.previousText = newText;
     return;
   }
+  
   if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
     if (oldText !== newText) element.textContent = newText;
     element.dataset.previousText = newText;
     return;
   }
+  
   element.dataset.previousText = newText;
   let html = '';
   let newChars = newText.split('');
@@ -202,13 +230,29 @@ function updateRollingText(element, newText) {
       if (newChar === ':' || newChar === '.') width = '0.3em';
       if (newChar === ' ') width = '0.2em';
       if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
-      html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
-      html += `<span class="old">${oldChar}</span>`;
-      html += `<span class="new">${newChar}</span>`;
-      html += `</span>`;
+      html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em; display: inline-block; position: relative; overflow: hidden;"><span class="old">${oldChar}</span><span class="new">${newChar}</span></span>`;
     }
   }
   element.innerHTML = html;
+  requestAnimationFrame(() => {
+    const rollers = element.querySelectorAll('.digit-roller');
+    rollers.forEach(roller => {
+      const oldSpan = roller.querySelector('.old');
+      const newSpan = roller.querySelector('.new');
+      if (oldSpan) {
+        oldSpan.style.animation = 'none';
+        requestAnimationFrame(() => {
+          oldSpan.style.animation = '';
+        });
+      }
+      if (newSpan) {
+        newSpan.style.animation = 'none';
+        requestAnimationFrame(() => {
+          newSpan.style.animation = '';
+        });
+      }
+    });
+  });
 }
 
 function isFinalsWeek(date) {
@@ -501,12 +545,15 @@ function getNextPeriodStart(schedule, now) {
 }
 
 function updateClock() {
-  const clockDisplay = document.getElementById('clockDisplay');
-  const clockLabel = document.getElementById('clockLabel');
-  const timerEl = document.getElementById('timer');
-  if (!clockDisplay || !clockLabel || !timerEl) return;
-  const schedules = getSchedules(new Date());
-  const today = schedules[currentDayName()];
+  try {
+    const clockDisplay = document.getElementById('clockDisplay');
+    const clockLabel = document.getElementById('clockLabel');
+    const timerEl = document.getElementById('timer');
+    if (!clockDisplay || !clockLabel || !timerEl) return;
+    
+    const now = new Date();
+    const schedules = getSchedules(now);
+    const today = schedules[currentDayName()];
   if (!today || today.length === 0) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
     if (nextSchoolStartTime) {
@@ -565,6 +612,7 @@ function updateClock() {
     }
     return;
   }
+  const nowDate = new Date();
   const now = minutesNow();
   const secs = secondsNow();
   let current = null;
@@ -587,7 +635,7 @@ function updateClock() {
     }
   }
   if (current) {
-    const totalRemainingSeconds = (current.end - now) * 60 - secs;
+    const totalRemainingSeconds = Math.max(0, (current.end - now) * 60 - secs);
     const h = Math.floor(totalRemainingSeconds / 3600);
     const m = Math.floor((totalRemainingSeconds % 3600) / 60);
     const s = totalRemainingSeconds % 60;
@@ -616,7 +664,7 @@ function updateClock() {
       const firstPeriod = today[0];
       const lastPeriod = today[today.length - 1];
       if (now < firstPeriod.start) {
-        const totalRemainingSeconds = (firstPeriod.start - now) * 60 - secs;
+        const totalRemainingSeconds = Math.max(0, (firstPeriod.start - now) * 60 - secs);
         const h = Math.floor(totalRemainingSeconds / 3600);
         const m = Math.floor((totalRemainingSeconds % 3600) / 60);
         const s = totalRemainingSeconds % 60;
@@ -699,7 +747,7 @@ function updateClock() {
       } else {
         const nextPeriod = getNextPeriodStart(today, now);
         if (nextPeriod) {
-          const totalRemainingSeconds = (nextPeriod.start - now) * 60 - secs;
+          const totalRemainingSeconds = Math.max(0, (nextPeriod.start - now) * 60 - secs);
           const h = Math.floor(totalRemainingSeconds / 3600);
           const m = Math.floor((totalRemainingSeconds % 3600) / 60);
           const s = totalRemainingSeconds % 60;
@@ -730,6 +778,9 @@ function updateClock() {
       }
     }
   }
+  } catch (error) {
+    console.error('Timer error:', error);
+  }
 }
 
 function loadThemeOnPage() {
@@ -743,8 +794,14 @@ function initApp() {
   loadThemeOnPage();
   loadLunchPreferences();
   if (document.getElementById('digitalClock')) {
+    if (clockInterval) {
+      clearInterval(clockInterval);
+      clockInterval = null;
+    }
     updateClock();
-    setInterval(updateClock, 1000);
+    clockInterval = setInterval(() => {
+      updateClock();
+    }, 1000);
   }
 }
 initApp();
