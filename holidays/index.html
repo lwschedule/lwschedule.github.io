@@ -35,7 +35,7 @@ body::-webkit-scrollbar { display: none; }
 @keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
 .digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
-.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; top: 0; height: 1em; line-height: 1em; text-align: center; will-change: transform, opacity; }
 .digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
 .digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
 .static-char { display: inline-block; vertical-align: middle; }
@@ -156,26 +156,17 @@ oldText = element.querySelector('.digit-roller .new').textContent;
 oldText = element.textContent;
 }
 }
-if (oldText === newText) return;
-const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
-if (oldText === "--") {
-element.textContent = newText;
-element.dataset.previousText = newText;
-return;
+oldText = (oldText || '').trim();
+newText = (newText || '').trim();
+const newIsNumeric = /^\d+$/.test(newText);
+const oldIsNumeric = /^\d+$/.test(oldText);
+if (newIsNumeric && !oldIsNumeric) {
+oldText = oldText || newText.replace(/./g, '0');
 }
-if (isNumeric && oldText !== newText) {
+if (oldText === newText) return;
+if (newIsNumeric && /^\d+$/.test(oldText)) {
 const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
 element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
-element.dataset.previousText = newText;
-return;
-}
-if (!isNumeric && oldText && oldText.length !== newText.length) {
-element.textContent = newText;
-element.dataset.previousText = newText;
-return;
-}
-if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
-if (oldText !== newText) element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }

@@ -43,10 +43,11 @@ body h2, body h3 { color: white; }
 @keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
 .digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
-.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; top: 0; height: 1em; line-height: 1em; text-align: center; will-change: transform, opacity; }
 .digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
 .digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
 .static-char { display: inline-block; vertical-align: middle; }
+.inline-number { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: baseline; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; }
 .topRightButtons { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
@@ -164,30 +165,20 @@ function updateRollingText(element, newText) {
       oldText = element.textContent;
     }
   }
-  if (oldText === newText) return;
-  const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
-  if (oldText === "--") {
-    element.textContent = newText;
-    element.dataset.previousText = newText;
-    return;
+  oldText = (oldText || '').trim();
+  newText = (newText || '').trim();
+  const newIsNumeric = /^\d+$/.test(newText);
+  const oldIsNumeric = /^\d+$/.test(oldText);
+  if (newIsNumeric && !oldIsNumeric) {
+    oldText = oldText || newText.replace(/./g, '0');
   }
-  if (isNumeric && oldText !== newText) {
-    element.dataset.previousText = newText;
+  if (oldText === newText) return;
+  if (newIsNumeric && /^\d+$/.test(oldText)) {
     const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
     element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
-    return;
-  }
-  if (!isNumeric && oldText && oldText.length !== newText.length) {
-    element.textContent = newText;
     element.dataset.previousText = newText;
     return;
   }
-  if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
-    if (oldText !== newText) element.textContent = newText;
-    element.dataset.previousText = newText;
-    return;
-  }
-  element.dataset.previousText = newText;
   let html = '';
   let newChars = newText.split('');
   let oldChars = oldText.split('');
@@ -209,6 +200,47 @@ function updateRollingText(element, newText) {
     }
   }
   element.innerHTML = html;
+  element.dataset.previousText = newText;
+}
+
+function setContentWithNumberAnimation(element, html) {
+  if (!element) return;
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+  const prevNumbers = element.dataset.prevNumbers ? JSON.parse(element.dataset.prevNumbers) : [];
+  const newNumbers = [];
+  function process(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parts = node.textContent.split(/(\d+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach(part => {
+        if (part === '') return;
+        if (/^\d+$/.test(part)) {
+          const span = document.createElement('span');
+          span.className = 'inline-number';
+          span.dataset.previousText = prevNumbers[newNumbers.length] || part;
+          span.textContent = part;
+          newNumbers.push(part);
+          frag.appendChild(span);
+        } else {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      return frag;
+    }
+    const clone = node.cloneNode(false);
+    node.childNodes.forEach(child => {
+      const processed = process(child);
+      if (processed) clone.appendChild(processed);
+    });
+    return clone;
+  }
+  const processedNodes = Array.from(temp.childNodes).map(process);
+  element.innerHTML = '';
+  processedNodes.forEach(n => element.appendChild(n));
+  element.dataset.prevNumbers = JSON.stringify(newNumbers);
+  const spans = element.querySelectorAll('.inline-number');
+  spans.forEach((span, idx) => updateRollingText(span, newNumbers[idx] || span.textContent));
 }
 
 function isFinalsWeek(date) {
@@ -550,18 +582,18 @@ function updateClock() {
         if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
         if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
         clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
-        timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
+        setContentWithNumberAnimation(timerEl, `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`);
         timerEl.classList.remove('hidden');
       } else {
         displayMessage(clockDisplay, "See You Soon!");
         clockLabel.innerHTML = "SCHOOL IS OVER";
-        timerEl.innerHTML = "See you at the next school day!";
+        setContentWithNumberAnimation(timerEl, "See you at the next school day!");
         timerEl.classList.remove('hidden');
       }
     } else {
       displayMessage(clockDisplay, "Enjoy Your Break!");
       clockLabel.innerHTML = "SCHOOL'S OUT";
-      timerEl.innerHTML = "Have a great break!";
+      setContentWithNumberAnimation(timerEl, "Have a great break!");
       timerEl.classList.remove('hidden');
     }
     return;
@@ -609,7 +641,7 @@ function updateClock() {
     if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
-    timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
+    setContentWithNumberAnimation(timerEl, `Current: <b>${current.name}</b><br>Next: ${nextName}`);
     timerEl.classList.remove('hidden');
     } else {
       const firstPeriod = today[0];
@@ -637,7 +669,7 @@ function updateClock() {
         if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
         if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
-      timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
+      setContentWithNumberAnimation(timerEl, `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`);
       timerEl.classList.remove('hidden');
     } else if (now >= lastPeriod.end) {
       const nextSchoolStartTime = getNextSchoolDayStartTime();
@@ -680,18 +712,18 @@ function updateClock() {
           if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
           if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
-          timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
+          setContentWithNumberAnimation(timerEl, `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`);
           timerEl.classList.remove('hidden');
         } else {
           displayMessage(clockDisplay, "See You Soon!");
           clockLabel.innerHTML = "SCHOOL IS OVER";
-          timerEl.innerHTML = "See you tomorrow!";
+          setContentWithNumberAnimation(timerEl, "See you tomorrow!");
           timerEl.classList.remove('hidden');
         }
       } else {
         displayMessage(clockDisplay, "Enjoy Your Break!");
         clockLabel.innerHTML = "SCHOOL'S OUT";
-        timerEl.innerHTML = "Have a great break!";
+        setContentWithNumberAnimation(timerEl, "Have a great break!");
         timerEl.classList.remove('hidden');
       }
       } else {
@@ -719,7 +751,7 @@ function updateClock() {
           if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
           if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
         clockLabel.innerHTML = "UNTIL NEXT PERIOD";
-        timerEl.innerHTML = `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`;
+        setContentWithNumberAnimation(timerEl, `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`);
         timerEl.classList.remove('hidden');
       } else {
         displayMessage(clockDisplay, "--:--:--");
