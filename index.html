@@ -393,20 +393,20 @@ function displayTimeBlocks(container, data) {
     return elem.textContent || fallback;
   }
   
-  const prevDays = getPreviousValue(existingDays, '');
-  const prevHours = getPreviousValue(existingHours, '');
-  const prevMinutes = getPreviousValue(existingMinutes, '');
-  const prevSeconds = getPreviousValue(existingSeconds, '');
+  const prevDays = getPreviousValue(existingDays, data.days !== undefined ? data.days.toString() : '');
+  const prevHours = getPreviousValue(existingHours, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '');
+  const prevMinutes = getPreviousValue(existingMinutes, data.minutes.toString().padStart(2,'0'));
+  const prevSeconds = getPreviousValue(existingSeconds, data.seconds.toString().padStart(2,'0'));
   
   let html = '';
   if (data.days !== undefined) {
-    html += `<div class="time-block"><span id="${daysId}" class="time-value">--</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
+    html += `<div class="time-block"><span id="${daysId}" class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
   }
   if (data.hours !== undefined) {
-    html += `<div class="time-block"><span id="${hoursId}" class="time-value">--</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
+    html += `<div class="time-block"><span id="${hoursId}" class="time-value">${data.hours.toString().padStart(2,'0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
   }
-  html += `<div class="time-block"><span id="${minutesId}" class="time-value">--</span><span class="time-label">MINUTES</span></div>`;
-  html += `<div class="time-block"><span id="${secondsId}" class="time-value">--</span><span class="time-label">SECONDS</span></div>`;
+  html += `<div class="time-block"><span id="${minutesId}" class="time-value">${data.minutes.toString().padStart(2,'0')}</span><span class="time-label">MINUTES</span></div>`;
+  html += `<div class="time-block"><span id="${secondsId}" class="time-value">${data.seconds.toString().padStart(2,'0')}</span><span class="time-label">SECONDS</span></div>`;
   container.innerHTML = html;
   
   if (data.days !== undefined) {
