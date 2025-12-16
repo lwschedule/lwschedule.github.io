@@ -346,13 +346,14 @@ function currentDayName() {
   return getDayNameFromDate(new Date());
 }
 
-function minutesNow() {
-  const d = new Date();
-  return d.getHours()*60 + d.getMinutes();
-}
-
-function secondsNow() {
-  return new Date().getSeconds();
+function getNowParts() {
+  const nowDate = new Date();
+  return {
+    nowDate,
+    weekday: getDayNameFromDate(nowDate),
+    minutes: nowDate.getHours() * 60 + nowDate.getMinutes(),
+    seconds: nowDate.getSeconds()
+  };
 }
 
 function format(m) {
@@ -501,17 +502,17 @@ function getNextPeriodStart(schedule, now) {
 }
 
 function updateClock() {
+  const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
   const clockDisplay = document.getElementById('clockDisplay');
   const clockLabel = document.getElementById('clockLabel');
   const timerEl = document.getElementById('timer');
   if (!clockDisplay || !clockLabel || !timerEl) return;
-  const schedules = getSchedules(new Date());
-  const today = schedules[currentDayName()];
+  const schedules = getSchedules(nowDate);
+  const today = schedules[weekday];
   if (!today || today.length === 0) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
     if (nextSchoolStartTime) {
-      const nowMillis = new Date().getTime();
-      const diff = nextSchoolStartTime.getTime() - nowMillis;
+      const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
       if (diff > 0) {
         const totalSeconds = Math.floor(diff / 1000);
         const s = totalSeconds % 60;
@@ -565,8 +566,6 @@ function updateClock() {
     }
     return;
   }
-  const now = minutesNow();
-  const secs = secondsNow();
   let current = null;
   let next = null;
   for (let i = 0; i < today.length; i++) {
@@ -587,7 +586,7 @@ function updateClock() {
     }
   }
   if (current) {
-    const totalRemainingSeconds = (current.end - now) * 60 - secs;
+    const totalRemainingSeconds = Math.max(0, (current.end - now) * 60 - secs);
     const h = Math.floor(totalRemainingSeconds / 3600);
     const m = Math.floor((totalRemainingSeconds % 3600) / 60);
     const s = totalRemainingSeconds % 60;
@@ -616,7 +615,7 @@ function updateClock() {
       const firstPeriod = today[0];
       const lastPeriod = today[today.length - 1];
       if (now < firstPeriod.start) {
-        const totalRemainingSeconds = (firstPeriod.start - now) * 60 - secs;
+        const totalRemainingSeconds = Math.max(0, (firstPeriod.start - now) * 60 - secs);
         const h = Math.floor(totalRemainingSeconds / 3600);
         const m = Math.floor((totalRemainingSeconds % 3600) / 60);
         const s = totalRemainingSeconds % 60;
@@ -643,8 +642,7 @@ function updateClock() {
     } else if (now >= lastPeriod.end) {
       const nextSchoolStartTime = getNextSchoolDayStartTime();
       if (nextSchoolStartTime) {
-        const nowMillis = new Date().getTime();
-        const diff = nextSchoolStartTime.getTime() - nowMillis;
+        const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
         if (diff > 0) {
           const totalSeconds = Math.floor(diff / 1000);
           const s = totalSeconds % 60;
@@ -699,7 +697,7 @@ function updateClock() {
       } else {
         const nextPeriod = getNextPeriodStart(today, now);
         if (nextPeriod) {
-          const totalRemainingSeconds = (nextPeriod.start - now) * 60 - secs;
+          const totalRemainingSeconds = Math.max(0, (nextPeriod.start - now) * 60 - secs);
           const h = Math.floor(totalRemainingSeconds / 3600);
           const m = Math.floor((totalRemainingSeconds % 3600) / 60);
           const s = totalRemainingSeconds % 60;
@@ -744,7 +742,8 @@ function initApp() {
   loadLunchPreferences();
   if (document.getElementById('digitalClock')) {
     updateClock();
-    setInterval(updateClock, 1000);
+    if (window.clockInterval) clearInterval(window.clockInterval);
+    window.clockInterval = setInterval(updateClock, 1000);
   }
 }
 initApp();
