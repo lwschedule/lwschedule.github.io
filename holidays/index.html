@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/images/logo.png">
-  <link rel="apple-touch-icon" href="/images/logo.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <style>
 :root {
   --primary: #4b2e83;
@@ -35,7 +35,7 @@ body::-webkit-scrollbar { display: none; }
 @keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
 .digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
-.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; text-align: center; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; top: 0; height: 1em; line-height: 1em; text-align: center; will-change: transform, opacity; }
 .digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
 .digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
 .static-char { display: inline-block; vertical-align: middle; }
@@ -53,7 +53,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 #holidayCountdownLabel { font-size: 0.8em; margin-bottom: 10px; color: white; opacity: 0.9; font-weight: 700; }
 #holidayCountdownTime { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
 .countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1.1; text-align: center; }
+.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1.1; text-align: center; position: relative; overflow: hidden; }
 .countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
@@ -156,26 +156,17 @@ oldText = element.querySelector('.digit-roller .new').textContent;
 oldText = element.textContent;
 }
 }
-if (oldText === newText) return;
-const isNumeric = /^\d+$/.test(newText) && /^\d+$/.test(oldText);
-if (oldText === "--") {
-element.textContent = newText;
-element.dataset.previousText = newText;
-return;
+oldText = (oldText || '').trim();
+newText = (newText || '').trim();
+const newIsNumeric = /^\d+$/.test(newText);
+const oldIsNumeric = /^\d+$/.test(oldText);
+if (newIsNumeric && !oldIsNumeric) {
+oldText = oldText || newText.replace(/./g, '0');
 }
-if (isNumeric && oldText !== newText) {
+if (oldText === newText) return;
+if (newIsNumeric && /^\d+$/.test(oldText)) {
 const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
 element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
-element.dataset.previousText = newText;
-return;
-}
-if (!isNumeric && oldText && oldText.length !== newText.length) {
-element.textContent = newText;
-element.dataset.previousText = newText;
-return;
-}
-if (newText && !newText.match(/^[\d: -]+$/) && !newText.match(/d|h|m|s/)) {
-if (oldText !== newText) element.textContent = newText;
 element.dataset.previousText = newText;
 return;
 }
