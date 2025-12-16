@@ -47,7 +47,6 @@ body h2, body h3 { color: white; }
 .digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
 .digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
 .static-char { display: inline-block; vertical-align: middle; }
-.inline-number { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: baseline; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; }
 .topRightButtons { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
@@ -80,7 +79,16 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; }
   <h1>LW Schedule</h1>
   <div id="digitalClock">
     <div id="clockLabel">TIME REMAINING</div>
-    <div id="clockDisplay">--:--:--</div>
+    <div id="clockDisplay">
+      <div class="time-block">
+        <span id="clockDisplay-minutes" class="time-value">--</span>
+        <span class="time-label">MINUTES</span>
+      </div>
+      <div class="time-block">
+        <span id="clockDisplay-seconds" class="time-value">--</span>
+        <span class="time-label">SECONDS</span>
+      </div>
+    </div>
   </div>
   <div id="timer"></div>
   <div class="mainButtons">
@@ -201,46 +209,6 @@ function updateRollingText(element, newText) {
   }
   element.innerHTML = html;
   element.dataset.previousText = newText;
-}
-
-function setContentWithNumberAnimation(element, html) {
-  if (!element) return;
-  const temp = document.createElement('div');
-  temp.innerHTML = html;
-  const prevNumbers = element.dataset.prevNumbers ? JSON.parse(element.dataset.prevNumbers) : [];
-  const newNumbers = [];
-  function process(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const parts = node.textContent.split(/(\d+)/);
-      const frag = document.createDocumentFragment();
-      parts.forEach(part => {
-        if (part === '') return;
-        if (/^\d+$/.test(part)) {
-          const span = document.createElement('span');
-          span.className = 'inline-number';
-          span.dataset.previousText = prevNumbers[newNumbers.length] || part;
-          span.textContent = part;
-          newNumbers.push(part);
-          frag.appendChild(span);
-        } else {
-          frag.appendChild(document.createTextNode(part));
-        }
-      });
-      return frag;
-    }
-    const clone = node.cloneNode(false);
-    node.childNodes.forEach(child => {
-      const processed = process(child);
-      if (processed) clone.appendChild(processed);
-    });
-    return clone;
-  }
-  const processedNodes = Array.from(temp.childNodes).map(process);
-  element.innerHTML = '';
-  processedNodes.forEach(n => element.appendChild(n));
-  element.dataset.prevNumbers = JSON.stringify(newNumbers);
-  const spans = element.querySelectorAll('.inline-number');
-  spans.forEach((span, idx) => updateRollingText(span, newNumbers[idx] || span.textContent));
 }
 
 function isFinalsWeek(date) {
@@ -599,18 +567,18 @@ function updateClock() {
         if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
         if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
         clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
-        setContentWithNumberAnimation(timerEl, `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`);
+        timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
         timerEl.classList.remove('hidden');
       } else {
         displayMessage(clockDisplay, "See You Soon!");
         clockLabel.innerHTML = "SCHOOL IS OVER";
-        setContentWithNumberAnimation(timerEl, "See you at the next school day!");
+        timerEl.innerHTML = "See you at the next school day!";
         timerEl.classList.remove('hidden');
       }
     } else {
       displayMessage(clockDisplay, "Enjoy Your Break!");
       clockLabel.innerHTML = "SCHOOL'S OUT";
-      setContentWithNumberAnimation(timerEl, "Have a great break!");
+      timerEl.innerHTML = "Have a great break!";
       timerEl.classList.remove('hidden');
     }
     return;
@@ -658,7 +626,7 @@ function updateClock() {
     if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
     const nextName = next ? `${next.name}<br>${format(next.start)} - ${format(next.end)}` : "School Day Complete";
-    setContentWithNumberAnimation(timerEl, `Current: <b>${current.name}</b><br>Next: ${nextName}`);
+    timerEl.innerHTML = `Current: <b>${current.name}</b><br>Next: ${nextName}`;
     timerEl.classList.remove('hidden');
     } else {
       const firstPeriod = today[0];
@@ -686,7 +654,7 @@ function updateClock() {
         if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
         if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
-      setContentWithNumberAnimation(timerEl, `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`);
+      timerEl.innerHTML = `Next: <b>${firstPeriod.name}</b><br>${format(firstPeriod.start)} - ${format(firstPeriod.end)}`;
       timerEl.classList.remove('hidden');
     } else if (now >= lastPeriod.end) {
       const nextSchoolStartTime = getNextSchoolDayStartTime();
@@ -729,18 +697,18 @@ function updateClock() {
           if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
           if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
           clockLabel.innerHTML = "UNTIL NEXT SCHOOL DAY";
-          setContentWithNumberAnimation(timerEl, `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`);
+          timerEl.innerHTML = `Next school day: ${nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
           timerEl.classList.remove('hidden');
         } else {
           displayMessage(clockDisplay, "See You Soon!");
           clockLabel.innerHTML = "SCHOOL IS OVER";
-          setContentWithNumberAnimation(timerEl, "See you tomorrow!");
+          timerEl.innerHTML = "See you tomorrow!";
           timerEl.classList.remove('hidden');
         }
       } else {
         displayMessage(clockDisplay, "Enjoy Your Break!");
         clockLabel.innerHTML = "SCHOOL'S OUT";
-        setContentWithNumberAnimation(timerEl, "Have a great break!");
+        timerEl.innerHTML = "Have a great break!";
         timerEl.classList.remove('hidden');
       }
       } else {
@@ -768,7 +736,7 @@ function updateClock() {
           if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
           if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
         clockLabel.innerHTML = "UNTIL NEXT PERIOD";
-        setContentWithNumberAnimation(timerEl, `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`);
+        timerEl.innerHTML = `Next: <b>${nextPeriod.name}</b><br>${format(nextPeriod.start)} - ${format(nextPeriod.end)}`;
         timerEl.classList.remove('hidden');
       } else {
         displayMessage(clockDisplay, "--:--:--");
