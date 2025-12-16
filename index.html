@@ -432,7 +432,6 @@ function displayTimeBlocks(container, data) {
   
   let html = '';
   if (data.days !== undefined) {
-    const daysVal = data.days.toString();
     html += `<div class="time-block"><span id="${daysId}" class="time-value">--</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
   }
   if (data.hours !== undefined) {
@@ -444,27 +443,23 @@ function displayTimeBlocks(container, data) {
   
   if (data.days !== undefined) {
     const daysEl = document.getElementById(daysId);
-    if (daysEl) {
-      if (prevDays) daysEl.dataset.previousText = prevDays;
-      updateRollingText(daysEl, data.days.toString());
+    if (daysEl && prevDays) {
+      daysEl.dataset.previousText = prevDays;
     }
   }
   if (data.hours !== undefined) {
     const hoursEl = document.getElementById(hoursId);
-    if (hoursEl) {
-      if (prevHours) hoursEl.dataset.previousText = prevHours;
-      updateRollingText(hoursEl, data.hours.toString().padStart(2, '0'));
+    if (hoursEl && prevHours) {
+      hoursEl.dataset.previousText = prevHours;
     }
   }
   const minutesEl = document.getElementById(minutesId);
-  if (minutesEl) {
-    if (prevMinutes) minutesEl.dataset.previousText = prevMinutes;
-    updateRollingText(minutesEl, data.minutes.toString().padStart(2, '0'));
+  if (minutesEl && prevMinutes) {
+    minutesEl.dataset.previousText = prevMinutes;
   }
   const secondsEl = document.getElementById(secondsId);
-  if (secondsEl) {
-    if (prevSeconds) secondsEl.dataset.previousText = prevSeconds;
-    updateRollingText(secondsEl, data.seconds.toString().padStart(2, '0'));
+  if (secondsEl && prevSeconds) {
+    secondsEl.dataset.previousText = prevSeconds;
   }
 }
 
