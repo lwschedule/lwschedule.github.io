@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/images/logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4b2e83">
   <style>
 :root {
   --primary: #4b2e83;
@@ -603,7 +605,7 @@ function updateClock() {
     const hoursElAfter = document.getElementById('clockDisplay-hours');
     const minutesElAfter = document.getElementById('clockDisplay-minutes');
     const secondsElAfter = document.getElementById('clockDisplay-seconds');
-    if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+    if (hoursElAfter && h > 0) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
     if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
     if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
     clockLabel.innerHTML = `TIME REMAINING - ${current.name}`;
@@ -632,7 +634,7 @@ function updateClock() {
         const hoursElAfter = document.getElementById('clockDisplay-hours');
         const minutesElAfter = document.getElementById('clockDisplay-minutes');
         const secondsElAfter = document.getElementById('clockDisplay-seconds');
-        if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+        if (hoursElAfter && h > 0) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
         if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
         if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
       clockLabel.innerHTML = "UNTIL SCHOOL STARTS";
@@ -715,7 +717,7 @@ function updateClock() {
           const hoursElAfter = document.getElementById('clockDisplay-hours');
           const minutesElAfter = document.getElementById('clockDisplay-minutes');
           const secondsElAfter = document.getElementById('clockDisplay-seconds');
-          if (hoursElAfter) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
+          if (hoursElAfter && h > 0) updateRollingText(hoursElAfter, h.toString().padStart(2,'0'));
           if (minutesElAfter) updateRollingText(minutesElAfter, m.toString().padStart(2,'0'));
           if (secondsElAfter) updateRollingText(secondsElAfter, s.toString().padStart(2,'0'));
         clockLabel.innerHTML = "UNTIL NEXT PERIOD";
@@ -746,6 +748,19 @@ function initApp() {
   }
 }
 initApp();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch((error) => {
+        console.log('ServiceWorker registration failed');
+      });
+  });
+}
 </script>
 </body>
 </html>

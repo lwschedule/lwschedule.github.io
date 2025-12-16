@@ -53,7 +53,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 #holidayCountdownLabel { font-size: 0.8em; margin-bottom: 10px; color: white; opacity: 0.9; font-weight: 700; }
 #holidayCountdownTime { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
 .countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1.1; text-align: center; }
+.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1.1; text-align: center; position: relative; overflow: hidden; }
 .countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }

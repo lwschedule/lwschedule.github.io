@@ -1,0 +1,18 @@
+{
+  "name": "LW Schedule",
+  "short_name": "LW Schedule",
+  "description": "A fast, clean, dark-themed schedule viewer built for LW students",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#4b2e83",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
