@@ -2,7 +2,8 @@ const CACHE_NAME = 'lwschedule-v1.9.2';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/images/logo.png',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
   '/today/index.html',
   '/week/index.html',
   '/month/index.html',
