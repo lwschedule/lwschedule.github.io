@@ -165,8 +165,7 @@ oldText = oldText || newText.replace(/./g, '0');
 }
 if (oldText === newText) return;
 if (newIsNumeric && /^\d+$/.test(oldText)) {
-const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
-element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+element.innerHTML = `<span class="digit-roller" style="width: 100%; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
 element.dataset.previousText = newText;
 return;
 }
