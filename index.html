@@ -808,7 +808,7 @@
       const schedules = getSchedules(nowDate);
       const today = schedules[weekday];
 
-      if (!today || today.length === 0) {
+      if (!today || today.length === 0 || now > today[today.length - 1].end) {
         const nextSchoolStartTime = getNextSchoolDayStartTime();
 
         if (nextSchoolStartTime) {
