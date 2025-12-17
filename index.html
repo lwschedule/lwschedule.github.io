@@ -831,12 +831,42 @@
             const hasDays = daysEl !== null;
             const hasHours = hoursEl !== null;
 
-            const needsStructureChange = clockDisplay.children.length === 0 ||
-                                          (needsDays && !hasDays) ||
-                                          (!needsDays && hasDays) ||
-                                          (needsHours && !hasHours && !needsDays) ||
-                                          (!needsHours && hasHours && !needsDays);
+const needsStructureChange = true;
 
             if (needsStructureChange) {
               if (d > 0) {
-                displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s
+                displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+              } else if (h > 0) {
+                displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+              } else {
+                displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+              }
+            }
+          } else {
+            clockLabel.textContent = 'SCHOOL IN SESSION';
+            displayMessage(clockDisplay, 'School is in session');
+            timerEl.classList.remove('hidden');
+            timerEl.innerHTML = 'No countdown available during school hours.';
+          }
+        } else {
+          clockLabel.textContent = 'SCHOOL IN SESSION';
+          displayMessage(clockDisplay, 'School is in session');
+          timerEl.classList.remove('hidden');
+          timerEl.innerHTML = 'No countdown available during school hours.';
+        }
+      }
+    }
+
+    function updateTheme() {
+      const theme = localStorage.getItem('theme') || 'purple';
+      document.body.className = `theme-${theme}`;
+    }
+
+    checkSetupComplete();
+    loadLunchPreferences();
+    updateTheme();
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
