@@ -238,6 +238,8 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      width: 100%;
+      display: block;
     }
 
     .time-label {
@@ -435,8 +437,7 @@
       if (oldText === newText) return;
 
       if (newIsNumeric && /^\d+$/.test(oldText)) {
-        const maxWidth = Math.max(oldText.length, newText.length) * 0.6;
-        element.innerHTML = `<span class="digit-roller" style="width: ${maxWidth}em; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+        element.innerHTML = `<span class="digit-roller" style="width: 100%; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
         element.dataset.previousText = newText;
         return;
       }
@@ -685,11 +686,23 @@
       const minutesEl = document.getElementById(minutesId);
       if (minutesEl && prevMinutes) {
         minutesEl.dataset.previousText = prevMinutes;
+        updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
       }
 
       const secondsEl = document.getElementById(secondsId);
       if (secondsEl && prevSeconds) {
         secondsEl.dataset.previousText = prevSeconds;
+        updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
+      }
+
+      if (data.days !== undefined) {
+        const daysEl = document.getElementById(daysId);
+        if (daysEl) updateRollingText(daysEl, data.days.toString());
+      }
+
+      if (data.hours !== undefined) {
+        const hoursEl = document.getElementById(hoursId);
+        if (hoursEl) updateRollingText(hoursEl, data.hours.toString().padStart(2,'0'));
       }
     }
 
@@ -842,6 +855,11 @@ const needsStructureChange = true;
                 displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
               }
             }
+
+            // Show next school day info
+            const nextDay = nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            timerEl.classList.remove('hidden');
+            timerEl.innerHTML = `Next school day on ${nextDay}`;
           } else {
             clockLabel.textContent = 'SCHOOL IN SESSION';
             displayMessage(clockDisplay, 'School is in session');
