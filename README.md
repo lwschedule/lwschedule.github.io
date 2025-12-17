@@ -96,7 +96,9 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Two-minute warnings before class starts
 * Will be able to skip in setup
 
-- Main timer is just dashes when the remaining time in a class is greater than 1 hr
+- Add sliding number animation to holidays and main timer. it shoud basically slide the old number up and fade out and slide the new number it and fade in
+- Main timer is frozen when time remaining is under 1 hr
+- Add support for installing browser PWA app
 
 ---
 
