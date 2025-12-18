@@ -97,6 +97,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Will be able to skip in setup
 
 - Main timer is just dashes when the remaining time in a class is greater than 1 hr
+- next period is gone for some reason
 
 ---
 
