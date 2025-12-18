@@ -234,7 +234,7 @@
       font-size: clamp(1.8em, 6vw, 2.8em);
       font-weight: 700;
       color: white;
-      line-height: 1.1;
+      line-height: 1;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -810,6 +810,15 @@
       return null;
     }
 
+    function getCurrentPeriod(schedule, now) {
+      for (let i = 0; i < schedule.length; i++) {
+        if (now >= schedule[i].start && now < schedule[i].end) {
+          return schedule[i];
+        }
+      }
+      return null;
+    }
+
     function updateClock() {
       const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
       const clockDisplay = document.getElementById('clockDisplay');
@@ -821,7 +830,66 @@
       const schedules = getSchedules(nowDate);
       const today = schedules[weekday];
 
-      if (!today || today.length === 0 || now > today[today.length - 1].end) {
+      if (!today || today.length === 0) {
+        // No school today
+        clockLabel.textContent = 'NO SCHOOL';
+        displayMessage(clockDisplay, 'No school today');
+        timerEl.classList.add('hidden');
+        return;
+      }
+
+      const currentPeriod = getCurrentPeriod(today, now);
+
+      if (currentPeriod) {
+        // In a class - show time remaining in current period
+        const remainingMinutes = currentPeriod.end - now - 1; // -1 for the current minute
+        const remainingSeconds = 59 - secs;
+
+        if (remainingMinutes < 0) {
+          // Period just ended
+          clockLabel.textContent = 'PERIOD ENDING';
+          displayTimeBlocks(clockDisplay, { minutes: 0, seconds: remainingSeconds < 0 ? 0 : remainingSeconds });
+        } else {
+          const h = Math.floor(remainingMinutes / 60);
+          const m = remainingMinutes % 60;
+          const s = remainingSeconds;
+
+          clockLabel.textContent = currentPeriod.name.toUpperCase();
+
+          if (h > 0) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          } else {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          }
+        }
+
+        timerEl.classList.add('hidden');
+      } else if (now < today[0].start) {
+        // Before school starts
+        const firstPeriod = today[0];
+        const startTime = new Date(nowDate);
+        startTime.setHours(0, firstPeriod.start, 0, 0);
+        const diff = startTime.getTime() - nowDate.getTime();
+
+        if (diff > 0) {
+          const totalSeconds = Math.floor(diff / 1000);
+          const s = totalSeconds % 60;
+          const totalMinutes = Math.floor(totalSeconds / 60);
+          const m = totalMinutes % 60;
+          const h = Math.floor(totalMinutes / 60);
+
+          clockLabel.textContent = 'UNTIL SCHOOL STARTS';
+
+          if (h > 0) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          } else {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          }
+
+          timerEl.classList.add('hidden');
+        }
+      } else if (now > today[today.length - 1].end) {
+        // After school ends - show time to next school day
         const nextSchoolStartTime = getNextSchoolDayStartTime();
 
         if (nextSchoolStartTime) {
@@ -836,41 +904,41 @@
             const h = totalHours % 24;
             const d = Math.floor(totalHours / 24);
 
-            const needsDays = d > 0;
-            const needsHours = h > 0 || needsDays;
-
-            const daysEl = document.getElementById('clockDisplay-days');
-            const hoursEl = document.getElementById('clockDisplay-hours');
-            const hasDays = daysEl !== null;
-            const hasHours = hoursEl !== null;
-
-const needsStructureChange = true;
-
-            if (needsStructureChange) {
-              if (d > 0) {
-                displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-              } else if (h > 0) {
-                displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-              } else {
-                displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-              }
+            if (d > 0) {
+              displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+            } else if (h > 0) {
+              displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+            } else {
+              displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
             }
 
             // Show next school day info
             const nextDay = nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            clockLabel.textContent = 'NEXT SCHOOL DAY';
             timerEl.classList.remove('hidden');
-            timerEl.innerHTML = `Next school day on ${nextDay}`;
-          } else {
-            clockLabel.textContent = 'SCHOOL IN SESSION';
-            displayMessage(clockDisplay, 'School is in session');
-            timerEl.classList.remove('hidden');
-            timerEl.innerHTML = 'No countdown available during school hours.';
+            timerEl.innerHTML = `${nextDay}`;
           }
-        } else {
-          clockLabel.textContent = 'SCHOOL IN SESSION';
-          displayMessage(clockDisplay, 'School is in session');
-          timerEl.classList.remove('hidden');
-          timerEl.innerHTML = 'No countdown available during school hours.';
+        }
+      } else {
+        // Between periods
+        const nextPeriod = getNextPeriodStart(today, now);
+        if (nextPeriod) {
+          const remainingMinutes = nextPeriod.start - now - 1;
+          const remainingSeconds = 59 - secs;
+
+          const h = Math.floor(remainingMinutes / 60);
+          const m = remainingMinutes % 60;
+          const s = remainingSeconds;
+
+          clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
+
+          if (h > 0) {
+            displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+          } else {
+            displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
+          }
+
+          timerEl.classList.add('hidden');
         }
       }
     }
