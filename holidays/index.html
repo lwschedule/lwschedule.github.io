@@ -158,12 +158,12 @@ oldText = element.textContent;
 }
 oldText = (oldText || '').trim();
 newText = (newText || '').trim();
+if (oldText === newText) return;
 const newIsNumeric = /^\d+$/.test(newText);
 const oldIsNumeric = /^\d+$/.test(oldText);
 if (newIsNumeric && !oldIsNumeric) {
 oldText = oldText || newText.replace(/./g, '0');
 }
-if (oldText === newText) return;
 if (newIsNumeric && /^\d+$/.test(oldText)) {
 let rollerWidth = '100%';
 element.innerHTML = `<span class="digit-roller" style="width: ${rollerWidth}; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
