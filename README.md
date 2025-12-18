@@ -108,10 +108,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=mit&logoColor=white)
 
-* Animations via CSS keyframes
-* Persistent settings via `localStorage`
-* Responsive design with CSS Grid and Flexbox
-
 ---
 
 ## 📜 License
