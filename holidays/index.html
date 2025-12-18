@@ -53,7 +53,7 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 #holidayCountdownLabel { font-size: 0.8em; margin-bottom: 10px; color: white; opacity: 0.9; font-weight: 700; }
 #holidayCountdownTime { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
 .countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1.1; text-align: center; position: relative; overflow: hidden; width: 100%; display: block; }
+.countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1; text-align: center; position: relative; overflow: hidden; width: 100%; display: block; }
 .countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
@@ -118,7 +118,7 @@ const holidays = [
 { name: "Thanksgiving Break", date: new Date(2025, 10, 27), displayDate: "November 27-29, 2025", isWeekend: true },
 { name: "Winter Break", date: new Date(2025, 11, 20), displayDate: "December 20, 2025 - January 4, 2026", isWeekend: true },
 { name: "MLK Jr. Day", date: new Date(2026, 0, 19), displayDate: "January 19, 2026", isWeekend: true },
-{ name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-16, 2026", isWeekend: true },
+{ name: "Mid-Winter Break", date: new Date(2026, 1, 12), displayDate: "February 12-15, 2026", isWeekend: true },
 { name: "Presidents Day", date: new Date(2026, 1, 16), displayDate: "February 16, 2026", isWeekend: true },
 { name: "LEAP Day", date: new Date(2026, 2, 13), displayDate: "March 13, 2026", isWeekend: false },
 { name: "Spring Break", date: new Date(2026, 3, 13), displayDate: "April 13-17, 2026", isWeekend: true },
@@ -166,9 +166,6 @@ oldText = oldText || newText.replace(/./g, '0');
 if (oldText === newText) return;
 if (newIsNumeric && /^\d+$/.test(oldText)) {
 let rollerWidth = '100%';
-if (element.id && element.id.includes('days')) {
-  rollerWidth = '3ch';
-}
 element.innerHTML = `<span class="digit-roller" style="width: ${rollerWidth}; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
 element.dataset.previousText = newText;
 return;
@@ -364,7 +361,7 @@ if (checkTime >= start && checkTime <= end) return holiday.name;
 }
 if (holiday.name === "Mid-Winter Break") {
 const start = new Date(2026, 1, 12).getTime();
-const end = new Date(2026, 1, 16).getTime();
+const end = new Date(2026, 1, 15).getTime();
 if (checkTime >= start && checkTime <= end) return holiday.name;
 }
 if (holiday.name === "Spring Break") {
