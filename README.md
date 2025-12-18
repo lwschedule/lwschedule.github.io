@@ -102,10 +102,14 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 ## 📝 Tech Stack
 
-* **HTML / CSS / JavaScript (Vanilla)**
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=mit&logoColor=white)
+
 * Animations via CSS keyframes
 * Persistent settings via `localStorage`
-* Hosted with **GitHub Pages**
 * Responsive design with CSS Grid and Flexbox
 
 ---
