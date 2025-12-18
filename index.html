@@ -437,7 +437,11 @@
       if (oldText === newText) return;
 
       if (newIsNumeric && /^\d+$/.test(oldText)) {
-        element.innerHTML = `<span class="digit-roller" style="width: 100%; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+        let rollerWidth = '100%';
+        if (element.id && element.id.includes('days')) {
+          rollerWidth = '3ch';
+        }
+        element.innerHTML = `<span class="digit-roller" style="width: ${rollerWidth}; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
         element.dataset.previousText = newText;
         return;
       }
