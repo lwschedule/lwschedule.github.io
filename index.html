@@ -916,7 +916,7 @@
             const nextDay = nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
             clockLabel.textContent = 'NEXT SCHOOL DAY';
             timerEl.classList.remove('hidden');
-            timerEl.innerHTML = `${nextDay}`;
+            timerEl.innerHTML = `Next School Day On: ${nextDay}`;
           }
         }
       } else {
