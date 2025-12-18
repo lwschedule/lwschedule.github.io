@@ -34,7 +34,7 @@ body::-webkit-scrollbar { display: none; }
 @keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
 @keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
-.digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
+.digit-roller { display: block; position: relative; overflow: hidden; line-height: 1em; height: 1em; width: 100%; }
 .digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; top: 0; height: 1em; line-height: 1em; text-align: center; will-change: transform, opacity; }
 .digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
 .digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
