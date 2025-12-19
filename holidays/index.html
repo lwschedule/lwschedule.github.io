@@ -50,11 +50,11 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .holidayTable tr:last-child td { border-bottom: none; }
 .holidayTable tr:hover { background: #2a2a2a; }
 #holidayCountdown { font-weight: 700; text-align: center; color: white; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift 8s ease infinite; padding: 20px; border-radius: 16px; box-shadow: var(--glow); margin: 20px 0; }
-#holidayCountdownLabel { font-size: 0.8em; margin-bottom: 10px; color: white; opacity: 0.9; font-weight: 700; }
+#holidayCountdownLabel { font-size: 1.2em; margin-bottom: 10px; color: white; opacity: 0.9; font-weight: 700; }
 #holidayCountdownTime { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 15px; }
 .countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1; text-align: center; position: relative; overflow: hidden; width: 100%; display: block; }
-.countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
+.countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; text-align: center; }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
   .pageContainer { padding: 20px 0 0 0; }
@@ -372,6 +372,19 @@ if (checkTime >= start && checkTime <= end) return holiday.name;
 }
 return null;
 }
+function getHolidayEndDate(holidayName) {
+if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
+if (holidayName === "Winter Break") return new Date(2026, 0, 4, 23, 59, 59);
+if (holidayName === "Mid-Winter Break") return new Date(2026, 1, 15, 23, 59, 59);
+if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
+// For single-day holidays, return end of that day
+for (const holiday of holidays) {
+if (holiday.name === holidayName) {
+return new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate(), 23, 59, 59);
+}
+}
+return null;
+}
 function getScheduleSummary(schedules, dayName) {
 const schedule = schedules[dayName];
 if (!schedule || schedule.length === 0) return 'No School';
@@ -413,6 +426,33 @@ const countdownMsg = document.getElementById('holidayCountdownMessage');
 const countdownLabel = document.getElementById('holidayCountdownLabel');
 if (!countdownGrid || !countdownMsg || !countdownLabel) return;
 const now = new Date();
+const currentHoliday = getHolidayForDate(now);
+if (currentHoliday) {
+const holidayEnd = getHolidayEndDate(currentHoliday);
+if (holidayEnd && holidayEnd > now) {
+countdownGrid.style.display = 'grid';
+countdownMsg.style.display = 'none';
+const diff = holidayEnd - now;
+const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+countdownLabel.innerHTML = `UNTIL END ${currentHoliday}`;
+const daysEl = document.getElementById('countdown-days');
+const hoursEl = document.getElementById('countdown-hours');
+const minutesEl = document.getElementById('countdown-minutes');
+const secondsEl = document.getElementById('countdown-seconds');
+if (daysEl) updateRollingText(daysEl, days.toString());
+if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
+if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
+if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
+} else {
+countdownGrid.style.display = 'none';
+countdownMsg.style.display = 'block';
+updateRollingText(countdownMsg, 'Holiday Ended');
+countdownLabel.innerHTML = `ENJOYED ${currentHoliday}`;
+}
+} else {
 const upcoming = holidays.find(h => h.date > now);
 if (upcoming) {
 const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
@@ -445,6 +485,7 @@ countdownGrid.style.display = 'none';
 countdownMsg.style.display = 'block';
 updateRollingText(countdownMsg, 'End of school year');
 countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
+}
 }
 }
 function loadThemeOnPage() {
