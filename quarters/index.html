@@ -9,148 +9,92 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4b2e83">
+  <link rel="stylesheet" href="/common.css">
   <style>
-:root {
-  --primary: #4b2e83;
-  --primary-light: #6a4fb3;
-  --text-light: #e8e8e8;
-  --bg-dark: #1a1a1a;
-  --card-dark: #262626;
-  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
-}
-body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
-body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
-body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
-body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
-body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
-body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
-body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
-body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
-* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
-body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
-body::-webkit-scrollbar { display: none; }
-@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
-@keyframes gradientShift4 { 0% { background-position: 25% 75%; } 40% { background-position: 75% 25%; } 80% { background-position: 0% 100%; } 100% { background-position: 25% 75%; } }
-@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
-.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
-.backBtn:hover { transform: scale(1.05); }
-.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.academic-term-list { display: flex; flex-direction: column; gap: 15px; }
-.term-card { background: #1f1f1f; border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
-.term-card.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; box-shadow: var(--glow); }
-.term-info { flex: 1; min-width: 150px; }
-.term-name { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; }
-.term-dates { font-size: 0.9em; opacity: 0.8; }
-.term-card.highlight .term-dates { opacity: 0.9; }
-.term-countdown { flex-shrink: 0; }
-.term-countdown-block { text-align: right; }
-.term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
-.term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
-.term-card.highlight .countdown-value { color: white; }
-.term-card.highlight .countdown-label { color: white; opacity: 0.9; }
-.term-completed-badge { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift4 8s ease infinite; color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; }
-@media (max-width: 600px) {
-  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
-  .pageContainer { padding: 20px 0 0 0; }
-}
+    .academic-term-list { display: flex; flex-direction: column; gap: 15px; }
+    .term-card { background: #1f1f1f; border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
+    .term-card.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; box-shadow: var(--glow); }
+    .term-info { flex: 1; min-width: 150px; }
+    .term-name { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; }
+    .term-dates { font-size: 0.9em; opacity: 0.8; }
+    .term-card.highlight .term-dates { opacity: 0.9; }
+    .term-countdown { flex-shrink: 0; }
+    .term-countdown-block { text-align: right; }
+    .term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
+    .term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+    .term-card.highlight .countdown-value { color: white; }
+    .term-card.highlight .countdown-label { color: white; opacity: 0.9; }
+    .term-completed-badge { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift4 8s ease infinite; color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; }
+    @keyframes gradientShift4 { 0% { background-position: 25% 75%; } 40% { background-position: 75% 25%; } 80% { background-position: 0% 100%; } 100% { background-position: 25% 75%; } }
   </style>
 </head>
 <body>
   <a href="/" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>Quarters & Semesters</h2>
-<h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>
-<div id="quartersList" class="academic-term-list">
-  <p>Loading quarters...</p>
-</div>
-
-<h3 style="color: white; margin-top: 30px; margin-bottom: 10px;">Semesters 2025-26</h3>
-<div id="semestersList" class="academic-term-list">
-  <p>Loading semesters...</p>
-</div>
+    <h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>
+    <div id="quartersList" class="academic-term-list">
+      <p>Loading quarters...</p>
+    </div>
+    <h3 style="color: white; margin-top: 30px; margin-bottom: 10px;">Semesters 2025-26</h3>
+    <div id="semestersList" class="academic-term-list">
+      <p>Loading semesters...</p>
+    </div>
   </div>
+  <script src="/common.js"></script>
   <script>
-let quartersInterval = null;
-const academicTerms = {
-quarters: [
-{ name: "1st Quarter", start: new Date(2025, 8, 2, 0, 0, 0), end: new Date(2025, 10, 4, 23, 59, 59) },
-{ name: "2nd Quarter", start: new Date(2025, 10, 5, 0, 0, 0), end: new Date(2026, 0, 23, 23, 59, 59) },
-{ name: "3rd Quarter", start: new Date(2026, 0, 24, 0, 0, 0), end: new Date(2026, 3, 3, 23, 59, 59) },
-{ name: "4th Quarter", start: new Date(2026, 3, 4, 0, 0, 0), end: new Date(2026, 5, 17, 23, 59, 59) }
-],
-semesters: [
-{ name: "1st Semester", start: new Date(2025, 8, 2, 0, 0, 0), end: new Date(2026, 0, 23, 23, 59, 59) },
-{ name: "2nd Semester", start: new Date(2026, 0, 24, 0, 0, 0), end: new Date(2026, 5, 17, 23, 59, 59) }
-]
-};
-function checkSetupComplete() {
-const theme = localStorage.getItem('theme');
-const gradient = localStorage.getItem('gradient');
-const lunch = localStorage.getItem('lunchPreferences');
-const packup = localStorage.getItem('pack-up-time');
-const setupComplete = localStorage.getItem('setup-complete');
-if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !gradient || !lunch || packup === null) {
-window.location.href = '/setup';
-return false;
-}
-}
-return true;
-}
-function formatTermDate(date) {
-return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-function getCountdownHTML(now, start, end) {
-const nowTime = now.getTime();
-const startTime = start.getTime();
-const endTime = end.getTime();
-if (nowTime > endTime) return `<div class="term-completed-badge">Completed</div>`;
-let diff, label;
-if (nowTime < startTime) { diff = startTime - nowTime; label = "Starts in"; }
-else { diff = endTime - nowTime; label = "Ends in"; }
-const totalSeconds = Math.floor(diff / 1000);
-const totalMinutes = Math.floor(totalSeconds / 60);
-const totalHours = Math.floor(totalMinutes / 60);
-const totalDays = Math.floor(totalHours / 24);
-let value, unit;
-if (totalDays > 0) { value = totalDays; unit = totalDays === 1 ? "Day" : "Days"; }
-else if (totalHours > 0) { value = totalHours; unit = totalHours === 1 ? "Hour" : "Hours"; }
-else if (totalMinutes > 0) { value = totalMinutes; unit = totalMinutes === 1 ? "Minute" : "Minutes"; }
-else { value = totalSeconds; unit = totalSeconds === 1 ? "Second" : "Seconds"; }
-return `<div class="term-countdown-block"><span class="countdown-label">${label}</span><span class="countdown-value">${value} ${unit}</span></div>`;
-}
-function updateQuartersAndSemesters() {
-const now = new Date();
-const quartersListEl = document.getElementById('quartersList');
-const semestersListEl = document.getElementById('semestersList');
-if (!quartersListEl || !semestersListEl) {
-if (quartersInterval) { clearInterval(quartersInterval); quartersInterval = null; }
-return;
-}
-let quartersHTML = '';
-academicTerms.quarters.forEach(term => {
-const isActive = now >= term.start && now <= term.end;
-quartersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
-});
-let semestersHTML = '';
-academicTerms.semesters.forEach(term => {
-const isActive = now >= term.start && now <= term.end;
-semestersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
-});
-quartersListEl.innerHTML = quartersHTML;
-semestersListEl.innerHTML = semestersHTML;
-}
-function loadThemeOnPage() {
-  const theme = localStorage.getItem('theme') || 'purple';
-  document.body.className = `theme-${theme}`;
-}
-checkSetupComplete();
-loadThemeOnPage();
-updateQuartersAndSemesters();
-if (quartersInterval) clearInterval(quartersInterval);
-quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
-</script>
+    let quartersInterval = null;
+    function formatTermDate(date) {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function getCountdownHTML(now, start, end) {
+      const nowTime = now.getTime();
+      const startTime = start.getTime();
+      const endTime = end.getTime();
+      if (nowTime > endTime) return `<div class="term-completed-badge">Completed</div>`;
+      let diff, label;
+      if (nowTime < startTime) { diff = startTime - nowTime; label = "Starts in"; }
+      else { diff = endTime - nowTime; label = "Ends in"; }
+      const totalSeconds = Math.floor(diff / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const totalHours = Math.floor(totalMinutes / 60);
+      const totalDays = Math.floor(totalHours / 24);
+      let value, unit;
+      if (totalDays > 0) { value = totalDays; unit = totalDays === 1 ? "Day" : "Days"; }
+      else if (totalHours > 0) { value = totalHours; unit = totalHours === 1 ? "Hour" : "Hours"; }
+      else if (totalMinutes > 0) { value = totalMinutes; unit = totalMinutes === 1 ? "Minute" : "Minutes"; }
+      else { value = totalSeconds; unit = totalSeconds === 1 ? "Second" : "Seconds"; }
+      return `<div class="term-countdown-block"><span class="countdown-label">${label}</span><span class="countdown-value">${value} ${unit}</span></div>`;
+    }
+    function updateQuartersAndSemesters() {
+      const now = new Date();
+      const quartersListEl = document.getElementById('quartersList');
+      const semestersListEl = document.getElementById('semestersList');
+      if (!quartersListEl || !semestersListEl) {
+        if (quartersInterval) { clearInterval(quartersInterval); quartersInterval = null; }
+        return;
+      }
+      let quartersHTML = '';
+      academicTerms.quarters.forEach(term => {
+        const isActive = now >= term.start && now <= term.end;
+        quartersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
+      });
+      let semestersHTML = '';
+      academicTerms.semesters.forEach(term => {
+        const isActive = now >= term.start && now <= term.end;
+        semestersHTML += `<div class="term-card ${isActive ? 'highlight' : ''}"><div class="term-info"><div class="term-name">${term.name}</div><div class="term-dates">${formatTermDate(term.start)} — ${formatTermDate(term.end)}</div></div><div class="term-countdown">${getCountdownHTML(now, term.start, term.end)}</div></div>`;
+      });
+      quartersListEl.innerHTML = quartersHTML;
+      semestersListEl.innerHTML = semestersHTML;
+    }
+    (async () => {
+      await initApp();
+      updateQuartersAndSemesters();
+      if (quartersInterval) clearInterval(quartersInterval);
+      quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
+    })();
+  </script>
 </body>
 </html>

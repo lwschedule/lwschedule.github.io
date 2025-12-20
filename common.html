@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monthly Calendar - LW Schedule</title>
+  <title>LW Schedule</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
@@ -11,27 +11,7 @@
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#4b2e83">
-  <link rel="stylesheet" href="/common.css">
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
-  <div class="pageContainer">
-    <h2>Monthly Calendar</h2>
-    <div class="calendar-nav">
-      <button id="prevMonth">← Previous</button>
-      <h3 id="currentMonthYear"></h3>
-      <button id="nextMonth">Next →</button>
-    </div>
-    <div class="calendar">
-      <div class="calendar-grid" id="calendarGrid"></div>
-    </div>
-  </div>
-  <script src="/common.js"></script>
-  <script>
-    (async () => {
-      await initApp();
-      renderCalendar();
-    })();
-  </script>
 </body>
 </html>

@@ -9,57 +9,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4b2e83">
+  <link rel="stylesheet" href="/common.css">
   <style>
-:root {
-  --primary: #4b2e83;
-  --primary-light: #6a4fb3;
-  --text-light: #e8e8e8;
-  --bg-dark: #1a1a1a;
-  --card-dark: #262626;
-  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
-}
-body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
-body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
-body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
-body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
-body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
-body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
-body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
-body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
-* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
-body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
-body::-webkit-scrollbar { display: none; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
-.pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.setup-section { background: #1f1f1f; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
-.setup-section:nth-of-type(1) { animation-delay: 0.1s; }
-.setup-section:nth-of-type(2) { animation-delay: 0.2s; }
-.setup-section:nth-of-type(3) { animation-delay: 0.3s; }
-.setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
-.setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
-.themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
-.themeOption { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; }
-.themeOption:hover .themeCircle { transform: scale(1.1); }
-.themeCircle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-.themeOption.selected .themeCircle { border-color: white; box-shadow: 0 0 20px currentColor; }
-.themeName { font-size: 0.9em; color: var(--text-light); font-weight: 700; }
-.lunchRow { margin-bottom: 15px; }
-.lunchRow label { display: block; margin-bottom: 8px; font-weight: 700; }
-.lunchButtons { display: flex; gap: 10px; justify-content: center; }
-.lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
-.lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
-.lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
-.lunchBtn:disabled { opacity: 1; cursor: default; }
-.pack-up-presets { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.pack-up-preset { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
-.pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
-.pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
-.completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.3em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 30px; }
-.completeBtn:hover { transform: scale(1.05); }
-@media (max-width: 600px) {
-  .themeGrid { grid-template-columns: repeat(2, 1fr); }
-}
+    .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
+    .setup-section { background: #1f1f1f; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
+    .setup-section:nth-of-type(1) { animation-delay: 0.1s; }
+    .setup-section:nth-of-type(2) { animation-delay: 0.2s; }
+    .setup-section:nth-of-type(3) { animation-delay: 0.3s; }
+    .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
+    .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
+    .themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
+    .themeOption { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; }
+    .themeOption:hover .themeCircle { transform: scale(1.1); }
+    .themeCircle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+    .themeOption.selected .themeCircle { border-color: white; box-shadow: 0 0 20px currentColor; }
+    .themeName { font-size: 0.9em; color: var(--text-light); font-weight: 700; }
+    .lunchRow { margin-bottom: 15px; }
+    .lunchRow label { display: block; margin-bottom: 8px; font-weight: 700; }
+    .lunchButtons { display: flex; gap: 10px; justify-content: center; }
+    .lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .lunchBtn:disabled { opacity: 1; cursor: default; }
+    .pack-up-presets { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .pack-up-preset { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.3em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 30px; }
+    .completeBtn:hover { transform: scale(1.05); }
+    @media (max-width: 600px) { .themeGrid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body class="theme-purple">
@@ -67,167 +47,157 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
     <h2>Welcome to LW Schedule!</h2>
     <p class="setup-description">Let's set up your personalized schedule experience.</p>
 
-<div class="setup-section">
-  <h3>1. Choose Your Theme</h3>
-  <div class="themeGrid">
-    <div class="themeOption selected" data-theme="purple">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
-      <span class="themeName">Purple</span>
+    <div class="setup-section">
+      <h3>1. Choose Your Theme</h3>
+      <div class="themeGrid">
+        <div class="themeOption selected" data-theme="purple">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
+          <span class="themeName">Purple</span>
+        </div>
+        <div class="themeOption" data-theme="red">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div>
+          <span class="themeName">Red</span>
+        </div>
+        <div class="themeOption" data-theme="orange">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div>
+          <span class="themeName">Orange</span>
+        </div>
+        <div class="themeOption" data-theme="yellow">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div>
+          <span class="themeName">Yellow</span>
+        </div>
+        <div class="themeOption" data-theme="green">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
+          <span class="themeName">Green</span>
+        </div>
+        <div class="themeOption" data-theme="blue">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div>
+          <span class="themeName">Blue</span>
+        </div>
+        <div class="themeOption" data-theme="indigo">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div>
+          <span class="themeName">Indigo</span>
+        </div>
+        <div class="themeOption" data-theme="pink">
+          <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div>
+          <span class="themeName">Pink</span>
+        </div>
+      </div>
     </div>
-    <div class="themeOption" data-theme="red">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div>
-      <span class="themeName">Red</span>
-    </div>
-    <div class="themeOption" data-theme="orange">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div>
-      <span class="themeName">Orange</span>
-    </div>
-    <div class="themeOption" data-theme="yellow">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div>
-      <span class="themeName">Yellow</span>
-    </div>
-    <div class="themeOption" data-theme="green">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
-      <span class="themeName">Green</span>
-    </div>
-    <div class="themeOption" data-theme="blue">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div>
-      <span class="themeName">Blue</span>
-    </div>
-    <div class="themeOption" data-theme="indigo">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div>
-      <span class="themeName">Indigo</span>
-    </div>
-    <div class="themeOption" data-theme="pink">
-      <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div>
-      <span class="themeName">Pink</span>
-    </div>
-  </div>
-</div>
 
-<div class="setup-section">
-  <h3>2. Set Your Lunch Preferences</h3>
-  <div class="lunchRow">
-    <label>Monday Lunch:</label>
-    <div class="lunchButtons">
-      <button class="lunchBtn selected" data-day="Monday" data-lunch="A">A Lunch</button>
-      <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch</button>
+    <div class="setup-section">
+      <h3>2. Set Your Lunch Preferences</h3>
+      <div class="lunchRow">
+        <label>Monday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" data-day="Monday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="lunchRow">
+        <label>Tuesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" data-day="Tuesday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="lunchRow">
+        <label>Wednesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" disabled>All School Lunch</button>
+        </div>
+      </div>
+      <div class="lunchRow">
+        <label>Thursday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" data-day="Thursday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="lunchRow">
+        <label>Friday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" data-day="Friday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="lunchRow">
-    <label>Tuesday Lunch:</label>
-    <div class="lunchButtons">
-      <button class="lunchBtn selected" data-day="Tuesday" data-lunch="A">A Lunch</button>
-      <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch</button>
-    </div>
-  </div>
-  <div class="lunchRow">
-    <label>Wednesday Lunch:</label>
-    <div class="lunchButtons">
-      <button class="lunchBtn selected" disabled>All School Lunch</button>
-    </div>
-  </div>
-  <div class="lunchRow">
-    <label>Thursday Lunch:</label>
-    <div class="lunchButtons">
-      <button class="lunchBtn selected" data-day="Thursday" data-lunch="A">A Lunch</button>
-      <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch</button>
-    </div>
-  </div>
-  <div class="lunchRow">
-    <label>Friday Lunch:</label>
-    <div class="lunchButtons">
-      <button class="lunchBtn selected" data-day="Friday" data-lunch="A">A Lunch</button>
-      <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch</button>
-    </div>
-  </div>
-</div>
 
-<div class="setup-section">
-  <h3>3. Pack-Up Reminders</h3>
-  <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
-  <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Notify me minutes before class ends:</label>
-  <div class="pack-up-presets">
-    <button class="pack-up-preset selected" data-value="0">Off</button>
-    <button class="pack-up-preset" data-value="1">1 min</button>
-    <button class="pack-up-preset" data-value="3">3 min</button>
-    <button class="pack-up-preset" data-value="5">5 min</button>
-    <button class="pack-up-preset" data-value="7">7 min</button>
-    <button class="pack-up-preset" data-value="10">10 min</button>
-  </div>
-</div>
+    <div class="setup-section">
+      <h3>3. Pack-Up Reminders</h3>
+      <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
+      <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Notify me minutes before class ends:</label>
+      <div class="pack-up-presets">
+        <button class="pack-up-preset selected" data-value="0">Off</button>
+        <button class="pack-up-preset" data-value="1">1 min</button>
+        <button class="pack-up-preset" data-value="3">3 min</button>
+        <button class="pack-up-preset" data-value="5">5 min</button>
+        <button class="pack-up-preset" data-value="7">7 min</button>
+        <button class="pack-up-preset" data-value="10">10 min</button>
+      </div>
+    </div>
 
-<button class="completeBtn" id="completeBtn">Complete Setup</button>
+    <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
+  <script src="/common.js"></script>
   <script>
-let currentTheme = 'purple';
-
-function applyTheme() {
-  document.body.className = `theme-${currentTheme}`;
-}
-
-function updateThemeUI() {
-  document.querySelectorAll('.themeOption').forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.theme === currentTheme);
-  });
-}
-
-document.querySelectorAll('.themeOption').forEach(opt => {
-  opt.addEventListener('click', () => {
-    currentTheme = opt.dataset.theme;
+    let currentTheme = 'purple';
+    function applyTheme() {
+      document.body.className = `theme-${currentTheme}`;
+    }
+    function updateThemeUI() {
+      document.querySelectorAll('.themeOption').forEach(opt => {
+        opt.classList.toggle('selected', opt.dataset.theme === currentTheme);
+      });
+    }
+    document.querySelectorAll('.themeOption').forEach(opt => {
+      opt.addEventListener('click', () => {
+        currentTheme = opt.dataset.theme;
+        applyTheme();
+        updateThemeUI();
+      });
+    });
+    let lunchPrefs = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+    function updateLunchUI() {
+      document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        btn.classList.toggle('selected', lunchPrefs[day] === lunch);
+      });
+    }
+    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        lunchPrefs[day] = lunch;
+        updateLunchUI();
+      });
+    });
+    let packUpTime = 0;
+    function updatePackUpUI() {
+      document.querySelectorAll('.pack-up-preset').forEach(btn => {
+        const val = parseInt(btn.dataset.value, 10);
+        btn.classList.toggle('selected', val === packUpTime);
+      });
+    }
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        packUpTime = parseInt(btn.dataset.value, 10);
+        updatePackUpUI();
+      });
+    });
+    document.getElementById('completeBtn').addEventListener('click', () => {
+      localStorage.setItem('theme', currentTheme);
+      localStorage.setItem('gradient', 'on');
+      localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+      localStorage.setItem('pack-up-time', packUpTime);
+      localStorage.setItem('setup-complete', 'true');
+      window.location.href = '/';
+    });
     applyTheme();
     updateThemeUI();
-  });
-});
-
-let lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
-
-function updateLunchUI() {
-  document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-    const day = btn.dataset.day;
-    const lunch = btn.dataset.lunch;
-    btn.classList.toggle('selected', lunchPrefs[day] === lunch);
-  });
-}
-
-document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const day = btn.dataset.day;
-    const lunch = btn.dataset.lunch;
-    lunchPrefs[day] = lunch;
     updateLunchUI();
-  });
-});
-
-let packUpTime = 0;
-
-function updatePackUpUI() {
-  document.querySelectorAll('.pack-up-preset').forEach(btn => {
-    const val = parseInt(btn.dataset.value, 10);
-    btn.classList.toggle('selected', val === packUpTime);
-  });
-}
-
-document.querySelectorAll('.pack-up-preset').forEach(btn => {
-  btn.addEventListener('click', () => {
-    packUpTime = parseInt(btn.dataset.value, 10);
     updatePackUpUI();
-  });
-});
-
-document.getElementById('completeBtn').addEventListener('click', () => {
-  localStorage.setItem('theme', currentTheme);
-  localStorage.setItem('gradient', 'on'); // Always set to 'on' since animated gradient is now the only option
-  localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-  localStorage.setItem('pack-up-time', packUpTime);
-  localStorage.setItem('setup-complete', 'true');
-  window.location.href = '/';
-});
-
-applyTheme();
-updateThemeUI();
-updateLunchUI();
-updatePackUpUI();
   </script>
 </body>
 </html>
