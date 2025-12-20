@@ -209,10 +209,10 @@ function displayTimeBlocks(container, data) {
   if (hoursBlock) hoursBlock.style.display = (data.hours !== undefined) ? 'block' : 'none';
 
   // Update text
-  if (daysEl) updateRollingText(daysEl, data.days ? data.days.toString().padStart(2,'0') : '00');
-  if (hoursEl) updateRollingText(hoursEl, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00');
-  if (minutesEl) updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
-  if (secondsEl) updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
+  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
+  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
 }
 
 function displayMessage(container, message) {
@@ -308,9 +308,9 @@ function updateClock() {
   if (!clockDisplay || !clockLabel || !timerEl) return;
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
-    const holidayEnd = getHolidayEndDate(holiday);
-    if (holidayEnd && holidayEnd > nowDate) {
-      const diff = holidayEnd - nowDate;
+    const nextSchoolStart = getNextSchoolDayStartTime();
+    if (nextSchoolStart && nextSchoolStart > nowDate) {
+      const diff = nextSchoolStart - nowDate;
       const totalSeconds = Math.floor(diff / 1000);
       const s = totalSeconds % 60;
       const totalMinutes = Math.floor(totalSeconds / 60);
@@ -325,15 +325,12 @@ function updateClock() {
       } else {
         displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
       }
-          clockLabel.textContent = `UNTIL ${holiday} ENDS`;
-          const firstPeriod = schedules[weekday] && schedules[weekday][0];
-          if (firstPeriod) {
-            timerEl.innerHTML = `Next: ${firstPeriod.name} (${format(firstPeriod.start)} - ${format(firstPeriod.end)})`;
-          }
-          timerEl.classList.remove('hidden');
+      clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
+      timerEl.innerHTML = `Enjoy ${holiday}!`;
+      timerEl.classList.remove('hidden');
     } else {
-      displayMessage(clockDisplay, 'Holiday ended');
-      clockLabel.textContent = `${holiday} ENDED`;
+      displayMessage(clockDisplay, 'School has resumed');
+      clockLabel.textContent = `${holiday} OVER`;
       timerEl.classList.add('hidden');
     }
     return;
@@ -549,16 +546,16 @@ function updateHolidayCountdown() {
       const hoursEl = document.getElementById('countdown-hours');
       const minutesEl = document.getElementById('countdown-minutes');
       const secondsEl = document.getElementById('countdown-seconds');
-      if (daysEl) updateRollingText(daysEl, days.toString());
-      if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
-      if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
-      if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
-    } else {
-      countdownGrid.style.display = 'none';
-      countdownMsg.style.display = 'block';
-      updateRollingText(countdownMsg, 'Holiday Ended');
-      countdownLabel.innerHTML = `ENJOYED ${currentHoliday}`;
-    }
+      if (daysEl) daysEl.textContent = days.toString();
+      if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+      if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+      if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
+      } else {
+        countdownGrid.style.display = 'none';
+        countdownMsg.style.display = 'block';
+        countdownMsg.textContent = 'Holiday Ended';
+        countdownLabel.innerHTML = `ENJOYED ${currentHoliday}`;
+      }
   } else {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
@@ -577,22 +574,22 @@ function updateHolidayCountdown() {
         const hoursEl = document.getElementById('countdown-hours');
         const minutesEl = document.getElementById('countdown-minutes');
         const secondsEl = document.getElementById('countdown-seconds');
-        if (daysEl) updateRollingText(daysEl, days.toString());
-        if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
-        if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
-        if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
+        if (daysEl) daysEl.textContent = days.toString();
+        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
       } else {
         countdownGrid.style.display = 'none';
         countdownMsg.style.display = 'block';
-        updateRollingText(countdownMsg, 'Break in Progress');
+        countdownMsg.textContent = 'Break in Progress';
         countdownLabel.innerHTML = `ENJOY ${upcoming.name}`;
       }
-    } else {
-      countdownGrid.style.display = 'none';
-      countdownMsg.style.display = 'block';
-      updateRollingText(countdownMsg, 'End of school year');
-      countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
-    }
+      } else {
+        countdownGrid.style.display = 'none';
+        countdownMsg.style.display = 'block';
+        countdownMsg.textContent = 'End of school year';
+        countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
+      }
   }
 }
 

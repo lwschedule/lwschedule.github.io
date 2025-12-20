@@ -601,7 +601,8 @@ h1, h2, h3 {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  overflow-x: auto;
+  width: 1400px;
+  overflow-x: visible;
   margin: 0 auto;
 }
 
