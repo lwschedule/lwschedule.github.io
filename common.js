@@ -214,26 +214,23 @@ function displayTimeBlocks(container, data) {
     }
     return elem.textContent || fallback;
   }
-  const prevDays = existingDays ? getPreviousValue(existingDays, data.days.toString()) : '0';
+  data.days = data.days || 0;
+  const prevDays = existingDays ? getPreviousValue(existingDays, data.days.toString().padStart(2,'0')) : '00';
   const prevHours = getPreviousValue(existingHours, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '');
   const prevMinutes = getPreviousValue(existingMinutes, data.minutes.toString().padStart(2,'0'));
   const prevSeconds = getPreviousValue(existingSeconds, data.seconds.toString().padStart(2,'0'));
   let html = '';
-  if (data.days !== undefined) {
-    html += `<div class="time-block"><span id="${daysId}" class="time-value">${data.days}</span><span class="time-label">${data.days === 1 ? 'DAY' : 'DAYS'}</span></div>`;
-  }
+  html += `<div class="time-block ${data.days === 0 ? 'hidden' : ''}"><span id="${daysId}" class="time-value">${data.days.toString().padStart(2,'0')}</span><span class="time-label">DAYS</span></div>`;
   if (data.hours !== undefined) {
     html += `<div class="time-block"><span id="${hoursId}" class="time-value">${data.hours.toString().padStart(2,'0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
   }
   html += `<div class="time-block"><span id="${minutesId}" class="time-value">${data.minutes.toString().padStart(2,'0')}</span><span class="time-label">MINUTES</span></div>`;
   html += `<div class="time-block"><span id="${secondsId}" class="time-value">${data.seconds.toString().padStart(2,'0')}</span><span class="time-label">SECONDS</span></div>`;
   container.innerHTML = html;
-  if (data.days !== undefined) {
-    const daysEl = document.getElementById(daysId);
-    if (daysEl) {
-      daysEl.dataset.previousText = prevDays || '';
-      updateRollingText(daysEl, data.days.toString());
-    }
+  const daysEl = document.getElementById(daysId);
+  if (daysEl) {
+    daysEl.dataset.previousText = prevDays || '';
+    updateRollingText(daysEl, data.days.toString().padStart(2,'0'));
   }
   if (data.hours !== undefined) {
     const hoursEl = document.getElementById(hoursId);
