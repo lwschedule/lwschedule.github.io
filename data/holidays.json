@@ -1,10 +1,4 @@
 [
-  { "name": "Labor Day", "date": "2025-09-01", "displayDate": "September 1, 2025", "isWeekend": false },
-  { "name": "LEAP Day", "date": "2025-10-17", "displayDate": "October 17, 2025", "isWeekend": false },
-  { "name": "LEAP Day", "date": "2025-11-04", "displayDate": "November 4, 2025", "isWeekend": false },
-  { "name": "Veterans Day", "date": "2025-11-11", "displayDate": "November 11, 2025", "isWeekend": false },
-  { "name": "Thanksgiving Break", "date": "2025-11-27", "displayDate": "November 27-29, 2025", "isWeekend": true },
-  { "name": "Winter Break", "date": "2025-12-20", "displayDate": "December 20, 2025 - January 4, 2026", "isWeekend": true },
   { "name": "MLK Jr. Day", "date": "2026-01-19", "displayDate": "January 19, 2026", "isWeekend": true },
   { "name": "Mid-Winter Break", "date": "2026-02-12", "displayDate": "February 12-16, 2026", "isWeekend": true },
   { "name": "Presidents Day", "date": "2026-02-16", "displayDate": "February 16, 2026", "isWeekend": true },
