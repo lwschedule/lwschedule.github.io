@@ -603,9 +603,8 @@ h1, h2, h3 {
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
   gap: 10px;
-  min-width: 600px;
 }
 
 .calendar-day-header {

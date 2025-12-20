@@ -482,7 +482,7 @@ function minutesNow() {
 }
 
 function renderScheduleTable(schedule, now, showDuration = false) {
-  if (!schedule || schedule.length === 0) {
+  if (!schedule || !Array.isArray(schedule) || schedule.length === 0) {
     return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
   }
   let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
