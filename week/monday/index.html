@@ -25,7 +25,52 @@
   <script>
     (async () => {
       await initApp();
-      updateDaySchedule();
+      const scheduleEl = document.getElementById('dayContent');
+      if (!scheduleEl) return;
+
+      const path = window.location.pathname;
+      const dayMatch = path.match(/\/week\/(\w+)/);
+      if (!dayMatch) return;
+      const dayName = dayMatch[1].charAt(0).toUpperCase() + dayMatch[1].slice(1);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const dateParam = urlParams.get('date');
+      let dayDate;
+      if (dateParam) {
+        dayDate = new Date(dateParam);
+      } else {
+        // Calculate the date for the current week's day
+        const now = new Date();
+        const currentDayOfWeek = now.getDay();
+        let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+        if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {
+          diff += 7;
+        } else {
+          const thisFriday = new Date(now);
+          thisFriday.setDate(now.getDate() + (5 - currentDayOfWeek));
+          const fridayHoliday = getHolidayForDate(thisFriday);
+          if (fridayHoliday) {
+            diff += 7;
+          }
+        }
+        const monday = new Date(now);
+        monday.setDate(now.getDate() + diff);
+        const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const dayIndex = weekDays.indexOf(dayName);
+        if (dayIndex === -1) return;
+        dayDate = new Date(monday);
+        dayDate.setDate(monday.getDate() + dayIndex);
+      }
+
+      const holidayName = getHolidayForDate(dayDate);
+      if (holidayName) {
+        scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>${holidayName}</h3><p>No school today!</p></div>`;
+        return;
+      }
+
+      const schedules = getSchedules(dayDate);
+      const schedule = schedules[dayName];
+      scheduleEl.innerHTML = renderScheduleTable(schedule, null, true);
     })();
   </script>
 </body>
