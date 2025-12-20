@@ -627,7 +627,7 @@ h1, h2, h3 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 80px;
+  min-height: 120px;
   background: var(--card-dark);
   transition: all 0.2s;
   cursor: pointer;
@@ -701,7 +701,7 @@ h1, h2, h3 {
   }
 
   .calendar-day {
-    min-height: 45px;
+    min-height: 60px;
     padding: 4px;
     border-width: 2px;
   }

@@ -197,58 +197,22 @@ function updateRollingText(element, newText) {
 }
 
 function displayTimeBlocks(container, data) {
-  const daysId = container.id + '-days';
-  const hoursId = container.id + '-hours';
-  const minutesId = container.id + '-minutes';
-  const secondsId = container.id + '-seconds';
-  const existingDays = document.getElementById(daysId);
-  const existingHours = document.getElementById(hoursId);
-  const existingMinutes = document.getElementById(minutesId);
-  const existingSeconds = document.getElementById(secondsId);
-  function getPreviousValue(elem, fallback) {
-    if (!elem) return fallback;
-    if (elem.dataset.previousText) return elem.dataset.previousText;
-    if (elem.querySelector('.digit-roller .new')) {
-      const newSpan = elem.querySelector('.new');
-      return newSpan ? newSpan.textContent : fallback;
-    }
-    return elem.textContent || fallback;
-  }
-  data.days = data.days || 0;
-  const prevDays = existingDays ? getPreviousValue(existingDays, data.days.toString().padStart(2,'0')) : '00';
-  const prevHours = getPreviousValue(existingHours, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '');
-  const prevMinutes = getPreviousValue(existingMinutes, data.minutes.toString().padStart(2,'0'));
-  const prevSeconds = getPreviousValue(existingSeconds, data.seconds.toString().padStart(2,'0'));
-  let html = '';
-  html += `<div class="time-block ${data.days === 0 ? 'hidden' : ''}"><span id="${daysId}" class="time-value">${data.days.toString().padStart(2,'0')}</span><span class="time-label">DAYS</span></div>`;
-  if (data.hours !== undefined) {
-    html += `<div class="time-block"><span id="${hoursId}" class="time-value">${data.hours.toString().padStart(2,'0')}</span><span class="time-label">${data.hours === 1 ? 'HOUR' : 'HOURS'}</span></div>`;
-  }
-  html += `<div class="time-block"><span id="${minutesId}" class="time-value">${data.minutes.toString().padStart(2,'0')}</span><span class="time-label">MINUTES</span></div>`;
-  html += `<div class="time-block"><span id="${secondsId}" class="time-value">${data.seconds.toString().padStart(2,'0')}</span><span class="time-label">SECONDS</span></div>`;
-  container.innerHTML = html;
-  const daysEl = document.getElementById(daysId);
-  if (daysEl) {
-    daysEl.dataset.previousText = prevDays || '';
-    updateRollingText(daysEl, data.days.toString().padStart(2,'0'));
-  }
-  if (data.hours !== undefined) {
-    const hoursEl = document.getElementById(hoursId);
-    if (hoursEl) {
-      hoursEl.dataset.previousText = prevHours || '';
-      updateRollingText(hoursEl, data.hours.toString().padStart(2,'0'));
-    }
-  }
-  const minutesEl = document.getElementById(minutesId);
-  if (minutesEl) {
-    minutesEl.dataset.previousText = prevMinutes || '';
-    updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
-  }
-  const secondsEl = document.getElementById(secondsId);
-  if (secondsEl) {
-    secondsEl.dataset.previousText = prevSeconds || '';
-    updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
-  }
+  const daysEl = document.getElementById('clockDisplay-days');
+  const hoursEl = document.getElementById('clockDisplay-hours');
+  const minutesEl = document.getElementById('clockDisplay-minutes');
+  const secondsEl = document.getElementById('clockDisplay-seconds');
+  const daysBlock = document.getElementById('clockDisplay-days-block');
+  const hoursBlock = document.getElementById('clockDisplay-hours-block');
+
+  // Show/hide blocks
+  if (daysBlock) daysBlock.style.display = (data.days && data.days > 0) ? 'block' : 'none';
+  if (hoursBlock) hoursBlock.style.display = (data.hours !== undefined) ? 'block' : 'none';
+
+  // Update text
+  if (daysEl) updateRollingText(daysEl, data.days ? data.days.toString().padStart(2,'0') : '00');
+  if (hoursEl) updateRollingText(hoursEl, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00');
+  if (minutesEl) updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
+  if (secondsEl) updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
 }
 
 function displayMessage(container, message) {
