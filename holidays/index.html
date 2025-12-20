@@ -4,9 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Holidays - LW Schedule</title>
-  <link rel="stylesheet" href="/common.css">
-  <script src="/common.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <style>
+:root {
+  --primary: #4b2e83;
+  --primary-light: #6a4fb3;
+  --text-light: #e8e8e8;
+  --bg-dark: #1a1a1a;
+  --card-dark: #262626;
+  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+}
+body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
+body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
+body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
+body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
+body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
+body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
+body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
+body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
+* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
+body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
+body::-webkit-scrollbar { display: none; }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 25% { background-position: 100% 25%; } 50% { background-position: 0% 75%; } 75% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
+@keyframes gradientShift5 { 0% { background-position: 75% 25%; } 35% { background-position: 25% 75%; } 70% { background-position: 100% 100%; } 100% { background-position: 75% 25%; } }
+@keyframes rollUpIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes rollUpOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
+.digit-roller { display: inline-block; position: relative; overflow: hidden; line-height: 1em; height: 1em; vertical-align: middle; }
+.digit-roller span { display: inline-block; position: absolute; left: 0; right: 0; top: 0; height: 1em; line-height: 1em; text-align: center; will-change: transform, opacity; }
+.digit-roller .old { animation: rollUpOut 0.4s ease-out forwards; }
+.digit-roller .new { transform: translateY(100%); animation: rollUpIn 0.4s ease-out forwards; }
+.static-char { display: inline-block; vertical-align: middle; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
+.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
+.backBtn:hover { transform: scale(1.05); }
+.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
 .holidayTable { width: 100%; border-collapse: collapse; margin-top: 10px; background: #1f1f1f; border-radius: 12px; overflow: hidden; }
 .holidayTable th { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 12px; text-align: left; font-weight: 700; }
 .holidayTable td { padding: 12px; border-bottom: 1px solid #444; }
@@ -18,6 +55,10 @@
 .countdown-block { background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 15px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .countdown-value { font-size: clamp(1.8em, 6vw, 2.8em); font-weight: 700; color: white; line-height: 1; text-align: center; position: relative; overflow: hidden; width: 100%; display: block; }
 .countdown-label { font-size: 0.7em; font-weight: 400; color: white; opacity: 0.8; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; text-align: center; }
+@media (max-width: 600px) {
+  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+  .pageContainer { padding: 20px 0 0 0; }
+}
   </style>
 </head>
 <body>

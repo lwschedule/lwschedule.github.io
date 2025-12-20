@@ -4,9 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Settings - LW Schedule</title>
-  <link rel="stylesheet" href="/common.css">
-  <script src="/common.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <style>
+:root {
+  --primary: #4b2e83;
+  --primary-light: #6a4fb3;
+  --text-light: #e8e8e8;
+  --bg-dark: #1a1a1a;
+  --card-dark: #262626;
+  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+}
+body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
+body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
+body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
+body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
+body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
+body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
+body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
+body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
+* { font-family: 'Comfortaa', cursive; box-sizing: border-box; }
+body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
+body::-webkit-scrollbar { display: none; }
+@keyframes gradientShift2 { 0% { background-position: 100% 0%; } 33% { background-position: 0% 100%; } 66% { background-position: 50% 50%; } 100% { background-position: 100% 0%; } }
+@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
+.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
+.backBtn:hover { transform: scale(1.05); }
+.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
 .settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; animation: fadeInUp 0.5s ease-out backwards; }
 .settingsRow:nth-of-type(1) { animation-delay: 0.1s; }
 .settingsRow:nth-of-type(2) { animation-delay: 0.15s; }
@@ -16,8 +45,16 @@
 .settingsRow:nth-of-type(6) { animation-delay: 0.35s; }
 .settingsRow:nth-of-type(7) { animation-delay: 0.4s; }
 .settingsRow .mainBtn { width: 100%; }
+.mainBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift2 8s ease infinite !important; color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; display: block; }
+.mainBtn:hover { transform: scale(1.05); }
+.mainBtn.disabledBtn { opacity: 0.5; cursor: not-allowed; background: #555 !important; animation: none !important; }
+.mainBtn.disabledBtn:hover { background: #555 !important; transform: none; }
 .resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
 .resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
+@media (max-width: 600px) {
+.backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
+.pageContainer { padding: 20px 0 0 0; }
+}
 </style>
 </head>
 <body>
@@ -48,6 +85,20 @@
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
   </div>
   <script>
+function checkSetupComplete() {
+  const theme = localStorage.getItem('theme');
+  const gradient = localStorage.getItem('gradient');
+  const lunch = localStorage.getItem('lunchPreferences');
+  const packup = localStorage.getItem('pack-up-time');
+  const setupComplete = localStorage.getItem('setup-complete');
+if (!setupComplete && !window.location.pathname.includes('/setup')) {
+if (!theme || !gradient || !lunch || packup === null) {
+window.location.href = '/setup';
+return false;
+}
+}
+return true;
+}
 document.getElementById('resetBtn').addEventListener('click', (e) => {
 e.preventDefault();
 if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
@@ -55,6 +106,10 @@ localStorage.clear();
 location.href = '/';
 }
 });
+function loadThemeOnPage() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  document.body.className = `theme-${theme}`;
+}
 checkSetupComplete();
 loadThemeOnPage();
 </script>
