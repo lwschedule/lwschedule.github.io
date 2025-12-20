@@ -31,6 +31,8 @@
     (async () => {
       await initApp();
       renderCalendar();
+      document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
+      document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
     })();
   </script>
 </body>

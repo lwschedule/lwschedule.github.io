@@ -214,7 +214,7 @@ function displayTimeBlocks(container, data) {
     }
     return elem.textContent || fallback;
   }
-  const prevDays = getPreviousValue(existingDays, data.days !== undefined ? data.days.toString() : '');
+  const prevDays = existingDays ? getPreviousValue(existingDays, data.days.toString()) : '0';
   const prevHours = getPreviousValue(existingHours, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '');
   const prevMinutes = getPreviousValue(existingMinutes, data.minutes.toString().padStart(2,'0'));
   const prevSeconds = getPreviousValue(existingSeconds, data.seconds.toString().padStart(2,'0'));
@@ -230,33 +230,27 @@ function displayTimeBlocks(container, data) {
   container.innerHTML = html;
   if (data.days !== undefined) {
     const daysEl = document.getElementById(daysId);
-    if (daysEl && prevDays) {
-      daysEl.dataset.previousText = prevDays;
+    if (daysEl) {
+      daysEl.dataset.previousText = prevDays || '';
+      updateRollingText(daysEl, data.days.toString());
     }
   }
   if (data.hours !== undefined) {
     const hoursEl = document.getElementById(hoursId);
-    if (hoursEl && prevHours) {
-      hoursEl.dataset.previousText = prevHours;
+    if (hoursEl) {
+      hoursEl.dataset.previousText = prevHours || '';
+      updateRollingText(hoursEl, data.hours.toString().padStart(2,'0'));
     }
   }
   const minutesEl = document.getElementById(minutesId);
-  if (minutesEl && prevMinutes) {
-    minutesEl.dataset.previousText = prevMinutes;
+  if (minutesEl) {
+    minutesEl.dataset.previousText = prevMinutes || '';
     updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
   }
   const secondsEl = document.getElementById(secondsId);
-  if (secondsEl && prevSeconds) {
-    secondsEl.dataset.previousText = prevSeconds;
+  if (secondsEl) {
+    secondsEl.dataset.previousText = prevSeconds || '';
     updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
-  }
-  if (data.days !== undefined) {
-    const daysEl = document.getElementById(daysId);
-    if (daysEl) updateRollingText(daysEl, data.days.toString());
-  }
-  if (data.hours !== undefined) {
-    const hoursEl = document.getElementById(hoursId);
-    if (hoursEl) updateRollingText(hoursEl, data.hours.toString().padStart(2,'0'));
   }
 }
 
@@ -736,6 +730,27 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   cell.appendChild(dayNumber);
   cell.appendChild(daySchedule);
   return cell;
+}
+
+function changeMonth(delta) {
+  currentMonth += delta;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  } else if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+  // Enforce bounds: November 2025 to June 2026
+  if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
+    currentMonth = 11;
+    currentYear = 2025;
+  }
+  if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
+    currentMonth = 5;
+    currentYear = 2026;
+  }
+  renderCalendar();
 }
 
 let currentMonth = new Date().getMonth();
