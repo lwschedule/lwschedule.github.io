@@ -144,7 +144,7 @@ function getScheduleSummary(schedules, dayName) {
     return n;
   });
   const uniqueNames = [...new Set(simplifiedNames)];
-  return "Periods: " + uniqueNames.join(', ');
+  return uniqueNames.join(', ');
 }
 
 function updateRollingText(element, newText) {

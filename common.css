@@ -604,19 +604,13 @@ h1, h2, h3 {
   width: 1000px;
   overflow-x: visible;
   margin: 0 auto;
-  text-align: center;
-}
-
-.calendar-grid {
-  display: inline-grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+  margin: 0 auto;
 }
 
 .calendar-day-header {
