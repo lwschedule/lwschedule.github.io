@@ -14,7 +14,12 @@
   <link rel="stylesheet" href="/common.css">
   <style>
     .infoContent { text-align: center; padding: 20px; }
-    .infoContent h3 { color: white; margin-top: 20px; margin-bottom: 10px; }
+    .infoSection { background: var(--card-dark); border-radius: 12px; padding: 15px; margin-bottom: 20px; animation: fadeInUp 0.6s ease-out backwards; }
+    .infoSection:nth-child(1) { animation-delay: 0.1s; }
+    .infoSection:nth-child(2) { animation-delay: 0.2s; }
+    .infoSection:nth-child(3) { animation-delay: 0.3s; }
+    .infoSection:nth-child(4) { animation-delay: 0.4s; }
+    .infoContent h3 { color: white; margin-top: 0; margin-bottom: 10px; }
     .infoContent p { margin: 10px 0; line-height: 1.6; }
     .infoContent a { color: white; text-decoration: none; font-weight: 700; }
     .infoContent a:hover { text-decoration: underline; }
@@ -26,20 +31,25 @@
   <div class="pageContainer">
     <h2>About</h2>
     <div class="infoContent">
-      <div class="versionBadge">Version 2.0</div>
-      <h3>Created By</h3>
-      <p>Sanchit P.</p>
-      <h3>GitHub Repository</h3>
-      <p><a href="https://github.com/lwschedule/lwschedule.github.io" target="_blank">View on GitHub</a></p>
-      <h3>Inspired By</h3>
-      <p><a href="https://schedule-manager.lwhsftc.org/" target="_blank">LW Schedule Manager</a><br>by Rudra Pandit</p>
-      <h3>What's New in v2.0</h3>
-      <ul>
-        <li>Major code refactor and logic refactor</li>
-        <li>Data externalized to JSON files for better maintainability</li>
-        <li>Dynamic theme-color for Safari browser tabs</li>
-        <li>Bug fixes and improved error handling</li>
-      </ul>
+      <div class="infoSection">
+        <div class="versionBadge">Version 2.0.1</div>
+      </div>
+      <div class="infoSection">
+        <h3>Created By</h3>
+        <p>Sanchit P.</p>
+      </div>
+      <div class="infoSection">
+        <h3>GitHub Repository</h3>
+        <p><a href="https://github.com/lwschedule/lwschedule.github.io" target="_blank">View on GitHub</a></p>
+      </div>
+      <div class="infoSection">
+        <h3>Inspired By</h3>
+        <p><a href="https://schedule-manager.lwhsftc.org/" target="_blank">LW Schedule Manager</a><br>by Rudra Pandit</p>
+      </div>
+      <div class="infoSection">
+        <h3>What's New in v2.0.1</h3>
+        <p>Bug fixes</p>
+      </div>
     </div>
   </div>
   <script src="/common.js"></script>

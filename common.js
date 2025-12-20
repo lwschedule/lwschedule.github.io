@@ -558,15 +558,15 @@ function updateTodaySchedule() {
 function updateHolidayTable() {
   const tbody = document.getElementById('holidayTableBody');
   if (!tbody) return;
-  const now = new Date();
-  const upcomingHolidays = holidays.filter(h => h.date > now);
-  if (upcomingHolidays.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No more holidays this school year!</td></tr>';
+  if (!holidays || holidays.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Loading holidays...</td></tr>';
     return;
   }
   let html = '';
-  upcomingHolidays.forEach((holiday, index) => {
-    const isNext = index === 0;
+  holidays.forEach((holiday, index) => {
+    const now = new Date();
+    const isUpcoming = holiday.date > now;
+    const isNext = isUpcoming && holidays.filter(h => h.date > now).indexOf(holiday) === 0;
     html += `<tr class="${isNext ? 'highlight' : ''}"><td><b>${holiday.name}</b></td><td>${holiday.displayDate}</td></tr>`;
   });
   tbody.innerHTML = html;
