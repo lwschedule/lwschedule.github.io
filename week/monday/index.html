@@ -24,13 +24,8 @@
   <script src="/common.js"></script>
   <script>
     (async () => {
-      try {
-        await initApp();
-        updateDaySchedule();
-      } catch (error) {
-        console.error('Error loading Monday schedule:', error);
-        document.getElementById('dayContent').innerHTML = '<div class="noSchoolMessage"><h3>Error Loading Schedule</h3><p>Please refresh the page or check your connection.</p></div>';
-      }
+      await initApp();
+      updateDaySchedule();
     })();
   </script>
 </body>
