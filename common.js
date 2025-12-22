@@ -532,16 +532,17 @@ function updateHolidayCountdown() {
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
-    const holidayEnd = getHolidayEndDate(currentHoliday);
-    if (holidayEnd && holidayEnd > now) {
+    // During a holiday, count down to the next school day instead of holiday end
+    const nextSchoolStart = getNextSchoolDayStartTime();
+    if (nextSchoolStart && nextSchoolStart > now) {
       countdownGrid.style.display = 'grid';
       countdownMsg.style.display = 'none';
-      const diff = holidayEnd - now;
+      const diff = nextSchoolStart - now;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      countdownLabel.innerHTML = `UNTIL END ${currentHoliday}`;
+      countdownLabel.innerHTML = `UNTIL SCHOOL RESUMES`;
       const daysEl = document.getElementById('countdown-days');
       const hoursEl = document.getElementById('countdown-hours');
       const minutesEl = document.getElementById('countdown-minutes');
@@ -550,12 +551,12 @@ function updateHolidayCountdown() {
       if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
       if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
       if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
-      } else {
-        countdownGrid.style.display = 'none';
-        countdownMsg.style.display = 'block';
-        countdownMsg.textContent = 'Holiday Ended';
-        countdownLabel.innerHTML = `ENJOYED ${currentHoliday}`;
-      }
+    } else {
+      countdownGrid.style.display = 'none';
+      countdownMsg.style.display = 'block';
+      countdownMsg.textContent = 'School has resumed';
+      countdownLabel.innerHTML = `ENJOYED ${currentHoliday}`;
+    }
   } else {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
