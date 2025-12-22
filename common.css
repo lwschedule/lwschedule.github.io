@@ -254,7 +254,9 @@ h1, h2, h3 {
   font-size: clamp(0.9em, 4vw, 1.1em);
   margin-top: 20px;
   text-align: center;
-  background: var(--card-dark);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
   padding: 15px;
   border-radius: 16px;
   box-shadow: var(--glow);

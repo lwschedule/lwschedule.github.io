@@ -502,7 +502,13 @@ function updateWeekSchedule() {
 function updateTodaySchedule() {
   const scheduleEl = document.getElementById('todayContent');
   if (!scheduleEl) return;
-  const schedules = getSchedules(new Date());
+  const now = new Date();
+  const holiday = getHolidayForDate(now);
+  if (holiday) {
+    scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>${holiday}</h3><p>Enjoy the holiday!</p></div>`;
+    return;
+  }
+  const schedules = getSchedules(now);
   const today = schedules[currentDayName()];
   scheduleEl.innerHTML = renderScheduleTable(today, minutesNow(), true);
 }
