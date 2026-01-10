@@ -306,6 +306,7 @@ function updateClock() {
   const clockLabel = document.getElementById('clockLabel');
   const timerEl = document.getElementById('timer');
   if (!clockDisplay || !clockLabel || !timerEl) return;
+
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
     const nextSchoolStart = getNextSchoolDayStartTime();
@@ -318,52 +319,46 @@ function updateClock() {
       const totalHours = Math.floor(totalMinutes / 60);
       const h = totalHours % 24;
       const d = Math.floor(totalHours / 24);
-      if (d > 0) {
-        displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-      } else if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      }
+
+      // Always show all time units for consistency
+      displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
-      timerEl.innerHTML = `Enjoy ${holiday}!`;
+      const countdown = `${d > 0 ? d + 'd ' : ''}${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      timerEl.innerHTML = countdown;
       timerEl.classList.remove('hidden');
     } else {
       displayMessage(clockDisplay, 'School has resumed');
       clockLabel.textContent = `${holiday} OVER`;
-      timerEl.classList.add('hidden');
+      timerEl.innerHTML = '00:00:00';
+      timerEl.classList.remove('hidden');
     }
     return;
   }
+
   const schedules = getSchedules(nowDate);
   const today = schedules[weekday];
   if (!today || today.length === 0) {
     clockLabel.textContent = 'NO SCHOOL';
     displayMessage(clockDisplay, 'No school today');
-    timerEl.classList.add('hidden');
+    timerEl.innerHTML = '00:00:00';
+    timerEl.classList.remove('hidden');
     return;
   }
+
   const currentPeriod = getCurrentPeriod(today, now);
   if (currentPeriod) {
     const remainingMinutes = currentPeriod.end - now - 1;
     const remainingSeconds = 59 - secs;
-    if (remainingMinutes < 0) {
-      clockLabel.textContent = 'PERIOD ENDING';
-      displayTimeBlocks(clockDisplay, { minutes: 0, seconds: Math.max(0, remainingSeconds) });
-    } else {
-      const h = Math.floor(remainingMinutes / 60);
-      const m = remainingMinutes % 60;
-      const s = remainingSeconds;
-      clockLabel.textContent = currentPeriod.name.toUpperCase();
-      if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      }
-    }
-    const remaining = h > 0 ? `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}` : `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    const totalRemainingSeconds = remainingMinutes * 60 + remainingSeconds;
+    const h = Math.floor(totalRemainingSeconds / 3600);
+    const m = Math.floor((totalRemainingSeconds % 3600) / 60);
+    const s = totalRemainingSeconds % 60;
+
+    clockLabel.textContent = currentPeriod.name.toUpperCase();
+    displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+    const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    timerEl.innerHTML = countdown;
     timerEl.classList.remove('hidden');
-    timerEl.innerHTML = `Time Remaining: ${remaining}`;
   } else if (now < today[0].start) {
     const firstPeriod = today[0];
     const startTime = new Date(nowDate);
@@ -375,14 +370,12 @@ function updateClock() {
       const totalMinutes = Math.floor(totalSeconds / 60);
       const m = totalMinutes % 60;
       const h = Math.floor(totalMinutes / 60);
+
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
-      if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      }
+      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      timerEl.innerHTML = countdown;
       timerEl.classList.remove('hidden');
-      timerEl.innerHTML = `Next: ${firstPeriod.name} (${format(firstPeriod.start)} - ${format(firstPeriod.end)})`;
     }
   } else if (now > today[today.length - 1].end) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
@@ -396,17 +389,12 @@ function updateClock() {
         const totalHours = Math.floor(totalMinutes / 60);
         const h = totalHours % 24;
         const d = Math.floor(totalHours / 24);
-        if (d > 0) {
-          displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        } else if (h > 0) {
-          displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-        } else {
-          displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-        }
-        const nextDay = nextSchoolStartTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
         clockLabel.textContent = 'NEXT SCHOOL DAY';
+        displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+        const countdown = `${d > 0 ? d + 'd ' : ''}${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        timerEl.innerHTML = countdown;
         timerEl.classList.remove('hidden');
-        timerEl.innerHTML = `Next School Day On: ${nextDay}`;
       }
     }
   } else {
@@ -414,16 +402,16 @@ function updateClock() {
     if (nextPeriod) {
       const remainingMinutes = nextPeriod.start - now - 1;
       const remainingSeconds = 59 - secs;
-      const h = Math.floor(remainingMinutes / 60);
-      const m = remainingMinutes % 60;
-      const s = remainingSeconds;
+      const totalRemainingSeconds = remainingMinutes * 60 + remainingSeconds;
+      const h = Math.floor(totalRemainingSeconds / 3600);
+      const m = Math.floor((totalRemainingSeconds % 3600) / 60);
+      const s = totalRemainingSeconds % 60;
+
       clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
-      if (h > 0) {
-        displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      } else {
-        displayTimeBlocks(clockDisplay, { minutes: m, seconds: s });
-      }
-      timerEl.classList.add('hidden');
+      displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+      const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      timerEl.innerHTML = countdown;
+      timerEl.classList.remove('hidden');
     }
   }
 }
