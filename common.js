@@ -108,11 +108,6 @@ function getHolidayForDate(date) {
       const end = new Date(2025, 10, 29).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
-    if (holiday.name === "Winter Break") {
-      const start = new Date(2025, 11, 20).getTime();
-      const end = new Date(2026, 0, 4).getTime();
-      if (checkTime >= start && checkTime <= end) return holiday.name;
-    }
     if (holiday.name === "Mid-Winter Break") {
       const start = new Date(2026, 1, 12).getTime();
       const end = new Date(2026, 1, 16).getTime();
@@ -266,7 +261,6 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayEndDate(holidayName) {
   if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  if (holidayName === "Winter Break") return new Date(2026, 0, 4, 23, 59, 59);
   if (holidayName === "Mid-Winter Break") return new Date(2026, 1, 15, 23, 59, 59);
   if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
   for (const holiday of holidays) {
