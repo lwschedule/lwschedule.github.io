@@ -280,6 +280,43 @@ function getNextPeriodStart(schedule, now) {
   return null;
 }
 
+function getNextPeriodInfo(schedule, now, nowDate) {
+  // During a period - what's next?
+  const currentPeriod = getCurrentPeriod(schedule, now);
+  if (currentPeriod) {
+    const next = getNextPeriodStart(schedule, now);
+    if (next) return `Next: ${next.name}`;
+    return null; // Last period
+  }
+  
+  // Before school starts - first period
+  if (now < schedule[0].start) {
+    return `Next: ${schedule[0].name}`;
+  }
+  
+  // Between periods
+  const next = getNextPeriodStart(schedule, now);
+  if (next) return `Next: ${next.name}`;
+  
+  return null; // After school or no more periods
+}
+
+function getNextPeriodInfoForHoliday(nowDate) {
+  const nextSchoolStart = getNextSchoolDayStartTime();
+  if (nextSchoolStart) {
+    const nextDay = new Date(nextSchoolStart);
+    const dayName = getDayNameFromDate(nextDay);
+    const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
+    const day = nextDay.getDate();
+    const schedules = getSchedules(nextDay);
+    const schedule = schedules[dayName];
+    if (schedule && schedule.length > 0) {
+      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
+    }
+  }
+  return 'Next: School';
+}
+
 function getCurrentPeriod(schedule, now) {
   for (let i = 0; i < schedule.length; i++) {
     if (now >= schedule[i].start && now < schedule[i].end) {
@@ -303,6 +340,7 @@ function updateClock() {
 
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
+    // Always count down to when school resumes
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > nowDate) {
       const diff = nextSchoolStart - nowDate;
@@ -317,13 +355,8 @@ function updateClock() {
       // Always show all time units for consistency
       displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
-      const countdown = `${d > 0 ? d + 'd ' : ''}${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-      timerEl.innerHTML = countdown;
-      timerEl.classList.remove('hidden');
-    } else {
-      displayMessage(clockDisplay, 'School has resumed');
-      clockLabel.textContent = `${holiday} OVER`;
-      timerEl.innerHTML = '00:00:00';
+      // #timer shows static "Next:" info, not countdown
+      timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
       timerEl.classList.remove('hidden');
     }
     return;
@@ -332,10 +365,26 @@ function updateClock() {
   const schedules = getSchedules(nowDate);
   const today = schedules[weekday];
   if (!today || today.length === 0) {
-    clockLabel.textContent = 'NO SCHOOL';
-    displayMessage(clockDisplay, 'No school today');
-    timerEl.innerHTML = '00:00:00';
-    timerEl.classList.remove('hidden');
+    // No school today - count down to next school day
+    const nextSchoolStartTime = getNextSchoolDayStartTime();
+    if (nextSchoolStartTime) {
+      const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
+      if (diff > 0) {
+        const totalSeconds = Math.floor(diff / 1000);
+        const s = totalSeconds % 60;
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const m = totalMinutes % 60;
+        const totalHours = Math.floor(totalMinutes / 60);
+        const h = totalHours % 24;
+        const d = Math.floor(totalHours / 24);
+
+        clockLabel.textContent = 'NEXT SCHOOL DAY';
+        displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+        // #timer shows static "Next:" info, not countdown
+        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
+        timerEl.classList.remove('hidden');
+      }
+    }
     return;
   }
 
@@ -350,8 +399,8 @@ function updateClock() {
 
     clockLabel.textContent = currentPeriod.name.toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-    const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    timerEl.innerHTML = countdown;
+    // #timer shows static "Next:" info, not countdown
+    timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
     timerEl.classList.remove('hidden');
   } else if (now < today[0].start) {
     const firstPeriod = today[0];
@@ -367,8 +416,8 @@ function updateClock() {
 
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-      timerEl.innerHTML = countdown;
+      // #timer shows static "Next:" info, not countdown
+      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
       timerEl.classList.remove('hidden');
     }
   } else if (now > today[today.length - 1].end) {
@@ -386,8 +435,8 @@ function updateClock() {
 
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        const countdown = `${d > 0 ? d + 'd ' : ''}${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        timerEl.innerHTML = countdown;
+        // #timer shows static "Next:" info, not countdown
+        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
         timerEl.classList.remove('hidden');
       }
     }
@@ -403,8 +452,8 @@ function updateClock() {
 
       clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      const countdown = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-      timerEl.innerHTML = countdown;
+      // #timer shows static "Next:" info, not countdown
+      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
       timerEl.classList.remove('hidden');
     }
   }
