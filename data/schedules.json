@@ -1,12 +1,12 @@
 {
   "normal": {
     "Monday": [
-      { "name": "Period 1", "start": 515, "end": 575 },
-      { "name": "Period 2", "start": 585, "end": 630 },
-      { "name": "A Lunch", "start": 630, "end": 660 },
-      { "name": "Period 3", "start": 670, "end": 730 },
-      { "name": "Period 5", "start": 760, "end": 820 },
-      { "name": "Period 6", "start": 830, "end": 885 }
+      { "name": "Period 1", "start": 515, "end": 595 },
+      { "name": "Period 2", "start": 605, "end": 650 },
+      { "name": "A Lunch", "start": 650, "end": 680 },
+      { "name": "Period 3", "start": 690, "end": 770 },
+      { "name": "Period 5", "start": 780, "end": 860 },
+      { "name": "Period 6", "start": 870, "end": 915 }
     ],
     "Tuesday": [
       { "name": "Period 1", "start": 515, "end": 560 },
