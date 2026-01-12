@@ -636,7 +636,7 @@ function renderCalendar() {
   document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
-  prevBtn.disabled = (currentYear === 2025 && currentMonth === 11);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 0);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -649,12 +649,12 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2025 && currentMonth === 11);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 0);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
-      if (prevMonthDate.getFullYear() < 2025 || (prevMonthDate.getFullYear() === 2025 && prevMonthDate.getMonth() < 11)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 0)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -737,10 +737,10 @@ function changeMonth(delta) {
     currentMonth = 0;
     currentYear++;
   }
-  // Enforce bounds: November 2025 to June 2026
-  if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
-    currentMonth = 11;
-    currentYear = 2025;
+  // Enforce bounds: January 2026 to June 2026
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 0)) {
+    currentMonth = 0;
+    currentYear = 2026;
   }
   if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
     currentMonth = 5;
@@ -751,9 +751,9 @@ function changeMonth(delta) {
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
-if (currentYear < 2025 || (currentYear === 2025 && currentMonth < 11)) {
-  currentMonth = 11;
-  currentYear = 2025;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 0)) {
+  currentMonth = 0;
+  currentYear = 2026;
 }
 
 function loadThemeOnPage() {
