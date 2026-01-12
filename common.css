@@ -603,11 +603,13 @@ h1, h2, h3 {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  width: 1000px;
-  overflow-x: visible;
+  max-width: 1000px;
+  width: 95%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  align-items: center;
+  overflow-x: auto;
 }
 
 .calendar-grid {
