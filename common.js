@@ -38,24 +38,23 @@ function getSchedules(date) {
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   const lunch = lunchPreferences[today] || 'A';
-  // For normal schedule, adjust lunch periods based on preference
+
+  // Handle the new schedule structure with A/B lunch options
   if (scheduleKey === 'normal') {
     const adjusted = { ...baseSchedule };
+    // For days with lunch options, select the appropriate schedule
     if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
-      if (lunch === 'B') {
-        // Swap A and B lunch
-        adjusted[today] = adjusted[today].map(p => {
-          if (p.name === 'A Lunch') return { ...p, name: 'B Lunch' };
-          if (p.name === 'B Lunch') return { ...p, name: 'A Lunch' };
-          if (today === 'Monday' && p.name === 'Period 3') {
-            return { ...p, start: 11*60, end: 12*60+20 };
-          }
-          if (today === 'Monday' && p.name === 'Period 3' && lunch === 'B') {
-            return { ...p, start: 11*60, end: 12*60+20 };
-          }
-          // Similar for other days
-          return p;
-        });
+      if (baseSchedule[today][lunch]) {
+        adjusted[today] = baseSchedule[today][lunch];
+      }
+    }
+    return adjusted;
+  } else if (scheduleKey === 'sem1FinalsWeek') {
+    // Handle finals week with lunch options
+    const adjusted = { ...baseSchedule };
+    if (today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
+      if (baseSchedule[today][lunch]) {
+        adjusted[today] = baseSchedule[today][lunch];
       }
     }
     return adjusted;
@@ -125,7 +124,17 @@ function getHolidayForDate(date) {
 function getScheduleSummary(schedules, dayName) {
   const schedule = schedules[dayName];
   if (!schedule || schedule.length === 0) return 'No School';
-  let names = schedule.map(p => p.name);
+
+  // Handle the new structure where schedule might be an object with A/B options
+  let periodsToProcess = [];
+  if (Array.isArray(schedule)) {
+    periodsToProcess = schedule;
+  } else if (typeof schedule === 'object' && schedule.A) {
+    // If it's an object with A/B options, use A as the default for summary
+    periodsToProcess = schedule.A;
+  }
+
+  let names = periodsToProcess.map(p => p.name);
   names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
   const simplifiedNames = names.map(n => {
     if (n.startsWith("Period 1")) return "1";
@@ -136,6 +145,7 @@ function getScheduleSummary(schedules, dayName) {
     if (n.startsWith("Period 6")) return "6";
     if (n.includes("Lunch")) return "L";
     if (n.includes("Homeroom")) return "HR";
+    if (n.includes("ROO")) return "ROO";
     return n;
   });
   const uniqueNames = [...new Set(simplifiedNames)];
