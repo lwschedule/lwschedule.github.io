@@ -29,13 +29,28 @@
     (async () => {
       await initApp();
       const content = document.getElementById('normalScheduleContent');
-      const normalDate = new Date(2025, 9, 1);
-      const schedules = getSchedules(normalDate);
+      const schedules = schedulesData.normal;
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+      function getScheduleForDay(dayName, defaultLunch = 'A') {
+        const daySchedule = schedules[dayName];
+        if (Array.isArray(daySchedule)) {
+          return daySchedule;
+        } else if (daySchedule && daySchedule[defaultLunch]) {
+          return daySchedule[defaultLunch];
+        }
+        return [];
+      }
+
       let html = '';
       weekDays.forEach(day => {
         html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
-        html += renderScheduleTable(schedules[day], null, true);
+        const daySchedule = getScheduleForDay(day);
+        if (!daySchedule || daySchedule.length === 0) {
+          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+        } else {
+          html += renderScheduleTable(daySchedule, null, true);
+        }
       });
       content.innerHTML = html;
     })();
