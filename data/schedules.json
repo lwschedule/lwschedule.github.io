@@ -6,16 +6,16 @@
         { "name": "Period 2", "start": 605, "end": 650 },
         { "name": "A Lunch", "start": 650, "end": 680 },
         { "name": "Period 3", "start": 690, "end": 770 },
-        { "name": "Period 5", "start": 780, "end": 840 },
-        { "name": "Period 6", "start": 850, "end": 895 }
+        { "name": "Period 5", "start": 780, "end": 860 },
+        { "name": "Period 6", "start": 870, "end": 915 }
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 595 },
         { "name": "Period 2", "start": 605, "end": 650 },
         { "name": "Period 3", "start": 660, "end": 740 },
         { "name": "B Lunch", "start": 740, "end": 770 },
-        { "name": "Period 5", "start": 780, "end": 840 },
-        { "name": "Period 6", "start": 850, "end": 895 }
+        { "name": "Period 5", "start": 780, "end": 860 },
+        { "name": "Period 6", "start": 870, "end": 915 }
       ]
     },
     "Tuesday": {
@@ -25,7 +25,7 @@
         { "name": "A Lunch", "start": 650, "end": 680 },
         { "name": "Period 4", "start": 690, "end": 770 },
         { "name": "Period 4", "start": 780, "end": 825 },
-        { "name": "Period 6", "start": 835, "end": 895 }
+        { "name": "Period 6", "start": 835, "end": 915 }
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 560 },
@@ -33,7 +33,7 @@
         { "name": "Period 4", "start": 660, "end": 740 },
         { "name": "B Lunch", "start": 740, "end": 770 },
         { "name": "Period 4", "start": 780, "end": 825 },
-        { "name": "Period 6", "start": 835, "end": 895 }
+        { "name": "Period 6", "start": 835, "end": 915 }
       ]
     },
     "Wednesday": [
@@ -49,7 +49,7 @@
         { "name": "A Lunch", "start": 650, "end": 680 },
         { "name": "Period 4", "start": 690, "end": 770 },
         { "name": "Period 5", "start": 780, "end": 825 },
-        { "name": "Period 6", "start": 835, "end": 895 }
+        { "name": "Period 6", "start": 835, "end": 915 }
       ],
       "B": [
         { "name": "Period 2", "start": 515, "end": 595 },
@@ -57,7 +57,7 @@
         { "name": "Period 4", "start": 660, "end": 740 },
         { "name": "B Lunch", "start": 740, "end": 770 },
         { "name": "Period 5", "start": 780, "end": 825 },
-        { "name": "Period 6", "start": 835, "end": 895 }
+        { "name": "Period 6", "start": 835, "end": 915 }
       ]
     },
     "Friday": {
@@ -69,7 +69,7 @@
         { "name": "Period 3", "start": 702, "end": 750 },
         { "name": "Period 4", "start": 757, "end": 805 },
         { "name": "Period 5", "start": 812, "end": 860 },
-        { "name": "Period 6", "start": 867, "end": 895 }
+        { "name": "Period 6", "start": 867, "end": 915 }
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 563 },
@@ -79,7 +79,7 @@
         { "name": "B Lunch", "start": 720, "end": 750 },
         { "name": "Period 4", "start": 757, "end": 805 },
         { "name": "Period 5", "start": 812, "end": 860 },
-        { "name": "Period 6", "start": 867, "end": 895 }
+        { "name": "Period 6", "start": 867, "end": 915 }
       ]
     }
   },
