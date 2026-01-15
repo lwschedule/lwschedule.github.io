@@ -1,4 +1,5 @@
 let lunchPreferences = null;
+let finalsLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
@@ -22,10 +23,12 @@ function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (saved) lunchPreferences = JSON.parse(saved);
+    const finalsSaved = localStorage.getItem('finalsLunchPreferences');
+    if (finalsSaved) finalsLunchPreferences = JSON.parse(finalsSaved);
   } catch (e) {}
 }
 
-function isSem1FinalsWeek(date) {
+function isFinalsWeek(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
@@ -34,10 +37,11 @@ function isSem1FinalsWeek(date) {
 
 function getSchedules(date) {
   if (!schedulesData) return {};
-  const scheduleKey = isSem1FinalsWeek(date) ? 'sem1FinalsWeek' : 'normal';
+  const scheduleKey = isFinalsWeek(date) ? 'finals' : 'normal';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
-  const lunch = lunchPreferences[today] || 'A';
+  const lunchPrefs = scheduleKey === 'finals' ? finalsLunchPreferences : lunchPreferences;
+  const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   // Handle the new schedule structure with A/B lunch options
   if (scheduleKey === 'normal') {
@@ -49,7 +53,7 @@ function getSchedules(date) {
       }
     }
     return adjusted;
-  } else if (scheduleKey === 'sem1FinalsWeek') {
+  } else if (scheduleKey === 'finals') {
     // Handle finals week with lunch options
     const adjusted = { ...baseSchedule };
     if (today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
@@ -820,7 +824,7 @@ async function loadData() {
   } catch (error) {
     console.error('Error loading data:', error);
     // Set defaults
-    schedulesData = { normal: {}, sem1FinalsWeek: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
+    schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
   }
@@ -828,7 +832,14 @@ async function loadData() {
 
 async function initApp() {
   await loadData();
-  checkSetupComplete();
+  if (checkSetupComplete()) {
+    // Check for finals lunch setup if during finals week
+    const now = new Date();
+    if (isFinalsWeek(now) && !localStorage.getItem('finalsLunchPreferences')) {
+      window.location.href = '/settings/lunch?finals=true';
+      return;
+    }
+  }
   loadLunchPreferences();
   loadThemeOnPage();
   if (document.getElementById('holidayCountdown')) {
