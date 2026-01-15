@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presidents Day Week - LW Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4b2e83">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .schedule-image { width: 100%; max-width: 650px; margin: 20px auto; border-radius: 12px; box-shadow: var(--glow); display: block; }
+  </style>
+</head>
+<body>
+  <a href="/schedules" class="backBtn">← Back</a>
+  <div class="pageContainer">
+    <h2>Presidents Day Week Schedule</h2>
+    <p style="text-align: center; opacity: 0.8;">February 16-20, 2026</p>
+    <div id="presidentsScheduleContent"></div>
+  </div>
+  <script src="/common.js"></script>
+  <script>
+    (async () => {
+      await initApp();
+      const content = document.getElementById('presidentsScheduleContent');
+      const presidentsDates = [
+        { day: 'Monday', date: new Date(2026, 1, 16) },
+        { day: 'Tuesday', date: new Date(2026, 1, 17) },
+        { day: 'Wednesday', date: new Date(2026, 1, 18) },
+        { day: 'Thursday', date: new Date(2026, 1, 19) },
+        { day: 'Friday', date: new Date(2026, 1, 20) }
+      ];
+      let html = '';
+      presidentsDates.forEach(({ day, date }) => {
+        html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
+        const schedules = getSchedules(date);
+        const schedule = schedules[day];
+        if (!schedule || schedule.length === 0) {
+          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+        } else {
+          html += renderScheduleTable(schedule, null, true);
+        }
+      });
+      content.innerHTML = html;
+    })();
+  </script>
+</body>
+</html>

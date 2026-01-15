@@ -172,7 +172,7 @@ function getScheduleSummary(schedules, dayName) {
     if (n.startsWith("Period 6")) return "6";
     if (n.includes("Lunch")) return "L";
     if (n.includes("Homeroom")) return "HR";
-    if (n.includes("ROO")) return "ROO";
+    if (n.includes("Roo")) return "Roo";
     return n;
   });
   const uniqueNames = [...new Set(simplifiedNames)];
