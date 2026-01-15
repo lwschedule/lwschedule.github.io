@@ -30,11 +30,11 @@
       await initApp();
       const content = document.getElementById('finalsScheduleContent');
       const finalsDates = [
-        { day: 'Monday', date: new Date(2026, 0, 19) },
-        { day: 'Tuesday', date: new Date(2026, 0, 20) },
-        { day: 'Wednesday', date: new Date(2026, 0, 21) },
-        { day: 'Thursday', date: new Date(2026, 0, 22) },
-        { day: 'Friday', date: new Date(2026, 0, 23) }
+        { day: 'Monday', date: new Date('2026-01-19') },
+        { day: 'Tuesday', date: new Date('2026-01-20') },
+        { day: 'Wednesday', date: new Date('2026-01-21') },
+        { day: 'Thursday', date: new Date('2026-01-22') },
+        { day: 'Friday', date: new Date('2026-01-23') }
       ];
       let html = '';
       finalsDates.forEach(({ day, date }) => {

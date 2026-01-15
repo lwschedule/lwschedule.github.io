@@ -29,11 +29,11 @@
       await initApp();
       const content = document.getElementById('presidentsScheduleContent');
       const presidentsDates = [
-        { day: 'Monday', date: new Date(2026, 1, 16) },
-        { day: 'Tuesday', date: new Date(2026, 1, 17) },
-        { day: 'Wednesday', date: new Date(2026, 1, 18) },
-        { day: 'Thursday', date: new Date(2026, 1, 19) },
-        { day: 'Friday', date: new Date(2026, 1, 20) }
+        { day: 'Monday', date: new Date('2026-02-16') },
+        { day: 'Tuesday', date: new Date('2026-02-17') },
+        { day: 'Wednesday', date: new Date('2026-02-18') },
+        { day: 'Thursday', date: new Date('2026-02-19') },
+        { day: 'Friday', date: new Date('2026-02-20') }
       ];
       let html = '';
       presidentsDates.forEach(({ day, date }) => {
