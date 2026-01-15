@@ -52,10 +52,18 @@ function isPresidentsWeek(date) {
   return year === 2026 && month === 1 && day >= 16 && day <= 20;
 }
 
+function isLeapDay(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  return year === 2026 && month === 2 && day >= 9 && day <= 13;
+}
+
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
-  if (isPresidentsWeek(date)) scheduleKey = 'presidents';
+  if (isLeapDay(date)) scheduleKey = 'leap';
+  else if (isPresidentsWeek(date)) scheduleKey = 'presidents';
   else if (isFinalsWeek(date)) scheduleKey = 'finals';
   else if (isMidWinter(date)) scheduleKey = 'midWinter';
   const baseSchedule = schedulesData[scheduleKey];
