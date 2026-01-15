@@ -1,5 +1,6 @@
 let lunchPreferences = null;
 let finalsLunchPreferences = null;
+let midWinterLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
@@ -25,6 +26,8 @@ function loadLunchPreferences() {
     if (saved) lunchPreferences = JSON.parse(saved);
     const finalsSaved = localStorage.getItem('finalsLunchPreferences');
     if (finalsSaved) finalsLunchPreferences = JSON.parse(finalsSaved);
+    const midWinterSaved = localStorage.getItem('midWinterLunchPreferences');
+    if (midWinterSaved) midWinterLunchPreferences = JSON.parse(midWinterSaved);
   } catch (e) {}
 }
 
@@ -35,12 +38,23 @@ function isFinalsWeek(date) {
   return year === 2026 && month === 0 && day >= 19 && day <= 23;
 }
 
+function isMidWinter(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  return year === 2026 && month === 1 && day >= 9 && day <= 11;
+}
+
 function getSchedules(date) {
   if (!schedulesData) return {};
-  const scheduleKey = isFinalsWeek(date) ? 'finals' : 'normal';
+  let scheduleKey = 'normal';
+  if (isFinalsWeek(date)) scheduleKey = 'finals';
+  else if (isMidWinter(date)) scheduleKey = 'midWinter';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
-  const lunchPrefs = scheduleKey === 'finals' ? finalsLunchPreferences : lunchPreferences;
+  let lunchPrefs = lunchPreferences;
+  if (scheduleKey === 'finals') lunchPrefs = finalsLunchPreferences;
+  else if (scheduleKey === 'midWinter') lunchPrefs = midWinterLunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   // Handle the new schedule structure with A/B lunch options
@@ -57,6 +71,15 @@ function getSchedules(date) {
     // Handle finals week with lunch options
     const adjusted = { ...baseSchedule };
     if (today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
+      if (baseSchedule[today][lunch]) {
+        adjusted[today] = baseSchedule[today][lunch];
+      }
+    }
+    return adjusted;
+  } else if (scheduleKey === 'midWinter') {
+    // Handle mid-winter with lunch options
+    const adjusted = { ...baseSchedule };
+    if (today === 'Monday' || today === 'Tuesday') {
       if (baseSchedule[today][lunch]) {
         adjusted[today] = baseSchedule[today][lunch];
       }
@@ -275,7 +298,7 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayEndDate(holidayName) {
   if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  if (holidayName === "Mid-Winter Break") return new Date(2026, 1, 15, 23, 59, 59);
+  if (holidayName === "Mid-Winter Break") return new Date(2026, 1, 11, 12, 52, 0);
   if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
   for (const holiday of holidays) {
     if (holiday.name === holidayName) {
@@ -832,11 +855,25 @@ async function loadData() {
 
 async function initApp() {
   await loadData();
+  // Check for semester 2 reset
+  const now = new Date();
+  const sem2Start = new Date(2026, 0, 24); // Jan 24, 2026
+  if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
+    // Reset all lunch preferences
+    localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
+    localStorage.removeItem('finalsLunchPreferences');
+    localStorage.removeItem('midWinterLunchPreferences');
+    localStorage.setItem('sem2ResetDone', 'true');
+  }
   if (checkSetupComplete()) {
     // Check for finals lunch setup if during finals week
-    const now = new Date();
     if (isFinalsWeek(now) && !localStorage.getItem('finalsLunchPreferences')) {
       window.location.href = '/settings/lunch?finals=true';
+      return;
+    }
+    // Check for mid-winter lunch setup if during mid-winter
+    if (isMidWinter(now) && !localStorage.getItem('midWinterLunchPreferences')) {
+      window.location.href = '/settings/lunch?midWinter=true';
       return;
     }
   }

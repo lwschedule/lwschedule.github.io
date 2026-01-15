@@ -83,6 +83,57 @@
       ]
     }
   },
+  "midWinter": {
+    "Monday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 578, "end": 633 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "A Lunch", "start": 696, "end": 726 },
+        { "name": "Period 5", "start": 797, "end": 852 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 578, "end": 633 },
+        { "name": "Period 3", "start": 704, "end": 759 },
+        { "name": "B Lunch", "start": 759, "end": 789 },
+        { "name": "Period 5", "start": 797, "end": 852 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ]
+    },
+    "Tuesday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 563 },
+        { "name": "Homeroom/Personalization", "start": 570, "end": 610 },
+        { "name": "Period 2", "start": 617, "end": 665 },
+        { "name": "A Lunch", "start": 665, "end": 695 },
+        { "name": "Period 3", "start": 702, "end": 750 },
+        { "name": "Period 4", "start": 757, "end": 805 },
+        { "name": "Period 5", "start": 812, "end": 860 },
+        { "name": "Period 6", "start": 867, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 563 },
+        { "name": "Homeroom/Personalization", "start": 570, "end": 610 },
+        { "name": "Period 2", "start": 617, "end": 665 },
+        { "name": "Period 3", "start": 672, "end": 720 },
+        { "name": "B Lunch", "start": 720, "end": 750 },
+        { "name": "Period 4", "start": 757, "end": 805 },
+        { "name": "Period 5", "start": 812, "end": 860 },
+        { "name": "Period 6", "start": 867, "end": 915 }
+      ]
+    },
+    "Wednesday": [
+      { "name": "Period 1", "start": 515, "end": 552 },
+      { "name": "Period 2", "start": 559, "end": 596 },
+      { "name": "Period 3", "start": 603, "end": 640 },
+      { "name": "Period 4", "start": 647, "end": 684 },
+      { "name": "Period 5", "start": 691, "end": 728 },
+      { "name": "Period 6", "start": 735, "end": 772 },
+      { "name": "Lunch", "start": 772, "end": 810 }
+    ]
+  },
   "finals": {
     "Monday": [],
     "Tuesday": {
