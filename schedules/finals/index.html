@@ -29,12 +29,17 @@
     (async () => {
       await initApp();
       const content = document.getElementById('finalsScheduleContent');
-      const finalsDate = new Date(2026, 0, 20);
-      const schedules = getSchedules(finalsDate);
-      const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      const finalsDates = [
+        { day: 'Monday', date: new Date(2026, 0, 19) },
+        { day: 'Tuesday', date: new Date(2026, 0, 20) },
+        { day: 'Wednesday', date: new Date(2026, 0, 21) },
+        { day: 'Thursday', date: new Date(2026, 0, 22) },
+        { day: 'Friday', date: new Date(2026, 0, 23) }
+      ];
       let html = '';
-      weekDays.forEach(day => {
+      finalsDates.forEach(({ day, date }) => {
         html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
+        const schedules = getSchedules(date);
         const schedule = schedules[day];
         if (!schedule || schedule.length === 0) {
           html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
