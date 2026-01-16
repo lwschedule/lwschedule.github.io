@@ -253,11 +253,8 @@ function displayTimeBlocks(container, data) {
   const hoursBlock = document.getElementById('clockDisplay-hours-block');
 
   // Show/hide blocks
-  const showDays = (data.days && data.days > 0);
-  const showHours = (data.hours !== undefined && (showDays || data.hours > 0));
-
-  if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
-  if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
+  if (daysBlock) daysBlock.style.display = (data.days && data.days > 0) ? 'block' : 'none';
+  if (hoursBlock) hoursBlock.style.display = (data.hours !== undefined) ? 'block' : 'none';
 
   // Update text
   if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
