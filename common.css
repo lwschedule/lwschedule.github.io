@@ -811,16 +811,7 @@ h1, h2, h3 {
   }
 }
 
-/* Extremely small screens - hide calendar and show warning */
-@media (max-width: 400px) {
-  #calendarContainer {
-    display: none;
-  }
 
-  #deviceWarning {
-    display: block !important;
-  }
-}
 
 /* Large desktop screens (1200px and up) */
 @media (min-width: 1200px) {

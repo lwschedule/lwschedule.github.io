@@ -18,7 +18,7 @@
   <div class="pageContainer">
     <h2>Monthly Calendar</h2>
     <div id="deviceWarning" style="display: none; text-align: center; padding: 40px 20px; color: white;">
-      <h3>Please load this page on a larger device</h3>
+      <h3>Please rotate your device to landscape mode or load this page on a larger device</h3>
       <p>The calendar requires a wider screen to display properly.</p>
     </div>
     <div id="calendarContainer">
@@ -39,6 +39,33 @@
       renderCalendar();
       document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
       document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
+
+      // Check for horizontal scrolling and show device warning
+      function checkHorizontalScroll() {
+        const calendarContainer = document.getElementById('calendarContainer');
+        const deviceWarning = document.getElementById('deviceWarning');
+
+        if (!calendarContainer || !deviceWarning) return;
+
+        // Check if content overflows horizontally
+        const hasHorizontalScroll = document.body.scrollWidth > window.innerWidth ||
+                                   calendarContainer.scrollWidth > calendarContainer.clientWidth;
+
+        if (hasHorizontalScroll) {
+          deviceWarning.style.display = 'block';
+          calendarContainer.style.display = 'none';
+        } else {
+          deviceWarning.style.display = 'none';
+          calendarContainer.style.display = 'block';
+        }
+      }
+
+      // Check on load and resize
+      checkHorizontalScroll();
+      window.addEventListener('resize', checkHorizontalScroll);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(checkHorizontalScroll, 100);
+      });
     })();
   </script>
 </body>
