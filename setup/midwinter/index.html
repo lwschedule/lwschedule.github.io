@@ -42,7 +42,10 @@
   <script src="/common.js"></script>
   <script>
     (async () => {
-      await initApp();
+      // Minimal setup for lunch selection pages - no redirects
+      await loadData();
+      loadLunchPreferences();
+      loadThemeOnPage();
 
       // Load existing mid-winter lunch preference
       const existing = localStorage.getItem('midWinterLunchPreferences');
