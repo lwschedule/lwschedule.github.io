@@ -1,6 +1,8 @@
 let lunchPreferences = null;
 let finalsLunchPreferences = null;
 let midWinterLunchPreferences = null;
+let presidentsLunchPreferences = null;
+let leapLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
@@ -28,6 +30,10 @@ function loadLunchPreferences() {
     if (finalsSaved) finalsLunchPreferences = JSON.parse(finalsSaved);
     const midWinterSaved = localStorage.getItem('midWinterLunchPreferences');
     if (midWinterSaved) midWinterLunchPreferences = JSON.parse(midWinterSaved);
+    const presidentsSaved = localStorage.getItem('presidentsLunchPreferences');
+    if (presidentsSaved) presidentsLunchPreferences = JSON.parse(presidentsSaved);
+    const leapSaved = localStorage.getItem('leapLunchPreferences');
+    if (leapSaved) leapLunchPreferences = JSON.parse(leapSaved);
   } catch (e) {}
 }
 
@@ -71,6 +77,8 @@ function getSchedules(date) {
   let lunchPrefs = lunchPreferences;
   if (scheduleKey === 'finals') lunchPrefs = finalsLunchPreferences;
   else if (scheduleKey === 'midWinter') lunchPrefs = midWinterLunchPreferences;
+  else if (scheduleKey === 'presidents') lunchPrefs = presidentsLunchPreferences;
+  else if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   // Handle the new schedule structure with A/B lunch options
@@ -887,12 +895,22 @@ async function initApp() {
   if (checkSetupComplete()) {
     // Check for finals lunch setup if during finals week
     if (isFinalsWeek(now) && !localStorage.getItem('finalsLunchPreferences')) {
-      window.location.href = '/settings/lunch?finals=true';
+      window.location.href = '/setup/finals/';
       return;
     }
     // Check for mid-winter lunch setup if during mid-winter
     if (isMidWinter(now) && !localStorage.getItem('midWinterLunchPreferences')) {
-      window.location.href = '/settings/lunch?midWinter=true';
+      window.location.href = '/setup/midwinter/';
+      return;
+    }
+    // Check for presidents lunch setup if during presidents week
+    if (isPresidentsWeek(now) && !localStorage.getItem('presidentsLunchPreferences')) {
+      window.location.href = '/setup/presidents/';
+      return;
+    }
+    // Check for leap lunch setup if during leap day
+    if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
+      window.location.href = '/setup/leap/';
       return;
     }
   }
