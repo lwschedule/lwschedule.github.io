@@ -22,42 +22,24 @@
       <div class="lunchDay">
         <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Tuesday Lunch</label>
         <div class="lunchButtons">
-          <label class="lunchOption">
-            <input type="radio" name="tuesdayLunch" value="A" checked>
-            <span>A Lunch</span>
-          </label>
-          <label class="lunchOption">
-            <input type="radio" name="tuesdayLunch" value="B">
-            <span>B Lunch</span>
-          </label>
+          <button class="lunchBtn selected" data-day="Tuesday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
+          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
         </div>
       </div>
 
       <div class="lunchDay">
         <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Thursday Lunch</label>
         <div class="lunchButtons">
-          <label class="lunchOption">
-            <input type="radio" name="thursdayLunch" value="A" checked>
-            <span>A Lunch</span>
-          </label>
-          <label class="lunchOption">
-            <input type="radio" name="thursdayLunch" value="B">
-            <span>B Lunch</span>
-          </label>
+          <button class="lunchBtn selected" data-day="Thursday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
+          <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
         </div>
       </div>
 
       <div class="lunchDay">
         <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Friday Lunch</label>
         <div class="lunchButtons">
-          <label class="lunchOption">
-            <input type="radio" name="fridayLunch" value="A" checked>
-            <span>A Lunch</span>
-          </label>
-          <label class="lunchOption">
-            <input type="radio" name="fridayLunch" value="B">
-            <span>B Lunch</span>
-          </label>
+          <button class="lunchBtn selected" data-day="Friday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
+          <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
         </div>
       </div>
     </div>
@@ -71,6 +53,9 @@
     const theme = localStorage.getItem('theme') || 'purple';
     document.body.className = `theme-${theme}`;
 
+    // Initialize lunch preferences
+    let lunchPrefs = { Tuesday: 'A', Thursday: 'A', Friday: 'A' };
+
     // Load existing presidents lunch preferences
     const existing = localStorage.getItem('presidentsLunchPreferences');
     if (existing) {
@@ -78,27 +63,10 @@
         const prefs = JSON.parse(existing);
         // Handle both old format (single value) and new format (object)
         if (typeof prefs === 'object') {
-          // New format - per day preferences
-          if (prefs.Tuesday) {
-            const tuesdayRadio = document.querySelector(`input[name="tuesdayLunch"][value="${prefs.Tuesday}"]`);
-            if (tuesdayRadio) tuesdayRadio.checked = true;
-          }
-          if (prefs.Thursday) {
-            const thursdayRadio = document.querySelector(`input[name="thursdayLunch"][value="${prefs.Thursday}"]`);
-            if (thursdayRadio) thursdayRadio.checked = true;
-          }
-          if (prefs.Friday) {
-            const fridayRadio = document.querySelector(`input[name="fridayLunch"][value="${prefs.Friday}"]`);
-            if (fridayRadio) fridayRadio.checked = true;
-          }
+          lunchPrefs = { ...lunchPrefs, ...prefs };
         } else {
           // Old format - apply to all days
-          const tuesdayRadio = document.querySelector(`input[name="tuesdayLunch"][value="${prefs}"]`);
-          if (tuesdayRadio) tuesdayRadio.checked = true;
-          const thursdayRadio = document.querySelector(`input[name="thursdayLunch"][value="${prefs}"]`);
-          if (thursdayRadio) thursdayRadio.checked = true;
-          const fridayRadio = document.querySelector(`input[name="fridayLunch"][value="${prefs}"]`);
-          if (fridayRadio) fridayRadio.checked = true;
+          lunchPrefs = { Tuesday: prefs, Thursday: prefs, Friday: prefs };
         }
       } catch (e) {
         // Fallback for invalid data
@@ -106,16 +74,31 @@
       }
     }
 
+    function updateLunchUI() {
+      document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        btn.classList.toggle('selected', lunchPrefs[day] === lunch);
+      });
+    }
+
+    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        lunchPrefs[day] = lunch;
+        updateLunchUI();
+      });
+    });
+
     // Save button handler
     document.querySelector('.saveBtn').addEventListener('click', () => {
-      const preferences = {
-        Tuesday: document.querySelector('input[name="tuesdayLunch"]:checked')?.value || 'A',
-        Thursday: document.querySelector('input[name="thursdayLunch"]:checked')?.value || 'A',
-        Friday: document.querySelector('input[name="fridayLunch"]:checked')?.value || 'A'
-      };
-      localStorage.setItem('presidentsLunchPreferences', JSON.stringify(preferences));
+      localStorage.setItem('presidentsLunchPreferences', JSON.stringify(lunchPrefs));
       window.location.href = '/';
     });
+
+    // Initialize UI
+    updateLunchUI();
   </script>
   <style>
     .lunchSelections {
@@ -133,42 +116,35 @@
       border: 2px solid transparent;
     }
 
-    .lunchOption {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 12px 16px;
-      border-radius: 8px;
+    .lunchBtn {
+      flex: 1;
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--primary-light);
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s;
-      border: 2px solid transparent;
-      flex: 1;
-      justify-content: center;
       font-weight: 700;
+      text-align: center;
     }
 
-    .lunchOption:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: scale(1.02);
+    .lunchBtn:hover {
+      background: var(--primary-light);
+      color: white;
+      transform: scale(1.05);
     }
 
-    .lunchOption input[type="radio"] {
-      display: none;
-    }
-
-    .lunchOption input[type="radio"]:checked + span {
-      color: var(--primary);
-    }
-
-    .lunchOption input[type="radio"]:checked {
-      border-color: var(--primary);
+    .lunchBtn.selected {
+      background: var(--primary-light);
+      color: white;
       box-shadow: var(--glow);
     }
 
-    .lunchOption:has(input[type="radio"]:checked) {
-      background: rgba(107, 76, 183, 0.1);
-      border-color: var(--primary);
+    .lunchBtn:disabled {
+      opacity: 1;
+      cursor: default;
     }
 
     .lunchButtons {
@@ -185,8 +161,8 @@
         gap: 10px;
       }
 
-      .lunchOption {
-        padding: 10px 14px;
+      .lunchBtn {
+        padding: 10px 20px;
       }
 
       .lunchSelections {
