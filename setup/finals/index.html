@@ -39,31 +39,27 @@
       <button class="mainBtn saveBtn" style="width: 100%;">Save & Continue</button>
     </div>
   </div>
-  <script src="/common.js"></script>
   <script>
-    (async () => {
-      // Minimal setup for lunch selection pages - no redirects
-      await loadData();
-      loadLunchPreferences();
-      loadThemeOnPage();
+    // Load theme from localStorage
+    const theme = localStorage.getItem('theme') || 'purple';
+    document.body.className = `theme-${theme}`;
 
-      // Load existing finals lunch preference
-      const existing = localStorage.getItem('finalsLunchPreferences');
-      if (existing) {
-        const prefs = JSON.parse(existing);
-        const radio = document.querySelector(`input[name="finalsLunch"][value="${prefs}"]`);
-        if (radio) {
-          radio.checked = true;
-        }
+    // Load existing finals lunch preference
+    const existing = localStorage.getItem('finalsLunchPreferences');
+    if (existing) {
+      const prefs = JSON.parse(existing);
+      const radio = document.querySelector(`input[name="finalsLunch"][value="${prefs}"]`);
+      if (radio) {
+        radio.checked = true;
       }
+    }
 
-      // Save button handler
-      document.querySelector('.saveBtn').addEventListener('click', () => {
-        const selectedLunch = document.querySelector('input[name="finalsLunch"]:checked').value;
-        localStorage.setItem('finalsLunchPreferences', JSON.stringify(selectedLunch));
-        window.location.href = '/';
-      });
-    })();
+    // Save button handler
+    document.querySelector('.saveBtn').addEventListener('click', () => {
+      const selectedLunch = document.querySelector('input[name="finalsLunch"]:checked').value;
+      localStorage.setItem('finalsLunchPreferences', JSON.stringify(selectedLunch));
+      window.location.href = '/';
+    });
   </script>
   <style>
     .lunchOption {
