@@ -7,28 +7,55 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#4b2e83">
   <link rel="stylesheet" href="/common.css">
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>LEAP Day Lunch Setup</h2>
     <p style="text-align: center; opacity: 0.8; margin-bottom: 30px;">Choose your preferred lunch option for LEAP day week (March 9-13, 2026)</p>
 
-    <div class="settingsRow">
-      <div class="lunchRow">
-        <label style="display: block; margin-bottom: 15px; font-weight: 700; text-align: center; font-size: 1.1em;">Lunch Preference</label>
+    <div class="lunchSelections">
+      <div class="lunchDay">
+        <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Monday Lunch</label>
         <div class="lunchButtons">
           <label class="lunchOption">
-            <input type="radio" name="leapLunch" value="A" checked>
+            <input type="radio" name="mondayLunch" value="A" checked>
             <span>A Lunch</span>
           </label>
           <label class="lunchOption">
-            <input type="radio" name="leapLunch" value="B">
+            <input type="radio" name="mondayLunch" value="B">
+            <span>B Lunch</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="lunchDay">
+        <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Tuesday Lunch</label>
+        <div class="lunchButtons">
+          <label class="lunchOption">
+            <input type="radio" name="tuesdayLunch" value="A" checked>
+            <span>A Lunch</span>
+          </label>
+          <label class="lunchOption">
+            <input type="radio" name="tuesdayLunch" value="B">
+            <span>B Lunch</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="lunchDay">
+        <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Thursday Lunch</label>
+        <div class="lunchButtons">
+          <label class="lunchOption">
+            <input type="radio" name="thursdayLunch" value="A" checked>
+            <span>A Lunch</span>
+          </label>
+          <label class="lunchOption">
+            <input type="radio" name="thursdayLunch" value="B">
             <span>B Lunch</span>
           </label>
         </div>
@@ -44,31 +71,75 @@
     const theme = localStorage.getItem('theme') || 'purple';
     document.body.className = `theme-${theme}`;
 
-    // Load existing leap lunch preference
+    // Load existing leap lunch preferences
     const existing = localStorage.getItem('leapLunchPreferences');
     if (existing) {
-      const prefs = JSON.parse(existing);
-      const radio = document.querySelector(`input[name="leapLunch"][value="${prefs}"]`);
-      if (radio) {
-        radio.checked = true;
+      try {
+        const prefs = JSON.parse(existing);
+        // Handle both old format (single value) and new format (object)
+        if (typeof prefs === 'object') {
+          // New format - per day preferences
+          if (prefs.Monday) {
+            const mondayRadio = document.querySelector(`input[name="mondayLunch"][value="${prefs.Monday}"]`);
+            if (mondayRadio) mondayRadio.checked = true;
+          }
+          if (prefs.Tuesday) {
+            const tuesdayRadio = document.querySelector(`input[name="tuesdayLunch"][value="${prefs.Tuesday}"]`);
+            if (tuesdayRadio) tuesdayRadio.checked = true;
+          }
+          if (prefs.Thursday) {
+            const thursdayRadio = document.querySelector(`input[name="thursdayLunch"][value="${prefs.Thursday}"]`);
+            if (thursdayRadio) thursdayRadio.checked = true;
+          }
+        } else {
+          // Old format - apply to all days
+          const mondayRadio = document.querySelector(`input[name="mondayLunch"][value="${prefs}"]`);
+          if (mondayRadio) mondayRadio.checked = true;
+          const tuesdayRadio = document.querySelector(`input[name="tuesdayLunch"][value="${prefs}"]`);
+          if (tuesdayRadio) tuesdayRadio.checked = true;
+          const thursdayRadio = document.querySelector(`input[name="thursdayLunch"][value="${prefs}"]`);
+          if (thursdayRadio) thursdayRadio.checked = true;
+        }
+      } catch (e) {
+        // Fallback for invalid data
+        console.error('Error loading leap lunch preferences:', e);
       }
     }
 
     // Save button handler
     document.querySelector('.saveBtn').addEventListener('click', () => {
-      const selectedLunch = document.querySelector('input[name="leapLunch"]:checked').value;
-      localStorage.setItem('leapLunchPreferences', JSON.stringify(selectedLunch));
+      const preferences = {
+        Monday: document.querySelector('input[name="mondayLunch"]:checked')?.value || 'A',
+        Tuesday: document.querySelector('input[name="tuesdayLunch"]:checked')?.value || 'A',
+        Thursday: document.querySelector('input[name="thursdayLunch"]:checked')?.value || 'A'
+      };
+      localStorage.setItem('leapLunchPreferences', JSON.stringify(preferences));
       window.location.href = '/';
     });
   </script>
   <style>
+    .lunchSelections {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .lunchDay {
+      background: var(--card-dark);
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+    }
+
     .lunchOption {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: var(--card-dark);
-      padding: 15px 20px;
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px 16px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s;
       border: 2px solid transparent;
@@ -78,7 +149,7 @@
     }
 
     .lunchOption:hover {
-      background: #2a2a2a;
+      background: rgba(255, 255, 255, 0.1);
       transform: scale(1.02);
     }
 
@@ -90,9 +161,14 @@
       color: var(--primary);
     }
 
-    .lunchOption input[type="radio"]:checked ~ * {
+    .lunchOption input[type="radio"]:checked {
       border-color: var(--primary);
       box-shadow: var(--glow);
+    }
+
+    .lunchOption:has(input[type="radio"]:checked) {
+      background: rgba(107, 76, 183, 0.1);
+      border-color: var(--primary);
     }
 
     .lunchButtons {
@@ -103,10 +179,6 @@
       margin: 0 auto;
     }
 
-    .lunchRow {
-      text-align: center;
-    }
-
     @media (max-width: 600px) {
       .lunchButtons {
         flex-direction: column;
@@ -114,7 +186,15 @@
       }
 
       .lunchOption {
-        padding: 12px 16px;
+        padding: 10px 14px;
+      }
+
+      .lunchSelections {
+        gap: 15px;
+      }
+
+      .lunchDay {
+        padding: 15px;
       }
     }
   </style>
