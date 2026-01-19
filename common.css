@@ -608,20 +608,18 @@ h1, h2, h3 {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  max-width: 1200px;
-  width: 95%;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  overflow-x: auto;
 }
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(100px, 1fr));
+  grid-template-columns: repeat(7, minmax(40px, 1fr));
   gap: 8px;
   width: 100%;
+  overflow-x: auto;
 }
 
 .calendar-day-header {
