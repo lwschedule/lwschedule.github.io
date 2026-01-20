@@ -857,17 +857,25 @@ async function loadData() {
       ...h,
       date: new Date(h.date)
     }));
-    // Convert date strings to Date objects for academic terms
-    academicTerms.quarters = academicTerms.quarters.map(q => ({
-      ...q,
-      start: new Date(q.start),
-      end: new Date(q.end)
-    }));
-    academicTerms.semesters = academicTerms.semesters.map(s => ({
-      ...s,
-      start: new Date(s.start),
-      end: new Date(s.end)
-    }));
+    // Convert date strings to Date objects for academic terms (local timezone)
+    academicTerms.quarters = academicTerms.quarters.map(q => {
+      const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
+      const [endYear, endMonth, endDay] = q.end.split('-').map(Number);
+      return {
+        ...q,
+        start: new Date(startYear, startMonth - 1, startDay),
+        end: new Date(endYear, endMonth - 1, endDay)
+      };
+    });
+    academicTerms.semesters = academicTerms.semesters.map(s => {
+      const [startYear, startMonth, startDay] = s.start.split('-').map(Number);
+      const [endYear, endMonth, endDay] = s.end.split('-').map(Number);
+      return {
+        ...s,
+        start: new Date(startYear, startMonth - 1, startDay),
+        end: new Date(endYear, endMonth - 1, endDay)
+      };
+    });
     // Set lunchPreferences from data
     lunchPreferences = schedulesData.lunchPreferences;
     loadLunchPreferences(); // Override with localStorage if set
