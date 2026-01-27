@@ -324,13 +324,30 @@ function getNextPeriodStart(schedule, now) {
   return null;
 }
 
+function getNextSchoolDayInfo() {
+  const nextSchoolStart = getNextSchoolDayStartTime();
+  if (nextSchoolStart) {
+    const nextDay = new Date(nextSchoolStart);
+    const dayName = getDayNameFromDate(nextDay);
+    const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
+    const day = nextDay.getDate();
+    const schedules = getSchedules(nextDay);
+    const schedule = schedules[dayName];
+    if (schedule && schedule.length > 0) {
+      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
+    }
+  }
+  return 'Next: School';
+}
+
 function getNextPeriodInfo(schedule, now, nowDate) {
   // During a period - what's next?
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
     if (next) return `Next: ${next.name}`;
-    return null; // Last period
+    // Last period - show next school day info instead of null
+    return getNextSchoolDayInfo();
   }
   
   // Before school starts - first period
@@ -342,7 +359,8 @@ function getNextPeriodInfo(schedule, now, nowDate) {
   const next = getNextPeriodStart(schedule, now);
   if (next) return `Next: ${next.name}`;
   
-  return null; // After school or no more periods
+  // After school - show next school day info
+  return getNextSchoolDayInfo();
 }
 
 function getNextPeriodInfoForHoliday(nowDate) {
