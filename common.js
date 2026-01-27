@@ -886,6 +886,103 @@ async function loadData() {
   }
 }
 
+// Pack up notification system
+function initPackUpNotifications() {
+  // Check if notifications are enabled and supported
+  if ('Notification' in window && localStorage.getItem('notifications-enabled') === 'true') {
+    // Check permission status
+    if (Notification.permission === 'granted') {
+      // Start monitoring for pack up times
+      startPackUpMonitoring();
+    } else if (Notification.permission !== 'denied') {
+      // Permission not yet requested, user needs to enable in settings
+      console.log('Notifications not yet enabled, user needs to enable in settings');
+    }
+  }
+}
+
+function startPackUpMonitoring() {
+  // Clear any existing interval
+  if (window.packUpInterval) {
+    clearInterval(window.packUpInterval);
+  }
+  
+  // Check every minute for upcoming pack up times
+  window.packUpInterval = setInterval(() => {
+    checkPackUpTime();
+  }, 60000); // Check every minute
+  
+  // Initial check
+  checkPackUpTime();
+}
+
+function checkPackUpTime() {
+  const now = new Date();
+  const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+  
+  // Don't show notifications if pack up time is 0 (disabled)
+  if (packUpTimeMinutes <= 0) return;
+  
+  // Don't show notifications on weekends
+  const dayOfWeek = now.getDay();
+  if (dayOfWeek === 0 || dayOfWeek === 6) return;
+  
+  // Don't show notifications on holidays
+  const holiday = getHolidayForDate(now);
+  if (holiday) return;
+  
+  // Get today's schedule
+  const schedules = getSchedules(now);
+  const todayName = getDayNameFromDate(now);
+  const todaySchedule = schedules[todayName];
+  
+  if (!todaySchedule || todaySchedule.length === 0) return;
+  
+  // Check each period to see if we're approaching pack up time
+  for (let i = 0; i < todaySchedule.length; i++) {
+    const period = todaySchedule[i];
+    const periodEndTime = new Date(now);
+    periodEndTime.setHours(0, period.end, 0, 0);
+    
+    // Calculate when to show notification (end time - pack up minutes)
+    const notificationTime = new Date(periodEndTime);
+    notificationTime.setMinutes(periodEndTime.getMinutes() - packUpTimeMinutes);
+    
+    // Check if we're at the notification time (within 1 minute)
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const notificationMinutes = notificationTime.getHours() * 60 + notificationTime.getMinutes();
+    
+    if (nowMinutes === notificationMinutes) {
+      showPackUpNotification(period);
+      break; // Only show one notification per check
+    }
+  }
+}
+
+function showPackUpNotification(period) {
+  if (Notification.permission !== 'granted') return;
+  
+  const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+  const todayName = getDayNameFromDate(new Date());
+  
+  const notification = new Notification('Pack Up Time!', {
+    body: `Time to pack up for ${period.name} in ${packUpTimeMinutes} minutes (${todayName})`,
+    icon: '/icons/icon-192.png',
+    tag: 'pack-up-reminder'
+  });
+  
+  // Optional: Add click handler
+  notification.onclick = function() {
+    window.focus();
+    this.close();
+  };
+  
+  // Auto-close after 5 seconds
+  setTimeout(() => {
+    notification.close();
+  }, 5000);
+}
+
 async function initApp() {
   await loadData();
   // Check for semester 2 reset
@@ -923,4 +1020,7 @@ async function initApp() {
   if (document.getElementById('holidayTableBody')) {
     updateHolidayTable();
   }
+  
+  // Initialize pack up notifications
+  initPackUpNotifications();
 }

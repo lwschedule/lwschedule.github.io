@@ -47,6 +47,12 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
 .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
 .saveBtn:hover { transform: scale(1.05); }
+.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--primary-light); }
+input:checked + .slider:before { transform: translateX(26px); }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
   .pageContainer { padding: 20px 0 0 0; }
@@ -69,6 +75,18 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
         <button class="pack-up-preset" data-value="7">7</button>
         <button class="pack-up-preset" data-value="10">10</button>
       </div>
+    </div>
+    <div class="settingsRow">
+      <label for="notificationToggle">Enable browser notifications:</label>
+      <div style="display: flex; align-items: center; gap: 15px; justify-content: center; margin-top: 10px;">
+        <span style="font-size: 0.9em; opacity: 0.8;">Off</span>
+        <label class="switch">
+          <input type="checkbox" id="notificationToggle">
+          <span class="slider"></span>
+        </label>
+        <span style="font-size: 0.9em; opacity: 0.8;">On</span>
+      </div>
+      <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
     </div>
     <button class="saveBtn" id="saveBtn">Save</button>
   </div>
@@ -111,6 +129,56 @@ localStorage.setItem('pack-up-time', val);
 alert('Pack-up reminder saved!');
 location.href = '/settings';
 });
+
+// Notification functionality
+const notificationToggle = document.getElementById('notificationToggle');
+const notificationStatus = document.getElementById('notificationStatus');
+
+// Check if notifications are supported
+if ('Notification' in window) {
+  // Load current notification preference
+  const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+  notificationToggle.checked = notificationsEnabled;
+  
+  // Update status display
+  updateNotificationStatus();
+  
+  // Handle toggle changes
+  notificationToggle.addEventListener('change', async () => {
+    if (notificationToggle.checked) {
+      // Request notification permission
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        localStorage.setItem('notifications-enabled', 'true');
+        notificationStatus.innerHTML = '✅ Notifications enabled';
+        notificationStatus.style.color = 'var(--primary-light)';
+      } else {
+        notificationToggle.checked = false;
+        localStorage.setItem('notifications-enabled', 'false');
+        notificationStatus.innerHTML = '❌ Notifications blocked by browser';
+        notificationStatus.style.color = '#ff4757';
+      }
+    } else {
+      localStorage.setItem('notifications-enabled', 'false');
+      updateNotificationStatus();
+    }
+  });
+} else {
+  notificationToggle.disabled = true;
+  notificationStatus.innerHTML = '❌ Browser does not support notifications';
+  notificationStatus.style.color = '#ff4757';
+}
+
+function updateNotificationStatus() {
+  const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+  if (notificationsEnabled) {
+    notificationStatus.innerHTML = '✅ Notifications enabled';
+    notificationStatus.style.color = 'var(--primary-light)';
+  } else {
+    notificationStatus.innerHTML = 'Notifications disabled';
+    notificationStatus.style.color = 'var(--text-light)';
+  }
+}
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   document.body.className = `theme-${theme}`;
