@@ -5,7 +5,7 @@
 A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v1.9.1`
+**Current Version:** `v2.4.1`
 
 ---
 
@@ -60,7 +60,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 ### 📆 Special Schedules
 
-* **Finals Week** (January 19-23, 2026) — special schedule with modified periods
+* **Finals Week** — special schedule with modified periods
 * **Thanksgiving Week** (November 24-26, 2025) — shortened days
 * Automatic detection and switching between schedule types
 
