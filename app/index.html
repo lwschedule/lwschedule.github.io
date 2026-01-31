@@ -12,30 +12,35 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#4b2e83">
   <link rel="stylesheet" href="/common.css">
+  <style>
+    .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
+    .setup-section { background: #1f1f1f; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
+    .setup-section:nth-of-type(1) { animation-delay: 0.1s; }
+    .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
+    .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
+    .appButtons { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 40px 0; }
+    .appBtn { background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
+    .appBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .appBtn.installBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; }
+    .appBtn.installBtn:hover { box-shadow: 0 0 30px rgba(107, 76, 183, 0.8); }
+    @media (max-width: 600px) {
+      .appButtons { gap: 15px; }
+      .appBtn { padding: 15px; font-size: 1.1em; }
+    }
+  </style>
 </head>
 <body>
-  <a href="/" class="backBtn">← Back to Site</a>
-  <div class="appContainer">
-    <div class="appHeader">
-      <h1>Install LW Schedule</h1>
-      <p>Get the best experience with our Progressive Web App</p>
-    </div>
-    
-    <div id="statusMessage" class="statusMessage"></div>
-    
-    <div class="appButtons">
-      <button id="installBtn" class="appBtn installBtn">
-        <span id="installBtnText">Install App</span>
-        <div id="installBtnSubtext" style="font-size: 0.9em; opacity: 0.8; margin-top: 5px; display: none;"></div>
-      </button>
-      <button id="continueBtn" class="appBtn">
-        Continue on Web
-      </button>
-    </div>
-    
-    <div id="installInstructions" class="installInstructions">
-      <h3>Installation Instructions</h3>
-      <div id="instructionContent"></div>
+  <div class="pageContainer">
+    <h2>Install LW Schedule</h2>
+    <div class="setup-section">
+      <div class="appButtons">
+        <button id="installBtn" class="appBtn installBtn">
+          Install App
+        </button>
+        <button id="continueBtn" class="appBtn">
+          Continue on Web
+        </button>
+      </div>
     </div>
   </div>
   
@@ -55,14 +60,8 @@
       return false;
     }
     
-    // Universal PWA Installation Logic
+    // PWA Installation Logic
     let deferredPrompt;
-    let isInstalled = false;
-    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    let isAndroid = /Android/.test(navigator.userAgent);
-    let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    let isFirefox = typeof InstallTrigger !== 'undefined';
     
     // Check if app is already installed
     function checkIfInstalled() {
@@ -73,125 +72,15 @@
       if (window.navigator.standalone === true) {
         return true;
       }
-      // Check for service worker registration
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          if (registrations.length > 0) {
-            // Service worker is registered, app might be installed
-            updateUIForInstalled();
-          }
-        });
-      }
       return false;
     }
     
     function updateUIForInstalled() {
-      isInstalled = true;
-      const statusMsg = document.getElementById('statusMessage');
       const installBtn = document.getElementById('installBtn');
-      const installBtnText = document.getElementById('installBtnText');
       const continueBtn = document.getElementById('continueBtn');
-      
-      statusMsg.innerHTML = '✅ App is already installed! You can use it from your home screen.';
-      statusMsg.className = 'statusMessage success';
       
       installBtn.style.display = 'none';
       continueBtn.textContent = 'Continue to Setup';
-    }
-    
-    function updateUIForInstallable() {
-      const statusMsg = document.getElementById('statusMessage');
-      const installBtnSubtext = document.getElementById('installBtnSubtext');
-      
-      statusMsg.innerHTML = '📱 Ready to install! Tap the button below to add to your home screen.';
-      statusMsg.className = 'statusMessage info';
-      installBtnSubtext.style.display = 'block';
-      
-      if (isChrome) {
-        installBtnSubtext.textContent = 'Chrome: Tap the install button that will appear';
-      } else if (isIOS) {
-        installBtnSubtext.textContent = 'Safari: Tap Share → Add to Home Screen';
-      } else if (isAndroid && !isChrome) {
-        installBtnSubtext.textContent = 'Android: Follow the on-screen instructions';
-      } else if (isFirefox) {
-        installBtnSubtext.textContent = 'Firefox: Manual installation instructions will be shown';
-      } else {
-        installBtnSubtext.textContent = 'Your browser: Follow the instructions below';
-      }
-    }
-    
-    function updateUIForNotInstallable() {
-      const statusMsg = document.getElementById('statusMessage');
-      const installBtnText = document.getElementById('installBtnText');
-      
-      statusMsg.innerHTML = '⚠️ Your browser may not support PWA installation. See instructions below.';
-      statusMsg.className = 'statusMessage warning';
-      installBtnText.textContent = 'Show Installation Guide';
-    }
-    
-    function showInstallationInstructions() {
-      const instructions = document.getElementById('installInstructions');
-      const content = document.getElementById('instructionContent');
-      instructions.style.display = 'block';
-      
-      if (isChrome) {
-        content.innerHTML = `
-          <div class="instructionStep">
-            <strong>Chrome/Edge:</strong>
-            <p>1. Tap the <span style="color:#4285f4">install</span> button that appears in the address bar</p>
-            <p>2. Or tap the three dots menu → "Install ${document.title}"</p>
-            <p>3. The app will be added to your home screen</p>
-          </div>
-        `;
-      } else if (isIOS) {
-        content.innerHTML = `
-          <div class="instructionStep">
-            <strong>Safari on iPhone/iPad:</strong>
-            <p>1. Tap the <span style="color:#007aff">Share</span> button (box with arrow)</p>
-            <p>2. Scroll down and tap "Add to Home Screen"</p>
-            <p>3. Tap "Add" in the top right corner</p>
-            <p>4. Find the app on your home screen!</p>
-          </div>
-          <div class="instructionStep">
-            <strong>Note:</strong> iOS Safari doesn't support full PWA features, but you can still add it to your home screen for easy access.
-          </div>
-        `;
-      } else if (isAndroid && !isChrome) {
-        content.innerHTML = `
-          <div class="instructionStep">
-            <strong>Android Browser:</strong>
-            <p>1. Tap the menu button (three dots or lines)</p>
-            <p>2. Look for "Add to Home Screen" or "Install App"</p>
-            <p>3. Follow the on-screen instructions</p>
-          </div>
-        `;
-      } else if (isFirefox) {
-        content.innerHTML = `
-          <div class="instructionStep">
-            <strong>Firefox:</strong>
-            <p>Firefox has limited PWA support. You can:</p>
-            <p>1. Bookmark this page for quick access</p>
-            <p>2. Use the "Add to Home Screen" option if available</p>
-            <p>3. Consider using Chrome/Edge for full PWA features</p>
-          </div>
-        `;
-      } else {
-        content.innerHTML = `
-          <div class="instructionStep">
-            <strong>General Instructions:</strong>
-            <p>1. Look for an "Install" or "Add to Home Screen" option in your browser menu</p>
-            <p>2. This is usually found in the three-dot menu or share button</p>
-            <p>3. Follow your browser's specific instructions</p>
-          </div>
-          <div class="instructionStep">
-            <strong>Benefits of installing:</strong>
-            <p>• Works offline</p>
-            <p>• Faster loading</p>
-            <p>• Home screen icon</p>
-            <p>• Full screen experience</p>
-          </div>
-        `;
-      }
     }
     
     // Event Listeners
@@ -199,7 +88,6 @@
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       deferredPrompt = e;
-      updateUIForInstallable();
     });
     
     window.addEventListener('appinstalled', (evt) => {
@@ -207,7 +95,7 @@
     });
     
     document.getElementById('installBtn').addEventListener('click', async () => {
-      if (isInstalled) {
+      if (checkIfInstalled()) {
         // Already installed, go to setup
         window.location.href = '/setup';
         return;
@@ -222,9 +110,8 @@
         }
         deferredPrompt = null;
       } else {
-        // Show manual instructions
-        showInstallationInstructions();
-        updateUIForNotInstallable();
+        // Not installable, go to setup
+        window.location.href = '/setup';
       }
     });
     
@@ -235,10 +122,12 @@
     
     // Initialize
     window.addEventListener('load', () => {
+      if (checkIfInPWA()) {
+        return;
+      }
+      
       if (checkIfInstalled()) {
         updateUIForInstalled();
-      } else {
-        updateUIForInstallable();
       }
     });
   </script>
