@@ -12,6 +12,20 @@ function checkSetupComplete() {
   const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
+  const appVisited = localStorage.getItem('app-visited');
+  
+  // Check if already in PWA mode (standalone display mode)
+  const isInPWA = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || 
+                  (window.navigator.standalone === true);
+  
+  // Redirect to /app page before setup for new users (but not if already in PWA)
+  if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
+    if (!theme || !gradient || !lunch || packup === null) {
+      window.location.href = '/app';
+      return false;
+    }
+  }
+  
   if (!setupComplete && !window.location.pathname.includes('/setup')) {
     if (!theme || !gradient || !lunch || packup === null) {
       window.location.href = '/setup';

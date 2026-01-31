@@ -40,6 +40,14 @@
     .completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.3em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 30px; }
     .completeBtn:hover { transform: scale(1.05); }
     @media (max-width: 600px) { .themeGrid { grid-template-columns: repeat(2, 1fr); } }
+    
+    /* Toggle Switch Styles */
+    .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
+    .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--primary-light); }
+    input:checked + .slider:before { transform: translateX(26px); }
   </style>
 </head>
 <body class="theme-purple">
@@ -124,16 +132,28 @@
     </div>
 
     <div class="setup-section">
-      <h3>3. Pack-Up Reminders</h3>
+      <h3>3. Pack-Up Notifications</h3>
       <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
-      <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Notify me minutes before class ends:</label>
-      <div class="pack-up-presets">
-        <button class="pack-up-preset selected" data-value="0">Off</button>
-        <button class="pack-up-preset" data-value="1">1 min</button>
-        <button class="pack-up-preset" data-value="3">3 min</button>
-        <button class="pack-up-preset" data-value="5">5 min</button>
-        <button class="pack-up-preset" data-value="7">7 min</button>
-        <button class="pack-up-preset" data-value="10">10 min</button>
+      
+      <div style="margin-bottom: 20px; text-align: center;">
+        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Enable Pack-Up Notifications</label>
+        <label class="switch">
+          <input type="checkbox" id="notificationsToggle" checked>
+          <span class="slider"></span>
+        </label>
+        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">Notifications will be requested when you enable this</p>
+      </div>
+      
+      <div id="notificationsSettings" style="display: block;">
+        <label style="display: block; margin-bottom: 10px; font-weight: 700; text-align: center;">Notify me minutes before class ends:</label>
+        <div class="pack-up-presets">
+          <button class="pack-up-preset selected" data-value="0">Off</button>
+          <button class="pack-up-preset" data-value="1">1 min</button>
+          <button class="pack-up-preset" data-value="3">3 min</button>
+          <button class="pack-up-preset" data-value="5">5 min</button>
+          <button class="pack-up-preset" data-value="7">7 min</button>
+          <button class="pack-up-preset" data-value="10">10 min</button>
+        </div>
       </div>
     </div>
 
@@ -186,12 +206,39 @@
         updatePackUpUI();
       });
     });
+    
+    // Notifications toggle functionality
+    const notificationsToggle = document.getElementById('notificationsToggle');
+    const notificationsSettings = document.getElementById('notificationsSettings');
+    
+    notificationsToggle.addEventListener('change', () => {
+      if (notificationsToggle.checked) {
+        notificationsSettings.style.display = 'block';
+        // Request notification permission if enabled
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+              console.log('Notifications enabled');
+            }
+          });
+        }
+      } else {
+        notificationsSettings.style.display = 'none';
+        // Set pack-up time to 0 if notifications disabled
+        packUpTime = 0;
+        updatePackUpUI();
+      }
+    });
+    
     document.getElementById('completeBtn').addEventListener('click', () => {
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('gradient', 'on');
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', packUpTime);
+      localStorage.setItem('notifications-enabled', notificationsToggle.checked ? 'true' : 'false');
       localStorage.setItem('setup-complete', 'true');
+      // Mark app as visited since user came through the app page
+      localStorage.setItem('app-visited', 'true');
       window.location.href = '/';
     });
     applyTheme();
