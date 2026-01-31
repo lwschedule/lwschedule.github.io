@@ -19,10 +19,9 @@
     .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
     .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
     .appButtons { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 40px 0; }
-    .appBtn { background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
-    .appBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
-    .appBtn.installBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; }
-    .appBtn.installBtn:hover { box-shadow: 0 0 30px rgba(107, 76, 183, 0.8); }
+    .appBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift2 8s ease infinite; color: white; border: none; padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
+    .appBtn:hover { transform: scale(1.05); }
+    .appBtn.installBtn { animation: gradientShift5 8s ease infinite; }
     @media (max-width: 600px) {
       .appButtons { gap: 15px; }
       .appBtn { padding: 15px; font-size: 1.1em; }
@@ -62,6 +61,10 @@
     
     // PWA Installation Logic
     let deferredPrompt;
+    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    let isMacOS = /Macintosh/.test(navigator.userAgent);
+    let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    let isSafariBrowser = isSafari && (isIOS || isMacOS);
     
     // Check if app is already installed
     function checkIfInstalled() {
@@ -83,6 +86,130 @@
       continueBtn.textContent = 'Continue to Setup';
     }
     
+    function showSafariInstallationInstructions() {
+      // Create instructions overlay
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+      overlay.style.zIndex = '1000';
+      overlay.style.display = 'flex';
+      overlay.style.flexDirection = 'column';
+      overlay.style.justifyContent = 'center';
+      overlay.style.alignItems = 'center';
+      overlay.style.padding = '20px';
+      overlay.style.boxSizing = 'border-box';
+      
+      const content = document.createElement('div');
+      content.style.background = 'var(--card-dark)';
+      content.style.padding = '30px';
+      content.style.borderRadius = '16px';
+      content.style.textAlign = 'center';
+      content.style.maxWidth = '500px';
+      content.style.width = '100%';
+      content.style.boxShadow = 'var(--glow)';
+      
+      const title = document.createElement('h3');
+      title.style.color = 'white';
+      title.style.marginTop = '0';
+      title.textContent = isIOS ? 'Add to Home Screen' : 'Add to Dock';
+      
+      const steps = document.createElement('div');
+      steps.style.textAlign = 'left';
+      steps.style.marginBottom = '20px';
+      
+      if (isIOS) {
+        // iOS Instructions
+        const step1 = document.createElement('p');
+        step1.style.color = 'white';
+        step1.style.margin = '10px 0';
+        step1.innerHTML = '<strong>1.</strong> Tap the <span style="color:#007aff">Share</span> button (box with arrow)';
+        
+        const step2 = document.createElement('p');
+        step2.style.color = 'white';
+        step2.style.margin = '10px 0';
+        step2.innerHTML = '<strong>2.</strong> Scroll down and tap <strong>"Add to Home Screen"</strong>';
+        
+        const step3 = document.createElement('p');
+        step3.style.color = 'white';
+        step3.style.margin = '10px 0';
+        step3.innerHTML = '<strong>3.</strong> Tap <strong>"Add"</strong> in the top right corner';
+        
+        const note = document.createElement('p');
+        note.style.color = '#f1c40f';
+        note.style.fontSize = '0.9em';
+        note.style.margin = '10px 0';
+        note.innerHTML = '<strong>Note:</strong> iOS Safari has limited PWA features, but you can still add it to your home screen for easy access.';
+        
+        steps.appendChild(step1);
+        steps.appendChild(step2);
+        steps.appendChild(step3);
+        steps.appendChild(note);
+      } else if (isMacOS) {
+        // macOS Instructions
+        const step1 = document.createElement('p');
+        step1.style.color = 'white';
+        step1.style.margin = '10px 0';
+        step1.innerHTML = '<strong>1.</strong> Click the <span style="color:#007aff">Share</span> button (box with arrow) in the address bar';
+        
+        const step2 = document.createElement('p');
+        step2.style.color = 'white';
+        step2.style.margin = '10px 0';
+        step2.innerHTML = '<strong>2.</strong> Select <strong>"Add to Dock"</strong> from the dropdown menu';
+        
+        const step3 = document.createElement('p');
+        step3.style.color = 'white';
+        step3.style.margin = '10px 0';
+        step3.innerHTML = '<strong>3.</strong> The app will be added to your Dock for easy access';
+        
+        const note = document.createElement('p');
+        note.style.color = '#f1c40f';
+        note.style.fontSize = '0.9em';
+        note.style.margin = '10px 0';
+        note.innerHTML = '<strong>Note:</strong> macOS Safari has limited PWA features, but you can still add it to your Dock for easy access.';
+        
+        steps.appendChild(step1);
+        steps.appendChild(step2);
+        steps.appendChild(step3);
+        steps.appendChild(note);
+      }
+      
+      const buttons = document.createElement('div');
+      buttons.style.display = 'flex';
+      buttons.style.gap = '15px';
+      buttons.style.justifyContent = 'center';
+      
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'appBtn';
+      closeBtn.textContent = 'Close';
+      closeBtn.style.marginTop = '10px';
+      closeBtn.onclick = () => {
+        document.body.removeChild(overlay);
+      };
+      
+      const continueBtn = document.createElement('button');
+      continueBtn.className = 'appBtn installBtn';
+      continueBtn.textContent = 'Continue to Setup';
+      continueBtn.style.marginTop = '10px';
+      continueBtn.onclick = () => {
+        document.body.removeChild(overlay);
+        window.location.href = '/setup';
+      };
+      
+      buttons.appendChild(closeBtn);
+      buttons.appendChild(continueBtn);
+      
+      content.appendChild(title);
+      content.appendChild(steps);
+      content.appendChild(buttons);
+      overlay.appendChild(content);
+      
+      document.body.appendChild(overlay);
+    }
+    
     // Event Listeners
     window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent the mini-infobar from appearing on mobile
@@ -101,7 +228,10 @@
         return;
       }
       
-      if (deferredPrompt) {
+      if (isSafariBrowser) {
+        // Safari doesn't support beforeinstallprompt, show manual instructions
+        showSafariInstallationInstructions();
+      } else if (deferredPrompt) {
         // Chrome/Edge installation
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
