@@ -673,12 +673,38 @@ function updateHolidayCountdown() {
   } else {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
-      const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-      const lastSchoolDayEnd = getLastSchoolDayEndTime(holidayStartDate);
-      if (lastSchoolDayEnd && lastSchoolDayEnd > now) {
+      let countdownTarget;
+      
+      // Special case for Mid-Winter Break: countdown to the end of the last school day before break
+      // which is the Wednesday when lunch ends (1:30 PM)
+      if (upcoming.name === "Mid-Winter Break") {
+        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+        const dayOfWeek = holidayStartDate.getDay();
+        
+        // If the holiday starts on Wednesday (0=Sunday, 3=Wednesday), countdown to end of Wednesday
+        if (dayOfWeek === 3) {
+          // Get Wednesday schedule and find when lunch ends
+          const wednesdaySchedule = schedulesData.normal?.Wednesday || schedulesData.midWinter?.Wednesday;
+          if (wednesdaySchedule && wednesdaySchedule.length > 0) {
+            const lastPeriod = wednesdaySchedule[wednesdaySchedule.length - 1];
+            countdownTarget = new Date(holidayStartDate);
+            countdownTarget.setHours(0, lastPeriod.end, 0, 0);
+          } else {
+            countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+          }
+        } else {
+          countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+        }
+      } else {
+        // For other holidays, use the normal logic
+        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+        countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+      }
+      
+      if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
         countdownMsg.style.display = 'none';
-        const diff = lastSchoolDayEnd - now;
+        const diff = countdownTarget - now;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
