@@ -86,20 +86,22 @@
   "midWinter": {
     "Monday": {
       "A": [
-        { "name": "Period 1", "start": 515, "end": 555 },
-        { "name": "Period 2", "start": 605, "end": 633 },
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 578, "end": 633 },
         { "name": "Period 3", "start": 641, "end": 696 },
         { "name": "A Lunch", "start": 696, "end": 726 },
-        { "name": "Period 4", "start": 734, "end": 779 },
-        { "name": "Lunch", "start": 780, "end": 810 }
+        { "name": "Period 4", "start": 734, "end": 789 },
+        { "name": "Period 5", "start": 797, "end": 852 },
+        { "name": "Period 6", "start": 860, "end": 915 }
       ],
       "B": [
-        { "name": "Period 1", "start": 515, "end": 555 },
-        { "name": "Period 2", "start": 605, "end": 633 },
-        { "name": "Period 3", "start": 704, "end": 759 },
-        { "name": "B Lunch", "start": 759, "end": 789 },
-        { "name": "Period 4", "start": 734, "end": 779 },
-        { "name": "Lunch", "start": 780, "end": 810 }
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 578, "end": 633 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "Period 4", "start": 734, "end": 789 },
+        { "name": "B Lunch", "start": 789, "end": 819 },
+        { "name": "Period 5", "start": 797, "end": 852 },
+        { "name": "Period 6", "start": 860, "end": 915 }
       ]
     },
     "Tuesday": {
@@ -125,12 +127,13 @@
       ]
     },
     "Wednesday": [
-      { "name": "Period 1", "start": 515, "end": 555 },
-      { "name": "Period 2", "start": 559, "end": 637 },
-      { "name": "Period 3", "start": 643, "end": 700 },
-      { "name": "Period 4", "start": 707, "end": 737 },
-      { "name": "Period 5", "start": 751, "end": 812 },
-      { "name": "Period 6", "start": 815, "end": 852 }
+      { "name": "Period 1", "start": 515, "end": 552 },
+      { "name": "Period 2", "start": 559, "end": 596 },
+      { "name": "Period 3", "start": 603, "end": 640 },
+      { "name": "Period 4", "start": 647, "end": 684 },
+      { "name": "Period 5", "start": 691, "end": 728 },
+      { "name": "Period 6", "start": 735, "end": 772 },
+      { "name": "Lunch", "start": 772, "end": 810 }
     ]
   },
   "presidents": {
