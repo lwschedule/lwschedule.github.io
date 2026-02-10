@@ -60,7 +60,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 ### 📆 Special Schedules
 
-* **Thanksgiving Week** (November 24-26, 2025) — shortened days
 * Automatic detection and switching between schedule types
 
 ---
@@ -74,20 +73,29 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Teacher names
 * Room numbers
 * Integrate into Today's Schedule & notifications
-* Will be able to skip in setup
+* Will be able to skip in setup (with toggle)
 
 ### 🚶 Travel Time Estimates
 
 * Auto-calculate travel time between rooms
 * Adjust notifications based on walking distance
-* Will be able to skip in setup
+* Will be able to skip in setup (with toggle)
 
 ### ⭐ Sports/Clubs Support
+
+* Add recurring clubs
+* Weekly repeat days
+* First-time setup reminder
+* Search bar to select correct club
+* Will be able to skip in setup (with toggle)
+
+### ⚽ Sports Support
 
 * Add recurring sports/clubs
 * Weekly repeat days
 * First-time setup reminder
-* Will be able to skip in setup
+* Search bar to select correct sport
+* Will be able to skip in setup (with toggle)
 
 ### 📱 Phone Caddy Alerts
 
