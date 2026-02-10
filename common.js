@@ -67,7 +67,9 @@ function isLeapDay(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  return year === 2026 && month === 2 && day >= 9 && day <= 13;
+  // LEAP schedule only applies Monday-Wednesday (March 9-11)
+  // Thursday/Friday use normal schedule
+  return year === 2026 && month === 2 && day >= 9 && day <= 11;
 }
 
 function getSchedules(date) {
@@ -153,9 +155,17 @@ function getHolidayForDate(date) {
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
     if (holiday.name === "Mid-Winter Break") {
-      const start = new Date(2026, 1, 12).getTime();
-      const end = new Date(2026, 1, 16).getTime();
-      if (checkTime >= start && checkTime <= end) return holiday.name;
+      // Mid-Winter Break is Feb 12-15, 2026 (Thu-Sun)
+      // School ends on Wednesday Feb 11 at 1:30 PM
+      const holidayDate = new Date(2026, 1, 12);
+      const wednesdayBefore = new Date(2026, 1, 11);
+      if (checkTime >= wednesdayBefore.getTime() && checkTime < holidayDate.getTime()) {
+        return holiday.name;
+      }
+      if (checkTime >= holidayDate.getTime()) {
+        const endOfBreak = new Date(2026, 1, 15, 23, 59, 59);
+        if (checkTime <= endOfBreak.getTime()) return holiday.name;
+      }
     }
     if (holiday.name === "Spring Break") {
       const start = new Date(2026, 3, 13).getTime();
