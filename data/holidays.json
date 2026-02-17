@@ -1,6 +1,4 @@
 [
-  { "name": "Mid-Winter Break", "date": "2026-02-12", "displayDate": "February 12-15, 2026", "isWeekend": true },
-  { "name": "Presidents Day", "date": "2026-02-16", "displayDate": "February 16, 2026", "isWeekend": true },
   { "name": "LEAP Day", "date": "2026-03-13", "displayDate": "March 13, 2026", "isWeekend": false },
   { "name": "Spring Break", "date": "2026-04-13", "displayDate": "April 13-17, 2026", "isWeekend": true },
   { "name": "LEAP Day", "date": "2026-05-22", "displayDate": "May 22, 2026", "isWeekend": false },
