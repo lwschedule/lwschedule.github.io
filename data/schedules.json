@@ -153,14 +153,6 @@
     "Thursday": "A",
     "Friday": "A"
   },
-  },
-  "presidentsLunchPreferences": {
-    "Monday": null,
-    "Tuesday": "A",
-    "Wednesday": "All",
-    "Thursday": "A",
-    "Friday": "A"
-  },
   "leapLunchPreferences": {
     "Monday": "A",
     "Tuesday": "A",
