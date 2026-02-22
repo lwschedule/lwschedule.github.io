@@ -1,6 +1,4 @@
 let lunchPreferences = null;
-let midWinterLunchPreferences = null;
-let presidentsLunchPreferences = null;
 let leapLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
@@ -39,28 +37,9 @@ function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (saved) lunchPreferences = JSON.parse(saved);
-    const midWinterSaved = localStorage.getItem('midWinterLunchPreferences');
-    if (midWinterSaved) midWinterLunchPreferences = JSON.parse(midWinterSaved);
-    const presidentsSaved = localStorage.getItem('presidentsLunchPreferences');
-    if (presidentsSaved) presidentsLunchPreferences = JSON.parse(presidentsSaved);
     const leapSaved = localStorage.getItem('leapLunchPreferences');
     if (leapSaved) leapLunchPreferences = JSON.parse(leapSaved);
   } catch (e) {}
-}
-
-
-function isMidWinter(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  return year === 2026 && month === 1 && day >= 9 && day <= 11;
-}
-
-function isPresidentsWeek(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  return year === 2026 && month === 1 && day >= 16 && day <= 20;
 }
 
 function isLeapDay(date) {
@@ -76,30 +55,17 @@ function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
   if (isLeapDay(date)) scheduleKey = 'leap';
-  else if (isPresidentsWeek(date)) scheduleKey = 'presidents';
-  else if (isMidWinter(date)) scheduleKey = 'midWinter';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   let lunchPrefs = lunchPreferences;
-  if (scheduleKey === 'midWinter') lunchPrefs = midWinterLunchPreferences;
-  else if (scheduleKey === 'presidents') lunchPrefs = presidentsLunchPreferences;
-  else if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
+  if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
-  // Handle the new schedule structure with A/B lunch options
+  // Handle the schedule structure with A/B lunch options
   if (scheduleKey === 'normal') {
     const adjusted = { ...baseSchedule };
     // For days with lunch options, select the appropriate schedule
     if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
-      if (baseSchedule[today][lunch]) {
-        adjusted[today] = baseSchedule[today][lunch];
-      }
-    }
-    return adjusted;
-  } else if (scheduleKey === 'midWinter') {
-    // Handle mid-winter with lunch options
-    const adjusted = { ...baseSchedule };
-    if (today === 'Monday' || today === 'Tuesday') {
       if (baseSchedule[today][lunch]) {
         adjusted[today] = baseSchedule[today][lunch];
       }
@@ -685,31 +651,8 @@ function updateHolidayCountdown() {
     if (upcoming) {
       let countdownTarget;
       
-      // Special case for Mid-Winter Break: countdown to the end of the last school day before break
-      // which is the Wednesday when lunch ends (1:30 PM)
-      if (upcoming.name === "Mid-Winter Break") {
-        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-        const dayOfWeek = holidayStartDate.getDay();
-        
-        // If the holiday starts on Wednesday (0=Sunday, 3=Wednesday), countdown to end of Wednesday
-        if (dayOfWeek === 3) {
-          // Get Wednesday schedule and find when lunch ends
-          const wednesdaySchedule = schedulesData.normal?.Wednesday || schedulesData.midWinter?.Wednesday;
-          if (wednesdaySchedule && wednesdaySchedule.length > 0) {
-            const lastPeriod = wednesdaySchedule[wednesdaySchedule.length - 1];
-            countdownTarget = new Date(holidayStartDate);
-            countdownTarget.setHours(0, lastPeriod.end, 0, 0);
-          } else {
-            countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
-          }
-        } else {
-          countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
-        }
-      } else {
-        // For other holidays, use the normal logic
-        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-        countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
-      }
+      const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+      countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
       
       if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
@@ -1041,20 +984,9 @@ async function initApp() {
   if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
     // Reset all lunch preferences
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
-    localStorage.removeItem('midWinterLunchPreferences');
     localStorage.setItem('sem2ResetDone', 'true');
   }
   if (checkSetupComplete()) {
-    // Check for mid-winter lunch setup if during mid-winter
-    if (isMidWinter(now) && !localStorage.getItem('midWinterLunchPreferences')) {
-      window.location.href = '/setup/midwinter/';
-      return;
-    }
-    // Check for presidents lunch setup if during presidents week
-    if (isPresidentsWeek(now) && !localStorage.getItem('presidentsLunchPreferences')) {
-      window.location.href = '/setup/presidents/';
-      return;
-    }
     // Check for leap lunch setup if during leap day
     if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
       window.location.href = '/setup/leap/';
