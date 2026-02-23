@@ -70,7 +70,15 @@
 
       const schedules = getSchedules(dayDate);
       const schedule = schedules[dayName];
-      scheduleEl.innerHTML = renderScheduleTable(schedule, null, true);
+      let html = renderScheduleTable(schedule, null, true);
+      
+      // Add clubs if enabled
+      const clubsHtml = renderClubsForDay(dayDate, true);
+      if (clubsHtml) {
+        html += clubsHtml;
+      }
+      
+      scheduleEl.innerHTML = html;
     })();
   </script>
 </body>

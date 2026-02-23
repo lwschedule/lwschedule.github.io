@@ -5,7 +5,7 @@
 A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v2.5.3`
+**Current Version:** `v2.6`
 
 ---
 
@@ -62,6 +62,15 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 * Automatic detection and switching between schedule types
 
+### 🎯 Clubs
+
+* Browse and select from 90+ clubs
+* See your clubs in Today, Week, and Month views
+* Club meeting schedules: weekly, biweekly, monthly, last-of-month patterns
+* Toggle clubs on/off in settings
+* Search and filter clubs
+* Select/deselect all functionality
+
 ---
 
 ## 🚧 Upcoming Features (Planned)
@@ -81,17 +90,9 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * Adjust notifications based on walking distance
 * Will be able to skip in setup (with toggle)
 
-### ⭐ Sports/Clubs Support
-
-* Add recurring clubs
-* Weekly repeat days
-* First-time setup reminder
-* Search bar to select correct club
-* Will be able to skip in setup (with toggle)
-
 ### ⚽ Sports Support
 
-* Add recurring sports/clubs
+* Add recurring sports
 * Weekly repeat days
 * First-time setup reminder
 * Search bar to select correct sport

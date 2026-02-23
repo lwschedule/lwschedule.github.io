@@ -3,6 +3,7 @@ let leapLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
+let clubsData = null;
 
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
@@ -563,11 +564,20 @@ function updateWeekSchedule() {
     const isToday = (dayNameStr === todayName && dayDate.toDateString() === now.toDateString());
     const holidayName = getHolidayForDate(dayDate);
     let summary = '';
+    
+    // Get clubs for this day
+    const clubs = getClubsForDate(dayDate);
+    const clubCount = clubs.length;
+    
     if (holidayName) {
       summary = holidayName;
     } else {
       const schedules = getSchedules(dayDate);
       summary = getScheduleSummary(schedules, dayNameStr);
+      // Add club indicator
+      if (clubCount > 0 && isClubsEnabled()) {
+        summary += ` <span class="club-indicator">+${clubCount} club${clubCount > 1 ? 's' : ''}</span>`;
+      }
     }
     html += `<tr class="${isToday ? 'highlight' : ''} clickable-row" data-day="${dayNameStr.toLowerCase()}" data-date="${dayDate.toISOString()}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
   }
@@ -593,7 +603,15 @@ function updateTodaySchedule() {
   }
   const schedules = getSchedules(now);
   const today = schedules[currentDayName()];
-  scheduleEl.innerHTML = renderScheduleTable(today, minutesNow(), true);
+  let html = renderScheduleTable(today, minutesNow(), true);
+  
+  // Add clubs if enabled
+  const clubsHtml = renderClubsForDay(now, true);
+  if (clubsHtml) {
+    html += clubsHtml;
+  }
+  
+  scheduleEl.innerHTML = html;
 }
 
 function updateHolidayTable() {
@@ -772,6 +790,18 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
       }
     }
   }
+  
+  // Add club indicator
+  const clubs = getClubsForDate(date);
+  if (clubs.length > 0) {
+    const clubIndicator = document.createElement('div');
+    clubIndicator.className = 'club-dot';
+    clubIndicator.textContent = '🎯';
+    clubIndicator.style.cssText = 'font-size: 0.7em; position: absolute; top: 2px; right: 4px;';
+    cell.style.position = 'relative';
+    cell.appendChild(clubIndicator);
+  }
+  
   const isNov26 = month === 10 && day === 26 && year === 2025;
   const isJun17 = month === 5 && day === 17 && year === 2026;
   if (isNov26 || isJun17) {
@@ -832,10 +862,11 @@ function loadThemeOnPage() {
 
 async function loadData() {
   try {
-    const [schedulesRes, holidaysRes, termsRes] = await Promise.all([
+    const [schedulesRes, holidaysRes, termsRes, clubsRes] = await Promise.all([
       fetch('/data/schedules.json'),
       fetch('/data/holidays.json'),
-      fetch('/data/terms.json')
+      fetch('/data/terms.json'),
+      fetch('/data/clubs.json')
     ]);
     if (!schedulesRes.ok || !holidaysRes.ok || !termsRes.ok) {
       throw new Error('Failed to load data files');
@@ -870,13 +901,165 @@ async function loadData() {
     // Set lunchPreferences from data
     lunchPreferences = schedulesData.lunchPreferences;
     loadLunchPreferences(); // Override with localStorage if set
+    
+    // Load clubs data
+    if (clubsRes.ok) {
+      clubsData = await clubsRes.json();
+    }
   } catch (error) {
     console.error('Error loading data:', error);
     // Set defaults
     schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
+    clubsData = { clubs: [] };
   }
+}
+
+// Club functions
+function isClubsEnabled() {
+  return localStorage.getItem('clubsEnabled') !== 'false';
+}
+
+function getSelectedClubs() {
+  try {
+    const saved = localStorage.getItem('selectedClubs');
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function isLastWeekdayOfMonth(date, dayName) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  
+  // Map day names to JavaScript day numbers
+  const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
+  const targetDay = dayMap[dayName];
+  
+  // Check if this is the last occurrence of this weekday in the month
+  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+  
+  // Find the last occurrence of this weekday
+  for (let d = lastDayOfMonth; d > 0; d--) {
+    const checkDate = new Date(year, month, d);
+    if (checkDate.getDay() === targetDay) {
+      return d === day;
+    }
+  }
+  return false;
+}
+
+function isFirstWeekdayOfMonth(date, dayName) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  
+  const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
+  const targetDay = dayMap[dayName];
+  
+  // Find the first occurrence of this weekday in the month
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const checkDate = new Date(year, month, d);
+    if (checkDate.getDay() === targetDay) {
+      return d === day;
+    }
+  }
+  return false;
+}
+
+function isEvenWeek(date) {
+  // Calculate week number from start of school year (Sept 3, 2025)
+  const schoolStart = new Date(2025, 8, 3); // Sept 3, 2025
+  const diffTime = date.getTime() - schoolStart.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const weekNum = Math.floor(diffDays / 7);
+  return weekNum % 2 === 0;
+}
+
+function doesClubMeetOnDate(club, date) {
+  const dayName = getDayNameFromDate(date);
+  
+  // Check if club meets on this day of the week
+  if (club.day !== dayName) return false;
+  
+  // Check if date is within school year (Jan 24, 2026 to June 17, 2026 for semester 2)
+  const schoolEnd = new Date(2026, 5, 18); // June 18, 2026
+  if (date >= schoolEnd) return false;
+  
+  // Handle different frequencies
+  switch (club.frequency) {
+    case 'weekly':
+      return true;
+    case 'every-other':
+    case 'biweekly':
+      // Even weeks for these clubs
+      return isEvenWeek(date);
+    case 'last-of-month':
+      return isLastWeekdayOfMonth(date, club.day);
+    case 'monthly':
+      return isFirstWeekdayOfMonth(date, club.day);
+    case 'alternating':
+      // Alternating between morning and afternoon
+      return isEvenWeek(date);
+    default:
+      return true;
+  }
+}
+
+function getClubsForDate(date) {
+  if (!clubsData || !clubsData.clubs || !isClubsEnabled()) return [];
+  
+  const selectedClubIds = getSelectedClubs();
+  if (selectedClubIds.length === 0) return [];
+  
+  const dayName = getDayNameFromDate(date);
+  
+  return clubsData.clubs.filter(club => {
+    // Must be selected by user
+    if (!selectedClubIds.includes(club.id)) return false;
+    // Must meet on this date
+    return doesClubMeetOnDate(club, date);
+  }).map(club => {
+    // Return club with time info in minutes format for sorting
+    return {
+      ...club,
+      startMinutes: club.startHour * 60 + club.startMinute,
+      endMinutes: club.endHour * 60 + club.endMinute
+    };
+  }).sort((a, b) => a.startMinutes - b.startMinutes);
+}
+
+function formatClubTime(club) {
+  const formatTime = (h, m) => {
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
+  };
+  return `${formatTime(club.startHour, club.startMinute)} - ${formatTime(club.endHour, club.endMinute)}`;
+}
+
+function renderClubsForDay(date, showHeader = true) {
+  const clubs = getClubsForDate(date);
+  if (clubs.length === 0) return '';
+  
+  let html = '';
+  if (showHeader) {
+    html += '<div class="clubsSection"><h3>My Clubs</h3>';
+  }
+  html += '<table class="scheduleTable clubsTable"><thead><tr><th>Club</th><th>Time</th><th>Room</th></tr></thead><tbody>';
+  
+  clubs.forEach(club => {
+    html += `<tr><td>${club.name}</td><td>${formatClubTime(club)}</td><td>${club.room}</td></tr>`;
+  });
+  
+  html += '</tbody></table>';
+  if (showHeader) html += '</div>';
+  
+  return html;
 }
 
 // Pack up notification system
@@ -977,6 +1160,20 @@ function showPackUpNotification(period) {
 }
 
 async function initApp() {
+  // One-time data reset for clubs feature
+  const DATA_VERSION = '2.0';
+  const currentVersion = localStorage.getItem('dataVersion');
+  if (currentVersion !== DATA_VERSION) {
+    // Clear all user data and reset
+    localStorage.clear();
+    localStorage.setItem('dataVersion', DATA_VERSION);
+    // Redirect to setup
+    if (!window.location.pathname.includes('/setup') && !window.location.pathname.includes('/app')) {
+      window.location.href = '/setup';
+      return;
+    }
+  }
+  
   await loadData();
   // Check for semester 2 reset
   const now = new Date();

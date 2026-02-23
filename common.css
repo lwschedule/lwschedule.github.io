@@ -816,6 +816,51 @@ h1, h2, h3 {
   }
 }
 
+/* Announcement Banner */
+.announcement-banner {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  color: white;
+  padding: 15px 20px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  font-weight: 700;
+}
+
+.announcement-banner span {
+  flex: 1;
+  text-align: center;
+}
+
+.banner-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-left: 15px;
+}
+
+.banner-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
 /* Large desktop screens (1200px and up) */
 @media (min-width: 1200px) {
   .calendar {

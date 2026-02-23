@@ -49,12 +49,29 @@
     <a class="mainBtn" href="/holidays">Upcoming Holidays</a>
     <a class="mainBtn" href="/quarters">Quarters/Semesters</a>
   </div>
+  <div id="clubsBanner" class="announcement-banner">
+    <span>Clubs are here! Check them out in settings.</span>
+    <button id="closeBanner" class="banner-close">&times;</button>
+  </div>
   <script src="/common.js"></script>
   <script>
     (async () => {
       await initApp();
       updateClock();
       setInterval(updateClock, 1000);
+      
+      // Show clubs banner if not dismissed
+      const banner = document.getElementById('clubsBanner');
+      if (banner && localStorage.getItem('clubsBannerDismissed') !== 'true') {
+        banner.style.display = 'flex';
+      }
+      const closeBtn = document.getElementById('closeBanner');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          banner.style.display = 'none';
+          localStorage.setItem('clubsBannerDismissed', 'true');
+        });
+      }
     })();
   </script>
 </body>
