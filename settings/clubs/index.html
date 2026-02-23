@@ -244,6 +244,12 @@
       return `${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}`;
     }
     
+    // Format days for display
+    function formatClubDays(club) {
+      const days = club.days || (club.day ? [club.day] : []);
+      return days.join(', ');
+    }
+    
     // Get frequency label
     function getFrequencyLabel(frequency) {
       switch(frequency) {
@@ -263,11 +269,12 @@
       const filterLower = filter.toLowerCase();
       
       // Sort: selected clubs first, then alphabetically
-      let filteredClubs = allClubs.filter(club => 
-        club.name.toLowerCase().includes(filterLower) ||
-        club.room.toLowerCase().includes(filterLower) ||
-        club.day.toLowerCase().includes(filterLower)
-      );
+      let filteredClubs = allClubs.filter(club => {
+        const days = club.days || (club.day ? [club.day] : []);
+        return club.name.toLowerCase().includes(filterLower) ||
+          club.room.toLowerCase().includes(filterLower) ||
+          days.some(d => d.toLowerCase().includes(filterLower));
+      });
       
       // Sort: selected first, then by name
       filteredClubs.sort((a, b) => {
@@ -294,7 +301,7 @@
             <input type="checkbox" class="club-checkbox" data-id="${club.id}" ${isSelected ? 'checked' : ''}>
             <div class="club-info">
               <div class="club-name">${club.name}</div>
-              <div class="club-details">${club.day}${freqLabel} • ${timeStr} • Room ${club.room}</div>
+              <div class="club-details">${formatClubDays(club)}${freqLabel} • ${timeStr} • Room ${club.room}</div>
             </div>
           </div>
         `;

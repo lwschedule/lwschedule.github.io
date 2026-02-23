@@ -983,8 +983,9 @@ function isEvenWeek(date) {
 function doesClubMeetOnDate(club, date) {
   const dayName = getDayNameFromDate(date);
   
-  // Check if club meets on this day of the week
-  if (club.day !== dayName) return false;
+  // Check if club meets on this day of the week (support both old 'day' and new 'days' format)
+  const clubDays = club.days || (club.day ? [club.day] : []);
+  if (!clubDays.includes(dayName)) return false;
   
   // Check if date is within school year (Jan 24, 2026 to June 17, 2026 for semester 2)
   const schoolEnd = new Date(2026, 5, 18); // June 18, 2026
@@ -999,9 +1000,9 @@ function doesClubMeetOnDate(club, date) {
       // Even weeks for these clubs
       return isEvenWeek(date);
     case 'last-of-month':
-      return isLastWeekdayOfMonth(date, club.day);
+      return isLastWeekdayOfMonth(date, dayName);
     case 'monthly':
-      return isFirstWeekdayOfMonth(date, club.day);
+      return isFirstWeekdayOfMonth(date, dayName);
     case 'alternating':
       // Alternating between morning and afternoon
       return isEvenWeek(date);
