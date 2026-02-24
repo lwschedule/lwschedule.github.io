@@ -68,6 +68,7 @@
     {"id": "saga", "name": "SAGA (Sexuality and Gender Acceptance)", "room": "337", "days": ["Monday"], "frequency": "weekly", "startHour": 15, "startMinute": 25, "endHour": 16, "endMinute": 25},
     {"id": "sat-club", "name": "SAT Club", "room": "373", "days": ["Thursday"], "frequency": "weekly", "startHour": 15, "startMinute": 25, "endHour": 16, "endMinute": 25},
     {"id": "science-olympiad", "name": "Science Olympiad", "room": "N-261", "days": ["Friday"], "frequency": "weekly", "startHour": 7, "startMinute": 45, "endHour": 8, "endMinute": 45},
+    {"id": "symphony-club", "name": "Symphony Club", "room": "110", "days": ["Friday"], "frequency": "weekly", "startHour": 15, "startMinute": 25, "endHour": 16, "endMinute": 0},
     {"id": "speech-debate-club", "name": "Speech & Debate Club", "room": "330", "days": ["Tuesday", "Thursday"], "frequency": "weekly", "startHour": 7, "startMinute": 30, "endHour": 8, "endMinute": 30, "thuStartHour": 15, "thuStartMinute": 15, "thuEndHour": 16, "thuEndMinute": 15},
     {"id": "steam-club", "name": "STEAM Club", "room": "N-179", "days": ["Tuesday", "Thursday"], "frequency": "weekly", "startHour": 15, "startMinute": 25, "endHour": 17, "endMinute": 0},
     {"id": "students-against-hunger", "name": "Students Against Hunger", "room": "2nd Floor North Pod", "days": ["Friday"], "frequency": "weekly", "startHour": 15, "startMinute": 20, "endHour": 16, "endMinute": 20},
