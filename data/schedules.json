@@ -41,7 +41,6 @@
       { "name": "Period 3", "start": 605, "end": 685 },
       { "name": "Period 5", "start": 695, "end": 775 },
       { "name": "Lunch", "start": 780, "end": 810 }
-    ],
     "Thursday": {
       "A": [
         { "name": "Period 2", "start": 515, "end": 595 },
@@ -63,7 +62,7 @@
     "Friday": {
       "A": [
         { "name": "Period 1", "start": 515, "end": 563 },
-        { "name": "Roo", "start": 570, "end": 610 },
+        { "name": "Homeroom/Personalization", "start": 570, "end": 610 },
         { "name": "Period 2", "start": 617, "end": 665 },
         { "name": "A Lunch", "start": 665, "end": 695 },
         { "name": "Period 3", "start": 702, "end": 750 },
@@ -73,7 +72,7 @@
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 563 },
-        { "name": "Roo", "start": 570, "end": 610 },
+        { "name": "Homeroom/Personalization", "start": 570, "end": 610 },
         { "name": "Period 2", "start": 617, "end": 665 },
         { "name": "Period 3", "start": 672, "end": 720 },
         { "name": "B Lunch", "start": 720, "end": 750 },
@@ -145,6 +144,186 @@
       ]
     },
     "Friday": []
+  },
+  "pilot1": {
+    "Monday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "A Lunch", "start": 696, "end": 726 },
+        { "name": "Period 4", "start": 736, "end": 791 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "Period 4", "start": 703, "end": 758 },
+        { "name": "B Lunch", "start": 758, "end": 788 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ]
+    },
+    "Tuesday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "A Lunch", "start": 696, "end": 726 },
+        { "name": "Period 4", "start": 736, "end": 791 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "Period 4", "start": 703, "end": 758 },
+        { "name": "B Lunch", "start": 758, "end": 788 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ]
+    },
+    "Wednesday": [
+      { "name": "Period 1", "start": 515, "end": 552 },
+      { "name": "Period 2", "start": 559, "end": 599 },
+      { "name": "Period 3", "start": 606, "end": 643 },
+      { "name": "Period 4", "start": 650, "end": 687 },
+      { "name": "Period 5", "start": 694, "end": 731 },
+      { "name": "Period 6", "start": 738, "end": 775 },
+      { "name": "Lunch", "start": 780, "end": 810 }
+    ],
+    "Thursday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 615 },
+        { "name": "ROO", "start": 622, "end": 671 },
+        { "name": "A Lunch", "start": 671, "end": 701 },
+        { "name": "Period 3", "start": 708, "end": 808 },
+        { "name": "Period 5", "start": 815, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 615 },
+        { "name": "ROO", "start": 622, "end": 671 },
+        { "name": "Period 3", "start": 678, "end": 778 },
+        { "name": "B Lunch", "start": 778, "end": 808 },
+        { "name": "Period 5", "start": 815, "end": 915 }
+      ]
+    },
+    "Friday": {
+      "A": [
+        { "name": "Period 2", "start": 515, "end": 635 },
+        { "name": "ROO", "start": 642, "end": 671 },
+        { "name": "A Lunch", "start": 671, "end": 701 },
+        { "name": "Period 4", "start": 708, "end": 808 },
+        { "name": "Period 6", "start": 815, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 2", "start": 515, "end": 635 },
+        { "name": "ROO", "start": 642, "end": 671 },
+        { "name": "Period 4", "start": 678, "end": 778 },
+        { "name": "B Lunch", "start": 778, "end": 808 },
+        { "name": "Period 6", "start": 815, "end": 915 }
+      ]
+    }
+  },
+  "pilot2": {
+    "Monday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "A Lunch", "start": 696, "end": 726 },
+        { "name": "Period 4", "start": 736, "end": 791 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "Period 4", "start": 703, "end": 758 },
+        { "name": "B Lunch", "start": 758, "end": 788 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ]
+    },
+    "Tuesday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "A Lunch", "start": 696, "end": 726 },
+        { "name": "Period 4", "start": 736, "end": 791 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 570 },
+        { "name": "Period 2", "start": 577, "end": 634 },
+        { "name": "Period 3", "start": 641, "end": 696 },
+        { "name": "Period 4", "start": 703, "end": 758 },
+        { "name": "B Lunch", "start": 758, "end": 788 },
+        { "name": "Period 5", "start": 798, "end": 853 },
+        { "name": "Period 6", "start": 860, "end": 915 }
+      ]
+    },
+    "Wednesday": [
+      { "name": "Period 1", "start": 515, "end": 552 },
+      { "name": "Period 2", "start": 559, "end": 599 },
+      { "name": "Period 3", "start": 606, "end": 643 },
+      { "name": "Period 4", "start": 650, "end": 687 },
+      { "name": "Period 5", "start": 694, "end": 731 },
+      { "name": "Period 6", "start": 738, "end": 775 },
+      { "name": "Lunch", "start": 780, "end": 810 }
+    ],
+    "Thursday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 615 },
+        { "name": "ROO", "start": 622, "end": 671 },
+        { "name": "A Lunch", "start": 671, "end": 701 },
+        { "name": "Period 3", "start": 708, "end": 808 },
+        { "name": "Period 5", "start": 815, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 615 },
+        { "name": "ROO", "start": 622, "end": 671 },
+        { "name": "Period 3", "start": 678, "end": 778 },
+        { "name": "B Lunch", "start": 778, "end": 808 },
+        { "name": "Period 5", "start": 815, "end": 915 }
+      ]
+    },
+    "Friday": {
+      "A": [
+        { "name": "Period 2", "start": 515, "end": 615 },
+        { "name": "Spring Assembly", "start": 622, "end": 671 },
+        { "name": "A Lunch", "start": 671, "end": 701 },
+        { "name": "Period 4", "start": 708, "end": 808 },
+        { "name": "Period 6", "start": 815, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 2", "start": 515, "end": 615 },
+        { "name": "Spring Assembly", "start": 622, "end": 671 },
+        { "name": "Period 4", "start": 678, "end": 778 },
+        { "name": "B Lunch", "start": 778, "end": 808 },
+        { "name": "Period 6", "start": 815, "end": 915 }
+      ]
+    }
+  },
+  "pilot1LunchPreferences": {
+    "Monday": "A",
+    "Tuesday": "A",
+    "Wednesday": "All",
+    "Thursday": "A",
+    "Friday": "A"
+  },
+  "pilot2LunchPreferences": {
+    "Monday": "A",
+    "Tuesday": "A",
+    "Wednesday": "All",
+    "Thursday": "A",
+    "Friday": "A"
   },
   "lunchPreferences": {
     "Monday": "A",

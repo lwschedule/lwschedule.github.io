@@ -5,11 +5,25 @@
 A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v2.6.2`
+**Current Version:** `v2.7`
 
 ---
 
 ## ✨ Features
+
+---
+
+## 🆕 v2.7 Changelog
+
+**March 2026**
+
+- Major schedule update: Normal, LEAP, Pilot 1, and Pilot 2 schedules updated to exact times for 2026.
+- Monthly calendar view limited to March–June 2026.
+- LEAP schedule now includes Wednesday LEAP block.
+- Pilot 1 and Pilot 2 schedules added with setup pages and lunch preference support.
+- Bugfix: JSON schedule structure corrected for reliability.
+
+---
 
 ### 🕒 Smart Timekeeping
 
@@ -25,7 +39,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * **Week's Schedule** — shows a full week layout with clickable days
   * Automatically shows next week if current week includes weekend or holiday
   * Individual day pages update accordingly
-* **Monthly Calendar** — visual calendar view (September 2025 - June 2026)
+* **Monthly Calendar** — visual calendar view (September 2025 - June 2026; monthly view limited to March–June 2026)
   * Days off shown in red
   * Half days (Thanksgiving week) shown in orange
   * Each day displays schedule summary (e.g., "1,2,3,L,4,5,6")

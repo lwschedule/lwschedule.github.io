@@ -1,5 +1,7 @@
 let lunchPreferences = null;
 let leapLunchPreferences = null;
+let pilot1LunchPreferences = null;
+let pilot2LunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
@@ -40,6 +42,10 @@ function loadLunchPreferences() {
     if (saved) lunchPreferences = JSON.parse(saved);
     const leapSaved = localStorage.getItem('leapLunchPreferences');
     if (leapSaved) leapLunchPreferences = JSON.parse(leapSaved);
+    const pilotSaved = localStorage.getItem('pilot1LunchPreferences');
+    if (pilotSaved) pilot1LunchPreferences = JSON.parse(pilotSaved);
+    const pilot2Saved = localStorage.getItem('pilot2LunchPreferences');
+    if (pilot2Saved) pilot2LunchPreferences = JSON.parse(pilot2Saved);
   } catch (e) {}
 }
 
@@ -52,14 +58,33 @@ function isLeapDay(date) {
   return year === 2026 && month === 2 && day >= 9 && day <= 11;
 }
 
+function isPilot1Day(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // Pilot 1 schedule applies March 16-20, 2026
+  return year === 2026 && month === 2 && day >= 16 && day <= 20;
+}
+
+function isPilot2Day(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // Pilot 2 schedule applies March 23-27, 2026
+  return year === 2026 && month === 2 && day >= 23 && day <= 27;
+}
+
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
-  if (isLeapDay(date)) scheduleKey = 'leap';
+  if (isPilot2Day(date)) scheduleKey = 'pilot2';
+  else if (isPilot1Day(date)) scheduleKey = 'pilot1';
+  else if (isLeapDay(date)) scheduleKey = 'leap';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   let lunchPrefs = lunchPreferences;
   if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
+  if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   // Handle the schedule structure with A/B lunch options
@@ -709,7 +734,8 @@ function renderCalendar() {
   document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 0);
+  // Disable prev at March 2026 (month 2) and next at June 2026 (month 5)
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 2);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -722,12 +748,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 0);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 2);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 0)) {
+      // When March is the first allowed month, hide overflow days from Feb/Jan
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 2)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -822,9 +849,9 @@ function changeMonth(delta) {
     currentMonth = 0;
     currentYear++;
   }
-  // Enforce bounds: January 2026 to June 2026
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 0)) {
-    currentMonth = 0;
+  // Enforce bounds: March 2026 to June 2026
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
+    currentMonth = 2;
     currentYear = 2026;
   }
   if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
@@ -836,8 +863,9 @@ function changeMonth(delta) {
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 0)) {
-  currentMonth = 0;
+// If before March 2026, start at March 2026
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
+  currentMonth = 2;
   currentYear = 2026;
 }
 
@@ -1185,7 +1213,17 @@ async function initApp() {
     localStorage.setItem('sem2ResetDone', 'true');
   }
   if (checkSetupComplete()) {
-    // Check for leap lunch setup if during leap day
+    // Check for Pilot 2 setup first
+    if (isPilot2Day(now) && !localStorage.getItem('pilot2LunchPreferences')) {
+      window.location.href = '/setup/pilot2/';
+      return;
+    }
+    // Check for Pilot 1 setup next
+    if (isPilot1Day(now) && !localStorage.getItem('pilot1LunchPreferences')) {
+      window.location.href = '/setup/pilot1/';
+      return;
+    }
+    // Check for LEAP setup
     if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
       window.location.href = '/setup/leap/';
       return;
