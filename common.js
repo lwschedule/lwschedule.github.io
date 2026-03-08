@@ -866,10 +866,16 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   
   const clubs = getClubsForDate(date);
   if (clubs.length > 0) {
+    // show a textual indicator instead of the previous emoji dot.  the
+    // user requested "1 Club" / "2 Clubs" rather than a target emoji on
+    // the monthly view.
     const clubIndicator = document.createElement('div');
-    clubIndicator.className = 'club-dot';
-    clubIndicator.textContent = '🎯';
-    clubIndicator.style.cssText = 'font-size: 0.7em; position: absolute; top: 2px; right: 4px;';
+    clubIndicator.className = 'club-indicator';
+    clubIndicator.textContent = `${clubs.length} Club${clubs.length > 1 ? 's' : ''}`;
+    // keep the positioning similar to the old dot so it floats over the
+    // top-right corner of the cell; ensure the text doesn't wrap.
+    clubIndicator.style.cssText =
+      'font-size: 0.7em; position: absolute; top: 2px; right: 4px; white-space: nowrap;';
     cell.style.position = 'relative';
     cell.appendChild(clubIndicator);
   }

@@ -679,6 +679,12 @@ h1, h2, h3 {
   word-wrap: break-word;
 }
 
+/* clubs indicator text used in weekly/monthly summaries */
+.club-indicator {
+  color: var(--primary-light);
+  font-weight: 700;
+}
+
 @media (max-width: 600px) {
   .mainButtons {
     grid-template-columns: 1fr;
