@@ -53,25 +53,18 @@ function isLeapDay(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  // LEAP schedule only applies Monday-Wednesday (March 9-11)
-  // Thursday/Friday use normal schedule
-  return year === 2026 && month === 2 && day >= 9 && day <= 11;
+  // LEAP Day is only a holiday on Friday, March 13, 2026
+  return year === 2026 && month === 2 && day === 13;
 }
 
 function isPilot1Day(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // Pilot 1 schedule applies March 16-20, 2026
-  return year === 2026 && month === 2 && day >= 16 && day <= 20;
+  // Pilot1 is not a holiday; remove hardcoded holiday logic
+  return false;
 }
 
 function isPilot2Day(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // Pilot 2 schedule applies March 23-27, 2026
-  return year === 2026 && month === 2 && day >= 23 && day <= 27;
+  // Pilot2 is not a holiday; remove hardcoded holiday logic
+  return false;
 }
 
 function getSchedules(date) {
@@ -146,19 +139,7 @@ function getHolidayForDate(date) {
       const end = new Date(2025, 10, 29).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
-    if (holiday.name === "Mid-Winter Break") {
-      // Mid-Winter Break is Feb 12-15, 2026 (Thu-Sun)
-      // School ends on Wednesday Feb 11 at 1:30 PM
-      const holidayDate = new Date(2026, 1, 12);
-      const wednesdayBefore = new Date(2026, 1, 11);
-      if (checkTime >= wednesdayBefore.getTime() && checkTime < holidayDate.getTime()) {
-        return holiday.name;
-      }
-      if (checkTime >= holidayDate.getTime()) {
-        const endOfBreak = new Date(2026, 1, 15, 23, 59, 59);
-        if (checkTime <= endOfBreak.getTime()) return holiday.name;
-      }
-    }
+    // Mid-Winter Break logic removed (break is past)
     if (holiday.name === "Spring Break") {
       const start = new Date(2026, 3, 13).getTime();
       const end = new Date(2026, 3, 17).getTime();
@@ -321,7 +302,7 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayEndDate(holidayName) {
   if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  if (holidayName === "Mid-Winter Break") return new Date(2026, 1, 11, 12, 52, 0);
+  // Mid-Winter Break removed
   if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
   for (const holiday of holidays) {
     if (holiday.name === holidayName) {
