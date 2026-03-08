@@ -188,6 +188,22 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
+body.calendarPage .pageContainer {
+  max-width: none;
+  width: 100%;
+}
+
+#calendarContainer {
+  max-width: none;
+  width: 100%;
+}
+
+#calendarContainer .calendar,
+#calendarContainer .calendar-nav {
+  max-width: none;
+  width: calc(100% - 40px);
+}
+
 #digitalClock {
   font-weight: 700;
   text-align: center;
