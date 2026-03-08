@@ -41,6 +41,7 @@
       { "name": "Period 3", "start": 605, "end": 685 },
       { "name": "Period 5", "start": 695, "end": 775 },
       { "name": "Lunch", "start": 780, "end": 810 }
+    ],
     "Thursday": {
       "A": [
         { "name": "Period 2", "start": 515, "end": 595 },
