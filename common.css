@@ -36,6 +36,12 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+/* Calendar page: remove left/right body padding so calendar can go full width */
+body.calendarPage {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   25% { background-position: 100% 25%; }
@@ -191,17 +197,21 @@ h1, h2, h3 {
 body.calendarPage .pageContainer {
   max-width: none;
   width: 100%;
+  padding: 20px 20px 10px 20px;
+  box-sizing: border-box;
 }
 
 #calendarContainer {
   max-width: none;
   width: 100%;
+  box-sizing: border-box;
 }
 
 #calendarContainer .calendar,
 #calendarContainer .calendar-nav {
   max-width: none;
-  width: calc(100% - 40px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #digitalClock {
@@ -586,11 +596,12 @@ body.calendarPage .pageContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px auto;
+  margin: 10px 0;
   padding: 15px;
   background: var(--card-dark);
   border-radius: 12px;
-  max-width: 1800px;
+  width: 100%;
+  box-sizing: border-box;
   flex-shrink: 0;
 }
 
@@ -624,7 +635,8 @@ body.calendarPage .pageContainer {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  width: calc(100% - 40px);
+  width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
   overflow-x: hidden;
 }
@@ -635,7 +647,6 @@ body.calendarPage .pageContainer {
   gap: 8px;
   width: 100%;
   max-width: 100%;
-  overflow-x: auto;
   align-content: start;
 }
 
@@ -889,14 +900,13 @@ body.calendarPage .pageContainer {
   .calendar-nav {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
+    margin: 10px 0;
   }
 
   .calendar {
     width: 100%;
     max-width: 100%;
     padding: 25px;
-    box-sizing: border-box;
   }
 
   .calendar-grid {
