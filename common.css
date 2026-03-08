@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'SF Pro Rounded';
+  src: url('/SF-Pro-Rounded-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
 :root {
   --primary: #4b2e83;
   --primary-light: #6a4fb3;
@@ -17,7 +24,7 @@ body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12
 body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
 
 * {
-  font-family: 'Comfortaa', cursive;
+  font-family: 'SF Pro Rounded', sans-serif;
   box-sizing: border-box;
 }
 
