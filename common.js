@@ -15,11 +15,11 @@ function checkSetupComplete() {
   const setupComplete = localStorage.getItem('setup-complete');
   const appVisited = localStorage.getItem('app-visited');
   
-  // Check if already in PWA mode (standalone display mode)
+  
   const isInPWA = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || 
                   (window.navigator.standalone === true);
   
-  // Redirect to /app page before setup for new users (but not if already in PWA)
+  
   if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
     if (!theme || !gradient || !lunch || packup === null) {
       window.location.href = '/app';
@@ -53,17 +53,17 @@ function isLeapDay(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  // LEAP Day is only a holiday on Friday, March 13, 2026
+  
   return year === 2026 && month === 2 && day === 13;
 }
 
 function isPilot1Day(date) {
-  // Pilot1 is not a holiday; remove hardcoded holiday logic
+  
   return false;
 }
 
 function isPilot2Day(date) {
-  // Pilot2 is not a holiday; remove hardcoded holiday logic
+  
   return false;
 }
 
@@ -80,10 +80,10 @@ function getSchedules(date) {
   if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
-  // Handle the schedule structure with A/B lunch options
+  
   if (scheduleKey === 'normal') {
     const adjusted = { ...baseSchedule };
-    // For days with lunch options, select the appropriate schedule
+    
     if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
       if (baseSchedule[today][lunch]) {
         adjusted[today] = baseSchedule[today][lunch];
@@ -92,6 +92,65 @@ function getSchedules(date) {
     return adjusted;
   }
   return baseSchedule;
+}
+
+
+
+function getScheduleKeyForDate(date) {
+  if (!schedulesData) return 'normal';
+  if (isPilot2Day(date)) return 'pilot2';
+  if (isPilot1Day(date)) return 'pilot1';
+  if (isLeapDay(date)) return 'leap';
+  return 'normal';
+}
+
+
+function renderCalendarModal(date) {
+  const dayName = getDayNameFromDate(date);
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  const dayNum = date.getDate();
+  const schedules = getSchedules(date);
+  const todaySchedule = schedules[dayName];
+  let html = `<h3>${dayName} ${month} ${dayNum}</h3>`;
+  if (!todaySchedule || (Array.isArray(todaySchedule) && todaySchedule.length === 0)) {
+    const holiday = getHolidayForDate(date);
+    if (holiday) {
+      html += `<div class="noSchoolMessage"><h3>${holiday}</h3><p>Enjoy the holiday!</p></div>`;
+    } else {
+      html += `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
+    }
+  } else {
+    html += renderScheduleTable(todaySchedule, null, true);
+    const clubsHtml = renderClubsForDay(date, true);
+    if (clubsHtml) html += clubsHtml;
+  }
+  return html;
+}
+
+
+function showCalendarModal(date) {
+  let modal = document.getElementById('calendarModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'calendarModal';
+    modal.className = 'calendar-modal hidden';
+    modal.innerHTML = `<div class="modal-content"></div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideCalendarModal();
+    });
+  }
+  const content = modal.querySelector('.modal-content');
+  content.innerHTML = renderCalendarModal(date) +
+    '<button class="modal-close" aria-label="Close">×</button>';
+  const closeBtn = content.querySelector('.modal-close');
+  closeBtn.addEventListener('click', hideCalendarModal);
+  modal.classList.remove('hidden');
+}
+
+function hideCalendarModal() {
+  const modal = document.getElementById('calendarModal');
+  if (modal) modal.classList.add('hidden');
 }
 
 function getDayNameFromDate(date) {
@@ -139,7 +198,7 @@ function getHolidayForDate(date) {
       const end = new Date(2025, 10, 29).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
-    // Mid-Winter Break logic removed (break is past)
+    
     if (holiday.name === "Spring Break") {
       const start = new Date(2026, 3, 13).getTime();
       const end = new Date(2026, 3, 17).getTime();
@@ -153,12 +212,12 @@ function getScheduleSummary(schedules, dayName) {
   const schedule = schedules[dayName];
   if (!schedule || schedule.length === 0) return 'No School';
 
-  // Handle the new structure where schedule might be an object with A/B options
+  
   let periodsToProcess = [];
   if (Array.isArray(schedule)) {
     periodsToProcess = schedule;
   } else if (typeof schedule === 'object' && schedule.A) {
-    // If it's an object with A/B options, use A as the default for summary
+    
     periodsToProcess = schedule.A;
   }
 
@@ -237,14 +296,14 @@ function displayTimeBlocks(container, data) {
   const daysBlock = document.getElementById('clockDisplay-days-block');
   const hoursBlock = document.getElementById('clockDisplay-hours-block');
 
-  // Show/hide blocks
+  
   const showDays = (data.days && data.days > 0);
   const showHours = (data.hours !== undefined && (showDays || data.hours > 0));
 
   if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
-  // Update text
+  
   if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
   if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
   if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
@@ -302,7 +361,7 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayEndDate(holidayName) {
   if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  // Mid-Winter Break removed
+  
   if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
   for (const holiday of holidays) {
     if (holiday.name === holidayName) {
@@ -338,25 +397,25 @@ function getNextSchoolDayInfo() {
 }
 
 function getNextPeriodInfo(schedule, now, nowDate) {
-  // During a period - what's next?
+  
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
     if (next) return `Next: ${next.name}`;
-    // Last period - show next school day info instead of null
+    
     return getNextSchoolDayInfo();
   }
   
-  // Before school starts - first period
+  
   if (now < schedule[0].start) {
     return `Next: ${schedule[0].name}`;
   }
   
-  // Between periods
+  
   const next = getNextPeriodStart(schedule, now);
   if (next) return `Next: ${next.name}`;
   
-  // After school - show next school day info
+  
   return getNextSchoolDayInfo();
 }
 
@@ -399,7 +458,7 @@ function updateClock() {
 
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
-    // Always count down to when school resumes
+    
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > nowDate) {
       const diff = nextSchoolStart - nowDate;
@@ -411,10 +470,10 @@ function updateClock() {
       const h = totalHours % 24;
       const d = Math.floor(totalHours / 24);
 
-      // Always show all time units for consistency
+      
       displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
-      // #timer shows static "Next:" info, not countdown
+      
       timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
       timerEl.classList.remove('hidden');
     }
@@ -424,7 +483,7 @@ function updateClock() {
   const schedules = getSchedules(nowDate);
   const today = schedules[weekday];
   if (!today || today.length === 0) {
-    // No school today - count down to next school day
+    
     const nextSchoolStartTime = getNextSchoolDayStartTime();
     if (nextSchoolStartTime) {
       const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
@@ -439,7 +498,7 @@ function updateClock() {
 
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        // #timer shows static "Next:" info, not countdown
+        
         timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
         timerEl.classList.remove('hidden');
       }
@@ -458,7 +517,7 @@ function updateClock() {
 
     clockLabel.textContent = currentPeriod.name.toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-    // #timer shows static "Next:" info, not countdown
+    
     timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
     timerEl.classList.remove('hidden');
   } else if (now < today[0].start) {
@@ -475,7 +534,7 @@ function updateClock() {
 
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      // #timer shows static "Next:" info, not countdown
+      
       timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
       timerEl.classList.remove('hidden');
     }
@@ -494,7 +553,7 @@ function updateClock() {
 
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        // #timer shows static "Next:" info, not countdown
+        
         timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
         timerEl.classList.remove('hidden');
       }
@@ -511,7 +570,7 @@ function updateClock() {
 
       clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      // #timer shows static "Next:" info, not countdown
+      
       timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
       timerEl.classList.remove('hidden');
     }
@@ -571,7 +630,7 @@ function updateWeekSchedule() {
     const holidayName = getHolidayForDate(dayDate);
     let summary = '';
     
-    // Get clubs for this day
+    
     const clubs = getClubsForDate(dayDate);
     const clubCount = clubs.length;
     
@@ -580,7 +639,7 @@ function updateWeekSchedule() {
     } else {
       const schedules = getSchedules(dayDate);
       summary = getScheduleSummary(schedules, dayNameStr);
-      // Add club indicator
+      
       if (clubCount > 0 && isClubsEnabled()) {
         summary += ` <span class="club-indicator">+${clubCount} club${clubCount > 1 ? 's' : ''}</span>`;
       }
@@ -611,7 +670,7 @@ function updateTodaySchedule() {
   const today = schedules[currentDayName()];
   let html = renderScheduleTable(today, minutesNow(), true);
   
-  // Add clubs if enabled
+  
   const clubsHtml = renderClubsForDay(now, true);
   if (clubsHtml) {
     html += clubsHtml;
@@ -645,7 +704,7 @@ function updateHolidayCountdown() {
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
-    // During a holiday, count down to the next school day instead of holiday end
+    
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > now) {
       countdownGrid.style.display = 'grid';
@@ -715,7 +774,7 @@ function renderCalendar() {
   document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
-  // Disable prev at March 2026 (month 2) and next at June 2026 (month 5)
+  
   prevBtn.disabled = (currentYear === 2026 && currentMonth === 2);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
@@ -734,7 +793,7 @@ function renderCalendar() {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
-      // When March is the first allowed month, hide overflow days from Feb/Jan
+      
       if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 2)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
@@ -768,6 +827,11 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   if (otherMonth) cell.classList.add('other-month');
   if (isToday) cell.classList.add('today');
   const date = new Date(year, month, day);
+  
+  const scheduleKey = getScheduleKeyForDate(date);
+  if (scheduleKey !== 'normal') {
+    cell.classList.add('special-schedule');
+  }
   const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
   const dayNumber = document.createElement('div');
   dayNumber.className = 'day-number';
@@ -799,7 +863,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
     }
   }
   
-  // Add club indicator
+  
   const clubs = getClubsForDate(date);
   if (clubs.length > 0) {
     const clubIndicator = document.createElement('div');
@@ -818,6 +882,11 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   }
   cell.appendChild(dayNumber);
   cell.appendChild(daySchedule);
+  
+  cell.addEventListener('click', () => {
+    if (otherMonth) return;
+    showCalendarModal(date);
+  });
   return cell;
 }
 
@@ -830,7 +899,7 @@ function changeMonth(delta) {
     currentMonth = 0;
     currentYear++;
   }
-  // Enforce bounds: March 2026 to June 2026
+  
   if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
     currentMonth = 2;
     currentYear = 2026;
@@ -844,7 +913,7 @@ function changeMonth(delta) {
 
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
-// If before March 2026, start at March 2026
+
 if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
   currentMonth = 2;
   currentYear = 2026;
@@ -883,12 +952,12 @@ async function loadData() {
     schedulesData = await schedulesRes.json();
     holidays = await holidaysRes.json();
     academicTerms = await termsRes.json();
-    // Convert date strings to Date objects for holidays
+    
     holidays = holidays.map(h => ({
       ...h,
       date: new Date(h.date)
     }));
-    // Convert date strings to Date objects for academic terms (local timezone)
+    
     academicTerms.quarters = academicTerms.quarters.map(q => {
       const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
       const [endYear, endMonth, endDay] = q.end.split('-').map(Number);
@@ -907,17 +976,17 @@ async function loadData() {
         end: new Date(endYear, endMonth - 1, endDay)
       };
     });
-    // Set lunchPreferences from data
-    lunchPreferences = schedulesData.lunchPreferences;
-    loadLunchPreferences(); // Override with localStorage if set
     
-    // Load clubs data
+    lunchPreferences = schedulesData.lunchPreferences;
+    loadLunchPreferences(); 
+    
+    
     if (clubsRes.ok) {
       clubsData = await clubsRes.json();
     }
   } catch (error) {
     console.error('Error loading data:', error);
-    // Set defaults
+    
     schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
@@ -925,7 +994,7 @@ async function loadData() {
   }
 }
 
-// Club functions
+
 function isClubsEnabled() {
   return localStorage.getItem('clubsEnabled') !== 'false';
 }
@@ -944,14 +1013,14 @@ function isLastWeekdayOfMonth(date, dayName) {
   const month = date.getMonth();
   const day = date.getDate();
   
-  // Map day names to JavaScript day numbers
+  
   const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
   const targetDay = dayMap[dayName];
   
-  // Check if this is the last occurrence of this weekday in the month
+  
   const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
   
-  // Find the last occurrence of this weekday
+  
   for (let d = lastDayOfMonth; d > 0; d--) {
     const checkDate = new Date(year, month, d);
     if (checkDate.getDay() === targetDay) {
@@ -969,7 +1038,7 @@ function isFirstWeekdayOfMonth(date, dayName) {
   const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
   const targetDay = dayMap[dayName];
   
-  // Find the first occurrence of this weekday in the month
+  
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   for (let d = 1; d <= daysInMonth; d++) {
     const checkDate = new Date(year, month, d);
@@ -981,8 +1050,8 @@ function isFirstWeekdayOfMonth(date, dayName) {
 }
 
 function isEvenWeek(date) {
-  // Calculate week number from start of school year (Sept 3, 2025)
-  const schoolStart = new Date(2025, 8, 3); // Sept 3, 2025
+  
+  const schoolStart = new Date(2025, 8, 3); 
   const diffTime = date.getTime() - schoolStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   const weekNum = Math.floor(diffDays / 7);
@@ -992,28 +1061,28 @@ function isEvenWeek(date) {
 function doesClubMeetOnDate(club, date) {
   const dayName = getDayNameFromDate(date);
   
-  // Check if club meets on this day of the week (support both old 'day' and new 'days' format)
+  
   const clubDays = club.days || (club.day ? [club.day] : []);
   if (!clubDays.includes(dayName)) return false;
   
-  // Check if date is within school year (Jan 24, 2026 to June 17, 2026 for semester 2)
-  const schoolEnd = new Date(2026, 5, 18); // June 18, 2026
+  
+  const schoolEnd = new Date(2026, 5, 18); 
   if (date >= schoolEnd) return false;
   
-  // Handle different frequencies
+  
   switch (club.frequency) {
     case 'weekly':
       return true;
     case 'every-other':
     case 'biweekly':
-      // Even weeks for these clubs
+      
       return isEvenWeek(date);
     case 'last-of-month':
       return isLastWeekdayOfMonth(date, dayName);
     case 'monthly':
       return isFirstWeekdayOfMonth(date, dayName);
     case 'alternating':
-      // Alternating between morning and afternoon
+      
       return isEvenWeek(date);
     default:
       return true;
@@ -1029,12 +1098,12 @@ function getClubsForDate(date) {
   const dayName = getDayNameFromDate(date);
   
   return clubsData.clubs.filter(club => {
-    // Must be selected by user
+    
     if (!selectedClubIds.includes(club.id)) return false;
-    // Must meet on this date
+    
     return doesClubMeetOnDate(club, date);
   }).map(club => {
-    // Return club with time info in minutes format for sorting
+    
     return {
       ...club,
       startMinutes: club.startHour * 60 + club.startMinute,
@@ -1072,33 +1141,33 @@ function renderClubsForDay(date, showHeader = true) {
   return html;
 }
 
-// Pack up notification system
+
 function initPackUpNotifications() {
-  // Check if notifications are enabled and supported
+  
   if ('Notification' in window && localStorage.getItem('notifications-enabled') === 'true') {
-    // Check permission status
+    
     if (Notification.permission === 'granted') {
-      // Start monitoring for pack up times
+      
       startPackUpMonitoring();
     } else if (Notification.permission !== 'denied') {
-      // Permission not yet requested, user needs to enable in settings
+      
       console.log('Notifications not yet enabled, user needs to enable in settings');
     }
   }
 }
 
 function startPackUpMonitoring() {
-  // Clear any existing interval
+  
   if (window.packUpInterval) {
     clearInterval(window.packUpInterval);
   }
   
-  // Check every minute for upcoming pack up times
+  
   window.packUpInterval = setInterval(() => {
     checkPackUpTime();
-  }, 60000); // Check every minute
+  }, 60000); 
   
-  // Initial check
+  
   checkPackUpTime();
 }
 
@@ -1106,41 +1175,41 @@ function checkPackUpTime() {
   const now = new Date();
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
   
-  // Don't show notifications if pack up time is 0 (disabled)
+  
   if (packUpTimeMinutes <= 0) return;
   
-  // Don't show notifications on weekends
+  
   const dayOfWeek = now.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) return;
   
-  // Don't show notifications on holidays
+  
   const holiday = getHolidayForDate(now);
   if (holiday) return;
   
-  // Get today's schedule
+  
   const schedules = getSchedules(now);
   const todayName = getDayNameFromDate(now);
   const todaySchedule = schedules[todayName];
   
   if (!todaySchedule || todaySchedule.length === 0) return;
   
-  // Check each period to see if we're approaching pack up time
+  
   for (let i = 0; i < todaySchedule.length; i++) {
     const period = todaySchedule[i];
     const periodEndTime = new Date(now);
     periodEndTime.setHours(0, period.end, 0, 0);
     
-    // Calculate when to show notification (end time - pack up minutes)
+    
     const notificationTime = new Date(periodEndTime);
     notificationTime.setMinutes(periodEndTime.getMinutes() - packUpTimeMinutes);
     
-    // Check if we're at the notification time (within 1 minute)
+    
     const nowMinutes = now.getHours() * 60 + now.getMinutes();
     const notificationMinutes = notificationTime.getHours() * 60 + notificationTime.getMinutes();
     
     if (nowMinutes === notificationMinutes) {
       showPackUpNotification(period);
-      break; // Only show one notification per check
+      break; 
     }
   }
 }
@@ -1157,27 +1226,27 @@ function showPackUpNotification(period) {
     tag: 'pack-up-reminder'
   });
   
-  // Optional: Add click handler
+  
   notification.onclick = function() {
     window.focus();
     this.close();
   };
   
-  // Auto-close after 5 seconds
+  
   setTimeout(() => {
     notification.close();
   }, 5000);
 }
 
 async function initApp() {
-  // One-time data reset for clubs feature
+  
   const DATA_VERSION = '2.0';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
-    // Clear all user data and reset
+    
     localStorage.clear();
     localStorage.setItem('dataVersion', DATA_VERSION);
-    // Redirect to setup
+    
     if (!window.location.pathname.includes('/setup') && !window.location.pathname.includes('/app')) {
       window.location.href = '/setup';
       return;
@@ -1185,26 +1254,26 @@ async function initApp() {
   }
   
   await loadData();
-  // Check for semester 2 reset
+  
   const now = new Date();
-  const sem2Start = new Date(2026, 0, 24); // Jan 24, 2026
+  const sem2Start = new Date(2026, 0, 24); 
   if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
-    // Reset all lunch preferences
+    
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
     localStorage.setItem('sem2ResetDone', 'true');
   }
   if (checkSetupComplete()) {
-    // Check for Pilot 2 setup first
+    
     if (isPilot2Day(now) && !localStorage.getItem('pilot2LunchPreferences')) {
       window.location.href = '/setup/pilot2/';
       return;
     }
-    // Check for Pilot 1 setup next
+    
     if (isPilot1Day(now) && !localStorage.getItem('pilot1LunchPreferences')) {
       window.location.href = '/setup/pilot1/';
       return;
     }
-    // Check for LEAP setup
+    
     if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
       window.location.href = '/setup/leap/';
       return;
@@ -1220,6 +1289,6 @@ async function initApp() {
     updateHolidayTable();
   }
   
-  // Initialize pack up notifications
+  
   initPackUpNotifications();
 }

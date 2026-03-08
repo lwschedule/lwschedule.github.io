@@ -738,7 +738,7 @@ h1, h2, h3 {
   }
 }
 
-/* Extra small screens (phones) */
+
 @media (max-width: 420px) {
   .calendar {
     padding: 10px;
@@ -773,7 +773,7 @@ h1, h2, h3 {
   }
 }
 
-/* Very small screens (small phones) */
+
 @media (max-width: 360px) {
   .calendar {
     padding: 8px;
@@ -805,7 +805,7 @@ h1, h2, h3 {
   }
 }
 
-/* Extremely small screens - hide calendar and show warning */
+
 @media (max-width: 400px) {
   #calendarContainer {
     display: none;
@@ -816,7 +816,7 @@ h1, h2, h3 {
   }
 }
 
-/* Announcement Banner */
+
 .announcement-banner {
   display: none;
   position: fixed;
@@ -861,7 +861,7 @@ h1, h2, h3 {
   transform: scale(1.1);
 }
 
-/* Large desktop screens (1200px and up) */
+
 @media (min-width: 1200px) {
   .calendar {
     max-width: 1800px;
@@ -896,9 +896,65 @@ h1, h2, h3 {
     font-size: 1.1em;
     line-height: 1.3;
   }
+
+  /* hide period summaries on large screens; show only date
+     and use outline for special schedules */
+  .calendar-day .day-schedule {
+    display: none;
+  }
+  .calendar-day.special-schedule {
+    border-color: #2980b9;
+    
+  }
 }
 
-/* Extra large desktop screens (1600px and up) */
+
+.calendar-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.calendar-modal.hidden {
+  display: none;
+}
+.calendar-modal .modal-content {
+  background: var(--card-dark);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.calendar-modal .modal-close {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: transparent;
+  border: none;
+  font-size: 1.5em;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+}
+.calendar-modal .modal-close:hover {
+  color: var(--primary-light);
+}
+
+
+.calendar-modal .modal-content {
+  z-index: 1001;
+}
+
+
 @media (min-width: 1600px) {
   .calendar {
     max-width: 2000px;

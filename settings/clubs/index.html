@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Clubs - LW Schedule</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https:
+  <link rel="preconnect" href="https:
+  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -215,7 +215,7 @@
     let allClubs = [];
     let selectedClubs = [];
     
-    // Load clubs data
+    
     async function loadClubs() {
       try {
         const response = await fetch('/data/clubs.json');
@@ -228,7 +228,7 @@
       }
     }
     
-    // Format time for display
+    
     function formatClubTime(club) {
       const startHour = club.startHour;
       const startMinute = club.startMinute;
@@ -244,13 +244,13 @@
       return `${formatTime(startHour, startMinute)} - ${formatTime(endHour, endMinute)}`;
     }
     
-    // Format days for display
+    
     function formatClubDays(club) {
       const days = club.days || (club.day ? [club.day] : []);
       return days.join(', ');
     }
     
-    // Get frequency label
+    
     function getFrequencyLabel(frequency) {
       switch(frequency) {
         case 'weekly': return '';
@@ -263,12 +263,12 @@
       }
     }
     
-    // Render clubs list
+    
     function renderClubsList(filter = '') {
       const container = document.getElementById('clubsList');
       const filterLower = filter.toLowerCase();
       
-      // Sort: selected clubs first, then alphabetically
+      
       let filteredClubs = allClubs.filter(club => {
         const days = club.days || (club.day ? [club.day] : []);
         return club.name.toLowerCase().includes(filterLower) ||
@@ -276,7 +276,7 @@
           days.some(d => d.toLowerCase().includes(filterLower));
       });
       
-      // Sort: selected first, then by name
+      
       filteredClubs.sort((a, b) => {
         const aSelected = selectedClubs.includes(a.id);
         const bSelected = selectedClubs.includes(b.id);
@@ -309,7 +309,7 @@
       
       container.innerHTML = html;
       
-      // Add click handlers
+      
       container.querySelectorAll('.club-item').forEach(item => {
         item.addEventListener('click', (e) => {
           if (e.target.type !== 'checkbox') {
@@ -330,7 +330,7 @@
       updateSelectedCount();
     }
     
-    // Toggle club selection
+    
     function toggleClub(clubId, isSelected) {
       if (isSelected && !selectedClubs.includes(clubId)) {
         selectedClubs.push(clubId);
@@ -340,7 +340,7 @@
       
       localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
       
-      // Update UI
+      
       const item = document.querySelector(`.club-item[data-id="${clubId}"]`);
       if (item) {
         item.classList.toggle('selected', isSelected);
@@ -349,7 +349,7 @@
       updateSelectedCount();
     }
     
-    // Update selected count
+    
     function updateSelectedCount() {
       const count = selectedClubs.length;
       document.getElementById('selectedCount').textContent = 
@@ -358,16 +358,16 @@
         `${count} clubs selected`;
     }
     
-    // Initialize
+    
     function init() {
-      // Load saved settings
+      
       const clubsEnabled = localStorage.getItem('clubsEnabled');
-      const isEnabled = clubsEnabled !== 'false'; // Default to true
+      const isEnabled = clubsEnabled !== 'false'; 
       
       document.getElementById('clubsToggle').checked = isEnabled;
       document.getElementById('clubsContent').classList.toggle('enabled', isEnabled);
       
-      // Load selected clubs
+      
       const saved = localStorage.getItem('selectedClubs');
       if (saved) {
         try {
@@ -377,33 +377,33 @@
         }
       }
       
-      // Toggle handler
+      
       document.getElementById('clubsToggle').addEventListener('change', (e) => {
         const enabled = e.target.checked;
         localStorage.setItem('clubsEnabled', enabled.toString());
         document.getElementById('clubsContent').classList.toggle('enabled', enabled);
       });
       
-      // Search handler
+      
       document.getElementById('clubSearch').addEventListener('input', (e) => {
         renderClubsList(e.target.value);
       });
       
-      // Select all handler
+      
       document.getElementById('selectAllBtn').addEventListener('click', () => {
         selectedClubs = allClubs.map(c => c.id);
         localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
         renderClubsList(document.getElementById('clubSearch').value);
       });
       
-      // Deselect all handler
+      
       document.getElementById('deselectAllBtn').addEventListener('click', () => {
         selectedClubs = [];
         localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
         renderClubsList(document.getElementById('clubSearch').value);
       });
       
-      // Load clubs
+      
       loadClubs();
     }
     

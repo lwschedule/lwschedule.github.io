@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pack-Up Reminders - LW Schedule</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https:
+  <link rel="preconnect" href="https:
+  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <style>
@@ -130,23 +130,23 @@ alert('Pack-up reminder saved!');
 location.href = '/settings';
 });
 
-// Notification functionality
+
 const notificationToggle = document.getElementById('notificationToggle');
 const notificationStatus = document.getElementById('notificationStatus');
 
-// Check if notifications are supported
+
 if ('Notification' in window) {
-  // Load current notification preference
+  
   const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
   notificationToggle.checked = notificationsEnabled;
   
-  // Update status display
+  
   updateNotificationStatus();
   
-  // Handle toggle changes
+  
   notificationToggle.addEventListener('change', async () => {
     if (notificationToggle.checked) {
-      // Request notification permission
+      
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         localStorage.setItem('notifications-enabled', 'true');

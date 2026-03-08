@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Setup - LW Schedule</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https:
+  <link rel="preconnect" href="https:
+  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -41,7 +41,7 @@
     .completeBtn:hover { transform: scale(1.05); }
     @media (max-width: 600px) { .themeGrid { grid-template-columns: repeat(2, 1fr); } }
     
-    /* Toggle Switch Styles */
+    
     .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
@@ -237,14 +237,14 @@
       });
     });
     
-    // Notifications toggle functionality
+    
     const notificationsToggle = document.getElementById('notificationsToggle');
     const notificationsSettings = document.getElementById('notificationsSettings');
     
     notificationsToggle.addEventListener('change', () => {
       if (notificationsToggle.checked) {
         notificationsSettings.style.display = 'block';
-        // Request notification permission if enabled
+        
         if ('Notification' in window && Notification.permission === 'default') {
           Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
@@ -254,13 +254,13 @@
         }
       } else {
         notificationsSettings.style.display = 'none';
-        // Set pack-up time to 0 if notifications disabled
+        
         packUpTime = 0;
         updatePackUpUI();
       }
     });
     
-    // Clubs functionality
+    
     let allClubs = [];
     let selectedClubs = [];
     
@@ -343,7 +343,7 @@
       
       container.innerHTML = html;
       
-      // Add click handlers
+      
       container.querySelectorAll('.club-item').forEach(item => {
         item.addEventListener('click', (e) => {
           if (e.target.type !== 'checkbox') {
@@ -387,7 +387,7 @@
         `${count} clubs selected`;
     }
     
-    // Clubs toggle functionality
+    
     const clubsToggle = document.getElementById('clubsToggle');
     const clubsSettings = document.getElementById('clubsSettings');
     
@@ -395,12 +395,12 @@
       clubsSettings.style.display = clubsToggle.checked ? 'block' : 'none';
     });
     
-    // Clubs search
+    
     document.getElementById('clubSearch').addEventListener('input', (e) => {
       renderClubsList(e.target.value);
     });
     
-    // Select all / deselect all
+    
     document.getElementById('selectAllBtn').addEventListener('click', () => {
       selectedClubs = allClubs.map(c => c.id);
       renderClubsList(document.getElementById('clubSearch').value);
@@ -411,7 +411,7 @@
       renderClubsList(document.getElementById('clubSearch').value);
     });
     
-    // Load clubs on page load
+    
     loadClubs();
     
     document.getElementById('completeBtn').addEventListener('click', () => {
@@ -423,7 +423,7 @@
       localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');
       localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
       localStorage.setItem('setup-complete', 'true');
-      // Mark app as visited since user came through the app page
+      
       localStorage.setItem('app-visited', 'true');
       window.location.href = '/';
     });

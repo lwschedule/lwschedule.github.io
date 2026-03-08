@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Install LW Schedule - LW Schedule</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https:
+  <link rel="preconnect" href="https:
+  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -45,9 +45,9 @@
   
   <script src="/common.js"></script>
   <script>
-    // Check if already in PWA mode and redirect if so
+    
     function checkIfInPWA() {
-      // Check if already in standalone mode (PWA)
+      
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
         window.location.href = '/setup';
         return true;
@@ -59,16 +59,16 @@
       return false;
     }
     
-    // PWA Installation Logic
+    
     let deferredPrompt;
     let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     let isMacOS = /Macintosh/.test(navigator.userAgent);
     let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     let isSafariBrowser = isSafari && (isIOS || isMacOS);
     
-    // Check if app is already installed
+    
     function checkIfInstalled() {
-      // Check various installation states
+      
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
         return true;
       }
@@ -87,7 +87,7 @@
     }
     
     function showSafariInstallationInstructions() {
-      // Create instructions overlay
+      
       const overlay = document.createElement('div');
       overlay.style.position = 'fixed';
       overlay.style.top = '0';
@@ -122,7 +122,7 @@
       steps.style.marginBottom = '20px';
       
       if (isIOS) {
-        // iOS Instructions
+        
         const step1 = document.createElement('p');
         step1.style.color = 'white';
         step1.style.margin = '10px 0';
@@ -149,7 +149,7 @@
         steps.appendChild(step3);
         steps.appendChild(note);
       } else if (isMacOS) {
-        // macOS Instructions
+        
         const step1 = document.createElement('p');
         step1.style.color = 'white';
         step1.style.margin = '10px 0';
@@ -210,9 +210,9 @@
       document.body.appendChild(overlay);
     }
     
-    // Event Listeners
+    
     window.addEventListener('beforeinstallprompt', (e) => {
-      // Prevent the mini-infobar from appearing on mobile
+      
       e.preventDefault();
       deferredPrompt = e;
     });
@@ -223,16 +223,16 @@
     
     document.getElementById('installBtn').addEventListener('click', async () => {
       if (checkIfInstalled()) {
-        // Already installed, go to setup
+        
         window.location.href = '/setup';
         return;
       }
       
       if (isSafariBrowser) {
-        // Safari doesn't support beforeinstallprompt, show manual instructions
+        
         showSafariInstallationInstructions();
       } else if (deferredPrompt) {
-        // Chrome/Edge installation
+        
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
@@ -240,17 +240,17 @@
         }
         deferredPrompt = null;
       } else {
-        // Not installable, go to setup
+        
         window.location.href = '/setup';
       }
     });
     
     document.getElementById('continueBtn').addEventListener('click', () => {
-      // Always go to setup, regardless of installation status
+      
       window.location.href = '/setup';
     });
     
-    // Initialize
+    
     window.addEventListener('load', () => {
       if (checkIfInPWA()) {
         return;

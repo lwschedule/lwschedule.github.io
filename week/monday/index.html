@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Monday - LW Schedule</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https:
+  <link rel="preconnect" href="https:
+  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -39,7 +39,7 @@
       if (dateParam) {
         dayDate = new Date(dateParam);
       } else {
-        // Calculate the date for the current week's day
+        
         const now = new Date();
         const currentDayOfWeek = now.getDay();
         let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
@@ -72,7 +72,7 @@
       const schedule = schedules[dayName];
       let html = renderScheduleTable(schedule, null, true);
       
-      // Add clubs if enabled
+      
       const clubsHtml = renderClubsForDay(dayDate, true);
       if (clubsHtml) {
         html += clubsHtml;
