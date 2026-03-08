@@ -304,10 +304,10 @@ function displayTimeBlocks(container, data) {
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
   
-  if (daysEl) updateRollingText(daysEl, data.days ? data.days.toString().padStart(2,'0') : '00');
-  if (hoursEl) updateRollingText(hoursEl, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00');
-  if (minutesEl) updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
-  if (secondsEl) updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
+  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
+  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
 }
 
 function displayMessage(container, message) {
@@ -719,10 +719,10 @@ function updateHolidayCountdown() {
       const hoursEl = document.getElementById('countdown-hours');
       const minutesEl = document.getElementById('countdown-minutes');
       const secondsEl = document.getElementById('countdown-seconds');
-      if (daysEl) updateRollingText(daysEl, days.toString());
-      if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
-      if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
-      if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
+      if (daysEl) daysEl.textContent = days.toString();
+      if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+      if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+      if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
     } else {
       countdownGrid.style.display = 'none';
       countdownMsg.style.display = 'block';
@@ -750,10 +750,10 @@ function updateHolidayCountdown() {
         const hoursEl = document.getElementById('countdown-hours');
         const minutesEl = document.getElementById('countdown-minutes');
         const secondsEl = document.getElementById('countdown-seconds');
-        if (daysEl) updateRollingText(daysEl, days.toString());
-        if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
-        if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
-        if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
+        if (daysEl) daysEl.textContent = days.toString();
+        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
       } else {
         countdownGrid.style.display = 'none';
         countdownMsg.style.display = 'block';
