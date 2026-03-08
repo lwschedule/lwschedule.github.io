@@ -608,9 +608,9 @@ h1, h2, h3 {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  width: 100%;
-  max-width: 900px;
+  width: calc(100% - 40px);
   margin: 0 auto;
+  overflow-x: hidden;
 
 }
 
@@ -619,6 +619,7 @@ h1, h2, h3 {
   grid-template-columns: repeat(7, minmax(40px, 1fr));
   gap: 8px;
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   align-content: start;
 }
@@ -679,9 +680,8 @@ h1, h2, h3 {
   word-wrap: break-word;
 }
 
-/* clubs indicator text used in weekly/monthly summaries */
 .club-indicator {
-  color: var(--primary-light);
+  color: white;
   font-weight: 700;
 }
 
@@ -871,7 +871,6 @@ h1, h2, h3 {
 
 @media (min-width: 1200px) {
   .calendar {
-    max-width: 1800px;
     width: 99%;
     padding: 20px;
   }
@@ -960,10 +959,10 @@ h1, h2, h3 {
 }
 
 
-@media (min-width: 1600px) {
+@media (min-width: 1200px) {
   .calendar {
-    max-width: 2000px;
-    width: 99%;
+    max-width: 1500px;
+    width: calc(100% - 40px);
     padding: 25px;
   }
 
