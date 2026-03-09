@@ -948,11 +948,7 @@ function updateCalendarSize() {
   if (!cal) return;
   // compute padding used by container (40px normally, 20px on narrow screens)
   const pad = window.innerWidth <= 600 ? 20 : 40;
-  const availW = window.innerWidth - pad * 2;
-  const availH = window.innerHeight - pad * 2;
-  const size = Math.max(0, Math.min(availW, availH));
-  cal.style.width = `${size}px`;
-  cal.style.height = `${size}px`;
+  cal.style.width = `calc(100vw - ${pad * 2}px)`;
 }
 
 function loadThemeOnPage() {
