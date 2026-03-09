@@ -221,9 +221,13 @@ body.calendarPage .pageContainer {
 #calendarContainer .calendar,
 #calendarContainer .calendar-nav {
   max-width: none;
-  width: 100%;
+  /* calendar nav should size to content, so don't force width:100% */
   box-sizing: border-box;
 }
+#calendarContainer .calendar-nav {
+  margin: 10px auto; /* centre nav inside container */
+}
+
 
 #digitalClock {
   font-weight: 700;
@@ -607,11 +611,12 @@ body.calendarPage .pageContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  /* centre the nav and allow it to shrink to content width */
+  margin: 10px auto;
   padding: 15px;
   background: var(--card-dark);
   border-radius: 12px;
-  width: 100%;
+  width: auto;
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -927,9 +932,8 @@ body.calendarPage .pageContainer {
   }
 
   .calendar-nav {
-    width: 100%;
-    max-width: 100%;
-    margin: 10px 0;
+    /* keep auto width and centered, no full-width override */
+    margin: 10px auto;
   }
 
   .calendar {
