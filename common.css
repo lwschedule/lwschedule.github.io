@@ -215,9 +215,6 @@ body.calendarPage .pageContainer {
   /* keep the calendar at least 40px away from all edges */
   padding: 40px;
   min-height: calc(100vh - 80px); /* account for top/bottom padding */
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 
@@ -238,7 +235,7 @@ body.calendarPage .pageContainer {
   height: calc(min(100vw,100vh) - 80px);
   max-width: calc(min(100vw,100vh) - 80px);
   max-height: calc(min(100vw,100vh) - 80px);
-  margin: 0; /* flex handles centering */
+  margin: 0 auto;
 }
 
 
