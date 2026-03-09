@@ -212,7 +212,11 @@ body.calendarPage .pageContainer {
   max-width: none;
   width: 100%;
   box-sizing: border-box;
+  /* keep the calendar at least 40px away from all edges */
+  padding: 40px;
+  min-height: calc(100vh - 80px); /* account for top/bottom padding */
 }
+
 
 #calendarContainer .calendar,
 #calendarContainer .calendar-nav {
@@ -752,6 +756,11 @@ body.calendarPage .pageContainer {
 
   .pageContainer {
     padding: 20px 0 0 0;
+  }
+
+  /* smaller padding on narrow screens so calendar still fits */
+  #calendarContainer {
+    padding: 20px;
   }
 
   .calendar-grid {

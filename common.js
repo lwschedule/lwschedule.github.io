@@ -870,8 +870,8 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
       const schedules = getSchedules(date);
       const schedule = schedules[dayName];
       if (schedule && schedule.length > 0) {
-        const summary = getScheduleSummary(schedules, dayName);
-        daySchedule.textContent = summary;
+        // period summary removed for monthly view per user request
+        daySchedule.textContent = '';
       } else {
         daySchedule.textContent = '';
         cell.classList.add('holiday');
