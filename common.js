@@ -819,6 +819,22 @@ function renderCalendar() {
       grid.appendChild(cell);
     }
   }
+
+  const dayCells = Array.from(grid.querySelectorAll('.calendar-day'));
+  for (let i = 0; i < dayCells.length; i += 7) {
+    const week = dayCells.slice(i, i + 7);
+    const hasSpecial = week.some(c =>
+      !c.classList.contains('other-month') &&
+      c.classList.contains('special-schedule')
+    );
+    if (hasSpecial) {
+      week.forEach(c => {
+        if (!c.classList.contains('holiday')) {
+          c.classList.add('week-special');
+        }
+      });
+    }
+  }
 }
 
 function createDayCell(day, otherMonth, month, year, isToday = false) {

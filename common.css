@@ -695,8 +695,13 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-day.holiday {
-  border-color: #cc0000;
+  border-color: #cc0000 !important;
 }
+
+.calendar-day.week-special {
+  border-color: #2980b9;
+}
+
 
 .day-number {
   font-weight: 700;
@@ -946,9 +951,7 @@ body.calendarPage .pageContainer {
     display: block;
   }
 
-  .calendar-day.special-schedule {
-    border-color: #2980b9;
-  }
+  
 }
 
 .calendar-modal {
