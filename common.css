@@ -209,16 +209,28 @@ body.calendarPage .pageContainer {
 }
 
 #calendarContainer {
+  max-width: 100%;
+  padding: 40px;
   box-sizing: border-box;
-  padding: 0 40px;
 }
 
 #calendarContainer .calendar-nav {
-  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto 20px;
+  padding: 10px;
+  background: var(--card-dark);
+  border-radius: 12px;
+  width: auto;
+  box-sizing: border-box;
 }
 
 #calendarContainer .calendar {
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 
