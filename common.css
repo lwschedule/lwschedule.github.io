@@ -214,17 +214,15 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
   /* keep the calendar at least 40px away from all edges */
   padding: 40px;
-  min-height: calc(100vh - 80px); /* account for top/bottom padding */
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 
 #calendarContainer .calendar-nav {
-  /* size to content and center independently of the calendar grid */
-  width: auto;
-  margin: 0 auto 10px;
+  width: 100%;
+  margin: 0 0 10px;
   box-sizing: border-box;
 }
 
