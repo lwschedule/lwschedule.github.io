@@ -209,28 +209,15 @@ body.calendarPage .pageContainer {
 }
 
 #calendarContainer {
-  max-width: none;
-  width: 100%;
   box-sizing: border-box;
-  /* keep the calendar at least 40px away from all edges */
-  padding: 40px;
-  min-height: calc(100vh - 80px);
-  display: flex;
-  flex-direction: column;
+  padding: 0 40px;
 }
-
 
 #calendarContainer .calendar-nav {
-  width: 100%;
-  margin: 0 0 10px;
-  box-sizing: border-box;
+  margin: 10px auto;
 }
 
-/* calendar fills the container width, centered */
 #calendarContainer .calendar {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
   margin: 0 auto;
 }
 
@@ -772,15 +759,9 @@ body.calendarPage .pageContainer {
     padding: 20px 0 0 0;
   }
 
-  /* smaller padding on narrow screens so calendar still fits */
+  /* smaller padding on narrow screens */
   #calendarContainer {
-    padding: 20px;
-  }
-  /* calendar still breaks out proportionally; use VW formula with smaller padding */
-  #calendarContainer .calendar {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+    padding: 0 20px;
   }
 
   .calendar-grid {
