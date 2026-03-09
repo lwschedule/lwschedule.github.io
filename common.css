@@ -215,6 +215,9 @@ body.calendarPage .pageContainer {
   /* keep the calendar at least 40px away from all edges */
   padding: 40px;
   min-height: calc(100vh - 80px); /* account for top/bottom padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
@@ -226,6 +229,7 @@ body.calendarPage .pageContainer {
 }
 #calendarContainer .calendar-nav {
   margin: 10px auto; /* centre nav inside container */
+  width: calc(min(100vw, 100vh) - 80px);
 }
 
 /* make the calendar itself square and 40px from the viewport edges.
@@ -786,7 +790,11 @@ body.calendarPage .pageContainer {
     height: calc(100vw - 40px);
     max-width: calc(100vw - 40px);
     max-height: calc(100vh - 40px);
-    margin: 0 20px;
+    margin: 0 auto;
+  }
+
+  #calendarContainer .calendar-nav {
+    width: calc(100vw - 40px);
   }
 
   .calendar-grid {
