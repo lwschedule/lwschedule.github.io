@@ -646,9 +646,10 @@ body.calendarPage .pageContainer {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  width: calc(100% + 80px); /* extend beyond #calendarContainer padding */
+  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
-  margin: 0 -40px; /* neutralize the parent padding so calendar touches the 40px margins */
+  margin: 0 auto;
   overflow-x: hidden;
 }
 
@@ -765,8 +766,9 @@ body.calendarPage .pageContainer {
   }
   /* calendar still breaks out proportionally */
   #calendarContainer .calendar {
-    width: calc(100% + 40px);
-    margin: 0 -20px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
 
   .calendar-grid {
