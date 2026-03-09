@@ -228,16 +228,13 @@ body.calendarPage .pageContainer {
   margin: 10px auto; /* centre nav inside container */
 }
 
-/* make the calendar itself span the full viewport minus the 40px padding
-   on each side so it is never limited by the nav or any parent width */
+/* make the calendar itself square and 40px from the viewport edges.
+   rely solely on CSS so centering works consistently */
 #calendarContainer .calendar {
-  /* fallback dimensions; JS will override with exact square using the smaller
-     of available width/height */
-  width: calc(100vw - 80px);
-  height: calc(100vw - 80px);
-  max-width: calc(100vw - 80px);
-  max-height: calc(100vh - 80px);
-  /* center horizontally; width already leaves 40px gap each side */
+  width: calc(min(100vw,100vh) - 80px);
+  height: calc(min(100vw,100vh) - 80px);
+  max-width: calc(min(100vw,100vh) - 80px);
+  max-height: calc(min(100vw,100vh) - 80px);
   margin: 0 auto;
 }
 

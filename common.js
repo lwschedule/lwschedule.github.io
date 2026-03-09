@@ -785,8 +785,6 @@ function renderCalendar() {
     header.textContent = day;
     grid.appendChild(header);
   });
-  // ensure size calculation after rendering
-  updateCalendarSize();
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
@@ -943,16 +941,10 @@ if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
   currentYear = 2026;
 }
 
+// sizing now handled entirely in CSS with min(100vw,100vh) so
+// updateCalendarSize is no longer needed.
 function updateCalendarSize() {
-  const cal = document.querySelector('#calendarContainer .calendar');
-  if (!cal) return;
-  // compute padding used by container (40px normally, 20px on narrow screens)
-  const pad = window.innerWidth <= 600 ? 20 : 40;
-  const availW = window.innerWidth - pad * 2;
-  const availH = window.innerHeight - pad * 2;
-  const size = Math.max(0, Math.min(availW, availH));
-  cal.style.width = `${size}px`;
-  cal.style.height = `${size}px`;
+  // intentionally empty
 }
 
 function loadThemeOnPage() {
@@ -974,8 +966,6 @@ function loadThemeOnPage() {
   }
 }
 
-// keep calendar size updated on window resize
-window.addEventListener('resize', updateCalendarSize);
 
 
 async function loadData() {
