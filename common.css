@@ -237,9 +237,8 @@ body.calendarPage .pageContainer {
   height: calc(100vw - 80px);
   max-width: calc(100vw - 80px);
   max-height: calc(100vh - 80px);
-  /* use fixed horizontal margins so left edge stays 40px from screen regardless
-     of nav width; margin auto tied it to nav's centering */
-  margin: 0 40px;
+  /* center horizontally; width already leaves 40px gap each side */
+  margin: 0 auto;
 }
 
 
