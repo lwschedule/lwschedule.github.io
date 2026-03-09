@@ -646,11 +646,12 @@ body.calendarPage .pageContainer {
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
-  width: 100%;
+  width: calc(100% + 80px); /* extend beyond #calendarContainer padding */
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0 -40px; /* neutralize the parent padding so calendar touches the 40px margins */
   overflow-x: hidden;
 }
+
 
 .calendar-grid {
   display: grid;
@@ -761,6 +762,11 @@ body.calendarPage .pageContainer {
   /* smaller padding on narrow screens so calendar still fits */
   #calendarContainer {
     padding: 20px;
+  }
+  /* calendar still breaks out proportionally */
+  #calendarContainer .calendar {
+    width: calc(100% + 40px);
+    margin: 0 -20px;
   }
 
   .calendar-grid {
