@@ -785,6 +785,8 @@ function renderCalendar() {
     header.textContent = day;
     grid.appendChild(header);
   });
+  // ensure size calculation after rendering
+  updateCalendarSize();
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
@@ -941,6 +943,14 @@ if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
   currentYear = 2026;
 }
 
+function updateCalendarSize() {
+  const cal = document.querySelector('#calendarContainer .calendar');
+  if (!cal) return;
+  // compute padding used by container (40px normally, 20px on narrow screens)
+  const pad = window.innerWidth <= 600 ? 20 : 40;
+  cal.style.width = `calc(100vw - ${pad * 2}px)`;
+}
+
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   document.body.className = `theme-${theme}`;
@@ -959,6 +969,10 @@ function loadThemeOnPage() {
     metaThemeColor.content = themeColors[theme] || '#4b2e83';
   }
 }
+
+// keep calendar size updated on window resize
+window.addEventListener('resize', updateCalendarSize);
+
 
 async function loadData() {
   try {

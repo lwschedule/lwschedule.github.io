@@ -228,6 +228,15 @@ body.calendarPage .pageContainer {
   margin: 10px auto; /* centre nav inside container */
 }
 
+/* make the calendar itself span the full viewport minus the 40px padding
+   on each side so it is never limited by the nav or any parent width */
+#calendarContainer .calendar {
+  width: calc(100vw - 80px);
+  /* keep centering so margin auto ensures equal space on sides */
+  margin: 0 auto;
+}
+
+
 
 #digitalClock {
   font-weight: 700;
@@ -769,10 +778,10 @@ body.calendarPage .pageContainer {
   #calendarContainer {
     padding: 20px;
   }
-  /* calendar still breaks out proportionally */
+  /* calendar still breaks out proportionally; use VW formula with smaller padding */
   #calendarContainer .calendar {
-    width: 100%;
-    max-width: 100%;
+    width: calc(100vw - 40px);
+    max-width: none;
     margin: 0 auto;
   }
 
