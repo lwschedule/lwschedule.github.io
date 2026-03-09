@@ -231,9 +231,15 @@ body.calendarPage .pageContainer {
 /* make the calendar itself span the full viewport minus the 40px padding
    on each side so it is never limited by the nav or any parent width */
 #calendarContainer .calendar {
+  /* fallback dimensions; JS will override with exact square using the smaller
+     of available width/height */
   width: calc(100vw - 80px);
-  /* keep centering so margin auto ensures equal space on sides */
-  margin: 0 auto;
+  height: calc(100vw - 80px);
+  max-width: calc(100vw - 80px);
+  max-height: calc(100vh - 80px);
+  /* use fixed horizontal margins so left edge stays 40px from screen regardless
+     of nav width; margin auto tied it to nav's centering */
+  margin: 0 40px;
 }
 
 
@@ -781,8 +787,10 @@ body.calendarPage .pageContainer {
   /* calendar still breaks out proportionally; use VW formula with smaller padding */
   #calendarContainer .calendar {
     width: calc(100vw - 40px);
-    max-width: none;
-    margin: 0 auto;
+    height: calc(100vw - 40px);
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 40px);
+    margin: 0 20px;
   }
 
   .calendar-grid {
