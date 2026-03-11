@@ -58,13 +58,21 @@ function isLeapDay(date) {
 }
 
 function isPilot1Day(date) {
-  
-  return false;
+  // Example logic for identifying pilot1 days
+  const pilot1Dates = [
+    new Date(2026, 2, 15).toDateString(), // March 15, 2026
+    new Date(2026, 3, 5).toDateString()   // April 5, 2026
+  ];
+  return pilot1Dates.includes(date.toDateString());
 }
 
 function isPilot2Day(date) {
-  
-  return false;
+  // Example logic for identifying pilot2 days
+  const pilot2Dates = [
+    new Date(2026, 2, 22).toDateString(), // March 22, 2026
+    new Date(2026, 3, 12).toDateString()  // April 12, 2026
+  ];
+  return pilot2Dates.includes(date.toDateString());
 }
 
 function getSchedules(date) {

@@ -703,7 +703,7 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-day.today {
-  border: 3px solid var(--primary-light);
+  border: 3px solid var(--primary-light) !important;
   box-shadow: var(--glow);
 }
 
