@@ -122,7 +122,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 ## 📜 License
 
-This project is released under the **MIT License**.
+This project is released under the **MIT License**
 
 ---
 
