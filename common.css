@@ -722,6 +722,8 @@ body.calendarPage .pageContainer {
   /* height override: prioritize vertical space (nav+key estimated at 180px) */
   height: calc(100vh - 180px);
   max-height: calc(100vh - 180px);
+  /* also prevent width from growing beyond the available vertical space */
+  max-width: calc(100vh - 180px);
   overflow-y: auto;
 }
 
