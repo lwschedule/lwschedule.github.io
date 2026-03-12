@@ -226,12 +226,6 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
 }
 
-#calendarContainer .calendar {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
 
 
 
@@ -653,7 +647,8 @@ body.calendarPage .pageContainer {
   font-size: 1.1em;
 }
 
-.calendar {
+.calendar-grid {
+  /* moved styles from the former .calendar container so the grid stands on its own */
   background: #1f1f1f;
   border-radius: 12px;
   padding: 15px;
@@ -662,15 +657,11 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
   margin: 0 auto;
   overflow-x: hidden;
-}
 
-
-.calendar-grid {
+  /* grid-specific properties */
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
-  width: 100%;
-  max-width: 100%;
   align-content: start;
 }
 
@@ -806,11 +797,8 @@ body.calendarPage .pageContainer {
 }
 
 @media (max-width: 420px) {
-  .calendar {
-    padding: 10px;
-  }
-
   .calendar-grid {
+    padding: 10px;
     gap: 4px;
   }
 
@@ -840,12 +828,9 @@ body.calendarPage .pageContainer {
 }
 
 @media (max-width: 360px) {
-  .calendar {
+  .calendar-grid {
     padding: 8px;
     width: 98%;
-  }
-
-  .calendar-grid {
     gap: 3px;
   }
 
@@ -872,6 +857,9 @@ body.calendarPage .pageContainer {
 
 @media (max-width: 400px) {
   #calendarContainer {
+    display: none;
+  }
+  .calendar-grid {
     display: none;
   }
 
@@ -936,7 +924,7 @@ body.calendarPage .pageContainer {
     margin: 10px auto;
   }
 
-  .calendar {
+  .calendar-grid {
     width: 100%;
     max-width: 100%;
     padding: 25px;

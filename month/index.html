@@ -27,11 +27,19 @@
         <h3 id="currentMonthYear"></h3>
         <button type="button" id="nextMonth">Next →</button>
       </div>
-      <div class="calendar">
-        <div class="calendar-grid" id="calendarGrid"></div>
+      <div class="calendar-key">
+        <h3>Key/Legend</h3>
+        <ul>
+          <li><span class="key-box holiday"></span> Holiday</li>
+          <li><span class="key-box special-schedule"></span> Special Schedule</li>
+          <li><span class="key-box today"></span> Today</li>
+          <li><span class="key-box"></span> Regular Day</li>
+        </ul>
       </div>
     </div>
   </div>
+  <!-- calendar grid sits directly on the page now and outside pageContainer -->
+  <div class="calendar-grid" id="calendarGrid"></div>
   <script src="/common.js"></script>
   <script>
     (async () => {
