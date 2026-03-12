@@ -720,9 +720,9 @@ body.calendarPage .pageContainer {
   /* grid-specific properties */
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px; /* slightly smaller gaps for tighter fit */
-  /* make rows share available height rather than depending on width */
-  grid-auto-rows: 1fr;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 
   /* height override: prioritize vertical space (nav+key estimated at 180px) */
   height: calc(100vh - 180px);
@@ -742,23 +742,20 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-day {
-  /* height determined by grid-auto-rows; aspect ratio removed so height drives size */
-  border: 3px solid transparent;
-  border-radius: 10px;
-  padding: 4px 6px;
+  aspect-ratio: 1 / 1; /* Ensures equal height and width */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
   background: var(--card-dark);
-  transition: all 0.2s;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
   cursor: pointer;
 }
 
 .calendar-day:hover {
-  background: #2a2a2a;
-  transform: scale(1.02);
-  border-color: var(--primary-light);
+  transform: scale(1.05);
 }
 
 .calendar-day.today {
