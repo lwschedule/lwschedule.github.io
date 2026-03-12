@@ -212,7 +212,7 @@ body.calendarPage .pageContainer {
 
 #calendarContainer {
   max-width: 100%;
-  padding: 40px;
+  padding: 40px 40px 0 40px; /* no bottom padding now that grid sits outside */
   box-sizing: border-box;
 }
 
@@ -230,7 +230,7 @@ body.calendarPage .pageContainer {
 
 /* legend/key styles for monthly calendar */
 .calendar-key {
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
   text-align: center;
 }
 
