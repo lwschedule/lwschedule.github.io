@@ -262,11 +262,15 @@ body.calendarPage .pageContainer {
   border-radius: 50%;
   display: inline-block;
   background: var(--card-dark);
-  border: 2px solid white;
+  /* border removed for cleaner look */
 }
 
 .key-box.holiday {
   background: #cc0000;
+}
+
+.key-box.half-day {
+  background: #d35400;
 }
 
 .key-box.special-schedule {
