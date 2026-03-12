@@ -226,6 +226,55 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
 }
 
+/* legend/key styles for monthly calendar */
+.calendar-key {
+  margin: 0 auto 20px;
+  text-align: center;
+}
+
+.calendar-key ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calendar-key li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-key li:not(:last-child)::after {
+  content: '|';
+  margin: 0 8px;
+  color: var(--text-light);
+}
+
+.key-box {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--card-dark);
+  border: 2px solid white;
+}
+
+.key-box.holiday {
+  background: #cc0000;
+}
+
+.key-box.special-schedule {
+  background: #2980b9;
+}
+
+.key-box.today {
+  background: var(--primary-light);
+}
+
 
 
 
