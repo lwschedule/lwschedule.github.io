@@ -662,6 +662,7 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-nav {
+  position: relative; /* for absolute title centering */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -673,6 +674,14 @@ body.calendarPage .pageContainer {
   width: auto;
   box-sizing: border-box;
   flex-shrink: 0;
+}
+
+.calendar-nav h3 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 1.1em;
 }
 
 .calendar-nav button {
@@ -696,10 +705,6 @@ body.calendarPage .pageContainer {
   cursor: not-allowed;
 }
 
-.calendar-nav h3 {
-  margin: 0;
-  font-size: 1.1em;
-}
 
 .calendar-grid {
   /* moved styles from the former .calendar container so the grid stands on its own */
@@ -991,6 +996,10 @@ body.calendarPage .pageContainer {
     width: 100%;
     max-width: 100%;
     padding: 25px;
+    /* preserve height-based scaling on large screens */
+    height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
+    max-width: calc(100vh - 180px);
   }
 
   .calendar-grid {
