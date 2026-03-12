@@ -715,14 +715,16 @@ body.calendarPage .pageContainer {
   /* grid-specific properties */
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  align-content: start;
+  gap: 6px; /* slightly smaller gaps for tighter fit */
+  /* make rows share available height rather than depending on width */
+  grid-auto-rows: 1fr;
 
-  /* height override: prioritize vertical space and allow scrolling if necessary */
-  max-height: 100vh;
-  height: 100%;
+  /* height override: prioritize vertical space (nav+key estimated at 180px) */
+  height: calc(100vh - 180px);
+  max-height: calc(100vh - 180px);
   overflow-y: auto;
 }
+
 
 .calendar-day-header {
   text-align: center;
@@ -733,14 +735,14 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-day {
-  aspect-ratio: 1;
+  /* height determined by grid-auto-rows; aspect ratio removed so height drives size */
   border: 3px solid transparent;
   border-radius: 10px;
-  padding: 6px;
+  padding: 4px 6px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 60px;
+  height: 100%;
   background: var(--card-dark);
   transition: all 0.2s;
   cursor: pointer;
