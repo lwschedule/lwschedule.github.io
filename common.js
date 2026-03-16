@@ -1328,7 +1328,10 @@ async function initApp() {
       return;
     }
     
-    // Removed isLeapDay check as leap day logic is no longer used
+    if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
+      window.location.href = '/setup/leap/';
+      return;
+    }
   }
   loadLunchPreferences();
   loadThemeOnPage();
