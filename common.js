@@ -1,4 +1,5 @@
 let lunchPreferences = null;
+let leapLunchPreferences = null;
 let pilot1LunchPreferences = null;
 let pilot2LunchPreferences = null;
 let holidays = null;
@@ -48,6 +49,14 @@ function loadLunchPreferences() {
   } catch (e) {}
 }
 
+function isLeapDay(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  
+  return year === 2026 && month === 2 && day === 13;
+}
+
 function isPilot1Day(date) {
   // Example logic for identifying pilot1 days
   const pilot1Dates = [
@@ -66,42 +75,23 @@ function isPilot2Day(date) {
   return pilot2Dates.includes(date.toDateString());
 }
 
-function isSpecialScheduleWeek(date) {
-  // Logic to determine if the week has a special schedule
-  // Example: Check if the week contains a leap, pilot1, or pilot2 day
-  const weekStart = new Date(date);
-  weekStart.setDate(date.getDate() - date.getDay()); // Start of the week (Sunday)
-  for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(weekStart);
-    currentDate.setDate(weekStart.getDate() + i);
-    if (isPilot2Day(currentDate) || isPilot1Day(currentDate)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function getScheduleKeyForDate(date) {
-  if (!schedulesData) return 'normal';
-  if (isSpecialScheduleWeek(date)) {
-    if (isPilot2Day(date)) return 'pilot2';
-    if (isPilot1Day(date)) return 'pilot1';
-  }
-  return 'normal';
-}
-
 function getSchedules(date) {
-  const scheduleKey = getScheduleKeyForDate(date);
+  if (!schedulesData) return {};
+  let scheduleKey = 'normal';
+  if (isPilot2Day(date)) scheduleKey = 'pilot2';
+  else if (isPilot1Day(date)) scheduleKey = 'pilot1';
+  else if (isLeapDay(date)) scheduleKey = 'leap';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   let lunchPrefs = lunchPreferences;
   if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
   if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
-  if (scheduleKey === 'pilot2') lunchPrefs = pilot2LunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
+  
   if (scheduleKey === 'normal') {
     const adjusted = { ...baseSchedule };
+    
     if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
       if (baseSchedule[today][lunch]) {
         adjusted[today] = baseSchedule[today][lunch];
@@ -112,31 +102,16 @@ function getSchedules(date) {
   return baseSchedule;
 }
 
-function mergeClubsIntoSchedule(schedule, clubs) {
-  if (!clubs || clubs.length === 0) return schedule;
-  const combined = [...schedule, ...clubs];
-  combined.sort((a, b) => a.start - b.start);
-  return combined;
+
+
+function getScheduleKeyForDate(date) {
+  if (!schedulesData) return 'normal';
+  if (isPilot2Day(date)) return 'pilot2';
+  if (isPilot1Day(date)) return 'pilot1';
+  if (isLeapDay(date)) return 'leap';
+  return 'normal';
 }
 
-function renderScheduleTable(schedule, now, showDuration = false) {
-  if (!schedule || !Array.isArray(schedule) || schedule.length === 0) {
-    return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
-  }
-  let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
-  if (showDuration) html += "<th>Duration</th>";
-  html += "</tr></thead><tbody>";
-  for (let i = 0; i < schedule.length; i++) {
-    const p = schedule[i];
-    const duration = p.end - p.start;
-    const active = now !== null && now >= p.start && now < p.end;
-    html += `<tr class='${active ? "highlight" : ""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
-    if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
-    html += "</tr>";
-  }
-  html += "</tbody></table>";
-  return html;
-}
 
 function renderCalendarModal(date) {
   const dayName = getDayNameFromDate(date);
@@ -626,7 +601,7 @@ function renderScheduleTable(schedule, now, showDuration = false) {
     const p = schedule[i];
     const duration = p.end - p.start;
     const active = now !== null && now >= p.start && now < p.end;
-    html += `<tr class='${active ? "highlight" : ""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
+    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
     if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
     html += "</tr>";
   }
@@ -701,9 +676,14 @@ function updateTodaySchedule() {
   }
   const schedules = getSchedules(now);
   const today = schedules[currentDayName()];
-  const clubs = getClubsForDate(now);
-  const mergedSchedule = mergeClubsIntoSchedule(today, clubs);
-  const html = renderScheduleTable(mergedSchedule, minutesNow(), true);
+  let html = renderScheduleTable(today, minutesNow(), true);
+  
+  
+  const clubsHtml = renderClubsForDay(now, true);
+  if (clubsHtml) {
+    html += clubsHtml;
+  }
+  
   scheduleEl.innerHTML = html;
 }
 
@@ -731,37 +711,26 @@ function updateHolidayCountdown() {
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
-  const updateCountdownDisplay = (diff, label) => {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const daysEl = document.getElementById('countdown-days');
-    const hoursEl = document.getElementById('countdown-hours');
-    const minutesEl = document.getElementById('countdown-minutes');
-    const secondsEl = document.getElementById('countdown-seconds');
-
-    if (daysEl) daysEl.style.display = days > 0 ? 'inline' : 'none';
-    if (hoursEl) hoursEl.style.display = days === 0 && hours > 0 ? 'inline' : 'none';
-    if (minutesEl) minutesEl.style.display = hours === 0 && minutes > 0 ? 'inline' : 'none';
-    if (secondsEl) secondsEl.style.display = minutes === 0 ? 'inline' : 'none';
-
-    if (daysEl) daysEl.textContent = days.toString();
-    if (hoursEl) hoursEl.textContent = (days === 0 && hours < 10 ? hours : hours.toString().padStart(2, '0'));
-    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
-    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
-
-    countdownLabel.innerHTML = label;
-  };
-
   if (currentHoliday) {
+    
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > now) {
       countdownGrid.style.display = 'grid';
       countdownMsg.style.display = 'none';
       const diff = nextSchoolStart - now;
-      updateCountdownDisplay(diff, 'UNTIL SCHOOL RESUMES');
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      countdownLabel.innerHTML = `UNTIL SCHOOL RESUMES`;
+      const daysEl = document.getElementById('countdown-days');
+      const hoursEl = document.getElementById('countdown-hours');
+      const minutesEl = document.getElementById('countdown-minutes');
+      const secondsEl = document.getElementById('countdown-seconds');
+      if (daysEl) daysEl.textContent = days.toString();
+      if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+      if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+      if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
     } else {
       countdownGrid.style.display = 'none';
       countdownMsg.style.display = 'block';
@@ -771,25 +740,40 @@ function updateHolidayCountdown() {
   } else {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
+      let countdownTarget;
+      
       const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-      const countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+      countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+      
       if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
         countdownMsg.style.display = 'none';
         const diff = countdownTarget - now;
-        updateCountdownDisplay(diff, `UNTIL ${upcoming.name}`);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
+        const daysEl = document.getElementById('countdown-days');
+        const hoursEl = document.getElementById('countdown-hours');
+        const minutesEl = document.getElementById('countdown-minutes');
+        const secondsEl = document.getElementById('countdown-seconds');
+        if (daysEl) daysEl.textContent = days.toString();
+        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
       } else {
         countdownGrid.style.display = 'none';
         countdownMsg.style.display = 'block';
         countdownMsg.textContent = 'Break in Progress';
         countdownLabel.innerHTML = `ENJOY ${upcoming.name}`;
       }
-    } else {
-      countdownGrid.style.display = 'none';
-      countdownMsg.style.display = 'block';
-      countdownMsg.textContent = 'End of school year';
-      countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
-    }
+      } else {
+        countdownGrid.style.display = 'none';
+        countdownMsg.style.display = 'block';
+        countdownMsg.textContent = 'End of school year';
+        countdownLabel.innerHTML = 'NO UPCOMING HOLIDAYS';
+      }
   }
 }
 
@@ -1346,25 +1330,3 @@ async function initApp() {
   
   initPackUpNotifications();
 }
-
-function isUnsupportedDevice() {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  const isAndroid = /android/i.test(userAgent);
-  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-  const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-
-  return (isAndroid || isIOS) || isPortrait;
-}
-
-function enforceDeviceRestrictions() {
-  if (isUnsupportedDevice()) {
-    document.body.classList.add('unsupported');
-    const message = document.createElement('div');
-    message.className = 'unsupported-message';
-    message.textContent = 'Load this page on a tablet or laptop';
-    document.body.appendChild(message);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', enforceDeviceRestrictions);
-window.addEventListener('resize', enforceDeviceRestrictions);
