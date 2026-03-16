@@ -99,6 +99,17 @@ function getSchedules(date) {
     }
     return adjusted;
   }
+  if (scheduleKey === 'pilot1') {
+    const adjusted = { ...baseSchedule };
+
+    if (today === 'Monday' || today === 'Tuesday' || today === 'Friday') {
+      adjusted[today] = baseSchedule[today]['4'];
+    } else if (today === 'Thursday') {
+      adjusted[today] = baseSchedule[today]['3'];
+    }
+
+    return adjusted;
+  }
   return baseSchedule;
 }
 
