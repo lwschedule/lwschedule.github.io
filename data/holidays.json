@@ -1,5 +1,4 @@
 [
-  { "name": "LEAP Day", "date": "2026-03-14", "displayDate": "March 14, 2026", "isWeekend": true },
   { "name": "Spring Break", "date": "2026-04-13", "displayDate": "April 13-17, 2026", "isWeekend": true },
   { "name": "LEAP Day", "date": "2026-05-22", "displayDate": "May 22, 2026", "isWeekend": false },
   { "name": "Memorial Day", "date": "2026-05-25", "displayDate": "May 25, 2026", "isWeekend": true },
