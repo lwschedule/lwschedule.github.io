@@ -101,13 +101,9 @@ function getSchedules(date) {
   }
   if (scheduleKey === 'pilot1') {
     const adjusted = { ...baseSchedule };
-
-    if (today === 'Monday' || today === 'Tuesday' || today === 'Friday') {
-      adjusted[today] = baseSchedule[today]['4'];
-    } else if (today === 'Thursday') {
-      adjusted[today] = baseSchedule[today]['3'];
+    if (baseSchedule[today] && baseSchedule[today][lunch]) {
+      adjusted[today] = baseSchedule[today][lunch];
     }
-
     return adjusted;
   }
   return baseSchedule;
