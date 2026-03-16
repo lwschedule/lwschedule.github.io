@@ -258,6 +258,47 @@ function getScheduleSummary(schedules, dayName) {
   return uniqueNames.join(', ');
 }
 
+function scheduleHasPeriods(schedule) {
+  if (!schedule) return false;
+  if (Array.isArray(schedule)) return schedule.length > 0;
+  if (typeof schedule === 'object') {
+    for (const key of Object.keys(schedule)) {
+      const val = schedule[key];
+      if (Array.isArray(val) && val.length > 0) return true;
+    }
+  }
+  return false;
+}
+
+function getFirstPeriodFromSchedule(schedule) {
+  if (!schedule) return null;
+  if (Array.isArray(schedule) && schedule.length > 0) return schedule[0];
+  if (typeof schedule === 'object') {
+    // prefer A then B then any key
+    if (Array.isArray(schedule.A) && schedule.A.length > 0) return schedule.A[0];
+    if (Array.isArray(schedule.B) && schedule.B.length > 0) return schedule.B[0];
+    const keys = Object.keys(schedule);
+    for (const k of keys) {
+      if (Array.isArray(schedule[k]) && schedule[k].length > 0) return schedule[k][0];
+    }
+  }
+  return null;
+}
+
+function getLastPeriodFromSchedule(schedule) {
+  if (!schedule) return null;
+  if (Array.isArray(schedule) && schedule.length > 0) return schedule[schedule.length - 1];
+  if (typeof schedule === 'object') {
+    if (Array.isArray(schedule.B) && schedule.B.length > 0) return schedule.B[schedule.B.length - 1];
+    if (Array.isArray(schedule.A) && schedule.A.length > 0) return schedule.A[schedule.A.length - 1];
+    const keys = Object.keys(schedule);
+    for (const k of keys.reverse ? keys.reverse() : keys) {
+      if (Array.isArray(schedule[k]) && schedule[k].length > 0) return schedule[k][schedule[k].length - 1];
+    }
+  }
+  return null;
+}
+
 function updateRollingText(element, newText) {
   if (!element) return;
   let oldText = element.dataset.previousText;
@@ -343,11 +384,13 @@ function getNextSchoolDayStartTime() {
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(nextDay);
       const schedule = schedules[dayName];
-      if (schedule && schedule.length > 0) {
-        const firstPeriod = schedule[0];
-        const startTime = new Date(nextDay);
-        startTime.setMinutes(firstPeriod.start);
-        return startTime;
+      if (scheduleHasPeriods(schedule)) {
+        const firstPeriod = getFirstPeriodFromSchedule(schedule);
+        if (firstPeriod) {
+          const startTime = new Date(nextDay);
+          startTime.setMinutes(firstPeriod.start);
+          return startTime;
+        }
       }
     }
     nextDay.setDate(nextDay.getDate() + 1);
@@ -365,12 +408,14 @@ function getLastSchoolDayEndTime(beforeDate) {
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(checkDay);
       const schedule = schedules[dayName];
-      if (schedule && schedule.length > 0) {
-        const lastPeriod = schedule[schedule.length - 1];
-        const endTime = new Date(checkDay);
-        endTime.setHours(0, 0, 0, 0);
-        endTime.setMinutes(lastPeriod.end);
-        return endTime;
+      if (scheduleHasPeriods(schedule)) {
+        const lastPeriod = getLastPeriodFromSchedule(schedule);
+        if (lastPeriod) {
+          const endTime = new Date(checkDay);
+          endTime.setHours(0, 0, 0, 0);
+          endTime.setMinutes(lastPeriod.end);
+          return endTime;
+        }
       }
     }
     checkDay.setDate(checkDay.getDate() - 1);
@@ -407,10 +452,11 @@ function getNextSchoolDayInfo() {
     const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
     const day = nextDay.getDate();
     const schedules = getSchedules(nextDay);
-    const schedule = schedules[dayName];
-    if (schedule && schedule.length > 0) {
-      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
-    }
+      const schedule = schedules[dayName];
+      if (scheduleHasPeriods(schedule)) {
+        const first = getFirstPeriodFromSchedule(schedule);
+        if (first) return `Next: ${dayName} ${month} ${day} - ${first.name}`;
+      }
   }
   return 'Next: School';
 }
@@ -446,10 +492,11 @@ function getNextPeriodInfoForHoliday(nowDate) {
     const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
     const day = nextDay.getDate();
     const schedules = getSchedules(nextDay);
-    const schedule = schedules[dayName];
-    if (schedule && schedule.length > 0) {
-      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
-    }
+      const schedule = schedules[dayName];
+      if (scheduleHasPeriods(schedule)) {
+        const first = getFirstPeriodFromSchedule(schedule);
+        if (first) return `Next: ${dayName} ${month} ${day} - ${first.name}`;
+      }
   }
   return 'Next: School';
 }
@@ -888,7 +935,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
     } else {
       const schedules = getSchedules(date);
       const schedule = schedules[dayName];
-      if (schedule && schedule.length > 0) {
+      if (scheduleHasPeriods(schedule)) {
         // period summary removed for monthly view per user request
         daySchedule.textContent = '';
       } else {
