@@ -58,12 +58,12 @@ function isLeapDay(date) {
 }
 
 function isPilot1Day(date) {
-  // Example logic for identifying pilot1 days
-  const pilot1Dates = [
-    new Date(2026, 2, 15).toDateString(), // March 15, 2026
-    new Date(2026, 3, 5).toDateString()   // April 5, 2026
-  ];
-  return pilot1Dates.includes(date.toDateString());
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // Pilot 1 is active March 16–20, 2026
+  if (year === 2026 && month === 2 && day >= 16 && day <= 20) return true;
+  return false;
 }
 
 function isPilot2Day(date) {
