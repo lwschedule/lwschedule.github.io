@@ -152,7 +152,6 @@ return true;
 }
 const urlParams = new URLSearchParams(window.location.search);
 const isFinals = urlParams.has('finals');
-const isMidWinter = urlParams.has('midWinter');
 let lunchPrefs;
 if (isFinals) {
   document.getElementById('pageTitle').textContent = 'Finals Week Lunch Preferences';
@@ -163,15 +162,6 @@ if (isFinals) {
   document.getElementById('thursdayLunchRow').style.display = 'block';
   document.getElementById('fridayLunchRow').style.display = 'block';
   lunchPrefs = JSON.parse(localStorage.getItem('finalsLunchPreferences') || '{"Tuesday":"A","Thursday":"A","Friday":"A"}');
-} else if (isMidWinter) {
-  document.getElementById('pageTitle').textContent = 'Mid-Winter Break Lunch Preferences';
-  document.getElementById('normalLunches').style.display = 'none';
-  document.getElementById('finalsLunches').style.display = 'block';
-  document.getElementById('mondayLunchRow').style.display = 'block';
-  document.getElementById('wednesdayLunchRow').style.display = 'none';
-  document.getElementById('thursdayLunchRow').style.display = 'none';
-  document.getElementById('fridayLunchRow').style.display = 'none';
-  lunchPrefs = JSON.parse(localStorage.getItem('midWinterLunchPreferences') || '{"Monday":"A","Tuesday":"A"}');
 } else {
   lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
 }
@@ -186,28 +176,19 @@ document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
 btn.addEventListener('click', () => {
 const day = btn.dataset.day;
 const lunch = btn.dataset.lunch;
-lunchPrefs[day] = lunch;
-if (isFinals) {
-  localStorage.setItem('finalsLunchPreferences', JSON.stringify(lunchPrefs));
-} else if (isMidWinter) {
-  localStorage.setItem('midWinterLunchPreferences', JSON.stringify(lunchPrefs));
-} else {
-  localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-}
+  lunchPrefs[day] = lunch;
+  if (isFinals) localStorage.setItem('finalsLunchPreferences', JSON.stringify(lunchPrefs));
+  else localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
 updateUI();
 });
 });
 document.getElementById('resetLunchBtn').addEventListener('click', () => {
 let msg = 'Reset all lunch preferences to A Lunch?';
-if (isFinals) msg = 'Reset all finals lunch preferences to A Lunch?';
-else if (isMidWinter) msg = 'Reset all mid-winter lunch preferences to A Lunch?';
+  if (isFinals) msg = 'Reset all finals lunch preferences to A Lunch?';
 if (confirm(msg)) {
 if (isFinals) {
   lunchPrefs = {Tuesday:'A',Thursday:'A',Friday:'A'};
   localStorage.setItem('finalsLunchPreferences', JSON.stringify(lunchPrefs));
-} else if (isMidWinter) {
-  lunchPrefs = {Monday:'A',Tuesday:'A'};
-  localStorage.setItem('midWinterLunchPreferences', JSON.stringify(lunchPrefs));
 } else {
   lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
   localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));

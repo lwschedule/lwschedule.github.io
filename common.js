@@ -67,12 +67,12 @@ function isPilot1Day(date) {
 }
 
 function isPilot2Day(date) {
-  // Example logic for identifying pilot2 days
-  const pilot2Dates = [
-    new Date(2026, 2, 22).toDateString(), // March 22, 2026
-    new Date(2026, 3, 12).toDateString()  // April 12, 2026
-  ];
-  return pilot2Dates.includes(date.toDateString());
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // Pilot 2 is active March 23–27, 2026
+  if (year === 2026 && month === 2 && day >= 23 && day <= 27) return true;
+  return false;
 }
 
 function getSchedules(date) {
