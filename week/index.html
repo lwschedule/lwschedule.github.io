@@ -25,6 +25,34 @@
   <script>
     (async () => {
       await initApp();
+
+      async function fetchSpecialSchedule() {
+        const response = await fetch('/app/data/schedules.json');
+        const schedules = await response.json();
+        const today = new Date();
+
+        for (const schedule of schedules) {
+          const startDate = new Date(schedule.startDate);
+          const endDate = new Date(schedule.endDate);
+          if (today >= startDate && today <= endDate) {
+            return schedule;
+          }
+        }
+        return null;
+      }
+
+      async function updateWeekSchedule() {
+        const specialSchedule = await fetchSpecialSchedule();
+        const weekContent = document.getElementById('weekContent');
+
+        if (specialSchedule) {
+          weekContent.innerHTML = `<h3>Special Schedule: ${specialSchedule.name}</h3>`;
+          weekContent.innerHTML += `<p>${specialSchedule.description}</p>`;
+        } else {
+          weekContent.innerHTML = '<p>No special schedules this week.</p>';
+        }
+      }
+
       updateWeekSchedule();
     })();
   </script>
