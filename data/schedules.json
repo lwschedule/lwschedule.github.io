@@ -312,6 +312,65 @@
       ]
     }
   },
+  "sba": {
+    "Monday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 595 },
+        { "name": "ROO", "start": 602, "end": 624 },
+        { "name": "Period 2", "start": 631, "end": 711 },
+        { "name": "A Lunch", "start": 711, "end": 741 },
+        { "name": "Period 3", "start": 748, "end": 828 },
+        { "name": "Period 5", "start": 835, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 595 },
+        { "name": "ROO", "start": 602, "end": 624 },
+        { "name": "Period 2", "start": 631, "end": 711 },
+        { "name": "Period 3", "start": 718, "end": 798 },
+        { "name": "B Lunch", "start": 798, "end": 828 },
+        { "name": "Period 5", "start": 835, "end": 915 }
+      ]
+    },
+    "Tuesday": [
+      { "name": "Testing (ELA, WCAS)", "start": 515, "end": 705 },
+      { "name": "Lunch", "start": 705, "end": 735 },
+      { "name": "Period 4", "start": 745, "end": 825 },
+      { "name": "Period 6", "start": 835, "end": 915 }
+    ],
+    "Wednesday": [
+      { "name": "Period 1", "start": 515, "end": 552 },
+      { "name": "Period 2", "start": 559, "end": 599 },
+      { "name": "Period 3", "start": 606, "end": 643 },
+      { "name": "Period 4", "start": 650, "end": 687 },
+      { "name": "Period 5", "start": 694, "end": 731 },
+      { "name": "Period 6", "start": 738, "end": 775 },
+      { "name": "Lunch", "start": 780, "end": 810 }
+    ],
+    "Thursday": [
+      { "name": "Testing (Math)", "start": 515, "end": 705 },
+      { "name": "Lunch", "start": 705, "end": 735 },
+      { "name": "Period 4", "start": 745, "end": 825 },
+      { "name": "Period 6", "start": 835, "end": 915 }
+    ],
+    "Friday": {
+      "A": [
+        { "name": "Period 1", "start": 515, "end": 595 },
+        { "name": "ROO", "start": 602, "end": 624 },
+        { "name": "Period 2", "start": 631, "end": 711 },
+        { "name": "A Lunch", "start": 711, "end": 741 },
+        { "name": "Period 3", "start": 748, "end": 828 },
+        { "name": "Period 5", "start": 835, "end": 915 }
+      ],
+      "B": [
+        { "name": "Period 1", "start": 515, "end": 595 },
+        { "name": "ROO", "start": 602, "end": 624 },
+        { "name": "Period 2", "start": 631, "end": 711 },
+        { "name": "Period 3", "start": 718, "end": 798 },
+        { "name": "B Lunch", "start": 798, "end": 828 },
+        { "name": "Period 5", "start": 835, "end": 915 }
+      ]
+    }
+  },
   "pilot1LunchPreferences": {
     "Monday": "A",
     "Tuesday": "A",
@@ -324,6 +383,13 @@
     "Tuesday": "A",
     "Wednesday": "All",
     "Thursday": "A",
+    "Friday": "A"
+  },
+  "sbaLunchPreferences": {
+    "Monday": "A",
+    "Tuesday": "All",
+    "Wednesday": "All",
+    "Thursday": "All",
     "Friday": "A"
   },
   "lunchPreferences": {

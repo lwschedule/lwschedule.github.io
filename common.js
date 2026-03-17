@@ -2,6 +2,7 @@ let lunchPreferences = null;
 let leapLunchPreferences = null;
 let pilot1LunchPreferences = null;
 let pilot2LunchPreferences = null;
+let sbaLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
@@ -46,6 +47,8 @@ function loadLunchPreferences() {
     if (pilotSaved) pilot1LunchPreferences = JSON.parse(pilotSaved);
     const pilot2Saved = localStorage.getItem('pilot2LunchPreferences');
     if (pilot2Saved) pilot2LunchPreferences = JSON.parse(pilot2Saved);
+    const sbaSaved = localStorage.getItem('sbaLunchPreferences');
+    if (sbaSaved) sbaLunchPreferences = JSON.parse(sbaSaved);
   } catch (e) {}
 }
 
@@ -75,17 +78,28 @@ function isPilot2Day(date) {
   return false;
 }
 
+function isSBADay(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  // SBA schedule is active April 6–10, 2026
+  if (year === 2026 && month === 3 && day >= 6 && day <= 10) return true;
+  return false;
+}
+
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
   if (isPilot2Day(date)) scheduleKey = 'pilot2';
   else if (isPilot1Day(date)) scheduleKey = 'pilot1';
+  else if (isSBADay(date)) scheduleKey = 'sba';
   else if (isLeapDay(date)) scheduleKey = 'leap';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   let lunchPrefs = lunchPreferences;
   if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
   if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
+  if (scheduleKey === 'sba') lunchPrefs = sbaLunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   
@@ -106,6 +120,13 @@ function getSchedules(date) {
     }
     return adjusted;
   }
+  if (scheduleKey === 'sba') {
+    const adjusted = { ...baseSchedule };
+    if (baseSchedule[today] && !Array.isArray(baseSchedule[today]) && baseSchedule[today][lunch]) {
+      adjusted[today] = baseSchedule[today][lunch];
+    }
+    return adjusted;
+  }
   return baseSchedule;
 }
 
@@ -115,6 +136,7 @@ function getScheduleKeyForDate(date) {
   if (!schedulesData) return 'normal';
   if (isPilot2Day(date)) return 'pilot2';
   if (isPilot1Day(date)) return 'pilot1';
+  if (isSBADay(date)) return 'sba';
   if (isLeapDay(date)) return 'leap';
   return 'normal';
 }
@@ -1363,6 +1385,11 @@ async function initApp() {
     
     if (isPilot1Day(now) && !localStorage.getItem('pilot1LunchPreferences')) {
       window.location.href = '/setup/pilot1/';
+      return;
+    }
+
+    if (isSBADay(now) && !localStorage.getItem('sbaLunchPreferences')) {
+      window.location.href = '/setup/sba/';
       return;
     }
     
