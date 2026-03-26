@@ -1,15 +1,9 @@
-const CACHE_NAME = 'lwschedule-v2.10.2';
+const CACHE_NAME = 'lwschedule-v1.9.2';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/404.html',
-  '/manifest.json',
-  '/common.css',
-  '/common.js',
-  '/images/logo.png',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  '/app/index.html',
   '/today/index.html',
   '/week/index.html',
   '/month/index.html',
@@ -17,11 +11,7 @@ const urlsToCache = [
   '/schedules/index.html',
   '/quarters/index.html',
   '/info/index.html',
-  '/settings/index.html',
-  '/data/schedules.json',
-  '/data/holidays.json',
-  '/data/terms.json',
-  '/data/clubs.json'
+  '/settings/index.html'
 ];
 
 self.addEventListener('install', (event) => {
@@ -33,31 +23,11 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  const requestUrl = new URL(event.request.url);
-  if (requestUrl.origin !== self.location.origin) return;
-
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
-      const networkResponsePromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.ok) {
-            cache.put(event.request, networkResponse.clone());
-          }
-          return networkResponse;
-        })
-        .catch(() => null);
-
-      if (cachedResponse) {
-        // Return fast from cache while updating in background.
-        networkResponsePromise.catch(() => null);
-        return cachedResponse;
-      }
-
-      return networkResponsePromise;
-    })
+    caches.match(event.request)
+      .then((response) => {
+        return response || fetch(event.request);
+      })
   );
 });
 

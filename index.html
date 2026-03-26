@@ -52,6 +52,19 @@
       await initApp();
       updateClock();
       setInterval(updateClock, 1000);
+      
+      
+      const banner = document.getElementById('clubsBanner');
+      if (banner && localStorage.getItem('clubsBannerDismissed') !== 'true') {
+        banner.style.display = 'flex';
+      }
+      const closeBtn = document.getElementById('closeBanner');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          banner.style.display = 'none';
+          localStorage.setItem('clubsBannerDismissed', 'true');
+        });
+      }
     })();
   </script>
 </body>
