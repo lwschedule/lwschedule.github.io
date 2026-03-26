@@ -8,6 +8,28 @@ let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
 let clubsData = null;
+let clockDisplayElements = null;
+let holidayNameByDate = new Map();
+let clubsForDateCache = new Map();
+let cachedSelectedClubsRaw = null;
+let cachedSelectedClubs = [];
+
+function clearClubCaches() {
+  clubsForDateCache = new Map();
+}
+
+function getClockDisplayElements() {
+  if (clockDisplayElements) return clockDisplayElements;
+  clockDisplayElements = {
+    daysEl: document.getElementById('clockDisplay-days'),
+    hoursEl: document.getElementById('clockDisplay-hours'),
+    minutesEl: document.getElementById('clockDisplay-minutes'),
+    secondsEl: document.getElementById('clockDisplay-seconds'),
+    daysBlock: document.getElementById('clockDisplay-days-block'),
+    hoursBlock: document.getElementById('clockDisplay-hours-block')
+  };
+  return clockDisplayElements;
+}
 
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
@@ -241,25 +263,34 @@ function formatDuration(minutes) {
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
-function getHolidayForDate(date) {
-  if (!holidays) return null;
-  const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+function getDateKey(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
+function buildHolidayDateIndex() {
+  holidayNameByDate = new Map();
+  if (!holidays) return;
+
   for (const holiday of holidays) {
-    const holidayTime = new Date(holiday.date).getTime();
-    if (checkTime === holidayTime) return holiday.name;
-    if (holiday.name === "Thanksgiving Break") {
-      const start = new Date(2025, 10, 27).getTime();
-      const end = new Date(2025, 10, 29).getTime();
-      if (checkTime >= start && checkTime <= end) return holiday.name;
+    holidayNameByDate.set(getDateKey(holiday.date), holiday.name);
+
+    if (holiday.name === 'Thanksgiving Break') {
+      for (let day = 27; day <= 29; day++) {
+        holidayNameByDate.set(new Date(2025, 10, day).getTime(), holiday.name);
+      }
     }
-    
-    if (holiday.name === "Spring Break") {
-      const start = new Date(2026, 3, 13).getTime();
-      const end = new Date(2026, 3, 17).getTime();
-      if (checkTime >= start && checkTime <= end) return holiday.name;
+
+    if (holiday.name === 'Spring Break') {
+      for (let day = 13; day <= 17; day++) {
+        holidayNameByDate.set(new Date(2026, 3, day).getTime(), holiday.name);
+      }
     }
   }
-  return null;
+}
+
+function getHolidayForDate(date) {
+  if (!holidays) return null;
+  return holidayNameByDate.get(getDateKey(date)) || null;
 }
 
 function getScheduleSummary(schedules, dayName) {
@@ -384,29 +415,27 @@ function updateRollingText(element, newText) {
 }
 
 function displayTimeBlocks(container, data) {
-  const daysEl = document.getElementById('clockDisplay-days');
-  const hoursEl = document.getElementById('clockDisplay-hours');
-  const minutesEl = document.getElementById('clockDisplay-minutes');
-  const secondsEl = document.getElementById('clockDisplay-seconds');
-  const daysBlock = document.getElementById('clockDisplay-days-block');
-  const hoursBlock = document.getElementById('clockDisplay-hours-block');
+  const { daysEl, hoursEl, minutesEl, secondsEl, daysBlock, hoursBlock } = getClockDisplayElements();
 
   
   const showDays = (data.days && data.days > 0);
   const showHours = (data.hours !== undefined && (showDays || data.hours > 0));
+  const daysDisplay = showDays ? 'block' : 'none';
+  const hoursDisplay = showHours ? 'block' : 'none';
 
-  if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
-  if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
+  if (daysBlock && daysBlock.style.display !== daysDisplay) daysBlock.style.display = daysDisplay;
+  if (hoursBlock && hoursBlock.style.display !== hoursDisplay) hoursBlock.style.display = hoursDisplay;
 
   
-  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
-  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
-}
+  const daysText = data.days ? data.days.toString().padStart(2,'0') : '00';
+  const hoursText = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  const minutesText = data.minutes.toString().padStart(2,'0');
+  const secondsText = data.seconds.toString().padStart(2,'0');
 
-function displayMessage(container, message) {
-  container.innerHTML = `<div class="time-block" style="grid-column: 1/-1;"><span class="time-value" style="font-size: 1.5em;">${message}</span></div>`;
+  if (daysEl && daysEl.textContent !== daysText) daysEl.textContent = daysText;
+  if (hoursEl && hoursEl.textContent !== hoursText) hoursEl.textContent = hoursText;
+  if (minutesEl && minutesEl.textContent !== minutesText) minutesEl.textContent = minutesText;
+  if (secondsEl && secondsEl.textContent !== secondsText) secondsEl.textContent = secondsText;
 }
 
 function getNextSchoolDayStartTime() {
@@ -454,18 +483,6 @@ function getLastSchoolDayEndTime(beforeDate) {
       }
     }
     checkDay.setDate(checkDay.getDate() - 1);
-  }
-  return null;
-}
-
-function getHolidayEndDate(holidayName) {
-  if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  
-  if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
-  for (const holiday of holidays) {
-    if (holiday.name === holidayName) {
-      return new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate(), 23, 59, 59);
-    }
   }
   return null;
 }
@@ -1042,12 +1059,6 @@ if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
   currentYear = 2026;
 }
 
-// sizing now handled entirely in CSS with min(100vw,100vh) so
-// updateCalendarSize is no longer needed.
-function updateCalendarSize() {
-  // intentionally empty
-}
-
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   document.body.className = `theme-${theme}`;
@@ -1070,6 +1081,8 @@ function loadThemeOnPage() {
 
 
 async function loadData() {
+  if (schedulesData && holidays && academicTerms && clubsData) return;
+
   try {
     const [schedulesRes, holidaysRes, termsRes, clubsRes] = await Promise.all([
       fetch('/data/schedules.json'),
@@ -1088,6 +1101,7 @@ async function loadData() {
       ...h,
       date: new Date(h.date)
     }));
+    buildHolidayDateIndex();
     
     academicTerms.quarters = academicTerms.quarters.map(q => {
       const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
@@ -1115,13 +1129,16 @@ async function loadData() {
     if (clubsRes.ok) {
       clubsData = await clubsRes.json();
     }
+    clearClubCaches();
   } catch (error) {
     console.error('Error loading data:', error);
     
     schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
     holidays = [];
+    buildHolidayDateIndex();
     academicTerms = { quarters: [], semesters: [] };
     clubsData = { clubs: [] };
+    clearClubCaches();
   }
 }
 
@@ -1131,11 +1148,18 @@ function isClubsEnabled() {
 }
 
 function getSelectedClubs() {
+  const saved = localStorage.getItem('selectedClubs') || '[]';
+  if (saved === cachedSelectedClubsRaw) return cachedSelectedClubs;
+
   try {
-    const saved = localStorage.getItem('selectedClubs');
-    return saved ? JSON.parse(saved) : [];
+    const parsed = JSON.parse(saved);
+    cachedSelectedClubsRaw = saved;
+    cachedSelectedClubs = Array.isArray(parsed) ? parsed : [];
+    return cachedSelectedClubs;
   } catch (e) {
-    return [];
+    cachedSelectedClubsRaw = saved;
+    cachedSelectedClubs = [];
+    return cachedSelectedClubs;
   }
 }
 
@@ -1225,12 +1249,16 @@ function getClubsForDate(date) {
   
   const selectedClubIds = getSelectedClubs();
   if (selectedClubIds.length === 0) return [];
+
+  const selectedIdsSet = new Set(selectedClubIds);
+  const cacheKey = `${getDateKey(date)}::${cachedSelectedClubsRaw || '[]'}`;
+  if (clubsForDateCache.has(cacheKey)) return clubsForDateCache.get(cacheKey);
   
   const dayName = getDayNameFromDate(date);
   
-  return clubsData.clubs.filter(club => {
+  const clubs = clubsData.clubs.filter(club => {
     
-    if (!selectedClubIds.includes(club.id)) return false;
+    if (!selectedIdsSet.has(club.id)) return false;
     
     return doesClubMeetOnDate(club, date);
   }).map(club => {
@@ -1241,6 +1269,9 @@ function getClubsForDate(date) {
       endMinutes: club.endHour * 60 + club.endMinute
     };
   }).sort((a, b) => a.startMinutes - b.startMinutes);
+
+  clubsForDateCache.set(cacheKey, clubs);
+  return clubs;
 }
 
 function formatClubTime(club) {
@@ -1369,7 +1400,15 @@ function showPackUpNotification(period) {
   }, 5000);
 }
 
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  const isSecureContext = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+  if (!isSecureContext) return;
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
 async function initApp() {
+  registerServiceWorker();
   
   const DATA_VERSION = '2.0';
   const currentVersion = localStorage.getItem('dataVersion');
