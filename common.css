@@ -9,7 +9,7 @@
   --primary: #4b2e83;
   --primary-light: #6a4fb3;
   --text-light: #e8e8e8;
-  --bg-dark: #1a1a1a;
+  --bg-dark: #000000;
   --card-dark: #262626;
   --glow: 0 0 12px rgba(107, 76, 183, 0.8);
 }
