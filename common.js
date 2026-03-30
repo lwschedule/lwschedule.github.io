@@ -1000,7 +1000,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const isNov26 = month === 10 && day === 26 && year === 2025;
   const isJun17 = month === 5 && day === 17 && year === 2026;
   if (isNov26 || isJun17) {
-    cell.style.borderColor = '#d35400';
+    cell.style.borderColor = '#a94300';
     cell.classList.remove('holiday');
   }
   cell.appendChild(dayNumber);
@@ -1052,18 +1052,18 @@ function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   document.body.className = `theme-${theme}`;
   const themeColors = {
-    purple: '#4b2e83',
-    red: '#c41e3a',
-    orange: '#d35400',
-    yellow: '#c29d00',
-    green: '#27ae60',
-    blue: '#2980b9',
-    indigo: '#3f51b5',
-    pink: '#c2185b'
+    purple: '#3c2569',
+    red: '#9d182e',
+    orange: '#a94300',
+    yellow: '#9b7e00',
+    green: '#1f8b4d',
+    blue: '#216694',
+    indigo: '#324191',
+    pink: '#9b1349'
   };
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
-    metaThemeColor.content = themeColors[theme] || '#4b2e83';
+    metaThemeColor.content = themeColors[theme] || '#3c2569';
   }
 }
 

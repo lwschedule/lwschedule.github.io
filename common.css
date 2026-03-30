@@ -6,22 +6,22 @@
 }
 
 :root {
-  --primary: #4b2e83;
-  --primary-light: #6a4fb3;
+  --primary: #3c2569;
+  --primary-light: #553f8f;
   --text-light: #e8e8e8;
-  --bg-dark: #000000;
-  --card-dark: #262626;
-  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+  --bg-dark: #0b0b0b;
+  --card-dark: #1e1e1e;
+  --glow: 0 0 12px rgba(85, 63, 143, 0.8);
 }
 
-body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
-body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
-body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
-body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
-body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
-body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
-body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
-body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
+body.theme-purple { --primary: #3c2569; --primary-light: #553f8f; --glow: 0 0 12px rgba(85, 63, 143, 0.8); }
+body.theme-red { --primary: #9d182e; --primary-light: #b82e38; --glow: 0 0 12px rgba(184, 46, 56, 0.8); }
+body.theme-orange { --primary: #a94300; --primary-light: #b8651b; --glow: 0 0 12px rgba(184, 101, 27, 0.8); }
+body.theme-yellow { --primary: #9b7e00; --primary-light: #c19d0c; --glow: 0 0 12px rgba(193, 157, 12, 0.8); }
+body.theme-green { --primary: #1f8b4d; --primary-light: #25a35a; --glow: 0 0 12px rgba(37, 163, 90, 0.8); }
+body.theme-blue { --primary: #216694; --primary-light: #2a7aaf; --glow: 0 0 12px rgba(42, 122, 175, 0.8); }
+body.theme-indigo { --primary: #324191; --primary-light: #4a569a; --glow: 0 0 12px rgba(74, 86, 154, 0.8); }
+body.theme-pink { --primary: #9b1349; --primary-light: #ba184f; --glow: 0 0 12px rgba(186, 24, 79, 0.8); }
 
 * {
   font-family: 'SF Pro Rounded', sans-serif;
@@ -269,11 +269,11 @@ body.calendarPage .pageContainer {
 }
 
 .key-box.half-day {
-  background: #d35400;
+  background: #a94300;
 }
 
 .key-box.special-schedule {
-  background: #2980b9;
+  background: #216694;
 }
 
 .key-box.today {
@@ -401,12 +401,12 @@ body.calendarPage .pageContainer {
 .mainBtn.disabledBtn {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #555 !important;
+  background: #444444 !important;
   animation: none !important;
 }
 
 .mainBtn.disabledBtn:hover {
-  background: #555 !important;
+  background: #444444 !important;
   transform: none;
 }
 
@@ -414,7 +414,7 @@ body.calendarPage .pageContainer {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #1f1f1f;
+  background: #181818;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -431,7 +431,7 @@ body.calendarPage .pageContainer {
 
 .scheduleTable td {
   padding: 12px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #383838;
 }
 
 .scheduleTable tr:last-child td {
@@ -447,14 +447,14 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable tr:not(.highlight):hover {
-  background: #2a2a2a;
+  background: #222222;
 }
 
 .weekTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #1f1f1f;
+  background: #181818;
   border-radius: 12px;
   overflow: hidden;
   font-size: clamp(0.9em, 2.5vw, 1em);
@@ -472,7 +472,7 @@ body.calendarPage .pageContainer {
 
 .weekTable td {
   padding: 12px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #383838;
   line-height: 1.5;
 }
 
@@ -495,7 +495,7 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable tr.clickable-row:hover {
-  background: #2a2a2a;
+  background: #222222;
   transform: scale(1.01);
 }
 
@@ -549,7 +549,7 @@ body.calendarPage .pageContainer {
 .resetBtn {
   display: block;
   width: 100%;
-  background: #555;
+  background: #444444;
   color: white;
   border: none;
   padding: 12px 30px;
@@ -564,7 +564,7 @@ body.calendarPage .pageContainer {
 }
 
 .resetBtn:hover {
-  background: #c41e3a;
+  background: #9d182e;
   transform: scale(1.05);
 }
 
@@ -572,7 +572,7 @@ body.calendarPage .pageContainer {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #1f1f1f;
+  background: #181818;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -589,7 +589,7 @@ body.calendarPage .pageContainer {
 
 .holidayTable td {
   padding: 12px;
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #383838;
 }
 
 .holidayTable tr:last-child td {
@@ -597,7 +597,7 @@ body.calendarPage .pageContainer {
 }
 
 .holidayTable tr:hover {
-  background: #2a2a2a;
+  background: #222222;
 }
 
 #holidayCountdown {
@@ -708,7 +708,7 @@ body.calendarPage .pageContainer {
 
 .calendar-grid {
   /* moved styles from the former .calendar container so the grid stands on its own */
-  background: #1f1f1f;
+  background: #181818;
   border-radius: 12px;
   padding: 15px;
   width: 100%;
@@ -774,7 +774,7 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-day.week-special {
-  border-color: #2980b9;
+  border-color: #216694;
 }
 
 

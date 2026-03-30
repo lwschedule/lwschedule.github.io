@@ -10,25 +10,25 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#3c2569">
   <link rel="stylesheet" href="/common.css">
   <style>
 :root {
-  --primary: #4b2e83;
-  --primary-light: #6a4fb3;
+  --primary: #3c2569;
+  --primary-light: #553f8f;
   --text-light: #e8e8e8;
-  --bg-dark: #000000;
-  --card-dark: #262626;
-  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
+  --bg-dark: #0b0b0b;
+  --card-dark: #1e1e1e;
+  --glow: 0 0 12px rgba(85, 63, 143, 0.8);
 }
-body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
-body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
-body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
-body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
-body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
-body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
-body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
-body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
+body.theme-purple { --primary: #3c2569; --primary-light: #553f8f; --glow: 0 0 12px rgba(85, 63, 143, 0.8); }
+body.theme-red { --primary: #9d182e; --primary-light: #b82e38; --glow: 0 0 12px rgba(184, 46, 56, 0.8); }
+body.theme-orange { --primary: #a94300; --primary-light: #b8651b; --glow: 0 0 12px rgba(184, 101, 27, 0.8); }
+body.theme-yellow { --primary: #9b7e00; --primary-light: #c19d0c; --glow: 0 0 12px rgba(193, 157, 12, 0.8); }
+body.theme-green { --primary: #1f8b4d; --primary-light: #25a35a; --glow: 0 0 12px rgba(37, 163, 90, 0.8); }
+body.theme-blue { --primary: #216694; --primary-light: #2a7aaf; --glow: 0 0 12px rgba(42, 122, 175, 0.8); }
+body.theme-indigo { --primary: #324191; --primary-light: #4a569a; --glow: 0 0 12px rgba(74, 86, 154, 0.8); }
+body.theme-pink { --primary: #9b1349; --primary-light: #ba184f; --glow: 0 0 12px rgba(186, 24, 79, 0.8); }
 * { font-family: 'SF Pro Rounded', sans-serif; box-sizing: border-box; }
 body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
 body::-webkit-scrollbar { display: none; }
@@ -44,8 +44,8 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
 .themeCircle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
 .themeOption.selected .themeCircle { border-color: white; box-shadow: 0 0 20px currentColor; }
 .themeName { font-size: 0.9em; color: var(--text-light); font-weight: 700; }
-.resetBtn { display: block; width: 100%; background: #555; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
-.resetBtn:hover { background: #c41e3a; transform: scale(1.05); }
+.resetBtn { display: block; width: 100%; background: #444444; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
+.resetBtn:hover { background: #9d182e; transform: scale(1.05); }
 @media (max-width: 600px) {
   .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
   .pageContainer { padding: 20px 0 0 0; }
@@ -59,35 +59,35 @@ h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white
     <h2>Choose Your Theme</h2>
     <div class="themeGrid">
       <div class="themeOption selected" data-theme="purple">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #3c2569, #553f8f);"></div>
         <span class="themeName">Purple</span>
       </div>
       <div class="themeOption" data-theme="red">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #9d182e, #b82e38);"></div>
         <span class="themeName">Red</span>
       </div>
       <div class="themeOption" data-theme="orange">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #a94300, #b8651b);"></div>
         <span class="themeName">Orange</span>
       </div>
       <div class="themeOption" data-theme="yellow">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #9b7e00, #c19d0c);"></div>
         <span class="themeName">Yellow</span>
       </div>
       <div class="themeOption" data-theme="green">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #1f8b4d, #25a35a);"></div>
         <span class="themeName">Green</span>
       </div>
       <div class="themeOption" data-theme="blue">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #216694, #2a7aaf);"></div>
         <span class="themeName">Blue</span>
       </div>
       <div class="themeOption" data-theme="indigo">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #324191, #4a569a);"></div>
         <span class="themeName">Indigo</span>
       </div>
       <div class="themeOption" data-theme="pink">
-        <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div>
+        <div class="themeCircle" style="background: linear-gradient(135deg, #9b1349, #ba184f);"></div>
         <span class="themeName">Pink</span>
       </div>
     </div>

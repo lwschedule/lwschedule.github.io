@@ -10,11 +10,11 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#3c2569">
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-    .setup-section { background: #1f1f1f; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
+    .setup-section { background: #181818; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
     .setup-section:nth-of-type(1) { animation-delay: 0.1s; }
     .setup-section:nth-of-type(2) { animation-delay: 0.2s; }
     .setup-section:nth-of-type(3) { animation-delay: 0.3s; }
@@ -44,7 +44,7 @@
     
     .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #383838; transition: .4s; border-radius: 34px; }
     .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
     input:checked + .slider { background-color: var(--primary-light); }
     input:checked + .slider:before { transform: translateX(26px); }
@@ -59,35 +59,35 @@
       <h3>1. Choose Your Theme</h3>
       <div class="themeGrid">
         <div class="themeOption selected" data-theme="purple">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #4b2e83, #6a4fb3);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #3c2569, #553f8f);"></div>
           <span class="themeName">Purple</span>
         </div>
         <div class="themeOption" data-theme="red">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #c41e3a, #e63946);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #9d182e, #b82e38);"></div>
           <span class="themeName">Red</span>
         </div>
         <div class="themeOption" data-theme="orange">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #d35400, #e67e22);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #a94300, #b8651b);"></div>
           <span class="themeName">Orange</span>
         </div>
         <div class="themeOption" data-theme="yellow">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #c29d00, #f1c40f);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #9b7e00, #c19d0c);"></div>
           <span class="themeName">Yellow</span>
         </div>
         <div class="themeOption" data-theme="green">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #27ae60, #2ecc71);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #1f8b4d, #25a35a);"></div>
           <span class="themeName">Green</span>
         </div>
         <div class="themeOption" data-theme="blue">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #2980b9, #3498db);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #216694, #2a7aaf);"></div>
           <span class="themeName">Blue</span>
         </div>
         <div class="themeOption" data-theme="indigo">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #3f51b5, #5c6bc0);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #324191, #4a569a);"></div>
           <span class="themeName">Indigo</span>
         </div>
         <div class="themeOption" data-theme="pink">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #c2185b, #e91e63);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #9b1349, #ba184f);"></div>
           <span class="themeName">Pink</span>
         </div>
       </div>
@@ -332,7 +332,7 @@
         const timeStr = formatClubTime(club);
         const freqLabel = getFrequencyLabel(club.frequency);
         
-        html += `<div class="club-item" data-id="${club.id}" style="display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.2s; ${isSelected ? 'background: rgba(75, 46, 131, 0.3);' : ''}">
+        html += `<div class="club-item" data-id="${club.id}" style="display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid #2a2a2a; cursor: pointer; transition: background 0.2s; ${isSelected ? 'background: rgba(60, 37, 105, 0.3);' : ''}">
           <input type="checkbox" class="club-checkbox" data-id="${club.id}" ${isSelected ? 'checked' : ''} style="width: 20px; height: 20px; margin-right: 15px; cursor: pointer; accent-color: var(--primary);">
           <div style="flex: 1;">
             <div style="font-weight: 600; font-size: 0.9em;">${club.name}</div>
@@ -373,7 +373,7 @@
       
       const item = document.querySelector(`.club-item[data-id="${clubId}"]`);
       if (item) {
-        item.style.background = isSelected ? 'rgba(75, 46, 131, 0.3)' : 'transparent';
+        item.style.background = isSelected ? 'rgba(60, 37, 105, 0.3)' : 'transparent';
       }
       
       updateSelectedCount();
