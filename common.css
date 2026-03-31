@@ -829,12 +829,11 @@ body.calendarPage .pageContainer {
 }
 
 .home-ticker-track {
-  --ticker-duration: 34s;
   display: inline-flex;
   align-items: center;
   gap: 28px;
   white-space: nowrap;
-  animation: homeTickerScroll var(--ticker-duration) linear infinite;
+  will-change: transform;
 }
 
 .home-ticker-group {
@@ -885,11 +884,6 @@ body.calendarPage .pageContainer {
 
 #homeTickerSpacer {
   height: 56px;
-}
-
-@keyframes homeTickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 
 @media (max-width: 600px) {

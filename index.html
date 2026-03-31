@@ -59,11 +59,65 @@
 
   <script src="/common.js"></script>
   <script>
+    let tickerRafId = null;
+    let tickerLastFrameTs = 0;
+    let tickerOffsetPx = 0;
+    let tickerLoopWidthPx = 0;
+    const TICKER_SPEED_PX_PER_SEC = 42;
+
+    function stopTickerLoop() {
+      if (tickerRafId) {
+        cancelAnimationFrame(tickerRafId);
+        tickerRafId = null;
+      }
+      tickerLastFrameTs = 0;
+    }
+
+    function startTickerLoop() {
+      const track = document.getElementById('homeTickerTrack');
+      const firstGroup = track ? track.querySelector('.home-ticker-group') : null;
+      if (!track || !firstGroup) return;
+
+      stopTickerLoop();
+      tickerOffsetPx = 0;
+      track.style.transform = 'translateX(0px)';
+
+      const computeLoopWidth = () => {
+        const computed = getComputedStyle(track);
+        const gap = parseFloat(computed.gap || computed.columnGap || '0') || 0;
+        return firstGroup.getBoundingClientRect().width + gap;
+      };
+
+      tickerLoopWidthPx = computeLoopWidth();
+
+      const step = (ts) => {
+        if (!tickerLastFrameTs) tickerLastFrameTs = ts;
+        const deltaSec = (ts - tickerLastFrameTs) / 1000;
+        tickerLastFrameTs = ts;
+
+        if (!tickerLoopWidthPx || tickerLoopWidthPx <= 0) {
+          tickerLoopWidthPx = computeLoopWidth();
+        }
+
+        if (tickerLoopWidthPx > 0) {
+          tickerOffsetPx += TICKER_SPEED_PX_PER_SEC * deltaSec;
+          if (tickerOffsetPx >= tickerLoopWidthPx) {
+            tickerOffsetPx -= tickerLoopWidthPx;
+          }
+          track.style.transform = `translateX(${-tickerOffsetPx}px)`;
+        }
+
+        tickerRafId = requestAnimationFrame(step);
+      };
+
+      tickerRafId = requestAnimationFrame(step);
+    }
+
     function buildTickerGroup(messages) {
       const group = document.createElement('div');
       group.className = 'home-ticker-group';
 
-      messages.forEach((message, index) => {
+      messages.forEach((message) => {
         const item = document.createElement('span');
         item.className = 'home-ticker-item';
 
@@ -89,12 +143,10 @@
 
         group.appendChild(item);
 
-        if (index < messages.length - 1) {
-          const separator = document.createElement('span');
-          separator.className = 'home-ticker-separator';
-          separator.textContent = '•';
-          group.appendChild(separator);
-        }
+        const separator = document.createElement('span');
+        separator.className = 'home-ticker-separator';
+        separator.textContent = '•';
+        group.appendChild(separator);
       });
 
       return group;
@@ -112,9 +164,7 @@
       track.appendChild(groupA);
       track.appendChild(groupB);
 
-      const totalChars = messages.reduce((sum, msg) => sum + msg.text.length + (msg.url ? msg.url.length : 0), 0);
-      const duration = Math.max(20, Math.min(90, Math.round(totalChars / 2)));
-      track.style.setProperty('--ticker-duration', `${duration}s`);
+      startTickerLoop();
     }
 
     async function initHomeTicker() {
@@ -125,8 +175,15 @@
       if (!ticker || !spacer || !closeButton) return;
 
       closeButton.addEventListener('click', () => {
+        stopTickerLoop();
         ticker.classList.add('hidden');
         spacer.style.height = '0px';
+      });
+
+      window.addEventListener('resize', () => {
+        if (!ticker.classList.contains('hidden')) {
+          startTickerLoop();
+        }
       });
 
       try {
@@ -144,6 +201,7 @@
           : [];
 
         if (!messages.length) {
+          stopTickerLoop();
           ticker.classList.add('hidden');
           spacer.style.height = '0px';
           return;
@@ -152,6 +210,7 @@
         renderTicker(messages);
       } catch (error) {
         console.error('Ticker load error:', error);
+        stopTickerLoop();
         ticker.classList.add('hidden');
         spacer.style.height = '0px';
       }
