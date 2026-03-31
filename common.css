@@ -850,6 +850,10 @@ body.calendarPage .pageContainer {
   white-space: nowrap;
 }
 
+.home-ticker-item-with-link {
+  gap: 0.35em;
+}
+
 .home-ticker-link {
   color: white;
   text-decoration: underline;

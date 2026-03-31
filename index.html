@@ -122,8 +122,9 @@
         item.className = 'home-ticker-item';
 
         if (message.url) {
+          item.classList.add('home-ticker-item-with-link');
           const messageText = document.createElement('span');
-          messageText.textContent = `${message.text} `;
+          messageText.textContent = message.text;
 
           const link = document.createElement('a');
           link.className = 'home-ticker-link';
