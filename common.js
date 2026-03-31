@@ -253,9 +253,10 @@ function getDisplayPeriodName(periodName) {
   return classTitle || periodName;
 }
 
-function getScheduleSummaryLabel(periodName) {
+function getScheduleSummaryLabel(periodName, useClassTitles = true) {
   const periodNumber = getPeriodNumberFromName(periodName);
   if (periodNumber) {
+    if (!useClassTitles) return periodNumber.toString();
     const classTitle = getClassTitleForPeriod(periodName);
     return classTitle || periodNumber.toString();
   }
@@ -520,7 +521,7 @@ function getHolidayForDate(date) {
   return null;
 }
 
-function getScheduleSummary(schedules, dayName) {
+function getScheduleSummary(schedules, dayName, useClassTitles = true) {
   const schedule = schedules[dayName];
   if (!schedule || schedule.length === 0) return 'No School';
 
@@ -535,7 +536,7 @@ function getScheduleSummary(schedules, dayName) {
 
   let names = periodsToProcess.map(p => p.name);
   names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
-  const simplifiedNames = names.map(getScheduleSummaryLabel);
+  const simplifiedNames = names.map(n => getScheduleSummaryLabel(n, useClassTitles));
   const uniqueNames = [...new Set(simplifiedNames)];
   return uniqueNames.join(', ');
 }
@@ -986,7 +987,7 @@ function updateWeekSchedule() {
       summary = holidayName;
     } else {
       const schedules = getSchedules(dayDate);
-      summary = getScheduleSummary(schedules, dayNameStr);
+      summary = getScheduleSummary(schedules, dayNameStr, false);
       
       if (clubCount > 0 && isClubsEnabled()) {
         summary += ` <span class="club-indicator">+${clubCount} club${clubCount > 1 ? 's' : ''}</span>`;
