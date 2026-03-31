@@ -1617,7 +1617,7 @@ function showPackUpNotification(period) {
 
 async function initApp() {
   
-  const DATA_VERSION = '2.0';
+  const DATA_VERSION = '2.1';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
     
