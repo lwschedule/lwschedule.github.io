@@ -831,7 +831,7 @@ body.calendarPage .pageContainer {
 .home-ticker-track {
   display: inline-flex;
   align-items: center;
-  gap: 28px;
+  gap: 0;
   white-space: nowrap;
   will-change: transform;
 }
