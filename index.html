@@ -75,14 +75,23 @@
 
     function startTickerLoop() {
       const track = document.getElementById('homeTickerTrack');
-      const firstGroup = track ? track.querySelector('.home-ticker-group') : null;
-      if (!track || !firstGroup) return;
+      const groups = track ? track.querySelectorAll('.home-ticker-group') : [];
+      const firstGroup = groups[0];
+      const secondGroup = groups[1];
+      if (!track || !firstGroup || !secondGroup) return;
 
       stopTickerLoop();
       tickerOffsetPx = 0;
       track.style.transform = 'translateX(0px)';
 
       const computeLoopWidth = () => {
+        const firstLeft = firstGroup.offsetLeft;
+        const secondLeft = secondGroup.offsetLeft;
+        const offsetDistance = secondLeft - firstLeft;
+        if (offsetDistance > 0) {
+          return offsetDistance;
+        }
+
         const computed = getComputedStyle(track);
         const gap = parseFloat(computed.gap || computed.columnGap || '0') || 0;
         return firstGroup.getBoundingClientRect().width + gap;
