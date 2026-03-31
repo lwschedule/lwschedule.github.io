@@ -48,6 +48,144 @@
     .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
     input:checked + .slider { background-color: var(--primary-light); }
     input:checked + .slider:before { transform: translateX(26px); }
+
+    .classes-settings { display: block; }
+    .class-search-input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1em;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: var(--card-dark);
+      color: var(--text-light);
+      outline: none;
+      margin-bottom: 14px;
+    }
+    .class-actions { margin-bottom: 14px; }
+    .class-action-btn {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .class-action-btn:hover { background: var(--primary); }
+    .class-results {
+      background: var(--card-dark);
+      border-radius: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1px solid #2a2a2a;
+      margin-bottom: 14px;
+    }
+    .class-result-btn {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid #2a2a2a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9em;
+    }
+    .class-result-btn:last-child { border-bottom: none; }
+    .class-result-btn:hover { background: rgba(75, 46, 131, 0.2); }
+    .class-result-btn.added,
+    .class-result-btn:disabled {
+      opacity: 0.65;
+      cursor: default;
+      background: rgba(60, 37, 105, 0.25);
+    }
+    .class-result-tag {
+      font-size: 0.75em;
+      padding: 3px 8px;
+      border: 1px solid var(--primary);
+      border-radius: 999px;
+      white-space: nowrap;
+      margin-left: 10px;
+      color: #bfaee8;
+    }
+    .class-slots {
+      background: var(--card-dark);
+      border-radius: 12px;
+      border: 1px solid #2a2a2a;
+      padding: 10px;
+    }
+    .class-slot-row {
+      display: grid;
+      grid-template-columns: 38px 1fr 38px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .class-slot-row:last-child { margin-bottom: 0; }
+    .slot-arrow-btn {
+      height: 38px;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1em;
+    }
+    .slot-arrow-btn:hover:not(:disabled) { background: var(--primary); }
+    .slot-arrow-btn:disabled { opacity: 0.35; cursor: default; }
+    .class-slot-card {
+      background: #141414;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 10px;
+      min-height: 58px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .class-slot-period {
+      font-size: 0.74em;
+      color: #9f9f9f;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .class-slot-value {
+      font-size: 0.9em;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .class-slot-clear {
+      width: fit-content;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #4a4a4a;
+      background: transparent;
+      color: #b7b7b7;
+      font-size: 0.7em;
+      cursor: pointer;
+    }
+    .class-slot-clear:hover { color: white; border-color: #7b7b7b; }
+    .class-count {
+      text-align: center;
+      font-size: 0.88em;
+      color: #aaa;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+    .class-message {
+      text-align: center;
+      min-height: 1.2em;
+      font-size: 0.84em;
+      color: #cdb9ff;
+      margin: 0;
+    }
   </style>
 </head>
 <body class="theme-purple">
@@ -158,7 +296,33 @@
     </div>
 
     <div class="setup-section">
-      <h3>4. Clubs</h3>
+      <h3>4. Classes</h3>
+      <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
+
+      <div style="margin-bottom: 20px; text-align: center;">
+        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Show Class Titles in Schedule</label>
+        <label class="switch">
+          <input type="checkbox" id="classesToggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="classesSettings" class="classes-settings">
+        <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
+
+        <div class="class-actions">
+          <button type="button" id="clearClassesBtn" class="class-action-btn">Clear All Slots</button>
+        </div>
+
+        <div id="classResults" class="class-results"></div>
+        <div id="setupSelectedClassesList" class="class-slots"></div>
+        <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
+        <p id="setupClassesMessage" class="class-message"></p>
+      </div>
+    </div>
+
+    <div class="setup-section">
+      <h3>5. Clubs</h3>
       <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
@@ -259,6 +423,194 @@
         updatePackUpUI();
       }
     });
+
+
+    const SETUP_MAX_CLASS_SLOTS = 6;
+    const classesToggle = document.getElementById('classesToggle');
+    const classesSettings = document.getElementById('classesSettings');
+    let setupClassTitles = getAvailableClassTitles();
+    let setupSelectedClassSlots = getSelectedClassesSlots();
+    let setupClassMessageTimeout = null;
+
+    function escapeSetupHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showSetupClassMessage(message) {
+      const messageEl = document.getElementById('setupClassesMessage');
+      messageEl.textContent = message;
+      if (setupClassMessageTimeout) clearTimeout(setupClassMessageTimeout);
+      setupClassMessageTimeout = setTimeout(() => {
+        messageEl.textContent = '';
+      }, 2500);
+    }
+
+    function saveSetupClassSlots() {
+      setupSelectedClassSlots = setSelectedClassesSlots(setupSelectedClassSlots);
+    }
+
+    function updateSetupClassCount() {
+      const filledCount = setupSelectedClassSlots.filter(Boolean).length;
+      document.getElementById('setupClassesCount').textContent = `${filledCount} of 6 slots filled`;
+    }
+
+    function renderSetupClassResults(filter = '') {
+      const resultsEl = document.getElementById('classResults');
+      const filterLower = filter.toLowerCase();
+      let filteredClasses = setupClassTitles.filter(name => name.toLowerCase().includes(filterLower));
+      const selectedSet = new Set(setupSelectedClassSlots.filter(Boolean));
+
+      filteredClasses.sort((a, b) => {
+        const aAdded = selectedSet.has(a);
+        const bAdded = selectedSet.has(b);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.localeCompare(b);
+      });
+
+      if (filteredClasses.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align: center; padding: 24px; color: #888;">No classes found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClasses.forEach(classTitle => {
+        const isAdded = selectedSet.has(classTitle);
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="class-result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.class-result-btn:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const classTitle = decodeURIComponent(btn.dataset.class);
+          addSetupClassToSlots(classTitle);
+        });
+      });
+    }
+
+    function renderSetupClassSlots() {
+      const listEl = document.getElementById('setupSelectedClassesList');
+      let html = '';
+
+      for (let i = 0; i < SETUP_MAX_CLASS_SLOTS; i++) {
+        const classTitle = setupSelectedClassSlots[i] || '';
+        const isEmpty = !classTitle;
+        const upDisabled = i === 0 || isEmpty;
+        const downDisabled = i === SETUP_MAX_CLASS_SLOTS - 1 || isEmpty;
+
+        html += `<div class="class-slot-row">
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button>
+          <div class="class-slot-card">
+            <div class="class-slot-period">Period ${i + 1}</div>
+            <div class="class-slot-value">${isEmpty ? 'Empty' : escapeSetupHtml(classTitle)}</div>
+            ${isEmpty ? '' : `<button type="button" class="class-slot-clear" data-clear-index="${i}">Clear</button>`}
+          </div>
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
+        </div>`;
+      }
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.slot-arrow-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index, 10);
+          const dir = btn.dataset.dir;
+          const targetIndex = dir === 'up' ? index - 1 : index + 1;
+          moveSetupClassSlot(index, targetIndex);
+        });
+      });
+
+      listEl.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.clearIndex, 10);
+          setupSelectedClassSlots[index] = '';
+          saveSetupClassSlots();
+          renderSetupClassSlots();
+          renderSetupClassResults(document.getElementById('classSearch').value);
+        });
+      });
+
+      updateSetupClassCount();
+    }
+
+    function promptSetupClassReplacement(classTitle) {
+      const choice = prompt(`All 6 slots are full. Replace which period slot with "${classTitle}"? Enter 1-6.`);
+      if (choice === null) return;
+
+      const slotIndex = parseInt(choice, 10) - 1;
+      if (Number.isNaN(slotIndex) || slotIndex < 0 || slotIndex >= SETUP_MAX_CLASS_SLOTS) {
+        showSetupClassMessage('Enter a valid slot number from 1 to 6.');
+        return;
+      }
+
+      setupSelectedClassSlots[slotIndex] = classTitle;
+      saveSetupClassSlots();
+      renderSetupClassSlots();
+      renderSetupClassResults(document.getElementById('classSearch').value);
+      showSetupClassMessage(`Updated Period ${slotIndex + 1}.`);
+    }
+
+    function addSetupClassToSlots(classTitle) {
+      if (setupSelectedClassSlots.includes(classTitle)) {
+        showSetupClassMessage('That class is already in your schedule.');
+        return;
+      }
+
+      const emptyIndex = setupSelectedClassSlots.findIndex(slot => !slot);
+      if (emptyIndex !== -1) {
+        setupSelectedClassSlots[emptyIndex] = classTitle;
+        saveSetupClassSlots();
+        renderSetupClassSlots();
+        renderSetupClassResults(document.getElementById('classSearch').value);
+        return;
+      }
+
+      promptSetupClassReplacement(classTitle);
+    }
+
+    function moveSetupClassSlot(fromIndex, toIndex) {
+      if (fromIndex < 0 || fromIndex >= SETUP_MAX_CLASS_SLOTS || toIndex < 0 || toIndex >= SETUP_MAX_CLASS_SLOTS) return;
+      if (!setupSelectedClassSlots[fromIndex]) return;
+
+      const temp = setupSelectedClassSlots[toIndex];
+      setupSelectedClassSlots[toIndex] = setupSelectedClassSlots[fromIndex];
+      setupSelectedClassSlots[fromIndex] = temp || '';
+
+      saveSetupClassSlots();
+      renderSetupClassSlots();
+      renderSetupClassResults(document.getElementById('classSearch').value);
+    }
+
+    function initSetupClassesSection() {
+      const classesEnabled = isClassesEnabled();
+      classesToggle.checked = classesEnabled;
+      classesSettings.style.display = classesEnabled ? 'block' : 'none';
+
+      classesToggle.addEventListener('change', () => {
+        const enabled = classesToggle.checked;
+        setClassesEnabled(enabled);
+        classesSettings.style.display = enabled ? 'block' : 'none';
+      });
+
+      document.getElementById('classSearch').addEventListener('input', (e) => {
+        renderSetupClassResults(e.target.value);
+      });
+
+      document.getElementById('clearClassesBtn').addEventListener('click', () => {
+        setupSelectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
+        saveSetupClassSlots();
+        renderSetupClassSlots();
+        renderSetupClassResults(document.getElementById('classSearch').value);
+      });
+
+      renderSetupClassResults();
+      renderSetupClassSlots();
+    }
     
     
     let allClubs = [];
@@ -411,7 +763,7 @@
       renderClubsList(document.getElementById('clubSearch').value);
     });
     
-    
+    initSetupClassesSection();
     loadClubs();
     
     document.getElementById('completeBtn').addEventListener('click', () => {
@@ -420,6 +772,8 @@
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', packUpTime);
       localStorage.setItem('notifications-enabled', notificationsToggle.checked ? 'true' : 'false');
+      localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
+      setupSelectedClassSlots = setSelectedClassesSlots(setupSelectedClassSlots);
       localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');
       localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
       localStorage.setItem('setup-complete', 'true');

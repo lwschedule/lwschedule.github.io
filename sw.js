@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lwschedule-v1.9.3';
+const CACHE_NAME = 'lwschedule-v1.9.4';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -11,7 +11,8 @@ const urlsToCache = [
   '/schedules/index.html',
   '/quarters/index.html',
   '/info/index.html',
-  '/settings/index.html'
+  '/settings/index.html',
+  '/settings/classes/index.html'
 ];
 
 self.addEventListener('install', (event) => {

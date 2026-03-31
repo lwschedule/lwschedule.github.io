@@ -9,6 +9,244 @@ let schedulesData = null;
 let academicTerms = null;
 let clubsData = null;
 
+const MAX_CLASS_SLOTS = 6;
+const AVAILABLE_CLASS_TITLES = [
+  "English 9",
+  "English 9 Honors",
+  "English 10",
+  "English 10 Honors",
+  "English 10 AP Seminar",
+  "English 11",
+  "AP English Language & Composition",
+  "English 12",
+  "AP English Literature & Composition",
+  "Creative Writing",
+  "Fantasy & Sci-Fi Literature",
+  "Film as Literature",
+  "Mythology",
+  "Journalism",
+  "Bridge to College English",
+  "Algebra 1",
+  "Geometry",
+  "Geometry Honors",
+  "Algebra 2",
+  "Algebra 2 Honors",
+  "Financial Algebra",
+  "Trigonometry",
+  "Intro to Statistics",
+  "Pre-Calculus",
+  "AP Pre-Calculus",
+  "Calculus",
+  "AP Calculus AB",
+  "AP Calculus BC",
+  "AP Statistics",
+  "AP Computer Science Principles",
+  "AP Computer Science A",
+  "Computer Science Data Structures",
+  "Bridge to College Math",
+  "Biology in the Earth System",
+  "Chemistry in the Earth System",
+  "Physics in the Universe",
+  "AP Biology",
+  "AP Chemistry",
+  "AP Environmental Science",
+  "AP Physics 1",
+  "AP Physics 2",
+  "UW Astronomy 101: Stars",
+  "UW Astronomy 150: Planets",
+  "Anatomy & Physiology 1",
+  "Anatomy & Physiology 2",
+  "Marine Science",
+  "Climate Change",
+  "Zoology",
+  "Meteorology - Weather and Climate",
+  "World History 1",
+  "World History 2",
+  "World History 3",
+  "US History",
+  "AP US History",
+  "Civics",
+  "AP Government",
+  "World Religions",
+  "Social Justice: Intro to Sociology",
+  "History Through Film",
+  "Psychology",
+  "AP Psychology",
+  "AP Microeconomics",
+  "AP Macroeconomics",
+  "French 1",
+  "French 2",
+  "French 3",
+  "French 4",
+  "AP French",
+  "Spanish 1",
+  "Spanish 2",
+  "Spanish 3",
+  "Spanish 4",
+  "AP Spanish",
+  "Heritage Spanish",
+  "American Sign Language 1",
+  "American Sign Language 2",
+  "American Sign Language 3",
+  "2D Art 1",
+  "2D Art 2",
+  "2D Art 3",
+  "AP 2D Art & Design",
+  "3D Art 1",
+  "3D Art 2",
+  "3D Art 3",
+  "AP 3D Art & Design",
+  "AP Art History",
+  "Chorale",
+  "Lyrica",
+  "Piano 1",
+  "Guitar 1",
+  "Guitar 2",
+  "Concert Orchestra",
+  "Chamber Orchestra",
+  "Concert Band",
+  "Symphonic Band",
+  "Wind Ensemble",
+  "Jazz Ensemble",
+  "Drama 1",
+  "Drama 2",
+  "Theatre in Society",
+  "Production Workshop",
+  "Tech Theater 1",
+  "Tech Theater 2",
+  "PE 9",
+  "Walking and Wellness",
+  "Strength Training 1",
+  "Strength Training 2",
+  "Racket and Net Sports",
+  "Recreational Sports",
+  "Team Sports",
+  "Athletic Training",
+  "Lifetime Sports",
+  "Culinary Arts 1",
+  "Culinary Arts 2",
+  "Business & Marketing Foundations",
+  "Retail Operations",
+  "Retail Management",
+  "Sports & Entertainment Marketing",
+  "Digital Marketing & Social Media",
+  "Accounting",
+  "Wealth Management",
+  "Personal Finance",
+  "Personal Finance 2",
+  "Advanced Wealth Management",
+  "AP Personal Finance",
+  "Child Development 1",
+  "Child Development 2",
+  "Careers in Education",
+  "Video Production 1",
+  "Video Production 2",
+  "Broadcast Communications",
+  "Leadership and Project Management 1",
+  "Leadership and Project Management 2",
+  "Yearbook 1",
+  "Yearbook 2",
+  "Photography 1",
+  "Photography 2",
+  "AP Photography",
+  "Graphic Design 1",
+  "Graphic Design 2",
+  "Intro to Engineering Design",
+  "Principles of Engineering",
+  "Aerospace Engineering",
+  "Civil Engineering & Architecture",
+  "Computer Integrated Manufacturing",
+  "Industrial Design / 3D Printing",
+  "AVID 9",
+  "AVID 10",
+  "AVID 11",
+  "AVID 12",
+  "Peer Tutor",
+  "Teacher Assistant",
+  "Office Assistant",
+  "Library Assistant",
+  "Counseling Assistant"
+];
+
+function getAvailableClassTitles() {
+  return AVAILABLE_CLASS_TITLES.slice();
+}
+
+function normalizeClassSlots(rawSlots) {
+  const slots = Array(MAX_CLASS_SLOTS).fill('');
+  if (!Array.isArray(rawSlots)) return slots;
+
+  const used = new Set();
+  for (let i = 0; i < MAX_CLASS_SLOTS; i++) {
+    const value = typeof rawSlots[i] === 'string' ? rawSlots[i].trim() : '';
+    if (!value || used.has(value)) continue;
+    used.add(value);
+    slots[i] = value;
+  }
+
+  return slots;
+}
+
+function isClassesEnabled() {
+  return localStorage.getItem('classesEnabled') !== 'false';
+}
+
+function setClassesEnabled(enabled) {
+  localStorage.setItem('classesEnabled', enabled ? 'true' : 'false');
+}
+
+function getSelectedClassesSlots() {
+  try {
+    const saved = localStorage.getItem('selectedClasses');
+    return normalizeClassSlots(saved ? JSON.parse(saved) : []);
+  } catch (e) {
+    return Array(MAX_CLASS_SLOTS).fill('');
+  }
+}
+
+function getSelectedClasses() {
+  return getSelectedClassesSlots().filter(Boolean);
+}
+
+function setSelectedClassesSlots(slots) {
+  const normalized = normalizeClassSlots(slots);
+  localStorage.setItem('selectedClasses', JSON.stringify(normalized));
+  return normalized;
+}
+
+function getPeriodNumberFromName(periodName) {
+  if (typeof periodName !== 'string') return null;
+  const match = periodName.match(/^Period\s+([1-6])\b/i);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+function getClassTitleForPeriod(periodName) {
+  if (!isClassesEnabled()) return '';
+  const periodNumber = getPeriodNumberFromName(periodName);
+  if (!periodNumber) return '';
+  const slots = getSelectedClassesSlots();
+  return slots[periodNumber - 1] || '';
+}
+
+function getDisplayPeriodName(periodName) {
+  const classTitle = getClassTitleForPeriod(periodName);
+  return classTitle || periodName;
+}
+
+function getScheduleSummaryLabel(periodName) {
+  const periodNumber = getPeriodNumberFromName(periodName);
+  if (periodNumber) {
+    const classTitle = getClassTitleForPeriod(periodName);
+    return classTitle || periodNumber.toString();
+  }
+
+  const lowerName = periodName.toLowerCase();
+  if (lowerName.includes('lunch')) return 'L';
+  if (lowerName.includes('homeroom')) return 'HR';
+  if (lowerName.includes('roo')) return 'Roo';
+  return periodName;
+}
+
 function checkSetupComplete() {
   const theme = localStorage.getItem('theme');
   const gradient = localStorage.getItem('gradient');
@@ -277,18 +515,7 @@ function getScheduleSummary(schedules, dayName) {
 
   let names = periodsToProcess.map(p => p.name);
   names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
-  const simplifiedNames = names.map(n => {
-    if (n.startsWith("Period 1")) return "1";
-    if (n.startsWith("Period 2")) return "2";
-    if (n.startsWith("Period 3")) return "3";
-    if (n.startsWith("Period 4")) return "4";
-    if (n.startsWith("Period 5")) return "5";
-    if (n.startsWith("Period 6")) return "6";
-    if (n.includes("Lunch")) return "L";
-    if (n.includes("Homeroom")) return "HR";
-    if (n.includes("Roo")) return "Roo";
-    return n;
-  });
+  const simplifiedNames = names.map(getScheduleSummaryLabel);
   const uniqueNames = [...new Set(simplifiedNames)];
   return uniqueNames.join(', ');
 }
@@ -490,7 +717,7 @@ function getNextSchoolDayInfo() {
       const schedule = schedules[dayName];
       if (scheduleHasPeriods(schedule)) {
         const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${first.name}`;
+        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
       }
   }
   return 'Next: School';
@@ -501,19 +728,19 @@ function getNextPeriodInfo(schedule, now, nowDate) {
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
-    if (next) return `Next: ${next.name}`;
+    if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
     
     return getNextSchoolDayInfo();
   }
   
   
   if (now < schedule[0].start) {
-    return `Next: ${schedule[0].name}`;
+    return `Next: ${getDisplayPeriodName(schedule[0].name)}`;
   }
   
   
   const next = getNextPeriodStart(schedule, now);
-  if (next) return `Next: ${next.name}`;
+  if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
   
   
   return getNextSchoolDayInfo();
@@ -530,7 +757,7 @@ function getNextPeriodInfoForHoliday(nowDate) {
       const schedule = schedules[dayName];
       if (scheduleHasPeriods(schedule)) {
         const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${first.name}`;
+        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
       }
   }
   return 'Next: School';
@@ -616,7 +843,7 @@ function updateClock() {
     const m = Math.floor((totalRemainingSeconds % 3600) / 60);
     const s = totalRemainingSeconds % 60;
 
-    clockLabel.textContent = currentPeriod.name.toUpperCase();
+    clockLabel.textContent = getDisplayPeriodName(currentPeriod.name).toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
     
     timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
@@ -669,7 +896,7 @@ function updateClock() {
       const m = Math.floor((totalRemainingSeconds % 3600) / 60);
       const s = totalRemainingSeconds % 60;
 
-      clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
+      clockLabel.textContent = `UNTIL ${getDisplayPeriodName(nextPeriod.name).toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       
       timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
@@ -694,7 +921,7 @@ function renderScheduleTable(schedule, now, showDuration = false) {
     const p = schedule[i];
     const duration = p.end - p.start;
     const active = now !== null && now >= p.start && now < p.end;
-    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
+    html += `<tr class='${active?"highlight":""}'><td>${getDisplayPeriodName(p.name)}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
     if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
     html += "</tr>";
   }
@@ -971,8 +1198,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
       const schedules = getSchedules(date);
       const schedule = schedules[dayName];
       if (scheduleHasPeriods(schedule)) {
-        // period summary removed for monthly view per user request
-        daySchedule.textContent = '';
+        daySchedule.textContent = getScheduleSummary(schedules, dayName);
       } else {
         daySchedule.textContent = '';
         cell.classList.add('holiday');
