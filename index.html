@@ -83,13 +83,10 @@
       stopTickerLoop();
       tickerOffsetPx = 0;
       track.style.transform = 'translateX(0px)';
-      let frameCount = 0;
 
       const computeLoopWidth = () => {
-        const firstRect = firstGroup.getBoundingClientRect();
-        const secondRect = secondGroup.getBoundingClientRect();
-        const firstLeft = firstRect.left;
-        const secondLeft = secondRect.left;
+        const firstLeft = firstGroup.offsetLeft;
+        const secondLeft = secondGroup.offsetLeft;
         const offsetDistance = secondLeft - firstLeft;
         if (offsetDistance > 0) {
           return offsetDistance;
@@ -106,19 +103,15 @@
         if (!tickerLastFrameTs) tickerLastFrameTs = ts;
         const deltaSec = (ts - tickerLastFrameTs) / 1000;
         tickerLastFrameTs = ts;
-        frameCount += 1;
 
         if (!tickerLoopWidthPx || tickerLoopWidthPx <= 0) {
           tickerLoopWidthPx = computeLoopWidth();
-        } else if (frameCount % 45 === 0) {
-          const latestWidth = computeLoopWidth();
-          if (latestWidth > 0) tickerLoopWidthPx = latestWidth;
         }
 
         if (tickerLoopWidthPx > 0) {
           tickerOffsetPx += TICKER_SPEED_PX_PER_SEC * deltaSec;
           if (tickerOffsetPx >= tickerLoopWidthPx) {
-            tickerOffsetPx %= tickerLoopWidthPx;
+            tickerOffsetPx -= tickerLoopWidthPx;
           }
           track.style.transform = `translateX(${-tickerOffsetPx}px)`;
         }
