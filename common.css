@@ -799,9 +799,120 @@ body.calendarPage .pageContainer {
   font-weight: 700;
 }
 
+.home-ticker {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1400;
+  background: linear-gradient(90deg, rgba(8, 8, 8, 0.98), rgba(22, 22, 22, 0.98));
+  border-top: 1px solid #2b2b2b;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.home-ticker.hidden {
+  display: none;
+}
+
+.home-ticker-inner {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 0;
+}
+
+.home-ticker-viewport {
+  flex: 1;
+  overflow: hidden;
+  padding-left: 12px;
+}
+
+.home-ticker-track {
+  --ticker-duration: 34s;
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  white-space: nowrap;
+  animation: homeTickerScroll var(--ticker-duration) linear infinite;
+}
+
+.home-ticker-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.92em;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.home-ticker-link {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.home-ticker-link:hover {
+  opacity: 0.85;
+}
+
+.home-ticker-separator {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.9em;
+}
+
+.home-ticker-close {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #4a4a4a;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 1.2em;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.home-ticker-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+#homeTickerSpacer {
+  height: 56px;
+}
+
+@keyframes homeTickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @media (max-width: 600px) {
   .mainButtons {
     grid-template-columns: 1fr;
+  }
+
+  .home-ticker-inner {
+    min-height: 44px;
+  }
+
+  .home-ticker-item {
+    font-size: 0.84em;
+  }
+
+  .home-ticker-close {
+    width: 30px;
+    height: 30px;
+    font-size: 1.05em;
+  }
+
+  #homeTickerSpacer {
+    height: 50px;
   }
 
   .topRightButtons {

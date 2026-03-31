@@ -46,12 +46,122 @@
     <a class="mainBtn" href="/holidays">Upcoming Holidays</a>
     <a class="mainBtn" href="/quarters">Quarters/Semesters</a>
   </div>
+
+  <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
+    <div class="home-ticker-inner">
+      <div class="home-ticker-viewport">
+        <div id="homeTickerTrack" class="home-ticker-track" aria-live="polite"></div>
+      </div>
+      <button type="button" id="homeTickerClose" class="home-ticker-close" aria-label="Dismiss ticker">&times;</button>
+    </div>
+  </div>
+  <div id="homeTickerSpacer" aria-hidden="true"></div>
+
   <script src="/common.js"></script>
   <script>
+    function buildTickerGroup(messages) {
+      const group = document.createElement('div');
+      group.className = 'home-ticker-group';
+
+      messages.forEach((message, index) => {
+        const item = document.createElement('span');
+        item.className = 'home-ticker-item';
+
+        if (message.url) {
+          const messageText = document.createElement('span');
+          messageText.textContent = `${message.text} `;
+
+          const link = document.createElement('a');
+          link.className = 'home-ticker-link';
+          link.href = message.url;
+          link.textContent = message.url;
+
+          if (/^https?:\/\//i.test(message.url)) {
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+          }
+
+          item.appendChild(messageText);
+          item.appendChild(link);
+        } else {
+          item.textContent = message.text;
+        }
+
+        group.appendChild(item);
+
+        if (index < messages.length - 1) {
+          const separator = document.createElement('span');
+          separator.className = 'home-ticker-separator';
+          separator.textContent = '•';
+          group.appendChild(separator);
+        }
+      });
+
+      return group;
+    }
+
+    function renderTicker(messages) {
+      const track = document.getElementById('homeTickerTrack');
+      if (!track) return;
+
+      track.innerHTML = '';
+      const groupA = buildTickerGroup(messages);
+      const groupB = buildTickerGroup(messages);
+      groupB.setAttribute('aria-hidden', 'true');
+
+      track.appendChild(groupA);
+      track.appendChild(groupB);
+
+      const totalChars = messages.reduce((sum, msg) => sum + msg.text.length + (msg.url ? msg.url.length : 0), 0);
+      const duration = Math.max(20, Math.min(90, Math.round(totalChars / 2)));
+      track.style.setProperty('--ticker-duration', `${duration}s`);
+    }
+
+    async function initHomeTicker() {
+      const ticker = document.getElementById('homeTicker');
+      const spacer = document.getElementById('homeTickerSpacer');
+      const closeButton = document.getElementById('homeTickerClose');
+
+      if (!ticker || !spacer || !closeButton) return;
+
+      closeButton.addEventListener('click', () => {
+        ticker.classList.add('hidden');
+        spacer.style.height = '0px';
+      });
+
+      try {
+        const response = await fetch('/data/ticker-messages.json');
+        if (!response.ok) throw new Error('Failed to load ticker messages');
+
+        const data = await response.json();
+        const messages = Array.isArray(data.messages)
+          ? data.messages
+              .map(msg => ({
+                text: typeof msg.text === 'string' ? msg.text.trim() : '',
+                url: typeof msg.url === 'string' ? msg.url.trim() : ''
+              }))
+              .filter(msg => msg.text.length > 0)
+          : [];
+
+        if (!messages.length) {
+          ticker.classList.add('hidden');
+          spacer.style.height = '0px';
+          return;
+        }
+
+        renderTicker(messages);
+      } catch (error) {
+        console.error('Ticker load error:', error);
+        ticker.classList.add('hidden');
+        spacer.style.height = '0px';
+      }
+    }
+
     (async () => {
       await initApp();
       updateClock();
       setInterval(updateClock, 1000);
+      await initHomeTicker();
       
       
       const banner = document.getElementById('clubsBanner');
