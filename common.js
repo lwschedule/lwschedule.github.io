@@ -582,55 +582,6 @@ function getLastPeriodFromSchedule(schedule) {
   return null;
 }
 
-function updateRollingText(element, newText) {
-  if (!element) return;
-  let oldText = element.dataset.previousText;
-  if (!oldText) {
-    if (element.querySelector('.digit-roller .new')) {
-      oldText = element.querySelector('.digit-roller .new').textContent;
-    } else {
-      oldText = element.textContent;
-    }
-    element.dataset.previousText = oldText || '';
-  }
-  oldText = (oldText || '').trim();
-  newText = (newText || '').trim();
-  if (oldText === newText) return;
-  const newIsNumeric = /^\d+$/.test(newText);
-  const oldIsNumeric = /^\d+$/.test(oldText);
-  if (newIsNumeric && !oldIsNumeric) {
-    oldText = oldText || newText.replace(/./g, '0');
-  }
-  if (newIsNumeric && /^\d+$/.test(oldText)) {
-    let rollerWidth = '100%';
-    element.innerHTML = `<span class="digit-roller" style="width: ${rollerWidth}; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
-    element.dataset.previousText = newText;
-    return;
-  }
-  let html = '';
-  let newChars = newText.split('');
-  let oldChars = oldText.split('');
-  let len = Math.max(newChars.length, oldChars.length);
-  for (let i = 0; i < len; i++) {
-    let newChar = newChars[i] || '';
-    let oldChar = oldChars[i] || '';
-    if (newChar === oldChar) {
-      html += `<span class="static-char">${newChar}</span>`;
-    } else {
-      let width = '0.6em';
-      if (newChar === ':' || newChar === '.') width = '0.3em';
-      if (newChar === ' ') width = '0.2em';
-      if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
-      html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
-      html += `<span class="old">${oldChar}</span>`;
-      html += `<span class="new">${newChar}</span>`;
-      html += `</span>`;
-    }
-  }
-  element.innerHTML = html;
-  element.dataset.previousText = newText;
-}
-
 function displayTimeBlocks(container, data) {
   const daysEl = document.getElementById('clockDisplay-days');
   const hoursEl = document.getElementById('clockDisplay-hours');
