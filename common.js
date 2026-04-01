@@ -793,9 +793,17 @@ function getCurrentPeriod(schedule, now) {
   return null;
 }
 
+function applyThemeClass(theme) {
+  const existingThemeClasses = Array.from(document.body.classList).filter(className => className.startsWith('theme-'));
+  if (existingThemeClasses.length) {
+    document.body.classList.remove(...existingThemeClasses);
+  }
+  document.body.classList.add(`theme-${theme}`);
+}
+
 function updateTheme() {
   const theme = localStorage.getItem('theme') || 'purple';
-  document.body.className = `theme-${theme}`;
+  applyThemeClass(theme);
 }
 
 function updateClock() {
@@ -1297,7 +1305,7 @@ function updateCalendarSize() {
 
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
-  document.body.className = `theme-${theme}`;
+  applyThemeClass(theme);
   const themeColors = {
     purple: '#3c2569',
     red: '#9d182e',

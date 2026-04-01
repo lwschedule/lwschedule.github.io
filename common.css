@@ -398,6 +398,41 @@ body.calendarPage .pageContainer {
   transform: scale(1.05);
 }
 
+.homeModeToggleRow {
+  max-width: 650px;
+  margin: 0 auto 22px auto;
+  padding: 0 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeModeToggleBtn {
+  width: 100%;
+  max-width: 360px;
+}
+
+body.minimal-mode .mainButtons {
+  display: block;
+  max-width: 360px;
+  margin: 20px auto 16px;
+}
+
+body.minimal-mode .mainButtons .mainBtn {
+  display: none;
+}
+
+body.minimal-mode .mainButtons .mainBtn[href="/today"] {
+  display: block;
+}
+
+body.minimal-mode .topRightButtons .circleBtn:not([href="/info"]):not([href="/settings"]) {
+  display: none;
+}
+
+body.minimal-mode .home-ticker-close {
+  display: none;
+}
+
 .mainBtn.disabledBtn {
   opacity: 0.5;
   cursor: not-allowed;
@@ -893,6 +928,14 @@ body.calendarPage .pageContainer {
 @media (max-width: 600px) {
   .mainButtons {
     grid-template-columns: 1fr;
+  }
+
+  .homeModeToggleRow {
+    margin: 0 auto 16px auto;
+  }
+
+  .homeModeToggleBtn {
+    max-width: 100%;
   }
 
   .home-ticker-inner {

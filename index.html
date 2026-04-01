@@ -47,6 +47,10 @@
     <a class="mainBtn" href="/quarters">Quarters/Semesters</a>
   </div>
 
+  <div class="homeModeToggleRow">
+    <button type="button" id="minimalModeToggle" class="mainBtn homeModeToggleBtn" aria-pressed="false">Switch to Minimal Mode</button>
+  </div>
+
   <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
     <div class="home-ticker-inner">
       <div class="home-ticker-viewport">
@@ -64,6 +68,34 @@
     let tickerOffsetPx = 0;
     let tickerLoopWidthPx = 0;
     const TICKER_SPEED_PX_PER_SEC = 42;
+    const MINIMAL_MODE_STORAGE_KEY = 'minimalModeEnabled';
+
+    function setMinimalMode(enabled, persist = true) {
+      document.body.classList.toggle('minimal-mode', enabled);
+
+      const toggleButton = document.getElementById('minimalModeToggle');
+      if (toggleButton) {
+        toggleButton.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+        toggleButton.textContent = enabled ? 'Switch to Normal Mode' : 'Switch to Minimal Mode';
+      }
+
+      if (persist) {
+        localStorage.setItem(MINIMAL_MODE_STORAGE_KEY, enabled ? 'true' : 'false');
+      }
+    }
+
+    function initMinimalModeToggle() {
+      const toggleButton = document.getElementById('minimalModeToggle');
+      if (!toggleButton) return;
+
+      const isMinimalModeEnabled = localStorage.getItem(MINIMAL_MODE_STORAGE_KEY) === 'true';
+      setMinimalMode(isMinimalModeEnabled, false);
+
+      toggleButton.addEventListener('click', () => {
+        const shouldEnableMinimalMode = !document.body.classList.contains('minimal-mode');
+        setMinimalMode(shouldEnableMinimalMode);
+      });
+    }
 
     function stopTickerLoop() {
       if (tickerRafId) {
@@ -228,6 +260,7 @@
 
     (async () => {
       await initApp();
+      initMinimalModeToggle();
       updateClock();
       setInterval(updateClock, 1000);
       await initHomeTicker();
