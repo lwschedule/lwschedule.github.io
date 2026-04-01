@@ -10,15 +10,16 @@
   <meta name="theme-color" content="#3c2569">
   <link rel="stylesheet" href="/common.css">
   <style>
-    .eventsIntro {
-      text-align: center;
-      opacity: 0.8;
-      margin: 8px 0 22px;
-      font-size: 0.95em;
-    }
-
     .eventsList {
       width: 100%;
+    }
+
+    .eventsKey {
+      margin-bottom: 14px;
+    }
+
+    .key-box.events-test {
+      background: var(--primary-light);
     }
 
     .eventsDay {
@@ -129,7 +130,12 @@
   <a href="/" class="backBtn">← Back</a>
   <div class="pageContainer">
     <h2>Upcoming Events</h2>
-    <p class="eventsIntro">Only days with events are shown.</p>
+    <div class="calendar-key eventsKey">
+      <h3>Key/Legend</h3>
+      <ul>
+        <li><span class="key-box events-test"></span> Test</li>
+      </ul>
+    </div>
     <div id="eventsList" class="eventsList">
       <p>Loading upcoming events...</p>
     </div>
