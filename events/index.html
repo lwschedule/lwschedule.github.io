@@ -184,6 +184,10 @@
       const normalized = typeof title === 'string' ? title.trim() : '';
       if (!normalized) return 'Untitled Test';
 
+      if (/^AP Late Testing:/i.test(normalized)) {
+        return normalized;
+      }
+
       if (/^AP\s+/i.test(normalized)) {
         const subject = normalized.replace(/^AP\s+/i, '').trim();
         return `AP Testing: ${subject}`;
