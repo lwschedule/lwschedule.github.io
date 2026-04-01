@@ -55,26 +55,34 @@
     }
 
     .eventCard {
+      position: relative;
       border-radius: 16px;
-      padding: 14px 16px;
+      padding: 14px 16px 14px 20px;
       margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    }
+
+    .eventCard::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--primary-light), var(--primary));
     }
 
     .eventCard:last-child {
       margin-bottom: 0;
     }
 
-    .eventCard-standardized {
-      background: linear-gradient(140deg, #0a84ff, #2e6ee8);
-    }
-
-    .eventCard-ap {
-      background: linear-gradient(140deg, #ff9f0a, #ff6a00);
-    }
-
+    .eventCard-standardized,
+    .eventCard-ap,
     .eventCard-default {
-      background: linear-gradient(140deg, #5d5d5d, #404040);
+      background: rgba(255, 255, 255, 0.07);
     }
 
     .eventTitle {
@@ -151,6 +159,13 @@
       return 'eventCard-default';
     }
 
+    function formatEventTitle(title) {
+      const normalized = typeof title === 'string' ? title.trim() : '';
+      if (!normalized) return 'Untitled Test';
+      if (/(test|testing|exam)\b/i.test(normalized)) return normalized;
+      return `${normalized} Test`;
+    }
+
     function renderNoEventsMessage() {
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
@@ -205,13 +220,13 @@
         html += `<section class="eventsDay">
           <div class="eventsDayHeader">
             <h3 class="eventsDayTitle">${escapeHtml(dayLabel)}</h3>
-            <span class="eventsDayCount">${dayEvents.length} event${dayEvents.length === 1 ? '' : 's'}</span>
+            <span class="eventsDayCount">${dayEvents.length} test${dayEvents.length === 1 ? '' : 's'}</span>
           </div>`;
 
         dayEvents.forEach((eventItem) => {
           const cardClass = getEventCardClass(eventItem.type);
           html += `<article class="eventCard ${cardClass}">
-            <p class="eventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</p>
+            <p class="eventTitle">${escapeHtml(formatEventTitle(eventItem.title))}</p>
           </article>`;
         });
 
