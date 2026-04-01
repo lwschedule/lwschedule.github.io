@@ -48,13 +48,11 @@
   </div>
 
   <div class="homeModeToggleRow">
-    <div class="homeModeToggleContainer">
-      <span class="homeModeToggleLabel">Minimal Mode</span>
-      <label class="homeModeToggleSwitch">
-        <input type="checkbox" id="minimalModeToggle" aria-label="Enable minimal mode">
-        <span class="homeModeToggleSlider"></span>
-      </label>
-    </div>
+    <span class="homeModeToggleLabel">Minimal Mode</span>
+    <label class="homeModeToggleSwitch">
+      <input type="checkbox" id="minimalModeToggle" aria-label="Enable minimal mode">
+      <span class="homeModeToggleSlider"></span>
+    </label>
   </div>
 
   <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
@@ -219,17 +217,36 @@
       const closeButton = document.getElementById('homeTickerClose');
 
       if (!ticker || !spacer || !closeButton) return;
+      let lastViewportWidth = window.innerWidth;
+      let resizeRestartTimeoutId = null;
 
       closeButton.addEventListener('click', () => {
+        if (resizeRestartTimeoutId) {
+          clearTimeout(resizeRestartTimeoutId);
+          resizeRestartTimeoutId = null;
+        }
         stopTickerLoop();
         ticker.classList.add('hidden');
         spacer.style.height = '0px';
       });
 
       window.addEventListener('resize', () => {
-        if (!ticker.classList.contains('hidden')) {
-          startTickerLoop();
+        if (ticker.classList.contains('hidden')) return;
+
+        const nextViewportWidth = window.innerWidth;
+        if (nextViewportWidth === lastViewportWidth) return;
+        lastViewportWidth = nextViewportWidth;
+
+        if (resizeRestartTimeoutId) {
+          clearTimeout(resizeRestartTimeoutId);
         }
+
+        resizeRestartTimeoutId = setTimeout(() => {
+          resizeRestartTimeoutId = null;
+          if (!ticker.classList.contains('hidden')) {
+            startTickerLoop();
+          }
+        }, 120);
       });
 
       try {

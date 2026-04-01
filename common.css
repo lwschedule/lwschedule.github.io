@@ -399,22 +399,15 @@ body.calendarPage .pageContainer {
 }
 
 .homeModeToggleRow {
-  max-width: 650px;
+  width: 100%;
+  max-width: 430px;
   margin: 0 auto 22px auto;
   padding: 0 12px;
-  display: flex;
-  justify-content: center;
-}
-
-.homeModeToggleContainer {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: 430px;
-  padding: 15px 20px;
-  background: var(--card-dark);
-  border-radius: 12px;
+  gap: 12px;
 }
 
 .homeModeToggleLabel {
@@ -424,8 +417,8 @@ body.calendarPage .pageContainer {
 
 .homeModeToggleSwitch {
   position: relative;
-  width: 60px;
-  height: 32px;
+  width: 48px;
+  height: 26px;
 }
 
 .homeModeToggleSwitch input {
@@ -443,16 +436,16 @@ body.calendarPage .pageContainer {
   bottom: 0;
   background-color: #383838;
   transition: 0.4s;
-  border-radius: 32px;
+  border-radius: 26px;
 }
 
 .homeModeToggleSlider:before {
   position: absolute;
   content: "";
-  height: 24px;
-  width: 24px;
-  left: 4px;
-  bottom: 4px;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
@@ -463,7 +456,7 @@ body.calendarPage .pageContainer {
 }
 
 .homeModeToggleSwitch input:checked + .homeModeToggleSlider:before {
-  transform: translateX(28px);
+  transform: translateX(22px);
 }
 
 body.minimal-mode .mainButtons {
@@ -987,10 +980,6 @@ body.minimal-mode .home-ticker-close {
 
   .homeModeToggleRow {
     margin: 0 auto 16px auto;
-  }
-
-  .homeModeToggleContainer {
-    max-width: 100%;
   }
 
   .home-ticker-inner {
