@@ -33,7 +33,8 @@
       color: white;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 8px;
       padding: 12px 14px;
       font-size: 1em;
       font-weight: 700;
@@ -350,7 +351,7 @@
     function renderNoEventsMessage() {
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
-      listEl.innerHTML = '<div class="noEvents"><h3>no events found</h3></div>';
+      listEl.innerHTML = '<div class="noEvents"><h3>No events found.</h3></div>';
     }
 
     function isTestType(type) {
