@@ -56,34 +56,42 @@
     }
 
     .eventCard {
+      --event-accent: var(--primary-light);
       position: relative;
       border-radius: 16px;
       padding: 14px 16px 14px 20px;
       margin-bottom: 10px;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(85, 63, 143, 0.25);
+      background: color-mix(in srgb, var(--event-accent) 25%, transparent);
+      border: 1px solid color-mix(in srgb, var(--event-accent) 40%, transparent);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
     }
 
     .eventCard::before {
       content: '';
       position: absolute;
-      left: 8px;
-      top: 10px;
-      bottom: 10px;
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 4px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, var(--primary-light), var(--primary));
+      border-radius: 16px 0 0 16px;
+      background: var(--event-accent);
     }
 
     .eventCard:last-child {
       margin-bottom: 0;
     }
 
-    .eventCard-standardized,
-    .eventCard-ap,
+    .eventCard-standardized {
+      --event-accent: var(--primary-light);
+    }
+
+    .eventCard-ap {
+      --event-accent: #ff9f0a;
+    }
+
     .eventCard-default {
-      background: rgba(255, 255, 255, 0.07);
+      --event-accent: #7c7c7c;
     }
 
     .eventTitle {
@@ -122,6 +130,10 @@
 
       .eventCard {
         border-radius: 14px;
+      }
+
+      .eventCard::before {
+        border-radius: 14px 0 0 14px;
       }
     }
   </style>
