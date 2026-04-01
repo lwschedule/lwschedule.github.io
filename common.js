@@ -1209,27 +1209,18 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const dayNumber = document.createElement('div');
   dayNumber.className = 'day-number';
   dayNumber.textContent = day;
-  const daySchedule = document.createElement('div');
-  daySchedule.className = 'day-schedule';
   const isAfterLastDay = (year > 2026) || (year === 2026 && month > 5) || (year === 2026 && month === 5 && day >= 18);
   if (isAfterLastDay) {
-    daySchedule.textContent = '';
     cell.classList.add('holiday');
   } else if (dayName === 'Saturday' || dayName === 'Sunday') {
-    daySchedule.textContent = '';
     cell.classList.add('holiday');
   } else {
-    const holidayName = getHolidayForDate(date);
-    if (holidayName) {
-      daySchedule.textContent = '';
+    if (getHolidayForDate(date)) {
       cell.classList.add('holiday');
     } else {
       const schedules = getSchedules(date);
       const schedule = schedules[dayName];
-      if (scheduleHasPeriods(schedule)) {
-        daySchedule.textContent = getScheduleSummary(schedules, dayName);
-      } else {
-        daySchedule.textContent = '';
+      if (!scheduleHasPeriods(schedule)) {
         cell.classList.add('holiday');
       }
     }
@@ -1259,7 +1250,6 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
     cell.classList.remove('holiday');
   }
   cell.appendChild(dayNumber);
-  cell.appendChild(daySchedule);
   
   cell.addEventListener('click', () => {
     if (otherMonth) return;

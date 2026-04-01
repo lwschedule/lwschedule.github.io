@@ -867,16 +867,6 @@ body.minimal-mode .home-ticker-close {
   line-height: 1.2;
 }
 
-.day-schedule {
-  font-size: clamp(0.75em, 2.5vw, 1em);
-  font-weight: 700;
-  opacity: 0.9;
-  text-align: center;
-  margin-top: 2px;
-  line-height: 1.2;
-  word-wrap: break-word;
-}
-
 .club-indicator {
   color: white;
   font-weight: 700;
@@ -1049,10 +1039,6 @@ body.minimal-mode .home-ticker-close {
     font-size: 0.8em;
   }
 
-  .day-schedule {
-    font-size: 0.7em;
-  }
-
   .calendar-day-header {
     font-size: 0.85em;
     padding: 6px 3px;
@@ -1082,11 +1068,6 @@ body.minimal-mode .home-ticker-close {
   .day-number {
     font-size: 0.75em;
   }
-
-  .day-schedule {
-    font-size: 0.65em;
-    line-height: 1.1;
-  }
 }
 
 @media (max-width: 360px) {
@@ -1108,11 +1089,6 @@ body.minimal-mode .home-ticker-close {
 
   .day-number {
     font-size: 0.7em;
-  }
-
-  .day-schedule {
-    font-size: 0.6em;
-    line-height: 1.1;
   }
 }
 
@@ -1216,12 +1192,6 @@ body.minimal-mode .home-ticker-close {
 
   .day-number {
     font-size: 1.5em;
-  }
-
-  .day-schedule {
-    font-size: 1.2em;
-    line-height: 1.4;
-    display: block;
   }
 
   
