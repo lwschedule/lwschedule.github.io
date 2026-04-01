@@ -48,7 +48,13 @@
   </div>
 
   <div class="homeModeToggleRow">
-    <button type="button" id="minimalModeToggle" class="mainBtn homeModeToggleBtn" aria-pressed="false">Switch to Minimal Mode</button>
+    <div class="homeModeToggleContainer">
+      <span class="homeModeToggleLabel">Minimal Mode</span>
+      <label class="homeModeToggleSwitch">
+        <input type="checkbox" id="minimalModeToggle" aria-label="Enable minimal mode">
+        <span class="homeModeToggleSlider"></span>
+      </label>
+    </div>
   </div>
 
   <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
@@ -73,10 +79,9 @@
     function setMinimalMode(enabled, persist = true) {
       document.body.classList.toggle('minimal-mode', enabled);
 
-      const toggleButton = document.getElementById('minimalModeToggle');
-      if (toggleButton) {
-        toggleButton.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-        toggleButton.textContent = enabled ? 'Switch to Normal Mode' : 'Switch to Minimal Mode';
+      const toggleInput = document.getElementById('minimalModeToggle');
+      if (toggleInput) {
+        toggleInput.checked = enabled;
       }
 
       if (persist) {
@@ -85,15 +90,14 @@
     }
 
     function initMinimalModeToggle() {
-      const toggleButton = document.getElementById('minimalModeToggle');
-      if (!toggleButton) return;
+      const toggleInput = document.getElementById('minimalModeToggle');
+      if (!toggleInput) return;
 
       const isMinimalModeEnabled = localStorage.getItem(MINIMAL_MODE_STORAGE_KEY) === 'true';
       setMinimalMode(isMinimalModeEnabled, false);
 
-      toggleButton.addEventListener('click', () => {
-        const shouldEnableMinimalMode = !document.body.classList.contains('minimal-mode');
-        setMinimalMode(shouldEnableMinimalMode);
+      toggleInput.addEventListener('change', () => {
+        setMinimalMode(toggleInput.checked);
       });
     }
 
