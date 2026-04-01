@@ -406,8 +406,8 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 6px;
 }
 
 .homeModeToggleLabel {
