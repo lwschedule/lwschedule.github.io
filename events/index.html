@@ -19,7 +19,7 @@
     }
 
     .key-box.events-test {
-      background: var(--primary-light);
+      background: #67c8ff;
     }
 
     .eventsDay {
@@ -83,11 +83,11 @@
     }
 
     .eventCard-standardized {
-      --event-accent: var(--primary-light);
+      --event-accent: #67c8ff;
     }
 
     .eventCard-ap {
-      --event-accent: #ff9f0a;
+      --event-accent: #67c8ff;
     }
 
     .eventCard-default {
@@ -180,6 +180,16 @@
     function formatEventTitle(title) {
       const normalized = typeof title === 'string' ? title.trim() : '';
       if (!normalized) return 'Untitled Test';
+
+      if (/^AP\s+/i.test(normalized)) {
+        const subject = normalized.replace(/^AP\s+/i, '').trim();
+        return `AP Testing: ${subject}`;
+      }
+
+      if (/^AP Testing:/i.test(normalized)) {
+        return normalized;
+      }
+
       if (/(test|testing|exam)\b/i.test(normalized)) return normalized;
       return `${normalized} Test`;
     }
