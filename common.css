@@ -480,6 +480,60 @@ body.minimal-mode .mainButtons .mainBtn[href="/today"] {
   display: block;
 }
 
+body.minimal-mode .topRightButtons {
+  top: 12px;
+  right: 12px;
+  gap: 8px;
+}
+
+body.minimal-mode .topRightButtons .circleBtn {
+  width: 42px;
+  height: 42px;
+  font-size: 1.2em;
+}
+
+body.minimal-mode .mainButtons {
+  max-width: 260px;
+  margin: 14px auto 12px;
+}
+
+body.minimal-mode .mainButtons .mainBtn[href="/today"] {
+  max-width: 220px;
+  margin: 0 auto;
+  padding: 11px 16px;
+  font-size: 1em;
+}
+
+body.minimal-mode .homeModeToggleRow {
+  margin: 0 auto 14px auto;
+}
+
+body.minimal-mode .homeModeToggleContainer {
+  max-width: 320px;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+body.minimal-mode .homeModeToggleLabel {
+  font-size: 0.95em;
+}
+
+body.minimal-mode .homeModeToggleSwitch {
+  width: 52px;
+  height: 28px;
+}
+
+body.minimal-mode .homeModeToggleSlider:before {
+  width: 20px;
+  height: 20px;
+  left: 4px;
+  bottom: 4px;
+}
+
+body.minimal-mode .homeModeToggleSwitch input:checked + .homeModeToggleSlider:before {
+  transform: translateX(24px);
+}
+
 body.minimal-mode .topRightButtons .circleBtn:not([href="/info"]):not([href="/settings"]) {
   display: none;
 }
@@ -991,6 +1045,54 @@ body.minimal-mode .home-ticker-close {
 
   .homeModeToggleContainer {
     max-width: 100%;
+  }
+
+  body.minimal-mode .topRightButtons {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  body.minimal-mode .topRightButtons .circleBtn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.05em;
+  }
+
+  body.minimal-mode .mainButtons {
+    max-width: 220px;
+    margin: 12px auto 10px;
+  }
+
+  body.minimal-mode .mainButtons .mainBtn[href="/today"] {
+    max-width: 190px;
+    padding: 10px 12px;
+    font-size: 0.95em;
+  }
+
+  body.minimal-mode .homeModeToggleContainer {
+    max-width: 280px;
+    padding: 9px 12px;
+  }
+
+  body.minimal-mode .homeModeToggleLabel {
+    font-size: 0.9em;
+  }
+
+  body.minimal-mode .homeModeToggleSwitch {
+    width: 48px;
+    height: 26px;
+  }
+
+  body.minimal-mode .homeModeToggleSlider:before {
+    width: 18px;
+    height: 18px;
+    left: 4px;
+    bottom: 4px;
+  }
+
+  body.minimal-mode .homeModeToggleSwitch input:checked + .homeModeToggleSlider:before {
+    transform: translateX(22px);
   }
 
   .home-ticker-inner {
