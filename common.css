@@ -50,32 +50,35 @@ body.calendarPage {
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  25% { background-position: 100% 25%; }
-  50% { background-position: 0% 75%; }
-  75% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 @keyframes gradientShift2 {
-  0% { background-position: 100% 0%; }
-  33% { background-position: 0% 100%; }
-  66% { background-position: 50% 50%; }
-  100% { background-position: 100% 0%; }
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 @keyframes gradientShift3 {
-  0% { background-position: 50% 100%; }
-  30% { background-position: 100% 0%; }
-  60% { background-position: 0% 50%; }
-  100% { background-position: 50% 100%; }
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 @keyframes gradientShift5 {
-  0% { background-position: 75% 25%; }
-  35% { background-position: 25% 75%; }
-  70% { background-position: 100% 100%; }
-  100% { background-position: 75% 25%; }
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
 h1, h2, h3 {
