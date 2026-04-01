@@ -58,8 +58,8 @@
     .eventCard {
       --event-accent: var(--primary-light);
       position: relative;
-      border-radius: 16px;
-      padding: 14px 16px 14px 22px;
+      border-radius: 12px;
+      padding: 14px 16px 14px 18px;
       margin-bottom: 10px;
       background: var(--event-accent);
       border: 1px solid color-mix(in srgb, var(--event-accent) 65%, black);
@@ -70,12 +70,12 @@
     .eventCard::before {
       content: '';
       position: absolute;
-      left: 8px;
+      left: 6px;
       top: 0;
       bottom: 0;
       right: 0;
-      border-radius: 0 16px 16px 0;
-      background: rgba(0, 0, 0, 0.5);
+      border-radius: 0 12px 12px 0;
+      background: rgba(0, 0, 0, 0.75);
       z-index: 1;
     }
 
@@ -132,11 +132,11 @@
       }
 
       .eventCard {
-        border-radius: 14px;
+        border-radius: 10px;
       }
 
       .eventCard::before {
-        border-radius: 0 14px 14px 0;
+        border-radius: 0 10px 10px 0;
       }
     }
   </style>
