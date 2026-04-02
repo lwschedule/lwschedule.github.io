@@ -370,6 +370,14 @@
         return normalized;
       }
 
+      if (/^AP Performance Task Submission Due:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP Portfolio Submission Due:/i.test(normalized)) {
+        return normalized;
+      }
+
       if (/^AP Late Testing:/i.test(normalized)) {
         return normalized;
       }

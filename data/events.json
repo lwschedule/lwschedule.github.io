@@ -22,37 +22,37 @@
   "apTests": [
     {
       "id": "ap-submission-seminar-2026-04-30",
-      "title": "AP Test/Portfolio Submission Due: Seminar",
+      "title": "AP Performance Task Submission Due: Seminar",
       "date": "2026-04-30",
       "time": "11:59 p.m. ET"
     },
     {
       "id": "ap-submission-research-2026-04-30",
-      "title": "AP Test/Portfolio Submission Due: Research",
+      "title": "AP Performance Task Submission Due: Research",
       "date": "2026-04-30",
       "time": "11:59 p.m. ET"
     },
     {
       "id": "ap-submission-computer-science-principles-2026-04-30",
-      "title": "AP Test/Portfolio Submission Due: Computer Science Principles",
+      "title": "AP Performance Task Submission Due: Computer Science Principles",
       "date": "2026-04-30",
       "time": "11:59 p.m. ET"
     },
     {
       "id": "ap-submission-art-2d-2026-05-08",
-      "title": "AP Test/Portfolio Submission Due: Art and Design: 2-D Art and Design",
+      "title": "AP Portfolio Submission Due: Art and Design: 2-D Art and Design",
       "date": "2026-05-08",
       "time": "8 p.m. ET"
     },
     {
       "id": "ap-submission-art-3d-2026-05-08",
-      "title": "AP Test/Portfolio Submission Due: Art and Design: 3-D Art and Design",
+      "title": "AP Portfolio Submission Due: Art and Design: 3-D Art and Design",
       "date": "2026-05-08",
       "time": "8 p.m. ET"
     },
     {
       "id": "ap-submission-art-drawing-2026-05-08",
-      "title": "AP Test/Portfolio Submission Due: Art and Design: Drawing",
+      "title": "AP Portfolio Submission Due: Art and Design: Drawing",
       "date": "2026-05-08",
       "time": "8 p.m. ET"
     },

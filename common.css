@@ -967,6 +967,7 @@ body.minimal-mode .home-ticker-close {
     top: 10px;
     left: 10px;
     right: 10px;
+    padding-right: 104px;
     max-width: none;
     margin: 0;
     display: flex;
@@ -977,17 +978,22 @@ body.minimal-mode .home-ticker-close {
   }
 
   body.homePage .homeHeaderRow h1 {
+    position: fixed;
+    top: 16px;
+    left: 10px;
+    z-index: 1001;
+    max-width: calc(100% - 120px);
     margin: 0;
     text-align: left;
     font-size: clamp(1.35em, 5.8vw, 1.8em);
   }
 
   body.homePage .homeHeaderRow .topRightButtons {
-    position: static;
-    top: auto;
-    right: auto;
+    position: fixed;
+    top: 10px;
+    right: 10px;
     gap: 8px;
-    z-index: auto;
+    z-index: 1001;
     flex-shrink: 0;
   }
 
@@ -1008,6 +1014,7 @@ body.minimal-mode .home-ticker-close {
   }
 
   .backBtn {
+    position: fixed;
     top: 10px;
     left: 10px;
     width: 45px;
