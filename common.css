@@ -86,6 +86,15 @@ h1, h2, h3 {
   color: white;
 }
 
+.homeHeaderRow {
+  max-width: 650px;
+  margin: 0 auto 8px;
+}
+
+.homeHeaderRow h1 {
+  margin: 0;
+}
+
 .topRightButtons {
   position: fixed;
   top: 20px;
@@ -120,27 +129,39 @@ h1, h2, h3 {
 }
 
 .backBtn {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 20px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
   background-size: 200% 200%;
   animation: gradientShift3 8s ease infinite;
-  color: white;
+  color: transparent;
   border: none;
-  padding: 10px 20px;
-  font-size: 1.1em;
-  border-radius: 12px;
+  padding: 0;
+  font-size: 0;
+  border-radius: 50%;
   cursor: pointer;
   box-shadow: var(--glow);
   transition: all 0.3s;
-  font-weight: 700;
   text-decoration: none;
-  z-index: 100;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backBtn::before {
+  content: '←';
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .backBtn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .pageContainer {
@@ -937,6 +958,45 @@ body.minimal-mode .home-ticker-close {
     right: 10px;
   }
 
+  body.homePage {
+    padding-top: 80px;
+  }
+
+  .homeHeaderRow {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  body.homePage .homeHeaderRow h1 {
+    margin: 0;
+    text-align: left;
+    font-size: clamp(1.35em, 5.8vw, 1.8em);
+  }
+
+  body.homePage .homeHeaderRow .topRightButtons {
+    position: static;
+    top: auto;
+    right: auto;
+    gap: 8px;
+    z-index: auto;
+    flex-shrink: 0;
+  }
+
+  body.homePage .homeHeaderRow .circleBtn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.15em;
+  }
+
   .circleBtn {
     width: 45px;
     height: 45px;
@@ -948,10 +1008,10 @@ body.minimal-mode .home-ticker-close {
   }
 
   .backBtn {
-    position: static;
-    display: block;
-    margin-bottom: 20px;
-    text-align: center;
+    top: 10px;
+    left: 10px;
+    width: 45px;
+    height: 45px;
   }
 
   .pageContainer {
