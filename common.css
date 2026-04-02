@@ -89,19 +89,22 @@ h1, h2, h3 {
 .homeHeaderRow {
   max-width: 650px;
   margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .homeHeaderRow h1 {
   margin: 0;
+  text-align: left;
 }
 
 .topRightButtons {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: static;
   display: flex;
   gap: 10px;
-  z-index: 1000;
+  margin-left: auto;
 }
 
 .circleBtn {
@@ -953,48 +956,21 @@ body.minimal-mode .home-ticker-close {
     height: 50px;
   }
 
-  .topRightButtons {
-    top: 10px;
-    right: 10px;
-  }
-
-  body.homePage {
-    padding-top: 80px;
-  }
-
   .homeHeaderRow {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    padding-right: 104px;
-    max-width: none;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    z-index: 1000;
+    gap: 8px;
   }
 
   body.homePage .homeHeaderRow h1 {
-    position: fixed;
-    top: 16px;
-    left: 10px;
-    z-index: 1001;
-    max-width: calc(100% - 120px);
     margin: 0;
     text-align: left;
     font-size: clamp(1.35em, 5.8vw, 1.8em);
   }
 
   body.homePage .homeHeaderRow .topRightButtons {
-    position: fixed;
-    top: 10px;
-    right: 10px;
+    position: static;
     gap: 8px;
-    z-index: 1001;
     flex-shrink: 0;
+    margin-left: auto;
   }
 
   body.homePage .homeHeaderRow .circleBtn {
