@@ -399,18 +399,18 @@
     "Monday": {
       "A": [
         { "name": "Period 1", "start": 515, "end": 595 },
-        { "name": "ROO", "start": 602, "end": 624 },
-        { "name": "Period 2", "start": 631, "end": 711 },
-        { "name": "A Lunch", "start": 711, "end": 741 },
-        { "name": "Period 3", "start": 748, "end": 828 },
+        { "name": "Period 2", "start": 602, "end": 682 },
+        { "name": "A Lunch", "start": 682, "end": 712 },
+        { "name": "Period 3", "start": 719, "end": 799 },
+        { "name": "Roo", "start": 806, "end": 828 },
         { "name": "Period 5", "start": 835, "end": 915 }
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 595 },
-        { "name": "ROO", "start": 602, "end": 624 },
-        { "name": "Period 2", "start": 631, "end": 711 },
-        { "name": "Period 3", "start": 718, "end": 798 },
-        { "name": "B Lunch", "start": 798, "end": 828 },
+        { "name": "Period 2", "start": 602, "end": 682 },
+        { "name": "Period 3", "start": 689, "end": 769 },
+        { "name": "B Lunch", "start": 769, "end": 799 },
+        { "name": "Roo", "start": 806, "end": 828 },
         { "name": "Period 5", "start": 835, "end": 915 }
       ]
     },
@@ -438,18 +438,18 @@
     "Friday": {
       "A": [
         { "name": "Period 1", "start": 515, "end": 595 },
-        { "name": "ROO", "start": 602, "end": 624 },
-        { "name": "Period 2", "start": 631, "end": 711 },
-        { "name": "A Lunch", "start": 711, "end": 741 },
-        { "name": "Period 3", "start": 748, "end": 828 },
+        { "name": "Period 2", "start": 602, "end": 682 },
+        { "name": "A Lunch", "start": 682, "end": 712 },
+        { "name": "Period 3", "start": 719, "end": 799 },
+        { "name": "Roo", "start": 806, "end": 828 },
         { "name": "Period 5", "start": 835, "end": 915 }
       ],
       "B": [
         { "name": "Period 1", "start": 515, "end": 595 },
-        { "name": "ROO", "start": 602, "end": 624 },
-        { "name": "Period 2", "start": 631, "end": 711 },
-        { "name": "Period 3", "start": 718, "end": 798 },
-        { "name": "B Lunch", "start": 798, "end": 828 },
+        { "name": "Period 2", "start": 602, "end": 682 },
+        { "name": "Period 3", "start": 689, "end": 769 },
+        { "name": "B Lunch", "start": 769, "end": 799 },
+        { "name": "Roo", "start": 806, "end": 828 },
         { "name": "Period 5", "start": 835, "end": 915 }
       ]
     }
