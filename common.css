@@ -931,7 +931,13 @@ body.minimal-mode .home-ticker-close {
 
 @media (max-width: 600px) {
   .mainButtons {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .mainBtn {
+    padding: 12px 10px;
+    font-size: 0.95em;
   }
 
   .homeModeToggleRow {
