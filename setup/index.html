@@ -434,9 +434,22 @@
     const SETUP_MAX_CLASS_SLOTS = 6;
     const classesToggle = document.getElementById('classesToggle');
     const classesSettings = document.getElementById('classesSettings');
-    let setupClassTitles = getAvailableClassTitles();
+    let setupClassTitles = [];
     let setupSelectedClassSlots = getSelectedClassesSlots();
     let setupClassMessageTimeout = null;
+
+    async function loadSetupClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        setupClassTitles = data.classes;
+        renderSetupClassResults();
+        renderSetupClassSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        document.getElementById('classResults').innerHTML = '<p style="text-align: center; padding: 24px; color: #888;">Error loading classes</p>';
+      }
+    }
 
     function escapeSetupHtml(text) {
       return text
@@ -614,8 +627,7 @@
         renderSetupClassResults(document.getElementById('classSearch').value);
       });
 
-      renderSetupClassResults();
-      renderSetupClassSlots();
+      loadSetupClasses();
     }
     
     

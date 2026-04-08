@@ -268,9 +268,22 @@
   <script src="/common.js"></script>
   <script>
     const MAX_SLOTS = 6;
-    let allClassTitles = getAvailableClassTitles();
+    let allClassTitles = [];
     let selectedClassSlots = getSelectedClassesSlots();
     let messageTimeout = null;
+
+    async function loadClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        allClassTitles = data.classes;
+        renderClassResults();
+        renderSelectedSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        document.getElementById('classResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+      }
+    }
 
     function escapeHtml(text) {
       return text
@@ -452,8 +465,7 @@
         renderClassResults(document.getElementById('classSearch').value);
       });
 
-      renderClassResults();
-      renderSelectedSlots();
+      loadClasses();
     }
 
     checkSetupComplete();

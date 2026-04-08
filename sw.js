@@ -1,9 +1,10 @@
-const CACHE_NAME = 'lwschedule-v1.9.6';
+const CACHE_NAME = 'lwschedule-v1.9.7';
 const urlsToCache = [
   '/',
   '/index.html',
   '/data/ticker-messages.json',
   '/data/events.json',
+  '/data/classes.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/today/index.html',
