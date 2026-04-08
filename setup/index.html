@@ -169,6 +169,22 @@
       cursor: pointer;
     }
     .class-slot-clear:hover { color: white; border-color: #7b7b7b; }
+    
+    .club-slot-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+    .club-slot-row:last-child { margin-bottom: 0; }
+    .club-slot-card {
+      flex: 1;
+      background: #141414;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    
     .class-count {
       text-align: center;
       font-size: 0.88em;
@@ -318,37 +334,30 @@
       </div>
     </div>
 
-    <div class="setup-section">
-      <h3>5. Clubs</h3>
-      <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
-      
-      <div style="margin-bottom: 20px; text-align: center;">
-        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Show Clubs in Schedule</label>
-        <label class="switch">
-          <input type="checkbox" id="clubsToggle" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-      
-      <div id="clubsSettings" style="display: block;">
-        <div class="search-container" style="margin-bottom: 15px;">
-          <input type="text" class="search-input" id="clubSearch" placeholder="Search clubs..." style="width: 100%; padding: 12px 15px; font-size: 1em; font-family: 'SF Pro Rounded', sans-serif; border: 2px solid var(--primary); border-radius: 10px; background: var(--card-dark); color: var(--text-light); outline: none;">
+      <div class="setup-section">
+        <h3>5. Clubs</h3>
+        <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+          <label style="display: block; margin-bottom: 15px; font-weight: 700;">Show Clubs in Schedule</label>
+          <label class="switch">
+            <input type="checkbox" id="clubsToggle" checked>
+            <span class="slider"></span>
+          </label>
         </div>
         
-        <div class="button-row" style="display: flex; gap: 10px; margin-bottom: 15px;">
-          <button class="select-btn" id="selectAllBtn" style="flex: 1; padding: 10px 15px; font-size: 0.9em; font-family: 'SF Pro Rounded', sans-serif; font-weight: 600; border: 2px solid var(--primary); border-radius: 10px; background: transparent; color: var(--text-light); cursor: pointer;">Select All</button>
-          <button class="select-btn" id="deselectAllBtn" style="flex: 1; padding: 10px 15px; font-size: 0.9em; font-family: 'SF Pro Rounded', sans-serif; font-weight: 600; border: 2px solid var(--primary); border-radius: 10px; background: transparent; color: var(--text-light); cursor: pointer;">Deselect All</button>
+        <div id="clubsSettings" class="classes-settings">
+          <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
+          
+          <div class="class-actions">
+            <button type="button" id="clearClubsBtn" class="class-action-btn">Clear All Clubs</button>
+          </div>
+          
+          <div id="clubResults" class="class-results"></div>
+          <div id="setupSelectedClubsList" class="class-slots"></div>
+          <p id="selectedCount" class="class-count">0 clubs selected</p>
         </div>
-        
-        <div class="clubs-list-container" id="clubsList" style="background: var(--card-dark); border-radius: 12px; max-height: 250px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--primary) var(--card-dark);">
-          <p style="text-align: center; padding: 30px; color: #888;">Loading clubs...</p>
-        </div>
-        
-        <p id="selectedCount" style="text-align: center; font-size: 0.9em; color: #aaa; margin-top: 15px;">0 clubs selected</p>
-      </div>
-    </div>
-
-    <button class="completeBtn" id="completeBtn">Complete Setup</button>
+      </div>    <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
   <script src="/common.js"></script>
   <script>
@@ -618,20 +627,12 @@
         const response = await fetch('/data/clubs.json');
         const data = await response.json();
         allClubs = data.clubs;
-        renderClubsList();
+        renderClubResults();
+        renderSelectedList();
       } catch (error) {
         console.error('Error loading clubs:', error);
-        document.getElementById('clubsList').innerHTML = '<p style="text-align: center; padding: 30px; color: #888;">Error loading clubs</p>';
+        document.getElementById('clubResults').innerHTML = '<p style="text-align: center; padding: 30px; color: #888;">Error loading clubs</p>';
       }
-    }
-    
-    function formatClubTime(club) {
-      const formatTime = (h, m) => {
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        const hour12 = h % 12 || 12;
-        return `${hour12}:${m.toString().padStart(2, '0')} ${ampm}`;
-      };
-      return `${formatTime(club.startHour, club.startMinute)} - ${formatTime(club.endHour, club.endMinute)}`;
     }
     
     function formatClubDays(club) {
@@ -651,8 +652,23 @@
       }
     }
     
-    function renderClubsList(filter = '') {
-      const container = document.getElementById('clubsList');
+    function updateSelectedCount() {
+      const count = selectedClubs.length;
+      document.getElementById('selectedCount').textContent = 
+        count === 0 ? 'No clubs selected' : 
+        count === 1 ? '1 club selected' : 
+        `${count} clubs selected`;
+        
+      const listEl = document.getElementById('setupSelectedClubsList');
+      if (count === 0) {
+        listEl.style.display = 'none';
+      } else {
+        listEl.style.display = 'block';
+      }
+    }
+    
+    function renderClubResults(filter = '') {
+      const resultsEl = document.getElementById('clubResults');
       const filterLower = filter.toLowerCase();
       
       let filteredClubs = allClubs.filter(club => {
@@ -662,78 +678,74 @@
           days.some(d => d.toLowerCase().includes(filterLower));
       });
       
+      const selectedSet = new Set(selectedClubs);
+      
       filteredClubs.sort((a, b) => {
-        const aSelected = selectedClubs.includes(a.id);
-        const bSelected = selectedClubs.includes(b.id);
-        if (aSelected && !bSelected) return -1;
-        if (!aSelected && bSelected) return 1;
+        const aAdded = selectedSet.has(a.id);
+        const bAdded = selectedSet.has(b.id);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
         return a.name.localeCompare(b.name);
       });
       
       if (filteredClubs.length === 0) {
-        container.innerHTML = '<p style="text-align: center; padding: 30px; color: #888;">No clubs found</p>';
+        resultsEl.innerHTML = '<p style="text-align: center; padding: 30px; color: #888;">No clubs found</p>';
         return;
       }
       
       let html = '';
       filteredClubs.forEach(club => {
-        const isSelected = selectedClubs.includes(club.id);
-        const timeStr = formatClubTime(club);
-        const freqLabel = getFrequencyLabel(club.frequency);
-        
-        html += `<div class="club-item" data-id="${club.id}" style="display: flex; align-items: center; padding: 10px 15px; border-bottom: 1px solid #2a2a2a; cursor: pointer; transition: background 0.2s; ${isSelected ? 'background: rgba(60, 37, 105, 0.3);' : ''}">
-          <input type="checkbox" class="club-checkbox" data-id="${club.id}" ${isSelected ? 'checked' : ''} style="width: 20px; height: 20px; margin-right: 15px; cursor: pointer; accent-color: var(--primary);">
-          <div style="flex: 1;">
-            <div style="font-weight: 600; font-size: 0.9em;">${club.name}</div>
-            <div style="font-size: 0.75em; color: #aaa;">${formatClubDays(club)}${freqLabel} • ${timeStr} • Room ${club.room}</div>
+        const isAdded = selectedSet.has(club.id);
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="class-result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+      
+      resultsEl.querySelectorAll('.class-result-btn:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          addClub(clubId);
+        });
+      });
+    }
+    
+    function renderSelectedList() {
+      const listEl = document.getElementById('setupSelectedClubsList');
+      let html = '';
+      
+      const selectedClubObjs = selectedClubs.map(id => allClubs.find(c => c.id === id)).filter(Boolean);
+      selectedClubObjs.sort((a, b) => a.name.localeCompare(b.name));
+      
+      selectedClubs = selectedClubObjs.map(c => c.id);
+      
+      selectedClubObjs.forEach(club => {
+        html += `<div class="club-slot-row">
+          <div class="club-slot-card">
+            <div class="class-slot-value">${escapeSetupHtml(club.name)}</div>
+            <button type="button" class="class-slot-clear" data-id="${escapeSetupHtml(club.id)}">Clear</button>
           </div>
         </div>`;
       });
       
-      container.innerHTML = html;
+      listEl.innerHTML = html;
       
-      
-      container.querySelectorAll('.club-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          if (e.target.type !== 'checkbox') {
-            const checkbox = item.querySelector('.club-checkbox');
-            checkbox.checked = !checkbox.checked;
-            toggleClub(item.dataset.id, checkbox.checked);
-          }
-        });
-      });
-      
-      container.querySelectorAll('.club-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', (e) => {
-          toggleClub(e.target.dataset.id, e.target.checked);
-          e.stopPropagation();
+      listEl.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          selectedClubs = selectedClubs.filter(id => id !== clubId);
+          renderSelectedList();
+          renderClubResults(document.getElementById('clubSearch').value);
         });
       });
       
       updateSelectedCount();
     }
     
-    function toggleClub(clubId, isSelected) {
-      if (isSelected && !selectedClubs.includes(clubId)) {
+    function addClub(clubId) {
+      if (!selectedClubs.includes(clubId)) {
         selectedClubs.push(clubId);
-      } else if (!isSelected) {
-        selectedClubs = selectedClubs.filter(id => id !== clubId);
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
       }
-      
-      const item = document.querySelector(`.club-item[data-id="${clubId}"]`);
-      if (item) {
-        item.style.background = isSelected ? 'rgba(60, 37, 105, 0.3)' : 'transparent';
-      }
-      
-      updateSelectedCount();
-    }
-    
-    function updateSelectedCount() {
-      const count = selectedClubs.length;
-      document.getElementById('selectedCount').textContent = 
-        count === 0 ? 'No clubs selected' : 
-        count === 1 ? '1 club selected' : 
-        `${count} clubs selected`;
     }
     
     
@@ -746,18 +758,14 @@
     
     
     document.getElementById('clubSearch').addEventListener('input', (e) => {
-      renderClubsList(e.target.value);
+      renderClubResults(e.target.value);
     });
     
     
-    document.getElementById('selectAllBtn').addEventListener('click', () => {
-      selectedClubs = allClubs.map(c => c.id);
-      renderClubsList(document.getElementById('clubSearch').value);
-    });
-    
-    document.getElementById('deselectAllBtn').addEventListener('click', () => {
+    document.getElementById('clearClubsBtn').addEventListener('click', () => {
       selectedClubs = [];
-      renderClubsList(document.getElementById('clubSearch').value);
+      renderSelectedList();
+      renderClubResults(document.getElementById('clubSearch').value);
     });
     
     initSetupClassesSection();
