@@ -1049,18 +1049,18 @@ function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   applyThemeClass(theme);
   const themeColors = {
-    purple: '#0f0518',
-    red: '#1a0505',
-    orange: '#1a0b00',
-    yellow: '#1a1500',
-    green: '#051a0d',
-    blue: '#05101a',
-    indigo: '#080a1a',
-    pink: '#1a0510'
+    purple: '#33293c',
+    red: '#3e2929',
+    orange: '#3e2f24',
+    yellow: '#3e3924',
+    green: '#293e31',
+    blue: '#29343e',
+    indigo: '#2c2e3e',
+    pink: '#3e2934'
   };
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
-    metaThemeColor.content = themeColors[theme] || '#0f0518';
+    metaThemeColor.content = themeColors[theme] || '#33293c';
   }
 }
 
