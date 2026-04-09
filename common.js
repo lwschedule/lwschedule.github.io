@@ -1342,17 +1342,11 @@ function showPackUpNotification(period) {
 
 async function initApp() {
   
-  const DATA_VERSION = '2.1';
+  const DATA_VERSION = '2.2';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
-    
-    localStorage.clear();
+    // Preserve user data and preferences
     localStorage.setItem('dataVersion', DATA_VERSION);
-    
-    if (!window.location.pathname.includes('/setup') && !window.location.pathname.includes('/app')) {
-      window.location.href = '/setup';
-      return;
-    }
   }
   
   await loadData();

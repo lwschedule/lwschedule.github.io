@@ -295,6 +295,13 @@
       </button>
       <div id="filtersPanel" class="filtersPanel">
         <div class="filtersGrid">
+          <label class="filterToggleItem" for="filterAllToggle">
+            <span class="filterToggleLabel">Select All</span>
+            <span class="filterSwitch">
+              <input type="checkbox" id="filterAllToggle">
+              <span class="filterSlider"></span>
+            </span>
+          </label>
           <label class="filterToggleItem" for="filterSbaToggle">
             <span class="filterToggleLabel">SBA</span>
             <span class="filterSwitch">
@@ -330,8 +337,8 @@
     let allEvents = [];
     let filtersOpen = true;
     const activeFilters = {
-      sba: false,
-      ap: false,
+      sba: localStorage.getItem('filterSba') !== 'false',
+      ap: localStorage.getItem('filterAp') !== 'false',
       sports: false
     };
 
@@ -425,29 +432,50 @@
 
     function initFilters() {
       const toggleBtn = document.getElementById('filtersToggleBtn');
+      const allToggle = document.getElementById('filterAllToggle');
       const sbaToggle = document.getElementById('filterSbaToggle');
       const apToggle = document.getElementById('filterApToggle');
       const sportsToggle = document.getElementById('filterSportsToggle');
 
-      if (!toggleBtn || !sbaToggle || !apToggle || !sportsToggle) return;
+      if (!toggleBtn || !allToggle || !sbaToggle || !apToggle || !sportsToggle) return;
 
       sbaToggle.checked = activeFilters.sba;
       apToggle.checked = activeFilters.ap;
       activeFilters.sports = false;
       sportsToggle.checked = false;
+      allToggle.checked = activeFilters.sba && activeFilters.ap;
       setFiltersOpen(true);
+
+      function updateAllToggle() {
+        allToggle.checked = sbaToggle.checked && apToggle.checked;
+      }
 
       toggleBtn.addEventListener('click', () => {
         setFiltersOpen(!filtersOpen);
       });
 
+      allToggle.addEventListener('change', () => {
+        const isChecked = allToggle.checked;
+        sbaToggle.checked = isChecked;
+        apToggle.checked = isChecked;
+        activeFilters.sba = isChecked;
+        activeFilters.ap = isChecked;
+        localStorage.setItem('filterSba', isChecked);
+        localStorage.setItem('filterAp', isChecked);
+        applyFiltersAndRender();
+      });
+
       sbaToggle.addEventListener('change', () => {
         activeFilters.sba = sbaToggle.checked;
+        localStorage.setItem('filterSba', sbaToggle.checked);
+        updateAllToggle();
         applyFiltersAndRender();
       });
 
       apToggle.addEventListener('change', () => {
         activeFilters.ap = apToggle.checked;
+        localStorage.setItem('filterAp', apToggle.checked);
+        updateAllToggle();
         applyFiltersAndRender();
       });
 
