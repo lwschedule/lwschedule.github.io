@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#3c2569">
+  <meta name="theme-color" content="#0f0518">
   <link rel="stylesheet" href="/common.css">
   <style>
     .eventsList {
@@ -19,7 +19,7 @@
     }
 
     .eventsFilters {
-      background: #181818;
+      background: var(--primary);
       border: 1px solid #303030;
       border-radius: 12px;
       margin-bottom: 14px;
@@ -111,7 +111,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: #4a4a4a;
+      background: var(--primary-light);
       border-radius: 24px;
       transition: 0.2s;
     }
@@ -239,7 +239,7 @@
     .noEvents {
       margin-top: 16px;
       text-align: center;
-      background: #181818;
+      background: var(--primary);
       border-radius: 12px;
       padding: 26px 18px;
       border: 1px solid #303030;
@@ -283,7 +283,6 @@
     <div class="calendar-key eventsKey">
       <h3>Key/Legend</h3>
       <ul>
-        <li><span class="key-box events-sba"></span> SBA Testing</li>
         <li><span class="key-box events-ap"></span> AP Testing</li>
       </ul>
     </div>
@@ -299,13 +298,6 @@
             <span class="filterToggleLabel">Select All</span>
             <span class="filterSwitch">
               <input type="checkbox" id="filterAllToggle">
-              <span class="filterSlider"></span>
-            </span>
-          </label>
-          <label class="filterToggleItem" for="filterSbaToggle">
-            <span class="filterToggleLabel">SBA</span>
-            <span class="filterSwitch">
-              <input type="checkbox" id="filterSbaToggle">
               <span class="filterSlider"></span>
             </span>
           </label>
@@ -337,7 +329,6 @@
     let allEvents = [];
     let filtersOpen = true;
     const activeFilters = {
-      sba: localStorage.getItem('filterSba') !== 'false',
       ap: localStorage.getItem('filterAp') !== 'false',
       sports: false
     };
@@ -411,7 +402,7 @@
 
     function getFilteredEvents(events) {
       return events.filter((eventItem) => {
-        if (eventItem.type === 'standardized-test' && activeFilters.sba) return true;
+        if (eventItem.type === 'standardized-test') return true;
         if (eventItem.type === 'ap-test' && activeFilters.ap) return true;
         if (eventItem.type === 'sports' && activeFilters.sports) return true;
         return false;
@@ -433,21 +424,18 @@
     function initFilters() {
       const toggleBtn = document.getElementById('filtersToggleBtn');
       const allToggle = document.getElementById('filterAllToggle');
-      const sbaToggle = document.getElementById('filterSbaToggle');
       const apToggle = document.getElementById('filterApToggle');
       const sportsToggle = document.getElementById('filterSportsToggle');
 
-      if (!toggleBtn || !allToggle || !sbaToggle || !apToggle || !sportsToggle) return;
-
-      sbaToggle.checked = activeFilters.sba;
+      if (!toggleBtn || !allToggle || !apToggle || !sportsToggle) return;
       apToggle.checked = activeFilters.ap;
       activeFilters.sports = false;
       sportsToggle.checked = false;
-      allToggle.checked = activeFilters.sba && activeFilters.ap;
+      allToggle.checked = activeFilters.ap;
       setFiltersOpen(true);
 
       function updateAllToggle() {
-        allToggle.checked = sbaToggle.checked && apToggle.checked;
+        allToggle.checked = apToggle.checked;
       }
 
       toggleBtn.addEventListener('click', () => {
@@ -456,19 +444,9 @@
 
       allToggle.addEventListener('change', () => {
         const isChecked = allToggle.checked;
-        sbaToggle.checked = isChecked;
         apToggle.checked = isChecked;
-        activeFilters.sba = isChecked;
         activeFilters.ap = isChecked;
-        localStorage.setItem('filterSba', isChecked);
         localStorage.setItem('filterAp', isChecked);
-        applyFiltersAndRender();
-      });
-
-      sbaToggle.addEventListener('change', () => {
-        activeFilters.sba = sbaToggle.checked;
-        localStorage.setItem('filterSba', sbaToggle.checked);
-        updateAllToggle();
         applyFiltersAndRender();
       });
 

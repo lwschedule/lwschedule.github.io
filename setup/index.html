@@ -10,11 +10,11 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#3c2569">
+  <meta name="theme-color" content="#0f0518">
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; }
-    .setup-section { background: #181818; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+    .setup-section { background: var(--primary); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
     .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
     .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
     .themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
@@ -41,7 +41,7 @@
     
     .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #383838; transition: .4s; border-radius: 34px; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary-light); transition: .4s; border-radius: 34px; }
     .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
     input:checked + .slider { background-color: var(--primary-light); }
     input:checked + .slider:before { transform: translateX(26px); }
@@ -77,7 +77,7 @@
       border-radius: 12px;
       max-height: 220px;
       overflow-y: auto;
-      border: 1px solid #2a2a2a;
+      border: 1px solid var(--primary-light);
       margin-bottom: 14px;
     }
     .class-result-btn {
@@ -87,7 +87,7 @@
       color: var(--text-light);
       text-align: left;
       padding: 10px 12px;
-      border-bottom: 1px solid #2a2a2a;
+      border-bottom: 1px solid var(--primary-light);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -114,7 +114,7 @@
     .class-slots {
       background: var(--card-dark);
       border-radius: 12px;
-      border: 1px solid #2a2a2a;
+      border: 1px solid var(--primary-light);
       padding: 10px;
     }
     .class-slot-row {
@@ -139,7 +139,7 @@
     .slot-arrow-btn:disabled { opacity: 0.35; cursor: default; }
     .class-slot-card {
       background: #141414;
-      border: 1px solid #2f2f2f;
+      border: 1px solid var(--primary-light);
       border-radius: 10px;
       padding: 10px;
       min-height: 58px;
@@ -162,7 +162,7 @@
       width: fit-content;
       padding: 2px 8px;
       border-radius: 999px;
-      border: 1px solid #4a4a4a;
+      border: 1px solid var(--primary-light);
       background: transparent;
       color: #b7b7b7;
       font-size: 0.7em;
@@ -175,7 +175,7 @@
     .club-slot-card {
       flex: 1;
       background: #141414;
-      border: 1px solid #2f2f2f;
+      border: 1px solid var(--primary-light);
       border-radius: 10px;
       padding: 10px 12px;
       min-height: 54px;
@@ -210,35 +210,35 @@
       <h3>1. Choose Your Theme</h3>
       <div class="themeGrid">
         <div class="themeOption selected" data-theme="purple">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #3c2569, #553f8f);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #0f0518, #1b102a);"></div>
           <span class="themeName">Purple</span>
         </div>
         <div class="themeOption" data-theme="red">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #9d182e, #b82e38);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0505, #2a0b0b);"></div>
           <span class="themeName">Red</span>
         </div>
         <div class="themeOption" data-theme="orange">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #a94300, #b8651b);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0b00, #2a1300);"></div>
           <span class="themeName">Orange</span>
         </div>
         <div class="themeOption" data-theme="yellow">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #9b7e00, #c19d0c);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #1a1500, #2a2200);"></div>
           <span class="themeName">Yellow</span>
         </div>
         <div class="themeOption" data-theme="green">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #1f8b4d, #25a35a);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #051a0d, #0b2a15);"></div>
           <span class="themeName">Green</span>
         </div>
         <div class="themeOption" data-theme="blue">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #216694, #2a7aaf);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #05101a, #0b1a2a);"></div>
           <span class="themeName">Blue</span>
         </div>
         <div class="themeOption" data-theme="indigo">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #324191, #4a569a);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #080a1a, #10142a);"></div>
           <span class="themeName">Indigo</span>
         </div>
         <div class="themeOption" data-theme="pink">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #9b1349, #ba184f);"></div>
+          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0510, #2a0b1a);"></div>
           <span class="themeName">Pink</span>
         </div>
       </div>
@@ -273,7 +273,7 @@
       <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
-        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Enable Pack-Up Reminders</label>
+        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Pack-Up Reminders</label>
         <label class="switch">
           <input type="checkbox" id="notificationsToggle" checked>
           <span class="slider"></span>
@@ -296,7 +296,67 @@
     </div>
 
     <div class="setup-section">
-      <h3>4. Classes</h3>
+      <h3>4. Phone Caddy</h3>
+      <p class="setup-description">Get reminded to grab your phone 1 minute before class ends, and put it in your assigned spot 1 minute before class starts.</p>
+      
+      <div style="margin-bottom: 20px; text-align: center;">
+        <label style="display: block; margin-bottom: 10px; font-weight: 700;">Phone Caddy Reminders</label>
+        <label class="switch">
+          <input type="checkbox" id="setupCaddyToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="setupCaddySettings" style="display: none; padding-bottom: 15px;">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width:400px; margin: 0 auto; text-align:left;">
+          <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 1 Spot</label><input type="number" id="setupCaddyTime1" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 5"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy1" checked><span class="slider"></span></label>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 2 Spot</label><input type="number" id="setupCaddyTime2" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 12"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy2" checked><span class="slider"></span></label>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 3 Spot</label><input type="number" id="setupCaddyTime3" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 15"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy3" checked><span class="slider"></span></label>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 4 Spot</label><input type="number" id="setupCaddyTime4" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 8"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy4" checked><span class="slider"></span></label>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 5 Spot</label><input type="number" id="setupCaddyTime5" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 21"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy5" checked><span class="slider"></span></label>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 6 Spot</label><input type="number" id="setupCaddyTime6" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 4"></div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
+              <label class="switch"><input type="checkbox" id="setupHasCaddy6" checked><span class="slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-section">
+      <h3>5. Classes</h3>
       <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
 
       <div style="margin-bottom: 20px; text-align: center;">
@@ -322,7 +382,7 @@
     </div>
 
       <div class="setup-section">
-        <h3>5. Clubs</h3>
+        <h3>6. Clubs</h3>
         <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
         
         <div style="margin-bottom: 20px; text-align: center;">
@@ -431,6 +491,58 @@
     let setupClassTitles = [];
     let setupSelectedClassSlots = getSelectedClassesSlots();
     let setupClassMessageTimeout = null;
+
+    const setupCaddyToggle = document.getElementById('setupCaddyToggle');
+    const setupCaddySettings = document.getElementById('setupCaddySettings');
+
+    setupCaddyToggle.addEventListener('change', async () => {
+      if (setupCaddyToggle.checked) {
+        if ('Notification' in window) {
+          let perm = Notification.permission;
+          if (perm !== "granted" && perm !== "denied") {
+            perm = await Notification.requestPermission();
+          }
+          if (perm === 'granted') {
+            setupCaddySettings.style.display = 'block';
+            if (!notificationsToggle.checked) {
+               notificationsToggle.checked = true;
+               notificationsToggle.dispatchEvent(new Event('change'));
+            }
+          } else {
+            setupCaddyToggle.checked = false;
+            alert('Please allow notifications in your browser first.');
+          }
+        }
+      } else {
+        setupCaddySettings.style.display = 'none';
+      }
+    });
+
+    const setupCaddyToggle = document.getElementById('setupCaddyToggle');
+    const setupCaddySettings = document.getElementById('setupCaddySettings');
+
+    setupCaddyToggle.addEventListener('change', async () => {
+      if (setupCaddyToggle.checked) {
+        if ('Notification' in window) {
+          let perm = Notification.permission;
+          if (perm !== "granted" && perm !== "denied") {
+            perm = await Notification.requestPermission();
+          }
+          if (perm === 'granted') {
+            setupCaddySettings.style.display = 'block';
+            if (!notificationsToggle.checked) {
+               notificationsToggle.checked = true;
+               notificationsToggle.dispatchEvent(new Event('change'));
+            }
+          } else {
+            setupCaddyToggle.checked = false;
+            alert('Please allow notifications in your browser first.');
+          }
+        }
+      } else {
+        setupCaddySettings.style.display = 'none';
+      }
+    });
 
     async function loadSetupClasses() {
       try {
@@ -802,6 +914,34 @@
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', packUpTime);
       localStorage.setItem('notifications-enabled', notificationsToggle.checked ? 'true' : 'false');
+      
+      if (setupCaddyToggle.checked) {
+        const caddyTimes = {};
+        const enabledClasses = {};
+        for (let i = 1; i <= 6; i++) {
+          caddyTimes[i.toString()] = document.getElementById(`setupCaddyTime${i}`).value || "";
+          enabledClasses[i.toString()] = document.getElementById(`setupHasCaddy${i}`).checked;
+        }
+        localStorage.setItem('phone-caddy-enabled', 'true');
+        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+        localStorage.setItem('phone-caddy-enabled-classes', JSON.stringify(enabledClasses));
+      } else {
+        localStorage.setItem('phone-caddy-enabled', 'false');
+      }
+      
+      if (setupCaddyToggle.checked) {
+        const caddyTimes = {};
+        const enabledClasses = {};
+        for (let i = 1; i <= 6; i++) {
+          caddyTimes[i.toString()] = document.getElementById(`setupCaddyTime${i}`).value || "";
+          enabledClasses[i.toString()] = document.getElementById(`setupHasCaddy${i}`).checked;
+        }
+        localStorage.setItem('phone-caddy-enabled', 'true');
+        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+        localStorage.setItem('phone-caddy-enabled-classes', JSON.stringify(enabledClasses));
+      } else {
+        localStorage.setItem('phone-caddy-enabled', 'false');
+      }
       localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
       setupSelectedClassSlots = setSelectedClassesSlots(setupSelectedClassSlots);
       localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');

@@ -4,7 +4,7 @@
   "description": "A fast, clean, dark-themed schedule viewer built for LW students",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0b0b0b",
+  "background_color": "#080808",
   "theme_color": "#3c2569",
   "orientation": "portrait-primary",
   "icons": [

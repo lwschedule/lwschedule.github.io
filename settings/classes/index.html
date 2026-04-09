@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#3c2569">
+  <meta name="theme-color" content="#0f0518">
   <link rel="stylesheet" href="/common.css">
   <style>
     .toggle-container {
@@ -40,7 +40,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #383838;
+      background-color: var(--primary-light);
       transition: 0.4s;
       border-radius: 32px;
     }
@@ -111,7 +111,7 @@
       max-height: 260px;
       overflow-y: auto;
       margin-bottom: 20px;
-      border: 1px solid #2a2a2a;
+      border: 1px solid var(--primary-light);
     }
     .class-result {
       width: 100%;
@@ -120,7 +120,7 @@
       justify-content: space-between;
       padding: 11px 14px;
       border: none;
-      border-bottom: 1px solid #2a2a2a;
+      border-bottom: 1px solid var(--primary-light);
       background: transparent;
       color: var(--text-light);
       text-align: left;
@@ -152,7 +152,7 @@
       background: var(--card-dark);
       border-radius: 12px;
       padding: 10px;
-      border: 1px solid #2a2a2a;
+      border: 1px solid var(--primary-light);
     }
     .slot-row {
       display: grid;
@@ -184,7 +184,7 @@
     }
     .slot-card {
       background: #141414;
-      border: 1px solid #2f2f2f;
+      border: 1px solid var(--primary-light);
       border-radius: 10px;
       padding: 10px 12px;
       min-height: 62px;
@@ -210,7 +210,7 @@
     .slot-clear {
       margin-top: 2px;
       width: fit-content;
-      border: 1px solid #4a4a4a;
+      border: 1px solid var(--primary-light);
       background: transparent;
       color: #b7b7b7;
       border-radius: 999px;
@@ -263,7 +263,7 @@
       <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
       <p class="classes-message" id="classesMessage"></p>
       
-      <button type="button" class="resetBtn" id="resetClassesBtn" style="margin-top: 20px;">Reset Classes to Default</button>
+      <button type="button" class="resetBtn" id="resetClassesBtn">Reset Classes to Default</button>
     </div>
   </div>
 

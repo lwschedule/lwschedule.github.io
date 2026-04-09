@@ -1049,18 +1049,18 @@ function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   applyThemeClass(theme);
   const themeColors = {
-    purple: '#3c2569',
-    red: '#9d182e',
-    orange: '#a94300',
-    yellow: '#9b7e00',
-    green: '#1f8b4d',
-    blue: '#216694',
-    indigo: '#324191',
-    pink: '#9b1349'
+    purple: '#0f0518',
+    red: '#1a0505',
+    orange: '#1a0b00',
+    yellow: '#1a1500',
+    green: '#051a0d',
+    blue: '#05101a',
+    indigo: '#080a1a',
+    pink: '#1a0510'
   };
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
-    metaThemeColor.content = themeColors[theme] || '#3c2569';
+    metaThemeColor.content = themeColors[theme] || '#0f0518';
   }
 }
 
@@ -1320,6 +1320,7 @@ function checkPhoneCaddyTime() {
   if (!todaySchedule || todaySchedule.length === 0) return;
 
   const caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
+  const caddyEnabledClasses = JSON.parse(localStorage.getItem('phone-caddy-enabled-classes') || '{"1": true, "2": true, "3": true, "4": true, "5": true, "6": true}');
   
   for (let i = 0; i < todaySchedule.length; i++) {
     const period = todaySchedule[i];
@@ -1328,6 +1329,8 @@ function checkPhoneCaddyTime() {
     if (!periodNumMatch) continue;
     let periodNum = periodNumMatch[1];
     
+    if (caddyEnabledClasses[periodNum] === false) continue;
+
     let assignedSpot = caddyTimes[periodNum];
     if (!assignedSpot || assignedSpot.trim() === '') continue;
 
@@ -1455,15 +1458,16 @@ async function initApp() {
   if (window.location.pathname.startsWith('/setup')) return;
 
   const navLinks = [
-    { href: '/', icon: '🏠', text: 'Home' },
-    { href: '/today', icon: '📅', text: 'Today' },
-    { href: '/week', icon: '🗓️', text: 'Week' },
-    { href: '/month', icon: '📆', text: 'Month' },
-    { href: '/schedules', icon: '⏰', text: 'All Schedules' },
-    { href: '/events', icon: '🎉', text: 'Events' },
-    { href: '/holidays', icon: '🏖️', text: 'Holidays' },
-    { href: '/quarters', icon: '📊', text: 'Quarters' },
-    { href: '/info', icon: 'ℹ️', text: 'Info' },
+    { href: '/', icon: '', text: 'Home' },
+    { href: '/today', icon: '', text: 'Today' },
+    { href: '/week', icon: '', text: 'Week' },
+    { href: '/month', icon: '', text: 'Month' },
+    { href: '/schedules', icon: '', text: 'All Schedules' },
+    { href: '/events', icon: '', text: 'Events' },
+    { href: '/holidays', icon: '', text: 'Holidays' },
+    { href: '/quarters', icon: '', text: 'Quarters/Semesters' },
+    { href: '#', icon: '', text: 'Map (Coming Soon)', disabled: true },
+    { href: '/info', icon: 'i', text: 'Info' },
     { href: '/settings', icon: '⚙️', text: 'Settings' }
   ];
 
@@ -1483,6 +1487,7 @@ async function initApp() {
   document.body.appendChild(mobileToggle);
 
   let linksHtml = '';
+  let squareLinksHtml = '<div style="display:flex; gap:10px; margin: 0; margin-top:auto;">';
   let activeIndex = -1;
   navLinks.forEach((link, index) => {
     let isActive = false;
@@ -1492,8 +1497,17 @@ async function initApp() {
        isActive = currentPath.startsWith(link.href);
     }
     if (isActive && activeIndex === -1) activeIndex = index;
-    linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}"><span class="sidebar-icon">${link.icon}</span> <span class="sidebar-text">${link.text}</span></a>`;
+    
+    if (link.disabled) {
+      linksHtml += `<div style="display: flex; align-items: center; gap: 15px; padding: 12px 15px; color: var(--text); opacity: 0.4; cursor: not-allowed;">${link.icon ? `<span class="sidebar-icon" style="font-size: 1.3em;">${link.icon}</span> ` : ''}<span class="sidebar-text" style="font-weight: 500;">${link.text}</span></div>`;
+    } else if (link.href === '/info' || link.href === '/settings') {
+      squareLinksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}" style="flex:1; display:flex; justify-content:center; align-items:center; aspect-ratio:1; padding:0; border-radius:12px;"><span class="sidebar-icon" style="margin:0;">${link.icon}</span><span class="sidebar-text" style="display:none;">${link.text}</span></a>`;
+    } else {
+      linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}">${link.icon ? `<span class="sidebar-icon">${link.icon}</span> ` : ''}<span class="sidebar-text">${link.text}</span></a>`;
+    }
   });
+  squareLinksHtml += '</div>';
+  linksHtml += squareLinksHtml;
 
   sidebar.innerHTML = `
     <div class="sidebar-header">
@@ -1518,6 +1532,8 @@ async function initApp() {
     const containerRect = linksContainer.getBoundingClientRect();
     bubble.style.top = (linkRect.top - containerRect.top + linksContainer.scrollTop) + 'px';
     bubble.style.height = linkRect.height + 'px';
+    bubble.style.width = linkRect.width + 'px';
+    bubble.style.left = (linkRect.left - containerRect.left) + 'px';
     bubble.style.opacity = '1';
   }
 
@@ -1555,7 +1571,10 @@ async function initApp() {
   mobileToggle.addEventListener('click', () => {
     sidebar.classList.toggle('open');
     const mask = document.getElementById('sidebarMask') || createMask();
-    mask.classList.toggle('show');
+    const isOpen = sidebar.classList.contains('open');
+    mask.classList.toggle('show', isOpen);
+    mobileToggle.style.opacity = isOpen ? '0' : '1';
+    mobileToggle.style.pointerEvents = isOpen ? 'none' : 'auto';
   });
 
   function createMask() {
@@ -1566,6 +1585,8 @@ async function initApp() {
     m.addEventListener('click', () => {
       sidebar.classList.remove('open');
       m.classList.remove('show');
+      mobileToggle.style.opacity = '1';
+      mobileToggle.style.pointerEvents = 'auto';
     });
     return m;
   }

@@ -6,22 +6,23 @@
 }
 
 :root {
-  --primary: #2a1550;
-  --primary-light: #442d75;
+  --primary: #0f0518;
+  --primary-light: #1b102a;
   --text-light: #e8e8e8;
-  --bg-dark: #0b0b0b;
-  --card-dark: #1e1e1e;
-  --glow: 0 0 12px rgba(85, 63, 143, 0.8);
+  --bg-dark: #000000;
+  --card-dark: #080808;
+  --glow: 0 0 12px rgba(27, 16, 42, 0.8);
+  --error: #ff4757;
 }
 
-body.theme-purple { --primary: #2a1550; --primary-light: #442d75; --glow: 0 0 12px rgba(68, 45, 117, 0.8); }
-body.theme-red { --primary: #7a1020; --primary-light: #9a2028; --glow: 0 0 12px rgba(154, 32, 40, 0.8); }
-body.theme-orange { --primary: #853100; --primary-light: #9a4e10; --glow: 0 0 12px rgba(154, 78, 16, 0.8); }
-body.theme-yellow { --primary: #7d6300; --primary-light: #a3820a; --glow: 0 0 12px rgba(163, 130, 10, 0.8); }
-body.theme-green { --primary: #156d3a; --primary-light: #1c8848; --glow: 0 0 12px rgba(28, 136, 72, 0.8); }
-body.theme-blue { --primary: #174e74; --primary-light: #1f6492; --glow: 0 0 12px rgba(31, 100, 146, 0.8); }
-body.theme-indigo { --primary: #243075; --primary-light: #3a4785; --glow: 0 0 12px rgba(58, 71, 133, 0.8); }
-body.theme-pink { --primary: #800e39; --primary-light: #a11242; --glow: 0 0 12px rgba(161, 18, 66, 0.8); }
+body.theme-purple { --primary: #0f0518; --primary-light: #1b102a; --glow: 0 0 12px rgba(27, 16, 42, 0.8); }
+body.theme-red { --primary: #1a0505; --primary-light: #2a0b0b; --glow: 0 0 12px rgba(42, 11, 11, 0.8); }
+body.theme-orange { --primary: #1a0b00; --primary-light: #2a1300; --glow: 0 0 12px rgba(42, 19, 0, 0.8); }
+body.theme-yellow { --primary: #1a1500; --primary-light: #2a2200; --glow: 0 0 12px rgba(42, 34, 0, 0.8); }
+body.theme-green { --primary: #051a0d; --primary-light: #0b2a15; --glow: 0 0 12px rgba(11, 42, 21, 0.8); }
+body.theme-blue { --primary: #05101a; --primary-light: #0b1a2a; --glow: 0 0 12px rgba(11, 26, 42, 0.8); }
+body.theme-indigo { --primary: #080a1a; --primary-light: #10142a; --glow: 0 0 12px rgba(16, 20, 42, 0.8); }
+body.theme-pink { --primary: #1a0510; --primary-light: #2a0b1a; --glow: 0 0 12px rgba(42, 11, 26, 0.8); }
 
 * {
   font-family: 'SF Pro Rounded', sans-serif;
@@ -409,7 +410,7 @@ body.calendarPage .pageContainer {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #383838;
+  background-color: var(--primary-light);
   transition: 0.4s;
   border-radius: 26px;
 }
@@ -442,12 +443,12 @@ body.calendarPage .pageContainer {
 .mainBtn.disabledBtn {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #444444 !important;
+  background: var(--primary) !important;
   animation: none !important;
 }
 
 .mainBtn.disabledBtn:hover {
-  background: #444444 !important;
+  background: var(--primary) !important;
   transform: none;
 }
 
@@ -455,7 +456,7 @@ body.calendarPage .pageContainer {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #181818;
+  background: var(--primary);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -472,7 +473,7 @@ body.calendarPage .pageContainer {
 
 .scheduleTable td {
   padding: 12px;
-  border-bottom: 1px solid #383838;
+  border-bottom: 1px solid var(--primary-light);
 }
 
 .scheduleTable tr:last-child td {
@@ -488,14 +489,14 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable tr:not(.highlight):hover {
-  background: #222222;
+  background: var(--primary-light);
 }
 
 .weekTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #181818;
+  background: var(--primary);
   border-radius: 12px;
   overflow: hidden;
   font-size: clamp(0.9em, 2.5vw, 1em);
@@ -513,7 +514,7 @@ body.calendarPage .pageContainer {
 
 .weekTable td {
   padding: 12px;
-  border-bottom: 1px solid #383838;
+  border-bottom: 1px solid var(--primary-light);
   line-height: 1.5;
 }
 
@@ -536,7 +537,7 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable tr.clickable-row:hover {
-  background: #222222;
+  background: var(--primary-light);
   transform: scale(1.01);
 }
 
@@ -581,7 +582,7 @@ body.calendarPage .pageContainer {
 .resetBtn {
   display: block;
   width: 100%;
-  background: #444444;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 12px 30px;
@@ -604,7 +605,7 @@ body.calendarPage .pageContainer {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: #181818;
+  background: var(--primary);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -621,7 +622,7 @@ body.calendarPage .pageContainer {
 
 .holidayTable td {
   padding: 12px;
-  border-bottom: 1px solid #383838;
+  border-bottom: 1px solid var(--primary-light);
 }
 
 .holidayTable tr:last-child td {
@@ -629,7 +630,7 @@ body.calendarPage .pageContainer {
 }
 
 .holidayTable tr:hover {
-  background: #222222;
+  background: var(--primary-light);
 }
 
 #holidayCountdown {
@@ -740,7 +741,7 @@ body.calendarPage .pageContainer {
 
 .calendar-grid {
   /* moved styles from the former .calendar container so the grid stands on its own */
-  background: #181818;
+  background: var(--primary);
   border-radius: 12px;
   padding: 15px;
   width: 100%;
@@ -826,7 +827,7 @@ body.calendarPage .pageContainer {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1400;
+  z-index: 998;
   background: linear-gradient(90deg, rgba(8, 8, 8, 0.98), rgba(22, 22, 22, 0.98));
   border-top: 1px solid #2b2b2b;
   box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
@@ -894,7 +895,7 @@ body.calendarPage .pageContainer {
 .home-ticker-close {
   width: 34px;
   height: 34px;
-  border: 1px solid #4a4a4a;
+  border: 1px solid var(--primary-light);
   border-radius: 50%;
   background: transparent;
   color: #fff;
@@ -1239,7 +1240,7 @@ body.has-sidebar {
   transform: translateX(0);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  border-right: 1px solid var(--primary);
 }
 
 .sidebar-header {
@@ -1247,7 +1248,7 @@ body.has-sidebar {
   display: flex;
   align-items: center;
   gap: 15px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--primary);
   min-height: 80px;
 }
 .sidebar-logo {
@@ -1311,7 +1312,7 @@ body.has-sidebar {
   left: 15px;
   z-index: 1001;
   background: var(--card-dark);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--primary-light);
   color: var(--text-light);
   font-size: 1.5em;
   border-radius: 8px;
@@ -1372,7 +1373,7 @@ body.has-sidebar {
   transform: translateX(0);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  border-right: 1px solid var(--primary);
 }
 
 .sidebar-header {
@@ -1380,7 +1381,7 @@ body.has-sidebar {
   display: flex;
   align-items: center;
   gap: 15px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--primary);
   min-height: 80px;
 }
 .sidebar-logo {
@@ -1444,7 +1445,7 @@ body.has-sidebar {
   left: 15px;
   z-index: 1001;
   background: var(--card-dark);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--primary-light);
   color: var(--text-light);
   font-size: 1.5em;
   border-radius: 8px;
@@ -1505,7 +1506,7 @@ body.has-sidebar {
   transform: translateX(0);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  border-right: 1px solid rgba(255,255,255,0.05);
+  border-right: 1px solid var(--primary);
 }
 
 .sidebar-header {
@@ -1513,7 +1514,7 @@ body.has-sidebar {
   display: flex;
   align-items: center;
   gap: 15px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--primary);
   min-height: 80px;
 }
 .sidebar-logo {
@@ -1577,7 +1578,7 @@ body.has-sidebar {
   left: 15px;
   z-index: 1001;
   background: var(--card-dark);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--primary-light);
   color: var(--text-light);
   font-size: 1.5em;
   border-radius: 8px;
