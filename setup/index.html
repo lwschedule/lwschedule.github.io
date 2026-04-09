@@ -247,37 +247,23 @@
     <div class="setup-section">
       <h3>2. Set Your Lunch Preferences</h3>
       <div class="lunchRow">
-        <label>Monday Lunch:</label>
+        <label>Period 3 (Mon/Fri):</label>
         <div class="lunchButtons">
-          <button class="lunchBtn selected" data-day="Monday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
+          <button class="lunchBtn selected" data-period="3" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
         </div>
       </div>
       <div class="lunchRow">
-        <label>Tuesday Lunch:</label>
+        <label>Period 4 (Tue/Thu):</label>
         <div class="lunchButtons">
-          <button class="lunchBtn selected" data-day="Tuesday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
+          <button class="lunchBtn selected" data-period="4" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
         </div>
       </div>
       <div class="lunchRow">
         <label>Wednesday Lunch:</label>
         <div class="lunchButtons">
           <button class="lunchBtn selected" disabled>All School Lunch</button>
-        </div>
-      </div>
-      <div class="lunchRow">
-        <label>Thursday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn selected" data-day="Thursday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
-        </div>
-      </div>
-      <div class="lunchRow">
-        <label>Friday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn selected" data-day="Friday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
         </div>
       </div>
     </div>
@@ -304,8 +290,9 @@
           <button class="pack-up-preset" data-value="5">5 min</button>
           <button class="pack-up-preset" data-value="7">7 min</button>
           <button class="pack-up-preset" data-value="10">10 min</button>
-        </div>
-      </div>
+        </div>          <div style="text-align: center; margin-top: 15px;">
+            <button id="setupTestNotificationBtn" style="background: transparent; color: var(--text-light); border: 2px solid var(--primary-light); border-radius: 8px; font-weight: 700; cursor: pointer; padding: 10px 20px; font-size: 0.9em; box-shadow: none;">Test Notification</button>
+          </div>      </div>
     </div>
 
     <div class="setup-section">
@@ -379,17 +366,24 @@
     });
     let lunchPrefs = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
     function updateLunchUI() {
-      document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-        const day = btn.dataset.day;
+      document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+        const period = btn.dataset.period;
         const lunch = btn.dataset.lunch;
-        btn.classList.toggle('selected', lunchPrefs[day] === lunch);
+        const currentLunch = period === "3" ? lunchPrefs.Monday : lunchPrefs.Tuesday;
+        btn.classList.toggle('selected', currentLunch === lunch);
       });
     }
-    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+    document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const day = btn.dataset.day;
+        const period = btn.dataset.period;
         const lunch = btn.dataset.lunch;
-        lunchPrefs[day] = lunch;
+        if (period === "3") {
+          lunchPrefs.Monday = lunch;
+          lunchPrefs.Friday = lunch;
+        } else if (period === "4") {
+          lunchPrefs.Tuesday = lunch;
+          lunchPrefs.Thursday = lunch;
+        }
         updateLunchUI();
       });
     });
@@ -783,6 +777,30 @@
     initSetupClassesSection();
     loadClubs();
     
+    document.getElementById('setupTestNotificationBtn').addEventListener('click', () => {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notifications.");
+        return;
+      }
+      if (Notification.permission === "granted") {
+        new Notification("Pack Up", {
+          body: "Class is ending soon. Time to pack up! (Test)",
+          icon: "/icons/icon-192x192.png"
+        });
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            new Notification("Pack Up", {
+              body: "Class is ending soon. Time to pack up! (Test)",
+              icon: "/icons/icon-192x192.png"
+            });
+          }
+        });
+      } else {
+        alert("Notification permission is blocked. Please enable it in browser settings.");
+      }
+    });
+
     document.getElementById('completeBtn').addEventListener('click', () => {
       localStorage.setItem('theme', currentTheme);
       localStorage.setItem('gradient', 'on');

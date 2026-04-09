@@ -143,6 +143,34 @@ function isSBADay(date) {
   return false;
 }
 
+function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay) {
+  let lunchPrefs = lunchPreferences || { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+  
+  if (baseScheduleDay && baseScheduleDay.A && baseScheduleDay.B) {
+    const aSchedule = baseScheduleDay.A;
+    const aLunchIndex = aSchedule.findIndex(p => p.name.toLowerCase().includes('a lunch') || p.name.toLowerCase().includes('lunch'));
+    if (aLunchIndex !== -1) {
+      let basePeriod = null;
+      for (let i = aLunchIndex + 1; i < aSchedule.length; i++) {
+        const match = aSchedule[i].name.match(/Period\s+(\d)/i);
+        if (match) {
+          basePeriod = match[1];
+          break;
+        }
+      }
+      const prefs = lunchPreferences || { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+      if (basePeriod === '3') return prefs.Monday || 'A';
+      if (basePeriod === '4') return prefs.Tuesday || 'A';
+    }
+  }
+  
+  // Fallback to normal day mapping if detection fails
+  if (scheduleKey === 'normal') {
+    return lunchPrefs[today] || 'A';
+  }
+  return 'A'; // All non-standard ones default to A if undocumented
+}
+
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
@@ -150,10 +178,8 @@ function getSchedules(date) {
   else if (isSBADay(date)) scheduleKey = 'sba';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
-  let lunchPrefs = lunchPreferences;
-  if (scheduleKey === 'pilot3') lunchPrefs = pilot3LunchPreferences;
-  if (scheduleKey === 'sba') lunchPrefs = sbaLunchPreferences;
-  const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
+  
+  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today]);
 
   
   if (scheduleKey === 'normal') {
@@ -1358,18 +1384,7 @@ async function initApp() {
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
     localStorage.setItem('sem2ResetDone', 'true');
   }
-  if (checkSetupComplete()) {
-    
-if (isPilot3Day(now) && !localStorage.getItem('pilot3LunchPreferences')) {
-      window.location.href = '/setup/pilot3/';
-      return;
-    }
-    
-    if (isSBADay(now) && !localStorage.getItem('sbaLunchPreferences')) {
-      window.location.href = '/setup/sba/';
-      return;
-    }
-  }
+  
   loadLunchPreferences();
   loadThemeOnPage();
   if (document.getElementById('holidayCountdown')) {

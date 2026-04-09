@@ -63,17 +63,17 @@ h1, h2, h3 { text-align: center; color: white; }
     <h2 id="pageTitle">Lunch Preferences</h2>
     <div id="normalLunches">
       <div class="settingsRow">
-        <label>Monday Lunch:</label>
+        <label>Period 3 Lunch <small>(Mon/Fri & most special schedules)</small>:</label>
         <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Monday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
+          <button class="lunchBtn" data-period="3" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
         </div>
       </div>
       <div class="settingsRow">
-        <label>Tuesday Lunch:</label>
+        <label>Period 4 Lunch <small>(Tue/Thu & most special schedules)</small>:</label>
         <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Tuesday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
+          <button class="lunchBtn" data-period="4" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
         </div>
       </div>
       <div class="settingsRow">
@@ -82,58 +82,8 @@ h1, h2, h3 { text-align: center; color: white; }
           <button class="lunchBtn selected" disabled>All School Lunch</button>
         </div>
       </div>
-      <div class="settingsRow">
-        <label>Thursday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Thursday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
-        </div>
-      </div>
-      <div class="settingsRow">
-        <label>Friday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Friday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
-        </div>
-      </div>
     </div>
-    <div id="finalsLunches" style="display: none;">
-      <div class="settingsRow" id="mondayLunchRow" style="display: none;">
-        <label>Monday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Monday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
-        </div>
-      </div>
-      <div class="settingsRow">
-        <label>Tuesday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Tuesday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
-        </div>
-      </div>
-      <div class="settingsRow" id="wednesdayLunchRow" style="display: none;">
-        <label>Wednesday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn selected" disabled>All School Lunch</button>
-        </div>
-      </div>
-      <div class="settingsRow" id="thursdayLunchRow">
-        <label>Thursday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Thursday" data-lunch="A">A Lunch<br><small>Based on Period 3</small></button>
-          <button class="lunchBtn" data-day="Thursday" data-lunch="B">B Lunch<br><small>Based on Period 3</small></button>
-        </div>
-      </div>
-      <div class="settingsRow" id="fridayLunchRow">
-        <label>Friday Lunch:</label>
-        <div class="lunchButtons">
-          <button class="lunchBtn" data-day="Friday" data-lunch="A">A Lunch<br><small>Based on Period 4</small></button>
-          <button class="lunchBtn" data-day="Friday" data-lunch="B">B Lunch<br><small>Based on Period 4</small></button>
-        </div>
-      </div>
-    </div>
-    <button class="resetBtn" id="resetLunchBtn">Reset All Lunches</button>
+    <button class="resetBtn" id="resetLunchBtn">Reset Lunches</button>
   </div>
   <script>
 function checkSetupComplete() {
@@ -150,51 +100,39 @@ return false;
 }
 return true;
 }
-const urlParams = new URLSearchParams(window.location.search);
-const isFinals = urlParams.has('finals');
-let lunchPrefs;
-if (isFinals) {
-  document.getElementById('pageTitle').textContent = 'Finals Week Lunch Preferences';
-  document.getElementById('normalLunches').style.display = 'none';
-  document.getElementById('finalsLunches').style.display = 'block';
-  document.getElementById('mondayLunchRow').style.display = 'none';
-  document.getElementById('wednesdayLunchRow').style.display = 'none';
-  document.getElementById('thursdayLunchRow').style.display = 'block';
-  document.getElementById('fridayLunchRow').style.display = 'block';
-  lunchPrefs = JSON.parse(localStorage.getItem('finalsLunchPreferences') || '{"Tuesday":"A","Thursday":"A","Friday":"A"}');
-} else {
-  lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
-}
+
+let lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
+
 function updateUI() {
-document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-const day = btn.dataset.day;
-const lunch = btn.dataset.lunch;
-btn.classList.toggle('selected', lunchPrefs[day] === lunch);
-});
+  document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+    const period = btn.dataset.period;
+    const currentLunch = period === "3" ? lunchPrefs.Monday : lunchPrefs.Tuesday;
+    btn.classList.toggle('selected', currentLunch === btn.dataset.lunch);
+  });
 }
-document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-btn.addEventListener('click', () => {
-const day = btn.dataset.day;
-const lunch = btn.dataset.lunch;
-  lunchPrefs[day] = lunch;
-  if (isFinals) localStorage.setItem('finalsLunchPreferences', JSON.stringify(lunchPrefs));
-  else localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-updateUI();
+
+document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const period = btn.dataset.period;
+    const lunch = btn.dataset.lunch;
+    if (period === "3") {
+      lunchPrefs.Monday = lunch;
+      lunchPrefs.Friday = lunch;
+    } else {
+      lunchPrefs.Tuesday = lunch;
+      lunchPrefs.Thursday = lunch;
+    }
+    localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+    updateUI();
+  });
 });
-});
+
 document.getElementById('resetLunchBtn').addEventListener('click', () => {
-let msg = 'Reset all lunch preferences to A Lunch?';
-  if (isFinals) msg = 'Reset all finals lunch preferences to A Lunch?';
-if (confirm(msg)) {
-if (isFinals) {
-  lunchPrefs = {Tuesday:'A',Thursday:'A',Friday:'A'};
-  localStorage.setItem('finalsLunchPreferences', JSON.stringify(lunchPrefs));
-} else {
-  lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
-  localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-}
-updateUI();
-}
+  if (confirm('Reset lunch preferences to A Lunch?')) {
+    lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
+    localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+    updateUI();
+  }
 });
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';

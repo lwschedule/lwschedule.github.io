@@ -95,6 +95,7 @@ input:checked + .slider:before { transform: translateX(26px); }
       </div>
       <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
     </div>
+    <button class="saveBtn" id="testNotificationBtn" style="background: transparent; color: var(--text-light); border: 2px solid var(--primary-light); box-shadow: none; margin-top: 0; padding: 10px 20px;">Test Notification</button>
     <button class="saveBtn" id="saveBtn">Save</button>
   </div>
   <script>
@@ -135,6 +136,18 @@ if (val > 30) val = 30;
 localStorage.setItem('pack-up-time', val);
 alert('Pack-up reminder saved!');
 location.href = '/settings';
+});
+
+document.getElementById('testNotificationBtn').addEventListener('click', () => {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('Pack-Up Reminder', {
+      body: 'This is a test notification. Class ends soon!',
+      icon: '/images/logo.png',
+      requireInteraction: true
+    });
+  } else {
+    alert('Please enable browser notifications first.');
+  }
 });
 
 
