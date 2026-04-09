@@ -1,7 +1,4 @@
 let lunchPreferences = null;
-let leapLunchPreferences = null;
-let pilot1LunchPreferences = null;
-let pilot2LunchPreferences = null;
 let pilot3LunchPreferences = null;
 let sbaLunchPreferences = null;
 let holidays = null;
@@ -120,43 +117,11 @@ function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (saved) lunchPreferences = JSON.parse(saved);
-    const leapSaved = localStorage.getItem('leapLunchPreferences');
-    if (leapSaved) leapLunchPreferences = JSON.parse(leapSaved);
-    const pilotSaved = localStorage.getItem('pilot1LunchPreferences');
-    if (pilotSaved) pilot1LunchPreferences = JSON.parse(pilotSaved);
-    const pilot2Saved = localStorage.getItem('pilot2LunchPreferences');
-    if (pilot2Saved) pilot2LunchPreferences = JSON.parse(pilot2Saved);
     const pilot3Saved = localStorage.getItem('pilot3LunchPreferences');
     if (pilot3Saved) pilot3LunchPreferences = JSON.parse(pilot3Saved);
     const sbaSaved = localStorage.getItem('sbaLunchPreferences');
     if (sbaSaved) sbaLunchPreferences = JSON.parse(sbaSaved);
   } catch (e) {}
-}
-
-function isLeapDay(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  
-  return year === 2026 && month === 2 && day === 13;
-}
-
-function isPilot1Day(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // Pilot 1 is active March 16–20, 2026
-  if (year === 2026 && month === 2 && day >= 16 && day <= 20) return true;
-  return false;
-}
-
-function isPilot2Day(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // Pilot 2 is active March 23–27, 2026
-  if (year === 2026 && month === 2 && day >= 23 && day <= 27) return true;
-  return false;
 }
 
 function isPilot3Day(date) {
@@ -181,17 +146,11 @@ function isSBADay(date) {
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
-  if (isPilot2Day(date)) scheduleKey = 'pilot2';
-  else if (isPilot3Day(date)) scheduleKey = 'pilot3';
-  else if (isPilot1Day(date)) scheduleKey = 'pilot1';
+  if (isPilot3Day(date)) scheduleKey = 'pilot3';
   else if (isSBADay(date)) scheduleKey = 'sba';
-  else if (isLeapDay(date)) scheduleKey = 'leap';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   let lunchPrefs = lunchPreferences;
-  if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
-  if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
-  if (scheduleKey === 'pilot2') lunchPrefs = pilot2LunchPreferences;
   if (scheduleKey === 'pilot3') lunchPrefs = pilot3LunchPreferences;
   if (scheduleKey === 'sba') lunchPrefs = sbaLunchPreferences;
   const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
@@ -207,7 +166,7 @@ function getSchedules(date) {
     }
     return adjusted;
   }
-  if (scheduleKey === 'pilot1' || scheduleKey === 'pilot2' || scheduleKey === 'pilot3') {
+  if (scheduleKey === 'pilot3') {
     const adjusted = { ...baseSchedule };
     if (baseSchedule[today] && baseSchedule[today][lunch]) {
       adjusted[today] = baseSchedule[today][lunch];
@@ -228,11 +187,8 @@ function getSchedules(date) {
 
 function getScheduleKeyForDate(date) {
   if (!schedulesData) return 'normal';
-  if (isPilot2Day(date)) return 'pilot2';
   if (isPilot3Day(date)) return 'pilot3';
-  if (isPilot1Day(date)) return 'pilot1';
   if (isSBADay(date)) return 'sba';
-  if (isLeapDay(date)) return 'leap';
   return 'normal';
 }
 
@@ -902,7 +858,7 @@ function renderCalendar() {
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
   
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 2);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 3);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -915,13 +871,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 2);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 3);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
       
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 2)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 3)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1038,8 +994,8 @@ function changeMonth(delta) {
     currentYear++;
   }
   
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
-    currentMonth = 2;
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
+    currentMonth = 3;
     currentYear = 2026;
   }
   if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
@@ -1052,8 +1008,8 @@ function changeMonth(delta) {
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
-  currentMonth = 2;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
+  currentMonth = 3;
   currentYear = 2026;
 }
 
@@ -1410,28 +1366,13 @@ async function initApp() {
   }
   if (checkSetupComplete()) {
     
-    if (isPilot2Day(now) && !localStorage.getItem('pilot2LunchPreferences')) {
-      window.location.href = '/setup/pilot2/';
-      return;
-    }
-
-    if (isPilot3Day(now) && !localStorage.getItem('pilot3LunchPreferences')) {
+if (isPilot3Day(now) && !localStorage.getItem('pilot3LunchPreferences')) {
       window.location.href = '/setup/pilot3/';
       return;
     }
     
-    if (isPilot1Day(now) && !localStorage.getItem('pilot1LunchPreferences')) {
-      window.location.href = '/setup/pilot1/';
-      return;
-    }
-
     if (isSBADay(now) && !localStorage.getItem('sbaLunchPreferences')) {
       window.location.href = '/setup/sba/';
-      return;
-    }
-    
-    if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
-      window.location.href = '/setup/leap/';
       return;
     }
   }
