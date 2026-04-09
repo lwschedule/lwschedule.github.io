@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phone Caddy Reminders - Settings</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3c2569">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .pageContainer { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+    .description { font-size: 1.1em; color: var(--text-light); opacity: 0.9; margin-bottom: 30px; text-align: center; }
+    .settingsRow { background: var(--card-dark); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    .settingsRow label { display: block; font-weight: 700; margin-bottom: 10px; color: var(--text-light); }
+    .pack-up-input { display: block; width: 100%; border: 2px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; padding: 15px; font-size: 1.1em; border-radius: 12px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; font-weight: 600; text-align: center; }
+    .pack-up-input:focus { border-color: var(--primary-light); }
+    .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
+    .saveBtn:hover { transform: scale(1.05); }
+    .resetBtn { display: block; width: 100%; background: transparent; color: #ff4757; border: 2px solid #ff4757; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-align: center; text-decoration: none; }
+    .resetBtn:hover { background: #9d182e; color: white; border-color: #9d182e; transform: scale(1.05); }
+    .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #a3a3a3; transition: .4s; border-radius: 24px; }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--primary-light); }
+    input:focus + .slider { box-shadow: 0 0 1px var(--primary-light); }
+    input:checked + .slider:before { transform: translateX(26px); }
+  </style>
+</head>
+<body>
+  <div class="homeHeaderRow">
+    <h1>Phone Caddy</h1>
+    <div class="topRightButtons">
+    </div>
+  </div>
+  <div class="pageContainer">
+    <h2>Phone Caddy</h2>
+    <p class="description">Get reminded to grab your phone 1 minute before class ends, and to put it in your assigned spot 1 minute before class starts.</p>
+    
+    <div class="settingsRow" id="periodInputsContainer">
+      <label>Enter your assigned phone caddy spot number for each class:</label>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="margin-top:10px;"><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+      </div>
+    </div>
+
+    <div class="settingsRow">
+      <label for="caddyToggle">Phone Caddy Reminders (Enable/Disable):</label>
+      <div style="display: flex; align-items: center; gap: 15px; justify-content: center; margin-top: 10px;">
+        <span style="font-size: 0.9em; opacity: 0.8;">Off</span>
+        <label class="switch">
+          <input type="checkbox" id="caddyToggle">
+          <span class="slider"></span>
+        </label>
+        <span style="font-size: 0.9em; opacity: 0.8;">On</span>
+      </div>
+      <div id="caddyStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+    </div>
+    
+    <button class="saveBtn" id="testNotificationBtn" style="margin-top: 0px;">Test Notification</button>
+    <button class="saveBtn" id="saveBtn">Save</button>
+    <button class="resetBtn" id="resetCaddyBtn" style="margin-top: 20px;">Reset Phone Caddy Reminders</button>
+
+  </div>
+  
+  <script src="/common.js"></script>
+  <script>
+    function loadThemeOnPage() {
+      const theme = localStorage.getItem('theme') || 'purple';
+      document.body.className = `theme-${theme}`;
+    }
+
+    const caddyToggle = document.getElementById('caddyToggle');
+    const caddyStatus = document.getElementById('caddyStatus');
+
+    let caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+    for (let i = 1; i <= 6; i++) {
+        const val = caddyTimes[i.toString()];
+        if(val !== undefined && val !== "") {
+            document.getElementById(`caddyTime${i}`).value = val;
+        }
+    }
+
+    function updateCaddyStatus() {
+      const enabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      if (enabled) {
+        if (Notification.permission === 'granted') {
+          caddyStatus.innerHTML = '✅ Phone Caddy Reminders enabled';
+          caddyStatus.style.color = 'var(--primary-light)';
+        } else {
+          caddyStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
+          caddyStatus.style.color = '#ff9f43';
+        }
+      } else {
+        caddyStatus.innerHTML = 'Reminders are currently off';
+        caddyStatus.style.color = 'var(--text-light)';
+      }
+    }
+
+    if ('Notification' in window) {
+      const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      caddyToggle.checked = caddyEnabled;
+      updateCaddyStatus();
+      
+      caddyToggle.addEventListener('change', async () => {
+        if (caddyToggle.checked) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            localStorage.setItem('phone-caddy-enabled', 'true');
+            // Check global notifications
+            localStorage.setItem('notifications-enabled', 'true');
+          } else {
+            caddyToggle.checked = false;
+            localStorage.setItem('phone-caddy-enabled', 'false');
+            caddyStatus.innerHTML = '❌ Notifications blocked by browser';
+            caddyStatus.style.color = '#ff4757';
+            return;
+          }
+        } else {
+          localStorage.setItem('phone-caddy-enabled', 'false');
+        }
+        updateCaddyStatus();
+      });
+    } else {
+      caddyToggle.disabled = true;
+      caddyStatus.innerHTML = '❌ Browser does not support notifications';
+      caddyStatus.style.color = '#ff4757';
+    }
+
+    document.getElementById('testNotificationBtn').addEventListener('click', async () => {
+      let testSpot = document.getElementById('caddyTime1').value || "12";
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notifications.");
+        return;
+      }
+      let perm = Notification.permission;
+      if (perm !== "granted" && perm !== "denied") {
+        perm = await Notification.requestPermission();
+      }
+      if (perm === "granted") {
+        sendNotification("Phone Caddy Reminder", {
+          body: `Class starts in 1 minute! Put your phone in caddy spot #${testSpot}`,
+          icon: "/icons/icon-192x192.png"
+        });
+      } else {
+        alert("Notification permission is blocked. Please enable it in browser settings.");
+      }
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) {
+        caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || "";
+      }
+      localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+      
+      const btn = document.getElementById('saveBtn');
+      const originalText = btn.textContent;
+      btn.textContent = 'Saved!';
+      btn.style.background = 'var(--primary)';
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = 'var(--primary-light)';
+      }, 2000);
+    });
+
+    document.getElementById('resetCaddyBtn').addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById(`caddyTime${i}`).value = '';
+      }
+      localStorage.setItem('phone-caddy-times', '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+      localStorage.setItem('phone-caddy-enabled', 'false');
+      caddyToggle.checked = false;
+      updateCaddyStatus();
+    });
+
+    loadThemeOnPage();
+  </script>
+</body>
+</html>

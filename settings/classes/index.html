@@ -238,7 +238,7 @@
   </style>
 </head>
 <body>
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Classes</h2>
 
@@ -262,6 +262,8 @@
       <div class="slots-container" id="selectedClassesList"></div>
       <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
       <p class="classes-message" id="classesMessage"></p>
+      
+      <button type="button" class="resetBtn" id="resetClassesBtn" style="margin-top: 20px;">Reset Classes to Default</button>
     </div>
   </div>
 
@@ -461,6 +463,16 @@
       document.getElementById('clearClassesBtn').addEventListener('click', () => {
         selectedClassSlots = Array(MAX_SLOTS).fill('');
         saveSlots();
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+      });
+
+      document.getElementById('resetClassesBtn').addEventListener('click', () => {
+        selectedClassSlots = Array(MAX_SLOTS).fill('');
+        saveSlots();
+        setClassesEnabled(false);
+        document.getElementById('classesToggle').checked = false;
+        document.getElementById('classesContent').classList.remove('enabled');
         renderSelectedSlots();
         renderClassResults(document.getElementById('classSearch').value);
       });

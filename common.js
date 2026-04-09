@@ -1293,10 +1293,73 @@ function startPackUpMonitoring() {
   
   window.packUpInterval = setInterval(() => {
     checkPackUpTime();
+    checkPhoneCaddyTime();
   }, 60000); 
   
   
   checkPackUpTime();
+  checkPhoneCaddyTime();
+}
+
+function checkPhoneCaddyTime() {
+  const now = new Date();
+  if (localStorage.getItem('notifications-enabled') !== 'true') return;
+  const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+  if (!caddyEnabled) return;
+
+  const dayOfWeek = now.getDay();
+  if (dayOfWeek === 0 || dayOfWeek === 6) return;
+  
+  const holiday = getHolidayForDate(now);
+  if (holiday) return;
+
+  const schedules = getSchedules(now);
+  const todayName = getDayNameFromDate(now);
+  const todaySchedule = schedules[todayName];
+  
+  if (!todaySchedule || todaySchedule.length === 0) return;
+
+  const caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
+  
+  for (let i = 0; i < todaySchedule.length; i++) {
+    const period = todaySchedule[i];
+    
+    let periodNumMatch = period.name.match(/Period\s*(\d)/i);
+    if (!periodNumMatch) continue;
+    let periodNum = periodNumMatch[1];
+    
+    let assignedSpot = caddyTimes[periodNum];
+    if (!assignedSpot || assignedSpot.trim() === '') continue;
+
+    const periodStartTime = new Date(now);
+    periodStartTime.setHours(0, period.start, 0, 0);
+
+    const periodEndTime = new Date(now);
+    periodEndTime.setHours(0, period.end, 0, 0);
+
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const notifStartMins = (periodStartTime.getHours() * 60 + periodStartTime.getMinutes()) - 1;
+    const notifEndMins = (periodEndTime.getHours() * 60 + periodEndTime.getMinutes()) - 1;
+
+    if (nowMinutes === notifStartMins) {
+      if (Notification.permission === 'granted') {
+        sendNotification('Phone Caddy', {
+          body: `Class starts in 1 minute! Put your phone in caddy spot #${assignedSpot}`,
+          icon: '/icons/icon-192.png',
+          tag: `caddy-start-${periodNum}`
+        });
+      }
+    } else if (nowMinutes === notifEndMins) {
+      if (Notification.permission === 'granted') {
+        sendNotification('Phone Caddy', {
+          body: `Class ends in 1 minute! Grab your phone from caddy spot #${assignedSpot}`,
+          icon: '/icons/icon-192.png',
+          tag: `caddy-end-${periodNum}`
+        });
+      }
+    }
+  }
 }
 
 function checkPackUpTime() {
@@ -1348,22 +1411,11 @@ function showPackUpNotification(period) {
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
   const todayName = getDayNameFromDate(new Date());
   
-  const notification = new Notification('Pack Up Time!', {
+  sendNotification('Pack Up Time!', {
     body: `Time to pack up for ${period.name} in ${packUpTimeMinutes} minutes (${todayName})`,
     icon: '/icons/icon-192.png',
     tag: 'pack-up-reminder'
   });
-  
-  
-  notification.onclick = function() {
-    window.focus();
-    this.close();
-  };
-  
-  
-  setTimeout(() => {
-    notification.close();
-  }, 5000);
 }
 
 async function initApp() {
@@ -1397,4 +1449,141 @@ async function initApp() {
   
   
   initPackUpNotifications();
+}
+
+(function injectGlobalSidebar() {
+  if (window.location.pathname.startsWith('/setup')) return;
+
+  const navLinks = [
+    { href: '/', icon: '🏠', text: 'Home' },
+    { href: '/today', icon: '📅', text: 'Today' },
+    { href: '/week', icon: '🗓️', text: 'Week' },
+    { href: '/month', icon: '📆', text: 'Month' },
+    { href: '/schedules', icon: '⏰', text: 'All Schedules' },
+    { href: '/events', icon: '🎉', text: 'Events' },
+    { href: '/holidays', icon: '🏖️', text: 'Holidays' },
+    { href: '/quarters', icon: '📊', text: 'Quarters' },
+    { href: '/info', icon: 'ℹ️', text: 'Info' },
+    { href: '/settings', icon: '⚙️', text: 'Settings' }
+  ];
+
+  let currentPath = window.location.pathname;
+  if (currentPath.endsWith('.html') && currentPath !== '/404.html') {
+      currentPath = currentPath.replace('/index.html', '');
+      if(currentPath === '') currentPath = '/';
+  }
+
+  const sidebar = document.createElement('nav');
+  sidebar.id = 'globalSidebar';
+  
+  const mobileToggle = document.createElement('button');
+  mobileToggle.id = 'sidebarMobileToggle';
+  mobileToggle.innerHTML = '☰';
+  mobileToggle.setAttribute('aria-label', 'Toggle Menu');
+  document.body.appendChild(mobileToggle);
+
+  let linksHtml = '';
+  let activeIndex = -1;
+  navLinks.forEach((link, index) => {
+    let isActive = false;
+    if (link.href === '/') {
+       isActive = (currentPath === '/' || currentPath === '/index.html');
+    } else {
+       isActive = currentPath.startsWith(link.href);
+    }
+    if (isActive && activeIndex === -1) activeIndex = index;
+    linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}"><span class="sidebar-icon">${link.icon}</span> <span class="sidebar-text">${link.text}</span></a>`;
+  });
+
+  sidebar.innerHTML = `
+    <div class="sidebar-header">
+      <img src="/images/logo.png" alt="Logo" class="sidebar-logo">
+      <h2 class="sidebar-title">LW Schedule</h2>
+    </div>
+    <div class="sidebar-links-container">
+      <div class="sidebar-bubble" id="sidebarBubble"></div>
+      ${linksHtml}
+    </div>
+  `;
+  document.body.appendChild(sidebar);
+  document.body.classList.add('has-sidebar');
+
+  const bubble = sidebar.querySelector('#sidebarBubble');
+  const linksContainer = sidebar.querySelector('.sidebar-links-container');
+  const links = sidebar.querySelectorAll('.sidebar-link');
+
+  function updateBubble(linkEl) {
+    if (!linkEl) return;
+    const linkRect = linkEl.getBoundingClientRect();
+    const containerRect = linksContainer.getBoundingClientRect();
+    bubble.style.top = (linkRect.top - containerRect.top + linksContainer.scrollTop) + 'px';
+    bubble.style.height = linkRect.height + 'px';
+    bubble.style.opacity = '1';
+  }
+
+  const activeLink = sidebar.querySelector('.sidebar-link.active');
+  if (activeLink) {
+    setTimeout(() => updateBubble(activeLink), 50);
+  } else {
+    bubble.style.opacity = '0';
+  }
+
+  window.addEventListener('resize', () => {
+    if (sidebar.querySelector('.sidebar-link.active')) {
+      updateBubble(sidebar.querySelector('.sidebar-link.active'));
+    }
+  });
+
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const linkUrl = link.getAttribute('href');
+      // allow ctrl+click to work normally
+      if (e.ctrlKey || e.metaKey) return;
+      e.preventDefault();
+      
+      links.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      
+      updateBubble(link);
+      
+      setTimeout(() => {
+        window.location.href = linkUrl;
+      }, 180);
+    });
+  });
+
+  mobileToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    const mask = document.getElementById('sidebarMask') || createMask();
+    mask.classList.toggle('show');
+  });
+
+  function createMask() {
+    const m = document.createElement('div');
+    m.id = 'sidebarMask';
+    m.className = 'sidebar-mask';
+    document.body.appendChild(m);
+    m.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      m.classList.remove('show');
+    });
+    return m;
+  }
+})();
+
+
+async function sendNotification(title, options) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      if (reg && reg.showNotification) {
+        await reg.showNotification(title, options);
+        return;
+      }
+    } catch (e) { console.warn(e); }
+  }
+  const n = new Notification(title, options);
+  n.onclick = function() { window.focus(); this.close(); };
+  setTimeout(() => n.close(), 5000);
 }

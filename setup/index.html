@@ -291,7 +291,7 @@
           <button class="pack-up-preset" data-value="7">7 min</button>
           <button class="pack-up-preset" data-value="10">10 min</button>
         </div>          <div style="text-align: center; margin-top: 15px;">
-            <button id="setupTestNotificationBtn" style="background: transparent; color: var(--text-light); border: 2px solid var(--primary-light); border-radius: 8px; font-weight: 700; cursor: pointer; padding: 10px 20px; font-size: 0.9em; box-shadow: none;">Test Notification</button>
+            <button id="setupTestNotificationBtn" style="background: var(--primary-light); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; padding: 10px 20px; font-size: 0.9em; box-shadow: var(--glow); transition: transform 0.3s;">Test Notification</button>
           </div>      </div>
     </div>
 
@@ -777,24 +777,19 @@
     initSetupClassesSection();
     loadClubs();
     
-    document.getElementById('setupTestNotificationBtn').addEventListener('click', () => {
+    document.getElementById('setupTestNotificationBtn').addEventListener('click', async () => {
       if (!("Notification" in window)) {
         alert("This browser does not support desktop notifications.");
         return;
       }
-      if (Notification.permission === "granted") {
-        new Notification("Pack Up", {
+      let perm = Notification.permission;
+      if (perm !== "granted" && perm !== "denied") {
+        perm = await Notification.requestPermission();
+      }
+      if (perm === "granted") {
+        sendNotification("Pack Up", {
           body: "Class is ending soon. Time to pack up! (Test)",
           icon: "/icons/icon-192x192.png"
-        });
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-          if (permission === "granted") {
-            new Notification("Pack Up", {
-              body: "Class is ending soon. Time to pack up! (Test)",
-              icon: "/icons/icon-192x192.png"
-            });
-          }
         });
       } else {
         alert("Notification permission is blocked. Please enable it in browser settings.");

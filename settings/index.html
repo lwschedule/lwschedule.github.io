@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/common.css">
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Settings</h2>
     <div class="settingsRow">
@@ -30,7 +30,7 @@
       <a class="mainBtn" href="/settings/clubs">Clubs</a>
     </div>
     <div class="settingsRow">
-      <button class="mainBtn disabledBtn" style="width: 100%;" disabled>Phone Caddy Reminders (Coming Soon)</button>
+      <a class="mainBtn" href="/settings/phonecaddy">Phone Caddy Reminders</a>
     </div>
     <div class="settingsRow">
       <a class="mainBtn" href="/settings/packup">Pack-Up Reminders</a>
@@ -41,10 +41,8 @@
   <script>
     document.getElementById('resetBtn').addEventListener('click', (e) => {
       e.preventDefault();
-      if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
-        localStorage.clear();
-        location.href = '/';
-      }
+      localStorage.clear();
+      location.href = '/';
     });
     checkSetupComplete();
     loadThemeOnPage();

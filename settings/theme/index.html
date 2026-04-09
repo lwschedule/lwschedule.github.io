@@ -54,7 +54,7 @@ h1, h2, h3 { text-align: center; color: white; }
   </style>
 </head>
 <body class="theme-purple">
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Choose Your Theme</h2>
     <div class="themeGrid">
@@ -131,13 +131,11 @@ updateUI();
 });
 
 document.getElementById('resetThemeBtn').addEventListener('click', () => {
-if (confirm('Reset theme to default (Purple)?')) {
 currentTheme = 'purple';
 localStorage.setItem('theme', 'purple');
 localStorage.setItem('gradient', 'on');
 applyTheme();
 updateUI();
-}
 });
 
 checkSetupComplete();

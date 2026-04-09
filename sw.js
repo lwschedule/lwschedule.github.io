@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lwschedule-v2.13.10';
+const CACHE_NAME = 'lwschedule-v3.0.0';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -49,4 +49,16 @@ self.addEventListener('activate', (event) => {
     })
   );
   self.clients.claim();
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then((windowClients) => {
+      for (let client of windowClients) {
+        if ('focus' in client) return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('/');
+    })
+  );
 });

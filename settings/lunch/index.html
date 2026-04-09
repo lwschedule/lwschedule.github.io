@@ -58,7 +58,7 @@ h1, h2, h3 { text-align: center; color: white; }
   </style>
 </head>
 <body>
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2 id="pageTitle">Lunch Preferences</h2>
     <div id="normalLunches">
@@ -128,11 +128,9 @@ document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
 });
 
 document.getElementById('resetLunchBtn').addEventListener('click', () => {
-  if (confirm('Reset lunch preferences to A Lunch?')) {
     lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
     localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
     updateUI();
-  }
 });
 function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';

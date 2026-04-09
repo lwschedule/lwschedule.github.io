@@ -1,17 +1,17 @@
 {
   "messages": [
     {
-      "text": "Found a bug or want a new feature? Let me know here: ",
+      "text": "New in v3.0: A sleek new sidebar and Phone Caddy Reminders!"
+    },
+    {
+      "text": "Got a suggestion or found a bug? Let us know: ",
       "url": "https://tally.so/r/jaW6ja"
     },
     {
-      "text": "New! Enter your classes in settings to customize your schedule."
+      "text": "Add your classes and clubs in Settings to personalize your schedule."
     },
     {
-      "text": "Check out minimal mode!"
-    },
-    {
-      "text": "Check out upcoming events!"
+      "text": "Never forget your phone with customizable Phone Caddy Reminders in Settings."
     }
   ]
 }

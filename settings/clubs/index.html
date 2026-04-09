@@ -204,7 +204,7 @@
   </style>
 </head>
 <body>
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Clubs</h2>
 
@@ -226,6 +226,7 @@
 
       <div class="slots-container" id="selectedClubsList"></div>
       <p class="clubs-count" id="selectedCount">0 clubs selected</p>
+      <button type="button" class="resetBtn" id="resetClubsBtn" style="margin-top: 20px;">Reset Clubs to Default</button>
     </div>
   </div>
 
@@ -413,12 +414,15 @@
         renderClubResults(document.getElementById('clubSearch').value);
       });
 
-      loadClubs();
-    }
+        document.getElementById('resetClubsBtn').addEventListener('click', () => {
+          selectedClubs = [];
+          saveSelected();
+          localStorage.setItem('clubsEnabled', 'false');
+          document.getElementById('clubsToggle').checked = false;
+          document.getElementById('clubsContent').classList.remove('enabled');
+          renderSelectedList();
+          renderClubResults(document.getElementById('clubSearch').value);
+        });
 
-    checkSetupComplete();
-    loadThemeOnPage();
-    init();
-  </script>
 </body>
 </html>

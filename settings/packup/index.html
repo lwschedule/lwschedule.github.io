@@ -67,7 +67,7 @@ input:checked + .slider:before { transform: translateX(26px); }
   </style>
 </head>
 <body>
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Pack-Up Reminders</h2>
     <p class="description">Get notified before class ends so you have time to pack up.</p>
@@ -95,8 +95,9 @@ input:checked + .slider:before { transform: translateX(26px); }
       </div>
       <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
     </div>
-    <button class="saveBtn" id="testNotificationBtn" style="background: transparent; color: var(--text-light); border: 2px solid var(--primary-light); box-shadow: none; margin-top: 0; padding: 10px 20px;">Test Notification</button>
+    <button class="saveBtn" id="testNotificationBtn" style="margin-top: 0px;">Test Notification</button>
     <button class="saveBtn" id="saveBtn">Save</button>
+    <button class="resetBtn" id="resetPackupBtn" style="margin-top: 20px;">Reset Pack-Up Reminders to Default</button>
   </div>
   <script>
 function checkSetupComplete() {
@@ -140,7 +141,7 @@ location.href = '/settings';
 
 document.getElementById('testNotificationBtn').addEventListener('click', () => {
   if ('Notification' in window && Notification.permission === 'granted') {
-    new Notification('Pack-Up Reminder', {
+    sendNotification('Pack-Up Reminder', {
       body: 'This is a test notification. Class ends soon!',
       icon: '/images/logo.png',
       requireInteraction: true
@@ -203,6 +204,22 @@ function loadThemeOnPage() {
   const theme = localStorage.getItem('theme') || 'purple';
   document.body.className = `theme-${theme}`;
 }
+
+document.getElementById('resetPackupBtn').addEventListener('click', () => {
+    document.getElementById('packUpTimeInput').value = '';
+    
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.classList.toggle('selected', btn.dataset.value === '0');
+    });
+    
+    const notificationToggle = document.getElementById('notificationToggle');
+    if (notificationToggle) notificationToggle.checked = false;
+    
+    localStorage.setItem('pack-up-time', '0');
+    localStorage.setItem('notifications-enabled', 'false');
+    updateNotificationStatus();
+});
+
 checkSetupComplete();
 loadThemeOnPage();
 </script>
