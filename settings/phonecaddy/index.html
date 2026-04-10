@@ -11,20 +11,53 @@
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
-    .description { font-size: 1.1em; color: var(--text-light); opacity: 0.9; margin-bottom: 30px; text-align: center; }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-label {
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background: #34c759;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(28px);
+    }
     .settingsRow { background: var(--card-dark); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     .settingsRow label { display: block; font-weight: 700; margin-bottom: 10px; color: var(--text-light); }
     .pack-up-input { display: block; width: 100%; border: 2px solid var(--primary-light); background: rgba(0,0,0,0.2); color: white; padding: 15px; font-size: 1.1em; border-radius: 12px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; font-weight: 600; text-align: center; }
     .pack-up-input:focus { border-color: var(--primary-light); }
     .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
     .saveBtn:hover { transform: scale(1.05); }
-    .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary); transition: .4s; border-radius: 24px; }
-    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-    input:checked + .slider { background-color: var(--primary-light); }
-    input:focus + .slider { box-shadow: 0 0 1px var(--primary-light); }
-    input:checked + .slider:before { transform: translateX(26px); }
   </style>
 </head>
 <body>
@@ -36,7 +69,14 @@
   <div class="pageContainer">
     <a href="/settings" style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--primary-light); color: var(--text-light); text-decoration: none; margin-bottom: 15px; transition: transform 0.2s;" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'none\'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <h2>Phone Caddy</h2>
-    <p class="description">Get reminded to grab your phone 1 minute before class ends, and to put it in your assigned spot 1 minute before class starts.</p>
+
+    <div class="toggle-container">
+      <span class="toggle-label">Phone Caddy</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="caddyToggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
     
     <div class="settingsRow" id="periodInputsContainer">
       <label>Enter your assigned phone caddy spot number for each class:</label>
@@ -51,22 +91,10 @@
     </div>
 
     <div class="settingsRow">
-      <label for="caddyToggle">Phone Caddy Reminders (Enable/Disable):</label>
-      <div style="display: flex; align-items: center; gap: 15px; justify-content: center; margin-top: 10px;">
-        <span style="font-size: 0.9em; opacity: 0.8;">Off</span>
-        <label class="switch">
-          <input type="checkbox" id="caddyToggle">
-          <span class="slider"></span>
-        </label>
-        <span style="font-size: 0.9em; opacity: 0.8;">On</span>
-      </div>
       <div id="caddyStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
     </div>
     
-    <button class="saveBtn" id="testNotificationBtn" style="margin-top: 0px;">Test Notification</button>
-    <button class="saveBtn" id="saveBtn">Save</button>
-    <button class="resetBtn" id="resetCaddyBtn">Reset Phone Caddy Reminders</button>
-
+    <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
   </div>
   
   <script src="/common.js"></script>
@@ -153,21 +181,13 @@
       }
     });
 
-    document.getElementById('saveBtn').addEventListener('click', () => {
-      for (let i = 1; i <= 6; i++) {
-        caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || "";
-      }
-      localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
-      
-      const btn = document.getElementById('saveBtn');
-      const originalText = btn.textContent;
-      btn.textContent = 'Saved!';
-      btn.style.background = 'var(--primary)';
-      
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = 'var(--primary-light)';
-      }, 2000);
+    document.querySelectorAll('.pack-up-input').forEach(input => {
+      input.addEventListener('input', () => {
+        for (let i = 1; i <= 6; i++) {
+          caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || "";
+        }
+        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+      });
     });
 
     document.getElementById('resetCaddyBtn').addEventListener('click', () => {

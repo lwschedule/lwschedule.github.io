@@ -1527,14 +1527,21 @@ async function initApp() {
   const links = sidebar.querySelectorAll('.sidebar-link');
 
   function updateBubble(linkEl) {
-    if (!linkEl) return;
-    const linkRect = linkEl.getBoundingClientRect();
-    const containerRect = linksContainer.getBoundingClientRect();
-    bubble.style.top = (linkRect.top - containerRect.top + linksContainer.scrollTop) + 'px';
-    bubble.style.height = linkRect.height + 'px';
-    bubble.style.width = linkRect.width + 'px';
-    bubble.style.left = (linkRect.left - containerRect.left) + 'px';
+    let top = 0;
+    let left = 0;
+    let curr = linkEl;
+    while(curr && curr !== linksContainer) {
+        top += curr.offsetTop;
+        left += curr.offsetLeft;
+        curr = curr.offsetParent;
+    }
+    const rect = linkEl.getBoundingClientRect();
+    bubble.style.top = top + 'px';
+    bubble.style.height = rect.height + 'px';
+    bubble.style.width = rect.width + 'px';
+    bubble.style.left = left + 'px';
     bubble.style.opacity = '1';
+    bubble.style.borderRadius = linkEl.style.borderRadius || '12px';
   }
 
   const activeLink = sidebar.querySelector('.sidebar-link.active');

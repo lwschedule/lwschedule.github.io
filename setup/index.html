@@ -41,9 +41,9 @@
     
     .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--primary-light); transition: .4s; border-radius: 34px; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
     .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-    input:checked + .slider { background-color: var(--primary-light); }
+    input:checked + .slider { background-color: #34c759; }
     input:checked + .slider:before { transform: translateX(26px); }
 
     .classes-settings { display: block; }
@@ -407,6 +407,18 @@
       </div>    <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
   <script src="/common.js"></script>
+  <script>
+function fixToggles() {
+  const caddyToggle = document.getElementById('setupCaddyToggle');
+  const classToggle = document.getElementById('classesToggle');
+  const clubToggle = document.getElementById('clubsToggle');
+  if (caddyToggle && document.getElementById('setupCaddySection')) document.getElementById('setupCaddySection').style.display = caddyToggle.checked ? 'block' : 'none';
+  if (classToggle && document.getElementById('classesInputs')) document.getElementById('classesInputs').style.display = classToggle.checked ? 'grid' : 'none';
+  if (clubToggle && document.getElementById('clubsSettings')) document.getElementById('clubsSettings').style.display = clubToggle.checked ? 'block' : 'none';
+}
+document.querySelectorAll('input[type="checkbox"]').forEach(t => t.addEventListener('change', fixToggles));
+fixToggles();
+</script>
   <script>
     let currentTheme = 'purple';
     function applyTheme() {

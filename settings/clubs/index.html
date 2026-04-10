@@ -33,17 +33,7 @@
       width: 0;
       height: 0;
     }
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--primary-light);
-      transition: 0.4s;
-      border-radius: 32px;
-    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
     .toggle-slider:before {
       position: absolute;
       content: "";
@@ -56,7 +46,7 @@
       border-radius: 50%;
     }
     input:checked + .toggle-slider {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      background: #34c759;
     }
     input:checked + .toggle-slider:before {
       transform: translateX(28px);
@@ -424,6 +414,13 @@
           renderSelectedList();
           renderClubResults(document.getElementById('clubSearch').value);
         });
+      
+      loadClubs();
+    }
 
+    checkSetupComplete();
+    loadThemeOnPage();
+    init();
+  </script>
 </body>
 </html>
