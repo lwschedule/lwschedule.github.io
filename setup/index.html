@@ -199,6 +199,45 @@
       color: #cdb9ff;
       margin: 0;
     }
+  
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-label {
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider { background-color: #34c759; }
+    input:checked + .toggle-slider:before { transform: translateX(28px); }
+  
   </style>
 </head>
 <body class="theme-purple">
@@ -359,11 +398,11 @@
       <h3>5. Classes</h3>
       <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
 
-      <div style="margin-bottom: 20px; text-align: center;">
-        <label style="display: block; margin-bottom: 15px; font-weight: 700;">Classes</label>
-        <label class="switch">
+      <div class="toggle-container">
+        <span class="toggle-label">Classes</span>
+        <label class="toggle-switch">
           <input type="checkbox" id="classesToggle" checked>
-          <span class="slider"></span>
+          <span class="toggle-slider"></span>
         </label>
       </div>
 
@@ -385,13 +424,13 @@
         <h3>6. Clubs</h3>
         <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
         
-        <div style="margin-bottom: 20px; text-align: center;">
-          <label style="display: block; margin-bottom: 15px; font-weight: 700;">Clubs</label>
-          <label class="switch">
-            <input type="checkbox" id="clubsToggle" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
+        <div class="toggle-container">
+        <span class="toggle-label">Clubs</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="clubsToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
         
         <div id="clubsSettings" class="classes-settings">
           <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
@@ -504,31 +543,7 @@ fixToggles();
     let setupSelectedClassSlots = getSelectedClassesSlots();
     let setupClassMessageTimeout = null;
 
-    const setupCaddyToggle = document.getElementById('setupCaddyToggle');
-    const setupCaddySettings = document.getElementById('setupCaddySettings');
 
-    setupCaddyToggle.addEventListener('change', async () => {
-      if (setupCaddyToggle.checked) {
-        if ('Notification' in window) {
-          let perm = Notification.permission;
-          if (perm !== "granted" && perm !== "denied") {
-            perm = await Notification.requestPermission();
-          }
-          if (perm === 'granted') {
-            setupCaddySettings.style.display = 'block';
-            if (!notificationsToggle.checked) {
-               notificationsToggle.checked = true;
-               notificationsToggle.dispatchEvent(new Event('change'));
-            }
-          } else {
-            setupCaddyToggle.checked = false;
-            alert('Please allow notifications in your browser first.');
-          }
-        }
-      } else {
-        setupCaddySettings.style.display = 'none';
-      }
-    });
 
     const setupCaddyToggle = document.getElementById('setupCaddyToggle');
     const setupCaddySettings = document.getElementById('setupCaddySettings');
