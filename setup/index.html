@@ -238,6 +238,10 @@
     input:checked + .toggle-slider { background-color: #34c759; }
     input:checked + .toggle-slider:before { transform: translateX(28px); }
   
+  
+    .pack-up-input { display: block; width: 100%; border: 2px solid var(--primary-light); background: rgba(0,0,0,0.2); color: white; padding: 15px; font-size: 1.1em; border-radius: 12px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; font-weight: 600; text-align: center; }
+    .pack-up-input:focus { border-color: var(--primary-light); }
+  
   </style>
 </head>
 <body class="theme-purple">
@@ -308,7 +312,58 @@
     </div>
 
     <div class="setup-section">
-      <h3>3. Pack-Up Reminders</h3>
+      <h3>3. Classes</h3>
+      <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Classes</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="classesToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div id="classesSettings" class="classes-settings">
+        <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
+
+        <div class="class-actions">
+          <button type="button" id="clearClassesBtn" class="class-action-btn">Clear All Slots</button>
+        </div>
+
+        <div id="classResults" class="class-results"></div>
+        <div id="setupSelectedClassesList" class="class-slots"></div>
+        <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
+        <p id="setupClassesMessage" class="class-message"></p>
+      </div>
+    </div>
+
+    <div class="setup-section">
+        <h3>4. Clubs</h3>
+        <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
+        
+        <div class="toggle-container">
+        <span class="toggle-label">Clubs</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="clubsToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+        
+        <div id="clubsSettings" class="classes-settings">
+          <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
+          
+          <div class="class-actions">
+            <button type="button" id="clearClubsBtn" class="class-action-btn">Clear All Clubs</button>
+          </div>
+          
+          <div id="clubResults" class="class-results"></div>
+          <div id="setupSelectedClubsList" class="class-slots"></div>
+          <p id="selectedCount" class="class-count">0 clubs selected</p>
+        </div>
+      </div>
+
+    <div class="setup-section">
+      <h3>5. Pack-Up Reminders</h3>
       <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
@@ -335,7 +390,7 @@
     </div>
 
     <div class="setup-section">
-      <h3>4. Phone Caddy</h3>
+      <h3>6. Phone Caddy</h3>
       <p class="setup-description">Get reminded to grab your phone 1 minute before class ends, and put it in your assigned spot 1 minute before class starts.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
@@ -348,102 +403,16 @@
 
       <div id="setupCaddySettings" style="display: none; padding-bottom: 15px;">
         <div style="display: flex; flex-direction: column; gap: 10px; max-width:400px; margin: 0 auto; text-align:left;">
-          <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 1 Spot</label><input type="number" id="setupCaddyTime1" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 5"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy1" checked><span class="slider"></span></label>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 2 Spot</label><input type="number" id="setupCaddyTime2" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 12"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy2" checked><span class="slider"></span></label>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 3 Spot</label><input type="number" id="setupCaddyTime3" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 15"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy3" checked><span class="slider"></span></label>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 4 Spot</label><input type="number" id="setupCaddyTime4" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 8"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy4" checked><span class="slider"></span></label>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 5 Spot</label><input type="number" id="setupCaddyTime5" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 21"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy5" checked><span class="slider"></span></label>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="flex-grow:1;"><label style="font-weight:normal; margin-bottom:5px;">Period 6 Spot</label><input type="number" id="setupCaddyTime6" class="pack-up-input" style="padding:10px;" min="1" placeholder="e.g. 4"></div>
-            <div style="display:flex; flex-direction:column; align-items:center;">
-              <label style="font-weight:normal; margin-bottom:5px; font-size:0.8em;">Has Caddy?</label>
-              <label class="switch"><input type="checkbox" id="setupHasCaddy6" checked><span class="slider"></span></label>
-            </div>
-          </div>
+          <div style="margin-top:10px;"><label style="font-weight:normal; margin-bottom:5px;">Period 1 Spot</label><input type="number" id="setupCaddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 2 Spot</label><input type="number" id="setupCaddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 3 Spot</label><input type="number" id="setupCaddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 4 Spot</label><input type="number" id="setupCaddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 5 Spot</label><input type="number" id="setupCaddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 6 Spot</label><input type="number" id="setupCaddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
         </div>
       </div>
     </div>
-
-    <div class="setup-section">
-      <h3>5. Classes</h3>
-      <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
-
-      <div class="toggle-container">
-        <span class="toggle-label">Classes</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="classesToggle" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div id="classesSettings" class="classes-settings">
-        <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
-
-        <div class="class-actions">
-          <button type="button" id="clearClassesBtn" class="class-action-btn">Clear All Slots</button>
-        </div>
-
-        <div id="classResults" class="class-results"></div>
-        <div id="setupSelectedClassesList" class="class-slots"></div>
-        <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
-        <p id="setupClassesMessage" class="class-message"></p>
-      </div>
-    </div>
-
-      <div class="setup-section">
-        <h3>6. Clubs</h3>
-        <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
-        
-        <div class="toggle-container">
-        <span class="toggle-label">Clubs</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="clubsToggle" checked>
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-        
-        <div id="clubsSettings" class="classes-settings">
-          <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
-          
-          <div class="class-actions">
-            <button type="button" id="clearClubsBtn" class="class-action-btn">Clear All Clubs</button>
-          </div>
-          
-          <div id="clubResults" class="class-results"></div>
-          <div id="setupSelectedClubsList" class="class-slots"></div>
-          <p id="selectedCount" class="class-count">0 clubs selected</p>
-        </div>
-      </div>    <button class="completeBtn" id="completeBtn">Complete Setup</button>
+    <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
   <script src="/common.js"></script>
   <script>
@@ -946,8 +915,9 @@ fixToggles();
         const caddyTimes = {};
         const enabledClasses = {};
         for (let i = 1; i <= 6; i++) {
-          caddyTimes[i.toString()] = document.getElementById(`setupCaddyTime${i}`).value || "";
-          enabledClasses[i.toString()] = document.getElementById(`setupHasCaddy${i}`).checked;
+          const val = document.getElementById(`setupCaddyTime${i}`).value || "";
+          caddyTimes[i.toString()] = val;
+          enabledClasses[i.toString()] = (val.trim() !== "");
         }
         localStorage.setItem('phone-caddy-enabled', 'true');
         localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
@@ -960,8 +930,9 @@ fixToggles();
         const caddyTimes = {};
         const enabledClasses = {};
         for (let i = 1; i <= 6; i++) {
-          caddyTimes[i.toString()] = document.getElementById(`setupCaddyTime${i}`).value || "";
-          enabledClasses[i.toString()] = document.getElementById(`setupHasCaddy${i}`).checked;
+          const val = document.getElementById(`setupCaddyTime${i}`).value || "";
+          caddyTimes[i.toString()] = val;
+          enabledClasses[i.toString()] = (val.trim() !== "");
         }
         localStorage.setItem('phone-caddy-enabled', 'true');
         localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));

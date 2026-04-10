@@ -1320,8 +1320,6 @@ function checkPhoneCaddyTime() {
   if (!todaySchedule || todaySchedule.length === 0) return;
 
   const caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
-  const caddyEnabledClasses = JSON.parse(localStorage.getItem('phone-caddy-enabled-classes') || '{"1": true, "2": true, "3": true, "4": true, "5": true, "6": true}');
-  
   for (let i = 0; i < todaySchedule.length; i++) {
     const period = todaySchedule[i];
     
@@ -1329,8 +1327,6 @@ function checkPhoneCaddyTime() {
     if (!periodNumMatch) continue;
     let periodNum = periodNumMatch[1];
     
-    if (caddyEnabledClasses[periodNum] === false) continue;
-
     let assignedSpot = caddyTimes[periodNum];
     if (!assignedSpot || assignedSpot.trim() === '') continue;
 
