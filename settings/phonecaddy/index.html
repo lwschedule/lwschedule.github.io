@@ -118,15 +118,16 @@
       const enabled = localStorage.getItem('phone-caddy-enabled') === 'true';
       if (enabled) {
         if (Notification.permission === 'granted') {
-          caddyStatus.innerHTML = '✅ Phone Caddy Reminders enabled';
-          caddyStatus.style.color = 'var(--primary-light)';
+          caddyStatus.innerHTML = '';
+          caddyStatus.parentElement.style.display = 'none';
         } else {
           caddyStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
           caddyStatus.style.color = '#ff9f43';
+          caddyStatus.parentElement.style.display = 'block';
         }
       } else {
-        caddyStatus.innerHTML = 'Reminders are currently off';
-        caddyStatus.style.color = 'var(--text-light)';
+        caddyStatus.innerHTML = '';
+        caddyStatus.parentElement.style.display = 'none';
       }
     }
 
