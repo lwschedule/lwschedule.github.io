@@ -1554,3 +1554,22 @@ body.has-sidebar {
     margin-left: 50px; /* Room for Hamburger */
   }
 }
+
+/* Icon Back Button (Global back arrows) */
+.icon-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--card-dark);
+  border: 1px solid var(--primary-light);
+  color: var(--text-light);
+  text-decoration: none;
+  margin-bottom: 15px;
+  transition: transform 0.2s;
+}
+.icon-back-btn:hover {
+  transform: scale(1.05);
+}
