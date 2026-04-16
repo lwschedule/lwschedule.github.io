@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'SF Pro Rounded';
-  src: url('/SF-Pro-Rounded-Regular.otf') format('opentype');
-  font-weight: 500;
+  font-family: 'SF Pro Display';
+  src: url('/SF-Pro-Display-Thin.otf') format('opentype');
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
@@ -17,7 +17,7 @@
 }
 
 * {
-  font-family: 'SF Pro Rounded', sans-serif;
+  font-family: 'SF Pro Display', sans-serif;
   box-sizing: border-box;
 }
 
