@@ -50,6 +50,115 @@ function setSelectedClassesSlots(slots) {
   return normalized;
 }
 
+const SF_SYMBOL_BASE_URL = 'https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/';
+
+function getSfSymbolUrl(symbolName) {
+  return `${SF_SYMBOL_BASE_URL}${symbolName}.png`;
+}
+
+function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
+  return `<img class="${className}" src="${getSfSymbolUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+}
+
+const PAGE_TRANSITION_READY_CLASS = 'page-transition-ready';
+const PAGE_TRANSITION_EXIT_FORWARD_CLASS = 'page-transition-exit-forward';
+const PAGE_TRANSITION_EXIT_BACK_CLASS = 'page-transition-exit-back';
+const PAGE_TRANSITION_DURATION_MS = 280;
+
+function getInternalUrl(href) {
+  try {
+    return new URL(href, window.location.href);
+  } catch (e) {
+    return null;
+  }
+}
+
+function isInternalPageUrl(url) {
+  return !!url && url.origin === window.location.origin;
+}
+
+function clearPageTransitionClasses() {
+  if (!document.body) return;
+  document.body.classList.remove(PAGE_TRANSITION_EXIT_FORWARD_CLASS, PAGE_TRANSITION_EXIT_BACK_CLASS);
+}
+
+function markPageReady() {
+  if (!document.body) return;
+  clearPageTransitionClasses();
+  document.body.classList.add(PAGE_TRANSITION_READY_CLASS);
+}
+
+function navigateWithTransition(targetUrl, options = {}) {
+  const url = getInternalUrl(targetUrl);
+  if (!url || !isInternalPageUrl(url)) {
+    window.location.href = targetUrl;
+    return;
+  }
+
+  if (url.pathname === window.location.pathname && url.search === window.location.search && !url.hash) {
+    return;
+  }
+
+  if (window.__pageNavigationPending) return;
+  window.__pageNavigationPending = true;
+
+  const direction = options.direction || 'forward';
+  const replace = options.replace === true;
+
+  if (document.body) {
+    document.body.classList.remove(PAGE_TRANSITION_READY_CLASS);
+    document.body.classList.remove(PAGE_TRANSITION_EXIT_FORWARD_CLASS, PAGE_TRANSITION_EXIT_BACK_CLASS);
+    document.body.classList.add(direction === 'back' ? PAGE_TRANSITION_EXIT_BACK_CLASS : PAGE_TRANSITION_EXIT_FORWARD_CLASS);
+  }
+
+  setTimeout(() => {
+    if (replace) {
+      window.location.replace(url.href);
+    } else {
+      window.location.href = url.href;
+    }
+  }, PAGE_TRANSITION_DURATION_MS);
+}
+
+function handlePageTransitionClick(event) {
+  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+  const anchor = event.target.closest ? event.target.closest('a[href]') : null;
+  if (!anchor) return;
+  if (anchor.target && anchor.target !== '_self') return;
+  if (anchor.hasAttribute('download')) return;
+  if (anchor.dataset.transition === 'skip') return;
+
+  const href = anchor.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+
+  const url = getInternalUrl(href);
+  if (!isInternalPageUrl(url)) return;
+  if (url.pathname === window.location.pathname && url.search === window.location.search && !url.hash) return;
+
+  event.preventDefault();
+  const direction = anchor.classList.contains('icon-back-btn') || anchor.dataset.transitionDirection === 'back' ? 'back' : 'forward';
+  navigateWithTransition(url.href, { direction });
+}
+
+document.addEventListener('click', handlePageTransitionClick, true);
+
+function enablePageTransitions() {
+  if (!document.body) return;
+  requestAnimationFrame(markPageReady);
+}
+
+if (document.body) {
+  enablePageTransitions();
+} else {
+  document.addEventListener('DOMContentLoaded', enablePageTransitions, { once: true });
+}
+
+window.addEventListener('pageshow', () => {
+  window.__pageNavigationPending = false;
+  markPageReady();
+});
+
 function getPeriodNumberFromName(periodName) {
   if (typeof periodName !== 'string') return null;
   const match = periodName.match(/^Period\s+([1-6])\b/i);
@@ -97,14 +206,14 @@ function checkSetupComplete() {
   
   if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
     if (!lunch || packup === null) {
-      window.location.href = '/app';
+      navigateWithTransition('/app', { replace: true });
       return false;
     }
   }
   
   if (!setupComplete && !window.location.pathname.includes('/setup')) {
     if (!lunch || packup === null) {
-      window.location.href = '/setup';
+      navigateWithTransition('/setup', { replace: true });
       return false;
     }
   }
@@ -750,7 +859,7 @@ function updateWeekSchedule() {
     row.addEventListener('click', () => {
       const day = row.dataset.day;
       const date = row.dataset.date;
-      window.location.href = `/week/${day}?date=${encodeURIComponent(date)}`;
+      navigateWithTransition(`/week/${day}?date=${encodeURIComponent(date)}`);
     });
   });
 }
@@ -1425,17 +1534,17 @@ async function initApp() {
   if (window.location.pathname.startsWith('/setup')) return;
 
   const navLinks = [
-    { href: '/', icon: '', text: 'Home' },
-    { href: '/today', icon: '', text: 'Today' },
-    { href: '/week', icon: '', text: 'Week' },
-    { href: '/month', icon: '', text: 'Month' },
-    { href: '/schedules', icon: '', text: 'All Schedules' },
-    { href: '/events', icon: '', text: 'Events' },
-    { href: '/holidays', icon: '', text: 'Holidays' },
-    { href: '/quarters', icon: '', text: 'Quarters/Semesters' },
-    { href: '#', icon: '', text: 'Map (Coming Soon)', disabled: true },
-    { href: '/info', icon: 'i', text: 'Info' },
-    { href: '/settings', icon: '⚙️', text: 'Settings' }
+    { href: '/', icon: 'house.fill', text: 'Home' },
+    { href: '/today', icon: 'clock.fill', text: 'Today' },
+    { href: '/week', icon: 'calendar', text: 'Week' },
+    { href: '/month', icon: 'calendar.circle', text: 'Month' },
+    { href: '/schedules', icon: 'table', text: 'All Schedules' },
+    { href: '/events', icon: 'calendar.badge.plus', text: 'Events' },
+    { href: '/holidays', icon: 'sparkles', text: 'Holidays' },
+    { href: '/quarters', icon: 'circle.grid.3x3', text: 'Quarters/Semesters' },
+    { href: '#', icon: 'map', text: 'Map (Coming Soon)', disabled: true },
+    { href: '/info', icon: 'info.circle.fill', text: 'Info' },
+    { href: '/settings', icon: 'gear', text: 'Settings' }
   ];
 
   let currentPath = window.location.pathname;
@@ -1449,12 +1558,11 @@ async function initApp() {
   
   const mobileToggle = document.createElement('button');
   mobileToggle.id = 'sidebarMobileToggle';
-  mobileToggle.innerHTML = '☰';
+  mobileToggle.innerHTML = renderSfSymbol('line.horizontal.3');
   mobileToggle.setAttribute('aria-label', 'Toggle Menu');
   document.body.appendChild(mobileToggle);
 
   let linksHtml = '';
-  let squareLinksHtml = '<div style="display:flex; gap:10px; margin: 0; margin-top:auto;">';
   let activeIndex = -1;
   navLinks.forEach((link, index) => {
     let isActive = false;
@@ -1464,17 +1572,14 @@ async function initApp() {
        isActive = currentPath.startsWith(link.href);
     }
     if (isActive && activeIndex === -1) activeIndex = index;
-    
+    const iconHtml = link.icon ? renderSfSymbol(link.icon, 'sidebar-icon') : '';
+
     if (link.disabled) {
-      linksHtml += `<div style="display: flex; align-items: center; gap: 15px; padding: 12px 15px; color: var(--text); opacity: 0.4; cursor: not-allowed;">${link.icon ? `<span class="sidebar-icon" style="font-size: 1.3em;">${link.icon}</span> ` : ''}<span class="sidebar-text" style="font-weight: 500;">${link.text}</span></div>`;
-    } else if (link.href === '/info' || link.href === '/settings') {
-      squareLinksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}" style="flex:1; display:flex; justify-content:center; align-items:center; aspect-ratio:1; padding:0; border-radius:12px;"><span class="sidebar-icon" style="margin:0;">${link.icon}</span><span class="sidebar-text" style="display:none;">${link.text}</span></a>`;
+      linksHtml += `<div class="sidebar-link disabled" aria-disabled="true">${iconHtml}<span class="sidebar-text">${link.text}</span></div>`;
     } else {
-      linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}">${link.icon ? `<span class="sidebar-icon">${link.icon}</span> ` : ''}<span class="sidebar-text">${link.text}</span></a>`;
+      linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}"${link.disabled ? ' aria-disabled="true" tabindex="-1"' : ''}>${iconHtml}<span class="sidebar-text">${link.text}</span></a>`;
     }
   });
-  squareLinksHtml += '</div>';
-  linksHtml += squareLinksHtml;
 
   sidebar.innerHTML = `
     <div class="sidebar-header">
@@ -1542,9 +1647,9 @@ async function initApp() {
       
       updateBubble(link);
       
-      setTimeout(() => {
-        window.location.href = linkUrl;
-      }, 180);
+      requestAnimationFrame(() => {
+        navigateWithTransition(linkUrl, { direction: link.classList.contains('icon-back-btn') ? 'back' : 'forward' });
+      });
     });
   });
 

@@ -14,6 +14,9 @@
   --card-dark: #080808;
   --glow: 0 0 0 1px #333, 0 0 15px rgba(255,255,255,0.05);
   --error: #ff4757;
+  --page-transition-distance: 28px;
+  --page-transition-duration: 280ms;
+  --page-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -30,6 +33,46 @@ body {
   -ms-overflow-style: none;
   transition: all 0.3s ease;
   padding-bottom: 100px;
+}
+
+body > *:not(script):not(style):not(link):not(meta):not(title) {
+  opacity: 0;
+  transform: translateX(var(--page-transition-distance));
+  transition:
+    transform var(--page-transition-duration) var(--page-transition-ease),
+    opacity var(--page-transition-duration) ease;
+  will-change: transform, opacity;
+}
+
+body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title) {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title) {
+  opacity: 0;
+  transform: translateX(calc(var(--page-transition-distance) * -1));
+  pointer-events: none;
+}
+
+body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title) {
+  opacity: 0;
+  transform: translateX(var(--page-transition-distance));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body > *:not(script):not(style):not(link):not(meta):not(title) {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title),
+  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title) {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 body::-webkit-scrollbar {
@@ -113,11 +156,15 @@ h1, h2, h3 {
 }
 
 .backBtn::before {
-  content: '←';
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
+  content: '';
+  width: 22px;
+  height: 22px;
+  display: block;
+  background: url('https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/chevron.left.png') center/contain no-repeat;
+}
+
+.backBtn svg {
+  display: none;
 }
 
 .backBtn:hover {
@@ -668,6 +715,9 @@ body.calendarPage .pageContainer {
   font-weight: 700;
   transition: all 0.3s;
   font-size: 0.9em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .calendar-nav button:hover:not(:disabled) {
@@ -1214,7 +1264,7 @@ body.has-sidebar {
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   padding: 12px 15px;
   text-decoration: none;
   color: var(--text-light);
@@ -1228,6 +1278,25 @@ body.has-sidebar {
 }
 .sidebar-link:hover, .sidebar-link.active {
   opacity: 1;
+}
+
+.sidebar-link.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sidebar-icon,
+.sf-symbol-icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.sidebar-icon {
+  width: 1.15em;
+  height: 1.15em;
 }
 
 /* Fluid Bubble */
@@ -1261,6 +1330,10 @@ body.has-sidebar {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+#sidebarMobileToggle svg {
+  display: none;
 }
 .sidebar-mask {
   display: none;
@@ -1570,6 +1643,19 @@ body.has-sidebar {
   margin-bottom: 15px;
   transition: transform 0.2s;
 }
+
+.icon-back-btn::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  display: block;
+  background: url('https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/chevron.left.png') center/contain no-repeat;
+}
+
+.icon-back-btn svg {
+  display: none;
+}
+
 .icon-back-btn:hover {
   transform: scale(1.05);
 }

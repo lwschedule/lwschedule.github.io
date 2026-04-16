@@ -64,7 +64,7 @@ function checkSetupComplete() {
   const setupComplete = localStorage.getItem('setup-complete');
 if (!setupComplete && !window.location.pathname.includes('/setup')) {
 if (!lunch || packup === null) {
-window.location.href = '/setup';
+navigateWithTransition('/setup', { replace: true });
 return false;
 }
 }

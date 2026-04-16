@@ -891,7 +891,7 @@ fixToggles();
       localStorage.setItem('setup-complete', 'true');
       
       localStorage.setItem('app-visited', 'true');
-      window.location.href = '/';
+      navigateWithTransition('/', { replace: true });
     });
     applyTheme();
     updateThemeUI();

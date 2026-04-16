@@ -42,9 +42,20 @@
     }
 
     .filtersToggleArrow {
-      font-size: 1.1em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1em;
+      height: 1.1em;
       transition: transform 0.2s ease;
       line-height: 1;
+    }
+
+    .filtersToggleArrowIcon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .filtersToggleBtn[aria-expanded="false"] .filtersToggleArrow {
@@ -291,7 +302,7 @@
     <div class="eventsFilters">
       <button type="button" id="filtersToggleBtn" class="filtersToggleBtn" aria-expanded="true" aria-controls="filtersPanel">
         <span>Filters</span>
-        <span class="filtersToggleArrow">ʌ</span>
+        <span class="filtersToggleArrow" aria-hidden="true"><img class="filtersToggleArrowIcon" src="https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/chevron.up.png" alt=""></span>
       </button>
       <div id="filtersPanel" class="filtersPanel">
         <div class="filtersGrid">

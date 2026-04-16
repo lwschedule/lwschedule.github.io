@@ -39,7 +39,7 @@
     document.getElementById('resetBtn').addEventListener('click', (e) => {
       e.preventDefault();
       localStorage.clear();
-      location.href = '/';
+      navigateWithTransition('/', { replace: true });
     });
     checkSetupComplete();
   </script>

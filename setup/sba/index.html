@@ -99,7 +99,7 @@
 
     document.querySelector('.saveBtn').addEventListener('click', () => {
       localStorage.setItem('sbaLunchPreferences', JSON.stringify(lunchPrefs));
-      window.location.href = '/';
+      navigateWithTransition('/', { replace: true });
     });
 
     updateLunchUI();

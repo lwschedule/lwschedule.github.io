@@ -101,7 +101,7 @@
 
     document.querySelector('.saveBtn').addEventListener('click', () => {
       localStorage.setItem('pilot3LunchPreferences', JSON.stringify(lunchPrefs));
-      window.location.href = '/';
+      navigateWithTransition('/', { replace: true });
     });
 
     updateLunchUI();
