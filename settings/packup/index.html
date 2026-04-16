@@ -158,8 +158,7 @@ if ('Notification' in window) {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         localStorage.setItem('notifications-enabled', 'true');
-        notificationStatus.innerHTML = '✅ Notifications enabled';
-        notificationStatus.style.color = 'var(--primary-light)';
+        updateNotificationStatus();
       } else {
         notificationToggle.checked = false;
         localStorage.setItem('notifications-enabled', 'false');
@@ -180,11 +179,14 @@ if ('Notification' in window) {
 function updateNotificationStatus() {
   const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
   if (notificationsEnabled) {
-    notificationStatus.innerHTML = '✅ Notifications enabled';
-    notificationStatus.style.color = 'var(--primary-light)';
+    if (Notification.permission !== 'granted') {
+      notificationStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
+      notificationStatus.style.color = '#ff9f43';
+    } else {
+      notificationStatus.innerHTML = '';
+    }
   } else {
-    notificationStatus.innerHTML = 'Notifications disabled';
-    notificationStatus.style.color = 'var(--text-light)';
+    notificationStatus.innerHTML = '';
   }
 }
 `;
