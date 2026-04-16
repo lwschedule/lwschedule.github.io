@@ -35,7 +35,7 @@ body {
   padding-bottom: 100px;
 }
 
-body > *:not(script):not(style):not(link):not(meta):not(title) {
+body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 0;
   transform: translateX(var(--page-transition-distance));
   transition:
@@ -44,32 +44,32 @@ body > *:not(script):not(style):not(link):not(meta):not(title) {
   will-change: transform, opacity;
 }
 
-body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title) {
+body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 1;
   transform: translateX(0);
 }
 
-body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title) {
+body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 0;
   transform: translateX(calc(var(--page-transition-distance) * -1));
   pointer-events: none;
 }
 
-body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title) {
+body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 0;
   transform: translateX(var(--page-transition-distance));
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body > *:not(script):not(style):not(link):not(meta):not(title) {
+  body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
     transition: none;
     transform: none;
     opacity: 1;
   }
 
-  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title),
-  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title) {
+  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
+  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
     transform: none;
     opacity: 1;
   }
