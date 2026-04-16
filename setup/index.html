@@ -10,19 +10,13 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0f0518">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; }
     .setup-section { background: var(--primary); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
     .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
     .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
-    .themeGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 0; }
-    .themeOption { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: all 0.3s; }
-    .themeOption:hover .themeCircle { transform: scale(1.1); }
-    .themeCircle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-    .themeOption.selected .themeCircle { border-color: white; box-shadow: 0 0 20px currentColor; }
-    .themeName { font-size: 0.9em; color: var(--text-light); font-weight: 700; }
     .lunchRow { margin-bottom: 15px; }
     .lunchRow label { display: block; margin-bottom: 8px; font-weight: 700; }
     .lunchButtons { display: flex; gap: 10px; justify-content: center; }
@@ -36,7 +30,7 @@
     .pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
     .completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.3em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 30px; }
     .completeBtn:hover { transform: scale(1.05); }
-    @media (max-width: 600px) { .themeGrid { grid-template-columns: repeat(2, 1fr); } }
+    
     
     
     .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
@@ -244,51 +238,13 @@
   
   </style>
 </head>
-<body class="theme-purple">
+<body >
   <div class="pageContainer">
     <h2>Welcome to LW Schedule!</h2>
     <p class="setup-description">Let's set up your personalized schedule experience.</p>
 
     <div class="setup-section">
-      <h3>1. Choose Your Theme</h3>
-      <div class="themeGrid">
-        <div class="themeOption selected" data-theme="purple">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #0f0518, #1b102a);"></div>
-          <span class="themeName">Purple</span>
-        </div>
-        <div class="themeOption" data-theme="red">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0505, #2a0b0b);"></div>
-          <span class="themeName">Red</span>
-        </div>
-        <div class="themeOption" data-theme="orange">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0b00, #2a1300);"></div>
-          <span class="themeName">Orange</span>
-        </div>
-        <div class="themeOption" data-theme="yellow">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #1a1500, #2a2200);"></div>
-          <span class="themeName">Yellow</span>
-        </div>
-        <div class="themeOption" data-theme="green">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #051a0d, #0b2a15);"></div>
-          <span class="themeName">Green</span>
-        </div>
-        <div class="themeOption" data-theme="blue">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #05101a, #0b1a2a);"></div>
-          <span class="themeName">Blue</span>
-        </div>
-        <div class="themeOption" data-theme="indigo">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #080a1a, #10142a);"></div>
-          <span class="themeName">Indigo</span>
-        </div>
-        <div class="themeOption" data-theme="pink">
-          <div class="themeCircle" style="background: linear-gradient(135deg, #1a0510, #2a0b1a);"></div>
-          <span class="themeName">Pink</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="setup-section">
-      <h3>2. Set Your Lunch Preferences</h3>
+      <h3>1. Set Your Lunch Preferences</h3>
       <div class="lunchRow">
         <label>Period 3 (Mon/Fri):</label>
         <div class="lunchButtons">
@@ -312,7 +268,7 @@
     </div>
 
     <div class="setup-section">
-      <h3>3. Classes</h3>
+      <h3>2. Classes</h3>
       <p class="setup-description">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
 
       <div class="toggle-container">
@@ -338,7 +294,7 @@
     </div>
 
     <div class="setup-section">
-        <h3>4. Clubs</h3>
+        <h3>3. Clubs</h3>
         <p class="setup-description">Browse and select clubs to see them in your schedule.</p>
         
         <div class="toggle-container">
@@ -363,7 +319,7 @@
       </div>
 
     <div class="setup-section">
-      <h3>5. Pack-Up Reminders</h3>
+      <h3>4. Pack-Up Reminders</h3>
       <p class="setup-description">Get notified before class ends so you have time to pack up.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
@@ -390,7 +346,7 @@
     </div>
 
     <div class="setup-section">
-      <h3>6. Phone Caddy</h3>
+      <h3>5. Phone Caddy</h3>
       <p class="setup-description">Get reminded to grab your phone 1 minute before class ends, and put it in your assigned spot 1 minute before class starts.</p>
       
       <div style="margin-bottom: 20px; text-align: center;">
@@ -428,22 +384,12 @@ document.querySelectorAll('input[type="checkbox"]').forEach(t => t.addEventListe
 fixToggles();
 </script>
   <script>
-    let currentTheme = 'purple';
-    function applyTheme() {
-      document.body.className = `theme-${currentTheme}`;
+    
+    `;
     }
-    function updateThemeUI() {
-      document.querySelectorAll('.themeOption').forEach(opt => {
-        opt.classList.toggle('selected', opt.dataset.theme === currentTheme);
-      });
+    );
     }
-    document.querySelectorAll('.themeOption').forEach(opt => {
-      opt.addEventListener('click', () => {
-        currentTheme = opt.dataset.theme;
-        applyTheme();
-        updateThemeUI();
-      });
-    });
+    
     let lunchPrefs = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
     function updateLunchUI() {
       document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
@@ -905,9 +851,7 @@ fixToggles();
     });
 
     document.getElementById('completeBtn').addEventListener('click', () => {
-      localStorage.setItem('theme', currentTheme);
-      localStorage.setItem('gradient', 'on');
-      localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+                  localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', packUpTime);
       localStorage.setItem('notifications-enabled', notificationsToggle.checked ? 'true' : 'false');
       

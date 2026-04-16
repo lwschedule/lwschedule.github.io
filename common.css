@@ -3,26 +3,18 @@
   src: url('/SF-Pro-Rounded-Regular.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
-  --primary: #0f0518;
-  --primary-light: #1b102a;
+  --primary: #000000;
+  --primary-light: #111111;
   --text-light: #e8e8e8;
   --bg-dark: #000000;
   --card-dark: #080808;
-  --glow: 0 0 12px rgba(27, 16, 42, 0.8);
+  --glow: 0 0 0 1px #333, 0 0 15px rgba(255,255,255,0.05);
   --error: #ff4757;
 }
-
-body.theme-purple { --primary: #0f0518; --primary-light: #1b102a; --glow: 0 0 12px rgba(27, 16, 42, 0.8); }
-body.theme-red { --primary: #1a0505; --primary-light: #2a0b0b; --glow: 0 0 12px rgba(42, 11, 11, 0.8); }
-body.theme-orange { --primary: #1a0b00; --primary-light: #2a1300; --glow: 0 0 12px rgba(42, 19, 0, 0.8); }
-body.theme-yellow { --primary: #1a1500; --primary-light: #2a2200; --glow: 0 0 12px rgba(42, 34, 0, 0.8); }
-body.theme-green { --primary: #051a0d; --primary-light: #0b2a15; --glow: 0 0 12px rgba(11, 42, 21, 0.8); }
-body.theme-blue { --primary: #05101a; --primary-light: #0b1a2a; --glow: 0 0 12px rgba(11, 26, 42, 0.8); }
-body.theme-indigo { --primary: #080a1a; --primary-light: #10142a; --glow: 0 0 12px rgba(16, 20, 42, 0.8); }
-body.theme-pink { --primary: #1a0510; --primary-light: #2a0b1a; --glow: 0 0 12px rgba(42, 11, 26, 0.8); }
 
 * {
   font-family: 'SF Pro Rounded', sans-serif;
@@ -48,38 +40,6 @@ body::-webkit-scrollbar {
 body.calendarPage {
   padding-left: 0;
   padding-right: 0;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-@keyframes gradientShift2 {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-@keyframes gradientShift3 {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-@keyframes gradientShift5 {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
 }
 
 h1, h2, h3 {
@@ -112,9 +72,7 @@ h1, h2, h3 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift3 8s ease infinite;
+  background: var(--primary);
   color: white;
   border: none;
   font-size: 1.5em;
@@ -138,9 +96,7 @@ h1, h2, h3 {
   left: 20px;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift3 8s ease infinite;
+  background: var(--primary);
   color: transparent;
   border: none;
   padding: 0;
@@ -263,9 +219,7 @@ body.calendarPage .pageContainer {
   font-weight: 700;
   text-align: center;
   color: white;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
+  background: var(--primary);
   padding: 20px;
   border-radius: 16px;
   box-shadow: var(--glow);
@@ -328,9 +282,7 @@ body.calendarPage .pageContainer {
   font-size: clamp(0.9em, 4vw, 1.1em);
   margin-top: 20px;
   text-align: center;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
+  background: var(--primary);
   padding: 15px;
   border-radius: 16px;
   box-shadow: var(--glow);
@@ -353,9 +305,7 @@ body.calendarPage .pageContainer {
 }
 
 .mainBtn {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift2 8s ease infinite;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -428,7 +378,7 @@ body.calendarPage .pageContainer {
 }
 
 .homeModeToggleSwitch input:checked + .homeModeToggleSlider {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background: var(--primary);
 }
 
 .homeModeToggleSwitch input:checked + .homeModeToggleSlider:before {
@@ -463,9 +413,7 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable th {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift5 8s ease infinite;
+  background: var(--primary);
   color: white;
   padding: 12px;
   text-align: left;
@@ -482,9 +430,7 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable tr.highlight {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift5 8s ease infinite;
+  background: var(--primary);
   color: white;
   font-weight: 700;
 }
@@ -505,9 +451,7 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable th {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift5 8s ease infinite;
+  background: var(--primary);
   color: white;
   padding: 12px;
   text-align: left;
@@ -544,9 +488,7 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable tr.highlight {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift5 8s ease infinite;
+  background: var(--primary);
   color: white;
   font-weight: 700;
 }
@@ -614,9 +556,7 @@ body.calendarPage .pageContainer {
 }
 
 .holidayTable th {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift5 8s ease infinite;
+  background: var(--primary);
   color: white;
   padding: 12px;
   text-align: left;
@@ -640,9 +580,7 @@ body.calendarPage .pageContainer {
   font-weight: 700;
   text-align: center;
   color: white;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
+  background: var(--primary);
   padding: 20px;
   border-radius: 16px;
   box-shadow: var(--glow);
@@ -831,7 +769,7 @@ body.calendarPage .pageContainer {
   right: 0;
   bottom: 0;
   z-index: 998;
-  background: linear-gradient(90deg, rgba(8, 8, 8, 0.98), rgba(22, 22, 22, 0.98));
+  background: var(--primary);
   border-top: 1px solid #2b2b2b;
   box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
 }
@@ -1089,9 +1027,7 @@ body.calendarPage .pageContainer {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary));
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
+  background: var(--primary);
   color: white;
   padding: 15px 20px;
   align-items: center;
@@ -1302,7 +1238,7 @@ body.has-sidebar {
   height: 46px; /* Approx height of link */
   background: var(--primary-light);
   border-radius: 12px;
-  z-index: 1;
+  z-index: 1; opacity: 0;
   transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
   pointer-events: none;
   box-shadow: var(--glow);
@@ -1435,7 +1371,7 @@ body.has-sidebar {
   height: 46px; /* Approx height of link */
   background: var(--primary-light);
   border-radius: 12px;
-  z-index: 1;
+  z-index: 1; opacity: 0;
   transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
   pointer-events: none;
   box-shadow: var(--glow);
@@ -1568,7 +1504,7 @@ body.has-sidebar {
   height: 46px; /* Approx height of link */
   background: var(--primary-light);
   border-radius: 12px;
-  z-index: 1;
+  z-index: 1; opacity: 0;
   transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
   pointer-events: none;
   box-shadow: var(--glow);

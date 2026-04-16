@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https:
   <link href="https:
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0f0518">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
     .infoContent { text-align: center; padding: 20px; }
@@ -19,7 +19,7 @@
     .infoContent p { margin: 10px 0; line-height: 1.6; }
     .infoContent a { color: white; text-decoration: none; font-weight: 700; }
     .infoContent a:hover { text-decoration: underline; }
-    .versionBadge { display: inline-block; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
+    .versionBadge { display: inline-block; background: var(--primary) !important;   color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
   </style>
 </head>
 <body>
@@ -28,10 +28,10 @@
     <h2>About</h2>
     <div class="infoContent">
       <div class="infoSection">
-        <div class="versionBadge">Version 3.0.5</div>
+        <div class="versionBadge">Version 3.1.0</div>
         <p>Released Apr 10, 2026</p>
       </div>
-      <a href="https://docs.google.com/document/d/1jovVv6oTDFtGYSPvzDzwynng2KuJH2iZg05njFTrw5U/edit?usp=sharing" target="_blank" style="display: block; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; border-radius: 12px; padding: 15px; margin-bottom: 20px; color: white; text-decoration: none; font-size: 1.2em; font-weight: 700; box-shadow: var(--glow); text-align: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">Coming Soon ↗</a>
+      <a href="https://docs.google.com/document/d/1jovVv6oTDFtGYSPvzDzwynng2KuJH2iZg05njFTrw5U/edit?usp=sharing" target="_blank" style="display: block; background: var(--primary) !important;   border-radius: 12px; padding: 15px; margin-bottom: 20px; color: white; text-decoration: none; font-size: 1.2em; font-weight: 700; box-shadow: var(--glow); text-align: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">Coming Soon ↗</a>
       <div class="infoSection">
         <h3>Created By</h3>
         <p>Sanchit P.</p>
@@ -45,7 +45,6 @@
   <script src="/common.js"></script>
   <script>
     checkSetupComplete();
-    loadThemeOnPage();
   </script>
 </body>
 </html>

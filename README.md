@@ -5,7 +5,7 @@
 A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v3.0.5`
+**Current Version:** `v3.1.0`
 **Release Date:** `Apr 10, 2026`
 
 ---
@@ -33,7 +33,6 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 ### ⚙️ Personalization
 * **Lunch Preferences** — Set A/B lunch schedules
 * **Pack-Up Reminder** — Custom notifications before class ends
-* **Themes** — 8 color themes with gradient modes
 * **Clubs** — Browse, select, and view 90+ clubs in your schedule
 
 ---

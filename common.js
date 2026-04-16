@@ -85,9 +85,7 @@ function getScheduleSummaryLabel(periodName, useClassTitles = true) {
 }
 
 function checkSetupComplete() {
-  const theme = localStorage.getItem('theme');
-  const gradient = localStorage.getItem('gradient');
-  const lunch = localStorage.getItem('lunchPreferences');
+      const lunch = localStorage.getItem('lunchPreferences');
   const packup = localStorage.getItem('pack-up-time');
   const setupComplete = localStorage.getItem('setup-complete');
   const appVisited = localStorage.getItem('app-visited');
@@ -98,14 +96,14 @@ function checkSetupComplete() {
   
   
   if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
-    if (!theme || !gradient || !lunch || packup === null) {
+    if (!lunch || packup === null) {
       window.location.href = '/app';
       return false;
     }
   }
   
   if (!setupComplete && !window.location.pathname.includes('/setup')) {
-    if (!theme || !gradient || !lunch || packup === null) {
+    if (!lunch || packup === null) {
       window.location.href = '/setup';
       return false;
     }
@@ -545,18 +543,9 @@ function getCurrentPeriod(schedule, now) {
   return null;
 }
 
-function applyThemeClass(theme) {
-  const existingThemeClasses = Array.from(document.body.classList).filter(className => className.startsWith('theme-'));
-  if (existingThemeClasses.length) {
-    document.body.classList.remove(...existingThemeClasses);
-  }
-  document.body.classList.add(`theme-${theme}`);
-}
 
-function updateTheme() {
-  const theme = localStorage.getItem('theme') || 'purple';
-  applyThemeClass(theme);
-}
+
+
 
 function updateClock() {
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
@@ -1045,24 +1034,7 @@ function updateCalendarSize() {
   // intentionally empty
 }
 
-function loadThemeOnPage() {
-  const theme = localStorage.getItem('theme') || 'purple';
-  applyThemeClass(theme);
-  const themeColors = {
-    purple: '#33293c',
-    red: '#3e2929',
-    orange: '#3e2f24',
-    yellow: '#3e3924',
-    green: '#293e31',
-    blue: '#29343e',
-    indigo: '#2c2e3e',
-    pink: '#3e2934'
-  };
-  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-  if (metaThemeColor) {
-    metaThemeColor.content = themeColors[theme] || '#33293c';
-  }
-}
+
 
 
 
@@ -1437,8 +1409,7 @@ async function initApp() {
   }
   
   loadLunchPreferences();
-  loadThemeOnPage();
-  if (document.getElementById('holidayCountdown')) {
+    if (document.getElementById('holidayCountdown')) {
     updateHolidayCountdown();
     setInterval(updateHolidayCountdown, 1000);
   }
@@ -1542,7 +1513,13 @@ async function initApp() {
 
   const activeLink = sidebar.querySelector('.sidebar-link.active');
   if (activeLink) {
-    setTimeout(() => updateBubble(activeLink), 50);
+    bubble.style.transition = 'none';
+    setTimeout(() => {
+      updateBubble(activeLink);
+      requestAnimationFrame(() => {
+        bubble.style.transition = '';
+      });
+    }, 50);
   } else {
     bubble.style.opacity = '0';
   }

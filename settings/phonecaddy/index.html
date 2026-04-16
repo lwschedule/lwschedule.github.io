@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0f0518">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
@@ -67,7 +67,7 @@
     </div>
   </div>
   <div class="pageContainer">
-    <a href="/settings" style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--primary-light); color: var(--text-light); text-decoration: none; margin-bottom: 15px; transition: transform 0.2s;" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'none\'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <a href="/settings" style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--card-dark); border: 1px solid var(--primary-light); color: var(--text-light); text-decoration: none; margin-bottom: 15px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <h2>Phone Caddy</h2>
 
     <div class="toggle-container">
@@ -99,9 +99,7 @@
   
   <script src="/common.js"></script>
   <script>
-    function loadThemeOnPage() {
-      const theme = localStorage.getItem('theme') || 'purple';
-      document.body.className = `theme-${theme}`;
+    `;
     }
 
     const caddyToggle = document.getElementById('caddyToggle');
@@ -199,8 +197,6 @@
       caddyToggle.checked = false;
       updateCaddyStatus();
     });
-
-    loadThemeOnPage();
   </script>
 </body>
 </html>
