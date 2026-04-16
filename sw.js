@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lwschedule-v4.0.2';
+const CACHE_NAME = 'lwschedule-v4.0.3';
 const urlsToCache = [
   '/',
   '/index.html',
