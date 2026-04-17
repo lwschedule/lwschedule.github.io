@@ -4,78 +4,475 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Classes - LW Schedule</title>
-  <link rel="preconnect" href="https:
-  <link rel="preconnect" href="https:
-  <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
   <style>
-@font-face {
-  font-family: 'SF Pro Rounded';
-  src: url('/SF-Pro-Rounded-Regular.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-:root {
-  --primary: #4b2e83;
-  --primary-light: #6a4fb3;
-  --text-light: #e8e8e8;
-  --bg-dark: #1a1a1a;
-  --card-dark: #262626;
-  --glow: 0 0 12px rgba(107, 76, 183, 0.8);
-}
-body.theme-purple { --primary: #4b2e83; --primary-light: #6a4fb3; --glow: 0 0 12px rgba(107, 76, 183, 0.8); }
-body.theme-red { --primary: #c41e3a; --primary-light: #e63946; --glow: 0 0 12px rgba(230, 57, 70, 0.8); }
-body.theme-orange { --primary: #d35400; --primary-light: #e67e22; --glow: 0 0 12px rgba(230, 126, 34, 0.8); }
-body.theme-yellow { --primary: #c29d00; --primary-light: #f1c40f; --glow: 0 0 12px rgba(241, 196, 15, 0.8); }
-body.theme-green { --primary: #27ae60; --primary-light: #2ecc71; --glow: 0 0 12px rgba(46, 204, 113, 0.8); }
-body.theme-blue { --primary: #2980b9; --primary-light: #3498db; --glow: 0 0 12px rgba(52, 152, 219, 0.8); }
-body.theme-indigo { --primary: #3f51b5; --primary-light: #5c6bc0; --glow: 0 0 12px rgba(92, 107, 192, 0.8); }
-body.theme-pink { --primary: #c2185b; --primary-light: #e91e63; --glow: 0 0 12px rgba(233, 30, 99, 0.8); }
-* { font-family: 'SF Pro Rounded', sans-serif; box-sizing: border-box; }
-body { background: var(--bg-dark); color: var(--text-light); margin: 0; padding: 20px; scrollbar-width: none; -ms-overflow-style: none; transition: all 0.3s ease; padding-bottom: 100px; }
-body::-webkit-scrollbar { display: none; }
-@keyframes gradientShift3 { 0% { background-position: 50% 100%; } 30% { background-position: 100% 0%; } 60% { background-position: 0% 50%; } 100% { background-position: 50% 100%; } }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-h1, h2, h3 { animation: fadeInUp 0.6s ease-out; text-align: center; color: white; }
-.backBtn { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift3 8s ease infinite !important; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; text-decoration: none; z-index: 100; }
-.backBtn:hover { transform: scale(1.05); }
-.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-.comingSoon { text-align: center; font-size: 1.2em; opacity: 0.8; }
-@media (max-width: 600px) {
-  .backBtn { position: static; display: block; margin-bottom: 20px; text-align: center; }
-  .pageContainer { padding: 20px 0 0 0; }
-}
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-label {
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background: #34c759;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(28px);
+    }
+    .classes-content {
+      display: none;
+    }
+    .classes-content.enabled {
+      display: block;
+    }
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1em;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: var(--card-dark);
+      color: var(--text-light);
+      outline: none;
+      transition: all 0.3s;
+      margin-bottom: 15px;
+    }
+    .search-input:focus {
+      box-shadow: 0 0 10px rgba(75, 46, 131, 0.5);
+    }
+    .search-input::placeholder {
+      color: #888;
+    }
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .action-btn:hover {
+      background: var(--primary);
+    }
+    .classes-results {
+      background: var(--card-dark);
+      border-radius: 12px;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      border: 1px solid var(--primary-light);
+    }
+    .class-result {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border: none;
+      border-bottom: 1px solid var(--primary-light);
+      background: transparent;
+      color: var(--text-light);
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.92em;
+    }
+    .class-result:last-child {
+      border-bottom: none;
+    }
+    .class-result:hover {
+      background: rgba(75, 46, 131, 0.2);
+    }
+    .class-result.added,
+    .class-result:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+      background: rgba(60, 37, 105, 0.25);
+    }
+    .result-tag {
+      font-size: 0.75em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      color: #bfaee8;
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+    .slots-container {
+      background: var(--card-dark);
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid var(--primary-light);
+    }
+    .slot-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .slot-row:last-child {
+      margin-bottom: 0;
+    }
+    .slot-arrow {
+      height: 40px;
+      border-radius: 10px;
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .slot-arrow:hover:not(:disabled) {
+      background: var(--primary);
+    }
+    .slot-arrow:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .slot-card {
+      background: #141414;
+      border: 1px solid var(--primary-light);
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 62px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .slot-row.empty .slot-card {
+      opacity: 0.75;
+    }
+    .slot-period {
+      font-size: 0.76em;
+      color: #9f9f9f;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .slot-value {
+      font-size: 0.92em;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .slot-clear {
+      margin-top: 2px;
+      width: fit-content;
+      border: 1px solid var(--primary-light);
+      background: transparent;
+      color: #b7b7b7;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.72em;
+      cursor: pointer;
+    }
+    .slot-clear:hover {
+      color: white;
+      border-color: #7b7b7b;
+    }
+    .classes-count {
+      text-align: center;
+      font-size: 0.9em;
+      color: #aaa;
+      margin-top: 14px;
+    }
+    .classes-message {
+      min-height: 1.2em;
+      text-align: center;
+      font-size: 0.86em;
+      color: #cdb9ff;
+      margin: 12px 0 2px;
+    }
   </style>
 </head>
 <body>
-  <a href="/settings" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
+    <a href="/settings" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <h2>Classes</h2>
-    <p class="comingSoon">Coming Soon!</p>
+
+    <div class="toggle-container">
+      <span class="toggle-label">Classes</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="classesToggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="classes-content" id="classesContent">
+      <input type="text" id="classSearch" class="search-input" placeholder="Search classes...">
+
+      <div class="button-row">
+        <button type="button" class="action-btn" id="clearClassesBtn">Clear All Slots</button>
+      </div>
+
+      <div class="classes-results" id="classResults"></div>
+
+      <div class="slots-container" id="selectedClassesList"></div>
+      <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
+      <p class="classes-message" id="classesMessage"></p>
+      
+      <button type="button" class="resetBtn" id="resetClassesBtn">Reset Classes to Default</button>
+    </div>
   </div>
+
+  <script src="/common.js"></script>
   <script>
-function checkSetupComplete() {
-  const theme = localStorage.getItem('theme');
-  const gradient = localStorage.getItem('gradient');
-  const lunch = localStorage.getItem('lunchPreferences');
-  const packup = localStorage.getItem('pack-up-time');
-  const setupComplete = localStorage.getItem('setup-complete');
-if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!theme || !gradient || !lunch || packup === null) {
-window.location.href = '/setup';
-return false;
-}
-}
-return true;
-}
-function loadThemeOnPage() {
-  const theme = localStorage.getItem('theme') || 'purple';
-  document.body.className = `theme-${theme}`;
-}
-checkSetupComplete();
-loadThemeOnPage();
-</script>
+    const MAX_SLOTS = 6;
+    let allClassTitles = [];
+    let selectedClassSlots = getSelectedClassesSlots();
+    let messageTimeout = null;
+
+    async function loadClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        allClassTitles = data.classes;
+        renderClassResults();
+        renderSelectedSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        document.getElementById('classResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+      }
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showClassesMessage(message) {
+      const el = document.getElementById('classesMessage');
+      el.textContent = message;
+      if (messageTimeout) clearTimeout(messageTimeout);
+      messageTimeout = setTimeout(() => {
+        el.textContent = '';
+      }, 2500);
+    }
+
+    function saveSlots() {
+      selectedClassSlots = setSelectedClassesSlots(selectedClassSlots);
+    }
+
+    function updateClassesCount() {
+      const filledCount = selectedClassSlots.filter(Boolean).length;
+      document.getElementById('classesCount').textContent = `${filledCount} of 6 slots filled`;
+    }
+
+    function renderClassResults(filter = '') {
+      const resultsEl = document.getElementById('classResults');
+      const filterLower = filter.toLowerCase();
+
+      let filteredClasses = allClassTitles.filter(name => name.toLowerCase().includes(filterLower));
+      const selectedSet = new Set(selectedClassSlots.filter(Boolean));
+
+      filteredClasses.sort((a, b) => {
+        const aAdded = selectedSet.has(a);
+        const bAdded = selectedSet.has(b);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.localeCompare(b);
+      });
+
+      if (filteredClasses.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClasses.forEach(classTitle => {
+        const isAdded = selectedSet.has(classTitle);
+        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.class-result:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const classTitle = decodeURIComponent(btn.dataset.class);
+          addClassToSlots(classTitle);
+        });
+      });
+    }
+
+    function renderSelectedSlots() {
+      const listEl = document.getElementById('selectedClassesList');
+      let html = '';
+
+      for (let i = 0; i < MAX_SLOTS; i++) {
+        const classTitle = selectedClassSlots[i] || '';
+        const isEmpty = !classTitle;
+        const upDisabled = i === 0 || isEmpty;
+        const downDisabled = i === MAX_SLOTS - 1 || isEmpty;
+
+        html += `<div class="slot-row ${isEmpty ? 'empty' : ''}">
+          <button type="button" class="slot-arrow" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button>
+          <div class="slot-card">
+            <div class="slot-period">Period ${i + 1}</div>
+            <div class="slot-value">${isEmpty ? 'Empty' : escapeHtml(classTitle)}</div>
+            ${isEmpty ? '' : `<button type="button" class="slot-clear" data-clear-index="${i}">Clear</button>`}
+          </div>
+          <button type="button" class="slot-arrow" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
+        </div>`;
+      }
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.slot-arrow').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index, 10);
+          const dir = btn.dataset.dir;
+          const targetIndex = dir === 'up' ? index - 1 : index + 1;
+          moveSlot(index, targetIndex);
+        });
+      });
+
+      listEl.querySelectorAll('.slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.clearIndex, 10);
+          selectedClassSlots[index] = '';
+          saveSlots();
+          renderSelectedSlots();
+          renderClassResults(document.getElementById('classSearch').value);
+        });
+      });
+
+      updateClassesCount();
+    }
+
+    function promptReplaceSlot(classTitle) {
+      const choice = prompt(`All 6 slots are full. Replace which period slot with "${classTitle}"? Enter 1-6.`);
+      if (choice === null) return;
+
+      const slotIndex = parseInt(choice, 10) - 1;
+      if (Number.isNaN(slotIndex) || slotIndex < 0 || slotIndex >= MAX_SLOTS) {
+        showClassesMessage('Enter a valid slot number from 1 to 6.');
+        return;
+      }
+
+      selectedClassSlots[slotIndex] = classTitle;
+      saveSlots();
+      renderSelectedSlots();
+      renderClassResults(document.getElementById('classSearch').value);
+      showClassesMessage(`Updated Period ${slotIndex + 1}.`);
+    }
+
+    function addClassToSlots(classTitle) {
+      if (selectedClassSlots.includes(classTitle)) {
+        showClassesMessage('That class is already in your schedule.');
+        return;
+      }
+
+      const emptyIndex = selectedClassSlots.findIndex(slot => !slot);
+      if (emptyIndex !== -1) {
+        selectedClassSlots[emptyIndex] = classTitle;
+        saveSlots();
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+        return;
+      }
+
+      promptReplaceSlot(classTitle);
+    }
+
+    function moveSlot(fromIndex, toIndex) {
+      if (fromIndex < 0 || fromIndex >= MAX_SLOTS || toIndex < 0 || toIndex >= MAX_SLOTS) return;
+      if (!selectedClassSlots[fromIndex]) return;
+
+      const temp = selectedClassSlots[toIndex];
+      selectedClassSlots[toIndex] = selectedClassSlots[fromIndex];
+      selectedClassSlots[fromIndex] = temp || '';
+
+      saveSlots();
+      renderSelectedSlots();
+      renderClassResults(document.getElementById('classSearch').value);
+    }
+
+    function init() {
+      const classesEnabled = isClassesEnabled();
+      const classesToggle = document.getElementById('classesToggle');
+      const classesContent = document.getElementById('classesContent');
+
+      classesToggle.checked = classesEnabled;
+      classesContent.classList.toggle('enabled', classesEnabled);
+
+      classesToggle.addEventListener('change', (e) => {
+        const enabled = e.target.checked;
+        setClassesEnabled(enabled);
+        classesContent.classList.toggle('enabled', enabled);
+      });
+
+      document.getElementById('classSearch').addEventListener('input', (e) => {
+        renderClassResults(e.target.value);
+      });
+
+      document.getElementById('clearClassesBtn').addEventListener('click', () => {
+        selectedClassSlots = Array(MAX_SLOTS).fill('');
+        saveSlots();
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+      });
+
+      document.getElementById('resetClassesBtn').addEventListener('click', () => {
+        selectedClassSlots = Array(MAX_SLOTS).fill('');
+        saveSlots();
+        setClassesEnabled(false);
+        document.getElementById('classesToggle').checked = false;
+        document.getElementById('classesContent').classList.remove('enabled');
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+      });
+
+      loadClasses();
+    }
+
+    checkSetupComplete();
+    init();
+  </script>
 </body>
-</html>
+</html></html>

@@ -1,17 +1,22 @@
-const CACHE_NAME = 'lwschedule-v1.9.2';
+const CACHE_NAME = 'lwschedule-v3.1.4';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/data/ticker-messages.json',
+  '/data/events.json',
+  '/data/classes.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/today/index.html',
   '/week/index.html',
   '/month/index.html',
+  '/events/index.html',
   '/holidays/index.html',
   '/schedules/index.html',
   '/quarters/index.html',
   '/info/index.html',
-  '/settings/index.html'
+  '/settings/index.html',
+  '/settings/classes/index.html'
 ];
 
 self.addEventListener('install', (event) => {
@@ -44,4 +49,16 @@ self.addEventListener('activate', (event) => {
     })
   );
   self.clients.claim();
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then((windowClients) => {
+      for (let client of windowClients) {
+        if ('focus' in client) return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('/');
+    })
+  );
 });

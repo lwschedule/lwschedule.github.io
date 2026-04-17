@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quarters - LW Schedule</title>
+  <title>Quarters/Semesters - LW Schedule</title>
   <link rel="preconnect" href="https:
   <link rel="preconnect" href="https:
   <link href="https:
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
     .academic-term-list { display: flex; flex-direction: column; gap: 15px; }
-    .term-card { background: #1f1f1f; border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
-    .term-card.highlight { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; box-shadow: var(--glow); }
+    .term-card { background: var(--primary); border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
+    .term-card.highlight { background: var(--primary) !important;   color: white; box-shadow: var(--glow); }
     .term-info { flex: 1; min-width: 150px; }
     .term-name { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; }
     .term-dates { font-size: 0.9em; opacity: 0.8; }
@@ -26,12 +26,11 @@
     .term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
     .term-card.highlight .countdown-value { color: white; }
     .term-card.highlight .countdown-label { color: white; opacity: 0.9; }
-    .term-completed-badge { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift4 8s ease infinite; color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; }
-    @keyframes gradientShift4 { 0% { background-position: 25% 75%; } 40% { background-position: 75% 25%; } 80% { background-position: 0% 100%; } 100% { background-position: 25% 75%; } }
+    .term-completed-badge { background: var(--primary);   color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; }
   </style>
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Quarters & Semesters</h2>
     <h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>

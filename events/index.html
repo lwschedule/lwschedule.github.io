@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upcoming Events - LW Schedule</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .eventsList {
+      width: 100%;
+    }
+
+    .eventsKey {
+      margin-bottom: 14px;
+    }
+
+    .eventsFilters {
+      background: var(--primary);
+      border: 1px solid #303030;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .filtersToggleBtn {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filtersToggleArrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.1em;
+      height: 1.1em;
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .filtersToggleArrowIcon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .filtersToggleBtn[aria-expanded="false"] .filtersToggleArrow {
+      transform: rotate(180deg);
+    }
+
+    .filtersPanel {
+      padding: 0 12px 12px;
+    }
+
+    .filtersPanel.hidden {
+      display: none;
+    }
+
+    .filtersGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .filterToggleItem {
+      background: #121212;
+      border: 1px solid #2c2c2c;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .filterToggleItem.comingSoon {
+      opacity: 0.55;
+    }
+
+    .filterToggleItem.comingSoon .filterSlider {
+      cursor: not-allowed;
+      background: #3f3f3f;
+    }
+
+    .filterToggleLabel {
+      font-size: 0.92em;
+      font-weight: 600;
+      color: #f0f0f0;
+    }
+
+    .filterSwitch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .filterSwitch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .filterSlider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ff3b30;
+      border-radius: 34px;
+      transition: 0.2s;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .filterSlider:before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    .filterSwitch input:checked + .filterSlider {
+      background: #34c759;
+    }
+
+    .filterSwitch input:checked + .filterSlider:before {
+      transform: translateX(20px);
+    }
+
+    .key-box.events-sba {
+      background: #67c8ff;
+    }
+
+    .key-box.events-ap {
+      background: #1f4f9a;
+    }
+
+    .eventsDay {
+      border-top: 1px solid #3a3a3a;
+      padding-top: 16px;
+      margin-top: 14px;
+    }
+
+    .eventsDay:first-child {
+      margin-top: 4px;
+    }
+
+    .eventsDayHeader {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .eventsDayTitle {
+      margin: 0;
+      text-align: left;
+      font-size: 1.08em;
+      font-weight: 700;
+      color: white;
+    }
+
+    .eventsDayCount {
+      font-size: 0.82em;
+      color: #cfcfcf;
+      opacity: 0.8;
+      white-space: nowrap;
+    }
+
+    .eventCard {
+      --event-accent: var(--primary-light);
+      position: relative;
+      border-radius: 12px;
+      padding: 14px 16px 14px 18px;
+      margin-bottom: 10px;
+      background: var(--event-accent);
+      border: 1px solid color-mix(in srgb, var(--event-accent) 65%, black);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .eventCard::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 0 12px 12px 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1;
+    }
+
+    .eventCard:last-child {
+      margin-bottom: 0;
+    }
+
+    .eventCard-standardized {
+      --event-accent: #67c8ff;
+    }
+
+    .eventCard-ap {
+      --event-accent: #1f4f9a;
+    }
+
+    .eventCard-default {
+      --event-accent: #7c7c7c;
+    }
+
+    .eventTitle {
+      position: relative;
+      z-index: 2;
+      font-size: 1.02em;
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+      margin: 0 0 4px;
+    }
+
+    .eventTime {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 0.78em;
+      color: #e3e3e3;
+      opacity: 0.88;
+    }
+
+    .noEvents {
+      margin-top: 16px;
+      text-align: center;
+      background: var(--primary);
+      border-radius: 12px;
+      padding: 26px 18px;
+      border: 1px solid #303030;
+    }
+
+    .noEvents h3 {
+      margin: 0 0 10px;
+      font-size: 1.25em;
+    }
+
+    .noEvents p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      .eventsDayHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .filtersGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .eventCard {
+        border-radius: 10px;
+      }
+
+      .eventCard::before {
+        border-radius: 0 10px 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="pageContainer">
+    <h2>Upcoming Events</h2>
+    <div class="calendar-key eventsKey">
+      <h3>Key/Legend</h3>
+      <ul>
+        <li><span class="key-box events-ap"></span> AP Testing</li>
+      </ul>
+    </div>
+
+    <div class="eventsFilters">
+      <button type="button" id="filtersToggleBtn" class="filtersToggleBtn" aria-expanded="true" aria-controls="filtersPanel">
+        <span>Filters</span>
+        <span class="filtersToggleArrow" aria-hidden="true"><img class="filtersToggleArrowIcon" src="https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/chevron.up.png" alt=""></span>
+      </button>
+      <div id="filtersPanel" class="filtersPanel">
+        <div class="filtersGrid">
+          <label class="filterToggleItem" for="filterAllToggle">
+            <span class="filterToggleLabel">Select All</span>
+            <span class="filterSwitch">
+              <input type="checkbox" id="filterAllToggle">
+              <span class="filterSlider"></span>
+            </span>
+          </label>
+          <label class="filterToggleItem" for="filterApToggle">
+            <span class="filterToggleLabel">AP</span>
+            <span class="filterSwitch">
+              <input type="checkbox" id="filterApToggle">
+              <span class="filterSlider"></span>
+            </span>
+          </label>
+          <label class="filterToggleItem comingSoon" for="filterSportsToggle">
+            <span class="filterToggleLabel">Sports (Coming Soon)</span>
+            <span class="filterSwitch">
+              <input type="checkbox" id="filterSportsToggle" disabled>
+              <span class="filterSlider"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div id="eventsList" class="eventsList">
+      <p>Loading upcoming events...</p>
+    </div>
+  </div>
+
+  <script src="/common.js"></script>
+  <script>
+    let allEvents = [];
+    let filtersOpen = true;
+    const activeFilters = {
+      ap: localStorage.getItem('filterAp') !== 'false',
+      sports: false
+    };
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function parseLocalDate(dateString) {
+      if (typeof dateString !== 'string') return null;
+      const parts = dateString.split('-').map(Number);
+      if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function getEventCardClass(type) {
+      if (type === 'standardized-test') return 'eventCard-standardized';
+      if (type === 'ap-test') return 'eventCard-ap';
+      return 'eventCard-default';
+    }
+
+    function formatEventTitle(title, type) {
+      const normalized = typeof title === 'string' ? title.trim() : '';
+      if (type === 'sports') return normalized || 'Untitled Event';
+      if (!normalized) return 'Untitled Test';
+
+      if (/^AP Testing:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP Test\/Portfolio Submission Due:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP Performance Task Submission Due:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP Portfolio Submission Due:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP Late Testing:/i.test(normalized)) {
+        return normalized;
+      }
+
+      if (/^AP\s+/i.test(normalized)) {
+        const subject = normalized.replace(/^AP\s+/i, '').trim();
+        return `AP Testing: ${subject}`;
+      }
+
+      if (/(test|testing|exam)\b/i.test(normalized)) return normalized;
+      return `${normalized} Test`;
+    }
+
+    function formatEventTime(eventItem) {
+      const timeText = typeof eventItem.time === 'string' ? eventItem.time.trim() : '';
+      return timeText;
+    }
+
+    function renderNoEventsMessage() {
+      const listEl = document.getElementById('eventsList');
+      if (!listEl) return;
+      listEl.innerHTML = '<div class="noEvents"><h3>No events found.</h3></div>';
+    }
+
+    function getFilteredEvents(events) {
+      return events.filter((eventItem) => {
+        if (eventItem.type === 'standardized-test') return true;
+        if (eventItem.type === 'ap-test' && activeFilters.ap) return true;
+        if (eventItem.type === 'sports' && activeFilters.sports) return true;
+        return false;
+      });
+    }
+
+    function applyFiltersAndRender() {
+      renderUpcomingEvents(getFilteredEvents(allEvents));
+    }
+
+    function setFiltersOpen(isOpen) {
+      filtersOpen = isOpen;
+      const panel = document.getElementById('filtersPanel');
+      const toggleBtn = document.getElementById('filtersToggleBtn');
+      if (panel) panel.classList.toggle('hidden', !isOpen);
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function initFilters() {
+      const toggleBtn = document.getElementById('filtersToggleBtn');
+      const allToggle = document.getElementById('filterAllToggle');
+      const apToggle = document.getElementById('filterApToggle');
+      const sportsToggle = document.getElementById('filterSportsToggle');
+
+      if (!toggleBtn || !allToggle || !apToggle || !sportsToggle) return;
+      apToggle.checked = activeFilters.ap;
+      activeFilters.sports = false;
+      sportsToggle.checked = false;
+      allToggle.checked = activeFilters.ap;
+      setFiltersOpen(true);
+
+      function updateAllToggle() {
+        allToggle.checked = apToggle.checked;
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        setFiltersOpen(!filtersOpen);
+      });
+
+      allToggle.addEventListener('change', () => {
+        const isChecked = allToggle.checked;
+        apToggle.checked = isChecked;
+        activeFilters.ap = isChecked;
+        localStorage.setItem('filterAp', isChecked);
+        applyFiltersAndRender();
+      });
+
+      apToggle.addEventListener('change', () => {
+        activeFilters.ap = apToggle.checked;
+        localStorage.setItem('filterAp', apToggle.checked);
+        updateAllToggle();
+        applyFiltersAndRender();
+      });
+
+    }
+
+    function renderUpcomingEvents(rawEvents) {
+      const listEl = document.getElementById('eventsList');
+      if (!listEl) return;
+
+      if (!Array.isArray(rawEvents) || rawEvents.length === 0) {
+        renderNoEventsMessage();
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const upcomingEvents = rawEvents
+        .map((eventItem) => ({
+          ...eventItem,
+          dateObj: parseLocalDate(eventItem.date)
+        }))
+        .filter((eventItem) => eventItem.dateObj && eventItem.dateObj >= today)
+        .sort((a, b) => {
+          const dateDiff = a.dateObj.getTime() - b.dateObj.getTime();
+          if (dateDiff !== 0) return dateDiff;
+          return (a.title || '').localeCompare(b.title || '');
+        });
+
+      if (!upcomingEvents.length) {
+        renderNoEventsMessage();
+        return;
+      }
+
+      const grouped = new Map();
+      upcomingEvents.forEach((eventItem) => {
+        const key = eventItem.date;
+        if (!grouped.has(key)) grouped.set(key, []);
+        grouped.get(key).push(eventItem);
+      });
+
+      let html = '';
+      grouped.forEach((dayEvents) => {
+        const dayDate = dayEvents[0].dateObj;
+        const dayLabel = dayDate.toLocaleDateString('en-US', {
+          weekday: 'long',
+          month: 'short',
+          day: 'numeric'
+        });
+
+        html += `<section class="eventsDay">
+          <div class="eventsDayHeader">
+            <h3 class="eventsDayTitle">${escapeHtml(dayLabel)}</h3>
+            <span class="eventsDayCount">${dayEvents.length} event${dayEvents.length === 1 ? '' : 's'}</span>
+          </div>`;
+
+        dayEvents.forEach((eventItem) => {
+          const cardClass = getEventCardClass(eventItem.type);
+          const eventTime = formatEventTime(eventItem);
+          html += `<article class="eventCard ${cardClass}">
+            <p class="eventTitle">${escapeHtml(formatEventTitle(eventItem.title, eventItem.type))}</p>
+            ${eventTime ? `<p class="eventTime">${escapeHtml(eventTime)}</p>` : ''}
+          </article>`;
+        });
+
+        html += '</section>';
+      });
+
+      listEl.innerHTML = html;
+    }
+
+    async function loadEventsPage() {
+      try {
+        const response = await fetch('/data/events.json');
+        if (!response.ok) throw new Error('Failed to load events');
+        const data = await response.json();
+
+        const standardizedTests = Array.isArray(data.standardizedTests)
+          ? data.standardizedTests.map((eventItem) => ({ ...eventItem, type: 'standardized-test' }))
+          : [];
+
+        const apTests = Array.isArray(data.apTests)
+          ? data.apTests.map((eventItem) => ({ ...eventItem, type: 'ap-test' }))
+          : [];
+
+        const sportsEvents = Array.isArray(data.sports)
+          ? data.sports.map((eventItem) => ({ ...eventItem, type: 'sports' }))
+          : [];
+
+        allEvents = [...standardizedTests, ...apTests, ...sportsEvents];
+        applyFiltersAndRender();
+      } catch (error) {
+        console.error('Events page load error:', error);
+        allEvents = [];
+        applyFiltersAndRender();
+      }
+    }
+
+    (async () => {
+      await initApp();
+      initFilters();
+      await loadEventsPage();
+    })();
+  </script>
+</body>
+</html>

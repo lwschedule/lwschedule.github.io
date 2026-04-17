@@ -5,7 +5,8 @@
 A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
 **Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v2.10`
+**Current Version:** `v3.1.2`
+**Release Date:** `Apr 10, 2026`
 
 ---
 
@@ -19,59 +20,20 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 * **Rolling Time Remaining**
 * **Next Period Preview**
 * **Auto-highlighting current period**
-* **Countdown to next school day** (displays days:hours:minutes:seconds when more than 1 day away)
+* **Countdown to next school day**
 
 ### 📅 Schedules
 
-* **Today's Schedule** — updated based on day of week & holidays, with duration column
+* **Today's Schedule** — updated based on day of week & holidays
 * **Week's Schedule** — shows a full week layout with clickable days
-  * Automatically shows next week if current week includes weekend or holiday
-  * Individual day pages update accordingly
-* **Monthly Calendar** — visual calendar view (September 2025 - June 2026; monthly view limited to March–June 2026)
-  * Days off shown in red
-  * Half days (Thanksgiving week) shown in orange
-  * Each day displays schedule summary (e.g., "1,2,3,L,4,5,6")
-  * Current day highlighted
-* **All Schedules** — access to Normal and special schedules
+* **Monthly Calendar** — visual calendar view with clickable days and schedule summaries
 * **Upcoming Holidays** — full list with live countdown
-  * Countdown continues even if current day is a holiday
-* **Quarters/Semesters**
-  * Shows start/end dates
-  * Highlights current active term
-  * Shows time remaining (days → hours → minutes → seconds)
-  * Marks completed terms automatically
+* **Quarters/Semesters** — shows time remaining and active terms
 
-### 🍽 Lunch Preferences
-
-* Set A/B lunch for Monday, Tuesday, Thursday, Friday
-* Wednesday automatically assigned to all-school lunch
-* First-time setup screen included
-
-### 🎒 Pack-Up Reminder
-
-* Numeric input field
-* Optional presets (`Off`, `1`, `3`, `5`, `7`, `10`)
-* Save & Continue button
-* Reminder notifies X minutes before a period ends
-
-### 🎨 Themes
-
-* 8 color themes (Purple, Red, Orange, Yellow, Green, Blue, Indigo, Pink)
-* Static or animated gradient mode
-* Fully persistent using localStorage
-
-### 📆 Special Schedules
-
-* Automatic detection and switching between schedule types
-
-### 🎯 Clubs
-
-* Browse and select from 90+ clubs
-* See your clubs in Today, Week, and Month views
-* Club meeting schedules: weekly, biweekly, monthly, last-of-month patterns
-* Toggle clubs on/off in settings
-* Search and filter clubs
-* Select/deselect all functionality
+### ⚙️ Personalization
+* **Lunch Preferences** — Set A/B lunch schedules
+* **Pack-Up Reminder** — Custom notifications before class ends
+* **Clubs** — Browse, select, and view 90+ clubs in your schedule
 
 ---
 
@@ -79,32 +41,15 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 
 ### 🏫 Custom Classes
 
-* Custom period names
-* Class titles
-* Teacher names
-* Room numbers
-* Integrate into Today's Schedule & notifications
-* Will be able to skip in setup (with toggle)
-
-### 🚶 Travel Time Estimates
-
-* Auto-calculate travel time between rooms
-* Adjust notifications based on walking distance
-* Will be able to skip in setup (with toggle)
+* Custom period names, class titles, teacher names, and room numbers
 
 ### ⚽ Sports Support
 
-* Add recurring sports
-* Weekly repeat days
-* First-time setup reminder
-* Search bar to select correct sport
-* Will be able to skip in setup (with toggle)
+* Add recurring sports schedules
 
 ### 📱 Phone Caddy Alerts
 
-* Enter your caddy number per class
-* Two-minute warnings before class starts
-* Will be able to skip in setup
+* Entering caddy numbers and warnings before class
 
 ### Known Bugs
 

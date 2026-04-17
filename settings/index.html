@@ -10,30 +10,24 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>Settings</h2>
-    <div class="settingsRow">
-      <a class="mainBtn" href="/settings/theme">Theme</a>
-    </div>
     <div class="settingsRow">
       <a class="mainBtn" href="/settings/lunch">Lunch</a>
     </div>
     <div class="settingsRow">
-      <button class="mainBtn disabledBtn" style="width: 100%;" disabled>Classes (Coming Soon)</button>
+      <a class="mainBtn" href="/settings/classes">Classes</a>
     </div>
     <div class="settingsRow">
       <a class="mainBtn" href="/settings/clubs">Clubs</a>
     </div>
     <div class="settingsRow">
-      <button class="mainBtn disabledBtn" style="width: 100%;" disabled>Sports (Coming Soon)</button>
-    </div>
-    <div class="settingsRow">
-      <button class="mainBtn disabledBtn" style="width: 100%;" disabled>Phone Caddy Reminders (Coming Soon)</button>
+      <a class="mainBtn" href="/settings/phonecaddy">Phone Caddy Reminders</a>
     </div>
     <div class="settingsRow">
       <a class="mainBtn" href="/settings/packup">Pack-Up Reminders</a>
@@ -44,13 +38,10 @@
   <script>
     document.getElementById('resetBtn').addEventListener('click', (e) => {
       e.preventDefault();
-      if (confirm('Are you sure you want to reset ALL settings to default? This will reset your theme, lunch preferences, and pack-up reminders.')) {
-        localStorage.clear();
-        location.href = '/';
-      }
+      localStorage.clear();
+      navigateWithTransition('/', { replace: true });
     });
     checkSetupComplete();
-    loadThemeOnPage();
   </script>
 </body>
 </html>

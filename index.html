@@ -7,15 +7,13 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
 </head>
-<body>
-  <div class="topRightButtons">
-    <a href="/info" class="circleBtn" aria-label="About">i</a>
-    <a href="/settings" class="circleBtn" aria-label="Settings">⚙️</a>
+<body class="homePage">
+  <div class="homeHeaderRow">
+    <h1 style="margin: 0 auto; text-align: center; width: 100%;">LW Schedule</h1>
   </div>
-  <h1>LW Schedule</h1>
   <div id="digitalClock">
     <div id="clockLabel">TIME REMAINING</div>
     <div id="clockDisplay">
@@ -38,20 +36,209 @@
     </div>
   </div>
   <div id="timer"></div>
-  <div class="mainButtons">
-    <a class="mainBtn" href="/today">Today</a>
-    <a class="mainBtn" href="/week">Week</a>
-    <a class="mainBtn" href="/month">Month</a>
-    <a class="mainBtn" href="/schedules">All Schedules</a>
-    <a class="mainBtn" href="/holidays">Upcoming Holidays</a>
-    <a class="mainBtn" href="/quarters">Quarters/Semesters</a>
+  <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
+    <div class="home-ticker-inner">
+      <div class="home-ticker-viewport">
+        <div id="homeTickerTrack" class="home-ticker-track" aria-live="polite"></div>
+      </div>
+      <button type="button" id="homeTickerClose" class="home-ticker-close" aria-label="Dismiss ticker">&times;</button>
+    </div>
   </div>
+  <div id="homeTickerSpacer" aria-hidden="true"></div>
+
   <script src="/common.js"></script>
   <script>
+    let tickerRafId = null;
+    let tickerLastFrameTs = 0;
+    let tickerOffsetPx = 0;
+    let tickerLoopWidthPx = 0;
+    const TICKER_SPEED_PX_PER_SEC = 42;
+
+    function stopTickerLoop() {
+      if (tickerRafId) {
+        cancelAnimationFrame(tickerRafId);
+        tickerRafId = null;
+      }
+      tickerLastFrameTs = 0;
+    }
+
+    function startTickerLoop() {
+      const track = document.getElementById('homeTickerTrack');
+      const groups = track ? track.querySelectorAll('.home-ticker-group') : [];
+      const firstGroup = groups[0];
+      const secondGroup = groups[1];
+      if (!track || !firstGroup || !secondGroup) return;
+
+      stopTickerLoop();
+      tickerOffsetPx = 0;
+      track.style.transform = 'translateX(0px)';
+
+      const computeLoopWidth = () => {
+        const firstLeft = firstGroup.offsetLeft;
+        const secondLeft = secondGroup.offsetLeft;
+        const offsetDistance = secondLeft - firstLeft;
+        if (offsetDistance > 0) {
+          return offsetDistance;
+        }
+
+        const computed = getComputedStyle(track);
+        const gap = parseFloat(computed.gap || computed.columnGap || '0') || 0;
+        return firstGroup.getBoundingClientRect().width + gap;
+      };
+
+      tickerLoopWidthPx = computeLoopWidth();
+
+      const step = (ts) => {
+        if (!tickerLastFrameTs) tickerLastFrameTs = ts;
+        const deltaSec = (ts - tickerLastFrameTs) / 1000;
+        tickerLastFrameTs = ts;
+
+        if (!tickerLoopWidthPx || tickerLoopWidthPx <= 0) {
+          tickerLoopWidthPx = computeLoopWidth();
+        }
+
+        if (tickerLoopWidthPx > 0) {
+          tickerOffsetPx += TICKER_SPEED_PX_PER_SEC * deltaSec;
+          if (tickerOffsetPx >= tickerLoopWidthPx) {
+            tickerOffsetPx -= tickerLoopWidthPx;
+          }
+          track.style.transform = `translateX(${-tickerOffsetPx}px)`;
+        }
+
+        tickerRafId = requestAnimationFrame(step);
+      };
+
+      tickerRafId = requestAnimationFrame(step);
+    }
+
+    function buildTickerGroup(messages) {
+      const group = document.createElement('div');
+      group.className = 'home-ticker-group';
+
+      messages.forEach((message) => {
+        const item = document.createElement('span');
+        item.className = 'home-ticker-item';
+
+        if (message.url) {
+          item.classList.add('home-ticker-item-with-link');
+          const messageText = document.createElement('span');
+          messageText.textContent = message.text;
+
+          const link = document.createElement('a');
+          link.className = 'home-ticker-link';
+          link.href = message.url;
+          link.textContent = message.url;
+
+          if (/^https?:\/\//i.test(message.url)) {
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+          }
+
+          item.appendChild(messageText);
+          item.appendChild(link);
+        } else {
+          item.textContent = message.text;
+        }
+
+        group.appendChild(item);
+
+        const separator = document.createElement('span');
+        separator.className = 'home-ticker-separator';
+        separator.textContent = '•';
+        group.appendChild(separator);
+      });
+
+      return group;
+    }
+
+    function renderTicker(messages) {
+      const track = document.getElementById('homeTickerTrack');
+      if (!track) return;
+
+      track.innerHTML = '';
+      const groupA = buildTickerGroup(messages);
+      const groupB = buildTickerGroup(messages);
+      groupB.setAttribute('aria-hidden', 'true');
+
+      track.appendChild(groupA);
+      track.appendChild(groupB);
+
+      startTickerLoop();
+    }
+
+    async function initHomeTicker() {
+      const ticker = document.getElementById('homeTicker');
+      const spacer = document.getElementById('homeTickerSpacer');
+      const closeButton = document.getElementById('homeTickerClose');
+
+      if (!ticker || !spacer || !closeButton) return;
+      let lastViewportWidth = window.innerWidth;
+      let resizeRestartTimeoutId = null;
+
+      closeButton.addEventListener('click', () => {
+        if (resizeRestartTimeoutId) {
+          clearTimeout(resizeRestartTimeoutId);
+          resizeRestartTimeoutId = null;
+        }
+        stopTickerLoop();
+        ticker.classList.add('hidden');
+        spacer.style.height = '0px';
+      });
+
+      window.addEventListener('resize', () => {
+        if (ticker.classList.contains('hidden')) return;
+
+        const nextViewportWidth = window.innerWidth;
+        if (nextViewportWidth === lastViewportWidth) return;
+        lastViewportWidth = nextViewportWidth;
+
+        if (resizeRestartTimeoutId) {
+          clearTimeout(resizeRestartTimeoutId);
+        }
+
+        resizeRestartTimeoutId = setTimeout(() => {
+          resizeRestartTimeoutId = null;
+          if (!ticker.classList.contains('hidden')) {
+            startTickerLoop();
+          }
+        }, 120);
+      });
+
+      try {
+        const response = await fetch('/data/ticker-messages.json');
+        if (!response.ok) throw new Error('Failed to load ticker messages');
+
+        const data = await response.json();
+        const messages = Array.isArray(data.messages)
+          ? data.messages
+              .map(msg => ({
+                text: typeof msg.text === 'string' ? msg.text.trim() : '',
+                url: typeof msg.url === 'string' ? msg.url.trim() : ''
+              }))
+              .filter(msg => msg.text.length > 0)
+          : [];
+
+        if (!messages.length) {
+          stopTickerLoop();
+          ticker.classList.add('hidden');
+          spacer.style.height = '0px';
+          return;
+        }
+
+        renderTicker(messages);
+      } catch (error) {
+        console.error('Ticker load error:', error);
+        stopTickerLoop();
+        ticker.classList.add('hidden');
+        spacer.style.height = '0px';
+      }
+    }
+
     (async () => {
       await initApp();
       updateClock();
       setInterval(updateClock, 1000);
+      await initHomeTicker();
       
       
       const banner = document.getElementById('clubsBanner');

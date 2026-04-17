@@ -10,40 +10,44 @@
   <link rel="preconnect" href="https:
   <link href="https:
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
     .infoContent { text-align: center; padding: 20px; }
-    .infoSection { background: var(--card-dark); border-radius: 12px; padding: 15px; margin-bottom: 20px; animation: fadeInUp 0.6s ease-out backwards; }
-    .infoSection:nth-child(1) { animation-delay: 0.1s; }
-    .infoSection:nth-child(2) { animation-delay: 0.2s; }
-    .infoSection:nth-child(3) { animation-delay: 0.3s; }
-    .infoSection:nth-child(4) { animation-delay: 0.4s; }
+    .infoSection { background: var(--card-dark); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
     .infoContent h3 { color: white; margin-top: 0; margin-bottom: 10px; }
     .infoContent p { margin: 10px 0; line-height: 1.6; }
     .infoContent a { color: white; text-decoration: none; font-weight: 700; }
     .infoContent a:hover { text-decoration: underline; }
-    .versionBadge { display: inline-block; background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)) !important; background-size: 200% 200% !important; animation: gradientShift5 8s ease infinite !important; color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
+    .versionBadge { display: inline-block; background: var(--primary) !important;   color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
   </style>
 </head>
 <body>
-  <a href="/" class="backBtn">← Back</a>
+  
   <div class="pageContainer">
     <h2>About</h2>
     <div class="infoContent">
       <div class="infoSection">
-        <div class="versionBadge">Version 2.10</div>
+        <div class="versionBadge">Version 3.1.2</div>
+        <p>Released Apr 10, 2026</p>
       </div>
+      <a href="https://docs.google.com/document/d/1jovVv6oTDFtGYSPvzDzwynng2KuJH2iZg05njFTrw5U/edit?usp=sharing" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary) !important;   border-radius: 12px; padding: 15px; margin-bottom: 20px; color: white; text-decoration: none; font-size: 1.2em; font-weight: 700; box-shadow: var(--glow); text-align: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
+        <span>Coming Soon</span>
+        <img class="sf-symbol-icon" src="https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/arrow.up.right.png" alt="" aria-hidden="true">
+      </a>
       <div class="infoSection">
         <h3>Created By</h3>
         <p>Sanchit P.</p>
+      </div>
+      <div class="infoSection">
+        <h3>Inspired By:</h3>
+        <p>Schedule Manager by Rudra Pandit</p>
       </div>
     </div>
   </div>
   <script src="/common.js"></script>
   <script>
     checkSetupComplete();
-    loadThemeOnPage();
   </script>
 </body>
 </html>

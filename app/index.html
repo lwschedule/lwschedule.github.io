@@ -10,18 +10,17 @@
   <link rel="icon" type="image/png" href="/images/logo.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#4b2e83">
+  <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
-    .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; animation: fadeInUp 0.6s ease-out; }
-    .setup-section { background: #1f1f1f; border-radius: 12px; padding: 20px; margin-bottom: 30px; animation: fadeInUp 0.6s ease-out backwards; }
-    .setup-section:nth-of-type(1) { animation-delay: 0.1s; }
+    .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; }
+    .setup-section { background: var(--primary); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
     .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
     .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
     .appButtons { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 40px 0; }
-    .appBtn { background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--primary)); background-size: 200% 200%; animation: gradientShift2 8s ease infinite; color: white; border: none; padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
+    .appBtn { background: var(--primary);   color: white; border: none; padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
     .appBtn:hover { transform: scale(1.05); }
-    .appBtn.installBtn { animation: gradientShift5 8s ease infinite; }
+    .appBtn.installBtn {  }
     @media (max-width: 600px) {
       .appButtons { gap: 15px; }
       .appBtn { padding: 15px; font-size: 1.1em; }
@@ -49,11 +48,11 @@
     function checkIfInPWA() {
       
       if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
-        window.location.href = '/setup';
+        navigateWithTransition('/setup', { replace: true });
         return true;
       }
       if (window.navigator.standalone === true) {
-        window.location.href = '/setup';
+        navigateWithTransition('/setup', { replace: true });
         return true;
       }
       return false;
@@ -139,7 +138,7 @@
         step3.innerHTML = '<strong>3.</strong> Tap <strong>"Add"</strong> in the top right corner';
         
         const note = document.createElement('p');
-        note.style.color = '#f1c40f';
+        note.style.color = '#2a2200';
         note.style.fontSize = '0.9em';
         note.style.margin = '10px 0';
         note.innerHTML = '<strong>Note:</strong> iOS Safari has limited PWA features, but you can still add it to your home screen for easy access.';
@@ -166,7 +165,7 @@
         step3.innerHTML = '<strong>3.</strong> The app will be added to your Dock for easy access';
         
         const note = document.createElement('p');
-        note.style.color = '#f1c40f';
+        note.style.color = '#2a2200';
         note.style.fontSize = '0.9em';
         note.style.margin = '10px 0';
         note.innerHTML = '<strong>Note:</strong> macOS Safari has limited PWA features, but you can still add it to your Dock for easy access.';
@@ -196,7 +195,7 @@
       continueBtn.style.marginTop = '10px';
       continueBtn.onclick = () => {
         document.body.removeChild(overlay);
-        window.location.href = '/setup';
+        navigateWithTransition('/setup');
       };
       
       buttons.appendChild(closeBtn);
@@ -224,7 +223,7 @@
     document.getElementById('installBtn').addEventListener('click', async () => {
       if (checkIfInstalled()) {
         
-        window.location.href = '/setup';
+        navigateWithTransition('/setup');
         return;
       }
       
@@ -241,13 +240,13 @@
         deferredPrompt = null;
       } else {
         
-        window.location.href = '/setup';
+        navigateWithTransition('/setup');
       }
     });
     
     document.getElementById('continueBtn').addEventListener('click', () => {
       
-      window.location.href = '/setup';
+      navigateWithTransition('/setup');
     });
     
     

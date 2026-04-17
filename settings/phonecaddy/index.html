@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phone Caddy Reminders - Settings</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .pageContainer { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-label {
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background: #34c759;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(28px);
+    }
+    .settingsRow { background: var(--card-dark); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    .settingsRow label { display: block; font-weight: 700; margin-bottom: 10px; color: var(--text-light); }
+    .pack-up-input { display: block; width: 100%; border: 2px solid var(--primary-light); background: rgba(0,0,0,0.2); color: white; padding: 15px; font-size: 1.1em; border-radius: 12px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; font-weight: 600; text-align: center; }
+    .pack-up-input:focus { border-color: var(--primary-light); }
+    .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
+    .saveBtn:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <div class="homeHeaderRow">
+    <h1> </h1>
+    <div class="topRightButtons">
+    </div>
+  </div>
+  <div class="pageContainer">
+    <a href="/settings" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <h2>Phone Caddy</h2>
+
+    <div class="toggle-container">
+      <span class="toggle-label">Phone Caddy</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="caddyToggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    
+    <div class="settingsRow" id="periodInputsContainer">
+      <label>Enter your assigned phone caddy spot number for each class:</label>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="margin-top:10px;"><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+        <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+      </div>
+    </div>
+
+    <div class="settingsRow">
+      <div id="caddyStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+    </div>
+    
+    <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
+    <button class="saveBtn" id="resetCaddyBtn" style="background: transparent; color: var(--text-light); border: 1px solid var(--primary-light); box-shadow: none; margin-top: 10px;">Reset Settings</button>
+  </div>
+  
+  <script src="/common.js"></script>
+  <script>
+    `;
+    }
+
+    const caddyToggle = document.getElementById('caddyToggle');
+    const caddyStatus = document.getElementById('caddyStatus');
+
+    let caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+    for (let i = 1; i <= 6; i++) {
+        const val = caddyTimes[i.toString()];
+        if(val !== undefined && val !== "") {
+            document.getElementById(`caddyTime${i}`).value = val;
+        }
+    }
+
+    function updateCaddyStatus() {
+      const enabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      if (enabled) {
+        if (Notification.permission === 'granted') {
+          caddyStatus.innerHTML = '';
+          caddyStatus.parentElement.style.display = 'none';
+        } else {
+          caddyStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
+          caddyStatus.style.color = '#ff9f43';
+          caddyStatus.parentElement.style.display = 'block';
+        }
+      } else {
+        caddyStatus.innerHTML = '';
+        caddyStatus.parentElement.style.display = 'none';
+      }
+    }
+
+    if ('Notification' in window) {
+      const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      caddyToggle.checked = caddyEnabled;
+      updateCaddyStatus();
+      
+      caddyToggle.addEventListener('change', async () => {
+        if (caddyToggle.checked) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            localStorage.setItem('phone-caddy-enabled', 'true');
+            // Check global notifications
+            localStorage.setItem('notifications-enabled', 'true');
+          } else {
+            caddyToggle.checked = false;
+            localStorage.setItem('phone-caddy-enabled', 'false');
+            caddyStatus.innerHTML = '❌ Notifications blocked by browser';
+            caddyStatus.style.color = '#ff4757';
+            return;
+          }
+        } else {
+          localStorage.setItem('phone-caddy-enabled', 'false');
+        }
+        updateCaddyStatus();
+      });
+    } else {
+      caddyToggle.disabled = true;
+      caddyStatus.innerHTML = '❌ Browser does not support notifications';
+      caddyStatus.style.color = '#ff4757';
+    }
+
+    document.getElementById('testNotificationBtn').addEventListener('click', async () => {
+      let testSpot = document.getElementById('caddyTime1').value || "12";
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notifications.");
+        return;
+      }
+      let perm = Notification.permission;
+      if (perm !== "granted" && perm !== "denied") {
+        perm = await Notification.requestPermission();
+      }
+      if (perm === "granted") {
+        sendNotification("Phone Caddy Reminder", {
+          body: `Class starts in 1 minute! Put your phone in caddy spot #${testSpot}`,
+          icon: "/icons/icon-192x192.png"
+        });
+      } else {
+        alert("Notification permission is blocked. Please enable it in browser settings.");
+      }
+    });
+
+    document.querySelectorAll('.pack-up-input').forEach(input => {
+      input.addEventListener('input', () => {
+        for (let i = 1; i <= 6; i++) {
+          caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || "";
+        }
+        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+      });
+    });
+
+    document.getElementById('resetCaddyBtn').addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById(`caddyTime${i}`).value = '';
+      }
+      localStorage.setItem('phone-caddy-times', '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+      localStorage.setItem('phone-caddy-enabled', 'false');
+      caddyToggle.checked = false;
+      updateCaddyStatus();
+    });
+  </script>
+</body>
+</html>
