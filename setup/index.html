@@ -201,7 +201,6 @@
 </head>
 <body>
   <div class="setupContent">
-    <a href="/" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <h2>Welcome to LW Schedule!</h2>
     <p class="setupDescription">Let's set up your personalized schedule experience.</p>
 
@@ -248,7 +247,6 @@
         <div id="setupSelectedClassesList" class="class-slots"></div>
         <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
         <p id="setupClassesMessage" class="class-message"></p>
-        <button type="button" id="resetClassesBtn" class="resetBtn">Reset Classes to Default</button>
       </div>
     </section>
 
@@ -270,7 +268,6 @@
         <div id="clubResults" class="clubs-results"></div>
         <div id="setupSelectedClubsList" class="slots-container"></div>
         <p id="selectedCount" class="clubs-count">0 clubs selected</p>
-        <button type="button" id="resetClubsBtn" class="resetBtn">Reset Clubs to Default</button>
       </div>
     </section>
 
@@ -301,7 +298,6 @@
         <div id="notificationStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div>
       </div>
       <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
-      <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
       </div>
     </section>
 
@@ -329,7 +325,6 @@
       </div>
       <div class="settingsRow"><div id="caddyStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div></div>
       <button class="saveBtn" id="setupTestNotificationBtn">Test Notification</button>
-      <button class="resetBtn" id="resetCaddyBtn">Reset Settings</button>
       </div>
     </section>
 
@@ -575,16 +570,6 @@
         renderSetupClassResults(document.getElementById('classSearch').value);
       });
 
-      document.getElementById('resetClassesBtn').addEventListener('click', () => {
-        setupSelectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
-        saveSetupClassSlots();
-        setClassesEnabled(false);
-        classesToggle.checked = false;
-        classesSettings.style.display = 'none';
-        renderSetupClassSlots();
-        renderSetupClassResults(document.getElementById('classSearch').value);
-      });
-
       loadSetupClasses();
     }
 
@@ -728,15 +713,6 @@
         renderClubResults(document.getElementById('clubSearch').value);
       });
 
-      document.getElementById('resetClubsBtn').addEventListener('click', () => {
-        selectedClubs = [];
-        localStorage.setItem('clubsEnabled', 'false');
-        clubsToggle.checked = false;
-        clubsSettings.style.display = 'none';
-        renderSelectedList();
-        renderClubResults(document.getElementById('clubSearch').value);
-      });
-
       loadClubs();
     }
 
@@ -849,17 +825,6 @@
       notificationStatus.style.color = '#ff4757';
     }
 
-    document.getElementById('resetPackupBtn').addEventListener('click', () => {
-      packUpInput.value = '';
-      packUpTime = 0;
-      localStorage.setItem('pack-up-time', '0');
-      updatePackUpPresetUI(0);
-      packupToggle.checked = false;
-      localStorage.setItem('notifications-enabled', 'false');
-      packupSettings.style.display = 'none';
-      updateNotificationStatus();
-    });
-
     const caddyToggle = document.getElementById('caddyToggle');
     const caddySettings = document.getElementById('caddySettings');
     const caddyStatus = document.getElementById('caddyStatus');
@@ -948,17 +913,6 @@
         }
         localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
       });
-    });
-
-    document.getElementById('resetCaddyBtn').addEventListener('click', () => {
-      for (let i = 1; i <= 6; i++) {
-        document.getElementById(`caddyTime${i}`).value = '';
-      }
-      localStorage.setItem('phone-caddy-times', '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
-      localStorage.setItem('phone-caddy-enabled', 'false');
-      caddyToggle.checked = false;
-      caddySettings.style.display = 'none';
-      updateCaddyStatus();
     });
 
     document.getElementById('completeBtn').addEventListener('click', () => {
