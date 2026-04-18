@@ -137,6 +137,16 @@
       color: #bfaee8;
       margin-left: 10px;
       white-space: nowrap;
+      min-width: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .result-tag-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%);
     }
     .slots-container {
       background: var(--card-dark);
@@ -207,10 +217,21 @@
       padding: 2px 8px;
       font-size: 0.72em;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      min-height: 22px;
     }
     .slot-clear:hover {
       color: white;
       border-color: #7b7b7b;
+    }
+    .slot-clear-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%);
     }
     .classes-count {
       text-align: center;
@@ -328,7 +349,7 @@
       let html = '';
       filteredClasses.forEach(classTitle => {
         const isAdded = selectedSet.has(classTitle);
-        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
 
@@ -355,7 +376,7 @@
           <div class="slot-card">
             <div class="slot-period">Period ${i + 1}</div>
             <div class="slot-value">${isEmpty ? 'Empty' : escapeHtml(classTitle)}</div>
-            ${isEmpty ? '' : `<button type="button" class="slot-clear" data-clear-index="${i}">Clear</button>`}
+            ${isEmpty ? '' : `<button type="button" class="slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button>`}
           </div>
           <button type="button" class="slot-arrow" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
         </div>`;

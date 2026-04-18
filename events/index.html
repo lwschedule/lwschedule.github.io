@@ -47,7 +47,6 @@
       justify-content: center;
       width: 1.1em;
       height: 1.1em;
-      transition: transform 0.2s ease;
       line-height: 1;
     }
 
@@ -56,10 +55,6 @@
       height: 100%;
       object-fit: contain;
       display: block;
-    }
-
-    .filtersToggleBtn[aria-expanded="false"] .filtersToggleArrow {
-      transform: rotate(180deg);
     }
 
     .filtersPanel {
@@ -302,7 +297,7 @@
     <div class="eventsFilters">
       <button type="button" id="filtersToggleBtn" class="filtersToggleBtn" aria-expanded="true" aria-controls="filtersPanel">
         <span>Filters</span>
-        <span class="filtersToggleArrow" aria-hidden="true"><img class="filtersToggleArrowIcon" src="https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/chevron.up.png" alt=""></span>
+        <span class="filtersToggleArrow" aria-hidden="true"><img id="filtersToggleArrowIcon" class="filtersToggleArrowIcon" src="/icons/src/chevron.up.svg" alt=""></span>
       </button>
       <div id="filtersPanel" class="filtersPanel">
         <div class="filtersGrid">
@@ -429,8 +424,12 @@
       filtersOpen = isOpen;
       const panel = document.getElementById('filtersPanel');
       const toggleBtn = document.getElementById('filtersToggleBtn');
+      const toggleArrowIcon = document.getElementById('filtersToggleArrowIcon');
       if (panel) panel.classList.toggle('hidden', !isOpen);
       if (toggleBtn) toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (toggleArrowIcon) {
+        toggleArrowIcon.src = isOpen ? '/icons/src/chevron.up.svg' : '/icons/src/chevron.down.svg';
+      }
     }
 
     function initFilters() {

@@ -137,6 +137,16 @@
       color: #bfaee8;
       margin-left: 10px;
       white-space: nowrap;
+      min-width: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .result-tag-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%);
     }
     .slots-container {
       background: var(--card-dark);
@@ -180,10 +190,21 @@
       padding: 2px 8px;
       font-size: 0.72em;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      min-height: 22px;
     }
     .slot-clear:hover {
       color: white;
       border-color: #7b7b7b;
+    }
+    .slot-clear-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%);
     }
     .clubs-count {
       text-align: center;
@@ -316,7 +337,7 @@
         const isAdded = selectedSet.has(club.id);
         html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeHtml(club.id)}" ${isAdded ? 'disabled' : ''}>
           <span>${escapeHtml(club.name)}</span>
-          <span class="result-tag">${isAdded ? 'Added' : 'Add'}</span>
+          <span class="result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span>
         </button>`;
       });
       resultsEl.innerHTML = html;
@@ -343,7 +364,7 @@
         html += `<div class="slot-row">
           <div class="slot-card">
             <div class="slot-value">${escapeHtml(club.name)}</div>
-            <button type="button" class="slot-clear" data-id="${escapeHtml(club.id)}">Clear</button>
+            <button type="button" class="slot-clear" data-id="${escapeHtml(club.id)}" aria-label="Remove ${escapeHtml(club.name)}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button>
           </div>
         </div>`;
       });

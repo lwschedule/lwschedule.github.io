@@ -104,6 +104,16 @@
       white-space: nowrap;
       margin-left: 10px;
       color: #bfaee8;
+      min-width: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .class-result-tag-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%);
     }
     .class-slots {
       background: var(--card-dark);
@@ -161,8 +171,19 @@
       color: #b7b7b7;
       font-size: 0.7em;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      min-height: 22px;
     }
     .class-slot-clear:hover { color: white; border-color: #7b7b7b; }
+    .class-slot-clear-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%);
+    }
     
     .club-slot-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
     .club-slot-row:last-child { margin-bottom: 0; }
@@ -548,7 +569,7 @@ fixToggles();
       let html = '';
       filteredClasses.forEach(classTitle => {
         const isAdded = selectedSet.has(classTitle);
-        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="class-result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="class-result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
 
@@ -575,7 +596,7 @@ fixToggles();
           <div class="class-slot-card">
             <div class="class-slot-period">Period ${i + 1}</div>
             <div class="class-slot-value">${isEmpty ? 'Empty' : escapeSetupHtml(classTitle)}</div>
-            ${isEmpty ? '' : `<button type="button" class="class-slot-clear" data-clear-index="${i}">Clear</button>`}
+            ${isEmpty ? '' : `<button type="button" class="class-slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>`}
           </div>
           <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
         </div>`;
@@ -756,7 +777,7 @@ fixToggles();
       let html = '';
       filteredClubs.forEach(club => {
         const isAdded = selectedSet.has(club.id);
-        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="class-result-tag">${isAdded ? 'Added' : 'Add'}</span></button>`;
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="class-result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
       
@@ -781,7 +802,7 @@ fixToggles();
         html += `<div class="club-slot-row">
           <div class="club-slot-card">
             <div class="class-slot-value">${escapeSetupHtml(club.name)}</div>
-            <button type="button" class="class-slot-clear" data-id="${escapeSetupHtml(club.id)}">Clear</button>
+            <button type="button" class="class-slot-clear" data-id="${escapeSetupHtml(club.id)}" aria-label="Remove ${escapeSetupHtml(club.name)}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>
           </div>
         </div>`;
       });

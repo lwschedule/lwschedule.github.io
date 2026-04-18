@@ -72,28 +72,28 @@ input:checked + .slider:before { transform: translateX(26px); }
     <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
     <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
   </div>
+  <script src="/common.js"></script>
   <script>
-function checkSetupComplete() {
-      const lunch = localStorage.getItem('lunchPreferences');
-  const packup = localStorage.getItem('pack-up-time');
-  const setupComplete = localStorage.getItem('setup-complete');
-if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!lunch || packup === null) {
-navigateWithTransition('/setup', { replace: true });
-return false;
-}
-}
-return true;
-}
 let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
+
 const input = document.getElementById('packUpTimeInput');
-if (packUpTime > 0) {
-input.value = packUpTime;
+
+function updatePackUpPresetUI(value) {
+  document.querySelectorAll('.pack-up-preset').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) === value);
+  });
 }
+
+if (packUpTime > 0) input.value = packUpTime;
+updatePackUpPresetUI(packUpTime);
+
 document.querySelectorAll('.pack-up-preset').forEach(btn => {
 btn.addEventListener('click', () => {
 const val = parseInt(btn.dataset.value, 10);
 input.value = val > 0 ? val : '';
+localStorage.setItem('pack-up-time', String(val));
+updatePackUpPresetUI(val);
 });
 });
 input.addEventListener('input', () => {
@@ -104,13 +104,18 @@ input.addEventListener('input', () => {
     val = 30;
   }
   localStorage.setItem('pack-up-time', val);
+  updatePackUpPresetUI(val);
 });
 input.addEventListener('change', () => {
   let val = parseInt(input.value, 10);
   if (isNaN(val) || val < 0) {
     input.value = '';
     localStorage.setItem('pack-up-time', 0);
+    updatePackUpPresetUI(0);
+    return;
   }
+  localStorage.setItem('pack-up-time', val);
+  updatePackUpPresetUI(val);
 });
 
 document.getElementById('testNotificationBtn').addEventListener('click', () => {
@@ -171,20 +176,17 @@ function updateNotificationStatus() {
       notificationStatus.style.color = '#ff9f43';
     } else {
       notificationStatus.innerHTML = '';
+      notificationStatus.style.color = '';
     }
   } else {
     notificationStatus.innerHTML = '';
+    notificationStatus.style.color = '';
   }
-}
-`;
 }
 
 document.getElementById('resetPackupBtn').addEventListener('click', () => {
     document.getElementById('packUpTimeInput').value = '';
-    
-    document.querySelectorAll('.pack-up-preset').forEach(btn => {
-      btn.classList.toggle('selected', btn.dataset.value === '0');
-    });
+    updatePackUpPresetUI(0);
     
     const notificationToggle = document.getElementById('notificationToggle');
     if (notificationToggle) notificationToggle.checked = false;

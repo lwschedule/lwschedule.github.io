@@ -57,21 +57,28 @@
     </div>
     <button class="resetBtn" id="resetLunchBtn">Reset Lunches</button>
   </div>
+  <script src="/common.js"></script>
   <script>
-function checkSetupComplete() {
-      const lunch = localStorage.getItem('lunchPreferences');
-  const packup = localStorage.getItem('pack-up-time');
-  const setupComplete = localStorage.getItem('setup-complete');
-if (!setupComplete && !window.location.pathname.includes('/setup')) {
-if (!lunch || packup === null) {
-navigateWithTransition('/setup', { replace: true });
-return false;
-}
-}
-return true;
+const DEFAULT_LUNCH_PREFS = { Monday:'A', Tuesday:'A', Wednesday:'All', Thursday:'A', Friday:'A' };
+
+function loadLunchPrefs() {
+  try {
+    const saved = localStorage.getItem('lunchPreferences');
+    if (!saved) return { ...DEFAULT_LUNCH_PREFS };
+    const parsed = JSON.parse(saved);
+    return {
+      Monday: parsed.Monday || 'A',
+      Tuesday: parsed.Tuesday || 'A',
+      Wednesday: parsed.Wednesday || 'All',
+      Thursday: parsed.Thursday || 'A',
+      Friday: parsed.Friday || 'A'
+    };
+  } catch (e) {
+    return { ...DEFAULT_LUNCH_PREFS };
+  }
 }
 
-let lunchPrefs = JSON.parse(localStorage.getItem('lunchPreferences') || '{"Monday":"A","Tuesday":"A","Wednesday":"All","Thursday":"A","Friday":"A"}');
+let lunchPrefs = loadLunchPrefs();
 
 function updateUI() {
   document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
@@ -98,7 +105,7 @@ document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
 });
 
 document.getElementById('resetLunchBtn').addEventListener('click', () => {
-    lunchPrefs = {Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'};
+  lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
     localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
     updateUI();
 });

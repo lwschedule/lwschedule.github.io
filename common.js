@@ -50,35 +50,15 @@ function setSelectedClassesSlots(slots) {
   return normalized;
 }
 
-const SF_SYMBOL_BASE_URL = 'https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/';
-const EMPTY_ICON_DATA_URL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-
-function getSfSymbolUrl(symbolName) {
-  return `${SF_SYMBOL_BASE_URL}${symbolName}.png`;
-}
-
 function getSidebarIconUrl(iconId) {
   if (typeof iconId !== 'string') return '';
   if (iconId.startsWith('/')) return iconId;
-  return getSfSymbolUrl(iconId);
+  return `/icons/src/${iconId}.svg`;
 }
 
 function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
   return `<img class="${className}" src="${getSidebarIconUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 }
-
-function handleMissingSymbolIcon(event) {
-  const target = event.target;
-  if (!target || target.tagName !== 'IMG') return;
-  if (!target.classList || !target.classList.contains('sf-symbol-icon')) return;
-  if (target.dataset.iconFallbackApplied === 'true') return;
-
-  target.dataset.iconFallbackApplied = 'true';
-  target.classList.add('icon-missing');
-  target.src = EMPTY_ICON_DATA_URL;
-}
-
-document.addEventListener('error', handleMissingSymbolIcon, true);
 
 const PAGE_TRANSITION_READY_CLASS = 'page-transition-ready';
 const PAGE_TRANSITION_EXIT_FORWARD_CLASS = 'page-transition-exit-forward';
@@ -1561,10 +1541,10 @@ async function initApp() {
     { href: '/schedules', icon: '/icons/src/square.fill.text.grid.1x2.svg', text: 'All Schedules' },
     { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
-    { href: '/quarters', icon: 'circle.grid.3x3', text: 'Quarters/Semesters' },
-    { href: '#', icon: 'map', text: 'Map (Coming Soon)', disabled: true },
-    { href: '/info', icon: 'info.circle.fill', text: 'Info' },
-    { href: '/settings', icon: 'gear', text: 'Settings' }
+    { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
+    { href: '#', icon: 'arrow.up.forward', text: 'Map (Coming Soon)', disabled: true },
+    { href: '/info', icon: '/icons/src/info.svg', text: 'Info' },
+    { href: '/settings', icon: '/icons/src/gear.svg', text: 'Settings' }
   ];
 
   let currentPath = window.location.pathname;
