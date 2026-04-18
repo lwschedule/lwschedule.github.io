@@ -86,30 +86,49 @@
         const minutesEl = document.getElementById('clockDisplay-minutes');
         const secondsEl = document.getElementById('clockDisplay-seconds');
 
-        if (daysEl) {
+        const ensureMorphHost = (containerEl) => {
+          if (!containerEl) return null;
+          let host = containerEl.querySelector('.time-value-morph');
+          if (!host) {
+            const initial = containerEl.textContent || '--';
+            containerEl.textContent = '';
+            host = document.createElement('span');
+            host.className = 'time-value-morph';
+            host.textContent = initial;
+            containerEl.appendChild(host);
+          }
+          return host;
+        };
+
+        const daysHost = ensureMorphHost(daysEl);
+        const hoursHost = ensureMorphHost(hoursEl);
+        const minutesHost = ensureMorphHost(minutesEl);
+        const secondsHost = ensureMorphHost(secondsEl);
+
+        if (daysHost) {
           clockMorphs.days = new TextMorph({
-            element: daysEl,
+            element: daysHost,
             duration: 400,
             ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
           });
         }
-        if (hoursEl) {
+        if (hoursHost) {
           clockMorphs.hours = new TextMorph({
-            element: hoursEl,
+            element: hoursHost,
             duration: 400,
             ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
           });
         }
-        if (minutesEl) {
+        if (minutesHost) {
           clockMorphs.minutes = new TextMorph({
-            element: minutesEl,
+            element: minutesHost,
             duration: 400,
             ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
           });
         }
-        if (secondsEl) {
+        if (secondsHost) {
           clockMorphs.seconds = new TextMorph({
-            element: secondsEl,
+            element: secondsHost,
             duration: 400,
             ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
           });

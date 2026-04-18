@@ -311,6 +311,12 @@ body.calendarPage .pageContainer {
   display: block;
 }
 
+.time-value .time-value-morph {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
 .time-label {
   font-size: 0.7em;
   font-weight: 400;
