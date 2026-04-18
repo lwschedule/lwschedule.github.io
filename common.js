@@ -250,32 +250,79 @@ function isSBADay(date) {
   return false;
 }
 
-function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay) {
-  let lunchPrefs = lunchPreferences || { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
-  
-  if (baseScheduleDay && baseScheduleDay.A && baseScheduleDay.B) {
-    const aSchedule = baseScheduleDay.A;
-    const aLunchIndex = aSchedule.findIndex(p => p.name.toLowerCase().includes('a lunch') || p.name.toLowerCase().includes('lunch'));
-    if (aLunchIndex !== -1) {
-      let basePeriod = null;
-      for (let i = aLunchIndex + 1; i < aSchedule.length; i++) {
-        const match = aSchedule[i].name.match(/Period\s+(\d)/i);
-        if (match) {
-          basePeriod = match[1];
-          break;
-        }
-      }
-      const prefs = lunchPreferences || { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
-      if (basePeriod === '3') return prefs.Monday || 'A';
-      if (basePeriod === '4') return prefs.Tuesday || 'A';
-    }
+function getDefaultLunchPrefs() {
+  return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+}
+
+function normalizeLunchChoice(value) {
+  return value === 'B' ? 'B' : 'A';
+}
+
+function getLunchPreferencesForScheduleKey(scheduleKey) {
+  const defaults = getDefaultLunchPrefs();
+  if (scheduleKey === 'pilot3') {
+    return pilot3LunchPreferences || schedulesData?.pilot3LunchPreferences || lunchPreferences || defaults;
   }
-  
-  // Fallback to normal day mapping if detection fails
-  if (scheduleKey === 'normal') {
-    return lunchPrefs[today] || 'A';
+  if (scheduleKey === 'sba') {
+    return sbaLunchPreferences || schedulesData?.sbaLunchPreferences || lunchPreferences || defaults;
   }
-  return 'A'; // All non-standard ones default to A if undocumented
+  return lunchPreferences || schedulesData?.lunchPreferences || defaults;
+}
+
+function getNearbyPeriodNumber(schedule, lunchIndex) {
+  const periodRegex = /\bPeriod\s+(\d)\b/i;
+  for (let i = lunchIndex + 1; i < schedule.length; i++) {
+    const match = schedule[i].name.match(periodRegex);
+    if (match) return parseInt(match[1], 10);
+  }
+  for (let i = lunchIndex - 1; i >= 0; i--) {
+    const match = schedule[i].name.match(periodRegex);
+    if (match) return parseInt(match[1], 10);
+  }
+  return null;
+}
+
+function getLunchContextPeriodForDay(baseScheduleDay) {
+  if (!baseScheduleDay || Array.isArray(baseScheduleDay) || !baseScheduleDay.A || !baseScheduleDay.B) return null;
+  const lunchRegex = /\blunch\b/i;
+
+  const aLunchIndex = baseScheduleDay.A.findIndex(p => lunchRegex.test(p.name));
+  const bLunchIndex = baseScheduleDay.B.findIndex(p => lunchRegex.test(p.name));
+  if (aLunchIndex === -1 && bLunchIndex === -1) return null;
+
+  const aPeriod = aLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.A, aLunchIndex);
+  const bPeriod = bLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.B, bLunchIndex);
+
+  if (aPeriod && bPeriod && aPeriod === bPeriod) return aPeriod;
+  return aPeriod || bPeriod || null;
+}
+
+function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedule) {
+  const lunchPrefs = getLunchPreferencesForScheduleKey(scheduleKey);
+  const todayChoice = lunchPrefs?.[today];
+
+  if (!baseScheduleDay || Array.isArray(baseScheduleDay)) {
+    return normalizeLunchChoice(todayChoice);
+  }
+
+  const targetPeriod = getLunchContextPeriodForDay(baseScheduleDay);
+  if (!targetPeriod || !baseSchedule) {
+    return normalizeLunchChoice(todayChoice);
+  }
+
+  const candidateDays = [
+    today,
+    ...Object.keys(baseSchedule).filter(day => day !== today)
+  ];
+
+  for (const day of candidateDays) {
+    const daySchedule = baseSchedule[day];
+    if (getLunchContextPeriodForDay(daySchedule) !== targetPeriod) continue;
+    const pref = lunchPrefs?.[day];
+    if (pref === 'A' || pref === 'B') return pref;
+  }
+
+  return normalizeLunchChoice(todayChoice);
 }
 
 function getSchedules(date) {
@@ -286,7 +333,7 @@ function getSchedules(date) {
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
   
-  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today]);
+  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
 
   
   if (scheduleKey === 'normal') {
@@ -1186,7 +1233,9 @@ async function loadData() {
       };
     });
     
-    lunchPreferences = schedulesData.lunchPreferences;
+    lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
+    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences || null;
+    sbaLunchPreferences = schedulesData.sbaLunchPreferences || null;
     loadLunchPreferences(); 
     
     
@@ -1196,7 +1245,16 @@ async function loadData() {
   } catch (error) {
     console.error('Error loading data:', error);
     
-    schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
+    schedulesData = {
+      normal: {},
+      finals: {},
+      lunchPreferences: getDefaultLunchPrefs(),
+      pilot3LunchPreferences: getDefaultLunchPrefs(),
+      sbaLunchPreferences: getDefaultLunchPrefs()
+    };
+    lunchPreferences = schedulesData.lunchPreferences;
+    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences;
+    sbaLunchPreferences = schedulesData.sbaLunchPreferences;
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
     clubsData = { clubs: [] };
@@ -1542,7 +1600,7 @@ async function initApp() {
     { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
-    { href: '#', icon: 'arrow.up.forward', text: 'Map (Coming Soon)', disabled: true },
+    { href: '/map', icon: '/icons/src/map.svg', text: 'Map' },
     { href: '/info', icon: '/icons/src/info.svg', text: 'Info' },
     { href: '/settings', icon: '/icons/src/gear.svg', text: 'Settings' }
   ];

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map - LW Schedule</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .comingSoonCard {
+      background: var(--card-dark);
+      border: 1px solid var(--primary-light);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--glow);
+    }
+
+    .comingSoonCard h3 {
+      margin: 0 0 10px;
+      font-size: 1.4em;
+    }
+
+    .comingSoonCard p {
+      margin: 0;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="pageContainer">
+    <h2>Map</h2>
+    <div class="comingSoonCard">
+      <h3>Coming Soon</h3>
+      <p>The campus map is on the way.</p>
+    </div>
+  </div>
+
+  <script src="/common.js"></script>
+  <script>
+    checkSetupComplete();
+  </script>
+</body>
+</html>
