@@ -10,6 +10,724 @@
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <style>
+    .setup-wrap { max-width: 650px; margin: 0 auto; padding: 80px 0 24px; }
+    .setup-section { margin-bottom: 22px; }
+    .setup-title { margin: 0 0 8px; }
+    .setup-desc { text-align: center; opacity: 0.8; font-size: 0.92em; margin: 10px 0 18px; }
+
+    .row { margin-bottom: 15px; }
+    .row label { display: block; margin-bottom: 8px; font-weight: 700; }
+
+    .lunchButtons { display: flex; gap: 10px; justify-content: center; }
+    .lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .lunchBtn:disabled { opacity: 1; cursor: default; }
+
+    .toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--card-dark); border-radius: 12px; margin-bottom: 20px; }
+    .toggle-label { font-size: 1.05em; font-weight: 600; }
+    .toggle-switch { position: relative; width: 60px; height: 32px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; cursor: pointer; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: white; transition: 0.4s; border-radius: 50%; }
+    .toggle-switch input:checked + .toggle-slider { background: #34c759; }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(28px); }
+
+    .panel { display: none; }
+    .class-search-input, .pack-up-input { width: 100%; padding: 12px 15px; font-size: 1em; border: 2px solid var(--primary); border-radius: 10px; background: var(--card-dark); color: var(--text-light); outline: none; margin-bottom: 14px; box-sizing: border-box; }
+    .class-search-input:focus, .pack-up-input:focus { box-shadow: 0 0 10px rgba(75, 46, 131, 0.5); }
+
+    .class-actions { display: flex; gap: 10px; margin-bottom: 15px; }
+    .class-action-btn { flex: 1; padding: 10px 14px; font-size: 0.9em; font-weight: 600; border: 2px solid var(--primary); border-radius: 10px; background: transparent; color: var(--text-light); cursor: pointer; transition: all 0.3s; }
+    .class-action-btn:hover { background: var(--primary); }
+
+    .list-box { background: var(--card-dark); border-radius: 12px; max-height: 260px; overflow-y: auto; margin-bottom: 20px; border: 1px solid var(--primary-light); }
+    .class-result-btn, .club-result-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; border: none; border-bottom: 1px solid var(--primary-light); background: transparent; color: var(--text-light); text-align: left; cursor: pointer; font-size: 0.92em; }
+    .class-result-btn:last-child, .club-result-btn:last-child { border-bottom: none; }
+    .class-result-btn:hover, .club-result-btn:hover { background: rgba(75, 46, 131, 0.2); }
+    .class-result-btn.added, .class-result-btn:disabled, .club-result-btn.added, .club-result-btn:disabled { cursor: not-allowed; opacity: 0.65; background: rgba(60, 37, 105, 0.25); }
+    .result-tag { font-size: 0.75em; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--primary); color: #bfaee8; margin-left: 10px; white-space: nowrap; min-width: 28px; display: inline-flex; align-items: center; justify-content: center; }
+    .result-tag-icon { width: 12px; height: 12px; display: block; filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%); }
+
+    .class-slots, .club-slots { background: var(--card-dark); border-radius: 12px; border: 1px solid var(--primary-light); padding: 10px; }
+    .class-slot-row { display: grid; grid-template-columns: 38px 1fr 38px; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .class-slot-row:last-child { margin-bottom: 0; }
+    .slot-arrow-btn { height: 38px; border: 2px solid var(--primary); border-radius: 10px; background: transparent; color: var(--text-light); cursor: pointer; font-weight: 700; font-size: 1em; }
+    .slot-arrow-btn:hover:not(:disabled) { background: var(--primary); }
+    .slot-arrow-btn:disabled { opacity: 0.35; cursor: default; }
+    .class-slot-card, .club-slot-card { background: #141414; border: 1px solid var(--primary-light); border-radius: 10px; padding: 10px 12px; min-height: 58px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+    .class-slot-period { font-size: 0.76em; color: #9f9f9f; letter-spacing: 0.04em; text-transform: uppercase; }
+    .class-slot-value { font-size: 0.92em; font-weight: 600; line-height: 1.3; }
+    .class-slot-clear { margin-top: 2px; width: fit-content; border: 1px solid var(--primary-light); background: transparent; color: #b7b7b7; border-radius: 999px; padding: 2px 8px; font-size: 0.72em; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 22px; }
+    .class-slot-clear:hover { color: white; border-color: #7b7b7b; }
+    .class-slot-clear-icon { width: 12px; height: 12px; display: block; filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%); }
+
+    .count, .message { text-align: center; }
+    .count { font-size: 0.88em; color: #aaa; margin-top: 12px; margin-bottom: 4px; }
+    .message { min-height: 1.2em; font-size: 0.84em; color: #cdb9ff; margin: 0; }
+
+    .pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+    .pack-up-preset { flex: 1; min-width: 62px; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+
+    .saveBtn, .completeBtn, .resetBtn { display: block; width: 100%; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; text-decoration: none; text-align: center; }
+    .saveBtn { background: var(--primary-light); color: white; padding: 15px 40px; font-size: 1.1em; box-shadow: var(--glow); margin-top: 20px; }
+    .completeBtn { background: var(--primary-light); color: white; padding: 18px 40px; font-size: 1.2em; box-shadow: var(--glow); margin-top: 24px; }
+    .resetBtn { background: var(--primary); color: white; padding: 12px 30px; font-size: 1em; margin-top: 20px; }
+    .resetBtn::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 8px; vertical-align: -0.12em; background: url('/icons/src/trash.svg') center/contain no-repeat; }
+    .saveBtn:hover, .completeBtn:hover, .resetBtn:hover { transform: scale(1.05); }
+    .resetBtn:hover { background: #9d182e; }
+
+    @media (max-width: 600px) {
+      .setup-wrap { padding-top: 20px; }
+      .lunchButtons, .pack-up-presets, .class-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="setup-wrap">
+    <h2 class="setup-title">Welcome to LW Schedule!</h2>
+    <p class="setup-desc">Let's set up your personalized schedule experience.</p>
+
+    <section class="setup-section">
+      <h3>Lunch Preferences</h3>
+      <div class="row">
+        <label>Period 3 Lunch <small>(Mon/Fri & most special schedules)</small>:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn" data-day="Monday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Monday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Period 4 Lunch <small>(Tue/Thu & most special schedules)</small>:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn" data-day="Tuesday" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-day="Tuesday" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>Wednesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" disabled>All School Lunch</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <h3>Classes</h3>
+      <p class="setup-desc">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Classes</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="classesToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="classesPanel" class="panel">
+        <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
+        <div class="class-actions">
+          <button type="button" id="clearClassesBtn" class="class-action-btn">Clear All Slots</button>
+        </div>
+        <div id="classResults" class="list-box"></div>
+        <div id="setupSelectedClassesList" class="class-slots"></div>
+        <p id="setupClassesCount" class="count">0 of 6 slots filled</p>
+        <p id="setupClassesMessage" class="message"></p>
+        <button type="button" id="resetClassesBtn" class="resetBtn">Reset Classes to Default</button>
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <h3>Clubs</h3>
+      <p class="setup-desc">Browse and select clubs to see them in your schedule.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Clubs</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="clubsToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="clubsPanel" class="panel">
+        <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
+        <div class="class-actions">
+          <button type="button" id="clearClubsBtn" class="class-action-btn">Clear All Clubs</button>
+        </div>
+        <div id="clubResults" class="list-box"></div>
+        <div id="setupSelectedClubsList" class="club-slots"></div>
+        <p id="selectedCount" class="count">0 clubs selected</p>
+        <button type="button" id="resetClubsBtn" class="resetBtn">Reset Clubs to Default</button>
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <h3>Pack-Up Reminders</h3>
+      <p class="setup-desc">Get notified before class ends so you have time to pack up.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Pack-Up Reminders</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="packupToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="packupPanel" class="panel">
+        <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="Minutes before class ends">
+        <div class="pack-up-presets">
+          <button type="button" class="pack-up-preset" data-value="0">Off</button>
+          <button type="button" class="pack-up-preset" data-value="1">1</button>
+          <button type="button" class="pack-up-preset" data-value="3">3</button>
+          <button type="button" class="pack-up-preset" data-value="5">5</button>
+          <button type="button" class="pack-up-preset" data-value="7">7</button>
+          <button type="button" class="pack-up-preset" data-value="10">10</button>
+        </div>
+        <button type="button" class="saveBtn" id="testPackupBtn">Test Notification</button>
+        <button type="button" class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <h3>Phone Caddy</h3>
+      <p class="setup-desc">Get reminded to grab your phone 1 minute before class ends, and put it in your assigned spot 1 minute before class starts.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Phone Caddy</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="caddyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="caddyPanel" class="panel">
+        <div id="caddyInputs" style="display:flex; flex-direction:column; gap:10px;">
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+        </div>
+        <button type="button" class="saveBtn" id="testCaddyBtn">Test Notification</button>
+        <button type="button" class="resetBtn" id="resetCaddyBtn">Reset Settings</button>
+      </div>
+    </section>
+
+    <button class="completeBtn" id="completeBtn">Complete Setup</button>
+  </div>
+
+  <script src="/common.js"></script>
+  <script>
+    const DEFAULT_LUNCH_PREFS = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+    const SETUP_MAX_CLASS_SLOTS = 6;
+
+    const setupState = {
+      lunchPrefs: { ...DEFAULT_LUNCH_PREFS },
+      classTitles: [],
+      selectedClassSlots: getSelectedClassesSlots(),
+      classMessageTimer: null,
+      clubs: [],
+      selectedClubs: [],
+      packUpTime: 0,
+      caddyTimes: { 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' }
+    };
+
+    const el = {
+      classesToggle: document.getElementById('classesToggle'),
+      clubsToggle: document.getElementById('clubsToggle'),
+      packupToggle: document.getElementById('packupToggle'),
+      caddyToggle: document.getElementById('caddyToggle'),
+      classesPanel: document.getElementById('classesPanel'),
+      clubsPanel: document.getElementById('clubsPanel'),
+      packupPanel: document.getElementById('packupPanel'),
+      caddyPanel: document.getElementById('caddyPanel'),
+      classSearch: document.getElementById('classSearch'),
+      classResults: document.getElementById('classResults'),
+      selectedClassesList: document.getElementById('setupSelectedClassesList'),
+      setupClassesCount: document.getElementById('setupClassesCount'),
+      setupClassesMessage: document.getElementById('setupClassesMessage'),
+      clearClassesBtn: document.getElementById('clearClassesBtn'),
+      resetClassesBtn: document.getElementById('resetClassesBtn'),
+      clubSearch: document.getElementById('clubSearch'),
+      clubResults: document.getElementById('clubResults'),
+      selectedClubsList: document.getElementById('setupSelectedClubsList'),
+      selectedCount: document.getElementById('selectedCount'),
+      clearClubsBtn: document.getElementById('clearClubsBtn'),
+      resetClubsBtn: document.getElementById('resetClubsBtn'),
+      packUpTimeInput: document.getElementById('packUpTimeInput'),
+      testPackupBtn: document.getElementById('testPackupBtn'),
+      resetPackupBtn: document.getElementById('resetPackupBtn'),
+      testCaddyBtn: document.getElementById('testCaddyBtn'),
+      resetCaddyBtn: document.getElementById('resetCaddyBtn'),
+      completeBtn: document.getElementById('completeBtn')
+    };
+
+    function escapeSetupHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function setPanelVisible(panel, visible) {
+      panel.style.display = visible ? 'block' : 'none';
+    }
+
+    function loadLunchPrefs() {
+      try {
+        const saved = localStorage.getItem('lunchPreferences');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          setupState.lunchPrefs = {
+            Monday: parsed.Monday || 'A',
+            Tuesday: parsed.Tuesday || 'A',
+            Wednesday: parsed.Wednesday || 'All',
+            Thursday: parsed.Thursday || 'A',
+            Friday: parsed.Friday || 'A'
+          };
+        }
+      } catch (e) {}
+    }
+
+    function updateLunchUI() {
+      document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        const current = setupState.lunchPrefs[day] || 'A';
+        btn.classList.toggle('selected', current === lunch);
+      });
+    }
+
+    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        const lunch = btn.dataset.lunch;
+        setupState.lunchPrefs[day] = lunch;
+        if (day === 'Monday') setupState.lunchPrefs.Friday = lunch;
+        if (day === 'Tuesday') setupState.lunchPrefs.Thursday = lunch;
+        localStorage.setItem('lunchPreferences', JSON.stringify(setupState.lunchPrefs));
+        updateLunchUI();
+      });
+    });
+
+    function showClassMessage(message) {
+      el.setupClassesMessage.textContent = message;
+      clearTimeout(setupState.classMessageTimer);
+      setupState.classMessageTimer = setTimeout(() => { el.setupClassesMessage.textContent = ''; }, 2500);
+    }
+
+    function saveClassSlots() {
+      setupState.selectedClassSlots = setSelectedClassesSlots(setupState.selectedClassSlots);
+    }
+
+    function renderClassSlots() {
+      let html = '';
+      for (let i = 0; i < SETUP_MAX_CLASS_SLOTS; i++) {
+        const title = setupState.selectedClassSlots[i] || '';
+        const empty = !title;
+        html += `<div class="class-slot-row">
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="up" ${i === 0 || empty ? 'disabled' : ''}>&uarr;</button>
+          <div class="class-slot-card">
+            <div class="class-slot-period">Period ${i + 1}</div>
+            <div class="class-slot-value">${empty ? 'Empty' : escapeSetupHtml(title)}</div>
+            ${empty ? '' : `<button type="button" class="class-slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>`}
+          </div>
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="down" ${i === SETUP_MAX_CLASS_SLOTS - 1 || empty ? 'disabled' : ''}>&darr;</button>
+        </div>`;
+      }
+      el.selectedClassesList.innerHTML = html;
+      el.setupClassesCount.textContent = `${setupState.selectedClassSlots.filter(Boolean).length} of 6 slots filled`;
+
+      el.selectedClassesList.querySelectorAll('.slot-arrow-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const from = parseInt(btn.dataset.index, 10);
+          const to = btn.dataset.dir === 'up' ? from - 1 : from + 1;
+          if (to < 0 || to >= SETUP_MAX_CLASS_SLOTS) return;
+          const temp = setupState.selectedClassSlots[to];
+          setupState.selectedClassSlots[to] = setupState.selectedClassSlots[from];
+          setupState.selectedClassSlots[from] = temp || '';
+          saveClassSlots();
+          renderClassSlots();
+          renderClassResults(el.classSearch.value);
+        });
+      });
+
+      el.selectedClassesList.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.clearIndex, 10);
+          setupState.selectedClassSlots[index] = '';
+          saveClassSlots();
+          renderClassSlots();
+          renderClassResults(el.classSearch.value);
+        });
+      });
+    }
+
+    function addClassToSlots(title) {
+      if (setupState.selectedClassSlots.includes(title)) {
+        showClassMessage('That class is already in your schedule.');
+        return;
+      }
+      const emptyIndex = setupState.selectedClassSlots.findIndex(slot => !slot);
+      if (emptyIndex !== -1) {
+        setupState.selectedClassSlots[emptyIndex] = title;
+        saveClassSlots();
+        renderClassSlots();
+        renderClassResults(el.classSearch.value);
+        return;
+      }
+      showClassMessage('All 6 slots are full. Remove one first.');
+    }
+
+    function renderClassResults(filter = '') {
+      const filterLower = filter.toLowerCase();
+      const selectedSet = new Set(setupState.selectedClassSlots.filter(Boolean));
+      const filtered = setupState.classTitles.filter(name => name.toLowerCase().includes(filterLower)).sort((a, b) => {
+        const aAdded = selectedSet.has(a);
+        const bAdded = selectedSet.has(b);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.localeCompare(b);
+      });
+
+      if (!filtered.length) {
+        el.classResults.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
+        return;
+      }
+
+      el.classResults.innerHTML = filtered.map(classTitle => {
+        const added = selectedSet.has(classTitle);
+        return `<button type="button" class="class-result-btn ${added ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${added ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="result-tag">${added ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+      }).join('');
+
+      el.classResults.querySelectorAll('.class-result-btn:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => addClassToSlots(decodeURIComponent(btn.dataset.class)));
+      });
+    }
+
+    async function loadSetupClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        setupState.classTitles = data.classes || [];
+        renderClassResults();
+        renderClassSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        el.classResults.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+      }
+    }
+
+    function renderClubCount() {
+      const count = setupState.selectedClubs.length;
+      el.selectedCount.textContent = count === 0 ? 'No clubs selected' : count === 1 ? '1 club selected' : `${count} clubs selected`;
+      el.selectedClubsList.style.display = count === 0 ? 'none' : 'block';
+    }
+
+    function renderClubResults(filter = '') {
+      const filterLower = filter.toLowerCase();
+      const selectedSet = new Set(setupState.selectedClubs);
+      const filtered = setupState.clubs.filter(club => {
+        const days = club.days || (club.day ? [club.day] : []);
+        return club.name.toLowerCase().includes(filterLower) || (club.room || '').toLowerCase().includes(filterLower) || days.some(d => d.toLowerCase().includes(filterLower));
+      }).sort((a, b) => {
+        const aAdded = selectedSet.has(a.id);
+        const bAdded = selectedSet.has(b.id);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      if (!filtered.length) {
+        el.clubResults.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
+        return;
+      }
+
+      el.clubResults.innerHTML = filtered.map(club => {
+        const added = selectedSet.has(club.id);
+        return `<button type="button" class="club-result-btn ${added ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${added ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="result-tag">${added ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+      }).join('');
+
+      el.clubResults.querySelectorAll('.club-result-btn:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          if (!setupState.selectedClubs.includes(clubId)) {
+            setupState.selectedClubs.push(clubId);
+            localStorage.setItem('selectedClubs', JSON.stringify(setupState.selectedClubs));
+            renderSelectedClubs();
+            renderClubResults(el.clubSearch.value);
+          }
+        });
+      });
+    }
+
+    function renderSelectedClubs() {
+      const clubObjs = setupState.selectedClubs.map(id => setupState.clubs.find(c => c.id === id)).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name));
+      setupState.selectedClubs = clubObjs.map(c => c.id);
+      localStorage.setItem('selectedClubs', JSON.stringify(setupState.selectedClubs));
+
+      el.selectedClubsList.innerHTML = clubObjs.map(club => `
+        <div class="club-slot-card" style="margin-bottom:10px;">
+          <div class="class-slot-value">${escapeSetupHtml(club.name)}</div>
+          <button type="button" class="class-slot-clear" data-id="${escapeSetupHtml(club.id)}" aria-label="Remove ${escapeSetupHtml(club.name)}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>
+        </div>
+      `).join('');
+
+      el.selectedClubsList.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setupState.selectedClubs = setupState.selectedClubs.filter(id => id !== btn.dataset.id);
+          renderSelectedClubs();
+          renderClubResults(el.clubSearch.value);
+        });
+      });
+
+      renderClubCount();
+    }
+
+    async function loadClubs() {
+      try {
+        const response = await fetch('/data/clubs.json');
+        const data = await response.json();
+        setupState.clubs = data.clubs || [];
+        const saved = localStorage.getItem('selectedClubs');
+        setupState.selectedClubs = saved ? JSON.parse(saved) : [];
+        renderClubResults();
+        renderSelectedClubs();
+      } catch (error) {
+        console.error('Error loading clubs:', error);
+        el.clubResults.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
+      }
+    }
+
+    function loadPackUp() {
+      const saved = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+      setupState.packUpTime = Number.isNaN(saved) || saved < 0 ? 0 : saved;
+      el.packUpTimeInput.value = setupState.packUpTime > 0 ? setupState.packUpTime : '';
+      document.querySelectorAll('.pack-up-preset').forEach(btn => btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) === setupState.packUpTime));
+    }
+
+    function setPackUpState(value) {
+      setupState.packUpTime = value;
+      el.packUpTimeInput.value = value > 0 ? value : '';
+      localStorage.setItem('pack-up-time', String(value));
+      document.querySelectorAll('.pack-up-preset').forEach(btn => btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) === value));
+    }
+
+    async function testPackUpNotification() {
+      if (!('Notification' in window)) return alert('This browser does not support desktop notifications.');
+      let perm = Notification.permission;
+      if (perm !== 'granted' && perm !== 'denied') perm = await Notification.requestPermission();
+      if (perm === 'granted') {
+        sendNotification('Pack-Up Reminder', { body: 'This is a test notification.', icon: '/images/logo.png', requireInteraction: true });
+      } else {
+        alert('Notification permission is blocked. Please enable it in browser settings.');
+      }
+    }
+
+    function loadCaddy() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
+        for (let i = 1; i <= 6; i++) setupState.caddyTimes[i] = saved[i] || '';
+      } catch (e) {}
+      for (let i = 1; i <= 6; i++) document.getElementById(`caddyTime${i}`).value = setupState.caddyTimes[i] || '';
+    }
+
+    function saveCaddyTimes() {
+      const payload = {};
+      for (let i = 1; i <= 6; i++) payload[i] = document.getElementById(`caddyTime${i}`).value || '';
+      setupState.caddyTimes = payload;
+      localStorage.setItem('phone-caddy-times', JSON.stringify(payload));
+    }
+
+    function setSectionStates() {
+      const classesEnabled = isClassesEnabled();
+      const clubsEnabled = isClubsEnabled();
+      const packupEnabled = localStorage.getItem('notifications-enabled') === 'true' || setupState.packUpTime > 0;
+      const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+
+      el.classesToggle.checked = classesEnabled;
+      el.clubsToggle.checked = clubsEnabled;
+      el.packupToggle.checked = packupEnabled;
+      el.caddyToggle.checked = caddyEnabled;
+
+      setPanelVisible(el.classesPanel, classesEnabled);
+      setPanelVisible(el.clubsPanel, clubsEnabled);
+      setPanelVisible(el.packupPanel, packupEnabled);
+      setPanelVisible(el.caddyPanel, caddyEnabled);
+    }
+
+    el.classesToggle.addEventListener('change', () => {
+      setClassesEnabled(el.classesToggle.checked);
+      setPanelVisible(el.classesPanel, el.classesToggle.checked);
+    });
+
+    el.clubsToggle.addEventListener('change', () => {
+      localStorage.setItem('clubsEnabled', el.clubsToggle.checked ? 'true' : 'false');
+      setPanelVisible(el.clubsPanel, el.clubsToggle.checked);
+    });
+
+    el.packupToggle.addEventListener('change', async () => {
+      if (el.packupToggle.checked) {
+        if (!('Notification' in window)) {
+          alert('This browser does not support notifications.');
+          el.packupToggle.checked = false;
+          return;
+        }
+        const perm = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
+        if (perm === 'granted') {
+          localStorage.setItem('notifications-enabled', 'true');
+          setPanelVisible(el.packupPanel, true);
+        } else {
+          el.packupToggle.checked = false;
+          localStorage.setItem('notifications-enabled', 'false');
+          setPanelVisible(el.packupPanel, false);
+          alert('Please allow notifications in your browser first.');
+        }
+      } else {
+        localStorage.setItem('notifications-enabled', 'false');
+        setPanelVisible(el.packupPanel, false);
+      }
+    });
+
+    el.caddyToggle.addEventListener('change', async () => {
+      if (el.caddyToggle.checked) {
+        if (!('Notification' in window)) {
+          alert('This browser does not support notifications.');
+          el.caddyToggle.checked = false;
+          return;
+        }
+        const perm = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
+        if (perm === 'granted') {
+          localStorage.setItem('phone-caddy-enabled', 'true');
+          localStorage.setItem('notifications-enabled', 'true');
+          setPanelVisible(el.caddyPanel, true);
+        } else {
+          el.caddyToggle.checked = false;
+          localStorage.setItem('phone-caddy-enabled', 'false');
+          setPanelVisible(el.caddyPanel, false);
+          alert('Please allow notifications in your browser first.');
+        }
+      } else {
+        localStorage.setItem('phone-caddy-enabled', 'false');
+        setPanelVisible(el.caddyPanel, false);
+      }
+    });
+
+    el.classSearch.addEventListener('input', e => renderClassResults(e.target.value));
+    el.clearClassesBtn.addEventListener('click', () => {
+      setupState.selectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
+      saveClassSlots();
+      renderClassSlots();
+      renderClassResults(el.classSearch.value);
+    });
+    el.resetClassesBtn.addEventListener('click', () => {
+      setupState.selectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
+      saveClassSlots();
+      setClassesEnabled(false);
+      el.classesToggle.checked = false;
+      setPanelVisible(el.classesPanel, false);
+      renderClassSlots();
+      renderClassResults(el.classSearch.value);
+    });
+
+    el.clubSearch.addEventListener('input', e => renderClubResults(e.target.value));
+    el.clearClubsBtn.addEventListener('click', () => {
+      setupState.selectedClubs = [];
+      localStorage.setItem('selectedClubs', JSON.stringify([]));
+      renderSelectedClubs();
+      renderClubResults(el.clubSearch.value);
+    });
+    el.resetClubsBtn.addEventListener('click', () => {
+      setupState.selectedClubs = [];
+      localStorage.setItem('selectedClubs', JSON.stringify([]));
+      localStorage.setItem('clubsEnabled', 'false');
+      el.clubsToggle.checked = false;
+      setPanelVisible(el.clubsPanel, false);
+      renderSelectedClubs();
+      renderClubResults(el.clubSearch.value);
+    });
+
+    el.packUpTimeInput.addEventListener('input', () => {
+      let val = parseInt(el.packUpTimeInput.value, 10);
+      if (Number.isNaN(val) || val < 0) return;
+      if (val > 30) val = 30;
+      setPackUpState(val);
+    });
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.addEventListener('click', () => setPackUpState(parseInt(btn.dataset.value, 10)));
+    });
+    el.testPackupBtn.addEventListener('click', testPackUpNotification);
+    el.resetPackupBtn.addEventListener('click', () => {
+      setPackUpState(0);
+      localStorage.setItem('notifications-enabled', 'false');
+      el.packupToggle.checked = false;
+      setPanelVisible(el.packupPanel, false);
+    });
+
+    el.testCaddyBtn.addEventListener('click', async () => {
+      if (!('Notification' in window)) return alert('This browser does not support desktop notifications.');
+      let perm = Notification.permission;
+      if (perm !== 'granted' && perm !== 'denied') perm = await Notification.requestPermission();
+      if (perm === 'granted') {
+        const spot = document.getElementById('caddyTime1').value || '12';
+        sendNotification('Phone Caddy Reminder', { body: `Class starts in 1 minute! Put your phone in caddy spot #${spot}`, icon: '/icons/icon-192.png' });
+      } else {
+        alert('Notification permission is blocked. Please enable it in browser settings.');
+      }
+    });
+    document.querySelectorAll('#caddyPanel .pack-up-input').forEach(input => input.addEventListener('input', saveCaddyTimes));
+    el.resetCaddyBtn.addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) document.getElementById(`caddyTime${i}`).value = '';
+      setupState.caddyTimes = { 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' };
+      localStorage.setItem('phone-caddy-times', JSON.stringify(setupState.caddyTimes));
+      localStorage.setItem('phone-caddy-enabled', 'false');
+      el.caddyToggle.checked = false;
+      setPanelVisible(el.caddyPanel, false);
+    });
+
+    el.completeBtn.addEventListener('click', () => {
+      localStorage.setItem('lunchPreferences', JSON.stringify(setupState.lunchPrefs));
+      localStorage.setItem('classesEnabled', el.classesToggle.checked ? 'true' : 'false');
+      localStorage.setItem('selectedClasses', JSON.stringify(setSelectedClassesSlots(setupState.selectedClassSlots)));
+      localStorage.setItem('clubsEnabled', el.clubsToggle.checked ? 'true' : 'false');
+      localStorage.setItem('selectedClubs', JSON.stringify(setupState.selectedClubs));
+      localStorage.setItem('pack-up-time', String(setupState.packUpTime));
+      localStorage.setItem('notifications-enabled', el.packupToggle.checked ? 'true' : 'false');
+      if (el.caddyToggle.checked) {
+        saveCaddyTimes();
+        localStorage.setItem('phone-caddy-enabled', 'true');
+      } else {
+        localStorage.setItem('phone-caddy-enabled', 'false');
+      }
+      localStorage.setItem('setup-complete', 'true');
+      localStorage.setItem('app-visited', 'true');
+      navigateWithTransition('/', { replace: true });
+    });
+
+    async function init() {
+      loadLunchPrefs();
+      updateLunchUI();
+      loadPackUp();
+      loadCaddy();
+      setSectionStates();
+      await Promise.all([loadSetupClasses(), loadClubs()]);
+      renderClassResults(el.classSearch.value);
+      renderClubResults(el.clubSearch.value);
+    }
+
+    checkSetupComplete();
+    init();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup - LW Schedule</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
     .setupContent { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; }
     .setupSection { background: transparent; margin-bottom: 18px; }
     .setupDescription { opacity: 0.8; font-size: 0.92em; margin: 10px 0 18px; text-align: center; }

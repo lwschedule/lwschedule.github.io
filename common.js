@@ -1589,7 +1589,7 @@ async function initApp() {
 }
 
 (function injectGlobalSidebar() {
-  if (window.location.pathname.startsWith('/setup')) return;
+  if (window.location.pathname.startsWith('/setup') || window.location.pathname.startsWith('/app')) return;
 
   const navLinks = [
     { href: '/', icon: '/icons/src/house.svg', text: 'Home' },
