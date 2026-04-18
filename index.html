@@ -80,7 +80,7 @@
 
     async function initClockMorphs() {
       try {
-        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/dist/index.js');
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
         const daysEl = document.getElementById('clockDisplay-days');
         const hoursEl = document.getElementById('clockDisplay-hours');
         const minutesEl = document.getElementById('clockDisplay-minutes');
