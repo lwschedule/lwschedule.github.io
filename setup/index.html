@@ -590,6 +590,10 @@
 
     let allClubs = [];
     let selectedClubs = [];
+    const classesToggle = document.getElementById('classesToggle');
+    const classesSettings = document.getElementById('classesSettings');
+    const clubsToggle = document.getElementById('clubsToggle');
+    const clubsSettings = document.getElementById('clubsSettings');
 
     async function loadClubs() {
       try {
@@ -823,24 +827,20 @@
       updateNotificationStatus();
 
       packupToggle.addEventListener('change', async () => {
-        if (packupToggle.checked) {
+        const enabled = packupToggle.checked;
+        localStorage.setItem('notifications-enabled', enabled ? 'true' : 'false');
+        packupSettings.style.display = enabled ? 'block' : 'none';
+
+        if (enabled && Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
-          if (permission === 'granted') {
-            localStorage.setItem('notifications-enabled', 'true');
-            packupSettings.style.display = 'block';
-            updateNotificationStatus();
-          } else {
-            packupToggle.checked = false;
-            localStorage.setItem('notifications-enabled', 'false');
-            packupSettings.style.display = 'none';
-            notificationStatus.innerHTML = '❌ Notifications blocked by browser';
-            notificationStatus.style.color = '#ff4757';
+          if (permission !== 'granted') {
+            notificationStatus.innerHTML = '⚠️ Toggle is on, but browser notifications are blocked';
+            notificationStatus.style.color = '#ff9f43';
+            return;
           }
-        } else {
-          localStorage.setItem('notifications-enabled', 'false');
-          packupSettings.style.display = 'none';
-          updateNotificationStatus();
         }
+
+        updateNotificationStatus();
       });
     } else {
       packupToggle.disabled = true;
@@ -894,24 +894,24 @@
       updateCaddyStatus();
 
       caddyToggle.addEventListener('change', async () => {
-        if (caddyToggle.checked) {
+        const enabled = caddyToggle.checked;
+        localStorage.setItem('phone-caddy-enabled', enabled ? 'true' : 'false');
+        caddySettings.style.display = enabled ? 'block' : 'none';
+
+        if (enabled && localStorage.getItem('notifications-enabled') !== 'true') {
+          localStorage.setItem('notifications-enabled', 'true');
+        }
+
+        if (enabled && Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
-          if (permission === 'granted') {
-            localStorage.setItem('phone-caddy-enabled', 'true');
-            localStorage.setItem('notifications-enabled', 'true');
-            caddySettings.style.display = 'block';
-          } else {
-            caddyToggle.checked = false;
-            localStorage.setItem('phone-caddy-enabled', 'false');
-            caddySettings.style.display = 'none';
-            caddyStatus.innerHTML = '❌ Notifications blocked by browser';
-            caddyStatus.style.color = '#ff4757';
+          if (permission !== 'granted') {
+            caddyStatus.innerHTML = '⚠️ Toggle is on, but browser notifications are blocked';
+            caddyStatus.style.color = '#ff9f43';
+            caddyStatus.parentElement.style.display = 'block';
             return;
           }
-        } else {
-          localStorage.setItem('phone-caddy-enabled', 'false');
-          caddySettings.style.display = 'none';
         }
+
         updateCaddyStatus();
       });
     } else {
@@ -941,7 +941,7 @@
       }
     });
 
-    document.querySelectorAll('.pack-up-input').forEach(input => {
+    document.querySelectorAll('[id^="caddyTime"]').forEach(input => {
       input.addEventListener('input', () => {
         for (let i = 1; i <= 6; i++) {
           caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || '';
