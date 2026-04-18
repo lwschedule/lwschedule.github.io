@@ -337,7 +337,7 @@
         const isAdded = selectedSet.has(club.id);
         html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeHtml(club.id)}" ${isAdded ? 'disabled' : ''}>
           <span>${escapeHtml(club.name)}</span>
-          <span class="result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span>
+          <span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span>
         </button>`;
       });
       resultsEl.innerHTML = html;

@@ -59,16 +59,38 @@
 
     .filtersPanel {
       padding: 0 12px 12px;
+      max-height: 240px;
+      opacity: 1;
+      transform: translateY(0);
+      overflow: hidden;
+      transition:
+        max-height 0.34s ease,
+        opacity 0.26s ease,
+        transform 0.34s ease,
+        padding-top 0.34s ease,
+        padding-bottom 0.34s ease;
+      will-change: max-height, opacity, transform;
     }
 
-    .filtersPanel.hidden {
-      display: none;
+    .filtersPanel.is-collapsed {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-8px);
+      padding-top: 0;
+      padding-bottom: 0;
+      pointer-events: none;
     }
 
     .filtersGrid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .filtersPanel.is-collapsed .filtersGrid {
+      opacity: 0;
+      transform: translateY(-6px);
     }
 
     .filterToggleItem {
@@ -425,7 +447,7 @@
       const panel = document.getElementById('filtersPanel');
       const toggleBtn = document.getElementById('filtersToggleBtn');
       const toggleArrowIcon = document.getElementById('filtersToggleArrowIcon');
-      if (panel) panel.classList.toggle('hidden', !isOpen);
+      if (panel) panel.classList.toggle('is-collapsed', !isOpen);
       if (toggleBtn) toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       if (toggleArrowIcon) {
         toggleArrowIcon.src = isOpen ? '/icons/src/chevron.up.svg' : '/icons/src/chevron.down.svg';

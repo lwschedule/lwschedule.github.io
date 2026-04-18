@@ -569,7 +569,7 @@ fixToggles();
       let html = '';
       filteredClasses.forEach(classTitle => {
         const isAdded = selectedSet.has(classTitle);
-        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="class-result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="class-result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="class-result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
 
@@ -777,7 +777,7 @@ fixToggles();
       let html = '';
       filteredClubs.forEach(club => {
         const isAdded = selectedSet.has(club.id);
-        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="class-result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
+        html += `<button type="button" class="class-result-btn ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(club.name)}</span><span class="class-result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="class-result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="class-result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
       

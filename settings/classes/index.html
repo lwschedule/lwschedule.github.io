@@ -349,7 +349,7 @@
       let html = '';
       filteredClasses.forEach(classTitle => {
         const isAdded = selectedSet.has(classTitle);
-        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? 'Added' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
       });
       resultsEl.innerHTML = html;
 
