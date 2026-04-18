@@ -1600,7 +1600,7 @@ async function initApp() {
     { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
-    { href: '/map', icon: '/icons/src/map.svg', text: 'Map' },
+    { href: '#', icon: '/icons/src/map.svg', text: 'Map (Coming Soon)', disabled: true },
     { href: '/info', icon: '/icons/src/info.svg', text: 'Info' },
     { href: '/settings', icon: '/icons/src/gear.svg', text: 'Settings' }
   ];
