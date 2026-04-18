@@ -277,6 +277,14 @@
     <section class="setupSection">
       <h3>Pack-Up Reminders</h3>
       <p class="setupDescription">Get notified before class ends so you have time to pack up.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Pack-Up Reminders</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="packupToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="packupSettings" style="display:none;">
       <div class="settingsRow">
         <label for="packUpTimeInput">Notify me minutes before class ends:</label>
         <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below">
@@ -290,19 +298,11 @@
         </div>
       </div>
       <div class="settingsRow">
-        <label for="notificationToggle">Pack-Up Reminders</label>
-        <div style="display:flex; align-items:center; gap:15px; justify-content:center; margin-top:10px;">
-          <span style="font-size:0.9em; opacity:0.8;">Off</span>
-          <label class="switch">
-            <input type="checkbox" id="notificationToggle">
-            <span class="slider"></span>
-          </label>
-          <span style="font-size:0.9em; opacity:0.8;">On</span>
-        </div>
         <div id="notificationStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div>
       </div>
       <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
       <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
+      </div>
     </section>
 
     <section class="setupSection">
@@ -737,7 +737,8 @@
     let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
     if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
     const packUpInput = document.getElementById('packUpTimeInput');
-    const notificationToggle = document.getElementById('notificationToggle');
+    const packupToggle = document.getElementById('packupToggle');
+    const packupSettings = document.getElementById('packupSettings');
     const notificationStatus = document.getElementById('notificationStatus');
 
     function updatePackUpPresetUI(value) {
@@ -815,28 +816,33 @@
 
     if ('Notification' in window) {
       const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
-      notificationToggle.checked = notificationsEnabled;
+      packupToggle.checked = notificationsEnabled;
+      packupSettings.style.display = notificationsEnabled ? 'block' : 'none';
       updateNotificationStatus();
 
-      notificationToggle.addEventListener('change', async () => {
-        if (notificationToggle.checked) {
+      packupToggle.addEventListener('change', async () => {
+        if (packupToggle.checked) {
           const permission = await Notification.requestPermission();
           if (permission === 'granted') {
             localStorage.setItem('notifications-enabled', 'true');
+            packupSettings.style.display = 'block';
             updateNotificationStatus();
           } else {
-            notificationToggle.checked = false;
+            packupToggle.checked = false;
             localStorage.setItem('notifications-enabled', 'false');
+            packupSettings.style.display = 'none';
             notificationStatus.innerHTML = '❌ Notifications blocked by browser';
             notificationStatus.style.color = '#ff4757';
           }
         } else {
           localStorage.setItem('notifications-enabled', 'false');
+          packupSettings.style.display = 'none';
           updateNotificationStatus();
         }
       });
     } else {
-      notificationToggle.disabled = true;
+      packupToggle.disabled = true;
+      packupSettings.style.display = 'none';
       notificationStatus.innerHTML = '❌ Browser does not support notifications';
       notificationStatus.style.color = '#ff4757';
     }
@@ -846,8 +852,9 @@
       packUpTime = 0;
       localStorage.setItem('pack-up-time', '0');
       updatePackUpPresetUI(0);
-      notificationToggle.checked = false;
+      packupToggle.checked = false;
       localStorage.setItem('notifications-enabled', 'false');
+      packupSettings.style.display = 'none';
       updateNotificationStatus();
     });
 
@@ -948,7 +955,7 @@
     document.getElementById('completeBtn').addEventListener('click', () => {
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', String(packUpTime));
-      localStorage.setItem('notifications-enabled', notificationToggle.checked ? 'true' : 'false');
+      localStorage.setItem('notifications-enabled', packupToggle.checked ? 'true' : 'false');
       localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
       localStorage.setItem('selectedClasses', JSON.stringify(setSelectedClassesSlots(setupSelectedClassSlots)));
       localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');
