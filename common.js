@@ -24,7 +24,7 @@ function normalizeClassSlots(rawSlots) {
 }
 
 function isClassesEnabled() {
-  return localStorage.getItem('classesEnabled') !== 'false';
+  return localStorage.getItem('classesEnabled') === 'true';
 }
 
 function setClassesEnabled(enabled) {
@@ -1263,7 +1263,7 @@ async function loadData() {
 
 
 function isClubsEnabled() {
-  return localStorage.getItem('clubsEnabled') !== 'false';
+  return localStorage.getItem('clubsEnabled') === 'true';
 }
 
 function getSelectedClubs() {

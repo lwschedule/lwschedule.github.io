@@ -4,6 +4,993 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Setup - LW Schedule</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .setupContent { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; }
+    .setupSection { background: transparent; margin-bottom: 18px; }
+    .setupDescription { opacity: 0.8; font-size: 0.92em; margin: 10px 0 18px; text-align: center; }
+
+    .settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; }
+    .settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
+
+    .lunchButtons { display: flex; gap: 10px; justify-content: center; }
+    .lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .lunchBtn:disabled { opacity: 1; cursor: default; }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--card-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .toggle-label { font-size: 1.05em; font-weight: 600; }
+    .toggle-switch { position: relative; width: 60px; height: 32px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: white; transition: 0.4s; border-radius: 50%; }
+    input:checked + .toggle-slider { background: #34c759; }
+    input:checked + .toggle-slider:before { transform: translateX(28px); }
+
+    .class-search-input, .pack-up-input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1em;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: var(--card-dark);
+      color: var(--text-light);
+      outline: none;
+      margin-bottom: 14px;
+      box-sizing: border-box;
+    }
+    .class-search-input:focus, .pack-up-input:focus { box-shadow: 0 0 10px rgba(75, 46, 131, 0.5); }
+
+    .class-actions, .button-row { display: flex; gap: 10px; margin-bottom: 15px; }
+    .class-action-btn, .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .class-action-btn:hover, .action-btn:hover { background: var(--primary); }
+
+    .class-results, .classes-results, .clubs-results {
+      background: var(--card-dark);
+      border-radius: 12px;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      border: 1px solid var(--primary-light);
+    }
+
+    .class-result-btn, .class-result, .club-result {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border: none;
+      border-bottom: 1px solid var(--primary-light);
+      background: transparent;
+      color: var(--text-light);
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.92em;
+    }
+    .class-result-btn:last-child, .class-result:last-child, .club-result:last-child { border-bottom: none; }
+    .class-result-btn:hover, .class-result:hover, .club-result:hover { background: rgba(75, 46, 131, 0.2); }
+    .class-result-btn.added, .class-result-btn:disabled, .class-result.added, .class-result:disabled, .club-result.added, .club-result:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+      background: rgba(60, 37, 105, 0.25);
+    }
+
+    .class-result-tag, .result-tag {
+      font-size: 0.75em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      color: #bfaee8;
+      margin-left: 10px;
+      white-space: nowrap;
+      min-width: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .class-result-tag-icon, .result-tag-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%);
+    }
+
+    .class-slots, .slots-container {
+      background: var(--card-dark);
+      border-radius: 12px;
+      border: 1px solid var(--primary-light);
+      padding: 10px;
+    }
+    .class-slot-row { display: grid; grid-template-columns: 38px 1fr 38px; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .class-slot-row:last-child { margin-bottom: 0; }
+    .slot-arrow-btn, .slot-arrow {
+      height: 38px;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1em;
+    }
+    .slot-arrow-btn:hover:not(:disabled), .slot-arrow:hover:not(:disabled) { background: var(--primary); }
+    .slot-arrow-btn:disabled, .slot-arrow:disabled { opacity: 0.35; cursor: default; }
+    .class-slot-card, .slot-card, .club-slot-card {
+      background: #141414;
+      border: 1px solid var(--primary-light);
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 58px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .club-slot-row { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
+    .class-slot-period, .slot-period { font-size: 0.76em; color: #9f9f9f; letter-spacing: 0.04em; text-transform: uppercase; }
+    .class-slot-value, .slot-value { font-size: 0.92em; font-weight: 600; line-height: 1.3; }
+    .class-slot-clear, .slot-clear {
+      margin-top: 2px;
+      width: fit-content;
+      border: 1px solid var(--primary-light);
+      background: transparent;
+      color: #b7b7b7;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.72em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      min-height: 22px;
+    }
+    .class-slot-clear:hover, .slot-clear:hover { color: white; border-color: #7b7b7b; }
+    .class-slot-clear-icon, .slot-clear-icon { width: 12px; height: 12px; display: block; filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%); }
+
+    .class-count, .classes-count, .clubs-count, .class-message, .classes-message {
+      text-align: center;
+      margin-top: 12px;
+    }
+    .class-count, .classes-count, .clubs-count { font-size: 0.88em; color: #aaa; margin-bottom: 4px; }
+    .class-message, .classes-message { min-height: 1.2em; font-size: 0.84em; color: #cdb9ff; margin: 0; }
+
+    .description { text-align: center; opacity: 0.8; font-size: 0.9em; margin: 10px 0 20px; }
+    .pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+    .pack-up-preset { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
+    .saveBtn:hover { transform: scale(1.05); }
+    .resetBtn { display: block; width: 100%; background: var(--primary); color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
+    .resetBtn::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 8px; vertical-align: -0.12em; background: url('/icons/src/trash.svg') center/contain no-repeat; }
+    .resetBtn:hover { background: #9d182e; transform: scale(1.05); }
+    .completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.2em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 24px; }
+    .completeBtn:hover { transform: scale(1.05); }
+
+    @media (max-width: 600px) {
+      .setupContent { padding: 20px 0 0 0; }
+      .lunchButtons, .pack-up-presets, .button-row, .class-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="setupContent">
+    <a href="/" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
+    <h2>Welcome to LW Schedule!</h2>
+    <p class="setupDescription">Let's set up your personalized schedule experience.</p>
+
+    <section class="setupSection">
+      <h3>Lunch Preferences</h3>
+      <div class="settingsRow">
+        <label>Period 3 Lunch <small>(Mon/Fri & most special schedules)</small>:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn" data-period="3" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Period 4 Lunch <small>(Tue/Thu & most special schedules)</small>:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn" data-period="4" data-lunch="A">A Lunch</button>
+          <button class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label>Wednesday Lunch:</label>
+        <div class="lunchButtons">
+          <button class="lunchBtn selected" disabled>All School Lunch</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="setupSection">
+      <h3>Classes</h3>
+      <p class="setupDescription">Choose up to 6 class titles for Period 1-6. Use arrows to move them up or down.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Classes</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="classesToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="classesSettings">
+        <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
+        <div class="class-actions">
+          <button type="button" id="clearClassesBtn" class="class-action-btn">Clear All Slots</button>
+        </div>
+        <div id="classResults" class="class-results"></div>
+        <div id="setupSelectedClassesList" class="class-slots"></div>
+        <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
+        <p id="setupClassesMessage" class="class-message"></p>
+        <button type="button" id="resetClassesBtn" class="resetBtn">Reset Classes to Default</button>
+      </div>
+    </section>
+
+    <section class="setupSection">
+      <h3>Clubs</h3>
+      <p class="setupDescription">Browse and select clubs to see them in your schedule.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Clubs</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="clubsToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div id="clubsSettings">
+        <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
+        <div class="class-actions">
+          <button type="button" id="clearClubsBtn" class="class-action-btn">Clear All Clubs</button>
+        </div>
+        <div id="clubResults" class="clubs-results"></div>
+        <div id="setupSelectedClubsList" class="slots-container"></div>
+        <p id="selectedCount" class="clubs-count">0 clubs selected</p>
+        <button type="button" id="resetClubsBtn" class="resetBtn">Reset Clubs to Default</button>
+      </div>
+    </section>
+
+    <section class="setupSection">
+      <h3>Pack-Up Reminders</h3>
+      <p class="setupDescription">Get notified before class ends so you have time to pack up.</p>
+      <div class="settingsRow">
+        <label for="packUpTimeInput">Notify me minutes before class ends:</label>
+        <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below">
+        <div class="pack-up-presets">
+          <button class="pack-up-preset" data-value="0">Off</button>
+          <button class="pack-up-preset" data-value="1">1</button>
+          <button class="pack-up-preset" data-value="3">3</button>
+          <button class="pack-up-preset" data-value="5">5</button>
+          <button class="pack-up-preset" data-value="7">7</button>
+          <button class="pack-up-preset" data-value="10">10</button>
+        </div>
+      </div>
+      <div class="settingsRow">
+        <label for="notificationToggle">Pack-Up Reminders</label>
+        <div style="display:flex; align-items:center; gap:15px; justify-content:center; margin-top:10px;">
+          <span style="font-size:0.9em; opacity:0.8;">Off</span>
+          <label class="switch">
+            <input type="checkbox" id="notificationToggle">
+            <span class="slider"></span>
+          </label>
+          <span style="font-size:0.9em; opacity:0.8;">On</span>
+        </div>
+        <div id="notificationStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div>
+      </div>
+      <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
+      <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
+    </section>
+
+    <section class="setupSection">
+      <h3>Phone Caddy</h3>
+      <p class="setupDescription">Get reminded to grab your phone 1 minute before class ends, and put it in your assigned spot 1 minute before class starts.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Phone Caddy</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="caddyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settingsRow" id="periodInputsContainer">
+        <label>Enter your assigned phone caddy spot number for each class:</label>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+          <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+        </div>
+      </div>
+      <div class="settingsRow"><div id="caddyStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div></div>
+      <button class="saveBtn" id="setupTestNotificationBtn">Test Notification</button>
+      <button class="resetBtn" id="resetCaddyBtn">Reset Settings</button>
+    </section>
+
+    <button class="completeBtn" id="completeBtn">Complete Setup</button>
+  </div>
+
+  <script src="/common.js"></script>
+  <script>
+    const DEFAULT_LUNCH_PREFS = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+    let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
+
+    function loadLunchPrefs() {
+      try {
+        const saved = localStorage.getItem('lunchPreferences');
+        if (!saved) return;
+        const parsed = JSON.parse(saved);
+        lunchPrefs = {
+          Monday: parsed.Monday || 'A',
+          Tuesday: parsed.Tuesday || 'A',
+          Wednesday: parsed.Wednesday || 'All',
+          Thursday: parsed.Thursday || 'A',
+          Friday: parsed.Friday || 'A'
+        };
+      } catch (e) {}
+    }
+
+    function updateLunchUI() {
+      document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+        const period = btn.dataset.period;
+        const lunch = btn.dataset.lunch;
+        const currentLunch = period === '3' ? lunchPrefs.Monday : lunchPrefs.Tuesday;
+        btn.classList.toggle('selected', currentLunch === lunch);
+      });
+    }
+
+    document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const period = btn.dataset.period;
+        const lunch = btn.dataset.lunch;
+        if (period === '3') {
+          lunchPrefs.Monday = lunch;
+          lunchPrefs.Friday = lunch;
+        } else {
+          lunchPrefs.Tuesday = lunch;
+          lunchPrefs.Thursday = lunch;
+        }
+        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+        updateLunchUI();
+      });
+    });
+
+    const SETUP_MAX_CLASS_SLOTS = 6;
+    let setupClassTitles = [];
+    let setupSelectedClassSlots = getSelectedClassesSlots();
+    let setupClassMessageTimeout = null;
+
+    function escapeSetupHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showSetupClassMessage(message) {
+      const messageEl = document.getElementById('setupClassesMessage');
+      messageEl.textContent = message;
+      if (setupClassMessageTimeout) clearTimeout(setupClassMessageTimeout);
+      setupClassMessageTimeout = setTimeout(() => {
+        messageEl.textContent = '';
+      }, 2500);
+    }
+
+    function saveSetupClassSlots() {
+      setupSelectedClassSlots = setSelectedClassesSlots(setupSelectedClassSlots);
+    }
+
+    function updateSetupClassCount() {
+      const filledCount = setupSelectedClassSlots.filter(Boolean).length;
+      document.getElementById('setupClassesCount').textContent = `${filledCount} of 6 slots filled`;
+    }
+
+    function renderSetupClassResults(filter = '') {
+      const resultsEl = document.getElementById('classResults');
+      const filterLower = filter.toLowerCase();
+      let filteredClasses = setupClassTitles.filter(name => name.toLowerCase().includes(filterLower));
+      const selectedSet = new Set(setupSelectedClassSlots.filter(Boolean));
+
+      filteredClasses.sort((a, b) => {
+        const aAdded = selectedSet.has(a);
+        const bAdded = selectedSet.has(b);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.localeCompare(b);
+      });
+
+      if (filteredClasses.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClasses.forEach(classTitle => {
+        const isAdded = selectedSet.has(classTitle);
+        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeSetupHtml(classTitle)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.class-result:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const classTitle = decodeURIComponent(btn.dataset.class);
+          addSetupClassToSlots(classTitle);
+        });
+      });
+    }
+
+    function renderSetupClassSlots() {
+      const listEl = document.getElementById('setupSelectedClassesList');
+      let html = '';
+
+      for (let i = 0; i < SETUP_MAX_CLASS_SLOTS; i++) {
+        const classTitle = setupSelectedClassSlots[i] || '';
+        const isEmpty = !classTitle;
+        const upDisabled = i === 0 || isEmpty;
+        const downDisabled = i === SETUP_MAX_CLASS_SLOTS - 1 || isEmpty;
+
+        html += `<div class="class-slot-row">
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button>
+          <div class="class-slot-card">
+            <div class="class-slot-period">Period ${i + 1}</div>
+            <div class="class-slot-value">${isEmpty ? 'Empty' : escapeSetupHtml(classTitle)}</div>
+            ${isEmpty ? '' : `<button type="button" class="class-slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>`}
+          </div>
+          <button type="button" class="slot-arrow-btn" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
+        </div>`;
+      }
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.slot-arrow-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index, 10);
+          const dir = btn.dataset.dir;
+          const targetIndex = dir === 'up' ? index - 1 : index + 1;
+          moveSetupClassSlot(index, targetIndex);
+        });
+      });
+
+      listEl.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.clearIndex, 10);
+          setupSelectedClassSlots[index] = '';
+          saveSetupClassSlots();
+          renderSetupClassSlots();
+          renderSetupClassResults(document.getElementById('classSearch').value);
+        });
+      });
+
+      updateSetupClassCount();
+    }
+
+    function promptSetupClassReplacement(classTitle) {
+      const choice = prompt(`All 6 slots are full. Replace which period slot with "${classTitle}"? Enter 1-6.`);
+      if (choice === null) return;
+
+      const slotIndex = parseInt(choice, 10) - 1;
+      if (Number.isNaN(slotIndex) || slotIndex < 0 || slotIndex >= SETUP_MAX_CLASS_SLOTS) {
+        showSetupClassMessage('Enter a valid slot number from 1 to 6.');
+        return;
+      }
+
+      setupSelectedClassSlots[slotIndex] = classTitle;
+      saveSetupClassSlots();
+      renderSetupClassSlots();
+      renderSetupClassResults(document.getElementById('classSearch').value);
+      showSetupClassMessage(`Updated Period ${slotIndex + 1}.`);
+    }
+
+    function addSetupClassToSlots(classTitle) {
+      if (setupSelectedClassSlots.includes(classTitle)) {
+        showSetupClassMessage('That class is already in your schedule.');
+        return;
+      }
+
+      const emptyIndex = setupSelectedClassSlots.findIndex(slot => !slot);
+      if (emptyIndex !== -1) {
+        setupSelectedClassSlots[emptyIndex] = classTitle;
+        saveSetupClassSlots();
+        renderSetupClassSlots();
+        renderSetupClassResults(document.getElementById('classSearch').value);
+        return;
+      }
+
+      promptSetupClassReplacement(classTitle);
+    }
+
+    function moveSetupClassSlot(fromIndex, toIndex) {
+      if (fromIndex < 0 || fromIndex >= SETUP_MAX_CLASS_SLOTS || toIndex < 0 || toIndex >= SETUP_MAX_CLASS_SLOTS) return;
+      if (!setupSelectedClassSlots[fromIndex]) return;
+
+      const temp = setupSelectedClassSlots[toIndex];
+      setupSelectedClassSlots[toIndex] = setupSelectedClassSlots[fromIndex];
+      setupSelectedClassSlots[fromIndex] = temp || '';
+
+      saveSetupClassSlots();
+      renderSetupClassSlots();
+      renderSetupClassResults(document.getElementById('classSearch').value);
+    }
+
+    async function loadSetupClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        setupClassTitles = data.classes || [];
+        renderSetupClassResults();
+        renderSetupClassSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        document.getElementById('classResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+      }
+    }
+
+    function initSetupClassesSection() {
+      const classesEnabled = isClassesEnabled();
+      classesToggle.checked = classesEnabled;
+      classesSettings.style.display = classesEnabled ? 'block' : 'none';
+
+      classesToggle.addEventListener('change', () => {
+        const enabled = classesToggle.checked;
+        setClassesEnabled(enabled);
+        classesSettings.style.display = enabled ? 'block' : 'none';
+      });
+
+      document.getElementById('classSearch').addEventListener('input', (e) => {
+        renderSetupClassResults(e.target.value);
+      });
+
+      document.getElementById('clearClassesBtn').addEventListener('click', () => {
+        setupSelectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
+        saveSetupClassSlots();
+        renderSetupClassSlots();
+        renderSetupClassResults(document.getElementById('classSearch').value);
+      });
+
+      document.getElementById('resetClassesBtn').addEventListener('click', () => {
+        setupSelectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
+        saveSetupClassSlots();
+        setClassesEnabled(false);
+        classesToggle.checked = false;
+        classesSettings.style.display = 'none';
+        renderSetupClassSlots();
+        renderSetupClassResults(document.getElementById('classSearch').value);
+      });
+
+      loadSetupClasses();
+    }
+
+    let allClubs = [];
+    let selectedClubs = [];
+
+    async function loadClubs() {
+      try {
+        const response = await fetch('/data/clubs.json');
+        const data = await response.json();
+        allClubs = data.clubs || [];
+        renderClubResults();
+        renderSelectedList();
+      } catch (error) {
+        console.error('Error loading clubs:', error);
+        document.getElementById('clubResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
+      }
+    }
+
+    function updateSelectedCount() {
+      const count = selectedClubs.length;
+      document.getElementById('selectedCount').textContent =
+        count === 0 ? 'No clubs selected' :
+        count === 1 ? '1 club selected' :
+        `${count} clubs selected`;
+
+      const listEl = document.getElementById('setupSelectedClubsList');
+      listEl.style.display = count === 0 ? 'none' : 'block';
+    }
+
+    function renderClubResults(filter = '') {
+      const resultsEl = document.getElementById('clubResults');
+      const filterLower = filter.toLowerCase();
+
+      let filteredClubs = allClubs.filter(club => {
+        const days = club.days || (club.day ? [club.day] : []);
+        return club.name.toLowerCase().includes(filterLower) ||
+          (club.room || '').toLowerCase().includes(filterLower) ||
+          days.some(d => d.toLowerCase().includes(filterLower));
+      });
+
+      const selectedSet = new Set(selectedClubs);
+
+      filteredClubs.sort((a, b) => {
+        const aAdded = selectedSet.has(a.id);
+        const bAdded = selectedSet.has(b.id);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      if (filteredClubs.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClubs.forEach(club => {
+        const isAdded = selectedSet.has(club.id);
+        html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeSetupHtml(club.id)}" ${isAdded ? 'disabled' : ''}>
+          <span>${escapeSetupHtml(club.name)}</span>
+          <span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span>
+        </button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.club-result:not(.added)').forEach(btn => {
+        btn.addEventListener('click', () => {
+          addClub(btn.dataset.id);
+        });
+      });
+    }
+
+    function renderSelectedList() {
+      const listEl = document.getElementById('setupSelectedClubsList');
+      let html = '';
+
+      const selectedClubObjs = selectedClubs.map(id => allClubs.find(c => c.id === id)).filter(Boolean);
+      selectedClubObjs.sort((a, b) => a.name.localeCompare(b.name));
+
+      selectedClubs = selectedClubObjs.map(c => c.id);
+
+      selectedClubObjs.forEach(club => {
+        html += `<div class="club-slot-row">
+          <div class="club-slot-card">
+            <div class="class-slot-value">${escapeSetupHtml(club.name)}</div>
+            <button type="button" class="class-slot-clear" data-id="${escapeSetupHtml(club.id)}" aria-label="Remove ${escapeSetupHtml(club.name)}"><img src="/icons/src/minus.svg" class="class-slot-clear-icon" alt=""></button>
+          </div>
+        </div>`;
+      });
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.class-slot-clear').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          selectedClubs = selectedClubs.filter(id => id !== clubId);
+          renderSelectedList();
+          renderClubResults(document.getElementById('clubSearch').value);
+        });
+      });
+
+      updateSelectedCount();
+    }
+
+    function addClub(clubId) {
+      if (!selectedClubs.includes(clubId)) {
+        selectedClubs.push(clubId);
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      }
+    }
+
+    function initClubsSection() {
+      const isEnabled = isClubsEnabled();
+      clubsToggle.checked = isEnabled;
+      clubsSettings.style.display = isEnabled ? 'block' : 'none';
+
+      clubsToggle.addEventListener('change', (e) => {
+        const enabled = e.target.checked;
+        localStorage.setItem('clubsEnabled', enabled.toString());
+        clubsSettings.style.display = enabled ? 'block' : 'none';
+      });
+
+      const saved = localStorage.getItem('selectedClubs');
+      if (saved) {
+        try { selectedClubs = JSON.parse(saved); } catch (e) { selectedClubs = []; }
+      }
+
+      document.getElementById('clubSearch').addEventListener('input', (e) => {
+        renderClubResults(e.target.value);
+      });
+
+      document.getElementById('clearClubsBtn').addEventListener('click', () => {
+        selectedClubs = [];
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      });
+
+      document.getElementById('resetClubsBtn').addEventListener('click', () => {
+        selectedClubs = [];
+        localStorage.setItem('clubsEnabled', 'false');
+        clubsToggle.checked = false;
+        clubsSettings.style.display = 'none';
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      });
+
+      loadClubs();
+    }
+
+    let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+    if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
+    const packUpInput = document.getElementById('packUpTimeInput');
+    const notificationToggle = document.getElementById('notificationToggle');
+    const notificationStatus = document.getElementById('notificationStatus');
+
+    function updatePackUpPresetUI(value) {
+      document.querySelectorAll('.pack-up-preset').forEach(btn => {
+        btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) === value);
+      });
+    }
+
+    function updateNotificationStatus() {
+      const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+      if (notificationsEnabled) {
+        if (Notification.permission !== 'granted') {
+          notificationStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
+          notificationStatus.style.color = '#ff9f43';
+        } else {
+          notificationStatus.innerHTML = '';
+          notificationStatus.style.color = '';
+        }
+      } else {
+        notificationStatus.innerHTML = '';
+        notificationStatus.style.color = '';
+      }
+    }
+
+    if (packUpTime > 0) packUpInput.value = packUpTime;
+    updatePackUpPresetUI(packUpTime);
+
+    document.querySelectorAll('.pack-up-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.value, 10);
+        packUpInput.value = val > 0 ? val : '';
+        packUpTime = val;
+        localStorage.setItem('pack-up-time', String(val));
+        updatePackUpPresetUI(val);
+      });
+    });
+
+    packUpInput.addEventListener('input', () => {
+      let val = parseInt(packUpInput.value, 10);
+      if (isNaN(val) || val < 0) return;
+      if (val > 30) {
+        packUpInput.value = 30;
+        val = 30;
+      }
+      packUpTime = val;
+      localStorage.setItem('pack-up-time', String(val));
+      updatePackUpPresetUI(val);
+    });
+
+    packUpInput.addEventListener('change', () => {
+      let val = parseInt(packUpInput.value, 10);
+      if (isNaN(val) || val < 0) {
+        packUpInput.value = '';
+        packUpTime = 0;
+        localStorage.setItem('pack-up-time', '0');
+        updatePackUpPresetUI(0);
+        return;
+      }
+      packUpTime = val;
+      localStorage.setItem('pack-up-time', String(val));
+      updatePackUpPresetUI(val);
+    });
+
+    document.getElementById('testNotificationBtn').addEventListener('click', () => {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        sendNotification('Pack-Up Reminder', {
+          body: 'This is a test notification.',
+          icon: '/images/logo.png',
+          requireInteraction: true
+        });
+      } else {
+        alert('Please enable browser notifications first.');
+      }
+    });
+
+    if ('Notification' in window) {
+      const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+      notificationToggle.checked = notificationsEnabled;
+      updateNotificationStatus();
+
+      notificationToggle.addEventListener('change', async () => {
+        if (notificationToggle.checked) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            localStorage.setItem('notifications-enabled', 'true');
+            updateNotificationStatus();
+          } else {
+            notificationToggle.checked = false;
+            localStorage.setItem('notifications-enabled', 'false');
+            notificationStatus.innerHTML = '❌ Notifications blocked by browser';
+            notificationStatus.style.color = '#ff4757';
+          }
+        } else {
+          localStorage.setItem('notifications-enabled', 'false');
+          updateNotificationStatus();
+        }
+      });
+    } else {
+      notificationToggle.disabled = true;
+      notificationStatus.innerHTML = '❌ Browser does not support notifications';
+      notificationStatus.style.color = '#ff4757';
+    }
+
+    document.getElementById('resetPackupBtn').addEventListener('click', () => {
+      packUpInput.value = '';
+      packUpTime = 0;
+      localStorage.setItem('pack-up-time', '0');
+      updatePackUpPresetUI(0);
+      notificationToggle.checked = false;
+      localStorage.setItem('notifications-enabled', 'false');
+      updateNotificationStatus();
+    });
+
+    const caddyToggle = document.getElementById('caddyToggle');
+    const caddyStatus = document.getElementById('caddyStatus');
+    let caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+
+    function updateCaddyStatus() {
+      const enabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      if (enabled) {
+        if (Notification.permission === 'granted') {
+          caddyStatus.innerHTML = '';
+          caddyStatus.parentElement.style.display = 'none';
+        } else {
+          caddyStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
+          caddyStatus.style.color = '#ff9f43';
+          caddyStatus.parentElement.style.display = 'block';
+        }
+      } else {
+        caddyStatus.innerHTML = '';
+        caddyStatus.parentElement.style.display = 'none';
+      }
+    }
+
+    for (let i = 1; i <= 6; i++) {
+      const val = caddyTimes[i.toString()];
+      if (val !== undefined && val !== '') document.getElementById(`caddyTime${i}`).value = val;
+    }
+
+    if ('Notification' in window) {
+      const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      caddyToggle.checked = caddyEnabled;
+      updateCaddyStatus();
+
+      caddyToggle.addEventListener('change', async () => {
+        if (caddyToggle.checked) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            localStorage.setItem('phone-caddy-enabled', 'true');
+            localStorage.setItem('notifications-enabled', 'true');
+          } else {
+            caddyToggle.checked = false;
+            localStorage.setItem('phone-caddy-enabled', 'false');
+            caddyStatus.innerHTML = '❌ Notifications blocked by browser';
+            caddyStatus.style.color = '#ff4757';
+            return;
+          }
+        } else {
+          localStorage.setItem('phone-caddy-enabled', 'false');
+        }
+        updateCaddyStatus();
+      });
+    } else {
+      caddyToggle.disabled = true;
+      caddyStatus.innerHTML = '❌ Browser does not support notifications';
+      caddyStatus.style.color = '#ff4757';
+    }
+
+    document.getElementById('setupTestNotificationBtn').addEventListener('click', async () => {
+      let testSpot = document.getElementById('caddyTime1').value || '12';
+      if (!('Notification' in window)) {
+        alert('This browser does not support desktop notifications.');
+        return;
+      }
+      let perm = Notification.permission;
+      if (perm !== 'granted' && perm !== 'denied') {
+        perm = await Notification.requestPermission();
+      }
+      if (perm === 'granted') {
+        sendNotification('Phone Caddy Reminder', {
+          body: `Class starts in 1 minute! Put your phone in caddy spot #${testSpot}`,
+          icon: '/icons/icon-192.png'
+        });
+      } else {
+        alert('Notification permission is blocked. Please enable it in browser settings.');
+      }
+    });
+
+    document.querySelectorAll('.pack-up-input').forEach(input => {
+      input.addEventListener('input', () => {
+        for (let i = 1; i <= 6; i++) {
+          caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || '';
+        }
+        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
+      });
+    });
+
+    document.getElementById('resetCaddyBtn').addEventListener('click', () => {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById(`caddyTime${i}`).value = '';
+      }
+      localStorage.setItem('phone-caddy-times', '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
+      localStorage.setItem('phone-caddy-enabled', 'false');
+      caddyToggle.checked = false;
+      updateCaddyStatus();
+    });
+
+    document.getElementById('completeBtn').addEventListener('click', () => {
+      localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+      localStorage.setItem('pack-up-time', String(packUpTime));
+      localStorage.setItem('notifications-enabled', notificationToggle.checked ? 'true' : 'false');
+      localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
+      localStorage.setItem('selectedClasses', JSON.stringify(setSelectedClassesSlots(setupSelectedClassSlots)));
+      localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');
+      localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
+
+      if (caddyToggle.checked) {
+        const savedTimes = {};
+        const enabledClasses = {};
+        for (let i = 1; i <= 6; i++) {
+          const val = document.getElementById(`caddyTime${i}`).value || '';
+          savedTimes[i.toString()] = val;
+          enabledClasses[i.toString()] = val.trim() !== '';
+        }
+        localStorage.setItem('phone-caddy-enabled', 'true');
+        localStorage.setItem('phone-caddy-times', JSON.stringify(savedTimes));
+        localStorage.setItem('phone-caddy-enabled-classes', JSON.stringify(enabledClasses));
+      } else {
+        localStorage.setItem('phone-caddy-enabled', 'false');
+      }
+
+      localStorage.setItem('setup-complete', 'true');
+      localStorage.setItem('app-visited', 'true');
+      navigateWithTransition('/', { replace: true });
+    });
+
+    function init() {
+      loadLunchPrefs();
+      updateLunchUI();
+      initSetupClassesSection();
+      initClubsSection();
+    }
+
+    checkSetupComplete();
+    init();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup - LW Schedule</title>
   <link rel="preconnect" href="https:
   <link rel="preconnect" href="https:
   <link href="https:
