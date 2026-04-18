@@ -1,17 +1,41 @@
 {
   "messages": [
     {
-      "text": "New in v3: A sleek new sidebar and Phone Caddy Reminders!"
+      "text": "Welcome to LW Schedule v3 — faster, cleaner, and easier to customize."
     },
     {
-      "text": "Got a suggestion or found a bug? Let us know: ",
+      "text": "Got a suggestion or found a bug? Send feedback here: ",
       "url": "https://tally.so/r/jaW6ja"
     },
     {
-      "text": "Add your classes and clubs in Settings to personalize your schedule."
+      "text": "Add your classes in Settings so Period 1–6 show your actual course names."
     },
     {
-      "text": "Never forget your phone with customizable Phone Caddy Reminders in Settings."
+      "text": "Turn on clubs in Settings to show meeting times directly on Today and Week."
+    },
+    {
+      "text": "Phone Caddy reminders can notify you 1 minute before class starts and ends."
+    },
+    {
+      "text": "Pack-Up reminders support quick presets: Off, 1, 3, 5, 7, or 10 minutes."
+    },
+    {
+      "text": "Use Week view to preview all five school days at a glance, including clubs."
+    },
+    {
+      "text": "Month view highlights special schedules and holidays so nothing sneaks up on you."
+    },
+    {
+      "text": "Pilot 3 and SBA weeks are auto-detected by date — no manual switch needed."
+    },
+    {
+      "text": "Install LW Schedule to your home screen for a full-screen app experience."
+    },
+    {
+      "text": "Holidays and events update from app data files, so you always see current info."
+    },
+    {
+      "text": "Tip: If something looks stale, reload once to refresh cached files after updates."
     }
   ]
 }

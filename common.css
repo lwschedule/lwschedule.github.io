@@ -1299,6 +1299,13 @@ body.has-sidebar {
   height: 1.15em;
 }
 
+.sidebar-icon.icon-missing,
+.sf-symbol-icon.icon-missing {
+  border: 1px dashed rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
 /* Fluid Bubble */
 .sidebar-bubble {
   position: absolute;

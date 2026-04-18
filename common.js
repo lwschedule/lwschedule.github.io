@@ -51,14 +51,34 @@ function setSelectedClassesSlots(slots) {
 }
 
 const SF_SYMBOL_BASE_URL = 'https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/';
+const EMPTY_ICON_DATA_URL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
 function getSfSymbolUrl(symbolName) {
   return `${SF_SYMBOL_BASE_URL}${symbolName}.png`;
 }
 
-function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
-  return `<img class="${className}" src="${getSfSymbolUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+function getSidebarIconUrl(iconId) {
+  if (typeof iconId !== 'string') return '';
+  if (iconId.startsWith('/')) return iconId;
+  return getSfSymbolUrl(iconId);
 }
+
+function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
+  return `<img class="${className}" src="${getSidebarIconUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+}
+
+function handleMissingSymbolIcon(event) {
+  const target = event.target;
+  if (!target || target.tagName !== 'IMG') return;
+  if (!target.classList || !target.classList.contains('sf-symbol-icon')) return;
+  if (target.dataset.iconFallbackApplied === 'true') return;
+
+  target.dataset.iconFallbackApplied = 'true';
+  target.classList.add('icon-missing');
+  target.src = EMPTY_ICON_DATA_URL;
+}
+
+document.addEventListener('error', handleMissingSymbolIcon, true);
 
 const PAGE_TRANSITION_READY_CLASS = 'page-transition-ready';
 const PAGE_TRANSITION_EXIT_FORWARD_CLASS = 'page-transition-exit-forward';
@@ -1534,13 +1554,13 @@ async function initApp() {
   if (window.location.pathname.startsWith('/setup')) return;
 
   const navLinks = [
-    { href: '/', icon: 'house.fill', text: 'Home' },
-    { href: '/today', icon: 'clock.fill', text: 'Today' },
-    { href: '/week', icon: 'calendar.badge.plus', text: 'Week' },
-    { href: '/month', icon: 'calendar', text: 'Month' },
-    { href: '/schedules', icon: 'table', text: 'All Schedules' },
-    { href: '/events', icon: 'bell.fill', text: 'Events' },
-    { href: '/holidays', icon: 'sparkles', text: 'Holidays' },
+    { href: '/', icon: '/icons/src/house.fill.svg', text: 'Home' },
+    { href: '/today', icon: '/icons/src/filemenu.and.selection.svg', text: 'Today' },
+    { href: '/week', icon: '/icons/src/tablecells.svg', text: 'Week' },
+    { href: '/month', icon: '/icons/src/calendar.svg', text: 'Month' },
+    { href: '/schedules', icon: '/icons/src/square.fill.text.grid.1x2.svg', text: 'All Schedules' },
+    { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
+    { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'circle.grid.3x3', text: 'Quarters/Semesters' },
     { href: '#', icon: 'map', text: 'Map (Coming Soon)', disabled: true },
     { href: '/info', icon: 'info.circle.fill', text: 'Info' },
@@ -1558,7 +1578,7 @@ async function initApp() {
   
   const mobileToggle = document.createElement('button');
   mobileToggle.id = 'sidebarMobileToggle';
-  mobileToggle.innerHTML = renderSfSymbol('line.horizontal.3');
+  mobileToggle.innerHTML = renderSfSymbol('line.3.horizontal');
   mobileToggle.setAttribute('aria-label', 'Toggle Menu');
   document.body.appendChild(mobileToggle);
 
