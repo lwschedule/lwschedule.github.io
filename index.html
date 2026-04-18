@@ -54,6 +54,71 @@
     let tickerLoopWidthPx = 0;
     const TICKER_SPEED_PX_PER_SEC = 42;
 
+    let clockMorphs = {
+      days: null,
+      hours: null,
+      minutes: null,
+      seconds: null
+    };
+
+    function updateClockMorphs(data) {
+      if (clockMorphs.days) {
+        clockMorphs.days.update(data.days ? data.days.toString().padStart(2,'0') : '00');
+      }
+      if (clockMorphs.hours) {
+        clockMorphs.hours.update(data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00');
+      }
+      if (clockMorphs.minutes) {
+        clockMorphs.minutes.update(data.minutes.toString().padStart(2,'0'));
+      }
+      if (clockMorphs.seconds) {
+        clockMorphs.seconds.update(data.seconds.toString().padStart(2,'0'));
+      }
+    }
+
+    window.updateClockMorphs = updateClockMorphs;
+
+    async function initClockMorphs() {
+      try {
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/dist/index.js');
+        const daysEl = document.getElementById('clockDisplay-days');
+        const hoursEl = document.getElementById('clockDisplay-hours');
+        const minutesEl = document.getElementById('clockDisplay-minutes');
+        const secondsEl = document.getElementById('clockDisplay-seconds');
+
+        if (daysEl) {
+          clockMorphs.days = new TextMorph({
+            element: daysEl,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (hoursEl) {
+          clockMorphs.hours = new TextMorph({
+            element: hoursEl,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (minutesEl) {
+          clockMorphs.minutes = new TextMorph({
+            element: minutesEl,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (secondsEl) {
+          clockMorphs.seconds = new TextMorph({
+            element: secondsEl,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+      } catch (error) {
+        console.warn('Torph failed to load, using default clock updates.', error);
+      }
+    }
+
     function stopTickerLoop() {
       if (tickerRafId) {
         cancelAnimationFrame(tickerRafId);
@@ -236,6 +301,7 @@
 
     (async () => {
       await initApp();
+      await initClockMorphs();
       updateClock();
       setInterval(updateClock, 1000);
       await initHomeTicker();

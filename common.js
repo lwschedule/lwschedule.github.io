@@ -536,10 +536,15 @@ function displayTimeBlocks(container, data) {
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
   
-  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
-  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
+  // Use Torph morphs if available (home screen only), otherwise fallback to textContent
+  if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
+    window.updateClockMorphs(data);
+  } else {
+    if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+    if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+    if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
+    if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
+  }
 }
 
 function displayMessage(container, message) {
