@@ -1592,7 +1592,7 @@ async function initApp() {
   if (window.location.pathname.startsWith('/setup')) return;
 
   const navLinks = [
-    { href: '/', icon: '/icons/src/house.fill.svg', text: 'Home' },
+    { href: '/', icon: '/icons/src/house.svg', text: 'Home' },
     { href: '/today', icon: '/icons/src/filemenu.and.selection.svg', text: 'Today' },
     { href: '/week', icon: '/icons/src/tablecells.svg', text: 'Week' },
     { href: '/month', icon: '/icons/src/calendar.svg', text: 'Month' },

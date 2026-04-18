@@ -12,25 +12,40 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <style>
+    .settingsMainBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .settingsMainBtn .settingsBtnIcon {
+      width: 1.1em;
+      height: 1.1em;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+  </style>
 </head>
 <body>
   
   <div class="pageContainer">
     <h2>Settings</h2>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/lunch">Lunch</a>
+      <a class="mainBtn settingsMainBtn" href="/settings/lunch"><img class="settingsBtnIcon" src="/icons/src/fork.knife.svg" alt="" aria-hidden="true">Lunch</a>
     </div>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/classes">Classes</a>
+      <a class="mainBtn settingsMainBtn" href="/settings/classes"><img class="settingsBtnIcon" src="/icons/src/graduationcap.svg" alt="" aria-hidden="true">Classes</a>
     </div>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/clubs">Clubs</a>
+      <a class="mainBtn settingsMainBtn" href="/settings/clubs"><img class="settingsBtnIcon" src="/icons/src/pencil.and.outline.svg" alt="" aria-hidden="true">Clubs</a>
     </div>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/phonecaddy">Phone Caddy Reminders</a>
+      <a class="mainBtn settingsMainBtn" href="/settings/phonecaddy"><img class="settingsBtnIcon" src="/icons/src/iphone.gen3.svg" alt="" aria-hidden="true">Phone Caddy Reminders</a>
     </div>
     <div class="settingsRow">
-      <a class="mainBtn" href="/settings/packup">Pack-Up Reminders</a>
+      <a class="mainBtn settingsMainBtn" href="/settings/packup"><img class="settingsBtnIcon" src="/icons/src/backpack.svg" alt="" aria-hidden="true">Pack-Up Reminders</a>
     </div>
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
   </div>

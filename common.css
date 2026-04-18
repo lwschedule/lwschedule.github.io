@@ -587,6 +587,16 @@ body.calendarPage .pageContainer {
   text-align: center;
 }
 
+.resetBtn::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 8px;
+  vertical-align: -0.12em;
+  background: url('/icons/src/trash.svg') center/contain no-repeat;
+}
+
 .resetBtn:hover {
   background: #9d182e;
   transform: scale(1.05);
