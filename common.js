@@ -194,28 +194,11 @@ function getScheduleSummaryLabel(periodName, useClassTitles = true) {
 }
 
 function checkSetupComplete() {
-      const lunch = localStorage.getItem('lunchPreferences');
-  const packup = localStorage.getItem('pack-up-time');
-  const setupComplete = localStorage.getItem('setup-complete');
-  const appVisited = localStorage.getItem('app-visited');
-  
-  
-  const isInPWA = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || 
-                  (window.navigator.standalone === true);
-  
-  
-  if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
-    if (!lunch || packup === null) {
-      navigateWithTransition('/app', { replace: true });
-      return false;
-    }
-  }
-  
-  if (!setupComplete && !window.location.pathname.includes('/setup')) {
-    if (!lunch || packup === null) {
-      navigateWithTransition('/setup', { replace: true });
-      return false;
-    }
+  const lunch = localStorage.getItem('lunchPreferences');
+
+  if (!lunch && !window.location.pathname.includes('/setup')) {
+    navigateWithTransition('/setup', { replace: true });
+    return false;
   }
   return true;
 }
