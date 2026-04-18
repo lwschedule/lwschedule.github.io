@@ -943,6 +943,22 @@ function updateHolidayCountdown() {
   const countdownMsg = document.getElementById('holidayCountdownMessage');
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
+  const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
+    if (window.updateHolidayCountdownMorphs) {
+      window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
+      return;
+    }
+
+    const daysEl = document.getElementById('countdown-days');
+    const hoursEl = document.getElementById('countdown-hours');
+    const minutesEl = document.getElementById('countdown-minutes');
+    const secondsEl = document.getElementById('countdown-seconds');
+    if (daysEl) daysEl.textContent = days.toString();
+    if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
+    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
+    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
+  };
+
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
@@ -957,14 +973,7 @@ function updateHolidayCountdown() {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
       countdownLabel.innerHTML = `UNTIL SCHOOL RESUMES`;
-      const daysEl = document.getElementById('countdown-days');
-      const hoursEl = document.getElementById('countdown-hours');
-      const minutesEl = document.getElementById('countdown-minutes');
-      const secondsEl = document.getElementById('countdown-seconds');
-      if (daysEl) daysEl.textContent = days.toString();
-      if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
-      if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
-      if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
+      setHolidayCountdownValues(days, hours, minutes, seconds);
     } else {
       countdownGrid.style.display = 'none';
       countdownMsg.style.display = 'block';
@@ -988,14 +997,7 @@ function updateHolidayCountdown() {
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
-        const daysEl = document.getElementById('countdown-days');
-        const hoursEl = document.getElementById('countdown-hours');
-        const minutesEl = document.getElementById('countdown-minutes');
-        const secondsEl = document.getElementById('countdown-seconds');
-        if (daysEl) daysEl.textContent = days.toString();
-        if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
-        if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
-        if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
+        setHolidayCountdownValues(days, hours, minutes, seconds);
       } else {
         countdownGrid.style.display = 'none';
         countdownMsg.style.display = 'block';

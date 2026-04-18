@@ -55,7 +55,80 @@
   </div>
   <script src="/common.js"></script>
   <script>
+    let holidayMorphs = {
+      days: null,
+      hours: null,
+      minutes: null,
+      seconds: null
+    };
+
+    function updateHolidayCountdownMorphs(data) {
+      if (holidayMorphs.days) holidayMorphs.days.update(data.days.toString());
+      if (holidayMorphs.hours) holidayMorphs.hours.update(data.hours.toString().padStart(2, '0'));
+      if (holidayMorphs.minutes) holidayMorphs.minutes.update(data.minutes.toString().padStart(2, '0'));
+      if (holidayMorphs.seconds) holidayMorphs.seconds.update(data.seconds.toString().padStart(2, '0'));
+    }
+
+    window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
+
+    async function initHolidayCountdownMorphs() {
+      try {
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+
+        const ensureMorphHost = (containerEl) => {
+          if (!containerEl) return null;
+          let host = containerEl.querySelector('.countdown-value-morph');
+          if (!host) {
+            const initial = containerEl.textContent || '--';
+            containerEl.textContent = '';
+            host = document.createElement('span');
+            host.className = 'countdown-value-morph';
+            host.textContent = initial;
+            containerEl.appendChild(host);
+          }
+          return host;
+        };
+
+        const daysHost = ensureMorphHost(document.getElementById('countdown-days'));
+        const hoursHost = ensureMorphHost(document.getElementById('countdown-hours'));
+        const minutesHost = ensureMorphHost(document.getElementById('countdown-minutes'));
+        const secondsHost = ensureMorphHost(document.getElementById('countdown-seconds'));
+
+        if (daysHost) {
+          holidayMorphs.days = new TextMorph({
+            element: daysHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (hoursHost) {
+          holidayMorphs.hours = new TextMorph({
+            element: hoursHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (minutesHost) {
+          holidayMorphs.minutes = new TextMorph({
+            element: minutesHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (secondsHost) {
+          holidayMorphs.seconds = new TextMorph({
+            element: secondsHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+      } catch (error) {
+        console.warn('Torph failed to load for holiday countdown, using default updates.', error);
+      }
+    }
+
     (async () => {
+      await initHolidayCountdownMorphs();
       await initApp();
     })();
   </script>

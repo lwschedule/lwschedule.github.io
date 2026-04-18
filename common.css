@@ -687,6 +687,12 @@ body.calendarPage .pageContainer {
   display: block;
 }
 
+.countdown-value .countdown-value-morph {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
 .countdown-label {
   font-size: 0.7em;
   font-weight: 400;
