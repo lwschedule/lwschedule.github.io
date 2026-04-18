@@ -315,6 +315,7 @@
           <span class="toggle-slider"></span>
         </label>
       </div>
+      <div id="caddySettings" style="display:none;">
       <div class="settingsRow" id="periodInputsContainer">
         <label>Enter your assigned phone caddy spot number for each class:</label>
         <div style="display:flex; flex-direction:column; gap:10px;">
@@ -329,6 +330,7 @@
       <div class="settingsRow"><div id="caddyStatus" style="text-align:center; margin-top:10px; font-size:0.9em; opacity:0.8;"></div></div>
       <button class="saveBtn" id="setupTestNotificationBtn">Test Notification</button>
       <button class="resetBtn" id="resetCaddyBtn">Reset Settings</button>
+      </div>
     </section>
 
     <button class="completeBtn" id="completeBtn">Complete Setup</button>
@@ -859,6 +861,7 @@
     });
 
     const caddyToggle = document.getElementById('caddyToggle');
+    const caddySettings = document.getElementById('caddySettings');
     const caddyStatus = document.getElementById('caddyStatus');
     let caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
 
@@ -887,6 +890,7 @@
     if ('Notification' in window) {
       const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
       caddyToggle.checked = caddyEnabled;
+      caddySettings.style.display = caddyEnabled ? 'block' : 'none';
       updateCaddyStatus();
 
       caddyToggle.addEventListener('change', async () => {
@@ -895,20 +899,24 @@
           if (permission === 'granted') {
             localStorage.setItem('phone-caddy-enabled', 'true');
             localStorage.setItem('notifications-enabled', 'true');
+            caddySettings.style.display = 'block';
           } else {
             caddyToggle.checked = false;
             localStorage.setItem('phone-caddy-enabled', 'false');
+            caddySettings.style.display = 'none';
             caddyStatus.innerHTML = '❌ Notifications blocked by browser';
             caddyStatus.style.color = '#ff4757';
             return;
           }
         } else {
           localStorage.setItem('phone-caddy-enabled', 'false');
+          caddySettings.style.display = 'none';
         }
         updateCaddyStatus();
       });
     } else {
       caddyToggle.disabled = true;
+      caddySettings.style.display = 'none';
       caddyStatus.innerHTML = '❌ Browser does not support notifications';
       caddyStatus.style.color = '#ff4757';
     }
@@ -949,6 +957,7 @@
       localStorage.setItem('phone-caddy-times', '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
       localStorage.setItem('phone-caddy-enabled', 'false');
       caddyToggle.checked = false;
+      caddySettings.style.display = 'none';
       updateCaddyStatus();
     });
 
