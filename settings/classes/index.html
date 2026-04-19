@@ -239,6 +239,10 @@
       color: #aaa;
       margin-top: 14px;
     }
+    .counter-morph {
+      display: inline-block;
+      text-align: center;
+    }
     .classes-message {
       min-height: 1.2em;
       text-align: center;
@@ -285,6 +289,45 @@
     let allClassTitles = [];
     let selectedClassSlots = getSelectedClassesSlots();
     let messageTimeout = null;
+    let classesCountMorph = null;
+
+    function ensureClassesCountMorphHost(containerEl) {
+      if (!containerEl) return null;
+      let host = containerEl.querySelector('.counter-morph');
+      if (!host) {
+        const initial = containerEl.textContent || '';
+        containerEl.textContent = '';
+        host = document.createElement('span');
+        host.className = 'counter-morph';
+        host.textContent = initial;
+        containerEl.appendChild(host);
+      }
+      return host;
+    }
+
+    function setClassesCountText(text) {
+      if (classesCountMorph) {
+        classesCountMorph.update(text);
+      } else {
+        const el = document.getElementById('classesCount');
+        if (el) el.textContent = text;
+      }
+    }
+
+    async function initClassesCountMorph() {
+      try {
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+        const host = ensureClassesCountMorphHost(document.getElementById('classesCount'));
+        if (!host) return;
+        classesCountMorph = new TextMorph({
+          element: host,
+          duration: 400,
+          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+        });
+      } catch (error) {
+        console.warn('Torph failed to load for classes counter, using default updates.', error);
+      }
+    }
 
     async function loadClasses() {
       try {
@@ -323,7 +366,7 @@
 
     function updateClassesCount() {
       const filledCount = selectedClassSlots.filter(Boolean).length;
-      document.getElementById('classesCount').textContent = `${filledCount} of 6 slots filled`;
+      setClassesCountText(`${filledCount} of 6 slots filled`);
     }
 
     function renderClassResults(filter = '') {
@@ -454,10 +497,12 @@
       renderClassResults(document.getElementById('classSearch').value);
     }
 
-    function init() {
+    async function init() {
       const classesEnabled = isClassesEnabled();
       const classesToggle = document.getElementById('classesToggle');
       const classesContent = document.getElementById('classesContent');
+
+      await initClassesCountMorph();
 
       classesToggle.checked = classesEnabled;
       classesContent.classList.toggle('enabled', classesEnabled);

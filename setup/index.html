@@ -179,6 +179,7 @@
     }
     .class-count, .classes-count, .clubs-count { font-size: 0.88em; color: #aaa; margin-bottom: 4px; }
     .class-message, .classes-message { min-height: 1.2em; font-size: 0.84em; color: #cdb9ff; margin: 0; }
+    .counter-morph { display: inline-block; text-align: center; }
 
     .description { text-align: center; opacity: 0.8; font-size: 0.9em; margin: 10px 0 20px; }
     .pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
@@ -380,6 +381,68 @@
     let setupClassTitles = [];
     let setupSelectedClassSlots = getSelectedClassesSlots();
     let setupClassMessageTimeout = null;
+    let setupCounterMorphs = { classes: null, clubs: null };
+
+    function ensureCounterMorphHost(containerEl) {
+      if (!containerEl) return null;
+      let host = containerEl.querySelector('.counter-morph');
+      if (!host) {
+        const initial = containerEl.textContent || '';
+        containerEl.textContent = '';
+        host = document.createElement('span');
+        host.className = 'counter-morph';
+        host.textContent = initial;
+        containerEl.appendChild(host);
+      }
+      return host;
+    }
+
+    function setSetupCounterText(type, text) {
+      if (type === 'classes') {
+        if (setupCounterMorphs.classes) {
+          setupCounterMorphs.classes.update(text);
+        } else {
+          const el = document.getElementById('setupClassesCount');
+          if (el) el.textContent = text;
+        }
+        return;
+      }
+
+      if (type === 'clubs') {
+        if (setupCounterMorphs.clubs) {
+          setupCounterMorphs.clubs.update(text);
+        } else {
+          const el = document.getElementById('selectedCount');
+          if (el) el.textContent = text;
+        }
+      }
+    }
+
+    async function initSetupCounterMorphs() {
+      try {
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+        const classesHost = ensureCounterMorphHost(document.getElementById('setupClassesCount'));
+        const clubsHost = ensureCounterMorphHost(document.getElementById('selectedCount'));
+
+        if (classesHost) {
+          setupCounterMorphs.classes = new TextMorph({
+            element: classesHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+
+        if (clubsHost) {
+          setupCounterMorphs.clubs = new TextMorph({
+            element: clubsHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+      } catch (error) {
+        console.warn('Torph failed to load for setup counters, using default updates.', error);
+      }
+    }
 
     function escapeSetupHtml(text) {
       return String(text)
@@ -405,7 +468,7 @@
 
     function updateSetupClassCount() {
       const filledCount = setupSelectedClassSlots.filter(Boolean).length;
-      document.getElementById('setupClassesCount').textContent = `${filledCount} of 6 slots filled`;
+      setSetupCounterText('classes', `${filledCount} of 6 slots filled`);
     }
 
     function renderSetupClassResults(filter = '') {
@@ -595,10 +658,10 @@
 
     function updateSelectedCount() {
       const count = selectedClubs.length;
-      document.getElementById('selectedCount').textContent =
-        count === 0 ? 'No clubs selected' :
+      const text = count === 0 ? 'No clubs selected' :
         count === 1 ? '1 club selected' :
         `${count} clubs selected`;
+      setSetupCounterText('clubs', text);
 
       const listEl = document.getElementById('setupSelectedClubsList');
       listEl.style.display = count === 0 ? 'none' : 'block';
@@ -944,9 +1007,10 @@
       navigateWithTransition('/', { replace: true });
     });
 
-    function init() {
+    async function init() {
       loadLunchPrefs();
       updateLunchUI();
+      await initSetupCounterMorphs();
       initSetupClassesSection();
       initClubsSection();
     }

@@ -212,6 +212,10 @@
       color: #aaa;
       margin-top: 14px;
     }
+    .counter-morph {
+      display: inline-block;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -246,6 +250,45 @@
   <script>
     let allClubs = [];
     let selectedClubs = [];
+    let clubsCountMorph = null;
+
+    function ensureClubsCountMorphHost(containerEl) {
+      if (!containerEl) return null;
+      let host = containerEl.querySelector('.counter-morph');
+      if (!host) {
+        const initial = containerEl.textContent || '';
+        containerEl.textContent = '';
+        host = document.createElement('span');
+        host.className = 'counter-morph';
+        host.textContent = initial;
+        containerEl.appendChild(host);
+      }
+      return host;
+    }
+
+    function setClubsCountText(text) {
+      if (clubsCountMorph) {
+        clubsCountMorph.update(text);
+      } else {
+        const el = document.getElementById('selectedCount');
+        if (el) el.textContent = text;
+      }
+    }
+
+    async function initClubsCountMorph() {
+      try {
+        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+        const host = ensureClubsCountMorphHost(document.getElementById('selectedCount'));
+        if (!host) return;
+        clubsCountMorph = new TextMorph({
+          element: host,
+          duration: 400,
+          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+        });
+      } catch (error) {
+        console.warn('Torph failed to load for clubs counter, using default updates.', error);
+      }
+    }
 
     function escapeHtml(text) {
       if (!text) return '';
@@ -293,10 +336,10 @@
 
     function updateSelectedCount() {
       const count = selectedClubs.length;
-      document.getElementById('selectedCount').textContent = 
-        count === 0 ? 'No clubs selected' : 
+      const text = count === 0 ? 'No clubs selected' : 
         count === 1 ? '1 club selected' : 
         `${count} clubs selected`;
+      setClubsCountText(text);
         
       const listEl = document.getElementById('selectedClubsList');
       if (count === 0) {
@@ -391,11 +434,13 @@
       }
     }
 
-    function init() {
+    async function init() {
       const clubsEnabled = localStorage.getItem('clubsEnabled');
       const isEnabled = clubsEnabled !== 'false';
       const clubsToggle = document.getElementById('clubsToggle');
       const clubsContent = document.getElementById('clubsContent');
+
+      await initClubsCountMorph();
 
       clubsToggle.checked = isEnabled;
       clubsContent.classList.toggle('enabled', isEnabled);
