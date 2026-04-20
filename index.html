@@ -91,8 +91,15 @@
       minutes: null,
       seconds: null
     };
+    let clockMorphSeedReleaseAt = 0;
+    let pendingClockMorphData = null;
 
     function updateClockMorphs(data) {
+      if (clockMorphSeedReleaseAt && Date.now() < clockMorphSeedReleaseAt) {
+        pendingClockMorphData = data;
+        return;
+      }
+
       if (clockMorphs.days) {
         clockMorphs.days.update(data.days ? data.days.toString().padStart(2,'0') : '00');
       }
@@ -139,8 +146,18 @@
         clockMorphs.minutes = minutesHost;
         clockMorphs.seconds = secondsHost;
 
-        // Seed from zero so the first clock update animates upward to real values.
+        // Seed from zero and hold for 2s before applying the real value.
+        clockMorphSeedReleaseAt = Date.now() + 2000;
+        pendingClockMorphData = null;
         updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setTimeout(() => {
+          const pending = pendingClockMorphData;
+          clockMorphSeedReleaseAt = 0;
+          pendingClockMorphData = null;
+          if (pending) {
+            updateClockMorphs(pending);
+          }
+        }, 2000);
         window.updateClockMorphs = updateClockMorphs;
       } catch (error) {
         window.updateClockMorphs = null;

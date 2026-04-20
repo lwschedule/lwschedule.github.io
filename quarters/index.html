@@ -46,6 +46,7 @@
   <script src="/common.js"></script>
   <script>
     let quartersInterval = null;
+    let termCountdownSeedReleaseAt = 0;
 
     function formatTermDate(date) {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -163,6 +164,10 @@
 
       if (!block || !badge || !labelEl || !valueHost) return;
 
+      if (termCountdownSeedReleaseAt && Date.now() < termCountdownSeedReleaseAt) {
+        return;
+      }
+
       if (countdownData.completed) {
         block.style.display = 'none';
         badge.style.display = 'inline-block';
@@ -218,6 +223,11 @@
       renderTermCards();
       initTermMorphs();
       seedTermCountdownsFromZero();
+      termCountdownSeedReleaseAt = Date.now() + 2000;
+      setTimeout(() => {
+        termCountdownSeedReleaseAt = 0;
+        updateQuartersAndSemesters();
+      }, 2000);
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);

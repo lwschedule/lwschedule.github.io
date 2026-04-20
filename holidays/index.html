@@ -61,8 +61,15 @@
       minutes: null,
       seconds: null
     };
+    let holidayMorphSeedReleaseAt = 0;
+    let pendingHolidayMorphData = null;
 
     function updateHolidayCountdownMorphs(data) {
+      if (holidayMorphSeedReleaseAt && Date.now() < holidayMorphSeedReleaseAt) {
+        pendingHolidayMorphData = data;
+        return;
+      }
+
       if (holidayMorphs.days) holidayMorphs.days.update(data.days.toString());
       if (holidayMorphs.hours) holidayMorphs.hours.update(data.hours.toString().padStart(2, '0'));
       if (holidayMorphs.minutes) holidayMorphs.minutes.update(data.minutes.toString().padStart(2, '0'));
@@ -99,8 +106,18 @@
         holidayMorphs.minutes = minutesHost;
         holidayMorphs.seconds = secondsHost;
 
-        // Seed from zero so the first live countdown update animates up.
+        // Seed from zero and hold for 2s before applying the real value.
+        holidayMorphSeedReleaseAt = Date.now() + 2000;
+        pendingHolidayMorphData = null;
         updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setTimeout(() => {
+          const pending = pendingHolidayMorphData;
+          holidayMorphSeedReleaseAt = 0;
+          pendingHolidayMorphData = null;
+          if (pending) {
+            updateHolidayCountdownMorphs(pending);
+          }
+        }, 2000);
       } catch (error) {
         console.warn('NumberFlow failed to load for holiday countdown, using default updates.', error);
       }
