@@ -138,6 +138,9 @@
         clockMorphs.hours = hoursHost;
         clockMorphs.minutes = minutesHost;
         clockMorphs.seconds = secondsHost;
+
+        // Seed from zero so the first clock update animates upward to real values.
+        updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         window.updateClockMorphs = updateClockMorphs;
       } catch (error) {
         window.updateClockMorphs = null;

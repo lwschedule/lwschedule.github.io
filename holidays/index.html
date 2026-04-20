@@ -98,6 +98,9 @@
         holidayMorphs.hours = hoursHost;
         holidayMorphs.minutes = minutesHost;
         holidayMorphs.seconds = secondsHost;
+
+        // Seed from zero so the first live countdown update animates up.
+        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       } catch (error) {
         console.warn('NumberFlow failed to load for holiday countdown, using default updates.', error);
       }

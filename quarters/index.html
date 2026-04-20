@@ -137,6 +137,23 @@
     function initTermMorphs() {
     }
 
+    function seedTermCountdownsFromZero() {
+      document.querySelectorAll('.term-countdown-block').forEach((block) => {
+        const labelEl = block.querySelector('.term-countdown-label');
+        const valueHost = block.querySelector('.term-countdown-value-morph');
+        if (labelEl) {
+          labelEl.textContent = 'Starts in';
+        }
+        if (valueHost) {
+          if (typeof valueHost.update === 'function') {
+            valueHost.update('0 Seconds');
+          } else {
+            valueHost.textContent = '0 Seconds';
+          }
+        }
+      });
+    }
+
     function setTermCountdown(cardEl, countdownData) {
       if (!cardEl) return;
       const block = cardEl.querySelector('.term-countdown-block');
@@ -200,6 +217,7 @@
 
       renderTermCards();
       initTermMorphs();
+      seedTermCountdownsFromZero();
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
