@@ -688,6 +688,18 @@ function getCurrentPeriod(schedule, now) {
 }
 
 
+function updateNextPeriodText(timerEl, text) {
+  if (!timerEl) return;
+
+  if (typeof window.updateNextPeriodBlock === 'function') {
+    window.updateNextPeriodBlock(text);
+  } else {
+    timerEl.textContent = text;
+  }
+
+  timerEl.classList.remove('hidden');
+}
+
 
 
 
@@ -716,8 +728,7 @@ function updateClock() {
       displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
       
-      timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
-      timerEl.classList.remove('hidden');
+      updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
     }
     return;
   }
@@ -741,8 +752,7 @@ function updateClock() {
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
         
-        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
-        timerEl.classList.remove('hidden');
+        updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
       }
     }
     return;
@@ -760,8 +770,7 @@ function updateClock() {
     clockLabel.textContent = getDisplayPeriodName(currentPeriod.name).toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
     
-    timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
-    timerEl.classList.remove('hidden');
+    updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
   } else if (now < today[0].start) {
     const firstPeriod = today[0];
     const startTime = new Date(nowDate);
@@ -777,8 +786,7 @@ function updateClock() {
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       
-      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
-      timerEl.classList.remove('hidden');
+      updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
     }
   } else if (now > today[today.length - 1].end) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
@@ -796,8 +804,7 @@ function updateClock() {
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
         
-        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
-        timerEl.classList.remove('hidden');
+        updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
       }
     }
   } else {
@@ -813,8 +820,7 @@ function updateClock() {
       clockLabel.textContent = `UNTIL ${getDisplayPeriodName(nextPeriod.name).toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       
-      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
-      timerEl.classList.remove('hidden');
+      updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
     }
   }
 }

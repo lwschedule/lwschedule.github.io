@@ -53,6 +53,37 @@
     let tickerOffsetPx = 0;
     let tickerLoopWidthPx = 0;
     const TICKER_SPEED_PX_PER_SEC = 42;
+    let nextPeriodMorph = null;
+
+    function ensureTimerMorphHost(timerEl) {
+      if (!timerEl) return null;
+      let host = timerEl.querySelector('.timer-value-morph');
+      if (!host) {
+        host = document.createElement('span');
+        host.className = 'timer-value-morph';
+        timerEl.textContent = '';
+        timerEl.appendChild(host);
+      }
+      return host;
+    }
+
+    async function initTimerMorph() {
+      const timerEl = document.getElementById('timer');
+      if (!timerEl) return;
+
+      try {
+        const { TextMorph } = await import('/vendor/torph.js');
+        const host = ensureTimerMorphHost(timerEl);
+        if (!host) return;
+        nextPeriodMorph = new TextMorph({ element: host });
+        window.updateNextPeriodBlock = (text) => {
+          nextPeriodMorph.update(text);
+        };
+      } catch (error) {
+        window.updateNextPeriodBlock = null;
+        console.warn('Torph failed to load for next period block, using default updates.', error);
+      }
+    }
 
     let clockMorphs = {
       days: null,
@@ -296,6 +327,7 @@
 
     (async () => {
       await initApp();
+      await initTimerMorph();
       await initClockMorphs();
       updateClock();
       setInterval(updateClock, 1000);
