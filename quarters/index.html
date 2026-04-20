@@ -46,7 +46,6 @@
   <script src="/common.js"></script>
   <script>
     let quartersInterval = null;
-    let termCountdownSeedReleaseAt = 0;
 
     function formatTermDate(date) {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -105,8 +104,8 @@
           </div>
           <div class="term-countdown">
             <div class="term-countdown-block">
-              <span class="countdown-label term-countdown-label">--</span>
-              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">--</number-flow></span>
+              <span class="countdown-label term-countdown-label">Starts in</span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">0 Seconds</number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -125,8 +124,8 @@
           </div>
           <div class="term-countdown">
             <div class="term-countdown-block">
-              <span class="countdown-label term-countdown-label">--</span>
-              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">--</number-flow></span>
+              <span class="countdown-label term-countdown-label">Starts in</span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">0 Seconds</number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -163,10 +162,6 @@
       const valueHost = cardEl.querySelector('.term-countdown-value-morph');
 
       if (!block || !badge || !labelEl || !valueHost) return;
-
-      if (termCountdownSeedReleaseAt && Date.now() < termCountdownSeedReleaseAt) {
-        return;
-      }
 
       if (countdownData.completed) {
         block.style.display = 'none';
@@ -223,11 +218,6 @@
       renderTermCards();
       initTermMorphs();
       seedTermCountdownsFromZero();
-      termCountdownSeedReleaseAt = Date.now() + 2000;
-      setTimeout(() => {
-        termCountdownSeedReleaseAt = 0;
-        updateQuartersAndSemesters();
-      }, 2000);
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);

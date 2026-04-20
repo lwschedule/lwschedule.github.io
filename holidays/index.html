@@ -21,19 +21,19 @@
         <div id="holidayCountdownLabel">NEXT HOLIDAY</div>
         <div id="holidayCountdownTime" class="countdown-grid">
           <div class="countdown-block">
-            <span id="countdown-days" class="countdown-value">--</span>
+            <span id="countdown-days" class="countdown-value">00</span>
             <span class="countdown-label">DAYS</span>
           </div>
           <div class="countdown-block">
-            <span id="countdown-hours" class="countdown-value">--</span>
+            <span id="countdown-hours" class="countdown-value">00</span>
             <span class="countdown-label">HOURS</span>
           </div>
           <div class="countdown-block">
-            <span id="countdown-minutes" class="countdown-value">--</span>
+            <span id="countdown-minutes" class="countdown-value">00</span>
             <span class="countdown-label">MINUTES</span>
           </div>
           <div class="countdown-block">
-            <span id="countdown-seconds" class="countdown-value">--</span>
+            <span id="countdown-seconds" class="countdown-value">00</span>
             <span class="countdown-label">SECONDS</span>
           </div>
         </div>
@@ -61,15 +61,8 @@
       minutes: null,
       seconds: null
     };
-    let holidayMorphSeedReleaseAt = 0;
-    let pendingHolidayMorphData = null;
 
     function updateHolidayCountdownMorphs(data) {
-      if (holidayMorphSeedReleaseAt && Date.now() < holidayMorphSeedReleaseAt) {
-        pendingHolidayMorphData = data;
-        return;
-      }
-
       if (holidayMorphs.days) holidayMorphs.days.update(data.days.toString());
       if (holidayMorphs.hours) holidayMorphs.hours.update(data.hours.toString().padStart(2, '0'));
       if (holidayMorphs.minutes) holidayMorphs.minutes.update(data.minutes.toString().padStart(2, '0'));
@@ -86,7 +79,7 @@
           if (!containerEl) return null;
           let host = containerEl.querySelector('.countdown-value-morph');
           if (!host) {
-            const initial = containerEl.textContent || '--';
+            const initial = containerEl.textContent || '00';
             containerEl.textContent = '';
             host = document.createElement('number-flow');
             host.className = 'countdown-value-morph';
@@ -106,18 +99,8 @@
         holidayMorphs.minutes = minutesHost;
         holidayMorphs.seconds = secondsHost;
 
-        // Seed from zero and then hold real values for 2s.
+        // Seed from zero immediately before first live countdown update.
         updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        holidayMorphSeedReleaseAt = Date.now() + 2000;
-        pendingHolidayMorphData = null;
-        setTimeout(() => {
-          const pending = pendingHolidayMorphData;
-          holidayMorphSeedReleaseAt = 0;
-          pendingHolidayMorphData = null;
-          if (pending) {
-            updateHolidayCountdownMorphs(pending);
-          }
-        }, 2000);
       } catch (error) {
         console.warn('NumberFlow failed to load for holiday countdown, using default updates.', error);
       }

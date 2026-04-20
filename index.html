@@ -18,19 +18,19 @@
     <div id="clockLabel">TIME REMAINING</div>
     <div id="clockDisplay">
       <div class="time-block" id="clockDisplay-days-block">
-        <span id="clockDisplay-days" class="time-value">--</span>
+        <span id="clockDisplay-days" class="time-value">00</span>
         <span class="time-label">DAYS</span>
       </div>
       <div class="time-block" id="clockDisplay-hours-block">
-        <span id="clockDisplay-hours" class="time-value">--</span>
+        <span id="clockDisplay-hours" class="time-value">00</span>
         <span class="time-label">HOURS</span>
       </div>
       <div class="time-block">
-        <span id="clockDisplay-minutes" class="time-value">--</span>
+        <span id="clockDisplay-minutes" class="time-value">00</span>
         <span class="time-label">MINUTES</span>
       </div>
       <div class="time-block">
-        <span id="clockDisplay-seconds" class="time-value">--</span>
+        <span id="clockDisplay-seconds" class="time-value">00</span>
         <span class="time-label">SECONDS</span>
       </div>
     </div>
@@ -91,15 +91,8 @@
       minutes: null,
       seconds: null
     };
-    let clockMorphSeedReleaseAt = 0;
-    let pendingClockMorphData = null;
 
     function updateClockMorphs(data) {
-      if (clockMorphSeedReleaseAt && Date.now() < clockMorphSeedReleaseAt) {
-        pendingClockMorphData = data;
-        return;
-      }
-
       if (clockMorphs.days) {
         clockMorphs.days.update(data.days ? data.days.toString().padStart(2,'0') : '00');
       }
@@ -126,7 +119,7 @@
           if (!containerEl) return null;
           let host = containerEl.querySelector('.time-value-morph');
           if (!host) {
-            const initial = containerEl.textContent || '--';
+            const initial = containerEl.textContent || '00';
             containerEl.textContent = '';
             host = document.createElement('number-flow');
             host.className = 'time-value-morph';
@@ -146,18 +139,8 @@
         clockMorphs.minutes = minutesHost;
         clockMorphs.seconds = secondsHost;
 
-        // Seed from zero and then hold real values for 2s.
+        // Seed from zero immediately before first live clock update.
         updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        clockMorphSeedReleaseAt = Date.now() + 2000;
-        pendingClockMorphData = null;
-        setTimeout(() => {
-          const pending = pendingClockMorphData;
-          clockMorphSeedReleaseAt = 0;
-          pendingClockMorphData = null;
-          if (pending) {
-            updateClockMorphs(pending);
-          }
-        }, 2000);
         window.updateClockMorphs = updateClockMorphs;
       } catch (error) {
         window.updateClockMorphs = null;
