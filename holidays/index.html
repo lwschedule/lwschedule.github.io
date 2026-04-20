@@ -106,10 +106,10 @@
         holidayMorphs.minutes = minutesHost;
         holidayMorphs.seconds = secondsHost;
 
-        // Seed from zero and hold for 2s before applying the real value.
+        // Seed from zero and then hold real values for 2s.
+        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         holidayMorphSeedReleaseAt = Date.now() + 2000;
         pendingHolidayMorphData = null;
-        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         setTimeout(() => {
           const pending = pendingHolidayMorphData;
           holidayMorphSeedReleaseAt = 0;

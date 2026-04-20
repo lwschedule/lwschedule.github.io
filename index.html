@@ -146,10 +146,10 @@
         clockMorphs.minutes = minutesHost;
         clockMorphs.seconds = secondsHost;
 
-        // Seed from zero and hold for 2s before applying the real value.
+        // Seed from zero and then hold real values for 2s.
+        updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         clockMorphSeedReleaseAt = Date.now() + 2000;
         pendingClockMorphData = null;
-        updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         setTimeout(() => {
           const pending = pendingClockMorphData;
           clockMorphSeedReleaseAt = 0;
