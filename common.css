@@ -311,33 +311,6 @@ body.calendarPage .pageContainer {
   display: block;
 }
 
-number-flow {
-  display: inline-block;
-  min-width: 2ch;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-
-number-flow.number-flow--animate {
-  animation: number-flow-pop 240ms cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-number-flow-group {
-  display: contents;
-}
-
-@keyframes number-flow-pop {
-  0% {
-    opacity: 0.45;
-    transform: translateY(0.12em) scale(0.985);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 .time-value .time-value-morph {
   display: inline-block;
   min-width: 2ch;

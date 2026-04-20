@@ -73,7 +73,7 @@
 
     async function initHolidayCountdownMorphs() {
       try {
-        await import('/vendor/number-flow.js');
+        const { TextMorph } = await import('/vendor/torph.js');
 
         const ensureMorphHost = (containerEl) => {
           if (!containerEl) return null;
@@ -81,7 +81,7 @@
           if (!host) {
             const initial = containerEl.textContent || '00';
             containerEl.textContent = '';
-            host = document.createElement('number-flow');
+            host = document.createElement('span');
             host.className = 'countdown-value-morph';
             host.textContent = initial;
             containerEl.appendChild(host);
@@ -94,15 +94,39 @@
         const minutesHost = ensureMorphHost(document.getElementById('countdown-minutes'));
         const secondsHost = ensureMorphHost(document.getElementById('countdown-seconds'));
 
-        holidayMorphs.days = daysHost;
-        holidayMorphs.hours = hoursHost;
-        holidayMorphs.minutes = minutesHost;
-        holidayMorphs.seconds = secondsHost;
+        if (daysHost) {
+          holidayMorphs.days = new TextMorph({
+            element: daysHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (hoursHost) {
+          holidayMorphs.hours = new TextMorph({
+            element: hoursHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (minutesHost) {
+          holidayMorphs.minutes = new TextMorph({
+            element: minutesHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (secondsHost) {
+          holidayMorphs.seconds = new TextMorph({
+            element: secondsHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
 
         // Seed from zero immediately before first live countdown update.
         updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       } catch (error) {
-        console.warn('NumberFlow failed to load for holiday countdown, using default updates.', error);
+        console.warn('Torph failed to load for holiday countdown, using default updates.', error);
       }
     }
 

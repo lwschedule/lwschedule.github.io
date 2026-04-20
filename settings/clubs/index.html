@@ -277,12 +277,16 @@
 
     async function initClubsCountMorph() {
       try {
-        await import('/vendor/number-flow.js');
+        const { TextMorph } = await import('/vendor/torph.js');
         const host = ensureClubsCountMorphHost(document.getElementById('selectedCount'));
         if (!host) return;
-        clubsCountMorph = host;
+        clubsCountMorph = new TextMorph({
+          element: host,
+          duration: 400,
+          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+        });
       } catch (error) {
-        console.warn('NumberFlow failed to load for clubs counter, using default updates.', error);
+        console.warn('Torph failed to load for clubs counter, using default updates.', error);
       }
     }
 

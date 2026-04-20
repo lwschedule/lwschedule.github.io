@@ -536,7 +536,7 @@ function displayTimeBlocks(container, data) {
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
   
-  // Use NumberFlow updates if available (home screen only), otherwise fallback to textContent
+  // Use Torph morphs if available (home screen only), otherwise fallback to textContent
   if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
     window.updateClockMorphs(data);
   } else {

@@ -109,7 +109,7 @@
 
     async function initClockMorphs() {
       try {
-        await import('/vendor/number-flow.js');
+        const { TextMorph } = await import('/vendor/torph.js');
         const daysEl = document.getElementById('clockDisplay-days');
         const hoursEl = document.getElementById('clockDisplay-hours');
         const minutesEl = document.getElementById('clockDisplay-minutes');
@@ -121,7 +121,7 @@
           if (!host) {
             const initial = containerEl.textContent || '00';
             containerEl.textContent = '';
-            host = document.createElement('number-flow');
+            host = document.createElement('span');
             host.className = 'time-value-morph';
             host.textContent = initial;
             containerEl.appendChild(host);
@@ -134,17 +134,41 @@
         const minutesHost = ensureMorphHost(minutesEl);
         const secondsHost = ensureMorphHost(secondsEl);
 
-        clockMorphs.days = daysHost;
-        clockMorphs.hours = hoursHost;
-        clockMorphs.minutes = minutesHost;
-        clockMorphs.seconds = secondsHost;
+        if (daysHost) {
+          clockMorphs.days = new TextMorph({
+            element: daysHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (hoursHost) {
+          clockMorphs.hours = new TextMorph({
+            element: hoursHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (minutesHost) {
+          clockMorphs.minutes = new TextMorph({
+            element: minutesHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
+        if (secondsHost) {
+          clockMorphs.seconds = new TextMorph({
+            element: secondsHost,
+            duration: 400,
+            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          });
+        }
 
         // Seed from zero immediately before first live clock update.
         updateClockMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         window.updateClockMorphs = updateClockMorphs;
       } catch (error) {
         window.updateClockMorphs = null;
-        console.warn('NumberFlow failed to load, using default clock updates.', error);
+        console.warn('Torph failed to load, using default clock updates.', error);
       }
     }
 
