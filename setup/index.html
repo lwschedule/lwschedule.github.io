@@ -389,7 +389,7 @@
       if (!host) {
         const initial = containerEl.textContent || '';
         containerEl.textContent = '';
-        host = document.createElement('span');
+        host = document.createElement('number-flow');
         host.className = 'counter-morph';
         host.textContent = initial;
         containerEl.appendChild(host);
@@ -420,27 +420,19 @@
 
     async function initSetupCounterMorphs() {
       try {
-        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+        await import('/vendor/number-flow.js');
         const classesHost = ensureCounterMorphHost(document.getElementById('setupClassesCount'));
         const clubsHost = ensureCounterMorphHost(document.getElementById('selectedCount'));
 
         if (classesHost) {
-          setupCounterMorphs.classes = new TextMorph({
-            element: classesHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
+          setupCounterMorphs.classes = classesHost;
         }
 
         if (clubsHost) {
-          setupCounterMorphs.clubs = new TextMorph({
-            element: clubsHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
+          setupCounterMorphs.clubs = clubsHost;
         }
       } catch (error) {
-        console.warn('Torph failed to load for setup counters, using default updates.', error);
+        console.warn('NumberFlow failed to load for setup counters, using default updates.', error);
       }
     }
 

@@ -316,16 +316,12 @@
 
     async function initClassesCountMorph() {
       try {
-        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
+        await import('/vendor/number-flow.js');
         const host = ensureClassesCountMorphHost(document.getElementById('classesCount'));
         if (!host) return;
-        classesCountMorph = new TextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        });
+        classesCountMorph = host;
       } catch (error) {
-        console.warn('Torph failed to load for classes counter, using default updates.', error);
+        console.warn('NumberFlow failed to load for classes counter, using default updates.', error);
       }
     }
 

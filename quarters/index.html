@@ -46,8 +46,6 @@
   <script src="/common.js"></script>
   <script>
     let quartersInterval = null;
-    let TermTextMorph = null;
-    const termValueMorphs = new WeakMap();
 
     function formatTermDate(date) {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -107,7 +105,7 @@
           <div class="term-countdown">
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">--</span>
-              <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">--</span></span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">--</number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -127,7 +125,7 @@
           <div class="term-countdown">
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">--</span>
-              <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">--</span></span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-value-morph">--</number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -137,15 +135,6 @@
     }
 
     function initTermMorphs() {
-      if (!TermTextMorph) return;
-      document.querySelectorAll('.term-countdown-value-morph').forEach((host) => {
-        if (termValueMorphs.has(host)) return;
-        termValueMorphs.set(host, new TermTextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        }));
-      });
     }
 
     function setTermCountdown(cardEl, countdownData) {
@@ -167,9 +156,8 @@
       badge.style.display = 'none';
       labelEl.textContent = countdownData.label;
 
-      const morph = termValueMorphs.get(valueHost);
-      if (morph) {
-        morph.update(countdownData.value);
+      if (typeof valueHost.update === 'function') {
+        valueHost.update(countdownData.value);
       } else {
         valueHost.textContent = countdownData.value;
       }
@@ -202,14 +190,13 @@
     }
 
     (async () => {
-      await initApp();
-
       try {
-        const { TextMorph } = await import('https://cdn.jsdelivr.net/npm/torph/+esm');
-        TermTextMorph = TextMorph;
+        await import('/vendor/number-flow.js');
       } catch (error) {
-        console.warn('Torph failed to load for quarters/semesters, using default updates.', error);
+        console.warn('NumberFlow failed to load for quarters/semesters, using default updates.', error);
       }
+
+      await initApp();
 
       renderTermCards();
       initTermMorphs();
