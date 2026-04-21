@@ -348,6 +348,10 @@ body.calendarPage .pageContainer {
   display: inline-block;
 }
 
+.time-value .time-value-morph.torph--animate,
+.countdown-value .countdown-value-morph.torph--animate,
+.counter-morph.torph--animate,
+.term-countdown-value-morph.torph--animate,
 #timer .timer-value-morph.torph--animate {
   animation: torph-pop 240ms cubic-bezier(0.19, 1, 0.22, 1);
 }
