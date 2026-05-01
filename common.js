@@ -903,13 +903,14 @@ function renderScheduleTable(schedule, now, showDuration = false) {
   if (!schedule || !Array.isArray(schedule) || schedule.length === 0) {
     return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
   }
+  const currentNow = typeof now === 'number' ? now : minutesNow();
   let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
   if (showDuration) html += "<th>Duration</th>";
   html += "</tr></thead><tbody>";
   for (let i = 0; i < schedule.length; i++) {
     const p = schedule[i];
     const duration = p.end - p.start;
-    const active = now !== null && now >= p.start && now < p.end;
+    const active = currentNow >= p.start && currentNow < p.end;
     html += `<tr class='${active?"highlight":""}'><td>${getDisplayPeriodName(p.name)}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
     if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
     html += "</tr>";

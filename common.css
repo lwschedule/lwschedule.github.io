@@ -332,6 +332,7 @@ body.calendarPage .pageContainer {
   overflow: hidden;
   width: 100%;
   display: block;
+  font-variant-numeric: tabular-nums;
 }
 
 .time-value .time-value-morph {
@@ -747,6 +748,7 @@ body.calendarPage .pageContainer {
   overflow: hidden;
   width: 100%;
   display: block;
+  font-variant-numeric: tabular-nums;
 }
 
 .countdown-value .countdown-value-morph {
@@ -1458,8 +1460,11 @@ body.has-sidebar {
 /* Global glass effects for all divs except setup/app pages */
 body:not(.no-glass) div {
   background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  background-clip: padding-box;
+  box-shadow: var(--glow);
 }
 
 body:not(.no-glass) div.sidebar-bubble,
@@ -1467,10 +1472,157 @@ body:not(.no-glass) div:has(> .sidebar-bubble) {
   background: var(--glass-bg-strong);
 }
 
+body:not(.no-glass) .sidebar-links-container,
+body:not(.no-glass) .home-ticker-viewport,
+body:not(.no-glass) .home-ticker-track,
+body:not(.no-glass) .home-ticker-group {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body:not(.no-glass) #homeTickerSpacer {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+body:not(.no-glass) #digitalClock,
+body:not(.no-glass) #timer,
+body:not(.no-glass) #holidayCountdown,
+body:not(.no-glass) .pageContainer,
+body:not(.no-glass) .homeHeaderRow,
+body:not(.no-glass) .time-block,
+body:not(.no-glass) .countdown-block,
+body:not(.no-glass) .home-ticker,
+body:not(.no-glass) .home-ticker-inner,
+body:not(.no-glass) #calendarContainer .calendar-nav,
+body:not(.no-glass) .calendar-key,
+body:not(.no-glass) .calendar-grid,
+body:not(.no-glass) .calendar-day,
+body:not(.no-glass) .calendar-day-header,
+body:not(.no-glass) .scheduleTable,
+body:not(.no-glass) .weekTable,
+body:not(.no-glass) .holidayTable,
+body:not(.no-glass) .infoContent,
+body:not(.no-glass) .infoSection,
+body:not(.no-glass) .clubsSection,
+body:not(.no-glass) .noSchoolMessage {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background-clip: padding-box;
+  box-shadow: var(--glow);
+}
+
+body:not(.no-glass) #digitalClock,
+body:not(.no-glass) #timer,
+body:not(.no-glass) #holidayCountdown,
+body:not(.no-glass) #calendarContainer .calendar-nav,
+body:not(.no-glass) .scheduleTable,
+body:not(.no-glass) .weekTable,
+body:not(.no-glass) .holidayTable,
+body:not(.no-glass) .calendar-grid,
+body:not(.no-glass) .calendar-day,
+body:not(.no-glass) .calendar-day-header {
+  background: var(--glass-bg-strong);
+}
+
+body:not(.no-glass) .calendar-day-header {
+  text-align: center;
+  font-weight: 700;
+  padding: 8px 4px;
+  color: white;
+  font-size: clamp(0.7em, 2.5vw, 0.9em);
+  border-radius: 10px;
+}
+
+body:not(.no-glass) .calendar-day {
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+body:not(.no-glass) .calendar-day.today {
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 0 1px #ffffff, var(--glow);
+}
+
 body:not(.no-glass) .scheduleTable th,
 body:not(.no-glass) .weekTable th,
 body:not(.no-glass) .holidayTable th {
   background: var(--glass-bg-strong);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+body:not(.no-glass) .scheduleTable tr.highlight,
+body:not(.no-glass) .weekTable tr.highlight,
+body:not(.no-glass) .holidayTable tr.highlight {
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+  background: var(--glass-bg-strong);
+}
+
+body:not(.no-glass) .scheduleTable tr.highlight td,
+body:not(.no-glass) .weekTable tr.highlight td,
+body:not(.no-glass) .holidayTable tr.highlight td {
+  background: transparent;
+}
+
+body:not(.no-glass) .scheduleTable tr:not(.highlight):hover,
+body:not(.no-glass) .weekTable tr.clickable-row:hover,
+body:not(.no-glass) .holidayTable tr:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body:not(.no-glass) .circleBtn,
+body:not(.no-glass) .backBtn,
+body:not(.no-glass) .mainBtn,
+body:not(.no-glass) .resetBtn,
+body:not(.no-glass) .calendar-nav button,
+body:not(.no-glass) .home-ticker-close,
+body:not(.no-glass) #sidebarMobileToggle {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
+}
+
+body:not(.no-glass) .circleBtn:hover,
+body:not(.no-glass) .backBtn:hover,
+body:not(.no-glass) .mainBtn:hover,
+body:not(.no-glass) .resetBtn:hover,
+body:not(.no-glass) .calendar-nav button:hover:not(:disabled),
+body:not(.no-glass) .home-ticker-close:hover,
+body:not(.no-glass) #sidebarMobileToggle:hover {
+  background: var(--glass-bg);
+}
+
+body:not(.no-glass) .calendar-nav button:disabled {
+  background: var(--glass-bg-soft);
+}
+
+body:not(.no-glass) .month-forward-icon {
+  transform: scaleX(-1);
+}
+
+body:not(.no-glass) .sidebar-mask,
+body:not(.no-glass) .calendar-modal {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  box-shadow: none;
+}
+
+body:not(.no-glass) .calendar-modal .modal-content {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background-clip: padding-box;
+  box-shadow: var(--glow);
 }
 
 body:not(.no-glass) .mainBtn.disabledBtn {
