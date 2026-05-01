@@ -5,6 +5,68 @@
   if (window.__lws_common_core_initialized) return;
   window.__lws_common_core_initialized = true;
 
+  const DEFAULT_BACKGROUND_IMAGES = [
+    'big sur.png',
+    'monterey.png',
+    'sequoia.png',
+    'sonoma.png',
+    'tahoe.png',
+    'ventura.png'
+  ];
+
+  if (!Array.isArray(window.__lws_background_images) || window.__lws_background_images.length === 0) {
+    window.__lws_background_images = DEFAULT_BACKGROUND_IMAGES.slice();
+  }
+
+  function getRandomBackground() {
+    const pool = window.__lws_background_images;
+    if (!Array.isArray(pool) || pool.length === 0) return null;
+    const index = Math.floor(Math.random() * pool.length);
+    return pool[index];
+  }
+
+  function setPageBackground(imageName) {
+    if (!document.body || typeof imageName !== 'string' || !imageName) return '';
+    const encodedName = encodeURIComponent(imageName);
+    const imageUrl = `/images/${encodedName}`;
+    document.body.style.setProperty('--page-background', `url("${imageUrl}")`);
+    window.__lws_background_image = imageName;
+    window.__lws_background_initialized = true;
+    return imageUrl;
+  }
+
+  function initializeBackground(force = false) {
+    if (!force && window.__lws_background_initialized) return window.__lws_background_image || null;
+    const imageName = getRandomBackground();
+    if (!imageName) return null;
+    setPageBackground(imageName);
+    return imageName;
+  }
+
+  if (typeof window.getRandomBackground !== 'function') {
+    window.getRandomBackground = getRandomBackground;
+  }
+
+  if (typeof window.setPageBackground !== 'function') {
+    window.setPageBackground = setPageBackground;
+  }
+
+  if (typeof window.initializeBackground !== 'function') {
+    window.initializeBackground = initializeBackground;
+  }
+
+  function runBackgroundInit() {
+    if (typeof window.initializeBackground === 'function') {
+      window.initializeBackground();
+    }
+  }
+
+  if (document.body) {
+    runBackgroundInit();
+  } else {
+    document.addEventListener('DOMContentLoaded', runBackgroundInit, { once: true });
+  }
+
   function loadCommon() {
     if (window.__lws_common_loaded) return Promise.resolve();
     if (window.__lws_common_loading_promise) return window.__lws_common_loading_promise;

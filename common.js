@@ -8,6 +8,67 @@ let clubsData = null;
 
 const MAX_CLASS_SLOTS = 6;
 
+const BACKGROUND_IMAGES = [
+  'big sur.png',
+  'monterey.png',
+  'sequoia.png',
+  'sonoma.png',
+  'tahoe.png',
+  'ventura.png'
+];
+
+function getRandomBackground() {
+  const pool = window.__lws_background_images || BACKGROUND_IMAGES;
+  if (!Array.isArray(pool) || pool.length === 0) return null;
+  const index = Math.floor(Math.random() * pool.length);
+  return pool[index];
+}
+
+function setPageBackground(imageName) {
+  if (!document.body || typeof imageName !== 'string' || !imageName) return '';
+  const encodedName = encodeURIComponent(imageName);
+  const imageUrl = `/images/${encodedName}`;
+  document.body.style.setProperty('--page-background', `url("${imageUrl}")`);
+  window.__lws_background_image = imageName;
+  window.__lws_background_initialized = true;
+  return imageUrl;
+}
+
+function initializeBackground(force = false) {
+  if (!force && window.__lws_background_initialized) return window.__lws_background_image || null;
+  if (!window.__lws_background_images) {
+    window.__lws_background_images = BACKGROUND_IMAGES.slice();
+  }
+  const imageName = getRandomBackground();
+  if (!imageName) return null;
+  setPageBackground(imageName);
+  return imageName;
+}
+
+if (typeof window.getRandomBackground !== 'function') {
+  window.getRandomBackground = getRandomBackground;
+}
+
+if (typeof window.setPageBackground !== 'function') {
+  window.setPageBackground = setPageBackground;
+}
+
+if (typeof window.initializeBackground !== 'function') {
+  window.initializeBackground = initializeBackground;
+}
+
+const runBackgroundInit = () => {
+  if (typeof window.initializeBackground === 'function') {
+    window.initializeBackground();
+  }
+};
+
+if (document.body) {
+  runBackgroundInit();
+} else {
+  document.addEventListener('DOMContentLoaded', runBackgroundInit, { once: true });
+}
+
 function normalizeClassSlots(rawSlots) {
   const slots = Array(MAX_CLASS_SLOTS).fill('');
   if (!Array.isArray(rawSlots)) return slots;

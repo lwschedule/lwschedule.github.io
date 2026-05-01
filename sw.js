@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lwschedule-v3.4';
+const CACHE_NAME = 'lwschedule-v3.5';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',

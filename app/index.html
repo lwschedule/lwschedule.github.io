@@ -98,7 +98,7 @@
       overlay.style.left = '0';
       overlay.style.width = '100%';
       overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
       overlay.style.zIndex = '1000';
       overlay.style.display = 'flex';
       overlay.style.flexDirection = 'column';
@@ -108,7 +108,9 @@
       overlay.style.boxSizing = 'border-box';
       
       const content = document.createElement('div');
-      content.style.background = 'var(--card-dark)';
+      content.style.background = 'var(--glass-bg)';
+      content.style.backdropFilter = 'var(--glass-blur)';
+      content.style.webkitBackdropFilter = 'var(--glass-blur)';
       content.style.padding = '30px';
       content.style.borderRadius = '16px';
       content.style.textAlign = 'center';

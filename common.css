@@ -12,6 +12,11 @@
   --text-light: #e8e8e8;
   --bg-dark: #000000;
   --card-dark: #080808;
+  --glass-bg: rgba(8, 8, 8, 0.68);
+  --glass-bg-strong: rgba(8, 8, 8, 0.78);
+  --glass-bg-soft: rgba(8, 8, 8, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(8px);
   --glow: 0 0 0 1px #333, 0 0 15px rgba(255,255,255,0.05);
   --error: #ff4757;
   --page-transition-distance: 28px;
@@ -25,7 +30,12 @@
 }
 
 body {
-  background: var(--bg-dark);
+  background-color: var(--bg-dark);
+  background-image: var(--page-background, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text-light);
   margin: 0;
   padding: 20px;
@@ -470,12 +480,12 @@ body.calendarPage .pageContainer {
 .mainBtn.disabledBtn {
   opacity: 0.5;
   cursor: not-allowed;
-  background: var(--primary) !important;
+  background: var(--glass-bg-strong) !important;
   animation: none !important;
 }
 
 .mainBtn.disabledBtn:hover {
-  background: var(--primary) !important;
+  background: var(--glass-bg-strong) !important;
   transform: none;
 }
 
@@ -1704,4 +1714,162 @@ body.has-sidebar {
 
 .icon-back-btn:hover {
   transform: scale(1.05);
+}
+
+/* Glassmorphism surfaces */
+body :is(
+  .circleBtn,
+  .backBtn,
+  #digitalClock,
+  #timer,
+  .mainBtn,
+  .resetBtn,
+  .saveBtn,
+  .completeBtn,
+  .appBtn,
+  .scheduleTable,
+  .weekTable,
+  .holidayTable,
+  #holidayCountdown,
+  .calendar-nav,
+  .calendar-grid,
+  .calendar-day,
+  .calendar-modal .modal-content,
+  .home-ticker,
+  .announcement-banner,
+  #globalSidebar,
+  #sidebarMobileToggle,
+  .icon-back-btn,
+  .eventsFilters,
+  .filterToggleItem,
+  .eventCard,
+  .noEvents,
+  .term-card,
+  .term-completed-badge,
+  .infoSection,
+  .setup-section,
+  .setupSection,
+  .toggle-container,
+  .settingsRow,
+  .lunchBtn,
+  .pack-up-preset,
+  .pack-up-input,
+  .search-input,
+  .class-search-input,
+  .class-results,
+  .classes-results,
+  .clubs-results,
+  .class-result-btn,
+  .class-result,
+  .club-result,
+  .class-slots,
+  .slots-container,
+  .class-slot-card,
+  .slot-card,
+  .club-slot-card,
+  .lunchDay,
+  .comingSoonCard,
+  .class-action-btn,
+  .action-btn,
+  .slot-arrow,
+  .slot-arrow-btn,
+  .time-block,
+  .countdown-block
+) {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body :is(
+  .scheduleTable th,
+  .weekTable th,
+  .holidayTable th,
+  .scheduleTable tr.highlight,
+  .weekTable tr.highlight,
+  .weekTable tr.clickable-row.highlight:hover,
+  .term-card.highlight,
+  .term-completed-badge,
+  .lunchBtn.selected,
+  .lunchBtn:hover,
+  .pack-up-preset.selected,
+  .pack-up-preset:hover,
+  .sidebar-bubble
+) {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body :is(
+  .scheduleTable tr:not(.highlight):hover,
+  .weekTable tr.clickable-row:hover,
+  .holidayTable tr:hover,
+  .class-result-btn:hover,
+  .class-result:hover,
+  .club-result:hover,
+  .class-result-btn.added,
+  .class-result.added,
+  .club-result.added,
+  .class-result-btn:disabled,
+  .class-result:disabled,
+  .club-result:disabled
+) {
+  background: var(--glass-bg-soft);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body .calendar-nav button:hover:not(:disabled) {
+  background: var(--glass-bg-strong);
+}
+
+body .calendar-nav button {
+  background: var(--glass-bg-soft);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body .homeModeToggleSlider {
+  background: var(--glass-bg-soft);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body .homeModeToggleSwitch input:checked + .homeModeToggleSlider {
+  background: rgba(52, 199, 89, 0.6);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body :is(.toggle-slider, .slider, .filterSlider) {
+  background-color: rgba(255, 59, 48, 0.6);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body :is(
+  .toggle-switch input:checked + .toggle-slider,
+  .switch input:checked + .slider,
+  .filterSwitch input:checked + .filterSlider
+) {
+  background-color: rgba(52, 199, 89, 0.6);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body .filterToggleItem.comingSoon .filterSlider {
+  background-color: rgba(63, 63, 63, 0.6);
+}
+
+body .resetBtn:hover {
+  background: rgba(157, 24, 46, 0.7);
+}
+
+body .eventCard::before {
+  left: 0;
+  right: auto;
+  width: 6px;
+  background: var(--event-accent);
+  border-radius: 12px 0 0 12px;
 }
