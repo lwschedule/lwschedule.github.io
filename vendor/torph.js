@@ -6,8 +6,8 @@ export class TextMorph {
   }
 
   update(nextValue) {
-    const nextText = String(nextValue ?? '');
-    if (nextText === this.value && this.element?.textContent === nextText) {
+    const nextText = nextValue == null ? '' : String(nextValue);
+    if (nextText === this.value && this.element && this.element.textContent === nextText) {
       return;
     }
 
@@ -25,8 +25,14 @@ export class TextMorph {
     }
 
     this._timer = setTimeout(() => {
-      this.element?.classList.remove('torph--animate');
+      if (this.element) {
+        this.element.classList.remove('torph--animate');
+      }
       this._timer = null;
     }, 240);
   }
+}
+
+if (typeof window !== 'undefined') {
+  window.TextMorph = TextMorph;
 }

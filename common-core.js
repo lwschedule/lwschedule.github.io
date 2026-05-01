@@ -25,8 +25,12 @@
     return pool[index];
   }
 
+  function shouldSkipBackground() {
+    return !!(document.body && document.body.classList.contains('no-background'));
+  }
+
   function setPageBackground(imageName) {
-    if (!document.body || typeof imageName !== 'string' || !imageName) return '';
+    if (shouldSkipBackground() || !document.body || typeof imageName !== 'string' || !imageName) return '';
     const encodedName = encodeURIComponent(imageName);
     const imageUrl = `/images/${encodedName}`;
     document.body.style.setProperty('--page-background', `url("${imageUrl}")`);
@@ -36,6 +40,10 @@
   }
 
   function initializeBackground(force = false) {
+    if (shouldSkipBackground()) {
+      window.__lws_background_initialized = true;
+      return null;
+    }
     if (!force && window.__lws_background_initialized) return window.__lws_background_image || null;
     const imageName = getRandomBackground();
     if (!imageName) return null;
