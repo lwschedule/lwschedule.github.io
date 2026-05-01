@@ -982,7 +982,35 @@
       });
     });
 
-    document.getElementById('completeBtn').addEventListener('click', () => {
+    let completeMorph = null;
+    const completeBtn = document.getElementById('completeBtn');
+
+    async function initCompleteMorph() {
+      try {
+        const { TextMorph } = await import('/vendor/torph.js');
+        let host = completeBtn.querySelector('.complete-morph');
+        if (!host) {
+          host = document.createElement('span');
+          host.className = 'complete-morph';
+          host.textContent = completeBtn.textContent;
+          completeBtn.textContent = '';
+          completeBtn.appendChild(host);
+        }
+        completeMorph = new TextMorph({ element: host });
+      } catch (error) {
+        console.warn('Torph failed to load', error);
+      }
+    }
+
+    function updateCompleteBtn(text) {
+      if (completeMorph) {
+        completeMorph.update(text);
+      } else {
+        completeBtn.textContent = text;
+      }
+    }
+
+    document.getElementById('completeBtn').addEventListener('click', async () => {
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', String(packUpTime));
       localStorage.setItem('notifications-enabled', packupToggle.checked ? 'true' : 'false');
@@ -1008,6 +1036,10 @@
 
       localStorage.setItem('setup-complete', 'true');
       localStorage.setItem('app-visited', 'true');
+
+      updateCompleteBtn('✅');
+      completeBtn.style.background = '#34c759';
+      await new Promise(resolve => setTimeout(resolve, 1000));
       navigateWithTransition('/', { replace: true });
     });
 
@@ -1015,6 +1047,7 @@
       loadLunchPrefs();
       updateLunchUI();
       await initSetupCounterMorphs();
+      initCompleteMorph();
       initSetupClassesSection();
       initClubsSection();
     }

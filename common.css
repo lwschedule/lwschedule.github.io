@@ -1305,15 +1305,17 @@ body.has-sidebar {
   left: 0;
   bottom: 0;
   width: 250px;
-  background: var(--card-dark);
-  box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
   display: flex;
   flex-direction: column;
   z-index: 1000;
   transform: translateX(0);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  border-right: 1px solid var(--primary);
+  border-right: 1px solid var(--glass-border);
 }
 
 .sidebar-header {
@@ -1321,7 +1323,6 @@ body.has-sidebar {
   display: flex;
   align-items: center;
   gap: 15px;
-  border-bottom: 1px solid var(--primary);
   min-height: 80px;
 }
 .sidebar-logo {
@@ -1403,8 +1404,10 @@ body.has-sidebar {
   top: 15px;
   left: 15px;
   z-index: 1001;
-  background: var(--card-dark);
-  border: 1px solid var(--primary-light);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   color: var(--text-light);
   font-size: 1.5em;
   border-radius: 8px;
@@ -1413,7 +1416,13 @@ body.has-sidebar {
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  box-shadow: var(--glow);
+  transition: all 0.3s ease;
+}
+
+#sidebarMobileToggle:hover {
+  transform: scale(1.05);
+  background: var(--glass-bg-strong);
 }
 
 #sidebarMobileToggle svg {
@@ -1439,471 +1448,3 @@ body.has-sidebar {
     display: flex;
   }
   .sidebar-mask.show {
-    display: block;
-  }
-  .homeHeaderRow h1 {
-    margin-left: 50px; /* Room for Hamburger */
-  }
-}
-/* Global Sidebar Styles */
-body.has-sidebar {
-  padding-left: 270px;
-}
-@media (max-width: 768px) {
-  body.has-sidebar {
-    padding-left: 20px; /* same as normal */
-  }
-}
-
-#globalSidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 250px;
-  background: var(--card-dark);
-  box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
-  border-right: 1px solid var(--primary);
-}
-
-.sidebar-header {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-bottom: 1px solid var(--primary);
-  min-height: 80px;
-}
-.sidebar-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-}
-.sidebar-title {
-  margin: 0;
-  font-size: 1.2em;
-  font-weight: 700;
-  color: var(--text-light);
-}
-
-.sidebar-links-container {
-  padding: 15px 10px;
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  text-decoration: none;
-  color: var(--text-light);
-  font-size: 1.05em;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: color 0.3s ease;
-  position: relative;
-  z-index: 2;
-  opacity: 0.8;
-}
-.sidebar-link:hover, .sidebar-link.active {
-  opacity: 1;
-}
-
-/* Fluid Bubble */
-.sidebar-bubble {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  height: 46px; /* Approx height of link */
-  background: var(--primary-light);
-  border-radius: 12px;
-  z-index: 1; opacity: 0;
-  transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
-  pointer-events: none;
-  box-shadow: var(--glow);
-}
-
-#sidebarMobileToggle {
-  display: none;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1001;
-  background: var(--card-dark);
-  border: 1px solid var(--primary-light);
-  color: var(--text-light);
-  font-size: 1.5em;
-  border-radius: 8px;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-.sidebar-mask {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
-  z-index: 999;
-}
-
-@media (max-width: 768px) {
-  #globalSidebar {
-    transform: translateX(-100%);
-  }
-  #globalSidebar.open {
-    transform: translateX(0);
-  }
-  #sidebarMobileToggle {
-    display: flex;
-  }
-  .sidebar-mask.show {
-    display: block;
-  }
-  .homeHeaderRow h1 {
-    margin-left: 50px; /* Room for Hamburger */
-  }
-}
-/* Global Sidebar Styles */
-body.has-sidebar {
-  padding-left: 280px;
-}
-@media (max-width: 768px) {
-  body.has-sidebar {
-    padding-left: 20px;
-  }
-}
-
-#globalSidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 250px;
-  background: var(--card-dark);
-  box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
-  border-right: 1px solid var(--primary);
-}
-
-.sidebar-header {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-bottom: 1px solid var(--primary);
-  min-height: 80px;
-}
-.sidebar-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-}
-.sidebar-title {
-  margin: 0;
-  font-size: 1.2em;
-  font-weight: 700;
-  color: var(--text-light);
-}
-
-.sidebar-links-container {
-  padding: 15px 10px;
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  text-decoration: none;
-  color: var(--text-light);
-  font-size: 1.05em;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: color 0.3s ease;
-  position: relative;
-  z-index: 2;
-  opacity: 0.8;
-}
-.sidebar-link:hover, .sidebar-link.active {
-  opacity: 1;
-}
-
-/* Fluid Bubble */
-.sidebar-bubble {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  height: 46px; /* Approx height of link */
-  background: var(--primary-light);
-  border-radius: 12px;
-  z-index: 1; opacity: 0;
-  transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
-  pointer-events: none;
-  box-shadow: var(--glow);
-}
-
-#sidebarMobileToggle {
-  display: none;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 1001;
-  background: var(--card-dark);
-  border: 1px solid var(--primary-light);
-  color: var(--text-light);
-  font-size: 1.5em;
-  border-radius: 8px;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-.sidebar-mask {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
-  z-index: 999;
-}
-
-@media (max-width: 768px) {
-  #globalSidebar {
-    transform: translateX(-100%);
-  }
-  #globalSidebar.open {
-    transform: translateX(0);
-  }
-  #sidebarMobileToggle {
-    display: flex;
-  }
-  .sidebar-mask.show {
-    display: block;
-  }
-  .homeHeaderRow h1 {
-    margin-left: 50px; /* Room for Hamburger */
-  }
-}
-
-/* Icon Back Button (Global back arrows) */
-.icon-back-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--card-dark);
-  border: 1px solid var(--primary-light);
-  color: var(--text-light);
-  text-decoration: none;
-  margin-bottom: 15px;
-  transition: transform 0.2s;
-}
-
-.icon-back-btn::before {
-  content: '';
-  width: 18px;
-  height: 18px;
-  display: block;
-  background: url('/icons/src/arrow.backward.svg') center/contain no-repeat;
-}
-
-.icon-back-btn svg {
-  display: none;
-}
-
-.icon-back-btn:hover {
-  transform: scale(1.05);
-}
-
-/* Glassmorphism surfaces */
-body:not(.no-glass) :is(
-  .circleBtn,
-  .backBtn,
-  #digitalClock,
-  #timer,
-  .mainBtn,
-  .resetBtn,
-  .saveBtn,
-  .completeBtn,
-  .appBtn,
-  .scheduleTable,
-  .weekTable,
-  .holidayTable,
-  #holidayCountdown,
-  .calendar-nav,
-  .calendar-grid,
-  .calendar-day,
-  .calendar-modal .modal-content,
-  .home-ticker,
-  .announcement-banner,
-  #globalSidebar,
-  #sidebarMobileToggle,
-  .icon-back-btn,
-  .eventsFilters,
-  .filterToggleItem,
-  .eventCard,
-  .noEvents,
-  .term-card,
-  .term-completed-badge,
-  .infoSection,
-  .setup-section,
-  .setupSection,
-  .toggle-container,
-  .settingsRow,
-  .lunchBtn,
-  .pack-up-preset,
-  .pack-up-input,
-  .search-input,
-  .class-search-input,
-  .class-results,
-  .classes-results,
-  .clubs-results,
-  .class-result-btn,
-  .class-result,
-  .club-result,
-  .class-slots,
-  .slots-container,
-  .class-slot-card,
-  .slot-card,
-  .club-slot-card,
-  .lunchDay,
-  .comingSoonCard,
-  .class-action-btn,
-  .action-btn,
-  .slot-arrow,
-  .slot-arrow-btn,
-  .time-block,
-  .countdown-block
-) {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) :is(
-  .scheduleTable th,
-  .weekTable th,
-  .holidayTable th,
-  .scheduleTable tr.highlight,
-  .weekTable tr.highlight,
-  .weekTable tr.clickable-row.highlight:hover,
-  .term-card.highlight,
-  .term-completed-badge,
-  .lunchBtn.selected,
-  .lunchBtn:hover,
-  .pack-up-preset.selected,
-  .pack-up-preset:hover,
-  .sidebar-bubble
-) {
-  background: var(--glass-bg-strong);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) :is(
-  .scheduleTable tr:not(.highlight):hover,
-  .weekTable tr.clickable-row:hover,
-  .holidayTable tr:hover,
-  .class-result-btn:hover,
-  .class-result:hover,
-  .club-result:hover,
-  .class-result-btn.added,
-  .class-result.added,
-  .club-result.added,
-  .class-result-btn:disabled,
-  .class-result:disabled,
-  .club-result:disabled
-) {
-  background: var(--glass-bg-soft);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) .calendar-nav button:hover:not(:disabled) {
-  background: var(--glass-bg-strong);
-}
-
-body:not(.no-glass) .calendar-nav button {
-  background: var(--glass-bg-soft);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) .homeModeToggleSlider {
-  background: var(--glass-bg-soft);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) .homeModeToggleSwitch input:checked + .homeModeToggleSlider {
-  background: rgba(52, 199, 89, 0.6);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) :is(.toggle-slider, .slider, .filterSlider) {
-  background-color: rgba(255, 59, 48, 0.6);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) :is(
-  .toggle-switch input:checked + .toggle-slider,
-  .switch input:checked + .slider,
-  .filterSwitch input:checked + .filterSlider
-) {
-  background-color: rgba(52, 199, 89, 0.6);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-body:not(.no-glass) .filterToggleItem.comingSoon .filterSlider {
-  background-color: rgba(63, 63, 63, 0.6);
-}
-
-body:not(.no-glass) .resetBtn:hover {
-  background: rgba(157, 24, 46, 0.7);
-}
-
-body:not(.no-glass) .eventCard::before {
-  left: 0;
-  right: auto;
-  width: 6px;
-  background: var(--event-accent);
-  border-radius: 12px 0 0 12px;
-}
-
-body:not(.no-glass) :where(*) {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}

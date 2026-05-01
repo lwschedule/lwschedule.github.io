@@ -69,7 +69,8 @@ input:checked + .slider:before { transform: translateX(26px); }
       </div>
       <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
     </div>
-    <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
+    <button class="saveBtn" id="savePackupBtn">Save</button>
+    <button class="saveBtn" id="testNotificationBtn" style="background: var(--primary-light); margin-top: 0; margin-bottom: 20px;">Test Notification</button>
     <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
   </div>
   <script src="/common-core.js"></script>
@@ -83,6 +84,8 @@ let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
 if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
 
 const input = document.getElementById('packUpTimeInput');
+const saveBtn = document.getElementById('savePackupBtn');
+let saveMorph = null;
 
 function updatePackUpPresetUI(value) {
   document.querySelectorAll('.pack-up-preset').forEach(btn => {
@@ -90,37 +93,65 @@ function updatePackUpPresetUI(value) {
   });
 }
 
+async function initSaveMorph() {
+  try {
+    const { TextMorph } = await import('/vendor/torph.js');
+    let host = saveBtn.querySelector('.save-morph');
+    if (!host) {
+      host = document.createElement('span');
+      host.className = 'save-morph';
+      host.textContent = saveBtn.textContent;
+      saveBtn.textContent = '';
+      saveBtn.appendChild(host);
+    }
+    saveMorph = new TextMorph({ element: host });
+  } catch (error) {
+    console.warn('Torph failed to load', error);
+  }
+}
+
+function updateSaveBtn(text) {
+  if (saveMorph) {
+    saveMorph.update(text);
+  } else {
+    saveBtn.textContent = text;
+  }
+}
+
 if (packUpTime > 0) input.value = packUpTime;
 updatePackUpPresetUI(packUpTime);
 
 document.querySelectorAll('.pack-up-preset').forEach(btn => {
-btn.addEventListener('click', () => {
-const val = parseInt(btn.dataset.value, 10);
-input.value = val > 0 ? val : '';
-localStorage.setItem('pack-up-time', String(val));
-updatePackUpPresetUI(val);
+  btn.addEventListener('click', () => {
+    const val = parseInt(btn.dataset.value, 10);
+    input.value = val > 0 ? val : '';
+    updatePackUpPresetUI(val);
+  });
 });
-});
-input.addEventListener('input', () => {
-  let val = parseInt(input.value, 10);
-  if (isNaN(val) || val < 0) return;
-  if (val > 30) {
-    input.value = 30;
-    val = 30;
-  }
-  localStorage.setItem('pack-up-time', val);
-  updatePackUpPresetUI(val);
-});
+
 input.addEventListener('change', () => {
   let val = parseInt(input.value, 10);
   if (isNaN(val) || val < 0) {
     input.value = '';
-    localStorage.setItem('pack-up-time', 0);
     updatePackUpPresetUI(0);
     return;
   }
-  localStorage.setItem('pack-up-time', val);
+  if (val > 30) {
+    input.value = 30;
+    val = 30;
+  }
   updatePackUpPresetUI(val);
+});
+
+saveBtn.addEventListener('click', async () => {
+  let val = parseInt(input.value, 10) || 0;
+  localStorage.setItem('pack-up-time', String(val));
+  updateSaveBtn('✅');
+  saveBtn.style.background = '#34c759';
+  setTimeout(() => {
+    updateSaveBtn('Save');
+    saveBtn.style.background = 'var(--primary-light)';
+  }, 1500);
 });
 
 document.getElementById('testNotificationBtn').addEventListener('click', () => {
@@ -135,23 +166,16 @@ document.getElementById('testNotificationBtn').addEventListener('click', () => {
   }
 });
 
-
 const notificationToggle = document.getElementById('notificationToggle');
 const notificationStatus = document.getElementById('notificationStatus');
 
-
 if ('Notification' in window) {
-  
   const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
   notificationToggle.checked = notificationsEnabled;
-  
-  
   updateNotificationStatus();
-  
   
   notificationToggle.addEventListener('change', async () => {
     if (notificationToggle.checked) {
-      
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         localStorage.setItem('notifications-enabled', 'true');
@@ -190,17 +214,16 @@ function updateNotificationStatus() {
 }
 
 document.getElementById('resetPackupBtn').addEventListener('click', () => {
-    document.getElementById('packUpTimeInput').value = '';
-    updatePackUpPresetUI(0);
-    
-    const notificationToggle = document.getElementById('notificationToggle');
-    if (notificationToggle) notificationToggle.checked = false;
-    
-    localStorage.setItem('pack-up-time', '0');
-    localStorage.setItem('notifications-enabled', 'false');
-    updateNotificationStatus();
+  document.getElementById('packUpTimeInput').value = '';
+  updatePackUpPresetUI(0);
+  const notificationToggle = document.getElementById('notificationToggle');
+  if (notificationToggle) notificationToggle.checked = false;
+  localStorage.setItem('pack-up-time', '0');
+  localStorage.setItem('notifications-enabled', 'false');
+  updateNotificationStatus();
 });
 
+initSaveMorph();
 checkSetupComplete();
   })();
 </script>

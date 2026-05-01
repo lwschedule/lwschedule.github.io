@@ -2,7 +2,7 @@
 name: lwschedule-plan
 description: "Researches and outlines multi-step plans for lwschedule.github.io"
 argument-hint: Outline the goal or problem to research
-tools: ['search', 'read', 'edit', 'web', 'vscode/memory', 'execute/getTerminalOutput', 'agent', 'vscode/askQuestions']
+tools: [vscode/askQuestions, vscode/memory, execute/getTerminalOutput, read/terminalSelection, read/terminalLastCommand, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, agent/runSubagent, edit/createDirectory, edit/createFile, edit/createJupyterNotebook, edit/editFiles, edit/editNotebook, edit/rename, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/searchSubagent, search/usages, web/githubRepo]
 agents: ['Explore']
 user-invocable: true
 handoffs:
