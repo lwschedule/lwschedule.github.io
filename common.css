@@ -1448,3 +1448,31 @@ body.has-sidebar {
     display: flex;
   }
   .sidebar-mask.show {
+    display: block;
+  }
+  .homeHeaderRow h1 {
+    margin-left: 50px; /* Room for Hamburger */
+  }
+}
+
+/* Global glass effects for all divs except setup/app pages */
+body:not(.no-glass) div {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+body:not(.no-glass) div.sidebar-bubble,
+body:not(.no-glass) div:has(> .sidebar-bubble) {
+  background: var(--glass-bg-strong);
+}
+
+body:not(.no-glass) .scheduleTable th,
+body:not(.no-glass) .weekTable th,
+body:not(.no-glass) .holidayTable th {
+  background: var(--glass-bg-strong);
+}
+
+body:not(.no-glass) .mainBtn.disabledBtn {
+  background: var(--glass-bg-strong) !important;
+}
