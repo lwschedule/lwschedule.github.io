@@ -1406,15 +1406,14 @@ function renderClubsForDay(date, showHeader = true) {
 
 
 function initPackUpNotifications() {
-  
   if ('Notification' in window && localStorage.getItem('notifications-enabled') === 'true') {
-    
     if (Notification.permission === 'granted') {
-      
-      startPackUpMonitoring();
-    } else if (Notification.permission !== 'denied') {
-      
-      console.log('Notifications not yet enabled, user needs to enable in settings');
+      // Defer pack-up monitoring to avoid blocking initialization
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => { startPackUpMonitoring(); }, { timeout: 3000 });
+      } else {
+        setTimeout(() => { startPackUpMonitoring(); }, 500);
+      }
     }
   }
 }
@@ -1584,7 +1583,7 @@ async function initApp() {
   initPackUpNotifications();
 }
 
-(function injectGlobalSidebar() {
+function injectGlobalSidebar() {
   if (window.location.pathname.startsWith('/setup') || window.location.pathname.startsWith('/app')) return;
 
   const navLinks = [
@@ -1729,7 +1728,14 @@ async function initApp() {
     });
     return m;
   }
-})();
+}
+
+// Defer sidebar injection to idle callback to avoid blocking page render
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => { injectGlobalSidebar(); }, { timeout: 2000 });
+} else {
+  setTimeout(() => { injectGlobalSidebar(); }, 100);
+}
 
 
 async function sendNotification(title, options) {
@@ -1746,4 +1752,13 @@ async function sendNotification(title, options) {
   const n = new Notification(title, options);
   n.onclick = function() { window.focus(); this.close(); };
   setTimeout(() => n.close(), 5000);
+}
+
+// Register service worker for GitHub Pages
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
+      console.warn('Service Worker registration failed:', err);
+    });
+  });
 }

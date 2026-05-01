@@ -60,52 +60,57 @@
       <button class="mainBtn saveBtn" style="width: 100%;">Save & Continue</button>
     </div>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
-        
-    let lunchPrefs = {
-      Monday: 'A',
-      Tuesday: 'A',
-      Wednesday: 'All',
-      Thursday: 'A',
-      Friday: 'A'
-    };
-
-    const existing = localStorage.getItem('pilot3LunchPreferences');
-    if (existing) {
-      try {
-        const prefs = JSON.parse(existing);
-        if (typeof prefs === 'object' && prefs) {
-          lunchPrefs = { ...lunchPrefs, ...prefs };
-        }
-      } catch (e) {
-        console.error('Error loading pilot3 lunch preferences:', e);
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-    }
 
-    function updateLunchUI() {
+      let lunchPrefs = {
+        Monday: 'A',
+        Tuesday: 'A',
+        Wednesday: 'All',
+        Thursday: 'A',
+        Friday: 'A'
+      };
+
+      const existing = localStorage.getItem('pilot3LunchPreferences');
+      if (existing) {
+        try {
+          const prefs = JSON.parse(existing);
+          if (typeof prefs === 'object' && prefs) {
+            lunchPrefs = { ...lunchPrefs, ...prefs };
+          }
+        } catch (e) {
+          console.error('Error loading pilot3 lunch preferences:', e);
+        }
+      }
+
+      function updateLunchUI() {
+        document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
+          const day = btn.dataset.day;
+          const lunch = btn.dataset.lunch;
+          btn.classList.toggle('selected', lunchPrefs[day] === lunch);
+        });
+      }
+
       document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-        const day = btn.dataset.day;
-        const lunch = btn.dataset.lunch;
-        btn.classList.toggle('selected', lunchPrefs[day] === lunch);
+        btn.addEventListener('click', () => {
+          const day = btn.dataset.day;
+          const lunch = btn.dataset.lunch;
+          lunchPrefs[day] = lunch;
+          updateLunchUI();
+        });
       });
-    }
 
-    document.querySelectorAll('.lunchBtn[data-day]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const day = btn.dataset.day;
-        const lunch = btn.dataset.lunch;
-        lunchPrefs[day] = lunch;
-        updateLunchUI();
+      document.querySelector('.saveBtn').addEventListener('click', () => {
+        localStorage.setItem('pilot3LunchPreferences', JSON.stringify(lunchPrefs));
+        navigateWithTransition('/', { replace: true });
       });
-    });
 
-    document.querySelector('.saveBtn').addEventListener('click', () => {
-      localStorage.setItem('pilot3LunchPreferences', JSON.stringify(lunchPrefs));
-      navigateWithTransition('/', { replace: true });
-    });
-
-    updateLunchUI();
+      updateLunchUI();
+    })();
   </script>
   <style>
     .lunchSelections {

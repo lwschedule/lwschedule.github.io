@@ -98,10 +98,12 @@
     <button class="resetBtn" id="resetCaddyBtn" style="background: transparent; color: var(--text-light); border: 1px solid var(--primary-light); box-shadow: none; margin-top: 10px;">Reset Settings</button>
   </div>
   
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
-    `;
-    }
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
 
     const caddyToggle = document.getElementById('caddyToggle');
     const caddyStatus = document.getElementById('caddyStatus');
@@ -199,6 +201,7 @@
       caddyToggle.checked = false;
       updateCaddyStatus();
     });
+    })();
   </script>
 </body>
 </html>

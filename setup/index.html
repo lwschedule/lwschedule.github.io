@@ -332,8 +332,12 @@
     <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
 
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
     const DEFAULT_LUNCH_PREFS = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
     let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
 
@@ -1017,4 +1021,5 @@
 
     checkSetupComplete();
     init();
+    })();
   </script>

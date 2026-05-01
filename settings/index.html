@@ -49,14 +49,19 @@
     </div>
     <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
-    document.getElementById('resetBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.clear();
-      navigateWithTransition('/', { replace: true });
-    });
-    checkSetupComplete();
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
+      document.getElementById('resetBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        navigateWithTransition('/', { replace: true });
+      });
+      checkSetupComplete();
+    })();
   </script>
 </body>
 </html>

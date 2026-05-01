@@ -1,22 +1,13 @@
-const CACHE_NAME = 'lwschedule-v3.2';
+const CACHE_NAME = 'lwschedule-v3.4';
+// Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',
   '/index.html',
-  '/data/ticker-messages.json',
-  '/data/events.json',
-  '/data/classes.json',
+  '/common-core.js',
+  '/common.css',
+  '/manifest.json',
   '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/today/index.html',
-  '/week/index.html',
-  '/month/index.html',
-  '/events/index.html',
-  '/holidays/index.html',
-  '/schedules/index.html',
-  '/quarters/index.html',
-  '/info/index.html',
-  '/settings/index.html',
-  '/settings/classes/index.html'
+  '/icons/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -29,10 +20,28 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        return response || fetch(event.request);
-      })
+    caches.match(event.request).then((response) => {
+      if (response) return response;
+
+      return fetch(event.request).then((networkResponse) => {
+        // Runtime cache for GET requests: scripts, styles, images, and data
+        try {
+          const req = event.request;
+          if (req.method === 'GET' && (req.destination === 'script' || req.destination === 'style' || req.destination === 'image' || req.url.includes('/data/'))) {
+            caches.open(CACHE_NAME).then((cache) => {
+              try { cache.put(req, networkResponse.clone()); } catch (e) {}
+            });
+          }
+        } catch (e) {}
+        return networkResponse;
+      }).catch(() => {
+        // Fallback to index.html for navigation requests when offline
+        if (event.request.mode === 'navigate' || (event.request.headers && event.request.headers.get && event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
+          return caches.match('/index.html');
+        }
+        return undefined;
+      });
+    })
   );
 });
 

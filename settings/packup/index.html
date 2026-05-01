@@ -72,8 +72,13 @@ input:checked + .slider:before { transform: translateX(26px); }
     <button class="saveBtn" id="testNotificationBtn">Test Notification</button>
     <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
+
 let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
 if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
 
@@ -197,6 +202,7 @@ document.getElementById('resetPackupBtn').addEventListener('click', () => {
 });
 
 checkSetupComplete();
+  })();
 </script>
 </body>
 </html>

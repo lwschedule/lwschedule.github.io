@@ -246,8 +246,12 @@
     </div>
   </div>
 
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
     let allClubs = [];
     let selectedClubs = [];
     let clubsCountMorph = null;
@@ -486,6 +490,7 @@
 
     checkSetupComplete();
     init();
+    })();
   </script>
 </body>
 </html>

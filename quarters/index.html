@@ -43,7 +43,7 @@
       <p>Loading semesters...</p>
     </div>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
     let quartersInterval = null;
     let TermTextMorph = null;
@@ -226,6 +226,9 @@
         console.warn('Torph failed to load for quarters/semesters, using default updates.', error);
       }
 
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
       await initApp();
 
       renderTermCards();

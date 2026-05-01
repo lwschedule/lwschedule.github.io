@@ -27,9 +27,14 @@
       <a class="mainBtn" href="/schedules/sba">SBA Schedule (April 6-10, 2026)</a>
     </div>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
-    checkSetupComplete();
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
+      checkSetupComplete();
+    })();
   </script>
 </body>
 </html>

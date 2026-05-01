@@ -24,9 +24,12 @@
     <p style="text-align: center; opacity: 0.8;">Regular weekly bell schedule</p>
     <div id="normalScheduleContent"></div>
   </div>
-  <script src="/common.js"></script>
+  <script src="/common-core.js"></script>
   <script>
     (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
       await initApp();
       const content = document.getElementById('normalScheduleContent');
       const schedules = schedulesData.normal;
@@ -47,7 +50,7 @@
         html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
         const daySchedule = getScheduleForDay(day);
         if (!daySchedule || daySchedule.length === 0) {
-          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+          html += '<p style="text-align: center; opacity: 0.8;'>No School</p>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }
