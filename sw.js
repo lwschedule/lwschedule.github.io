@@ -7,7 +7,14 @@ const urlsToCache = [
   '/common.css',
   '/manifest.json',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  '/images/big sur.png',
+  '/images/monterey.png',
+  '/images/sequoia.png',
+  '/images/sonoma.png',
+  '/images/tahoe.png',
+  '/images/ventura.png',
+  '/images/logo.png'
 ];
 
 self.addEventListener('install', (event) => {

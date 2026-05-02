@@ -1572,7 +1572,7 @@ body:not(.no-glass) .holidayTable tr.highlight td {
 body:not(.no-glass) .scheduleTable tr:not(.highlight):hover,
 body:not(.no-glass) .weekTable tr.clickable-row:hover,
 body:not(.no-glass) .holidayTable tr:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 body:not(.no-glass) .circleBtn,
@@ -1762,13 +1762,13 @@ body:not(.no-glass) .clubs-results {
 
 body:not(.no-glass) .class-result,
 body:not(.no-glass) .club-result {
-  background: rgba(8, 8, 8, 0.22) !important;
+  background: var(--glass-bg) !important;
   border-bottom: 1px solid var(--glass-border);
 }
 
 body:not(.no-glass) .class-result:hover,
 body:not(.no-glass) .club-result:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 body:not(.no-glass) .class-result.added,
