@@ -122,17 +122,18 @@
     }
 
     .lunchDay {
-      background: var(--card-dark);
+      background: var(--glass-bg);
       padding: 20px;
       border-radius: 12px;
-      border: 2px solid transparent;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
     }
 
     .lunchBtn {
       flex: 1;
-      background: var(--card-dark);
+      background: var(--glass-bg);
       color: var(--text-light);
-      border: 2px solid var(--primary-light);
+      border: 1px solid var(--glass-border);
       padding: 12px 24px;
       font-size: 1em;
       border-radius: 12px;
@@ -140,6 +141,7 @@
       transition: all 0.3s;
       font-weight: 700;
       text-align: center;
+      backdrop-filter: var(--glass-blur);
     }
 
     .lunchBtn:hover {

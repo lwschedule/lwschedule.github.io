@@ -15,9 +15,11 @@
       align-items: center;
       justify-content: space-between;
       padding: 15px 20px;
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       margin-bottom: 20px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
     }
     .toggle-label {
       font-size: 1.05em;
@@ -33,7 +35,7 @@
       width: 0;
       height: 0;
     }
-    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
     .toggle-slider:before {
       position: absolute;
       content: "";
@@ -46,7 +48,7 @@
       border-radius: 50%;
     }
     input:checked + .toggle-slider {
-      background: #34c759;
+      background: var(--accent-green);
     }
     input:checked + .toggle-slider:before {
       transform: translateX(28px);
@@ -63,7 +65,7 @@
       font-size: 1em;
       border: 2px solid var(--primary);
       border-radius: 10px;
-      background: var(--card-dark);
+      background: transparent;
       color: var(--text-light);
       outline: none;
       transition: all 0.3s;
@@ -96,12 +98,13 @@
       background: var(--primary);
     }
     .clubs-results {
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       max-height: 260px;
       overflow-y: auto;
       margin-bottom: 20px;
-      border: 1px solid var(--primary-light);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
     }
     .club-result {
       width: 100%;
@@ -149,10 +152,11 @@
       filter: brightness(0) saturate(100%) invert(83%) sepia(8%) saturate(1250%) hue-rotate(214deg) brightness(93%) contrast(93%);
     }
     .slots-container {
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       padding: 10px;
-      border: 1px solid var(--primary-light);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
     }
     .slot-row {
       display: flex;
@@ -165,8 +169,8 @@
     }
     .slot-card {
       flex: 1;
-      background: #141414;
-      border: 1px solid var(--primary-light);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       padding: 10px 12px;
       min-height: 62px;
@@ -174,6 +178,8 @@
       flex-direction: column;
       justify-content: center;
       gap: 4px;
+      box-shadow: var(--glow);
+      backdrop-filter: var(--glass-blur);
     }
     .slot-value {
       font-size: 0.92em;
@@ -313,7 +319,7 @@
         renderSelectedList();
       } catch (error) {
         console.error('Error loading clubs:', error);
-        document.getElementById('clubResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
+        document.getElementById('clubResults').innerHTML = '<p style="text-align:center; padding: 26px; color: var(--text-light); opacity: 0.7;">Error loading clubs</p>';
       }
     }
 
@@ -375,7 +381,7 @@
       });
 
       if (filteredClubs.length === 0) {
-        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: var(--text-light); opacity: 0.7;">No clubs found</p>';
         return;
       }
 

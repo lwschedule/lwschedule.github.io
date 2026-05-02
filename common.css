@@ -12,12 +12,18 @@
   --text-light: #e8e8e8;
   --bg-dark: #000000;
   --card-dark: #080808;
-  --glass-bg: rgba(8, 8, 8, 0.68);
-  --glass-bg-strong: rgba(8, 8, 8, 0.78);
-  --glass-bg-soft: rgba(8, 8, 8, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: blur(8px);
-  --glow: 0 0 0 1px #333, 0 0 15px rgba(255,255,255,0.05);
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-strong: rgba(255, 255, 255, 0.08);
+  --glass-bg-soft: rgba(255, 255, 255, 0.025);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-blur: blur(10px);
+  --glow: 0 0 0 1px rgba(255,255,255,0.08), 0 12px 30px rgba(0,0,0,0.22);
+  --accent-green: #34c759;
+  --accent-red: #ff3b30;
+  --accent-red-dark: #9d182e;
+  --accent-blue: #67c8ff;
+  --accent-deep-blue: #1f4f9a;
+  --accent-orange: #ff9f43;
   --error: #ff4757;
   --page-transition-distance: 28px;
   --page-transition-duration: 280ms;
@@ -267,15 +273,15 @@ body.calendarPage .pageContainer {
 }
 
 .key-box.holiday {
-  background: #cc0000;
+  background: var(--accent-red);
 }
 
 .key-box.half-day {
-  background: #a94300;
+  background: var(--accent-orange);
 }
 
 .key-box.special-schedule {
-  background: #216694;
+  background: var(--accent-deep-blue);
 }
 
 .key-box.today {
@@ -313,46 +319,56 @@ body.calendarPage .pageContainer {
 }
 
 .time-block {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--glass-bg-strong);
   border-radius: 12px;
   padding: 15px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
 }
 
-.time-value {
-  font-size: clamp(1.8em, 6vw, 2.8em);
-  font-weight: 700;
-  color: white;
-  line-height: 1;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.scheduleTable {
   width: 100%;
-  display: block;
-  font-variant-numeric: tabular-nums;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
 }
-
-.time-value .time-value-morph {
-  display: inline-block;
-  min-width: 2ch;
-  text-align: center;
-}
-
-.time-label {
-  font-size: 0.7em;
-  font-weight: 400;
+.scheduleTable th {
+  background: var(--glass-bg-strong);
   color: white;
-  opacity: 0.8;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 5px;
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid var(--glass-border);
 }
-
-.time-block.hidden {
-  display: none;
+.scheduleTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.scheduleTable tr:last-child td {
+  border-bottom: none;
+}
+.scheduleTable tr.highlight {
+  background: var(--glass-bg-strong);
+  color: white;
+  font-weight: 700;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+.scheduleTable tr:not(.highlight):hover {
+  background: var(--glass-bg);
+}
 }
 
 #timer {
@@ -522,23 +538,27 @@ body.calendarPage .pageContainer {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: var(--card-dark);
+  background: var(--glass-bg);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #303030;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
 }
 
 .scheduleTable th {
-  background: var(--primary);
+  background: var(--glass-bg-strong);
   color: white;
   padding: 12px;
   text-align: left;
   font-weight: 700;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .scheduleTable td {
   padding: 12px;
-  border-bottom: 1px solid #303030;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .scheduleTable tr:last-child td {
@@ -546,37 +566,44 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable tr.highlight {
-  background: var(--primary);
+  background: var(--glass-bg-strong);
   color: white;
   font-weight: 700;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
 }
 
 .scheduleTable tr:not(.highlight):hover {
-  background: var(--primary-light);
+  background: var(--glass-bg);
 }
+
 
 .weekTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: var(--card-dark);
+  background: var(--glass-bg);
   border-radius: 12px;
   overflow: hidden;
   font-size: clamp(0.9em, 2.5vw, 1em);
-  border: 1px solid #303030;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
 }
 
 .weekTable th {
-  background: var(--primary);
+  background: var(--glass-bg-strong);
   color: white;
   padding: 12px;
   text-align: left;
   font-weight: 700;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .weekTable td {
   padding: 12px;
-  border-bottom: 1px solid #303030;
+  border-bottom: 1px solid var(--glass-border);
   line-height: 1.5;
 }
 
@@ -604,9 +631,42 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable tr.highlight {
-  background: var(--primary);
+  background: var(--glass-bg-strong);
   color: white;
   font-weight: 700;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+/* Clubs and holiday tables should follow the same glass header / highlight rules */
+.clubsTable,
+.holidayTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
+}
+.clubsTable th,
+.holidayTable th {
+  background: var(--glass-bg-strong);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid var(--glass-border);
+}
+.clubsTable tr.highlight,
+.holidayTable tr.highlight {
+  background: var(--glass-bg-strong);
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+  color: white;
 }
 
 .weekTable tr.clickable-row.highlight:hover {
@@ -667,7 +727,7 @@ body.calendarPage .pageContainer {
 }
 
 .resetBtn:hover {
-  background: #9d182e;
+  background: var(--accent-red-dark);
   transform: scale(1.05);
 }
 
@@ -729,13 +789,17 @@ body.calendarPage .pageContainer {
 }
 
 .countdown-block {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--glass-bg-strong);
   border-radius: 12px;
   padding: 15px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
 }
 
 .countdown-value {
@@ -753,9 +817,19 @@ body.calendarPage .pageContainer {
 
 .countdown-value .countdown-value-morph {
   display: inline-block;
-  min-width: 2ch;
+  min-width: 3ch;
   text-align: center;
 }
+
+/* ensure time-value morphs keep width to avoid blank gaps during torph transitions */
+.time-value .time-value-morph {
+  display: inline-block;
+  min-width: 3ch;
+  text-align: center;
+}
+
+/* Ensure stacked save/test buttons have spacing when inline styles remove margins */
+.saveBtn + .saveBtn { margin-top: 12px !important; }
 
 .countdown-label {
   font-size: 0.7em;
@@ -1457,9 +1531,9 @@ body.has-sidebar {
   }
 }
 
-/* Global glass effects for all divs except setup/app pages */
-body:not(.no-glass) div {
-  background: var(--glass-bg);
+/* Keep the base glass treatment narrow so nested containers don't stack a second panel */
+body:not(.no-glass) div:not([class]):not([id]) {
+  background: var(--glass-bg-soft);
   border: 1px solid var(--glass-border);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -1530,6 +1604,106 @@ body:not(.no-glass) .calendar-day-header {
   background: var(--glass-bg-strong);
 }
 
+/* Calendar day and header glass treatment + today outline */
+.calendar-day,
+.calendar-day-header,
+.calendar-day .calendar-day-header {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glow);
+}
+.calendar-day.today {
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
+/* Flip the month forward icon which currently uses the backward SVG */
+.month-forward-icon {
+  transform: scaleX(-1);
+  display: inline-block;
+}
+
+/* Expanded panels should use glass instead of solid dark rectangles */
+.expanded,
+.open,
+[aria-expanded="true"] {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glow) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+}
+
+/* Make main/save/reset buttons glass by default to unify settings look */
+.mainBtn,
+.saveBtn,
+.resetBtn,
+.settingsMainBtn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glow);
+  color: var(--text-light);
+}
+.resetBtn:hover {
+  background: var(--glass-bg-strong);
+  border-color: var(--accent-red-dark);
+  transform: scale(1.05);
+}
+
+/* Toggle visuals: red/green glass */
+.switch .slider,
+.homeModeToggleSlider {
+  background: var(--accent-red);
+  border-radius: 26px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+.switch input:checked + .slider,
+.homeModeToggleSwitch input:checked + .homeModeToggleSlider {
+  background: var(--accent-green);
+}
+
+/* Inputs: make text-entry boxes transparent site-wide unless explicitly overridden */
+.pack-up-input,
+input[type="text"],
+input[type="number"],
+textarea,
+.class-search-input {
+  background: transparent !important;
+  border: 1px solid var(--primary-light) !important;
+  color: var(--text-light) !important;
+}
+
+/* Settings row background cleanup */
+.settingsRow {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Class/slot cards and club cards glass */
+.class-slot-card,
+.slot-card,
+.club-slot-card,
+.class-slot-value,
+.slot-value,
+.class-slot-period {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glow) !important;
+}
+
+/* Ensure holiday timeblocks look glassy */
+.holidayTable tr td,
+.holidayTable th,
+.holiday-time-block,
+.holiday .time-block {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glow) !important;
+}
+
+
 body:not(.no-glass) .calendar-day-header {
   text-align: center;
   font-weight: 700;
@@ -1559,7 +1733,8 @@ body:not(.no-glass) .holidayTable th {
 body:not(.no-glass) .scheduleTable tr.highlight,
 body:not(.no-glass) .weekTable tr.highlight,
 body:not(.no-glass) .holidayTable tr.highlight {
-  outline: none;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
   background: var(--glass-bg-strong);
 }
 

@@ -94,14 +94,15 @@
     }
 
     .filterToggleItem {
-      background: #121212;
-      border: 1px solid #2c2c2c;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      backdrop-filter: var(--glass-blur);
     }
 
     .filterToggleItem.comingSoon {
@@ -110,7 +111,7 @@
 
     .filterToggleItem.comingSoon .filterSlider {
       cursor: not-allowed;
-      background: #3f3f3f;
+      background: var(--glass-bg-soft);
     }
 
     .filterToggleLabel {
@@ -139,7 +140,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ff3b30;
+      background-color: var(--accent-red);
       border-radius: 34px;
       transition: 0.2s;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
@@ -158,7 +159,7 @@
     }
 
     .filterSwitch input:checked + .filterSlider {
-      background: #34c759;
+      background: var(--accent-green);
     }
 
     .filterSwitch input:checked + .filterSlider:before {
@@ -166,11 +167,11 @@
     }
 
     .key-box.events-sba {
-      background: #67c8ff;
+      background: var(--accent-blue);
     }
 
     .key-box.events-ap {
-      background: #1f4f9a;
+      background: var(--accent-deep-blue);
     }
 
     .eventsDay {
@@ -235,11 +236,11 @@
     }
 
     .eventCard-standardized {
-      --event-accent: #67c8ff;
+      --event-accent: var(--accent-blue);
     }
 
     .eventCard-ap {
-      --event-accent: #1f4f9a;
+      --event-accent: var(--accent-deep-blue);
     }
 
     .eventCard-default {

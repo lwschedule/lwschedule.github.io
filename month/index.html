@@ -9,12 +9,26 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <style>
+    .device-warning {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: var(--glow);
+    }
+  </style>
 </head>
 <body class="calendarPage">
   
   <div class="pageContainer">
     <h2>Monthly Calendar</h2>
-    <div id="deviceWarning" style="display: none; text-align: center; padding: 40px 20px; color: white;">
+    <div id="deviceWarning" class="device-warning">
       <h3>Please rotate your device or load on a larger screen</h3>
       <p>The calendar requires a wider screen to display properly.</p>
     </div>

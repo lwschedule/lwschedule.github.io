@@ -11,11 +11,11 @@
   <link rel="stylesheet" href="/common.css">
   <style>
     .pageContainer { max-width: 650px; margin: 0 auto; padding: 20px 0 20px 0; }
-    .setup-section { background: var(--primary); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
-    .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: white; text-align: left; }
+    .setup-section { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; margin-bottom: 30px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); box-shadow: var(--glow); }
+    .setup-section h3 { margin-top: 0; margin-bottom: 15px; color: var(--text-light); text-align: left; }
     .setup-description { opacity: 0.8; font-size: 0.9em; margin-bottom: 20px; text-align: center; }
     .appButtons { display: grid; grid-template-columns: 1fr; gap: 20px; margin: 40px 0; }
-    .appBtn { background: var(--primary);   color: white; border: none; padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); }
+    .appBtn { background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); padding: 20px; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-size: 1.2em; font-weight: 700; text-align: center; box-shadow: var(--glow); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
     .appBtn:hover { transform: scale(1.05); }
     .appBtn.installBtn {  }
     @media (max-width: 600px) {
@@ -127,22 +127,19 @@
       if (isIOS) {
         
         const step1 = document.createElement('p');
-        step1.style.color = 'white';
         step1.style.margin = '10px 0';
-        step1.innerHTML = '<strong>1.</strong> Tap the <span style="color:#007aff">Share</span> button (box with arrow)';
+        step1.innerHTML = '<strong>1.</strong> Tap the <span style="color:var(--accent-blue)">Share</span> button (box with arrow)';
         
         const step2 = document.createElement('p');
-        step2.style.color = 'white';
         step2.style.margin = '10px 0';
         step2.innerHTML = '<strong>2.</strong> Scroll down and tap <strong>"Add to Home Screen"</strong>';
         
         const step3 = document.createElement('p');
-        step3.style.color = 'white';
         step3.style.margin = '10px 0';
         step3.innerHTML = '<strong>3.</strong> Tap <strong>"Add"</strong> in the top right corner';
         
         const note = document.createElement('p');
-        note.style.color = '#2a2200';
+        note.style.color = 'var(--accent-orange)';
         note.style.fontSize = '0.9em';
         note.style.margin = '10px 0';
         note.innerHTML = '<strong>Note:</strong> iOS Safari has limited PWA features, but you can still add it to your home screen for easy access.';
@@ -154,22 +151,19 @@
       } else if (isMacOS) {
         
         const step1 = document.createElement('p');
-        step1.style.color = 'white';
         step1.style.margin = '10px 0';
-        step1.innerHTML = '<strong>1.</strong> Click the <span style="color:#007aff">Share</span> button (box with arrow) in the address bar';
+        step1.innerHTML = '<strong>1.</strong> Click the <span style="color:var(--accent-blue)">Share</span> button (box with arrow) in the address bar';
         
         const step2 = document.createElement('p');
-        step2.style.color = 'white';
         step2.style.margin = '10px 0';
         step2.innerHTML = '<strong>2.</strong> Select <strong>"Add to Dock"</strong> from the dropdown menu';
         
         const step3 = document.createElement('p');
-        step3.style.color = 'white';
         step3.style.margin = '10px 0';
         step3.innerHTML = '<strong>3.</strong> The app will be added to your Dock for easy access';
         
         const note = document.createElement('p');
-        note.style.color = '#2a2200';
+        note.style.color = 'var(--accent-orange)';
         note.style.fontSize = '0.9em';
         note.style.margin = '10px 0';
         note.innerHTML = '<strong>Note:</strong> macOS Safari has limited PWA features, but you can still add it to your Dock for easy access.';

@@ -18,7 +18,7 @@
     .settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
 
     .lunchButtons { display: flex; gap: 10px; justify-content: center; }
-    .lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .lunchBtn { flex: 1; background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; backdrop-filter: var(--glass-blur); }
     .lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
     .lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
     .lunchBtn:disabled { opacity: 1; cursor: default; }
@@ -28,16 +28,16 @@
       align-items: center;
       justify-content: space-between;
       padding: 15px 20px;
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       margin-bottom: 20px;
     }
     .toggle-label { font-size: 1.05em; font-weight: 600; }
     .toggle-switch { position: relative; width: 60px; height: 32px; }
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
     .toggle-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: white; transition: 0.4s; border-radius: 50%; }
-    input:checked + .toggle-slider { background: #34c759; }
+    input:checked + .toggle-slider { background: var(--accent-green); }
     input:checked + .toggle-slider:before { transform: translateX(28px); }
 
     .class-search-input, .pack-up-input {
@@ -46,7 +46,7 @@
       font-size: 1em;
       border: 2px solid var(--primary);
       border-radius: 10px;
-      background: var(--card-dark);
+      background: transparent;
       color: var(--text-light);
       outline: none;
       margin-bottom: 14px;
@@ -70,12 +70,13 @@
     .class-action-btn:hover, .action-btn:hover { background: var(--primary); }
 
     .class-results, .classes-results, .clubs-results {
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       max-height: 260px;
       overflow-y: auto;
       margin-bottom: 20px;
-      border: 1px solid var(--primary-light);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
     }
 
     .class-result-btn, .class-result, .club-result {
@@ -121,7 +122,7 @@
     }
 
     .class-slots, .slots-container {
-      background: var(--card-dark);
+      background: var(--glass-bg);
       border-radius: 12px;
       border: 1px solid var(--primary-light);
       padding: 10px;
@@ -141,8 +142,8 @@
     .slot-arrow-btn:hover:not(:disabled), .slot-arrow:hover:not(:disabled) { background: var(--primary); }
     .slot-arrow-btn:disabled, .slot-arrow:disabled { opacity: 0.35; cursor: default; }
     .class-slot-card, .slot-card, .club-slot-card {
-      background: #141414;
-      border: 1px solid var(--primary-light);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 10px;
       padding: 10px 12px;
       min-height: 58px;
@@ -183,14 +184,14 @@
 
     .description { text-align: center; opacity: 0.8; font-size: 0.9em; margin: 10px 0 20px; }
     .pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-    .pack-up-preset { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .pack-up-preset { flex: 1; background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; backdrop-filter: var(--glass-blur); }
     .pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
     .pack-up-preset.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
     .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 20px; }
     .saveBtn:hover { transform: scale(1.05); }
     .resetBtn { display: block; width: 100%; background: var(--primary); color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
     .resetBtn::before { content: ''; display: inline-block; width: 1em; height: 1em; margin-right: 8px; vertical-align: -0.12em; background: url('/icons/src/trash.svg') center/contain no-repeat; }
-    .resetBtn:hover { background: #9d182e; transform: scale(1.05); }
+    .resetBtn:hover { background: var(--accent-red-dark); transform: scale(1.05); }
     .completeBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 18px 40px; font-size: 1.2em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 24px; }
     .completeBtn:hover { transform: scale(1.05); }
 
@@ -1038,7 +1039,7 @@
       localStorage.setItem('app-visited', 'true');
 
       updateCompleteBtn('✅');
-      completeBtn.style.background = '#34c759';
+      completeBtn.style.background = 'var(--accent-green)';
       await new Promise(resolve => setTimeout(resolve, 1000));
       navigateWithTransition('/', { replace: true });
     });

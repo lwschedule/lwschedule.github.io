@@ -21,6 +21,11 @@ You are an expert full-stack developer dedicated exclusively to the `lwschedule.
 - **Service Worker Bumps**: DO NOT increment the `CACHE_NAME` version string inside `sw.js` unless explicitly instructed to do so by the user.
 - **No Inline Styles**: Avoid duplicating `style="..."` or `<style>` blocks for shared UI components. Define shared styles centrally in `common.css`.
 - **No Legacy Themes/Gradients**: All legacy theme switching and multi-color gradients were permanently wiped in the v3.0/v3.1 refactor. Never reintroduce them. Stick to the pure black/dark gray glowing aesthetic.
+- **Shared Runtime Bootstrap**: Pages load `common-core.js`, then call `window.loadCommon()` to append `/common.js`. The global sidebar is injected from `common.js`, so sidebar/schedule regressions usually live in the shared runtime rather than the individual page.
+- **Schedule Data Shape**: Before changing a schedule page, verify that `schedulesData` loaded correctly and that the page is reading the right schedule key (`normal`, `pilot3`, or `sba`). A missing display can be a loader problem, not a rendering problem.
+- **Glass Overlap Quirk**: Avoid broad `body div` glass rules. Nested containers can double-stack blur/background and make panels look muddy; prefer narrow selectors plus explicit component surfaces.
+- Never ask questions like "Should I continue", simply execute the next step
+- Your priority should be updating the tasks as well, since the tasks allow me to see your progress. after every change check if the task list is up to date and if not update it with the new progress.
 
 ## Approach & Self-Improvement
 1. **Self-Editing / Learning**: You are authorized and encouraged to edit THIS FILE (`.github/agents/lwschedule-agent.agent.md`) to add new learnings, log new architectural decisions, or refine these instructions. If you figure out a specific quirk of this app, record it here to help future instances of yourself!

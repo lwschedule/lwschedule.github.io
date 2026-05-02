@@ -1209,7 +1209,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const isNov26 = month === 10 && day === 26 && year === 2025;
   const isJun17 = month === 5 && day === 17 && year === 2026;
   if (isNov26 || isJun17) {
-    cell.style.borderColor = '#a94300';
+    cell.style.borderColor = 'var(--accent-orange)';
     cell.classList.remove('holiday');
   }
   cell.appendChild(dayNumber);
@@ -1655,6 +1655,11 @@ async function initApp() {
 
 function injectGlobalSidebar() {
   if (window.location.pathname.startsWith('/setup') || window.location.pathname.startsWith('/app')) return;
+  if (document.getElementById('globalSidebar') || document.getElementById('sidebarMobileToggle')) return;
+  if (!document.body) {
+    document.addEventListener('DOMContentLoaded', injectGlobalSidebar, { once: true });
+    return;
+  }
 
   const navLinks = [
     { href: '/', icon: '/icons/src/house.svg', text: 'Home' },
@@ -1800,11 +1805,21 @@ function injectGlobalSidebar() {
   }
 }
 
-// Defer sidebar injection to idle callback to avoid blocking page render
+function bootstrapGlobalSidebar() {
+  if (document.readyState === 'loading' || !document.body) {
+    document.addEventListener('DOMContentLoaded', bootstrapGlobalSidebar, { once: true });
+    return;
+  }
+  injectGlobalSidebar();
+}
+
+bootstrapGlobalSidebar();
+window.addEventListener('pageshow', bootstrapGlobalSidebar);
+
 if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => { injectGlobalSidebar(); }, { timeout: 2000 });
+  requestIdleCallback(bootstrapGlobalSidebar, { timeout: 2000 });
 } else {
-  setTimeout(() => { injectGlobalSidebar(); }, 100);
+  setTimeout(bootstrapGlobalSidebar, 100);
 }
 
 

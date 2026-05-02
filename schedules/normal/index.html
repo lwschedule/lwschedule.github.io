@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="/common.css">
   <style>
     .schedule-image { width: 100%; max-width: 650px; margin: 20px auto; border-radius: 12px; box-shadow: var(--glow); display: block; }
+    .schedule-day-heading { color: var(--text-light); margin-top: 30px; }
+    .schedule-empty { text-align: center; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -44,10 +46,10 @@
 
       let html = '';
       weekDays.forEach(day => {
-        html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
+        html += `<h3 class="schedule-day-heading">${day}</h3>`;
         const daySchedule = getScheduleForDay(day);
         if (!daySchedule || daySchedule.length === 0) {
-          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+          html += '<p class="schedule-empty">No School</p>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }

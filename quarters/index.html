@@ -12,7 +12,7 @@
   <style>
     .academic-term-list { display: flex; flex-direction: column; gap: 15px; }
     .term-card { background: var(--glass-bg); border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
-    .term-card.highlight { background: var(--glass-bg-strong) !important; color: white; box-shadow: var(--glow); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+    .term-card.highlight { background: var(--glass-bg-strong) !important; color: var(--text-light); box-shadow: var(--glow); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
     .term-info { flex: 1; min-width: 150px; }
     .term-name { font-size: 1.2em; font-weight: 700; margin-bottom: 5px; }
     .term-dates { font-size: 0.9em; opacity: 0.8; }
@@ -22,20 +22,21 @@
     .term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
     .term-countdown-block .countdown-value .term-countdown-value-morph { display: inline-block; min-width: 6ch; text-align: right; }
     .term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
-    .term-card.highlight .countdown-value { color: white; }
-    .term-card.highlight .countdown-label { color: white; opacity: 0.9; }
-    .term-completed-badge { background: var(--glass-bg-strong); color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+    .term-card.highlight .countdown-value { color: var(--text-light); }
+    .term-card.highlight .countdown-label { color: var(--text-light); opacity: 0.9; }
+    .term-completed-badge { background: var(--glass-bg-strong); color: var(--text-light); opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+    .term-heading { color: var(--text-light); margin-top: 20px; margin-bottom: 10px; }
   </style>
 </head>
 <body>
   
   <div class="pageContainer">
     <h2>Quarters & Semesters</h2>
-    <h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>
+    <h3 class="term-heading">Quarters 2025-26</h3>
     <div id="quartersList" class="academic-term-list">
       <p>Loading quarters...</p>
     </div>
-    <h3 style="color: white; margin-top: 30px; margin-bottom: 10px;">Semesters 2025-26</h3>
+    <h3 class="term-heading" style="margin-top: 30px;">Semesters 2025-26</h3>
     <div id="semestersList" class="academic-term-list">
       <p>Loading semesters...</p>
     </div>
@@ -106,7 +107,7 @@
               <span class="countdown-label term-countdown-label">Starts in</span>
               <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
             </div>
-            <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
+            <div class="term-completed-badge term-completed-badge-inline" hidden>Completed</div>
           </div>
         `;
         quartersListEl.appendChild(card);
@@ -126,7 +127,7 @@
               <span class="countdown-label term-countdown-label">Starts in</span>
               <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
             </div>
-            <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
+            <div class="term-completed-badge term-completed-badge-inline" hidden>Completed</div>
           </div>
         `;
         semestersListEl.appendChild(card);

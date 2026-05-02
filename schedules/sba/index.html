@@ -9,6 +9,10 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <style>
+    .schedule-day-heading { color: var(--text-light); margin-top: 30px; }
+    .schedule-empty { text-align: center; opacity: 0.8; }
+  </style>
 </head>
 <body>
   <a href="/schedules" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
@@ -42,13 +46,13 @@
 
       let html = '';
       weekDays.forEach(day => {
-        html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
+        html += `<h3 class="schedule-day-heading">${day}</h3>`;
         const defaultLunch = storedPrefs && storedPrefs[day]
           ? storedPrefs[day]
           : ((day === 'Monday' || day === 'Friday') ? 'A' : 'All');
         const daySchedule = getScheduleForDay(day, defaultLunch);
         if (!daySchedule || daySchedule.length === 0) {
-          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
+          html += '<p class="schedule-empty">No School</p>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }
