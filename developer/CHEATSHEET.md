@@ -1,5 +1,5 @@
 # Superpowers Cheat Sheet
-
+https://github.com/earchibald/vsc-superpowers/blob/main/docs/CHEATSHEET.md
 ## Using Superpowers
 
 **Natural Language Interface (Recommended):** Simply describe what you want to do. Copilot infers the correct Superpowers pattern:
