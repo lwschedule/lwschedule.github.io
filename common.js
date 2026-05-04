@@ -445,7 +445,7 @@ function getCurrentPeriod(schedule, now) {
 }
 
 function updateTheme() {
-  const theme = localStorage.getItem('theme') || 'purple';
+  const theme = localStorage.getItem('theme') || 'default';
   document.body.className = `theme-${theme}`;
 }
 
@@ -926,21 +926,19 @@ if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
 }
 
 function loadThemeOnPage() {
-  const theme = localStorage.getItem('theme') || 'purple';
+  const theme = localStorage.getItem('theme') || 'default';
   document.body.className = `theme-${theme}`;
   const themeColors = {
-    purple: '#4b2e83',
     red: '#c41e3a',
     orange: '#d35400',
     yellow: '#c29d00',
     green: '#27ae60',
     blue: '#2980b9',
-    indigo: '#3f51b5',
-    pink: '#c2185b'
+    pink: '#c2185b',
   };
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (metaThemeColor) {
-    metaThemeColor.content = themeColors[theme] || '#4b2e83';
+    metaThemeColor.content = themeColors[theme] || '#000000';
   }
 }
 
