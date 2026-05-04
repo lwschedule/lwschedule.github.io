@@ -9,59 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <style>
-    .pageContainer { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 20px;
-      background: var(--glass-bg);
-      border-radius: 12px;
-      margin-bottom: 20px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: var(--glass-blur);
-    }
-    .toggle-label {
-      font-size: 1.05em;
-      font-weight: 600;
-    }
-    .toggle-switch {
-      position: relative;
-      width: 60px;
-      height: 32px;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 24px;
-      width: 24px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    input:checked + .toggle-slider {
-      background: var(--accent-green);
-    }
-    input:checked + .toggle-slider:before {
-      transform: translateX(28px);
-    }
-    .settingsRow { background: var(--glass-bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.12); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); }
-    .settingsRow label { display: block; font-weight: 700; margin-bottom: 10px; color: var(--text-light); }
-    .pack-up-input { display: block; width: 100%; border: 1px solid var(--glass-border); background: transparent; color: var(--text-light); padding: 15px; font-size: 1.1em; border-radius: 12px; margin-bottom: 15px; outline: none; transition: border-color 0.3s; font-weight: 600; text-align: center; }
-    .pack-up-input:focus { border-color: var(--primary-light); box-shadow: 0 0 8px rgba(75,46,131,0.25); }
-    .saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 12px; }
-    .saveBtn:hover { transform: scale(1.03); }
-    .saveBtn + .saveBtn { margin-top: 12px; }
-  </style>
 </head>
 <body>
   <div class="homeHeaderRow">
@@ -83,23 +30,23 @@
     
     <div class="settingsRow" id="periodInputsContainer">
       <label>Enter your assigned phone caddy spot number for each class:</label>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div style="margin-top:10px;"><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
-        <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
-        <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
-        <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
-        <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
-        <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+      <div class="stack-vertical">
+        <div><label class="subtle-label">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+        <div><label class="subtle-label">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+        <div><label class="subtle-label">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+        <div><label class="subtle-label">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+        <div><label class="subtle-label">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+        <div><label class="subtle-label">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
       </div>
     </div>
 
     <div class="settingsRow">
-      <div id="caddyStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+      <div id="caddyStatus" class="center-text description" style="margin-top: 10px;"></div>
     </div>
     
     <button class="saveBtn" id="saveCaddyBtn">Save</button>
-    <button class="saveBtn" id="testNotificationBtn" style="background: var(--primary-light); margin-bottom: 20px;">Test Notification</button>
-    <button class="resetBtn" id="resetCaddyBtn" style="background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); box-shadow: none; margin-top: 10px; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);">Reset Settings</button>
+    <button class="saveBtn" id="testNotificationBtn" style="margin-bottom: 20px;">Test Notification</button>
+    <button class="resetBtn" id="resetCaddyBtn" style="margin-top: 10px;">Reset Settings</button>
   </div>
   
   <script src="/common-core.js"></script>

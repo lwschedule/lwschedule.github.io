@@ -8,34 +8,6 @@
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <style>
-
-.pageContainer { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; }
-.description { text-align: center; opacity: 0.8; font-size: 0.9em; margin: 10px 0 20px; }
-.settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; }
-.settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
-.pack-up-input { background: transparent; color: var(--text-light); padding: 10px 16px; border-radius: 12px; border: 1px solid var(--glass-border); box-shadow: var(--glow); font-size: 1.2em; font-weight: 700; cursor: pointer; width: 100%; box-sizing: border-box; text-align: center; -moz-appearance: textfield; }
-.pack-up-input::-webkit-outer-spin-button,
-.pack-up-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.pack-up-input::placeholder { color: var(--text-light); opacity: 0.5; font-weight: 400; font-size: 0.9em; }
-.pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-.pack-up-preset { flex: 1; background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border); padding: 10px 15px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; backdrop-filter: var(--glass-blur); }
-.pack-up-preset:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
-.saveBtn { display: block; width: 100%; background: var(--primary-light); color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 12px; cursor: pointer; box-shadow: var(--glow); transition: all 0.3s; font-weight: 700; margin-top: 12px; }
-.saveBtn:hover { transform: scale(1.03); }
-.saveBtn + .saveBtn { margin-top: 12px; }
-.switch { position: relative; display: inline-block; width: 50px; height: 24px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-  input:checked + .slider { background-color: var(--accent-green); }
-input:checked + .slider:before { transform: translateX(26px); }
-.resetBtn { display: block; width: 100%; background: var(--primary); color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 20px; text-decoration: none; text-align: center; }
-  .resetBtn:hover { background: var(--accent-red-dark); transform: scale(1.05); }
-@media (max-width: 600px) {
-    .pageContainer { padding: 20px 0 0 0; }
-}
-  </style>
 </head>
 <body>
   
@@ -57,19 +29,19 @@ input:checked + .slider:before { transform: translateX(26px); }
     </div>
     <div class="settingsRow">
       <label for="notificationToggle">Pack-Up Reminders</label>
-      <div style="display: flex; align-items: center; gap: 15px; justify-content: center; margin-top: 10px;">
-        <span style="font-size: 0.9em; opacity: 0.8;">Off</span>
+      <div class="center-text" style="display: flex; align-items: center; gap: 15px; justify-content: center; margin-top: 10px;">
+        <span class="description" style="font-size: 0.9em; margin: 0;">Off</span>
         <label class="switch">
           <input type="checkbox" id="notificationToggle">
           <span class="slider"></span>
         </label>
-        <span style="font-size: 0.9em; opacity: 0.8;">On</span>
+        <span class="description" style="font-size: 0.9em; margin: 0;">On</span>
       </div>
-      <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+      <div id="notificationStatus" class="center-text description" style="margin-top: 10px;"></div>
     </div>
     <button class="saveBtn" id="savePackupBtn">Save</button>
-    <button class="saveBtn" id="testNotificationBtn" style="background: var(--primary-light); margin-bottom: 20px;">Test Notification</button>
-    <button class="resetBtn" id="resetPackupBtn" style="background: var(--glass-bg); border: 1px solid var(--glass-border);">Reset Pack-Up Reminders to Default</button>
+    <button class="saveBtn" id="testNotificationBtn" style="margin-bottom: 20px;">Test Notification</button>
+    <button class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
   </div>
   <script src="/common-core.js"></script>
   <script>
