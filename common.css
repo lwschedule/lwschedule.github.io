@@ -2515,7 +2515,7 @@ input:checked + .toggle-slider:before {
 .classes-message {
   min-height: 1.2em;
   font-size: 0.84rem;
-  color: #cdb9ff;
+  color: var(--text-light);
   margin: 0;
 }
 
