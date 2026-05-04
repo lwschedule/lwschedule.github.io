@@ -51,7 +51,7 @@
       margin-bottom: 14px;
       box-sizing: border-box;
     }
-    .class-search-input:focus, .pack-up-input:focus { box-shadow: 0 0 10px rgba(75, 46, 131, 0.5); }
+    .class-search-input:focus, .pack-up-input:focus { box-shadow: 0 0 0 2px var(--glass-strong); }
 
     .class-actions, .button-row { display: flex; gap: 10px; margin-bottom: 15px; }
     .class-action-btn, .action-btn {
@@ -93,11 +93,10 @@
       font-size: 0.92em;
     }
     .class-result-btn:last-child, .class-result:last-child, .club-result:last-child { border-bottom: none; }
-    .class-result-btn:hover, .class-result:hover, .club-result:hover { background: rgba(75, 46, 131, 0.2); }
+    .class-result-btn:hover, .class-result:hover, .club-result:hover { background: var(--glass); }
     .class-result-btn.added, .class-result-btn:disabled, .class-result.added, .class-result:disabled, .club-result.added, .club-result:disabled {
       cursor: not-allowed;
       opacity: 0.65;
-      background: rgba(60, 37, 105, 0.25);
     }
 
     .class-result-tag, .result-tag {
@@ -105,7 +104,7 @@
       padding: 3px 8px;
       border-radius: 999px;
       border: 1px solid var(--primary);
-      color: #bfaee8;
+      color: var(--text-light);
       margin-left: 10px;
       white-space: nowrap;
       min-width: 28px;
