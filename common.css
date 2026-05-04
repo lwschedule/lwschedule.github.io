@@ -69,17 +69,20 @@ body.no-glass {
 }
 
 body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
-  opacity: 0;
-  transform: translateX(var(--page-transition-distance));
+  /* Visible by default to avoid FOIT; transitions are applied only when JS explicitly enables them */
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  /* When JS opts into page transitions, transitions will run from visible defaults */
+  opacity: 1;
+  transform: translateX(0);
   transition:
     transform var(--page-transition-duration) var(--page-transition-ease),
     opacity var(--page-transition-duration) ease;
   will-change: transform, opacity;
-}
-
-body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
@@ -3067,13 +3070,35 @@ body:not(.no-glass) .weekTable tr.highlight,
 body:not(.no-glass) .holidayTable tr.highlight {
   background: var(--glass-strong) !important;
   box-shadow: inset 0 0 0 1px var(--glass-strong);
-  outline: none !important;
 }
 
 body:not(.no-glass) .scheduleTable tr:not(.highlight):hover,
 body:not(.no-glass) .weekTable tr.clickable-row:hover,
 body:not(.no-glass) .holidayTable tr:hover {
   background: var(--glass) !important;
+}
+
+/* Show visible focus for keyboard users */
+:focus-visible {
+  outline: 3px solid rgba(103,200,255,0.95);
+  outline-offset: 3px;
+}
+
+/* Skip link for keyboard users */
+.skip-link{
+  position:absolute;
+  left:8px;
+  top:8px;
+  transform:translateY(-200%);
+  transition:transform .18s;
+  z-index:9999;
+  padding:8px 12px;
+  background:var(--primary-light);
+  color:var(--text-light);
+  border-radius:6px;
+}
+.skip-link:focus{
+  transform:translateY(0);
 }
 
 body:not(.no-glass) .mainBtn,

@@ -94,4 +94,7 @@ body:not(.no-glass) .calendar-nav button {
 }
 `;
 
+// Remove any 'outline: none' occurrences injected by replacements to preserve keyboard focus outlines
+css = css.replace(/outline:\s*none;?/g, '');
+
 fs.writeFileSync('common.css', css);

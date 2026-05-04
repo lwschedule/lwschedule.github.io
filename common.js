@@ -1,273 +1,37 @@
 let lunchPreferences = null;
-let pilot3LunchPreferences = null;
-let sbaLunchPreferences = null;
+let leapLunchPreferences = null;
+let pilot1LunchPreferences = null;
+let pilot2LunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
 let clubsData = null;
 
-const MAX_CLASS_SLOTS = 6;
-
-const BACKGROUND_IMAGES = [
-  'big sur.png',
-  'monterey.png',
-  'sequoia.png',
-  'sonoma.png',
-  'tahoe.png',
-  'ventura.png'
-];
-
-function getRandomBackground() {
-  const pool = window.__lws_background_images || BACKGROUND_IMAGES;
-  if (!Array.isArray(pool) || pool.length === 0) return null;
-  const index = Math.floor(Math.random() * pool.length);
-  return pool[index];
-}
-
-function shouldSkipBackground() {
-  return !!(document.body && document.body.classList.contains('no-background'));
-}
-
-function setPageBackground(imageName) {
-  if (shouldSkipBackground() || !document.body || typeof imageName !== 'string' || !imageName) return '';
-  const encodedName = encodeURIComponent(imageName);
-  const imageUrl = `/images/${encodedName}`;
-  document.body.style.setProperty('--page-background', `url("${imageUrl}")`);
-  window.__lws_background_image = imageName;
-  window.__lws_background_initialized = true;
-  return imageUrl;
-}
-
-function initializeBackground(force = false) {
-  if (shouldSkipBackground()) {
-    window.__lws_background_initialized = true;
-    return null;
-  }
-  if (!force && window.__lws_background_initialized) return window.__lws_background_image || null;
-  if (!window.__lws_background_images) {
-    window.__lws_background_images = BACKGROUND_IMAGES.slice();
-  }
-  const imageName = getRandomBackground();
-  if (!imageName) return null;
-  setPageBackground(imageName);
-  return imageName;
-}
-
-if (typeof window.getRandomBackground !== 'function') {
-  window.getRandomBackground = getRandomBackground;
-}
-
-if (typeof window.setPageBackground !== 'function') {
-  window.setPageBackground = setPageBackground;
-}
-
-if (typeof window.initializeBackground !== 'function') {
-  window.initializeBackground = initializeBackground;
-}
-
-const runBackgroundInit = () => {
-  if (typeof window.initializeBackground === 'function') {
-    window.initializeBackground();
-  }
-};
-
-if (document.body) {
-  runBackgroundInit();
-} else {
-  document.addEventListener('DOMContentLoaded', runBackgroundInit, { once: true });
-}
-
-function normalizeClassSlots(rawSlots) {
-  const slots = Array(MAX_CLASS_SLOTS).fill('');
-  if (!Array.isArray(rawSlots)) return slots;
-
-  const used = new Set();
-  for (let i = 0; i < MAX_CLASS_SLOTS; i++) {
-    const value = typeof rawSlots[i] === 'string' ? rawSlots[i].trim() : '';
-    if (!value || used.has(value)) continue;
-    used.add(value);
-    slots[i] = value;
-  }
-
-  return slots;
-}
-
-function isClassesEnabled() {
-  return localStorage.getItem('classesEnabled') === 'true';
-}
-
-function setClassesEnabled(enabled) {
-  localStorage.setItem('classesEnabled', enabled ? 'true' : 'false');
-}
-
-function getSelectedClassesSlots() {
-  try {
-    const saved = localStorage.getItem('selectedClasses');
-    return normalizeClassSlots(saved ? JSON.parse(saved) : []);
-  } catch (e) {
-    return Array(MAX_CLASS_SLOTS).fill('');
-  }
-}
-
-function getSelectedClasses() {
-  return getSelectedClassesSlots().filter(Boolean);
-}
-
-function setSelectedClassesSlots(slots) {
-  const normalized = normalizeClassSlots(slots);
-  localStorage.setItem('selectedClasses', JSON.stringify(normalized));
-  return normalized;
-}
-
-function getSidebarIconUrl(iconId) {
-  if (typeof iconId !== 'string') return '';
-  if (iconId.startsWith('/')) return iconId;
-  return `/icons/src/${iconId}.svg`;
-}
-
-function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
-  return `<img class="${className}" src="${getSidebarIconUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
-}
-
-const PAGE_TRANSITION_READY_CLASS = 'page-transition-ready';
-const PAGE_TRANSITION_EXIT_FORWARD_CLASS = 'page-transition-exit-forward';
-const PAGE_TRANSITION_EXIT_BACK_CLASS = 'page-transition-exit-back';
-const PAGE_TRANSITION_DURATION_MS = 280;
-
-function getInternalUrl(href) {
-  try {
-    return new URL(href, window.location.href);
-  } catch (e) {
-    return null;
-  }
-}
-
-function isInternalPageUrl(url) {
-  return !!url && url.origin === window.location.origin;
-}
-
-function clearPageTransitionClasses() {
-  if (!document.body) return;
-  document.body.classList.remove(PAGE_TRANSITION_EXIT_FORWARD_CLASS, PAGE_TRANSITION_EXIT_BACK_CLASS);
-}
-
-function markPageReady() {
-  if (!document.body) return;
-  clearPageTransitionClasses();
-  document.body.classList.add(PAGE_TRANSITION_READY_CLASS);
-}
-
-function navigateWithTransition(targetUrl, options = {}) {
-  const url = getInternalUrl(targetUrl);
-  if (!url || !isInternalPageUrl(url)) {
-    window.location.href = targetUrl;
-    return;
-  }
-
-  if (url.pathname === window.location.pathname && url.search === window.location.search && !url.hash) {
-    return;
-  }
-
-  if (window.__pageNavigationPending) return;
-  window.__pageNavigationPending = true;
-
-  const direction = options.direction || 'forward';
-  const replace = options.replace === true;
-
-  if (document.body) {
-    document.body.classList.remove(PAGE_TRANSITION_READY_CLASS);
-    document.body.classList.remove(PAGE_TRANSITION_EXIT_FORWARD_CLASS, PAGE_TRANSITION_EXIT_BACK_CLASS);
-    document.body.classList.add(direction === 'back' ? PAGE_TRANSITION_EXIT_BACK_CLASS : PAGE_TRANSITION_EXIT_FORWARD_CLASS);
-  }
-
-  setTimeout(() => {
-    if (replace) {
-      window.location.replace(url.href);
-    } else {
-      window.location.href = url.href;
-    }
-  }, PAGE_TRANSITION_DURATION_MS);
-}
-
-function handlePageTransitionClick(event) {
-  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-
-  const anchor = event.target.closest ? event.target.closest('a[href]') : null;
-  if (!anchor) return;
-  if (anchor.target && anchor.target !== '_self') return;
-  if (anchor.hasAttribute('download')) return;
-  if (anchor.dataset.transition === 'skip') return;
-
-  const href = anchor.getAttribute('href');
-  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
-
-  const url = getInternalUrl(href);
-  if (!isInternalPageUrl(url)) return;
-  if (url.pathname === window.location.pathname && url.search === window.location.search && !url.hash) return;
-
-  event.preventDefault();
-  const direction = anchor.classList.contains('icon-back-btn') || anchor.dataset.transitionDirection === 'back' ? 'back' : 'forward';
-  navigateWithTransition(url.href, { direction });
-}
-
-document.addEventListener('click', handlePageTransitionClick, true);
-
-function enablePageTransitions() {
-  if (!document.body) return;
-  requestAnimationFrame(markPageReady);
-}
-
-if (document.body) {
-  enablePageTransitions();
-} else {
-  document.addEventListener('DOMContentLoaded', enablePageTransitions, { once: true });
-}
-
-window.addEventListener('pageshow', () => {
-  window.__pageNavigationPending = false;
-  markPageReady();
-});
-
-function getPeriodNumberFromName(periodName) {
-  if (typeof periodName !== 'string') return null;
-  const match = periodName.match(/^Period\s+([1-6])\b/i);
-  return match ? parseInt(match[1], 10) : null;
-}
-
-function getClassTitleForPeriod(periodName) {
-  if (!isClassesEnabled()) return '';
-  const periodNumber = getPeriodNumberFromName(periodName);
-  if (!periodNumber) return '';
-  const slots = getSelectedClassesSlots();
-  return slots[periodNumber - 1] || '';
-}
-
-function getDisplayPeriodName(periodName) {
-  const classTitle = getClassTitleForPeriod(periodName);
-  return classTitle || periodName;
-}
-
-function getScheduleSummaryLabel(periodName, useClassTitles = true) {
-  const periodNumber = getPeriodNumberFromName(periodName);
-  if (periodNumber) {
-    if (!useClassTitles) return periodNumber.toString();
-    const classTitle = getClassTitleForPeriod(periodName);
-    return classTitle || periodNumber.toString();
-  }
-
-  const lowerName = periodName.toLowerCase();
-  if (lowerName.includes('lunch')) return 'L';
-  if (lowerName.includes('homeroom')) return 'HR';
-  if (lowerName.includes('roo')) return 'Roo';
-  return periodName;
-}
-
 function checkSetupComplete() {
+  const theme = localStorage.getItem('theme');
+  const gradient = localStorage.getItem('gradient');
   const lunch = localStorage.getItem('lunchPreferences');
-
-  if (!lunch && !window.location.pathname.includes('/setup')) {
-    navigateWithTransition('/setup', { replace: true });
-    return false;
+  const packup = localStorage.getItem('pack-up-time');
+  const setupComplete = localStorage.getItem('setup-complete');
+  const appVisited = localStorage.getItem('app-visited');
+  
+  
+  const isInPWA = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || 
+                  (window.navigator.standalone === true);
+  
+  
+  if (!appVisited && !isInPWA && !window.location.pathname.includes('/app') && !window.location.pathname.includes('/setup')) {
+    if (!theme || !gradient || !lunch || packup === null) {
+      window.location.href = '/app';
+      return false;
+    }
+  }
+  
+  if (!setupComplete && !window.location.pathname.includes('/setup')) {
+    if (!theme || !gradient || !lunch || packup === null) {
+      window.location.href = '/setup';
+      return false;
+    }
   }
   return true;
 }
@@ -276,116 +40,45 @@ function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (saved) lunchPreferences = JSON.parse(saved);
-    const pilot3Saved = localStorage.getItem('pilot3LunchPreferences');
-    if (pilot3Saved) pilot3LunchPreferences = JSON.parse(pilot3Saved);
-    const sbaSaved = localStorage.getItem('sbaLunchPreferences');
-    if (sbaSaved) sbaLunchPreferences = JSON.parse(sbaSaved);
+    const leapSaved = localStorage.getItem('leapLunchPreferences');
+    if (leapSaved) leapLunchPreferences = JSON.parse(leapSaved);
+    const pilotSaved = localStorage.getItem('pilot1LunchPreferences');
+    if (pilotSaved) pilot1LunchPreferences = JSON.parse(pilotSaved);
+    const pilot2Saved = localStorage.getItem('pilot2LunchPreferences');
+    if (pilot2Saved) pilot2LunchPreferences = JSON.parse(pilot2Saved);
   } catch (e) {}
 }
 
-function isPilot3Day(date) {
+function isLeapDay(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  // Pilot 3 is active March 30–April 3, 2026
-  if (year === 2026 && month === 2 && day >= 30 && day <= 31) return true;
-  if (year === 2026 && month === 3 && day >= 1 && day <= 3) return true;
+  
+  return year === 2026 && month === 2 && day === 13;
+}
+
+function isPilot1Day(date) {
+  
   return false;
 }
 
-function isSBADay(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // SBA schedule is active April 6–10, 2026
-  if (year === 2026 && month === 3 && day >= 6 && day <= 10) return true;
+function isPilot2Day(date) {
+  
   return false;
-}
-
-function getDefaultLunchPrefs() {
-  return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
-}
-
-function normalizeLunchChoice(value) {
-  return value === 'B' ? 'B' : 'A';
-}
-
-function getLunchPreferencesForScheduleKey(scheduleKey) {
-  const defaults = getDefaultLunchPrefs();
-  if (scheduleKey === 'pilot3') {
-    return pilot3LunchPreferences || schedulesData?.pilot3LunchPreferences || lunchPreferences || defaults;
-  }
-  if (scheduleKey === 'sba') {
-    return sbaLunchPreferences || schedulesData?.sbaLunchPreferences || lunchPreferences || defaults;
-  }
-  return lunchPreferences || schedulesData?.lunchPreferences || defaults;
-}
-
-function getNearbyPeriodNumber(schedule, lunchIndex) {
-  const periodRegex = /\bPeriod\s+(\d)\b/i;
-  for (let i = lunchIndex + 1; i < schedule.length; i++) {
-    const match = schedule[i].name.match(periodRegex);
-    if (match) return parseInt(match[1], 10);
-  }
-  for (let i = lunchIndex - 1; i >= 0; i--) {
-    const match = schedule[i].name.match(periodRegex);
-    if (match) return parseInt(match[1], 10);
-  }
-  return null;
-}
-
-function getLunchContextPeriodForDay(baseScheduleDay) {
-  if (!baseScheduleDay || Array.isArray(baseScheduleDay) || !baseScheduleDay.A || !baseScheduleDay.B) return null;
-  const lunchRegex = /\blunch\b/i;
-
-  const aLunchIndex = baseScheduleDay.A.findIndex(p => lunchRegex.test(p.name));
-  const bLunchIndex = baseScheduleDay.B.findIndex(p => lunchRegex.test(p.name));
-  if (aLunchIndex === -1 && bLunchIndex === -1) return null;
-
-  const aPeriod = aLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.A, aLunchIndex);
-  const bPeriod = bLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.B, bLunchIndex);
-
-  if (aPeriod && bPeriod && aPeriod === bPeriod) return aPeriod;
-  return aPeriod || bPeriod || null;
-}
-
-function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedule) {
-  const lunchPrefs = getLunchPreferencesForScheduleKey(scheduleKey);
-  const todayChoice = lunchPrefs?.[today];
-
-  if (!baseScheduleDay || Array.isArray(baseScheduleDay)) {
-    return normalizeLunchChoice(todayChoice);
-  }
-
-  const targetPeriod = getLunchContextPeriodForDay(baseScheduleDay);
-  if (!targetPeriod || !baseSchedule) {
-    return normalizeLunchChoice(todayChoice);
-  }
-
-  const candidateDays = [
-    today,
-    ...Object.keys(baseSchedule).filter(day => day !== today)
-  ];
-
-  for (const day of candidateDays) {
-    const daySchedule = baseSchedule[day];
-    if (getLunchContextPeriodForDay(daySchedule) !== targetPeriod) continue;
-    const pref = lunchPrefs?.[day];
-    if (pref === 'A' || pref === 'B') return pref;
-  }
-
-  return normalizeLunchChoice(todayChoice);
 }
 
 function getSchedules(date) {
   if (!schedulesData) return {};
   let scheduleKey = 'normal';
-  if (isPilot3Day(date)) scheduleKey = 'pilot3';
-  else if (isSBADay(date)) scheduleKey = 'sba';
+  if (isPilot2Day(date)) scheduleKey = 'pilot2';
+  else if (isPilot1Day(date)) scheduleKey = 'pilot1';
+  else if (isLeapDay(date)) scheduleKey = 'leap';
   const baseSchedule = schedulesData[scheduleKey];
   const today = getDayNameFromDate(date);
-  
-  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
+  let lunchPrefs = lunchPreferences;
+  if (scheduleKey === 'leap') lunchPrefs = leapLunchPreferences;
+  if (scheduleKey === 'pilot1') lunchPrefs = pilot1LunchPreferences;
+  const lunch = lunchPrefs && lunchPrefs[today] ? lunchPrefs[today] : 'A';
 
   
   if (scheduleKey === 'normal') {
@@ -398,20 +91,6 @@ function getSchedules(date) {
     }
     return adjusted;
   }
-  if (scheduleKey === 'pilot3') {
-    const adjusted = { ...baseSchedule };
-    if (baseSchedule[today] && baseSchedule[today][lunch]) {
-      adjusted[today] = baseSchedule[today][lunch];
-    }
-    return adjusted;
-  }
-  if (scheduleKey === 'sba') {
-    const adjusted = { ...baseSchedule };
-    if (baseSchedule[today] && !Array.isArray(baseSchedule[today]) && baseSchedule[today][lunch]) {
-      adjusted[today] = baseSchedule[today][lunch];
-    }
-    return adjusted;
-  }
   return baseSchedule;
 }
 
@@ -419,8 +98,9 @@ function getSchedules(date) {
 
 function getScheduleKeyForDate(date) {
   if (!schedulesData) return 'normal';
-  if (isPilot3Day(date)) return 'pilot3';
-  if (isSBADay(date)) return 'sba';
+  if (isPilot2Day(date)) return 'pilot2';
+  if (isPilot1Day(date)) return 'pilot1';
+  if (isLeapDay(date)) return 'leap';
   return 'normal';
 }
 
@@ -528,7 +208,7 @@ function getHolidayForDate(date) {
   return null;
 }
 
-function getScheduleSummary(schedules, dayName, useClassTitles = true) {
+function getScheduleSummary(schedules, dayName) {
   const schedule = schedules[dayName];
   if (!schedule || schedule.length === 0) return 'No School';
 
@@ -543,50 +223,69 @@ function getScheduleSummary(schedules, dayName, useClassTitles = true) {
 
   let names = periodsToProcess.map(p => p.name);
   names = names.filter(n => n !== "Break" && n !== "Period 4 (Part 2)");
-  const simplifiedNames = names.map(n => getScheduleSummaryLabel(n, useClassTitles));
+  const simplifiedNames = names.map(n => {
+    if (n.startsWith("Period 1")) return "1";
+    if (n.startsWith("Period 2")) return "2";
+    if (n.startsWith("Period 3")) return "3";
+    if (n.startsWith("Period 4")) return "4";
+    if (n.startsWith("Period 5")) return "5";
+    if (n.startsWith("Period 6")) return "6";
+    if (n.includes("Lunch")) return "L";
+    if (n.includes("Homeroom")) return "HR";
+    if (n.includes("Roo")) return "Roo";
+    return n;
+  });
   const uniqueNames = [...new Set(simplifiedNames)];
   return uniqueNames.join(', ');
 }
 
-function scheduleHasPeriods(schedule) {
-  if (!schedule) return false;
-  if (Array.isArray(schedule)) return schedule.length > 0;
-  if (typeof schedule === 'object') {
-    for (const key of Object.keys(schedule)) {
-      const val = schedule[key];
-      if (Array.isArray(val) && val.length > 0) return true;
+function updateRollingText(element, newText) {
+  if (!element) return;
+  let oldText = element.dataset.previousText;
+  if (!oldText) {
+    if (element.querySelector('.digit-roller .new')) {
+      oldText = element.querySelector('.digit-roller .new').textContent;
+    } else {
+      oldText = element.textContent;
+    }
+    element.dataset.previousText = oldText || '';
+  }
+  oldText = (oldText || '').trim();
+  newText = (newText || '').trim();
+  if (oldText === newText) return;
+  const newIsNumeric = /^\d+$/.test(newText);
+  const oldIsNumeric = /^\d+$/.test(oldText);
+  if (newIsNumeric && !oldIsNumeric) {
+    oldText = oldText || newText.replace(/./g, '0');
+  }
+  if (newIsNumeric && /^\d+$/.test(oldText)) {
+    let rollerWidth = '100%';
+    element.innerHTML = `<span class="digit-roller" style="width: ${rollerWidth}; height: 1em; line-height: 1em;"><span class="old">${oldText}</span><span class="new">${newText}</span></span>`;
+    element.dataset.previousText = newText;
+    return;
+  }
+  let html = '';
+  let newChars = newText.split('');
+  let oldChars = oldText.split('');
+  let len = Math.max(newChars.length, oldChars.length);
+  for (let i = 0; i < len; i++) {
+    let newChar = newChars[i] || '';
+    let oldChar = oldChars[i] || '';
+    if (newChar === oldChar) {
+      html += `<span class="static-char">${newChar}</span>`;
+    } else {
+      let width = '0.6em';
+      if (newChar === ':' || newChar === '.') width = '0.3em';
+      if (newChar === ' ') width = '0.2em';
+      if (['d', 'h', 'm', 's'].includes(newChar)) width = '0.5em';
+      html += `<span class="digit-roller" style="width: ${width}; height: 1em; line-height: 1em;">`;
+      html += `<span class="old">${oldChar}</span>`;
+      html += `<span class="new">${newChar}</span>`;
+      html += `</span>`;
     }
   }
-  return false;
-}
-
-function getFirstPeriodFromSchedule(schedule) {
-  if (!schedule) return null;
-  if (Array.isArray(schedule) && schedule.length > 0) return schedule[0];
-  if (typeof schedule === 'object') {
-    // prefer A then B then any key
-    if (Array.isArray(schedule.A) && schedule.A.length > 0) return schedule.A[0];
-    if (Array.isArray(schedule.B) && schedule.B.length > 0) return schedule.B[0];
-    const keys = Object.keys(schedule);
-    for (const k of keys) {
-      if (Array.isArray(schedule[k]) && schedule[k].length > 0) return schedule[k][0];
-    }
-  }
-  return null;
-}
-
-function getLastPeriodFromSchedule(schedule) {
-  if (!schedule) return null;
-  if (Array.isArray(schedule) && schedule.length > 0) return schedule[schedule.length - 1];
-  if (typeof schedule === 'object') {
-    if (Array.isArray(schedule.B) && schedule.B.length > 0) return schedule.B[schedule.B.length - 1];
-    if (Array.isArray(schedule.A) && schedule.A.length > 0) return schedule.A[schedule.A.length - 1];
-    const keys = Object.keys(schedule);
-    for (const k of keys.reverse ? keys.reverse() : keys) {
-      if (Array.isArray(schedule[k]) && schedule[k].length > 0) return schedule[k][schedule[k].length - 1];
-    }
-  }
-  return null;
+  element.innerHTML = html;
+  element.dataset.previousText = newText;
 }
 
 function displayTimeBlocks(container, data) {
@@ -605,15 +304,10 @@ function displayTimeBlocks(container, data) {
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
   
-  // Use Torph morphs if available (home screen only), otherwise fallback to textContent
-  if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
-    window.updateClockMorphs(data);
-  } else {
-    if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-    if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-    if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
-    if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
-  }
+  if (daysEl) updateRollingText(daysEl, data.days ? data.days.toString().padStart(2,'0') : '00');
+  if (hoursEl) updateRollingText(hoursEl, data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00');
+  if (minutesEl) updateRollingText(minutesEl, data.minutes.toString().padStart(2,'0'));
+  if (secondsEl) updateRollingText(secondsEl, data.seconds.toString().padStart(2,'0'));
 }
 
 function displayMessage(container, message) {
@@ -630,13 +324,11 @@ function getNextSchoolDayStartTime() {
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(nextDay);
       const schedule = schedules[dayName];
-      if (scheduleHasPeriods(schedule)) {
-        const firstPeriod = getFirstPeriodFromSchedule(schedule);
-        if (firstPeriod) {
-          const startTime = new Date(nextDay);
-          startTime.setMinutes(firstPeriod.start);
-          return startTime;
-        }
+      if (schedule && schedule.length > 0) {
+        const firstPeriod = schedule[0];
+        const startTime = new Date(nextDay);
+        startTime.setMinutes(firstPeriod.start);
+        return startTime;
       }
     }
     nextDay.setDate(nextDay.getDate() + 1);
@@ -654,14 +346,12 @@ function getLastSchoolDayEndTime(beforeDate) {
     if (dayName !== 'Saturday' && dayName !== 'Sunday' && !holiday) {
       const schedules = getSchedules(checkDay);
       const schedule = schedules[dayName];
-      if (scheduleHasPeriods(schedule)) {
-        const lastPeriod = getLastPeriodFromSchedule(schedule);
-        if (lastPeriod) {
-          const endTime = new Date(checkDay);
-          endTime.setHours(0, 0, 0, 0);
-          endTime.setMinutes(lastPeriod.end);
-          return endTime;
-        }
+      if (schedule && schedule.length > 0) {
+        const lastPeriod = schedule[schedule.length - 1];
+        const endTime = new Date(checkDay);
+        endTime.setHours(0, 0, 0, 0);
+        endTime.setMinutes(lastPeriod.end);
+        return endTime;
       }
     }
     checkDay.setDate(checkDay.getDate() - 1);
@@ -698,11 +388,10 @@ function getNextSchoolDayInfo() {
     const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
     const day = nextDay.getDate();
     const schedules = getSchedules(nextDay);
-      const schedule = schedules[dayName];
-      if (scheduleHasPeriods(schedule)) {
-        const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
-      }
+    const schedule = schedules[dayName];
+    if (schedule && schedule.length > 0) {
+      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
+    }
   }
   return 'Next: School';
 }
@@ -712,19 +401,19 @@ function getNextPeriodInfo(schedule, now, nowDate) {
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
-    if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
+    if (next) return `Next: ${next.name}`;
     
     return getNextSchoolDayInfo();
   }
   
   
   if (now < schedule[0].start) {
-    return `Next: ${getDisplayPeriodName(schedule[0].name)}`;
+    return `Next: ${schedule[0].name}`;
   }
   
   
   const next = getNextPeriodStart(schedule, now);
-  if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
+  if (next) return `Next: ${next.name}`;
   
   
   return getNextSchoolDayInfo();
@@ -738,11 +427,10 @@ function getNextPeriodInfoForHoliday(nowDate) {
     const month = nextDay.toLocaleDateString('en-US', { month: 'short' });
     const day = nextDay.getDate();
     const schedules = getSchedules(nextDay);
-      const schedule = schedules[dayName];
-      if (scheduleHasPeriods(schedule)) {
-        const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
-      }
+    const schedule = schedules[dayName];
+    if (schedule && schedule.length > 0) {
+      return `Next: ${dayName} ${month} ${day} - ${schedule[0].name}`;
+    }
   }
   return 'Next: School';
 }
@@ -756,21 +444,10 @@ function getCurrentPeriod(schedule, now) {
   return null;
 }
 
-
-function updateNextPeriodText(timerEl, text) {
-  if (!timerEl) return;
-
-  if (typeof window.updateNextPeriodBlock === 'function') {
-    window.updateNextPeriodBlock(text);
-  } else {
-    timerEl.textContent = text;
-  }
-
-  timerEl.classList.remove('hidden');
+function updateTheme() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  document.body.className = `theme-${theme}`;
 }
-
-
-
 
 function updateClock() {
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
@@ -797,7 +474,8 @@ function updateClock() {
       displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
       
-      updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+      timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
+      timerEl.classList.remove('hidden');
     }
     return;
   }
@@ -821,7 +499,8 @@ function updateClock() {
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
         
-        updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
+        timerEl.classList.remove('hidden');
       }
     }
     return;
@@ -836,10 +515,11 @@ function updateClock() {
     const m = Math.floor((totalRemainingSeconds % 3600) / 60);
     const s = totalRemainingSeconds % 60;
 
-    clockLabel.textContent = getDisplayPeriodName(currentPeriod.name).toUpperCase();
+    clockLabel.textContent = currentPeriod.name.toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
     
-    updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+    timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
+    timerEl.classList.remove('hidden');
   } else if (now < today[0].start) {
     const firstPeriod = today[0];
     const startTime = new Date(nowDate);
@@ -855,7 +535,8 @@ function updateClock() {
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       
-      updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
+      timerEl.classList.remove('hidden');
     }
   } else if (now > today[today.length - 1].end) {
     const nextSchoolStartTime = getNextSchoolDayStartTime();
@@ -873,7 +554,8 @@ function updateClock() {
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
         
-        updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+        timerEl.innerHTML = getNextPeriodInfoForHoliday(nowDate);
+        timerEl.classList.remove('hidden');
       }
     }
   } else {
@@ -886,10 +568,11 @@ function updateClock() {
       const m = Math.floor((totalRemainingSeconds % 3600) / 60);
       const s = totalRemainingSeconds % 60;
 
-      clockLabel.textContent = `UNTIL ${getDisplayPeriodName(nextPeriod.name).toUpperCase()}`;
+      clockLabel.textContent = `UNTIL ${nextPeriod.name.toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       
-      updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+      timerEl.innerHTML = getNextPeriodInfo(today, now, nowDate);
+      timerEl.classList.remove('hidden');
     }
   }
 }
@@ -903,15 +586,14 @@ function renderScheduleTable(schedule, now, showDuration = false) {
   if (!schedule || !Array.isArray(schedule) || schedule.length === 0) {
     return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
   }
-  const currentNow = typeof now === 'number' ? now : minutesNow();
   let html = "<table class='scheduleTable'><thead><tr><th>Period</th><th>Start</th><th>End</th>";
   if (showDuration) html += "<th>Duration</th>";
   html += "</tr></thead><tbody>";
   for (let i = 0; i < schedule.length; i++) {
     const p = schedule[i];
     const duration = p.end - p.start;
-    const active = currentNow >= p.start && currentNow < p.end;
-    html += `<tr class='${active?"highlight":""}'><td>${getDisplayPeriodName(p.name)}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
+    const active = now !== null && now >= p.start && now < p.end;
+    html += `<tr class='${active?"highlight":""}'><td>${p.name}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
     if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
     html += "</tr>";
   }
@@ -956,7 +638,7 @@ function updateWeekSchedule() {
       summary = holidayName;
     } else {
       const schedules = getSchedules(dayDate);
-      summary = getScheduleSummary(schedules, dayNameStr, false);
+      summary = getScheduleSummary(schedules, dayNameStr);
       
       if (clubCount > 0 && isClubsEnabled()) {
         summary += ` <span class="club-indicator">+${clubCount} club${clubCount > 1 ? 's' : ''}</span>`;
@@ -970,7 +652,7 @@ function updateWeekSchedule() {
     row.addEventListener('click', () => {
       const day = row.dataset.day;
       const date = row.dataset.date;
-      navigateWithTransition(`/week/${day}?date=${encodeURIComponent(date)}`);
+      window.location.href = `/week/${day}?date=${encodeURIComponent(date)}`;
     });
   });
 }
@@ -1019,22 +701,6 @@ function updateHolidayCountdown() {
   const countdownMsg = document.getElementById('holidayCountdownMessage');
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
-  const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    if (window.updateHolidayCountdownMorphs) {
-      window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
-      return;
-    }
-
-    const daysEl = document.getElementById('countdown-days');
-    const hoursEl = document.getElementById('countdown-hours');
-    const minutesEl = document.getElementById('countdown-minutes');
-    const secondsEl = document.getElementById('countdown-seconds');
-    if (daysEl) daysEl.textContent = days.toString();
-    if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
-    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
-    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
-  };
-
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
@@ -1049,7 +715,14 @@ function updateHolidayCountdown() {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
       countdownLabel.innerHTML = `UNTIL SCHOOL RESUMES`;
-      setHolidayCountdownValues(days, hours, minutes, seconds);
+      const daysEl = document.getElementById('countdown-days');
+      const hoursEl = document.getElementById('countdown-hours');
+      const minutesEl = document.getElementById('countdown-minutes');
+      const secondsEl = document.getElementById('countdown-seconds');
+      if (daysEl) updateRollingText(daysEl, days.toString());
+      if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
+      if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
+      if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
     } else {
       countdownGrid.style.display = 'none';
       countdownMsg.style.display = 'block';
@@ -1073,7 +746,14 @@ function updateHolidayCountdown() {
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         countdownLabel.innerHTML = `UNTIL ${upcoming.name}`;
-        setHolidayCountdownValues(days, hours, minutes, seconds);
+        const daysEl = document.getElementById('countdown-days');
+        const hoursEl = document.getElementById('countdown-hours');
+        const minutesEl = document.getElementById('countdown-minutes');
+        const secondsEl = document.getElementById('countdown-seconds');
+        if (daysEl) updateRollingText(daysEl, days.toString());
+        if (hoursEl) updateRollingText(hoursEl, hours.toString().padStart(2,'0'));
+        if (minutesEl) updateRollingText(minutesEl, minutes.toString().padStart(2,'0'));
+        if (secondsEl) updateRollingText(secondsEl, seconds.toString().padStart(2,'0'));
       } else {
         countdownGrid.style.display = 'none';
         countdownMsg.style.display = 'block';
@@ -1095,7 +775,7 @@ function renderCalendar() {
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
   
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 3);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 2);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -1108,13 +788,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 3);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 2);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
       
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 3)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 2)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1139,22 +819,6 @@ function renderCalendar() {
       grid.appendChild(cell);
     }
   }
-
-  const dayCells = Array.from(grid.querySelectorAll('.calendar-day'));
-  for (let i = 0; i < dayCells.length; i += 7) {
-    const week = dayCells.slice(i, i + 7);
-    const hasSpecial = week.some(c =>
-      !c.classList.contains('other-month') &&
-      c.classList.contains('special-schedule')
-    );
-    if (hasSpecial) {
-      week.forEach(c => {
-        if (!c.classList.contains('holiday')) {
-          c.classList.add('week-special');
-        }
-      });
-    }
-  }
 }
 
 function createDayCell(day, otherMonth, month, year, isToday = false) {
@@ -1172,18 +836,28 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const dayNumber = document.createElement('div');
   dayNumber.className = 'day-number';
   dayNumber.textContent = day;
+  const daySchedule = document.createElement('div');
+  daySchedule.className = 'day-schedule';
   const isAfterLastDay = (year > 2026) || (year === 2026 && month > 5) || (year === 2026 && month === 5 && day >= 18);
   if (isAfterLastDay) {
+    daySchedule.textContent = '';
     cell.classList.add('holiday');
   } else if (dayName === 'Saturday' || dayName === 'Sunday') {
+    daySchedule.textContent = '';
     cell.classList.add('holiday');
   } else {
-    if (getHolidayForDate(date)) {
+    const holidayName = getHolidayForDate(date);
+    if (holidayName) {
+      daySchedule.textContent = '';
       cell.classList.add('holiday');
     } else {
       const schedules = getSchedules(date);
       const schedule = schedules[dayName];
-      if (!scheduleHasPeriods(schedule)) {
+      if (schedule && schedule.length > 0) {
+        const summary = getScheduleSummary(schedules, dayName);
+        daySchedule.textContent = summary;
+      } else {
+        daySchedule.textContent = '';
         cell.classList.add('holiday');
       }
     }
@@ -1209,10 +883,11 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const isNov26 = month === 10 && day === 26 && year === 2025;
   const isJun17 = month === 5 && day === 17 && year === 2026;
   if (isNov26 || isJun17) {
-    cell.style.borderColor = 'var(--accent-orange)';
+    cell.style.borderColor = '#d35400';
     cell.classList.remove('holiday');
   }
   cell.appendChild(dayNumber);
+  cell.appendChild(daySchedule);
   
   cell.addEventListener('click', () => {
     if (otherMonth) return;
@@ -1231,8 +906,8 @@ function changeMonth(delta) {
     currentYear++;
   }
   
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
-    currentMonth = 3;
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
+    currentMonth = 2;
     currentYear = 2026;
   }
   if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
@@ -1245,20 +920,29 @@ function changeMonth(delta) {
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
-  currentMonth = 3;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 2)) {
+  currentMonth = 2;
   currentYear = 2026;
 }
 
-// sizing now handled entirely in CSS with min(100vw,100vh) so
-// updateCalendarSize is no longer needed.
-function updateCalendarSize() {
-  // intentionally empty
+function loadThemeOnPage() {
+  const theme = localStorage.getItem('theme') || 'purple';
+  document.body.className = `theme-${theme}`;
+  const themeColors = {
+    purple: '#4b2e83',
+    red: '#c41e3a',
+    orange: '#d35400',
+    yellow: '#c29d00',
+    green: '#27ae60',
+    blue: '#2980b9',
+    indigo: '#3f51b5',
+    pink: '#c2185b'
+  };
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+  if (metaThemeColor) {
+    metaThemeColor.content = themeColors[theme] || '#4b2e83';
+  }
 }
-
-
-
-
 
 async function loadData() {
   try {
@@ -1299,9 +983,7 @@ async function loadData() {
       };
     });
     
-    lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
-    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences || null;
-    sbaLunchPreferences = schedulesData.sbaLunchPreferences || null;
+    lunchPreferences = schedulesData.lunchPreferences;
     loadLunchPreferences(); 
     
     
@@ -1311,16 +993,7 @@ async function loadData() {
   } catch (error) {
     console.error('Error loading data:', error);
     
-    schedulesData = {
-      normal: {},
-      finals: {},
-      lunchPreferences: getDefaultLunchPrefs(),
-      pilot3LunchPreferences: getDefaultLunchPrefs(),
-      sbaLunchPreferences: getDefaultLunchPrefs()
-    };
-    lunchPreferences = schedulesData.lunchPreferences;
-    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences;
-    sbaLunchPreferences = schedulesData.sbaLunchPreferences;
+    schedulesData = { normal: {}, finals: {}, lunchPreferences: { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' } };
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
     clubsData = { clubs: [] };
@@ -1329,7 +1002,7 @@ async function loadData() {
 
 
 function isClubsEnabled() {
-  return localStorage.getItem('clubsEnabled') === 'true';
+  return localStorage.getItem('clubsEnabled') !== 'false';
 }
 
 function getSelectedClubs() {
@@ -1476,14 +1149,15 @@ function renderClubsForDay(date, showHeader = true) {
 
 
 function initPackUpNotifications() {
+  
   if ('Notification' in window && localStorage.getItem('notifications-enabled') === 'true') {
+    
     if (Notification.permission === 'granted') {
-      // Defer pack-up monitoring to avoid blocking initialization
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => { startPackUpMonitoring(); }, { timeout: 3000 });
-      } else {
-        setTimeout(() => { startPackUpMonitoring(); }, 500);
-      }
+      
+      startPackUpMonitoring();
+    } else if (Notification.permission !== 'denied') {
+      
+      console.log('Notifications not yet enabled, user needs to enable in settings');
     }
   }
 }
@@ -1497,72 +1171,10 @@ function startPackUpMonitoring() {
   
   window.packUpInterval = setInterval(() => {
     checkPackUpTime();
-    checkPhoneCaddyTime();
   }, 60000); 
   
   
   checkPackUpTime();
-  checkPhoneCaddyTime();
-}
-
-function checkPhoneCaddyTime() {
-  const now = new Date();
-  if (localStorage.getItem('notifications-enabled') !== 'true') return;
-  const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
-  if (!caddyEnabled) return;
-
-  const dayOfWeek = now.getDay();
-  if (dayOfWeek === 0 || dayOfWeek === 6) return;
-  
-  const holiday = getHolidayForDate(now);
-  if (holiday) return;
-
-  const schedules = getSchedules(now);
-  const todayName = getDayNameFromDate(now);
-  const todaySchedule = schedules[todayName];
-  
-  if (!todaySchedule || todaySchedule.length === 0) return;
-
-  const caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
-  for (let i = 0; i < todaySchedule.length; i++) {
-    const period = todaySchedule[i];
-    
-    let periodNumMatch = period.name.match(/Period\s*(\d)/i);
-    if (!periodNumMatch) continue;
-    let periodNum = periodNumMatch[1];
-    
-    let assignedSpot = caddyTimes[periodNum];
-    if (!assignedSpot || assignedSpot.trim() === '') continue;
-
-    const periodStartTime = new Date(now);
-    periodStartTime.setHours(0, period.start, 0, 0);
-
-    const periodEndTime = new Date(now);
-    periodEndTime.setHours(0, period.end, 0, 0);
-
-    const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-    const notifStartMins = (periodStartTime.getHours() * 60 + periodStartTime.getMinutes()) - 1;
-    const notifEndMins = (periodEndTime.getHours() * 60 + periodEndTime.getMinutes()) - 1;
-
-    if (nowMinutes === notifStartMins) {
-      if (Notification.permission === 'granted') {
-        sendNotification('Phone Caddy', {
-          body: `Class starts in 1 minute! Put your phone in caddy spot #${assignedSpot}`,
-          icon: '/icons/icon-192.png',
-          tag: `caddy-start-${periodNum}`
-        });
-      }
-    } else if (nowMinutes === notifEndMins) {
-      if (Notification.permission === 'granted') {
-        sendNotification('Phone Caddy', {
-          body: `Class ends in 1 minute! Grab your phone from caddy spot #${assignedSpot}`,
-          icon: '/icons/icon-192.png',
-          tag: `caddy-end-${periodNum}`
-        });
-      }
-    }
-  }
 }
 
 function checkPackUpTime() {
@@ -1614,20 +1226,37 @@ function showPackUpNotification(period) {
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
   const todayName = getDayNameFromDate(new Date());
   
-  sendNotification('Pack Up Time!', {
+  const notification = new Notification('Pack Up Time!', {
     body: `Time to pack up for ${period.name} in ${packUpTimeMinutes} minutes (${todayName})`,
     icon: '/icons/icon-192.png',
     tag: 'pack-up-reminder'
   });
+  
+  
+  notification.onclick = function() {
+    window.focus();
+    this.close();
+  };
+  
+  
+  setTimeout(() => {
+    notification.close();
+  }, 5000);
 }
 
 async function initApp() {
   
-  const DATA_VERSION = '2.2';
+  const DATA_VERSION = '2.0';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
-    // Preserve user data and preferences
+    
+    localStorage.clear();
     localStorage.setItem('dataVersion', DATA_VERSION);
+    
+    if (!window.location.pathname.includes('/setup') && !window.location.pathname.includes('/app')) {
+      window.location.href = '/setup';
+      return;
+    }
   }
   
   await loadData();
@@ -1639,9 +1268,26 @@ async function initApp() {
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
     localStorage.setItem('sem2ResetDone', 'true');
   }
-  
+  if (checkSetupComplete()) {
+    
+    if (isPilot2Day(now) && !localStorage.getItem('pilot2LunchPreferences')) {
+      window.location.href = '/setup/pilot2/';
+      return;
+    }
+    
+    if (isPilot1Day(now) && !localStorage.getItem('pilot1LunchPreferences')) {
+      window.location.href = '/setup/pilot1/';
+      return;
+    }
+    
+    if (isLeapDay(now) && !localStorage.getItem('leapLunchPreferences')) {
+      window.location.href = '/setup/leap/';
+      return;
+    }
+  }
   loadLunchPreferences();
-    if (document.getElementById('holidayCountdown')) {
+  loadThemeOnPage();
+  if (document.getElementById('holidayCountdown')) {
     updateHolidayCountdown();
     setInterval(updateHolidayCountdown, 1000);
   }
@@ -1651,199 +1297,4 @@ async function initApp() {
   
   
   initPackUpNotifications();
-}
-
-function injectGlobalSidebar() {
-  if (window.location.pathname.startsWith('/setup') || window.location.pathname.startsWith('/app')) return;
-  if (document.getElementById('globalSidebar') || document.getElementById('sidebarMobileToggle')) return;
-  if (!document.body) {
-    document.addEventListener('DOMContentLoaded', injectGlobalSidebar, { once: true });
-    return;
-  }
-
-  const navLinks = [
-    { href: '/', icon: '/icons/src/house.svg', text: 'Home' },
-    { href: '/today', icon: '/icons/src/filemenu.and.selection.svg', text: 'Today' },
-    { href: '/week', icon: '/icons/src/tablecells.svg', text: 'Week' },
-    { href: '/month', icon: '/icons/src/calendar.svg', text: 'Month' },
-    { href: '/schedules', icon: '/icons/src/square.fill.text.grid.1x2.svg', text: 'All Schedules' },
-    { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
-    { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
-    { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
-    { href: '#', icon: '/icons/src/map.svg', text: 'Map (Coming Soon)', disabled: true },
-    { href: '/info', icon: '/icons/src/info.svg', text: 'Info' },
-    { href: '/settings', icon: '/icons/src/gear.svg', text: 'Settings' }
-  ];
-
-  let currentPath = window.location.pathname;
-  if (currentPath.endsWith('.html') && currentPath !== '/404.html') {
-      currentPath = currentPath.replace('/index.html', '');
-      if(currentPath === '') currentPath = '/';
-  }
-
-  const sidebar = document.createElement('nav');
-  sidebar.id = 'globalSidebar';
-  
-  const mobileToggle = document.createElement('button');
-  mobileToggle.id = 'sidebarMobileToggle';
-  mobileToggle.innerHTML = renderSfSymbol('line.3.horizontal');
-  mobileToggle.setAttribute('aria-label', 'Toggle Menu');
-  document.body.appendChild(mobileToggle);
-
-  let linksHtml = '';
-  let activeIndex = -1;
-  navLinks.forEach((link, index) => {
-    let isActive = false;
-    if (link.href === '/') {
-       isActive = (currentPath === '/' || currentPath === '/index.html');
-    } else {
-       isActive = currentPath.startsWith(link.href);
-    }
-    if (isActive && activeIndex === -1) activeIndex = index;
-    const iconHtml = link.icon ? renderSfSymbol(link.icon, 'sidebar-icon') : '';
-
-    if (link.disabled) {
-      linksHtml += `<div class="sidebar-link disabled" aria-disabled="true">${iconHtml}<span class="sidebar-text">${link.text}</span></div>`;
-    } else {
-      linksHtml += `<a href="${link.href}" class="sidebar-link ${isActive ? 'active' : ''}" data-index="${index}"${link.disabled ? ' aria-disabled="true" tabindex="-1"' : ''}>${iconHtml}<span class="sidebar-text">${link.text}</span></a>`;
-    }
-  });
-
-  sidebar.innerHTML = `
-    <div class="sidebar-header">
-      <img src="/images/logo.png" alt="Logo" class="sidebar-logo">
-      <h2 class="sidebar-title">LW Schedule</h2>
-    </div>
-    <div class="sidebar-links-container">
-      <div class="sidebar-bubble" id="sidebarBubble"></div>
-      ${linksHtml}
-    </div>
-  `;
-  document.body.appendChild(sidebar);
-  document.body.classList.add('has-sidebar');
-
-  const bubble = sidebar.querySelector('#sidebarBubble');
-  const linksContainer = sidebar.querySelector('.sidebar-links-container');
-  const links = sidebar.querySelectorAll('.sidebar-link');
-
-  function updateBubble(linkEl) {
-    let top = 0;
-    let left = 0;
-    let curr = linkEl;
-    while(curr && curr !== linksContainer) {
-        top += curr.offsetTop;
-        left += curr.offsetLeft;
-        curr = curr.offsetParent;
-    }
-    const rect = linkEl.getBoundingClientRect();
-    bubble.style.top = top + 'px';
-    bubble.style.height = rect.height + 'px';
-    bubble.style.width = rect.width + 'px';
-    bubble.style.left = left + 'px';
-    bubble.style.opacity = '1';
-    bubble.style.borderRadius = linkEl.style.borderRadius || '12px';
-  }
-
-  const activeLink = sidebar.querySelector('.sidebar-link.active');
-  if (activeLink) {
-    bubble.style.transition = 'none';
-    setTimeout(() => {
-      updateBubble(activeLink);
-      requestAnimationFrame(() => {
-        bubble.style.transition = '';
-      });
-    }, 50);
-  } else {
-    bubble.style.opacity = '0';
-  }
-
-  window.addEventListener('resize', () => {
-    if (sidebar.querySelector('.sidebar-link.active')) {
-      updateBubble(sidebar.querySelector('.sidebar-link.active'));
-    }
-  });
-
-  links.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const linkUrl = link.getAttribute('href');
-      // allow ctrl+click to work normally
-      if (e.ctrlKey || e.metaKey) return;
-      e.preventDefault();
-      
-      links.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      
-      updateBubble(link);
-      
-      requestAnimationFrame(() => {
-        navigateWithTransition(linkUrl, { direction: link.classList.contains('icon-back-btn') ? 'back' : 'forward' });
-      });
-    });
-  });
-
-  mobileToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    const mask = document.getElementById('sidebarMask') || createMask();
-    const isOpen = sidebar.classList.contains('open');
-    mask.classList.toggle('show', isOpen);
-    mobileToggle.style.opacity = isOpen ? '0' : '1';
-    mobileToggle.style.pointerEvents = isOpen ? 'none' : 'auto';
-  });
-
-  function createMask() {
-    const m = document.createElement('div');
-    m.id = 'sidebarMask';
-    m.className = 'sidebar-mask';
-    document.body.appendChild(m);
-    m.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      m.classList.remove('show');
-      mobileToggle.style.opacity = '1';
-      mobileToggle.style.pointerEvents = 'auto';
-    });
-    return m;
-  }
-}
-
-function bootstrapGlobalSidebar() {
-  if (document.readyState === 'loading' || !document.body) {
-    document.addEventListener('DOMContentLoaded', bootstrapGlobalSidebar, { once: true });
-    return;
-  }
-  injectGlobalSidebar();
-}
-
-bootstrapGlobalSidebar();
-window.addEventListener('pageshow', bootstrapGlobalSidebar);
-
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(bootstrapGlobalSidebar, { timeout: 2000 });
-} else {
-  setTimeout(bootstrapGlobalSidebar, 100);
-}
-
-
-async function sendNotification(title, options) {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  if ('serviceWorker' in navigator) {
-    try {
-      const reg = await navigator.serviceWorker.ready;
-      if (reg && reg.showNotification) {
-        await reg.showNotification(title, options);
-        return;
-      }
-    } catch (e) { console.warn(e); }
-  }
-  const n = new Notification(title, options);
-  n.onclick = function() { window.focus(); this.close(); };
-  setTimeout(() => n.close(), 5000);
-}
-
-// Register service worker for GitHub Pages
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
-      console.warn('Service Worker registration failed:', err);
-    });
-  });
 }
