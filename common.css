@@ -37,7 +37,7 @@ body {
 
 body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 0;
-  transform: translateX(var(--page-transition-distance));
+  transform: translateX(calc(var(--page-transition-distance) * -1));
   transition:
     transform var(--page-transition-duration) var(--page-transition-ease),
     opacity var(--page-transition-duration) ease;
@@ -49,12 +49,7 @@ body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(ti
   transform: translateX(0);
 }
 
-body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
-  opacity: 0;
-  transform: translateX(calc(var(--page-transition-distance) * -1));
-  pointer-events: none;
-}
-
+body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
 body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
   opacity: 0;
   transform: translateX(var(--page-transition-distance));

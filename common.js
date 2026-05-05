@@ -102,13 +102,12 @@ function navigateWithTransition(targetUrl, options = {}) {
   if (window.__pageNavigationPending) return;
   window.__pageNavigationPending = true;
 
-  const direction = options.direction || 'forward';
   const replace = options.replace === true;
 
   if (document.body) {
     document.body.classList.remove(PAGE_TRANSITION_READY_CLASS);
     document.body.classList.remove(PAGE_TRANSITION_EXIT_FORWARD_CLASS, PAGE_TRANSITION_EXIT_BACK_CLASS);
-    document.body.classList.add(direction === 'back' ? PAGE_TRANSITION_EXIT_BACK_CLASS : PAGE_TRANSITION_EXIT_FORWARD_CLASS);
+    document.body.classList.add(PAGE_TRANSITION_EXIT_FORWARD_CLASS);
   }
 
   setTimeout(() => {
@@ -137,8 +136,7 @@ function handlePageTransitionClick(event) {
   if (url.pathname === window.location.pathname && url.search === window.location.search && !url.hash) return;
 
   event.preventDefault();
-  const direction = anchor.classList.contains('icon-back-btn') || anchor.dataset.transitionDirection === 'back' ? 'back' : 'forward';
-  navigateWithTransition(url.href, { direction });
+  navigateWithTransition(url.href);
 }
 
 document.addEventListener('click', handlePageTransitionClick, true);

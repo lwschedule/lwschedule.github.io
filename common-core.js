@@ -43,6 +43,18 @@
   window.loadCommon = loadCommon;
   window.ensureCommonLoaded = loadCommon;
 
+  function autoLoadCommon() {
+    loadCommon().catch((err) => {
+      console.error('Failed to auto-load /common.js:', err);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoLoadCommon, { once: true });
+  } else {
+    autoLoadCommon();
+  }
+
   // Visibility helpers: dispatch custom events and allow simple callbacks
   const visibilityHandlers = { visible: [], hidden: [] };
 
