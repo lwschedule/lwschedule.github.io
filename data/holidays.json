@@ -1,7 +1,32 @@
 [
-  { "name": "LEAP Day", "date": "2026-05-22", "displayDate": "May 22, 2026", "isWeekend": false },
-  { "name": "Memorial Day", "date": "2026-05-25", "displayDate": "May 25, 2026", "isWeekend": true },
-  { "name": "Last Day of School", "date": "2026-06-17", "displayDate": "June 17, 2026", "isWeekend": false },
-  { "name": "Snow Make-Up Day", "date": "2026-05-26", "displayDate": "May 26, 2026", "isWeekend": false },
-  { "name": "Summer Break", "date": "2026-06-18", "displayDate": "June 18–Aug 31, 2026", "isWeekend": true }
+  {
+    "name": "LEAP Week",
+    "date": "2026-05-22",
+    "displayDate": "May 22, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Memorial Day",
+    "date": "2026-05-25",
+    "displayDate": "May 25, 2026",
+    "isWeekend": true
+  },
+  {
+    "name": "Last Day of School",
+    "date": "2026-06-17",
+    "displayDate": "June 17, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Snow Make-Up Day",
+    "date": "2026-05-26",
+    "displayDate": "May 26, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Summer Break",
+    "date": "2026-06-18",
+    "displayDate": "June 18–Aug 31, 2026",
+    "isWeekend": true
+  }
 ]
