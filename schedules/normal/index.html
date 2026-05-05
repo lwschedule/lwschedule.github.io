@@ -32,7 +32,7 @@
       }
       await initApp();
       const content = document.getElementById('normalScheduleContent');
-      const schedules = schedulesData.normal;
+      const schedules = schedulesData?.normal || {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {
@@ -50,7 +50,7 @@
         html += `<h3 style="color: white; margin-top: 30px;">${day}</h3>`;
         const daySchedule = getScheduleForDay(day);
         if (!daySchedule || daySchedule.length === 0) {
-          html += '<p style="text-align: center; opacity: 0.8;'>No School</p>';
+          html += '<p style="text-align: center; opacity: 0.8;">No School</p>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }

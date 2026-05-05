@@ -1,10 +1,9 @@
 let lunchPreferences = null;
-let pilot3LunchPreferences = null;
-let sbaLunchPreferences = null;
 let holidays = null;
 let schedulesData = null;
 let academicTerms = null;
 let clubsData = null;
+let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
@@ -205,33 +204,12 @@ function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (saved) lunchPreferences = JSON.parse(saved);
-    const pilot3Saved = localStorage.getItem('pilot3LunchPreferences');
-    if (pilot3Saved) pilot3LunchPreferences = JSON.parse(pilot3Saved);
-    const sbaSaved = localStorage.getItem('sbaLunchPreferences');
-    if (sbaSaved) sbaLunchPreferences = JSON.parse(sbaSaved);
   } catch (e) {}
 }
 
 window.__lws_common_loaded = true;
 
-function isPilot3Day(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // Pilot 3 is active March 30–April 3, 2026
-  if (year === 2026 && month === 2 && day >= 30 && day <= 31) return true;
-  if (year === 2026 && month === 3 && day >= 1 && day <= 3) return true;
-  return false;
-}
 
-function isSBADay(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-  // SBA schedule is active April 6–10, 2026
-  if (year === 2026 && month === 3 && day >= 6 && day <= 10) return true;
-  return false;
-}
 
 function getDefaultLunchPrefs() {
   return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
@@ -241,14 +219,12 @@ function normalizeLunchChoice(value) {
   return value === 'B' ? 'B' : 'A';
 }
 
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
 function getLunchPreferencesForScheduleKey(scheduleKey) {
   const defaults = getDefaultLunchPrefs();
-  if (scheduleKey === 'pilot3') {
-    return pilot3LunchPreferences || schedulesData?.pilot3LunchPreferences || lunchPreferences || defaults;
-  }
-  if (scheduleKey === 'sba') {
-    return sbaLunchPreferences || schedulesData?.sbaLunchPreferences || lunchPreferences || defaults;
-  }
   return lunchPreferences || schedulesData?.lunchPreferences || defaults;
 }
 
@@ -310,48 +286,23 @@ function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedul
 
 function getSchedules(date) {
   if (!schedulesData) return {};
-  let scheduleKey = 'normal';
-  if (isPilot3Day(date)) scheduleKey = 'pilot3';
-  else if (isSBADay(date)) scheduleKey = 'sba';
-  const baseSchedule = schedulesData[scheduleKey];
+  const baseSchedule = schedulesData.normal;
   const today = getDayNameFromDate(date);
   
-  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
+  const lunch = getLunchForScheduleDay('normal', today, baseSchedule[today], baseSchedule);
 
-  
-  if (scheduleKey === 'normal') {
-    const adjusted = { ...baseSchedule };
-    
-    if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
-      if (baseSchedule[today][lunch]) {
-        adjusted[today] = baseSchedule[today][lunch];
-      }
-    }
-    return adjusted;
-  }
-  if (scheduleKey === 'pilot3') {
-    const adjusted = { ...baseSchedule };
-    if (baseSchedule[today] && baseSchedule[today][lunch]) {
+  const adjusted = { ...baseSchedule };
+  if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
+    if (baseSchedule[today][lunch]) {
       adjusted[today] = baseSchedule[today][lunch];
     }
-    return adjusted;
   }
-  if (scheduleKey === 'sba') {
-    const adjusted = { ...baseSchedule };
-    if (baseSchedule[today] && !Array.isArray(baseSchedule[today]) && baseSchedule[today][lunch]) {
-      adjusted[today] = baseSchedule[today][lunch];
-    }
-    return adjusted;
-  }
-  return baseSchedule;
+  return adjusted;
 }
 
 
 
 function getScheduleKeyForDate(date) {
-  if (!schedulesData) return 'normal';
-  if (isPilot3Day(date)) return 'pilot3';
-  if (isSBADay(date)) return 'sba';
   return 'normal';
 }
 
@@ -537,7 +488,7 @@ function displayTimeBlocks(container, data) {
 
   
   // Use Torph morphs if available (home screen only), otherwise fallback to textContent
-  if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
+  if (window.updateClockMorphs && document.body.classList.contains('homePage') && !isIOS()) {
     window.updateClockMorphs(data);
   } else {
     if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
@@ -690,6 +641,9 @@ function getCurrentPeriod(schedule, now) {
 
 function updateNextPeriodText(timerEl, text) {
   if (!timerEl) return;
+
+  if (text === lastNextPeriodText) return;
+  lastNextPeriodText = text;
 
   if (typeof window.updateNextPeriodBlock === 'function') {
     window.updateNextPeriodBlock(text);
@@ -950,7 +904,7 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    if (window.updateHolidayCountdownMorphs) {
+    if (window.updateHolidayCountdownMorphs && !isIOS()) {
       window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
       return;
     }
@@ -1230,8 +1184,6 @@ async function loadData() {
     });
     
     lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
-    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences || null;
-    sbaLunchPreferences = schedulesData.sbaLunchPreferences || null;
     loadLunchPreferences(); 
     
     
@@ -1244,13 +1196,9 @@ async function loadData() {
     schedulesData = {
       normal: {},
       finals: {},
-      lunchPreferences: getDefaultLunchPrefs(),
-      pilot3LunchPreferences: getDefaultLunchPrefs(),
-      sbaLunchPreferences: getDefaultLunchPrefs()
+      lunchPreferences: getDefaultLunchPrefs()
     };
     lunchPreferences = schedulesData.lunchPreferences;
-    pilot3LunchPreferences = schedulesData.pilot3LunchPreferences;
-    sbaLunchPreferences = schedulesData.sbaLunchPreferences;
     holidays = [];
     academicTerms = { quarters: [], semesters: [] };
     clubsData = { clubs: [] };
