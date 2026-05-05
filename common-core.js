@@ -9,15 +9,31 @@
     if (window.__lws_common_loaded) return Promise.resolve();
     if (window.__lws_common_loading_promise) return window.__lws_common_loading_promise;
 
+    function clearStaleCommonScript(scriptNode) {
+      if (scriptNode && scriptNode.parentNode) {
+        scriptNode.parentNode.removeChild(scriptNode);
+      }
+    }
+
     window.__lws_common_loading_promise = new Promise((resolve, reject) => {
       try {
         const existing = document.querySelector('script[src="/common.js"]');
         if (existing) {
+          if (window.__lws_common_loaded) {
+            window.__lws_common_loaded = true;
+            resolve();
+            return;
+          }
+
           existing.addEventListener('load', () => {
             window.__lws_common_loaded = true;
             resolve();
           });
-          existing.addEventListener('error', (e) => reject(e));
+          existing.addEventListener('error', (e) => {
+            clearStaleCommonScript(existing);
+            window.__lws_common_loading_promise = null;
+            reject(e);
+          });
           return;
         }
 
@@ -29,10 +45,13 @@
           resolve();
         };
         s.onerror = function (e) {
+          clearStaleCommonScript(s);
+          window.__lws_common_loading_promise = null;
           reject(new Error('Failed to load /common.js'));
         };
         document.head.appendChild(s);
       } catch (err) {
+        window.__lws_common_loading_promise = null;
         reject(err);
       }
     });

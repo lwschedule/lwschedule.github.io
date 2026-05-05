@@ -212,6 +212,8 @@ function loadLunchPreferences() {
   } catch (e) {}
 }
 
+window.__lws_common_loaded = true;
+
 function isPilot3Day(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
