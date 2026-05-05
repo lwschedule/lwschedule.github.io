@@ -7,6 +7,34 @@ let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
+// Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
+const SCHEDULE_METADATA = [
+  {
+    scheduleKey: 'leapDay',
+    dateStart: new Date(2026, 4, 18), // May 18, 2026
+    dateEnd: new Date(2026, 4, 22), // May 22, 2026
+    storageKey: 'leapDayLunchPreferences'
+  },
+  {
+    scheduleKey: 'memorialDay',
+    dateStart: new Date(2026, 4, 25), // May 25, 2026
+    dateEnd: new Date(2026, 4, 29), // May 29, 2026
+    storageKey: 'memorialDayLunchPreferences'
+  },
+  {
+    scheduleKey: 'movingUp',
+    dateStart: new Date(2026, 5, 8), // June 8, 2026
+    dateEnd: new Date(2026, 5, 12), // June 12, 2026
+    storageKey: 'movingUpLunchPreferences'
+  },
+  {
+    scheduleKey: 'lastWeek',
+    dateStart: new Date(2026, 5, 15), // June 15, 2026
+    dateEnd: new Date(2026, 5, 19), // June 19, 2026
+    storageKey: 'lastWeekLunchPreferences'
+  }
+];
+
 function normalizeClassSlots(rawSlots) {
   const slots = Array(MAX_CLASS_SLOTS).fill('');
   if (!Array.isArray(rawSlots)) return slots;
@@ -225,6 +253,22 @@ function isIOS() {
 
 function getLunchPreferencesForScheduleKey(scheduleKey) {
   const defaults = getDefaultLunchPrefs();
+  
+  // Find the storage key for this schedule
+  const metadata = SCHEDULE_METADATA.find(m => m.scheduleKey === scheduleKey);
+  const storageKey = metadata?.storageKey;
+  
+  // Try to load schedule-specific preferences from localStorage
+  if (storageKey) {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (stored) return JSON.parse(stored);
+    } catch (e) {
+      console.error(`Failed to load ${storageKey}:`, e);
+    }
+  }
+  
+  // Fall back to global preferences
   return lunchPreferences || schedulesData?.lunchPreferences || defaults;
 }
 
@@ -286,10 +330,24 @@ function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedul
 
 function getSchedules(date) {
   if (!schedulesData) return {};
-  const baseSchedule = schedulesData.normal;
+  
+  // Get the active schedule key for this date (normal, leapDay, memorialDay, etc.)
+  const scheduleKey = getScheduleKeyForDate(date);
+  
+  // Access the schedule data - special schedules are nested within schedulesData.normal
+  let scheduleData;
+  if (scheduleKey === 'normal') {
+    scheduleData = schedulesData.normal;
+  } else {
+    scheduleData = schedulesData.normal[scheduleKey];
+  }
+  
+  if (!scheduleData) return {};
+  
+  const baseSchedule = scheduleData;
   const today = getDayNameFromDate(date);
   
-  const lunch = getLunchForScheduleDay('normal', today, baseSchedule[today], baseSchedule);
+  const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
 
   const adjusted = { ...baseSchedule };
   if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
@@ -303,6 +361,17 @@ function getSchedules(date) {
 
 
 function getScheduleKeyForDate(date) {
+  // Normalize the date to midnight UTC for consistent comparison
+  const testDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+  // Check if the date falls within any special schedule window
+  for (const schedule of SCHEDULE_METADATA) {
+    if (testDate >= schedule.dateStart && testDate <= schedule.dateEnd) {
+      return schedule.scheduleKey;
+    }
+  }
+  
+  // Default to normal schedule
   return 'normal';
 }
 
