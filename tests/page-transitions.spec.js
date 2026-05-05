@@ -81,3 +81,16 @@ test('404 page initializes transition runtime', async ({ page }) => {
     return page.evaluate(() => document.body.classList.contains('page-transition-ready'));
   }).toBe(true);
 });
+
+test('shared transition runtime initializes on representative pages', async ({ page }) => {
+  for (const path of ['/index.html', '/today/index.html', '/settings/index.html', '/week/index.html', '/404.html']) {
+    await page.goto(path);
+
+    await expect.poll(async () => {
+      return page.evaluate(async () => {
+        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+        return document.body.classList.contains('page-transition-ready');
+      });
+    }).toBe(true);
+  }
+});
