@@ -488,14 +488,19 @@ function displayTimeBlocks(container, data) {
 
   
   // Use Torph morphs if available (home screen only), otherwise fallback to textContent
-  if (window.updateClockMorphs && document.body.classList.contains('homePage') && !isIOS()) {
-    window.updateClockMorphs(data);
-  } else {
-    if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-    if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-    if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
-    if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
+  if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
+    try {
+      window.updateClockMorphs(data);
+      return;
+    } catch (error) {
+      console.warn('Clock morph update failed, falling back to textContent.', error);
+    }
   }
+
+  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
+  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
 }
 
 function displayMessage(container, message) {
@@ -646,7 +651,12 @@ function updateNextPeriodText(timerEl, text) {
   lastNextPeriodText = text;
 
   if (typeof window.updateNextPeriodBlock === 'function') {
-    window.updateNextPeriodBlock(text);
+    try {
+      window.updateNextPeriodBlock(text);
+    } catch (error) {
+      console.warn('Next period morph update failed, falling back to textContent.', error);
+      timerEl.textContent = text;
+    }
   } else {
     timerEl.textContent = text;
   }
@@ -904,9 +914,13 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    if (window.updateHolidayCountdownMorphs && !isIOS()) {
-      window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
-      return;
+    if (window.updateHolidayCountdownMorphs) {
+      try {
+        window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
+        return;
+      } catch (error) {
+        console.warn('Holiday countdown morph update failed, falling back to textContent.', error);
+      }
     }
 
     const daysEl = document.getElementById('countdown-days');

@@ -1700,3 +1700,51 @@ body.has-sidebar {
 .icon-back-btn:hover {
   transform: scale(1.05);
 }
+
+@media (max-width: 768px) {
+  .icon-back-btn {
+    top: 72px;
+  }
+}
+
+body.has-sidebar {
+  padding-left: 270px;
+}
+
+@media (max-width: 768px) {
+  body.has-sidebar {
+    padding-left: 20px;
+  }
+}
+
+#globalSidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-light) var(--card-dark);
+}
+
+#globalSidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+#globalSidebar::-webkit-scrollbar-track {
+  background: var(--card-dark);
+}
+
+#globalSidebar::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 999px;
+  border: 2px solid var(--card-dark);
+}
+
+body.calendarPage .pageContainer,
+body.calendarPage .calendar-grid {
+  height: 150vh;
+  max-height: 150vh;
+  max-width: 150vh;
+}
+
+.calendar-day.today {
+  background-color: white;
+  color: var(--bg-dark);
+  font-weight: 700;
+}
