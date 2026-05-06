@@ -1,18 +1,5 @@
 {
-  "standardizedTests": [
-    {
-      "id": "sba-ela-2026-04-07",
-      "title": "SBA Testing: ELA",
-      "date": "2026-04-07",
-      "time": "8:35 a.m. Local Time"
-    },
-    {
-      "id": "sba-wcas-2026-04-07",
-      "title": "SBA Testing: WCAS",
-      "date": "2026-04-07",
-      "time": "8:35 a.m. Local Time"
-    }
-  ],
+  "standardizedTests": [],
   "apTests": [
     {
       "id": "ap-submission-seminar-2026-04-30",

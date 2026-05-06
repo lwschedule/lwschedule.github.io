@@ -29,7 +29,7 @@
       }
       await initApp();
       const content = document.getElementById('leapDayScheduleContent');
-      const schedules = schedulesData.leapDay;
+      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal.leapDay) ? schedulesData.normal.leapDay : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {

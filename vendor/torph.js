@@ -1,13 +1,13 @@
 export class TextMorph {
   constructor({ element } = {}) {
     this.element = element || null;
-    this.value = this.element ? this.element.textContent || '' : '';
+    this.value = this.element ? (this.element.textContent || '') : '';
     this._timer = null;
     this._frame = null;
   }
 
   update(nextValue) {
-    const nextText = String(nextValue ?? '');
+    const nextText = String(nextValue == null ? '' : nextValue);
 
     this.value = nextText;
 
@@ -36,9 +36,9 @@ export class TextMorph {
 
     this._frame = requestFrame(() => {
       this._frame = null;
-      this.element?.classList.add('torph--animate');
+      if (this.element) this.element.classList.add('torph--animate');
       this._timer = setTimeout(() => {
-        this.element?.classList.remove('torph--animate');
+        if (this.element) this.element.classList.remove('torph--animate');
         this._timer = null;
       }, 240);
     });

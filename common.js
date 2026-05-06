@@ -469,10 +469,10 @@ function getHolidayForDate(date) {
       const end = new Date(2025, 10, 29).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
-    
-    if (holiday.name === "Spring Break") {
-      const start = new Date(2026, 3, 13).getTime();
-      const end = new Date(2026, 3, 17).getTime();
+
+    if (holiday.name === "Summer Break") {
+      const start = new Date(2026, 5, 18).getTime();
+      const end = new Date(2026, 7, 31).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
   }
@@ -627,8 +627,8 @@ function getLastSchoolDayEndTime(beforeDate) {
 
 function getHolidayEndDate(holidayName) {
   if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
-  
-  if (holidayName === "Spring Break") return new Date(2026, 3, 17, 23, 59, 59);
+
+  if (holidayName === "Summer Break") return new Date(2026, 7, 31, 23, 59, 59);
   for (const holiday of holidays) {
     if (holiday.name === holidayName) {
       return new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate(), 23, 59, 59);
@@ -1062,7 +1062,7 @@ function renderCalendar() {
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
   
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 3);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 4);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -1075,13 +1075,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 3);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 4);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
       
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 3)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 4)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1198,8 +1198,8 @@ function changeMonth(delta) {
     currentYear++;
   }
   
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
-    currentMonth = 3;
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
+    currentMonth = 4;
     currentYear = 2026;
   }
   if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
@@ -1212,8 +1212,8 @@ function changeMonth(delta) {
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 3)) {
-  currentMonth = 3;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
+  currentMonth = 4;
   currentYear = 2026;
 }
 

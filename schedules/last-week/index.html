@@ -29,7 +29,7 @@
       }
       await initApp();
       const content = document.getElementById('lastWeekScheduleContent');
-      const schedules = schedulesData.lastWeek;
+      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal.lastWeek) ? schedulesData.normal.lastWeek : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {

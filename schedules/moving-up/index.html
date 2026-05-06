@@ -29,7 +29,7 @@
       }
       await initApp();
       const content = document.getElementById('movingUpScheduleContent');
-      const schedules = schedulesData.movingUp;
+      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal.movingUp) ? schedulesData.normal.movingUp : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {

@@ -29,7 +29,7 @@
       }
       await initApp();
       const content = document.getElementById('memorialDayScheduleContent');
-      const schedules = schedulesData.memorialDay;
+      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal.memorialDay) ? schedulesData.normal.memorialDay : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {
