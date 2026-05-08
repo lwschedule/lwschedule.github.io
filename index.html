@@ -73,6 +73,13 @@
       if (!timerEl) return;
 
       try {
+        // On problematic iOS versions, skip Torph
+        if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
+          window.updateNextPeriodBlock = null;
+          console.warn('Torph disabled on iOS < 17; using text updates.');
+          return;
+        }
+
         const { TextMorph } = await import('/vendor/torph.js');
         const host = ensureTimerMorphHost(timerEl);
         if (!host) return;
@@ -110,30 +117,23 @@
 
     async function initClockMorphs() {
       try {
+        // On problematic iOS versions, skip Torph and use fallback
+        if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
+          window.updateClockMorphs = null;
+          console.warn('Torph disabled on iOS < 17; using text updates.');
+          return;
+        }
+
         const { TextMorph } = await import('/vendor/torph.js');
         const daysEl = document.getElementById('clockDisplay-days');
         const hoursEl = document.getElementById('clockDisplay-hours');
         const minutesEl = document.getElementById('clockDisplay-minutes');
         const secondsEl = document.getElementById('clockDisplay-seconds');
 
-        const ensureMorphHost = (containerEl) => {
-          if (!containerEl) return null;
-          let host = containerEl.querySelector('.time-value-morph');
-          if (!host) {
-            const initial = containerEl.textContent || '00';
-            containerEl.textContent = '';
-            host = document.createElement('span');
-            host.className = 'time-value-morph';
-            host.textContent = initial;
-            containerEl.appendChild(host);
-          }
-          return host;
-        };
-
-        const daysHost = ensureMorphHost(daysEl);
-        const hoursHost = ensureMorphHost(hoursEl);
-        const minutesHost = ensureMorphHost(minutesEl);
-        const secondsHost = ensureMorphHost(secondsEl);
+        const daysHost = ensureMorphHost(daysEl, 'time-value-morph');
+        const hoursHost = ensureMorphHost(hoursEl, 'time-value-morph');
+        const minutesHost = ensureMorphHost(minutesEl, 'time-value-morph');
+        const secondsHost = ensureMorphHost(secondsEl, 'time-value-morph');
 
         if (daysHost) {
           clockMorphs.days = new TextMorph({

@@ -1717,7 +1717,35 @@ body.has-sidebar {
   }
 }
 
-@media (max-height: 900px), (max-width: 1024px) {
+/* NOTE: Scrollbar styling is duplicated across these two media queries because CSS
+  media queries cannot be combined (e.g., "both (A) and (B)") natively without a
+  preprocessor. The rules must appear in both queries to apply scrollbar styling
+  in both scenarios: (1) height-constrained, and (2) width-constrained with normal height.
+  If this project later adopts Sass, this duplication can be eliminated with a mixin. */
+@media (max-height: 800px) {
+  /* Scrollbar appears when viewport height constrains sidebar */
+  #globalSidebar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  #globalSidebar::-webkit-scrollbar-track {
+    background: var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8bd3ff 0%, var(--primary-light) 100%);
+    border-radius: 999px;
+    border: 2px solid var(--card-dark);
+  }
+}
+
+@media (max-width: 960px) and (min-height: 800px) {
+  /* Scrollbar appears on narrower tablets/small laptops */
   #globalSidebar {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-light) var(--card-dark);

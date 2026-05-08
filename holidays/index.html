@@ -70,26 +70,17 @@
 
     async function initHolidayCountdownMorphs() {
       try {
+        if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
+          window.updateHolidayCountdownMorphs = null;
+          console.warn('Torph disabled on iOS < 17; using text updates.');
+          return;
+        }
         const { TextMorph } = await import('/vendor/torph.js');
 
-        const ensureMorphHost = (containerEl) => {
-          if (!containerEl) return null;
-          let host = containerEl.querySelector('.countdown-value-morph');
-          if (!host) {
-            const initial = containerEl.textContent || '00';
-            containerEl.textContent = '';
-            host = document.createElement('span');
-            host.className = 'countdown-value-morph';
-            host.textContent = initial;
-            containerEl.appendChild(host);
-          }
-          return host;
-        };
-
-        const daysHost = ensureMorphHost(document.getElementById('countdown-days'));
-        const hoursHost = ensureMorphHost(document.getElementById('countdown-hours'));
-        const minutesHost = ensureMorphHost(document.getElementById('countdown-minutes'));
-        const secondsHost = ensureMorphHost(document.getElementById('countdown-seconds'));
+        const daysHost = ensureMorphHost(document.getElementById('countdown-days'), 'countdown-value-morph');
+        const hoursHost = ensureMorphHost(document.getElementById('countdown-hours'), 'countdown-value-morph');
+        const minutesHost = ensureMorphHost(document.getElementById('countdown-minutes'), 'countdown-value-morph');
+        const secondsHost = ensureMorphHost(document.getElementById('countdown-seconds'), 'countdown-value-morph');
 
         if (daysHost) {
           holidayMorphs.days = new TextMorph({
@@ -123,6 +114,7 @@
         // Seed from zero immediately before first live countdown update.
         updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       } catch (error) {
+        window.updateHolidayCountdownMorphs = null;
         console.warn('Torph failed to load for holiday countdown, using default updates.', error);
       }
     }

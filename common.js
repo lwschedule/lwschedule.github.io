@@ -251,6 +251,28 @@ function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
+function getTorphWorkaroundNeeded() {
+  if (!isIOS()) return false;
+  const safariMatch = navigator.userAgent.match(/Version\/(\d+)/);
+  const safariVersion = safariMatch ? parseInt(safariMatch[1], 10) : 0;
+  // iOS Safari versions 14-16 have inconsistent TextMorph behavior; use fallback
+  return safariVersion < 17;
+}
+
+function ensureMorphHost(containerEl, className) {
+  if (!containerEl) return null;
+  let host = containerEl.querySelector(`.${className}`);
+  if (!host) {
+    const initial = containerEl.textContent || '00';
+    containerEl.textContent = '';
+    host = document.createElement('span');
+    host.className = className;
+    host.textContent = initial;
+    containerEl.appendChild(host);
+  }
+  return host;
+}
+
 function getLunchPreferencesForScheduleKey(scheduleKey) {
   const defaults = getDefaultLunchPrefs();
   
@@ -983,6 +1005,7 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
+    // Check for iOS workaround before using Torph
     if (window.updateHolidayCountdownMorphs) {
       try {
         window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
