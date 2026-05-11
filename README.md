@@ -8,28 +8,24 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 **Current Version:** `v3.4.1`
 **Release Date:** `May 5, 2026`
 
----
 
 ## Upcoming Changes
-[![Issues](https://img.shields.io/github/issues/lwschedule/lwschedule.github.io)](https://github.com/lwschedule/lwschedule.github.io/issues)
+[![Roadmap](https://img.shields.io/github/issues/lwschedule/lwschedule.github.io?logo=github&color=2ea44f)](https://github.com/lwschedule/lwschedule.github.io/issues)
 
----
 
 ## Tech Stack
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=mit&logoColor=white)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)](https://pages.github.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=mit&logoColor=white)](https://opensource.org/licenses/MIT)
 
----
 
 ## License
 
 This project is released under the **MIT License**
 
----
 
 ## 💡 Credits
 
