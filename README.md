@@ -11,7 +11,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 ---
 
 ## Upcoming Changes
-![Issues](https://img.shields.io/github/issues/lwschedule/lwschedule?style=for-the-badge&logo=github&color=22c55e)
+[![Issues](https://img.shields.io/github/issues/lwschedule/lwschedule.github.io)](https://github.com/lwschedule/lwschedule.github.io/issues)
 
 ---
 
