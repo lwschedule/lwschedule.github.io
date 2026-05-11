@@ -7,6 +7,7 @@ from datetime import datetime
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / 'README.md'
 SW = ROOT / 'sw.js'
+INFO = ROOT / 'info' / 'index.html'
 
 def format_date(dt: datetime) -> str:
     # Format like: May 11, 2026
@@ -61,14 +62,44 @@ def update_sw_cache_name():
         return True
     return False
 
+def update_info_page(version_text: str, release_date_text: str):
+    if not INFO.exists():
+        return False
+
+    text = INFO.read_text(encoding='utf-8')
+    changed = False
+
+    version_re = re.compile(r"(<div class=\"versionBadge\">Version\s+)([^<]+)(</div>)")
+    if version_re.search(text):
+        text = version_re.sub(lambda m: f"{m.group(1)}{version_text.lstrip('v')}{m.group(3)}", text, count=1)
+        changed = True
+
+    released_re = re.compile(r"(<p>Released\s+)([^<]+)(</p>)")
+    if released_re.search(text):
+        text = released_re.sub(lambda m: f"{m.group(1)}{release_date_text}{m.group(3)}", text, count=1)
+        changed = True
+
+    if changed:
+        INFO.write_text(text, encoding='utf-8')
+    return changed
+
 def main():
     changed_readme = bump_readme_version_and_date()
     changed_sw = update_sw_cache_name()
+    # Re-read the README to extract the final current version and date for info pages.
+    readme_text = README.read_text(encoding='utf-8')
+    version_match = re.search(r"\*\*Current Version:\*\*\s*`(v?\d+(?:\.\d+){0,2})`", readme_text, re.IGNORECASE)
+    date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
+    final_version = version_match.group(1) if version_match else 'v0.0.0'
+    final_release_date = date_match.group(1) if date_match else format_date(datetime.now())
+    changed_info = update_info_page(final_version, final_release_date)
     files_changed = []
     if changed_readme:
         files_changed.append(str(README.relative_to(ROOT)))
     if changed_sw:
         files_changed.append(str(SW.relative_to(ROOT)))
+    if changed_info:
+        files_changed.append(str(INFO.relative_to(ROOT)))
 
     if files_changed:
         # Stage files so a pre-commit hook can include them in the commit
