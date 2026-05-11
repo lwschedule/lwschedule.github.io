@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Pre-commit hook to auto-bump README version (patch) and update sw.js cache name.
+# To enable locally: git config core.hooksPath .githooks
+
+set -euo pipefail
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+SCRIPT="$ROOT/.github/scripts/auto_bump_version.py"
+if [ -x "$SCRIPT" ] || [ -f "$SCRIPT" ]; then
+  # Run the Python script to modify files and stage them
+  python3 "$SCRIPT" || true
+fi
+
+exit 0

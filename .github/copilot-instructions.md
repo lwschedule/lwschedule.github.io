@@ -20,6 +20,7 @@ VS Code reserved commands are replaced with these Superpowers equivalents:
 - If `plan.md` does not exist, your ONLY valid action is to ask to run `/write-plan`.
 - Do not guess. If stuck, write a theory in `scratchpad.md`.
  - Do not create, switch, or push Git branches unless explicitly instructed to do so.
+ - On every commit, run `.github/scripts/auto_bump_version.py` (or enable `.githooks/pre-commit` by setting `git config core.hooksPath .githooks`). This script increments the patch (`z`) in `README.md`'s `vX.Y.Z` and updates the Release Date to the current date. It also updates `sw.js`'s cache name to the current date (YYYY-MM-DD). Do NOT change version numbers inside `sw.js` beyond the cache name change.
 
 ## AVAILABLE SKILLS
 
