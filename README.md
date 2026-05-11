@@ -27,7 +27,7 @@ A fast, clean, dark-themed schedule viewer built for LW students. Check today's 
 This project is released under the **MIT License**
 
 
-## 💡 Credits
+## Credits
 
 **Created by:** Sanchit P.  
 **Inspired by:** LW Schedule Manager by Rudra Pandit
