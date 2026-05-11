@@ -1717,12 +1717,6 @@ body.has-sidebar {
   transform: scale(1.05);
 }
 
-@media (max-width: 768px) {
-  .icon-back-btn {
-    top: 72px;
-  }
-}
-
 body.has-sidebar {
   padding-left: 270px;
 }
@@ -1800,7 +1794,7 @@ body.calendarPage .calendar-grid {
 @media (max-width: 768px) {
   .icon-back-btn {
     position: fixed;
-    top: 72px;
+    top: 84px;
     left: 12px;
     z-index: 1002;
   }
