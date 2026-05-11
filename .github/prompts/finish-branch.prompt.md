@@ -3,10 +3,10 @@ name: finish-branch
 description: Merge, PR, or discard completed work
 ---
 # Skill: finishing-a-development-branch
----
 name: finishing-a-development-branch
 description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
----
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 
 # Finishing a Development Branch
 

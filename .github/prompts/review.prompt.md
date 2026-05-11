@@ -16,6 +16,8 @@ Dispatch a code reviewer subagent to catch issues before they cascade. The revie
 
 ## When to Request Review
 
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 **Mandatory:**
 - After each task in subagent-driven development
 - After completing major feature

@@ -24,14 +24,19 @@ export class TextMorph {
 
     this.element.textContent = nextText;
     this.element.classList.remove('torph--animate');
-    void this.element.offsetWidth;
+    // Force a layout/reflow in a way that is reliable across browsers
+    // including iOS Safari. Reading getBoundingClientRect() is less
+    // likely to be optimized away than the void-offsetWidth trick.
+    if (this.element && typeof this.element.getBoundingClientRect === 'function') {
+      this.element.getBoundingClientRect();
+    }
     if (this._timer) {
       clearTimeout(this._timer);
       this._timer = null;
     }
 
-    const requestFrame = typeof requestAnimationFrame === 'function'
-      ? requestAnimationFrame.bind(globalThis)
+    const requestFrame = typeof globalThis.requestAnimationFrame === 'function'
+      ? globalThis.requestAnimationFrame.bind(globalThis)
       : (callback) => setTimeout(callback, 16);
 
     this._frame = requestFrame(() => {

@@ -1,7 +1,7 @@
----
 name: brainstorm
 description: Generate creative solutions and explore ideas
----
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 # Skill: brainstorming
 ---
 name: brainstorming

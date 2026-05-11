@@ -19,6 +19,7 @@ VS Code reserved commands are replaced with these Superpowers equivalents:
 ## RULES
 - If `plan.md` does not exist, your ONLY valid action is to ask to run `/write-plan`.
 - Do not guess. If stuck, write a theory in `scratchpad.md`.
+ - Do not create, switch, or push Git branches unless explicitly instructed to do so.
 
 ## AVAILABLE SKILLS
 

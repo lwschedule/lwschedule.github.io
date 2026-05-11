@@ -3,10 +3,10 @@ name: subagent-dev
 description: Dispatch subagents for task-by-task development
 ---
 # Skill: subagent-driven-development
----
 name: subagent-driven-development
 description: Use when executing implementation plans with independent tasks in the current session
----
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 
 # Subagent-Driven Development
 

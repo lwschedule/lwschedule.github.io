@@ -3,10 +3,10 @@ name: write-skill
 description: Create new skills following TDD best practices
 ---
 # Skill: writing-skills
----
 name: writing-skills
 description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
----
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 
 # Writing Skills
 

@@ -3,11 +3,10 @@ name: write-plan
 description: Create a detailed implementation plan (Superpowers)
 ---
 # Skill: writing-plans
----
 name: writing-plans
 description: Use when you have a spec or requirements for a multi-step task, before touching code
----
 
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
 # Writing Plans
 
 ## Overview

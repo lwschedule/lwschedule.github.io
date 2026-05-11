@@ -3,10 +3,10 @@ name: investigate
 description: Perform systematic root-cause analysis
 ---
 # Skill: systematic-debugging
----
 name: systematic-debugging
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
----
+**Branching policy:** Do not create, switch, or push Git branches unless explicitly instructed to do so.
+
 
 # Systematic Debugging
 
