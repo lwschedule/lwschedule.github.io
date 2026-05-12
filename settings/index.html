@@ -44,7 +44,7 @@
     <div class="settingsRow">
       <a class="mainBtn settingsMainBtn" href="/settings/packup"><img class="settingsBtnIcon" src="/icons/src/backpack.svg" alt="" aria-hidden="true">Pack-Up Reminders</a>
     </div>
-    <a class="resetBtn" id="resetBtn">Reset All Settings to Default</a>
+    <a class="resetBtn" id="resetBtn" role="button" tabindex="0" aria-label="Reset all settings to default">Reset All Settings to Default</a>
   </div>
   <script src="/common-core.js"></script>
   <script>
@@ -58,7 +58,10 @@
         if (typeof window.resetAllSettings === 'function') {
           window.resetAllSettings('user-button-click');
         } else {
-          localStorage.clear(); // Fallback
+          // Reset module failed to load; do NOT call localStorage.clear() here
+          console.error('Reset module unavailable — unable to reset settings safely.');
+          alert('Unable to reset settings: reset module unavailable. Please reload the page or try again later.');
+          return;
         }
         navigateWithTransition('/', { replace: true });
       });

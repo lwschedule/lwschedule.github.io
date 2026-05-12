@@ -11,6 +11,8 @@
   // DO NOT remove this - it prevents unintended data loss.
   function loadResetModule() {
     try {
+      // Do not append more than once
+      if (document.querySelector('script[src="/reset.js"]') || window.resetModule) return;
       const script = document.createElement('script');
       script.src = '/reset.js';
       script.async = false;

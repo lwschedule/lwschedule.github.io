@@ -243,6 +243,7 @@ function checkSetupComplete() {
 
   if ((!lunch || shouldRedirectDueToReset) && !isAlreadyOnSetup) {
     navigateWithTransition('/setup', { replace: true });
+    try { sessionStorage.removeItem('__lws_should_redirect_to_setup'); } catch (e) {}
     return false;
   }
   return true;
