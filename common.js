@@ -1796,6 +1796,11 @@ if ('requestIdleCallback' in window) {
   setTimeout(() => { injectGlobalSidebar(); syncMobilePrimaryControl(); }, 100);
 }
 
+// Watch for DOM changes and keep back button class in sync
+if (typeof MutationObserver !== 'undefined') {
+  new MutationObserver(syncMobilePrimaryControl).observe(document.body, { childList: true, subtree: true });
+}
+
 
 async function sendNotification(title, options) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;

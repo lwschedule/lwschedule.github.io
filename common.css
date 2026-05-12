@@ -1412,14 +1412,20 @@ body.has-sidebar {
     display: flex;
   }
   body.has-mobile-back-button #sidebarMobileToggle {
-    display: none;
+    display: none !important;
   }
   body.has-mobile-back-button .icon-back-btn {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001;
-    margin-bottom: 0;
+    position: fixed !important;
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 1001 !important;
+    margin: 0 !important;
+    display: flex !important;
+    background: var(--card-dark);
+    border: 1px solid var(--primary-light);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
   }
   .sidebar-mask.show {
     display: block;
@@ -1555,14 +1561,20 @@ body.has-sidebar {
     display: flex;
   }
   body.has-mobile-back-button #sidebarMobileToggle {
-    display: none;
+    display: none !important;
   }
   body.has-mobile-back-button .icon-back-btn {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1001;
-    margin-bottom: 0;
+    position: fixed !important;
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 1001 !important;
+    margin: 0 !important;
+    display: flex !important;
+    background: var(--card-dark);
+    border: 1px solid var(--primary-light);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
   }
   .sidebar-mask.show {
     display: block;
@@ -1719,6 +1731,33 @@ body.has-sidebar {
   text-decoration: none;
   margin-bottom: 15px;
   transition: transform 0.2s;
+}
+
+/* Hide back button by default on desktop */
+@media (min-width: 769px) {
+  .icon-back-btn {
+    display: none !important;
+  }
+}
+
+/* Show back button on mobile only when page has one */
+@media (max-width: 768px) {
+  .icon-back-btn {
+    display: none;
+  }
+  body.has-mobile-back-button .icon-back-btn {
+    display: flex !important;
+    position: fixed !important;
+    top: 15px !important;
+    left: 15px !important;
+    z-index: 1001 !important;
+    margin: 0 !important;
+    background: var(--card-dark);
+    border: 1px solid var(--primary-light);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+  }
 }
 
 .icon-back-btn::before {
