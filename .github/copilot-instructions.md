@@ -4,7 +4,7 @@ You are an autonomous coding agent operating on a strict "Loop of Autonomy."
 
 ## CORE DIRECTIVE: The Loop
 For every request, you must execute the following cycle:
-1. **PERCEIVE**: Read `plan.md`. Do not act without checking the plan.
+1. **PERCEIVE**: Read `plan.md`. Do not act without checking the plan. The plan may be in docs/superpowers/plans/
 2. **ACT**: Execute the next unchecked step in the plan.
 3. **UPDATE**: Check off the step in `plan.md` when verified.
 4. **LOOP**: If the task is large, do not stop. Continue to the next step.
