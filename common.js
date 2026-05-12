@@ -759,11 +759,15 @@ function updateNextPeriodText(timerEl, text) {
 
 
 function updateClock() {
+  const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
   const clockDisplay = document.getElementById('clockDisplay');
   const clockLabel = document.getElementById('clockLabel');
   const timerEl = document.getElementById('timer');
-  if (!clockDisplay || !clockLabel || !timerEl) return;
+  if (!clockDisplay || !clockLabel || !timerEl) {
+    if (shouldRefreshToday) updateTodaySchedule();
+    return;
+  }
 
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
@@ -878,6 +882,8 @@ function updateClock() {
       updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
     }
   }
+
+  if (shouldRefreshToday) updateTodaySchedule();
 }
 
 function minutesNow() {
@@ -885,7 +891,40 @@ function minutesNow() {
   return d.getHours()*60 + d.getMinutes();
 }
 
-function renderScheduleTable(schedule, now, showDuration = false) {
+function getClubMinutesNow() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+
+function isClubActive(club) {
+  const clubStart = club.startHour * 60 + club.startMinute;
+  const clubEnd = club.endHour * 60 + club.endMinute;
+  const now = getClubMinutesNow();
+  return now >= clubStart && now < clubEnd;
+}
+
+function clubOverlapsPeriod(club, period) {
+  const clubStart = club.startHour * 60 + club.startMinute;
+  const clubEnd = club.endHour * 60 + club.endMinute;
+  const periodStart = period.start;
+  const periodEnd = period.end;
+  return !(clubEnd <= periodStart || clubStart >= periodEnd);
+}
+
+function getActiveClubForDay(date) {
+  const clubs = getClubsForDate(date);
+  return clubs.find(club => isClubActive(club)) || null;
+}
+
+function getClubTimeRange(club) {
+  if (!club) return null;
+  return {
+    startMinutes: club.startMinutes ?? (club.startHour * 60 + club.startMinute),
+    endMinutes: club.endMinutes ?? (club.endHour * 60 + club.endMinute)
+  };
+}
+
+function renderScheduleTable(schedule, now, showDuration = false, activeClub = null) {
   if (!schedule || !Array.isArray(schedule) || schedule.length === 0) {
     return `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
   }
@@ -895,13 +934,27 @@ function renderScheduleTable(schedule, now, showDuration = false) {
   for (let i = 0; i < schedule.length; i++) {
     const p = schedule[i];
     const duration = p.end - p.start;
-    const active = now !== null && now >= p.start && now < p.end;
+    const active = now !== null && now >= p.start && now < p.end && !(activeClub && clubOverlapsPeriod(activeClub, p));
     html += `<tr class='${active?"highlight":""}'><td>${getDisplayPeriodName(p.name)}</td><td>${format(p.start)}</td><td>${format(p.end)}</td>`;
     if (showDuration) html += `<td>${formatDuration(duration)}</td>`;
     html += "</tr>";
   }
   html += "</tbody></table>";
   return html;
+}
+
+function getClubOverlapSummary(date) {
+  const clubs = getClubsForDate(date);
+  const schedules = getSchedules(date);
+  const dayName = getDayNameFromDate(date);
+  const daySchedule = schedules[dayName] || [];
+
+  if (!daySchedule.length) {
+    return { clubs, overlappingClubs: [], hasOverlap: false };
+  }
+
+  const overlappingClubs = clubs.filter(club => daySchedule.some(period => clubOverlapsPeriod(club, period)));
+  return { clubs, overlappingClubs, hasOverlap: overlappingClubs.length > 0 };
 }
 
 function updateWeekSchedule() {
@@ -932,10 +985,8 @@ function updateWeekSchedule() {
     const isToday = (dayNameStr === todayName && dayDate.toDateString() === now.toDateString());
     const holidayName = getHolidayForDate(dayDate);
     let summary = '';
-    
-    
-    const clubs = getClubsForDate(dayDate);
-    const clubCount = clubs.length;
+    const clubOverlapInfo = getClubOverlapSummary(dayDate);
+    const clubCount = clubOverlapInfo.clubs.length;
     
     if (holidayName) {
       summary = holidayName;
@@ -944,7 +995,9 @@ function updateWeekSchedule() {
       summary = getScheduleSummary(schedules, dayNameStr, false);
       
       if (clubCount > 0 && isClubsEnabled()) {
-        summary += ` <span class="club-indicator">+${clubCount} club${clubCount > 1 ? 's' : ''}</span>`;
+        const overlapMarker = clubOverlapInfo.hasOverlap ? ' ⚠' : '';
+        const overlapClass = clubOverlapInfo.hasOverlap ? ' club-overlap' : '';
+        summary += ` <span class="club-indicator${overlapClass}">+${clubCount} club${clubCount > 1 ? 's' : ''}${overlapMarker}</span>`;
       }
     }
     html += `<tr class="${isToday ? 'highlight' : ''} clickable-row" data-day="${dayNameStr.toLowerCase()}" data-date="${dayDate.toISOString()}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
@@ -971,9 +1024,13 @@ function updateTodaySchedule() {
   }
   const schedules = getSchedules(now);
   const today = schedules[currentDayName()];
-  let html = renderScheduleTable(today, minutesNow(), true);
-  
-  
+  const activeClub = getActiveClubForDay(now);
+  let html = renderScheduleTable(today, minutesNow(), true, activeClub);
+
+  if (activeClub) {
+    html += renderClubCountdown(activeClub, activeClub);
+  }
+
   const clubsHtml = renderClubsForDay(now, true);
   if (clubsHtml) {
     html += clubsHtml;
@@ -1456,6 +1513,41 @@ function renderClubsForDay(date, showHeader = true) {
   if (showHeader) html += '</div>';
   
   return html;
+}
+
+function renderClubCountdown(club, activeClub) {
+  if (!club || !activeClub || club.id !== activeClub.id) {
+    return '';
+  }
+
+  const clubTimeRange = getClubTimeRange(activeClub);
+  if (!clubTimeRange) return '';
+
+  const now = new Date();
+  const clubEndTime = new Date(now);
+  clubEndTime.setHours(Math.floor(clubTimeRange.endMinutes / 60), clubTimeRange.endMinutes % 60, 0, 0);
+
+  const totalSeconds = Math.max(0, Math.floor((clubEndTime.getTime() - now.getTime()) / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const parts = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  parts.push(`${minutes}m`);
+  parts.push(`${seconds.toString().padStart(2, '0')}s`);
+  const statusText = `Ends in ${parts.join(' ')}`;
+
+  const roomText = activeClub.room && String(activeClub.room).trim() ? activeClub.room : 'TBD';
+
+  return `<div class="clubCountdownSection">
+    <div class="clubCountdownHeading">Active Club</div>
+    <div class="clubCountdownName">${activeClub.name}</div>
+    <div class="clubCountdownMeta">
+      <span class="clubCountdownRoom">Room ${roomText}</span>
+      <span class="clubCountdownTime">${formatClubTime(activeClub)}</span>
+    </div>
+    <div class="clubCountdownStatus">${statusText}</div>
+  </div>`;
 }
 
 
