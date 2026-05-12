@@ -1784,11 +1784,16 @@ function injectGlobalSidebar() {
   }
 }
 
+function syncMobilePrimaryControl() {
+  const hasBackButton = Boolean(document.querySelector('.icon-back-btn'));
+  document.body.classList.toggle('has-mobile-back-button', hasBackButton);
+}
+
 // Defer sidebar injection to idle callback to avoid blocking page render
 if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => { injectGlobalSidebar(); }, { timeout: 2000 });
+  requestIdleCallback(() => { injectGlobalSidebar(); syncMobilePrimaryControl(); }, { timeout: 2000 });
 } else {
-  setTimeout(() => { injectGlobalSidebar(); }, 100);
+  setTimeout(() => { injectGlobalSidebar(); syncMobilePrimaryControl(); }, 100);
 }
 
 
