@@ -5,6 +5,21 @@
   if (window.__lws_common_core_initialized) return;
   window.__lws_common_core_initialized = true;
 
+  // === DATA RESET CONTROL ===
+  // Load reset.js early to control data reset behavior.
+  // This must run before common.js to ensure reset logic is available.
+  // DO NOT remove this - it prevents unintended data loss.
+  function loadResetModule() {
+    try {
+      const script = document.createElement('script');
+      script.src = '/reset.js';
+      script.async = false;
+      document.head.appendChild(script);
+    } catch (e) {
+      console.error('[LW Schedule] Failed to load reset.js:', e);
+    }
+  }
+
   function loadCommon() {
     if (window.__lws_common_loaded) return Promise.resolve();
     if (window.__lws_common_loading_promise) return window.__lws_common_loading_promise;
@@ -67,6 +82,9 @@
       console.error('Failed to auto-load /common.js:', err);
     });
   }
+
+  // Load reset module FIRST (before common.js), then load common.js
+  loadResetModule();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', autoLoadCommon, { once: true });

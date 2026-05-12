@@ -27,3 +27,60 @@ VS Code reserved commands are replaced with these Superpowers equivalents:
 All skill definitions are available at `./.superpowers/skills/` (workspace-resident).
 This path keeps all Superpowers content within your workspace, preventing permission prompts.
 <!-- SUPERPOWERS-END -->
+
+<!-- DATA-PROTECTION-START -->
+# DATA PROTECTION POLICY
+
+## CRITICAL: User Data Must Never Be Reset Accidentally
+
+This application stores critical user settings in localStorage. These settings include:
+- Lunch preferences
+- Class schedules
+- Club selections
+- Pack-up reminders
+- Phone Caddy reminders
+
+### ✗ FORBIDDEN - Never do these things:
+- ✗ Call `localStorage.clear()` or `localStorage.removeItem()` anywhere in code except in `/reset.js`
+- ✗ Reset user data on page load
+- ✗ Reset user data when cache version changes
+- ✗ Reset user data on page refresh or navigation
+- ✗ Change `CACHE_VERSION` in `sw.js` to reset data (cache changes NEVER affect localStorage)
+- ✗ Create new localStorage-clearing code without explicit user permission
+
+### ✓ ALLOWED - Only use these methods:
+- ✓ User clicks "Reset All Settings" button → calls `window.resetAllSettings('user-button-click')`
+- ✓ Admin sets `TRIGGER_RESET = true` in `/reset.js` → automatic reset on next page load (ONE time per session)
+- ✓ Code that reads localStorage is fine - just never write destructive code
+
+## How to Reset User Data (Admin Only)
+
+If you need to reset ALL user data worldwide (e.g., critical bug fix or data corruption):
+
+1. Open `/reset.js`
+2. Find line 38: `const TRIGGER_RESET = false;`
+3. Change `false` to `true`
+4. Commit and push: `git add . && git commit -m "Trigger world reset" && git push origin main`
+5. All users will reset their settings on their next page visit
+6. **IMMEDIATELY** change `TRIGGER_RESET` back to `false`
+7. Commit and push again: `git add . && git commit -m "Complete world reset" && git push origin main`
+
+**ALERT USERS BEFORE RESETTING THEIR DATA**
+
+## Cache Version & Data Separation
+
+- `CACHE_VERSION` in `sw.js` is automatically updated on each commit
+- Cache and localStorage are INDEPENDENT
+- Changing cache version does NOT reset localStorage
+- localStorage NEVER changes unless explicitly cleared via reset.js
+
+## Redirect to Setup on Reset
+
+When data is reset:
+1. `reset.js` clears all localStorage entries
+2. `reset.js` sets `__lws_should_redirect_to_setup` in sessionStorage
+3. Next time `checkSetupComplete()` is called, it detects this flag
+4. User is redirected to `/setup` to reconfigure
+5. Flag is cleared after redirect (sessionStorage, not persistent)
+
+<!-- DATA-PROTECTION-END -->

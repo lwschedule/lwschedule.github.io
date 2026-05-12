@@ -1,4 +1,57 @@
 const CACHE_VERSION = '2026-05-12';
+/**
+ * === CACHE VERSION & DATA PROTECTION POLICY ===
+ * 
+ * CACHE_VERSION is automatically updated on each commit via auto_bump_version.py
+ * It is set to the current date (YYYY-MM-DD format).
+ * 
+ * CRITICAL: Changing CACHE_VERSION does NOT affect localStorage.
+ * User settings, preferences, and app state are stored in localStorage and are
+ * completely independent from the service worker cache.
+ * 
+ * When CACHE_VERSION changes:
+ * ✓ Service worker will update to new cache
+ * ✓ Cached assets will be refreshed
+ * ✗ User data in localStorage will NOT be affected
+ * ✗ User data will NOT be reset
+ * ✗ Setup will NOT be triggered again
+ * 
+ * If you need to reset ALL user data worldwide, use reset.js:
+ * 1. Open /reset.js
+ * 2. Change TRIGGER_RESET from 'false' to 'true'
+ * 3. Commit and push
+ * 4. All users will reset on next visit
+ * 5. Change TRIGGER_RESET back to 'false' immediately
+ * 
+ * DO NOT EVER change cache version to reset user data - use reset.js instead.
+ */
+
+/**
+ * === CACHE VERSION & DATA PROTECTION POLICY ===
+ * 
+ * CACHE_VERSION is automatically updated on each commit via auto_bump_version.py
+ * It is set to the current date (YYYY-MM-DD format).
+ * 
+ * CRITICAL: Changing CACHE_VERSION does NOT affect localStorage.
+ * User settings, preferences, and app state are stored in localStorage and are
+ * completely independent from the service worker cache.
+ * 
+ * When CACHE_VERSION changes:
+ * ✓ Service worker will update to new cache
+ * ✓ Cached assets will be refreshed
+ * ✗ User data in localStorage will NOT be affected
+ * ✗ User data will NOT be reset
+ * ✗ Setup will NOT be triggered again
+ * 
+ * If you need to reset ALL user data worldwide, use reset.js:
+ * 1. Open /reset.js
+ * 2. Change TRIGGER_RESET from 'false' to 'true'
+ * 3. Commit and push
+ * 4. All users will reset on next visit
+ * 5. Change TRIGGER_RESET back to 'false' immediately
+ * 
+ * DO NOT EVER change cache version to reset user data - use reset.js instead.
+ */
 const APP_SHELL_CACHE_NAME = `lwschedule-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `lwschedule-runtime-${CACHE_VERSION}`;
 const RUNTIME_CACHED_AT_HEADER = 'x-sw-cached-at';

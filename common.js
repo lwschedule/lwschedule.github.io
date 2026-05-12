@@ -218,15 +218,36 @@ function getScheduleSummaryLabel(periodName, useClassTitles = true) {
   return periodName;
 }
 
+// === DATA PROTECTION ===
+// This function ensures setup is complete and handles redirect-to-setup signals.
+// IMPORTANT: Data is NEVER reset except via:
+// 1. User clicks "Reset All Settings" button (calls resetAllSettings)
+// 2. Admin activates reset.js trigger (TRIGGER_RESET = true in reset.js)
+// Data is NEVER reset on: page load, cache version changes, or page refresh
+// === DATA PROTECTION ===
+// This function ensures setup is complete and handles redirect-to-setup signals.
+// IMPORTANT: Data is NEVER reset except via:
+// 1. User clicks "Reset All Settings" button (calls resetAllSettings)
+// 2. Admin activates reset.js trigger (TRIGGER_RESET = true in reset.js)
+// Data is NEVER reset on: page load, cache version changes, or page refresh
 function checkSetupComplete() {
-  const lunch = localStorage.getItem('lunchPreferences');
+  // Check if setup was marked as incomplete during a reset
+  // reset.js sets __lws_should_redirect_to_setup if admin reset occurred
+  let shouldRedirectDueToReset = false;
+  try {
+    shouldRedirectDueToReset = sessionStorage.getItem('__lws_should_redirect_to_setup') === 'true';
+  } catch (e) {}
 
-  if (!lunch && !window.location.pathname.includes('/setup')) {
+  const lunch = localStorage.getItem('lunchPreferences');
+  const isAlreadyOnSetup = window.location.pathname.includes('/setup');
+
+  if ((!lunch || shouldRedirectDueToReset) && !isAlreadyOnSetup) {
     navigateWithTransition('/setup', { replace: true });
     return false;
   }
   return true;
 }
+
 
 function loadLunchPreferences() {
   try {

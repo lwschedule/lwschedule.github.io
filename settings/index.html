@@ -54,7 +54,12 @@
       }
       document.getElementById('resetBtn').addEventListener('click', (e) => {
         e.preventDefault();
-        localStorage.clear();
+        // User-initiated reset - use reset module
+        if (typeof window.resetAllSettings === 'function') {
+          window.resetAllSettings('user-button-click');
+        } else {
+          localStorage.clear(); // Fallback
+        }
         navigateWithTransition('/', { replace: true });
       });
       checkSetupComplete();
