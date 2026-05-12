@@ -65,6 +65,13 @@
         }
         navigateWithTransition('/', { replace: true });
       });
+      // Keyboard accessibility: activate on Enter or Space
+      document.getElementById('resetBtn').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          document.getElementById('resetBtn').click();
+        }
+      });
       checkSetupComplete();
     })();
   </script>
