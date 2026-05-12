@@ -135,12 +135,12 @@
 
     function initTermMorphs() {
       if (!TermTextMorph) return;
-      document.querySelectorAll('.term-countdown-value-morph').forEach((host) => {
+      document.querySelectorAll('.term-countdown-value-morph').forEach((host, index) => {
         if (termValueMorphs.has(host)) return;
         termValueMorphs.set(host, new TermTextMorph({
           element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+          duration: 500 + (index % 4) * 100, // Staggered durations for variety
+          ease: 'ease-in-out'
         }));
       });
     }
@@ -187,6 +187,16 @@
       } else {
         valueHost.textContent = countdownData.value;
       }
+    }
+
+    function updateTermCountdowns(data) {
+      document.querySelectorAll('.term-countdown-value-morph').forEach((host, index) => {
+        const morph = termValueMorphs.get(host);
+        if (morph) {
+          const value = data[index] ? data[index].toString().padStart(2, '0') : '00';
+          morph.update(value);
+        }
+      });
     }
 
     function updateQuartersAndSemesters() {

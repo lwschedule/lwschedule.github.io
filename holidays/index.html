@@ -60,7 +60,7 @@
     };
 
     function updateHolidayCountdownMorphs(data) {
-      if (holidayMorphs.days) holidayMorphs.days.update(data.days.toString());
+      if (holidayMorphs.days) holidayMorphs.days.update(data.days.toString().padStart(2, '0'));
       if (holidayMorphs.hours) holidayMorphs.hours.update(data.hours.toString().padStart(2, '0'));
       if (holidayMorphs.minutes) holidayMorphs.minutes.update(data.minutes.toString().padStart(2, '0'));
       if (holidayMorphs.seconds) holidayMorphs.seconds.update(data.seconds.toString().padStart(2, '0'));
@@ -85,29 +85,29 @@
         if (daysHost) {
           holidayMorphs.days = new TextMorph({
             element: daysHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+            duration: 500,
+            ease: 'ease-in-out'
           });
         }
         if (hoursHost) {
           holidayMorphs.hours = new TextMorph({
             element: hoursHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+            duration: 600,
+            ease: 'ease-in-out'
           });
         }
         if (minutesHost) {
           holidayMorphs.minutes = new TextMorph({
             element: minutesHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+            duration: 700,
+            ease: 'ease-in-out'
           });
         }
         if (secondsHost) {
           holidayMorphs.seconds = new TextMorph({
             element: secondsHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
+            duration: 800,
+            ease: 'ease-in-out'
           });
         }
 
