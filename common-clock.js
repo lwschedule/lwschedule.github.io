@@ -55,6 +55,44 @@ function updateNextPeriodText(timerEl, text) {
   timerEl.classList.remove('hidden');
 }
 
+let timerMorph = null;
+
+function ensureTimerMorphHost(timerEl) {
+  if (!timerEl) return null;
+  let host = timerEl.querySelector('.timer-value-morph');
+  if (!host) {
+    host = document.createElement('span');
+    host.className = 'timer-value-morph';
+    timerEl.textContent = '';
+    timerEl.appendChild(host);
+  }
+  return host;
+}
+
+async function initTimerMorph() {
+  const timerEl = document.getElementById('timer');
+  if (!timerEl) return;
+
+  try {
+    if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
+      window.updateNextPeriodBlock = null;
+      console.warn('Torph disabled on iOS < 17; using text updates.');
+      return;
+    }
+
+    const { TextMorph } = await import('/vendor/torph.js');
+    const host = ensureTimerMorphHost(timerEl);
+    if (!host) return;
+    timerMorph = new TextMorph({ element: host });
+    window.updateNextPeriodBlock = (text) => {
+      timerMorph.update(text);
+    };
+  } catch (error) {
+    window.updateNextPeriodBlock = null;
+    console.warn('Torph failed to load for next period block, using default updates.', error);
+  }
+}
+
 function getClubMinutesNow() {
   const d = new Date();
   return d.getHours() * 60 + d.getMinutes();
