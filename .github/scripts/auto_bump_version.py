@@ -58,10 +58,20 @@ def bump_readme_version_and_date():
     if m:
         prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
         
-        # Get the previous version from git
+        # Get the staged version (in the index) to check if we already bumped it
+        try:
+            staged_text = subprocess.check_output(['git', 'show', ':README.md'], text=True, cwd=ROOT, stderr=subprocess.DEVNULL)
+            staged_match = ver_re.search(staged_text)
+            if staged_match and staged_match.group(2) == current_version:
+                # Version in working tree matches staged version - we already bumped it, skip
+                return False
+        except:
+            pass
+        
+        # Get the previous version from git HEAD
         prev_version = None
         try:
-            prev_text = subprocess.check_output(['git', 'show', 'HEAD:README.md'], text=True, cwd=ROOT)
+            prev_text = subprocess.check_output(['git', 'show', 'HEAD:README.md'], text=True, cwd=ROOT, stderr=subprocess.DEVNULL)
             prev_match = ver_re.search(prev_text)
             if prev_match:
                 prev_version = prev_match.group(2)
@@ -119,18 +129,6 @@ def update_info_page(version_text: str, release_date_text: str):
         INFO.write_text(text, encoding='utf-8')
     return changed
 
-def set_commit_message(version_text: str):
-    """Replace the commit message with the version number."""
-    git_dir = ROOT / '.git'
-    commit_msg_file = git_dir / 'COMMIT_EDITMSG'
-    try:
-        # Overwrite any existing commit message with just the version number
-        commit_msg_file.write_text(version_text, encoding='utf-8')
-        return True
-    except Exception as e:
-        print(f'Failed to set commit message: {e}', file=sys.stderr)
-        return False
-
 def main():
     changed_readme = bump_readme_version_and_date()
     changed_sw = update_sw_cache_name()
@@ -155,8 +153,6 @@ def main():
             import subprocess
             subprocess.run(['git', 'add'] + files_changed, check=True)
             print('Updated and staged:', ', '.join(files_changed))
-            # Set commit message to the version number
-            set_commit_message(final_version)
         except Exception as e:
             print('Failed to git add files:', e, file=sys.stderr)
             sys.exit(2)
