@@ -1329,65 +1329,65 @@ function updateCalendarSize() {
 
 
 
-async function loadData() {
-  try {
-    const [schedulesRes, holidaysRes, termsRes, clubsRes] = await Promise.all([
-      fetch('/data/schedules.json'),
-      fetch('/data/holidays.json'),
-      fetch('/data/terms.json'),
-      fetch('/data/clubs.json')
-    ]);
-    if (!schedulesRes.ok || !holidaysRes.ok || !termsRes.ok) {
-      throw new Error('Failed to load data files');
+async function loadData(neededFiles = ['schedules', 'holidays', 'terms', 'clubs']) {
+  // mapping of logical keys to URLs and post-processing
+  const fileMap = {
+    schedules: {
+      url: '/data/schedules.json',
+      assign: async (json) => { schedulesData = json; lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs(); loadLunchPreferences(); }
+    },
+    holidays: {
+      url: '/data/holidays.json',
+      assign: async (json) => { holidays = json.map(h => ({ ...h, date: new Date(h.date) })); }
+    },
+    terms: {
+      url: '/data/terms.json',
+      assign: async (json) => {
+        academicTerms = json;
+        academicTerms.quarters = (academicTerms.quarters || []).map(q => {
+          const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
+          const [endYear, endMonth, endDay] = q.end.split('-').map(Number);
+          return { ...q, start: new Date(startYear, startMonth - 1, startDay), end: new Date(endYear, endMonth - 1, endDay) };
+        });
+        academicTerms.semesters = (academicTerms.semesters || []).map(s => {
+          const [startYear, startMonth, startDay] = s.start.split('-').map(Number);
+          const [endYear, endMonth, endDay] = s.end.split('-').map(Number);
+          return { ...s, start: new Date(startYear, startMonth - 1, startDay), end: new Date(endYear, endMonth - 1, endDay) };
+        });
+      }
+    },
+    clubs: {
+      url: '/data/clubs.json',
+      assign: async (json) => { clubsData = json; }
     }
-    schedulesData = await schedulesRes.json();
-    holidays = await holidaysRes.json();
-    academicTerms = await termsRes.json();
-    
-    holidays = holidays.map(h => ({
-      ...h,
-      date: new Date(h.date)
-    }));
-    
-    academicTerms.quarters = academicTerms.quarters.map(q => {
-      const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
-      const [endYear, endMonth, endDay] = q.end.split('-').map(Number);
-      return {
-        ...q,
-        start: new Date(startYear, startMonth - 1, startDay),
-        end: new Date(endYear, endMonth - 1, endDay)
-      };
-    });
-    academicTerms.semesters = academicTerms.semesters.map(s => {
-      const [startYear, startMonth, startDay] = s.start.split('-').map(Number);
-      const [endYear, endMonth, endDay] = s.end.split('-').map(Number);
-      return {
-        ...s,
-        start: new Date(startYear, startMonth - 1, startDay),
-        end: new Date(endYear, endMonth - 1, endDay)
-      };
-    });
-    
-    lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
-    loadLunchPreferences(); 
-    
-    
-    if (clubsRes.ok) {
-      clubsData = await clubsRes.json();
+  };
+
+  // ensure globals have safe defaults in case of failure
+  try {
+    const toFetch = neededFiles.filter(k => fileMap[k]).map(k => ({ key: k, url: fileMap[k].url }));
+    const results = await Promise.all(toFetch.map(t => fetch(t.url).then(res => ({ res, key: t.key })).catch(err => ({ res: null, key: t.key, err }))));
+
+    for (const r of results) {
+      if (!r.res || !r.res.ok) continue;
+      try {
+        const json = await r.res.json();
+        await fileMap[r.key].assign(json);
+      } catch (e) {
+        console.warn('Failed to parse or assign', r.key, e);
+      }
     }
   } catch (error) {
     console.error('Error loading data:', error);
-    
-    schedulesData = {
-      normal: {},
-      finals: {},
-      lunchPreferences: getDefaultLunchPrefs()
-    };
-    lunchPreferences = schedulesData.lunchPreferences;
-    holidays = [];
-    academicTerms = { quarters: [], semesters: [] };
-    clubsData = { clubs: [] };
   }
+
+  // Ensure globals exist with safe defaults
+  if (!schedulesData) {
+    schedulesData = { normal: {}, finals: {}, lunchPreferences: getDefaultLunchPrefs() };
+  }
+  if (!lunchPreferences) lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
+  if (!holidays) holidays = [];
+  if (!academicTerms) academicTerms = { quarters: [], semesters: [] };
+  if (!clubsData) clubsData = { clubs: [] };
 }
 
 
@@ -1719,7 +1719,7 @@ function showPackUpNotification(period) {
   });
 }
 
-async function initApp() {
+async function initApp(options = {}) {
   
   const DATA_VERSION = '2.2';
   const currentVersion = localStorage.getItem('dataVersion');
@@ -1728,7 +1728,7 @@ async function initApp() {
     localStorage.setItem('dataVersion', DATA_VERSION);
   }
   
-  await loadData();
+  await loadData(options.neededFiles);
   
   const now = new Date();
   const sem2Start = new Date(2026, 0, 24); 

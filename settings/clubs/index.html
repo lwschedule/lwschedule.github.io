@@ -306,9 +306,13 @@
 
     async function loadClubs() {
       try {
-        const response = await fetch('/data/clubs.json');
-        const data = await response.json();
-        allClubs = data.clubs;
+        if (clubsData && clubsData.clubs) {
+          allClubs = clubsData.clubs;
+        } else {
+          const response = await fetch('/data/clubs.json');
+          const data = await response.json();
+          allClubs = data.clubs;
+        }
         renderClubResults();
         renderSelectedList();
       } catch (error) {
