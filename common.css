@@ -1466,16 +1466,6 @@ body.has-sidebar {
   transform: scale(1.05);
 }
 
-body.has-sidebar {
-  padding-left: 270px;
-}
-
-@media (max-width: 768px) {
-  body.has-sidebar {
-    padding-left: 20px;
-  }
-}
-
 /* NOTE: Scrollbar styling is duplicated across these two media queries because CSS
   media queries cannot be combined (e.g., "both (A) and (B)") natively without a
   preprocessor. The rules must appear in both queries to apply scrollbar styling
