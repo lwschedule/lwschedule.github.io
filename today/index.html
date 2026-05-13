@@ -21,10 +21,10 @@
   <script src="/common-core.js"></script>
   <script>
     (async () => {
-      if (typeof window.loadCommon === 'function') {
-        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      if (typeof window.loadModules === 'function') {
+        try { await window.loadModules(['navigation', 'data', 'schedule', 'clubs', 'clock', 'calendar']); } catch (err) { console.error('Failed to load modules:', err); }
       }
-      await initApp({ neededFiles: ['schedules','holidays','clubs'] });
+      if (typeof initApp === 'function') await initApp({ neededFiles: ['schedules','holidays','clubs'] });
       updateTodaySchedule();
       updateClock();
       setInterval(updateClock, 1000);

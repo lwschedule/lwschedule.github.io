@@ -120,11 +120,10 @@
     }
 
     (async () => {
-      if (typeof window.loadCommon === 'function') {
-        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      if (typeof window.loadModules === 'function') {
+        try { await window.loadModules(['navigation', 'data', 'schedule', 'calendar']); } catch (err) { console.error('Failed to load modules:', err); }
       }
-      await initHolidayCountdownMorphs();
-      await initApp();
+      if (typeof initApp === 'function') await initApp();
     })();
   </script>
 </body>

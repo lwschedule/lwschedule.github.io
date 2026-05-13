@@ -354,15 +354,14 @@
     }
 
     (async () => {
-      // Ensure the full runtime is available (lazy-load heavy `common.js`)
-      if (typeof window.loadCommon === 'function') {
+      if (typeof window.loadModules === 'function') {
         try {
-          await window.loadCommon();
+          await window.loadModules(['navigation', 'data', 'schedule', 'clubs', 'clock', 'calendar']);
         } catch (err) {
-          console.error('Failed to load common runtime:', err);
+          console.error('Failed to load modules:', err);
         }
       }
-      await initApp();
+      if (typeof initApp === 'function') await initApp();
       await initTimerMorph();
       await initClockMorphs();
       updateClock();

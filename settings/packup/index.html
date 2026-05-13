@@ -72,8 +72,8 @@ input:checked + .slider:before { transform: translateX(26px); }
   <script src="/common-core.js"></script>
   <script>
     (async () => {
-      if (typeof window.loadCommon === 'function') {
-        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      if (typeof window.loadModules === 'function') {
+        try { await window.loadModules(['navigation', 'notifications']); } catch (err) { console.error('Failed to load modules:', err); }
       }
 
 let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);

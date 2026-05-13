@@ -1,17 +1,13 @@
 // Minimal runtime bootstrap for LW Schedule
-// Exposes `window.loadCommon()` to lazily load /common.js and
-// `window.appVisibility` helpers for visibility-based throttling.
+// Exposes `window.loadModules(names)` to lazily load common-*.js modules.
 (function () {
   if (window.__lws_common_core_initialized) return;
   window.__lws_common_core_initialized = true;
 
   // === DATA RESET CONTROL ===
-  // Load reset.js early to control data reset behavior.
-  // This must run before common.js to ensure reset logic is available.
-  // DO NOT remove this - it prevents unintended data loss.
+  // Load reset.js early. DO NOT remove.
   function loadResetModule() {
     try {
-      // Do not append more than once
       if (document.querySelector('script[src="/reset.js"]') || window.resetModule) return;
       const script = document.createElement('script');
       script.src = '/reset.js';
@@ -22,79 +18,63 @@
     }
   }
 
-  function loadCommon() {
-    if (window.__lws_common_loaded) return Promise.resolve();
-    if (window.__lws_common_loading_promise) return window.__lws_common_loading_promise;
+  function loadScript(url) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${url}"]`);
+      if (existing) {
+        resolve();
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = url;
+      s.async = false;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error(`Failed to load ${url}`));
+      document.head.appendChild(s);
+    });
+  }
 
-    function clearStaleCommonScript(scriptNode) {
-      if (scriptNode && scriptNode.parentNode) {
-        scriptNode.parentNode.removeChild(scriptNode);
+  // Module dependency order: each module may depend on the previous ones
+  const MODULE_ORDER = [
+    'navigation',
+    'data',
+    'schedule',
+    'clubs',
+    'notifications',
+    'clock',
+    'calendar'
+  ];
+
+  const MODULE_URLS = {
+    navigation: '/common-navigation.js',
+    data: '/common-data.js',
+    schedule: '/common-schedule.js',
+    clubs: '/common-clubs.js',
+    notifications: '/common-notifications.js',
+    clock: '/common-clock.js',
+    calendar: '/common-calendar.js'
+  };
+
+  window.loadModules = async function(moduleNames) {
+    const toLoad = MODULE_ORDER.filter(name => moduleNames.includes(name));
+    for (const name of toLoad) {
+      const url = MODULE_URLS[name];
+      if (url) {
+        await loadScript(url);
       }
     }
+  };
 
-    window.__lws_common_loading_promise = new Promise((resolve, reject) => {
-      try {
-        const existing = document.querySelector('script[src="/common.js"]');
-        if (existing) {
-          if (window.__lws_common_loaded) {
-            window.__lws_common_loaded = true;
-            resolve();
-            return;
-          }
+  // Backward compatibility: loadCommon() loads all modules
+  window.loadCommon = async function() {
+    await window.loadModules(MODULE_ORDER);
+  };
+  window.ensureCommonLoaded = window.loadCommon;
 
-          existing.addEventListener('load', () => {
-            window.__lws_common_loaded = true;
-            resolve();
-          });
-          existing.addEventListener('error', (e) => {
-            clearStaleCommonScript(existing);
-            window.__lws_common_loading_promise = null;
-            reject(e);
-          });
-          return;
-        }
-
-        const s = document.createElement('script');
-        s.src = '/common.js';
-        s.async = false;
-        s.onload = function () {
-          window.__lws_common_loaded = true;
-          resolve();
-        };
-        s.onerror = function (e) {
-          clearStaleCommonScript(s);
-          window.__lws_common_loading_promise = null;
-          reject(new Error('Failed to load /common.js'));
-        };
-        document.head.appendChild(s);
-      } catch (err) {
-        window.__lws_common_loading_promise = null;
-        reject(err);
-      }
-    });
-
-    return window.__lws_common_loading_promise;
-  }
-
-  window.loadCommon = loadCommon;
-  window.ensureCommonLoaded = loadCommon;
-
-  function autoLoadCommon() {
-    loadCommon().catch((err) => {
-      console.error('Failed to auto-load /common.js:', err);
-    });
-  }
-
-  // Load reset module FIRST (before common.js), then load common.js
+  // Load reset module
   loadResetModule();
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', autoLoadCommon, { once: true });
-  } else {
-    autoLoadCommon();
-  }
-
-  // Visibility helpers: dispatch custom events and allow simple callbacks
+  // Visibility helpers
   const visibilityHandlers = { visible: [], hidden: [] };
 
   function handleVisibilityChange() {
@@ -114,4 +94,12 @@
     onVisible(fn) { if (typeof fn === 'function') visibilityHandlers.visible.push(fn); }
   };
 
+  // Service worker registration (was at end of common.js)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
+        console.warn('Service Worker registration failed:', err);
+      });
+    });
+  }
 })();

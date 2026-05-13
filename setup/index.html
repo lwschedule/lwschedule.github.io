@@ -335,8 +335,8 @@
   <script src="/common-core.js"></script>
   <script>
     (async () => {
-      if (typeof window.loadCommon === 'function') {
-        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      if (typeof window.loadModules === 'function') {
+        try { await window.loadModules(['navigation', 'data', 'schedule', 'clubs', 'notifications']); } catch (err) { console.error('Failed to load modules:', err); }
       }
     const DEFAULT_LUNCH_PREFS = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
     let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
