@@ -236,7 +236,7 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-      await initApp();
+      await initApp({ neededFiles: ['terms'] });
 
       renderTermCards();
       initTermMorphs();

@@ -43,7 +43,7 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-      await initApp();
+      await initApp({ neededFiles: ['schedules','holidays','clubs'] });
       renderCalendar();
       document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
       document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));

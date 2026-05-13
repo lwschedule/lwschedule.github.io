@@ -13,7 +13,8 @@ def format_date(dt: datetime) -> str:
     # Format like: May 11, 2026
     return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
 
-def bump_version(version_text: str) -> str:
+def bump_version(version_text: str, prev_version_text: str = None) -> str:
+    """Bump version. Skip bumping if major or minor was manually changed."""
     parts = version_text.lstrip('v').split('.')
     if not parts[0].isdigit():
         return version_text
@@ -22,9 +23,33 @@ def bump_version(version_text: str) -> str:
     minor = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0
     patch = int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0
 
-    return f"v{major}.{minor}.{patch + 1}"
+    # If there's a previous version, check if major or minor was changed
+    if prev_version_text:
+        prev_parts = prev_version_text.lstrip('v').split('.')
+        prev_major = int(prev_parts[0]) if prev_parts[0].isdigit() else 0
+        prev_minor = int(prev_parts[1]) if len(prev_parts) > 1 and prev_parts[1].isdigit() else 0
+
+        # If major or minor was manually changed, don't bump
+        if major != prev_major or minor != prev_minor:
+            return version_text
+
+    # Otherwise, bump patch (respecting the format)
+    original_parts_count = len(parts)
+    if original_parts_count == 1:
+        # v1 -> v2
+        major += 1
+        return f"v{major}"
+    elif original_parts_count == 2:
+        # v1.2 -> v1.3
+        minor += 1
+        return f"v{major}.{minor}"
+    else:
+        # v1.2.3 -> v1.2.4 (default)
+        patch += 1
+        return f"v{major}.{minor}.{patch}"
 
 def bump_readme_version_and_date():
+    import subprocess
     text = README.read_text(encoding='utf-8')
     # Find Current Version: `vX`, `vX.Y`, `vX.Y.Z`, or the same values without the leading `v`
     ver_re = re.compile(r"(\*\*Current Version:\*\*\s*`)(v?\d+(?:\.\d+){0,2})(`)", re.IGNORECASE)
@@ -32,7 +57,23 @@ def bump_readme_version_and_date():
     changed = False
     if m:
         prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
-        new_ver = bump_version(current_version)
+        
+        # Get the previous version from git HEAD
+        prev_version = None
+        try:
+            prev_text = subprocess.check_output(['git', 'show', 'HEAD:README.md'], text=True, cwd=ROOT, stderr=subprocess.DEVNULL)
+            prev_match = ver_re.search(prev_text)
+            if prev_match:
+                prev_version = prev_match.group(2)
+        except:
+            pass
+        
+        # Only bump if working tree version matches HEAD (not already bumped)
+        if prev_version and current_version != prev_version:
+            # Version was already changed, don't bump again
+            return False
+        
+        new_ver = bump_version(current_version, prev_version)
         text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
         changed = True
 
