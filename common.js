@@ -5,6 +5,47 @@ let academicTerms = null;
 let clubsData = null;
 let lastNextPeriodText = null;
 
+// Global data version for cache invalidation. Keep in sync with releases.
+const DATA_VERSION = '2.2';
+const DATA_CACHE_KEY = 'lw:dataCache';
+const MAX_CACHE_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+let runtimeDataCache = null; // in-memory cache for this page session
+const inFlightFetches = {}; // key -> Promise for ongoing fetch
+
+function readDataCache() {
+  try {
+    const raw = sessionStorage.getItem(DATA_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeDataCache(obj) {
+  try {
+    sessionStorage.setItem(DATA_CACHE_KEY, JSON.stringify(obj));
+  } catch (e) {
+    // ignore quota or disabled sessionStorage
+  }
+}
+
+function clearDataCache() {
+  try {
+    sessionStorage.removeItem(DATA_CACHE_KEY);
+  } catch (e) {
+    // ignore
+  }
+  runtimeDataCache = null;
+}
+
+// Expose a developer-friendly cache clear helper
+function clearCachedData() {
+  clearDataCache();
+}
+
+// Expose to window for dev use
+try { window.clearCachedData = clearCachedData; window.getDataCache = readDataCache; } catch (e) { /* ignore */ }
+
 const MAX_CLASS_SLOTS = 6;
 
 // Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
@@ -1361,16 +1402,82 @@ async function loadData(neededFiles = ['schedules', 'holidays', 'terms', 'clubs'
       assign: async (json) => { clubsData = json; }
     }
   };
-
-  // ensure globals have safe defaults in case of failure
+  // Try to use sessionStorage-backed cache first
   try {
-    const toFetch = neededFiles.filter(k => fileMap[k]).map(k => ({ key: k, url: fileMap[k].url }));
-    const results = await Promise.all(toFetch.map(t => fetch(t.url).then(res => ({ res, key: t.key })).catch(err => ({ res: null, key: t.key, err }))));
+    const cached = readDataCache();
+    if (cached && cached.version === DATA_VERSION) {
+      runtimeDataCache = cached;
+    } else if (cached && cached.version !== DATA_VERSION) {
+      // version bumped -> invalidate
+      clearDataCache();
+      runtimeDataCache = { version: DATA_VERSION, files: {} };
+    } else if (!cached) {
+      runtimeDataCache = { version: DATA_VERSION, files: {} };
+    }
+  } catch (e) {
+    runtimeDataCache = { version: DATA_VERSION, files: {} };
+  }
 
-    for (const r of results) {
-      if (!r.res || !r.res.ok) continue;
+  const cachedFiles = (runtimeDataCache && runtimeDataCache.files) ? runtimeDataCache.files : {};
+
+  // Helper to fetch with an in-flight guard so concurrent callers share the same network request
+  function fetchWithGuard(key, url) {
+    if (inFlightFetches[key]) return inFlightFetches[key];
+    const p = fetch(url).then(res => {
+      if (!res.ok) throw new Error('Network response not ok');
+      return res.json();
+    }).finally(() => { delete inFlightFetches[key]; });
+    inFlightFetches[key] = p;
+    return p;
+  }
+
+  // Determine which keys need to be fetched from network
+  const toFetch = [];
+  for (const k of neededFiles) {
+    if (!fileMap[k]) continue;
+    const entry = cachedFiles[k];
+    let cachedJson = null;
+    let isFresh = false;
+    if (entry !== undefined && entry !== null) {
+      if (entry && entry.data !== undefined) {
+        cachedJson = entry.data;
+        if (typeof entry.ts === 'number') {
+          if ((Date.now() - entry.ts) <= MAX_CACHE_AGE_MS) isFresh = true;
+        } else {
+          // older-format cache (raw json) — treat as fresh
+          isFresh = true;
+        }
+      } else {
+        // legacy raw json stored directly
+        cachedJson = entry;
+        isFresh = true;
+      }
+    }
+
+    if (isFresh && cachedJson !== null) {
       try {
-        const json = await r.res.json();
+        await fileMap[k].assign(cachedJson);
+        continue;
+      } catch (e) {
+        console.warn('Failed to assign cached data for', k, e);
+      }
+    }
+    toFetch.push({ key: k, url: fileMap[k].url });
+  }
+
+  try {
+    // perform guarded parallel fetches to avoid duplicate network calls
+    const fetchPromises = toFetch.map(t => fetchWithGuard(t.key, t.url).then(json => ({ key: t.key, json })).catch(err => ({ key: t.key, err })));
+    const fetchResults = await Promise.all(fetchPromises);
+    for (const r of fetchResults) {
+      if (r.err) {
+        console.warn('Fetch failed for', r.key, r.err);
+        continue;
+      }
+      try {
+        const json = r.json;
+        // save raw json + timestamp to cache and apply post-processing
+        cachedFiles[r.key] = { data: json, ts: Date.now() };
         await fileMap[r.key].assign(json);
       } catch (e) {
         console.warn('Failed to parse or assign', r.key, e);
@@ -1378,6 +1485,14 @@ async function loadData(neededFiles = ['schedules', 'holidays', 'terms', 'clubs'
     }
   } catch (error) {
     console.error('Error loading data:', error);
+  }
+
+  // persist updated cache
+  try {
+    runtimeDataCache.files = cachedFiles;
+    writeDataCache(runtimeDataCache);
+  } catch (e) {
+    // ignore cache write failures
   }
 
   // Ensure globals exist with safe defaults
@@ -1721,11 +1836,11 @@ function showPackUpNotification(period) {
 
 async function initApp(options = {}) {
   
-  const DATA_VERSION = '2.2';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
-    // Preserve user data and preferences
+    // Preserve user data and preferences and invalidate any cached data
     localStorage.setItem('dataVersion', DATA_VERSION);
+    try { clearDataCache(); } catch (e) { /* ignore */ }
   }
   
   await loadData(options.neededFiles);
