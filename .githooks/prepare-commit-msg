@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Prepare-commit-msg hook to set commit message to version number.
+# To enable locally: git config core.hooksPath .githooks
+
+set -euo pipefail
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+SCRIPT="$ROOT/.github/scripts/set_commit_message.py"
+if [ -x "$SCRIPT" ] || [ -f "$SCRIPT" ]; then
+  python3 "$SCRIPT" "$1" || true
+fi
+
+exit 0
