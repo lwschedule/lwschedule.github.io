@@ -58,16 +58,6 @@ def bump_readme_version_and_date():
     if m:
         prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
         
-        # Get the staged version (in the index) to check if we already bumped it
-        try:
-            staged_text = subprocess.check_output(['git', 'show', ':README.md'], text=True, cwd=ROOT, stderr=subprocess.DEVNULL)
-            staged_match = ver_re.search(staged_text)
-            if staged_match and staged_match.group(2) == current_version:
-                # Version in working tree matches staged version - we already bumped it, skip
-                return False
-        except:
-            pass
-        
         # Get the previous version from git HEAD
         prev_version = None
         try:
@@ -77,6 +67,11 @@ def bump_readme_version_and_date():
                 prev_version = prev_match.group(2)
         except:
             pass
+        
+        # Only bump if working tree version matches HEAD (not already bumped)
+        if prev_version and current_version != prev_version:
+            # Version was already changed, don't bump again
+            return False
         
         new_ver = bump_version(current_version, prev_version)
         text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
