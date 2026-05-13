@@ -1,11 +1,11 @@
-# LW Schedule
+# LW Schedule - Beta
 
 [Upcoming Features](#-upcoming-changes) · [Tech Stack](#-tech-stack) · [License](#-license) · [Credits](#-credits)
 
-A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
+⚠️ **This is the beta version of LW Schedule.** A fast, clean, dark-themed schedule viewer built for LW students. Check today's schedule, see the whole week at a glance, get automatic holiday countdowns, set lunches, set pack-up reminders, and more — all in one place.
 
-**Live Site:** [https://lwschedule.github.io/](https://lwschedule.github.io/)
-**Current Version:** `v3.4.20`
+**Beta Live Site:** [https://lwschedule.github.io/beta](https://lwschedule.github.io/beta)
+**Current Version:** `v3.4.21`
 **Release Date:** `May 13, 2026`
 
 
