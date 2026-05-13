@@ -71,7 +71,9 @@
 
       const schedules = getSchedules(dayDate);
       const schedule = schedules[dayName];
-      let html = renderScheduleTable(schedule, null, true);
+      const isToday = dayDate.toDateString() === new Date().toDateString();
+      const nowForDay = isToday ? minutesNow() : null;
+      let html = renderScheduleTable(schedule, nowForDay, true);
       
       
       const clubsHtml = renderClubsForDay(dayDate, true);

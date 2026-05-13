@@ -518,9 +518,12 @@ body.calendarPage .pageContainer {
 }
 
 .scheduleTable tr.highlight {
-  background: var(--primary);
+  background: transparent;
   color: white;
   font-weight: 700;
+  outline: 2px solid white;
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 .scheduleTable tr:not(.highlight):hover {
@@ -576,13 +579,16 @@ body.calendarPage .pageContainer {
 }
 
 .weekTable tr.highlight {
-  background: var(--primary);
+  background: transparent;
   color: white;
   font-weight: 700;
+  outline: 2px solid white;
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 .weekTable tr.clickable-row.highlight:hover {
-  filter: brightness(1.1);
+  outline-color: rgba(255, 255, 255, 0.8);
 }
 
 .noSchoolMessage {

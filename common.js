@@ -435,7 +435,8 @@ function renderCalendarModal(date) {
       html += `<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>`;
     }
   } else {
-    html += renderScheduleTable(todaySchedule, null, true);
+    const nowForModal = (date.toDateString() === new Date().toDateString()) ? minutesNow() : null;
+    html += renderScheduleTable(todaySchedule, nowForModal, true);
     const clubsHtml = renderClubsForDay(date, true);
     if (clubsHtml) html += clubsHtml;
   }
