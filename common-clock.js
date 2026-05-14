@@ -118,18 +118,19 @@ function getActiveClubForDay(date) {
 }
 
 function updateClock() {
-  const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
-  const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
-  const clockDisplay = document.getElementById('clockDisplay');
-  const clockLabel = document.getElementById('clockLabel');
-  const timerEl = document.getElementById('timer');
-  if (!clockDisplay || !clockLabel || !timerEl) {
-    if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
-    return;
-  }
+  try {
+    const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
+    const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
+    const clockDisplay = document.getElementById('clockDisplay');
+    const clockLabel = document.getElementById('clockLabel');
+    const timerEl = document.getElementById('timer');
+    if (!clockDisplay || !clockLabel || !timerEl) {
+      if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
+      return;
+    }
 
-  const holiday = getHolidayForDate(nowDate);
-  if (holiday) {
+    const holiday = getHolidayForDate(nowDate);
+    if (holiday) {
     
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > nowDate) {
@@ -343,4 +344,7 @@ function updateClock() {
   }
 
   if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
+  } catch (e) {
+    console.warn('updateClock error:', e);
+  }
 }
