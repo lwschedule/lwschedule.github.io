@@ -196,12 +196,12 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    if (window.updateHolidayCountdownMorphs) {
+    if (window.updateHolidayNumberFlows) {
       try {
-        window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
+        window.updateHolidayNumberFlows({ days, hours, minutes, seconds });
         return;
       } catch (error) {
-        console.warn('Holiday countdown morph update failed, falling back to textContent.', error);
+        console.warn('Holiday number flow update failed, falling back to textContent.', error);
       }
     }
 

@@ -179,7 +179,6 @@
     }
     .class-count, .classes-count, .clubs-count { font-size: 0.88em; color: #aaa; margin-bottom: 4px; }
     .class-message, .classes-message { min-height: 1.2em; font-size: 0.84em; color: #cdb9ff; margin: 0; }
-    .counter-morph { display: inline-block; text-align: center; }
 
     .description { text-align: center; opacity: 0.8; font-size: 0.9em; margin: 10px 0 20px; }
     .pack-up-presets { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
@@ -246,7 +245,7 @@
         </div>
         <div id="classResults" class="class-results"></div>
         <div id="setupSelectedClassesList" class="class-slots"></div>
-        <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
+        <p id="setupClassesCount" class="class-count"><number-flow id="setup-classes-nf"></number-flow><span class="counter-static"> of 6 slots filled</span></p>
         <p id="setupClassesMessage" class="class-message"></p>
       </div>
     </section>
@@ -268,7 +267,7 @@
         </div>
         <div id="clubResults" class="clubs-results"></div>
         <div id="setupSelectedClubsList" class="slots-container"></div>
-        <p id="selectedCount" class="clubs-count">0 clubs selected</p>
+        <p id="selectedCount" class="clubs-count"><number-flow id="setup-clubs-nf" suffix=" clubs selected"></number-flow></p>
       </div>
     </section>
 
@@ -385,66 +384,35 @@
     let setupClassTitles = [];
     let setupSelectedClassSlots = getSelectedClassesSlots();
     let setupClassMessageTimeout = null;
-    let setupCounterMorphs = { classes: null, clubs: null };
-
-    function ensureCounterMorphHost(containerEl) {
-      if (!containerEl) return null;
-      let host = containerEl.querySelector('.counter-morph');
-      if (!host) {
-        const initial = containerEl.textContent || '';
-        containerEl.textContent = '';
-        host = document.createElement('span');
-        host.className = 'counter-morph';
-        host.textContent = initial;
-        containerEl.appendChild(host);
-      }
-      return host;
-    }
-
-    function setSetupCounterText(type, text) {
-      if (type === 'classes') {
-        if (setupCounterMorphs.classes) {
-          setupCounterMorphs.classes.update(text);
-        } else {
-          const el = document.getElementById('setupClassesCount');
-          if (el) el.textContent = text;
-        }
-        return;
-      }
-
-      if (type === 'clubs') {
-        if (setupCounterMorphs.clubs) {
-          setupCounterMorphs.clubs.update(text);
-        } else {
-          const el = document.getElementById('selectedCount');
-          if (el) el.textContent = text;
-        }
+    function setSetupClassesCount(count) {
+      const nf = document.getElementById('setup-classes-nf');
+      const text = `${count} of 6 slots filled`;
+      if (nf && typeof nf.update === 'function') {
+        nf.update(count);
+      } else {
+        const el = document.getElementById('setupClassesCount');
+        if (el) el.textContent = text;
       }
     }
 
-    async function initSetupCounterMorphs() {
+    function setSetupClubsCount(count) {
+      const nf = document.getElementById('setup-clubs-nf');
+      const text = count === 0 ? 'No clubs selected' :
+        count === 1 ? '1 club selected' :
+        `${count} clubs selected`;
+      if (nf && typeof nf.update === 'function') {
+        nf.update(count);
+      } else {
+        const el = document.getElementById('selectedCount');
+        if (el) el.textContent = text;
+      }
+    }
+
+    async function initSetupNumberFlows() {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
-        const classesHost = ensureCounterMorphHost(document.getElementById('setupClassesCount'));
-        const clubsHost = ensureCounterMorphHost(document.getElementById('selectedCount'));
-
-        if (classesHost) {
-          setupCounterMorphs.classes = new TextMorph({
-            element: classesHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
-        }
-
-        if (clubsHost) {
-          setupCounterMorphs.clubs = new TextMorph({
-            element: clubsHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
-        }
+        await import('https://esm.sh/number-flow');
       } catch (error) {
-        console.warn('Torph failed to load for setup counters, using default updates.', error);
+        console.warn('NumberFlow failed to load for setup counters, using default updates.', error);
       }
     }
 
@@ -472,7 +440,7 @@
 
     function updateSetupClassCount() {
       const filledCount = setupSelectedClassSlots.filter(Boolean).length;
-      setSetupCounterText('classes', `${filledCount} of 6 slots filled`);
+      setSetupClassesCount(filledCount);
     }
 
     function renderSetupClassResults(filter = '') {
@@ -666,10 +634,7 @@
 
     function updateSelectedCount() {
       const count = selectedClubs.length;
-      const text = count === 0 ? 'No clubs selected' :
-        count === 1 ? '1 club selected' :
-        `${count} clubs selected`;
-      setSetupCounterText('clubs', text);
+      setSetupClubsCount(count);
 
       const listEl = document.getElementById('setupSelectedClubsList');
       listEl.style.display = count === 0 ? 'none' : 'block';
@@ -1018,7 +983,7 @@
     async function init() {
       loadLunchPrefs();
       updateLunchUI();
-      await initSetupCounterMorphs();
+      await initSetupNumberFlows();
       initSetupClassesSection();
       initClubsSection();
     }

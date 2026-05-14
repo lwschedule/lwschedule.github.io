@@ -16,12 +16,12 @@ function displayTimeBlocks(container, data) {
   if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
-  if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
+  if (window.updateClockNumberFlows && document.body.classList.contains('homePage')) {
     try {
-      window.updateClockMorphs(data);
+      window.updateClockNumberFlows(data);
       return;
     } catch (error) {
-      console.warn('Clock morph update failed, falling back to textContent.', error);
+      console.warn('Clock number flow update failed, falling back to textContent.', error);
     }
   }
 

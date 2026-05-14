@@ -20,7 +20,7 @@
     .term-countdown { flex-shrink: 0; }
     .term-countdown-block { text-align: right; }
     .term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
-    .term-countdown-block .countdown-value .term-countdown-value-morph { display: inline-block; min-width: 6ch; text-align: right; }
+    .term-countdown-block .countdown-value .term-countdown-nf { display: inline-block; min-width: 6ch; text-align: right; }
     .term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
     .term-card.highlight .countdown-value { color: white; }
     .term-card.highlight .countdown-label { color: white; opacity: 0.9; }
@@ -43,8 +43,6 @@
   <script src="/common-core.js"></script>
   <script>
     let quartersInterval = null;
-    let TermTextMorph = null;
-    const termValueMorphs = new WeakMap();
 
     function formatTermDate(date) {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -80,7 +78,8 @@
       return {
         completed: false,
         label,
-        value: `${value} ${unit}`
+        number: value,
+        suffix: ` ${unit}`
       };
     }
 
@@ -104,7 +103,7 @@
           <div class="term-countdown">
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">Starts in</span>
-              <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-nf" suffix=" Seconds"></number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -124,7 +123,7 @@
           <div class="term-countdown">
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">Starts in</span>
-              <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
+              <span class="countdown-value term-countdown-value"><number-flow class="term-countdown-nf" suffix=" Seconds"></number-flow></span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -133,43 +132,14 @@
       });
     }
 
-    function initTermMorphs() {
-      if (!TermTextMorph) return;
-      document.querySelectorAll('.term-countdown-value-morph').forEach((host, index) => {
-        if (termValueMorphs.has(host)) return;
-        termValueMorphs.set(host, new TermTextMorph({
-          element: host,
-          duration: 500 + (index % 4) * 100, // Staggered durations for variety
-          ease: 'ease-in-out'
-        }));
-      });
-    }
-
-    function seedTermCountdownsFromZero() {
-      document.querySelectorAll('.term-countdown-block').forEach((block) => {
-        const labelEl = block.querySelector('.term-countdown-label');
-        const valueHost = block.querySelector('.term-countdown-value-morph');
-        if (labelEl) {
-          labelEl.textContent = 'Starts in';
-        }
-        if (valueHost) {
-          if (typeof valueHost.update === 'function') {
-            valueHost.update('0 Seconds');
-          } else {
-            valueHost.textContent = '0 Seconds';
-          }
-        }
-      });
-    }
-
     function setTermCountdown(cardEl, countdownData) {
       if (!cardEl) return;
       const block = cardEl.querySelector('.term-countdown-block');
       const badge = cardEl.querySelector('.term-completed-badge-inline');
       const labelEl = cardEl.querySelector('.term-countdown-label');
-      const valueHost = cardEl.querySelector('.term-countdown-value-morph');
+      const nf = cardEl.querySelector('.term-countdown-nf');
 
-      if (!block || !badge || !labelEl || !valueHost) return;
+      if (!block || !badge || !labelEl || !nf) return;
 
       if (countdownData.completed) {
         block.style.display = 'none';
@@ -180,23 +150,10 @@
       block.style.display = 'block';
       badge.style.display = 'none';
       labelEl.textContent = countdownData.label;
-
-      const morph = termValueMorphs.get(valueHost);
-      if (morph) {
-        morph.update(countdownData.value);
-      } else {
-        valueHost.textContent = countdownData.value;
+      nf.numberSuffix = countdownData.suffix;
+      if (typeof nf.update === 'function') {
+        nf.update(countdownData.number);
       }
-    }
-
-    function updateTermCountdowns(data) {
-      document.querySelectorAll('.term-countdown-value-morph').forEach((host, index) => {
-        const morph = termValueMorphs.get(host);
-        if (morph) {
-          const value = data[index] ? data[index].toString().padStart(2, '0') : '00';
-          morph.update(value);
-        }
-      });
     }
 
     function updateQuartersAndSemesters() {
@@ -227,10 +184,9 @@
 
     (async () => {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
-        TermTextMorph = TextMorph;
+        await import('https://esm.sh/number-flow');
       } catch (error) {
-        console.warn('Torph failed to load for quarters/semesters, using default updates.', error);
+        console.warn('NumberFlow failed to load for quarters/semesters, using default updates.', error);
       }
 
       if (typeof window.loadModules === 'function') {
@@ -239,8 +195,6 @@
       if (typeof initApp === 'function') await initApp({ neededFiles: ['terms'] });
 
       renderTermCards();
-      initTermMorphs();
-      seedTermCountdownsFromZero();
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);

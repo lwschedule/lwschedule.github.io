@@ -239,10 +239,6 @@
       color: #aaa;
       margin-top: 14px;
     }
-    .counter-morph {
-      display: inline-block;
-      text-align: center;
-    }
     .classes-message {
       min-height: 1.2em;
       text-align: center;
@@ -276,7 +272,7 @@
       <div class="classes-results" id="classResults"></div>
 
       <div class="slots-container" id="selectedClassesList"></div>
-      <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
+      <p class="classes-count" id="classesCount"><number-flow id="classes-count-nf"></number-flow><span class="counter-static"> of 6 slots filled</span></p>
       <p class="classes-message" id="classesMessage"></p>
       
       <button type="button" class="resetBtn" id="resetClassesBtn">Reset Classes to Default</button>
@@ -293,43 +289,24 @@
     let allClassTitles = [];
     let selectedClassSlots = getSelectedClassesSlots();
     let messageTimeout = null;
-    let classesCountMorph = null;
+    let classesNumberFlowReady = false;
 
-    function ensureClassesCountMorphHost(containerEl) {
-      if (!containerEl) return null;
-      let host = containerEl.querySelector('.counter-morph');
-      if (!host) {
-        const initial = containerEl.textContent || '';
-        containerEl.textContent = '';
-        host = document.createElement('span');
-        host.className = 'counter-morph';
-        host.textContent = initial;
-        containerEl.appendChild(host);
-      }
-      return host;
-    }
-
-    function setClassesCountText(text) {
-      if (classesCountMorph) {
-        classesCountMorph.update(text);
+    function setClassesCountText(count) {
+      const nf = document.getElementById('classes-count-nf');
+      if (nf && typeof nf.update === 'function') {
+        nf.update(count);
       } else {
         const el = document.getElementById('classesCount');
-        if (el) el.textContent = text;
+        if (el) el.textContent = `${count} of 6 slots filled`;
       }
     }
 
-    async function initClassesCountMorph() {
+    async function initClassesNumberFlow() {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
-        const host = ensureClassesCountMorphHost(document.getElementById('classesCount'));
-        if (!host) return;
-        classesCountMorph = new TextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        });
+        await import('https://esm.sh/number-flow');
+        classesNumberFlowReady = true;
       } catch (error) {
-        console.warn('Torph failed to load for classes counter, using default updates.', error);
+        console.warn('NumberFlow failed to load for classes counter, using default updates.', error);
       }
     }
 
@@ -370,7 +347,7 @@
 
     function updateClassesCount() {
       const filledCount = selectedClassSlots.filter(Boolean).length;
-      setClassesCountText(`${filledCount} of 6 slots filled`);
+      setClassesCountText(filledCount);
     }
 
     function renderClassResults(filter = '') {
@@ -506,7 +483,7 @@
       const classesToggle = document.getElementById('classesToggle');
       const classesContent = document.getElementById('classesContent');
 
-      await initClassesCountMorph();
+      await initClassesNumberFlow();
 
       classesToggle.checked = classesEnabled;
       classesContent.classList.toggle('enabled', classesEnabled);

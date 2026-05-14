@@ -212,10 +212,6 @@
       color: #aaa;
       margin-top: 14px;
     }
-    .counter-morph {
-      display: inline-block;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -241,7 +237,7 @@
       <div class="clubs-results" id="clubResults"></div>
 
       <div class="slots-container" id="selectedClubsList"></div>
-      <p class="clubs-count" id="selectedCount">0 clubs selected</p>
+      <p class="clubs-count" id="selectedCount"><number-flow id="clubs-count-nf" suffix=" clubs selected"></number-flow></p>
       <button type="button" class="resetBtn" id="resetClubsBtn">Reset Clubs to Default</button>
     </div>
   </div>
@@ -254,43 +250,24 @@
       }
     let allClubs = [];
     let selectedClubs = [];
-    let clubsCountMorph = null;
-
-    function ensureClubsCountMorphHost(containerEl) {
-      if (!containerEl) return null;
-      let host = containerEl.querySelector('.counter-morph');
-      if (!host) {
-        const initial = containerEl.textContent || '';
-        containerEl.textContent = '';
-        host = document.createElement('span');
-        host.className = 'counter-morph';
-        host.textContent = initial;
-        containerEl.appendChild(host);
-      }
-      return host;
-    }
-
-    function setClubsCountText(text) {
-      if (clubsCountMorph) {
-        clubsCountMorph.update(text);
+    function setClubsCountText(count) {
+      const nf = document.getElementById('clubs-count-nf');
+      if (nf && typeof nf.update === 'function') {
+        nf.update(count);
       } else {
         const el = document.getElementById('selectedCount');
+        const text = count === 0 ? 'No clubs selected' :
+          count === 1 ? '1 club selected' :
+          `${count} clubs selected`;
         if (el) el.textContent = text;
       }
     }
 
-    async function initClubsCountMorph() {
+    async function initClubsNumberFlow() {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
-        const host = ensureClubsCountMorphHost(document.getElementById('selectedCount'));
-        if (!host) return;
-        clubsCountMorph = new TextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        });
+        await import('https://esm.sh/number-flow');
       } catch (error) {
-        console.warn('Torph failed to load for clubs counter, using default updates.', error);
+        console.warn('NumberFlow failed to load for clubs counter, using default updates.', error);
       }
     }
 
@@ -344,10 +321,7 @@
 
     function updateSelectedCount() {
       const count = selectedClubs.length;
-      const text = count === 0 ? 'No clubs selected' : 
-        count === 1 ? '1 club selected' : 
-        `${count} clubs selected`;
-      setClubsCountText(text);
+      setClubsCountText(count);
         
       const listEl = document.getElementById('selectedClubsList');
       if (count === 0) {
@@ -448,7 +422,7 @@
       const clubsToggle = document.getElementById('clubsToggle');
       const clubsContent = document.getElementById('clubsContent');
 
-      await initClubsCountMorph();
+      await initClubsNumberFlow();
 
       clubsToggle.checked = isEnabled;
       clubsContent.classList.toggle('enabled', isEnabled);

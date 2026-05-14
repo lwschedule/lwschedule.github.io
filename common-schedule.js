@@ -235,20 +235,6 @@ function getTorphWorkaroundNeeded() {
   return safariVersion < 17;
 }
 
-function ensureMorphHost(containerEl, className) {
-  if (!containerEl) return null;
-  let host = containerEl.querySelector(`.${className}`);
-  if (!host) {
-    const initial = containerEl.textContent || '00';
-    containerEl.textContent = '';
-    host = document.createElement('span');
-    host.className = className;
-    host.textContent = initial;
-    containerEl.appendChild(host);
-  }
-  return host;
-}
-
 window.__lws_common_loaded = true;
 
 function getDayNameFromDate(date) {
