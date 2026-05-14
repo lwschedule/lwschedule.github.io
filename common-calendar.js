@@ -201,18 +201,17 @@ function updateHolidayCountdown() {
     const minutesNf = document.getElementById('holiday-minutes');
     const secondsNf = document.getElementById('holiday-seconds');
 
+    if (daysNf) daysNf.textContent = days.toString();
+    if (hoursNf) hoursNf.textContent = hours.toString().padStart(2,'0');
+    if (minutesNf) minutesNf.textContent = minutes.toString().padStart(2,'0');
+    if (secondsNf) secondsNf.textContent = seconds.toString().padStart(2,'0');
+
     if (daysNf && typeof daysNf.update === 'function') {
       daysNf.update(days || 0);
       hoursNf?.update(hours || 0);
       minutesNf?.update(minutes);
       secondsNf?.update(seconds);
-      return;
     }
-
-    if (daysNf) daysNf.textContent = days.toString();
-    if (hoursNf) hoursNf.textContent = hours.toString().padStart(2,'0');
-    if (minutesNf) minutesNf.textContent = minutes.toString().padStart(2,'0');
-    if (secondsNf) secondsNf.textContent = seconds.toString().padStart(2,'0');
   };
 
   const now = new Date();

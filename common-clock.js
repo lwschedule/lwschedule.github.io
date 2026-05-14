@@ -16,18 +16,17 @@ function displayTimeBlocks(container, data) {
   if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
+  if (daysNf) daysNf.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+  if (hoursNf) hoursNf.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  if (minutesNf) minutesNf.textContent = data.minutes.toString().padStart(2,'0');
+  if (secondsNf) secondsNf.textContent = data.seconds.toString().padStart(2,'0');
+
   if (daysNf && typeof daysNf.update === 'function' && document.body.classList.contains('homePage')) {
     daysNf.update(data.days || 0);
     hoursNf?.update(data.hours ?? 0);
     minutesNf?.update(data.minutes);
     secondsNf?.update(data.seconds);
-    return;
   }
-
-  if (daysNf) daysNf.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-  if (hoursNf) hoursNf.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-  if (minutesNf) minutesNf.textContent = data.minutes.toString().padStart(2,'0');
-  if (secondsNf) secondsNf.textContent = data.seconds.toString().padStart(2,'0');
 }
 
 function displayMessage(container, message) {
