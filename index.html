@@ -254,8 +254,10 @@
       if (typeof initApp === 'function') await initApp();
       if (typeof initTimerMorph === 'function') await initTimerMorph();
       await initNumberFlows();
-      updateClock();
-      clockIntervalId = setInterval(updateClock, 1000);
+      if (typeof updateClock === 'function') {
+        updateClock();
+        clockIntervalId = setInterval(updateClock, 1000);
+      }
       await initHomeTicker();
 
       // Throttle background work: pause clock and ticker when tab hidden
@@ -268,7 +270,7 @@
           try { stopTickerLoop(); } catch (e) { /* ignore */ }
         });
         window.appVisibility.onVisible(() => {
-          if (!clockIntervalId) {
+          if (!clockIntervalId && typeof updateClock === 'function') {
             updateClock();
             clockIntervalId = setInterval(updateClock, 1000);
           }
@@ -280,7 +282,7 @@
             if (clockIntervalId) { clearInterval(clockIntervalId); clockIntervalId = null; }
             try { stopTickerLoop(); } catch (e) { }
           } else {
-            if (!clockIntervalId) { updateClock(); clockIntervalId = setInterval(updateClock, 1000); }
+            if (!clockIntervalId && typeof updateClock === 'function') { updateClock(); clockIntervalId = setInterval(updateClock, 1000); }
             try { startTickerLoop(); } catch (e) { }
           }
         });
