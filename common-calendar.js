@@ -196,23 +196,23 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    if (window.updateHolidayNumberFlows) {
-      try {
-        window.updateHolidayNumberFlows({ days, hours, minutes, seconds });
-        return;
-      } catch (error) {
-        console.warn('Holiday number flow update failed, falling back to textContent.', error);
-      }
+    const daysNf = document.getElementById('holiday-days');
+    const hoursNf = document.getElementById('holiday-hours');
+    const minutesNf = document.getElementById('holiday-minutes');
+    const secondsNf = document.getElementById('holiday-seconds');
+
+    if (daysNf && typeof daysNf.update === 'function') {
+      daysNf.update(days || 0);
+      hoursNf?.update(hours || 0);
+      minutesNf?.update(minutes);
+      secondsNf?.update(seconds);
+      return;
     }
 
-    const daysEl = document.getElementById('countdown-days');
-    const hoursEl = document.getElementById('countdown-hours');
-    const minutesEl = document.getElementById('countdown-minutes');
-    const secondsEl = document.getElementById('countdown-seconds');
-    if (daysEl) daysEl.textContent = days.toString();
-    if (hoursEl) hoursEl.textContent = hours.toString().padStart(2,'0');
-    if (minutesEl) minutesEl.textContent = minutes.toString().padStart(2,'0');
-    if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
+    if (daysNf) daysNf.textContent = days.toString();
+    if (hoursNf) hoursNf.textContent = hours.toString().padStart(2,'0');
+    if (minutesNf) minutesNf.textContent = minutes.toString().padStart(2,'0');
+    if (secondsNf) secondsNf.textContent = seconds.toString().padStart(2,'0');
   };
 
   const now = new Date();

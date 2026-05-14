@@ -55,16 +55,7 @@
     async function initHolidayNumberFlows() {
       try {
         await import('https://esm.sh/number-flow');
-        window.updateHolidayNumberFlows = (data) => {
-          try {
-            document.getElementById('holiday-days')?.update(data.days || 0);
-            document.getElementById('holiday-hours')?.update(data.hours || 0);
-            document.getElementById('holiday-minutes')?.update(data.minutes);
-            document.getElementById('holiday-seconds')?.update(data.seconds);
-          } catch (e) { /* ignore */ }
-        };
       } catch (error) {
-        window.updateHolidayNumberFlows = null;
         console.warn('NumberFlow failed to load for holiday countdown, using default updates.', error);
       }
     }

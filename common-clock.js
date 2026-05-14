@@ -3,10 +3,10 @@
 let lastNextPeriodText = null;
 
 function displayTimeBlocks(container, data) {
-  const daysEl = document.getElementById('clockDisplay-days');
-  const hoursEl = document.getElementById('clockDisplay-hours');
-  const minutesEl = document.getElementById('clockDisplay-minutes');
-  const secondsEl = document.getElementById('clockDisplay-seconds');
+  const daysNf = document.getElementById('clock-days');
+  const hoursNf = document.getElementById('clock-hours');
+  const minutesNf = document.getElementById('clock-minutes');
+  const secondsNf = document.getElementById('clock-seconds');
   const daysBlock = document.getElementById('clockDisplay-days-block');
   const hoursBlock = document.getElementById('clockDisplay-hours-block');
 
@@ -16,19 +16,18 @@ function displayTimeBlocks(container, data) {
   if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
-  if (window.updateClockNumberFlows && document.body.classList.contains('homePage')) {
-    try {
-      window.updateClockNumberFlows(data);
-      return;
-    } catch (error) {
-      console.warn('Clock number flow update failed, falling back to textContent.', error);
-    }
+  if (daysNf && typeof daysNf.update === 'function' && document.body.classList.contains('homePage')) {
+    daysNf.update(data.days || 0);
+    hoursNf?.update(data.hours ?? 0);
+    minutesNf?.update(data.minutes);
+    secondsNf?.update(data.seconds);
+    return;
   }
 
-  if (daysEl) daysEl.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
-  if (hoursEl) hoursEl.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
-  if (minutesEl) minutesEl.textContent = data.minutes.toString().padStart(2,'0');
-  if (secondsEl) secondsEl.textContent = data.seconds.toString().padStart(2,'0');
+  if (daysNf) daysNf.textContent = data.days ? data.days.toString().padStart(2,'0') : '00';
+  if (hoursNf) hoursNf.textContent = data.hours !== undefined ? data.hours.toString().padStart(2,'0') : '00';
+  if (minutesNf) minutesNf.textContent = data.minutes.toString().padStart(2,'0');
+  if (secondsNf) secondsNf.textContent = data.seconds.toString().padStart(2,'0');
 }
 
 function displayMessage(container, message) {

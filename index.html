@@ -58,16 +58,7 @@
     async function initNumberFlows() {
       try {
         await import('https://esm.sh/number-flow');
-        window.updateClockNumberFlows = (data) => {
-          try {
-            document.getElementById('clock-days')?.update(data.days || 0);
-            document.getElementById('clock-hours')?.update(data.hours ?? 0);
-            document.getElementById('clock-minutes')?.update(data.minutes);
-            document.getElementById('clock-seconds')?.update(data.seconds);
-          } catch (e) { /* ignore */ }
-        };
       } catch (error) {
-        window.updateClockNumberFlows = null;
         console.warn('NumberFlow failed to load for clock, using default updates.', error);
       }
     }
