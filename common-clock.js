@@ -1,5 +1,15 @@
 // Homepage countdown clock, timer, and club overlap integration
 
+/**
+ * Fetches the current time from the server to prevent client-side manipulation.
+ * @returns {Promise<Date>} The current server time.
+ */
+async function fetchServerTime() {
+  // TODO: Implement API call to fetch server time
+  console.warn("Using client time as fallback. Implement fetchServerTime() for production.");
+  return new Date(); // Fallback to client time
+}
+
 let lastNextPeriodText = null;
 
 function displayTimeBlocks(container, data) {
@@ -93,7 +103,7 @@ async function initTimerMorph() {
 
 function getClubMinutesNow() {
   const d = new Date();
-  return d.getHours() * 60 + d.getMinutes();
+  return d.getUTCHours() * 60 + d.getUTCMinutes();
 }
 
 function isClubActive(club) {
@@ -120,6 +130,13 @@ function updateClock() {
   try {
     const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
     const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
+    
+    // Validate nowDate
+    if (isNaN(nowDate.getTime())) {
+      console.error("Invalid date detected in updateClock. Using fallback.");
+      nowDate = new Date();
+    }
+    
     const clockDisplay = document.getElementById('clockDisplay');
     const clockLabel = document.getElementById('clockLabel');
     const timerEl = document.getElementById('timer');
@@ -128,26 +145,29 @@ function updateClock() {
       return;
     }
 
-    const holiday = getHolidayForDate(nowDate);
-    if (holiday) {
-    
-    const nextSchoolStart = getNextSchoolDayStartTime();
-    if (nextSchoolStart && nextSchoolStart > nowDate) {
-      const diff = nextSchoolStart - nowDate;
-      const totalSeconds = Math.floor(diff / 1000);
-      const s = totalSeconds % 60;
-      const totalMinutes = Math.floor(totalSeconds / 60);
-      const m = totalMinutes % 60;
-      const totalHours = Math.floor(totalMinutes / 60);
-      const h = totalHours % 24;
-      const d = Math.floor(totalHours / 24);
+const holiday = getHolidayForDate(nowDate);
+if (holiday) {
 
-      
-      displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-      clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
-      
-      updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
-    }
+  const nextSchoolStart = getNextSchoolDayStartTime();
+  if (nextSchoolStart && !isNaN(nextSchoolStart.getTime()) && nextSchoolStart > nowDate) {
+    const diff = nextSchoolStart.getTime() - nowDate.getTime();
+    const totalSeconds = Math.floor(diff / 1000);
+    const s = totalSeconds % 60;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const m = totalMinutes % 60;
+    const totalHours = Math.floor(totalMinutes / 60);
+    const h = totalHours % 24;
+    const d = Math.floor(totalHours / 24);
+
+    displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+    clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
+
+    updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+  } else {
+    console.error("Invalid nextSchoolStart time or holiday ended.");
+    displayMessage(clockDisplay, "SCHOOL IS RESUMING");
+  }
+}
     return;
   }
 
@@ -155,10 +175,10 @@ function updateClock() {
   const today = schedules[weekday];
   if (!today || today.length === 0) {
     
-    const nextSchoolStartTime = getNextSchoolDayStartTime();
-    if (nextSchoolStartTime) {
-      const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
-      if (diff > 0) {
+const nextSchoolStartTime = getNextSchoolDayStartTime();
+if (nextSchoolStartTime && !isNaN(nextSchoolStartTime.getTime())) {
+  const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
+  if (diff > 0) {
         const totalSeconds = Math.floor(diff / 1000);
         const s = totalSeconds % 60;
         const totalMinutes = Math.floor(totalSeconds / 60);
@@ -240,10 +260,14 @@ function updateClock() {
       updateNextPeriodText(timerEl, `Next: ${nextClub.name} · Room ${(nextClub.room && String(nextClub.room).trim()) || 'TBD'}`);
     } else {
       const firstPeriod = today[0];
-      const startTime = new Date(nowDate);
-      startTime.setHours(0, firstPeriod.start, 0, 0);
-      const diff = startTime.getTime() - nowDate.getTime();
-      if (diff > 0) {
+const startTime = new Date(nowDate);
+if (isNaN(startTime.getTime())) {
+  console.error("Invalid startTime detected.");
+  return;
+}
+startTime.setHours(0, firstPeriod.start, 0, 0);
+const diff = startTime.getTime() - nowDate.getTime();
+if (diff > 0) {
         const totalSeconds = Math.floor(diff / 1000);
         const s = totalSeconds % 60;
         const totalMinutes = Math.floor(totalSeconds / 60);
@@ -282,10 +306,10 @@ function updateClock() {
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
       updateNextPeriodText(timerEl, `Next: ${nextClub.name} · Room ${(nextClub.room && String(nextClub.room).trim()) || 'TBD'}`);
     } else {
-      const nextSchoolStartTime = getNextSchoolDayStartTime();
-      if (nextSchoolStartTime) {
-        const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
-        if (diff > 0) {
+const nextSchoolStartTime = getNextSchoolDayStartTime();
+if (nextSchoolStartTime && !isNaN(nextSchoolStartTime.getTime())) {
+  const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
+  if (diff > 0) {
           const totalSeconds = Math.floor(diff / 1000);
           const s = totalSeconds % 60;
           const totalMinutes = Math.floor(totalSeconds / 60);

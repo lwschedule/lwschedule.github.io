@@ -24,31 +24,6 @@ const CACHE_VERSION = '2026-05-12';
  * 5. Change TRIGGER_RESET back to 'false' immediately
  * 
  * DO NOT EVER change cache version to reset user data - use reset.js instead.
- */
-
-/**
- * === CACHE VERSION & DATA PROTECTION POLICY ===
- * 
- * CACHE_VERSION is automatically updated on each commit via auto_bump_version.py
- * It is set to the current date (YYYY-MM-DD format).
- * 
- * CRITICAL: Changing CACHE_VERSION does NOT affect localStorage.
- * User settings, preferences, and app state are stored in localStorage and are
- * completely independent from the service worker cache.
- * 
- * When CACHE_VERSION changes:
- * ✓ Service worker will update to new cache
- * ✓ Cached assets will be refreshed
- * ✗ User data in localStorage will NOT be affected
- * ✗ User data will NOT be reset
- * ✗ Setup will NOT be triggered again
- * 
- * If you need to reset ALL user data worldwide, use reset.js:
- * 1. Open /reset.js
- * 2. Change TRIGGER_RESET from 'false' to 'true'
- * 3. Commit and push
- * 4. All users will reset on next visit
- * 5. Change TRIGGER_RESET back to 'false' immediately
  * 
  * DO NOT EVER change cache version to reset user data - use reset.js instead.
  */
@@ -57,6 +32,7 @@ const RUNTIME_CACHE_NAME = `lwschedule-runtime-${CACHE_VERSION}`;
 const RUNTIME_CACHED_AT_HEADER = 'x-sw-cached-at';
 const MAX_RUNTIME_CACHE_ENTRIES = 100;
 const MAX_RUNTIME_CACHE_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const DATA_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const RUNTIME_CACHE_MAINTENANCE_INTERVAL_MS = 24 * 60 * 60 * 1000;
 // Minimal app-shell to keep install fast; runtime assets are capped separately.
 const urlsToCache = [
@@ -97,6 +73,12 @@ function isExpiredRuntimeResponse(response) {
   return !Number.isFinite(cachedAt) || Date.now() - cachedAt > MAX_RUNTIME_CACHE_AGE_MS;
 }
 
+async function getAnyCachedResponse(request) {
+  const cache = await caches.open(RUNTIME_CACHE_NAME);
+  const response = await cache.match(request);
+  return response; // Return whatever is cached (fresh or stale) or null
+}
+
 async function getFreshRuntimeResponse(request) {
   const cache = await caches.open(RUNTIME_CACHE_NAME);
   const response = await cache.match(request);
@@ -129,6 +111,7 @@ async function cacheRuntimeResponse(request, response) {
   const clonedResponse = response.clone();
   const headers = new Headers(clonedResponse.headers);
   headers.set(RUNTIME_CACHED_AT_HEADER, Date.now().toString());
+  headers.set('Cache-Control', 'stale-while-revalidate=86400'); // 24h stale
   const stampedResponse = new Response(clonedResponse.body, {
     status: clonedResponse.status,
     statusText: clonedResponse.statusText,
@@ -195,6 +178,42 @@ self.addEventListener('install', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     (async () => {
+      // Special handling for /data/ requests with stale-while-revalidate
+      if (event.request.url.includes('/data/')) {
+        // Try to get any cached response (fresh or stale)
+        const cachedResponse = await getAnyCachedResponse(event.request);
+        if (cachedResponse) {
+          // Return cached response immediately
+          // Fetch from network in background to update cache
+          event.waitUntil(
+            fetch(event.request)
+              .then((networkResponse) => {
+                if (shouldCacheRuntimeResponse(event.request, networkResponse)) {
+                  return cacheRuntimeResponse(event.request, networkResponse);
+                }
+              })
+              .catch(() => {
+                // Network fetch failed, but we already returned cached response
+                // so we don't need to do anything here
+              })
+          );
+          return cachedResponse;
+        } else {
+          // No cached response, fetch from network
+          try {
+            const networkResponse = await fetch(event.request);
+            if (shouldCacheRuntimeResponse(event.request, networkResponse)) {
+              event.waitUntil(cacheRuntimeResponse(event.request, networkResponse).catch(() => {}));
+            }
+            return networkResponse;
+          } catch (error) {
+            // Network failed and no cache available
+            return undefined;
+          }
+        }
+      }
+
+      // For all other requests, keep existing behavior
       const runtimeResponse = isRuntimeCacheableRequest(event.request) ? await getFreshRuntimeResponse(event.request) : null;
       if (runtimeResponse) return runtimeResponse;
 

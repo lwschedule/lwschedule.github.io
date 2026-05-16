@@ -1,0 +1,6 @@
+{
+  "name": "lw-schedule",
+  "scripts": {
+    "optimize-svgs": "python3 scripts/optimize_svgs.py"
+  }
+}

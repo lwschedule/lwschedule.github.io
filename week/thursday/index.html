@@ -8,7 +8,486 @@
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
-  <link rel="stylesheet" href="/common.css">
+  <style>
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --primary: #000000;
+  --primary-light: #111111;
+  --text-light: #e8e8e8;
+  --bg-dark: #000000;
+  --card-dark: #080808;
+  --glow: 0 0 0 1px #333, 0 0 15px rgba(255,255,255,0.05);
+  --error: #ff4757;
+  --page-transition-distance: 28px;
+  --page-transition-duration: 280ms;
+  --page-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  font-family: 'SF Pro Display', sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  margin: 0;
+  padding: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: all 0.3s ease;
+  padding-bottom: 100px;
+}
+
+body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  opacity: 0;
+  transform: translateX(calc(var(--page-transition-distance) * -1));
+  transition:
+    transform var(--page-transition-duration) var(--page-transition-ease),
+    opacity var(--page-transition-duration) ease;
+  will-change: transform, opacity;
+}
+
+body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
+body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  opacity: 0;
+  transform: translateX(var(--page-transition-distance));
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
+  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: white;
+}
+
+.pageContainer {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#digitalClock {
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  background: var(--primary);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: var(--glow);
+  max-width: 650px;
+  margin: 20px auto;
+}
+
+#clockLabel {
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  color: white;
+  opacity: 0.9;
+  font-weight: 700;
+}
+
+#clockDisplay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.time-block {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-value {
+  font-size: clamp(1.8em, 6vw, 2.8em);
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+
+.time-value number-flow {
+  display: inline-block;
+  min-width: 2ch;
+  text-align: center;
+}
+
+.time-label {
+  font-size: 0.7em;
+  font-weight: 400;
+  color: white;
+  opacity: 0.8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.time-block.hidden {
+  display: none;
+}
+
+#timer {
+  font-size: clamp(0.9em, 4vw, 1.1em);
+  margin-top: 20px;
+  text-align: center;
+  background: var(--primary);
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: var(--glow);
+  color: var(--text-light);
+  max-width: 650px;
+  margin: 20px auto;
+}
+
+#timer .timer-value-morph {
+  display: inline-block;
+}
+
+#timer .timer-value-morph.torph--animate {
+  -webkit-animation: torph-pop 240ms cubic-bezier(0.19, 1, 0.22, 1);
+  animation: torph-pop 240ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@-webkit-keyframes torph-pop {
+  0% {
+    opacity: 0.45;
+    -webkit-transform: translateY(0.12em) scale(0.985);
+            transform: translateY(0.12em) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes torph-pop {
+  0% {
+    opacity: 0.45;
+    transform: translateY(0.12em) scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#timer.hidden {
+  display: none;
+}
+
+number-flow {
+  font-variant-numeric: tabular-nums;
+}
+
+.mainBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.1em;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--glow);
+  transition: all 0.3s;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+
+.mainBtn:hover {
+  transform: scale(1.05);
+}
+
+.scheduleTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: var(--card-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #303030;
+}
+
+.scheduleTable th {
+  background: var(--primary);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.scheduleTable td {
+  padding: 12px;
+  border-bottom: 1px solid #303030;
+}
+
+.scheduleTable tr:last-child td {
+  border-bottom: none;
+}
+
+.scheduleTable tr.highlight {
+  background: transparent;
+  color: white;
+  font-weight: 700;
+  outline: 2px solid white;
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.scheduleTable tr:not(.highlight):hover {
+  background: var(--primary-light);
+}
+
+.noSchoolMessage {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.3em;
+}
+
+.noSchoolMessage h3 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: white;
+  margin-top: 0;
+}
+
+.noSchoolMessage p {
+  font-size: 1.2em;
+  color: var(--text-light);
+  opacity: 0.8;
+  margin: 0;
+}
+
+#globalSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background: var(--card-dark);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  border-right: 1px solid var(--primary);
+}
+
+.sidebar-header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid var(--primary);
+  min-height: 80px;
+}
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+.sidebar-title {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.sidebar-links-container {
+  padding: 15px 10px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1.05em;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 2;
+  opacity: 0.8;
+}
+.sidebar-link:hover, .sidebar-link.active {
+  opacity: 1;
+}
+
+.sidebar-bubble {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 46px;
+  background: var(--primary-light);
+  border-radius: 12px;
+  z-index: 1; opacity: 0;
+  transition: top 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s ease;
+  pointer-events: none;
+  box-shadow: var(--glow);
+}
+
+#sidebarMobileToggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: var(--card-dark);
+  border: 1px solid var(--primary-light);
+  color: var(--text-light);
+  font-size: 1.5em;
+  border-radius: 8px;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+.sidebar-mask {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+  z-index: 999;
+}
+
+body.has-sidebar {
+  padding-left: 270px;
+}
+
+@media (max-width: 768px) {
+  body.has-sidebar {
+    padding-left: 20px;
+  }
+
+  #globalSidebar {
+    transform: translateX(-100%);
+  }
+  #globalSidebar.open {
+    transform: translateX(0);
+  }
+  #sidebarMobileToggle {
+    display: flex;
+  }
+  .sidebar-mask.show {
+    display: block;
+  }
+  .homeHeaderRow h1 {
+    margin-left: 50px;
+  }
+}
+
+@media (min-width: 769px) {
+  #globalSidebar {
+    display: flex;
+    transform: translateX(0);
+  }
+  body.has-sidebar {
+    padding-left: 270px;
+  }
+}
+
+@media (max-height: 800px) {
+  #globalSidebar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  #globalSidebar::-webkit-scrollbar-track {
+    background: var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8bd3ff 0%, var(--primary-light) 100%);
+    border-radius: 999px;
+    border: 2px solid var(--card-dark);
+  }
+}
+
+@media (max-width: 960px) and (min-height: 800px) {
+  #globalSidebar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  #globalSidebar::-webkit-scrollbar-track {
+    background: var(--card-dark);
+  }
+
+  #globalSidebar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8bd3ff 0%, var(--primary-light) 100%);
+    border-radius: 999px;
+    border: 2px solid var(--card-dark);
+  }
+}
+</style>
+  <link rel="preload" href="/common.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/common.css"></noscript>
 </head>
 <body>
   

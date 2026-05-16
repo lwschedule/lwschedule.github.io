@@ -55,14 +55,66 @@
     calendar: '/common-calendar.js'
   };
 
-  window.loadModules = async function(moduleNames) {
+  // Deferrable modules that can be loaded after the page is interactive
+  const DEFERRABLE_MODULES = new Set(['clubs', 'notifications', 'calendar']);
+
+  window.loadModules = async function(moduleNames, options = {}) {
+    const defer = options.defer || false;
     const toLoad = MODULE_ORDER.filter(name => moduleNames.includes(name));
-    for (const name of toLoad) {
+    const nonDeferredModules = [];
+    const deferredModules = [];
+    
+    // Separate deferrable and non-deferrable modules
+    toLoad.forEach(name => {
+      if (defer && DEFERRABLE_MODULES.has(name)) {
+        deferredModules.push(name);
+      } else {
+        nonDeferredModules.push(name);
+      }
+    });
+    
+    // Load non-deferred modules sequentially as before
+    for (const name of nonDeferredModules) {
       const url = MODULE_URLS[name];
       if (url) {
         await loadScript(url);
       }
     }
+    
+    // Load deferred modules in the background using requestIdleCallback
+    if (deferredModules.length > 0) {
+      const loadDeferredModule = (name) => {
+        return new Promise((resolve) => {
+          const url = MODULE_URLS[name];
+          if (url) {
+            loadScript(url).then(resolve).catch(resolve);
+          } else {
+            resolve();
+          }
+        });
+      };
+      
+      deferredModules.forEach(name => {
+        if (window.requestIdleCallback) {
+          window.requestIdleCallback(() => {
+            loadDeferredModule(name);
+          }, { timeout: 2000 });
+        } else {
+          // Fallback to setTimeout if requestIdleCallback is not available
+          setTimeout(() => {
+            loadDeferredModule(name);
+          }, 0);
+        }
+      });
+    }
+    
+    // Return a promise that resolves once all non-deferred modules are done
+    return Promise.resolve();
+  };
+
+  // Convenience function for deferred loading
+  window.loadModulesDeferred = function(moduleNames) {
+    return window.loadModules(moduleNames, { defer: true });
   };
 
   // Backward compatibility: loadCommon() loads all modules
