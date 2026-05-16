@@ -127,15 +127,273 @@ function getActiveClubForDay(date) {
 }
 
 function updateClock() {
-  try {
-    const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
-    const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
-    
-    // Validate nowDate
-    if (isNaN(nowDate.getTime())) {
-      console.error("Invalid date detected in updateClock. Using fallback.");
-      nowDate = new Date();
-    }
+try {
+const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
+const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
+
+if (isNaN(nowDate.getTime())) {
+console.error("Invalid date detected in updateClock. Using fallback.");
+nowDate = new Date();
+}
+
+const clockDisplay = document.getElementById('clockDisplay');
+const clockLabel = document.getElementById('clockLabel');
+const timerEl = document.getElementById('timer');
+if (!clockDisplay || !clockLabel || !timerEl) {
+if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
+return;
+}
+
+const holiday = getHolidayForDate(nowDate);
+if (holiday) {
+const nextSchoolStart = getNextSchoolDayStartTime();
+if (nextSchoolStart && !isNaN(nextSchoolStart.getTime()) && nextSchoolStart > nowDate) {
+const diff = nextSchoolStart.getTime() - nowDate.getTime();
+const totalSeconds = Math.floor(diff / 1000);
+const s = totalSeconds % 60;
+const totalMinutes = Math.floor(totalSeconds / 60);
+const m = totalMinutes % 60;
+const totalHours = Math.floor(totalMinutes / 60);
+const h = totalHours % 24;
+const d = Math.floor(totalHours / 24);
+
+requestAnimationFrame(() => {
+displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+} else {
+console.error("Invalid nextSchoolStart time or holiday ended.");
+requestAnimationFrame(() => {
+displayMessage(clockDisplay, "SCHOOL IS RESUMING");
+});
+}
+return;
+}
+
+const schedules = getSchedules(nowDate);
+const today = schedules[weekday];
+if (!today || today.length === 0) {
+const nextSchoolStartTime = getNextSchoolDayStartTime();
+if (nextSchoolStartTime && !isNaN(nextSchoolStartTime.getTime())) {
+const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
+if (diff > 0) {
+const totalSeconds = Math.floor(diff / 1000);
+const s = totalSeconds % 60;
+const totalMinutes = Math.floor(totalSeconds / 60);
+const m = totalMinutes % 60;
+const totalHours = Math.floor(totalMinutes / 60);
+const h = totalHours % 24;
+const d = Math.floor(totalHours / 24);
+
+requestAnimationFrame(() => {
+clockLabel.textContent = 'NEXT SCHOOL DAY';
+displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+}
+}
+return;
+}
+
+const currentPeriod = getCurrentPeriod(today, now);
+const activeClub = getActiveClubForDay(nowDate);
+const clubsToday = getClubsForDate(nowDate);
+
+if (currentPeriod && activeClub && clubOverlapsPeriod(activeClub, currentPeriod)) {
+const clubTime = getClubTimeRange(activeClub);
+const remainingMinutes = clubTime.endMinutes - now - 1;
+const totalSeconds = Math.max(0, remainingMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = activeClub.name.toUpperCase();
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+const room = (activeClub.room && String(activeClub.room).trim()) || 'TBD';
+updateNextPeriodText(timerEl, `In Club: ${activeClub.name} · Room ${room}`);
+
+if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
+return;
+}
+
+const nextClub = clubsToday.find(c => (c.startHour * 60 + c.startMinute) > now);
+
+if (currentPeriod) {
+const remainingMinutes = currentPeriod.end - now - 1;
+const remainingSeconds = 59 - secs;
+const totalRemainingSeconds = remainingMinutes * 60 + remainingSeconds;
+const h = Math.floor(totalRemainingSeconds / 3600);
+const m = Math.floor((totalRemainingSeconds % 3600) / 60);
+const s = totalRemainingSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = getDisplayPeriodName(currentPeriod.name).toUpperCase();
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+} else if (now < today[0].start) {
+if (activeClub) {
+const clubTime = getClubTimeRange(activeClub);
+const remainingMinutes = clubTime.endMinutes - now - 1;
+const totalSeconds = Math.max(0, remainingMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = activeClub.name.toUpperCase();
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+const room = (activeClub.room && String(activeClub.room).trim()) || 'TBD';
+updateNextPeriodText(timerEl, `In Club: ${activeClub.name} · Room ${room}`);
+} else if (nextClub && (nextClub.startHour * 60 + nextClub.startMinute) < today[0].start) {
+const diffMinutes = (nextClub.startHour * 60 + nextClub.startMinute) - now;
+const totalSeconds = Math.max(0, diffMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = `UNTIL ${nextClub.name.toUpperCase()}`;
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, `Next: ${nextClub.name} · Room ${(nextClub.room && String(nextClub.room).trim()) || 'TBD'}`);
+} else {
+const firstPeriod = today[0];
+const startTime = new Date(nowDate);
+if (isNaN(startTime.getTime())) {
+console.error("Invalid startTime detected.");
+return;
+}
+startTime.setHours(0, firstPeriod.start, 0, 0);
+const diff = startTime.getTime() - nowDate.getTime();
+if (diff > 0) {
+const totalSeconds = Math.floor(diff / 1000);
+const s = totalSeconds % 60;
+const totalMinutes = Math.floor(totalSeconds / 60);
+const m = totalMinutes % 60;
+const h = Math.floor(totalMinutes / 60);
+
+requestAnimationFrame(() => {
+clockLabel.textContent = 'UNTIL SCHOOL STARTS';
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+}
+}
+} else if (now > today[today.length - 1].end) {
+if (activeClub) {
+const clubTime = getClubTimeRange(activeClub);
+const remainingMinutes = clubTime.endMinutes - now - 1;
+const totalSeconds = Math.max(0, remainingMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = activeClub.name.toUpperCase();
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+const room = (activeClub.room && String(activeClub.room).trim()) || 'TBD';
+updateNextPeriodText(timerEl, `In Club: ${activeClub.name} · Room ${room}`);
+} else if (nextClub) {
+const diffMinutes = (nextClub.startHour * 60 + nextClub.startMinute) - now;
+const totalSeconds = Math.max(0, diffMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = `UNTIL ${nextClub.name.toUpperCase()}`;
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, `Next: ${nextClub.name} · Room ${(nextClub.room && String(nextClub.room).trim()) || 'TBD'}`);
+} else {
+const nextSchoolStartTime = getNextSchoolDayStartTime();
+if (nextSchoolStartTime && !isNaN(nextSchoolStartTime.getTime())) {
+const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
+if (diff > 0) {
+const totalSeconds = Math.floor(diff / 1000);
+const s = totalSeconds % 60;
+const totalMinutes = Math.floor(totalSeconds / 60);
+const m = totalMinutes % 60;
+const totalHours = Math.floor(totalMinutes / 60);
+const h = totalHours % 24;
+const d = Math.floor(totalHours / 24);
+
+requestAnimationFrame(() => {
+clockLabel.textContent = 'NEXT SCHOOL DAY';
+displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
+}
+}
+}
+} else {
+const nextPeriod = getNextPeriodStart(today, now);
+if (activeClub) {
+const clubTime = getClubTimeRange(activeClub);
+const remainingMinutes = clubTime.endMinutes - now - 1;
+const totalSeconds = Math.max(0, remainingMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = activeClub.name.toUpperCase();
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+const room = (activeClub.room && String(activeClub.room).trim()) || 'TBD';
+updateNextPeriodText(timerEl, `In Club: ${activeClub.name} · Room ${room}`);
+} else if (nextClub && nextPeriod && (nextClub.startHour * 60 + nextClub.startMinute) < nextPeriod.start) {
+const diffMinutes = (nextClub.startHour * 60 + nextClub.startMinute) - now;
+const totalSeconds = Math.max(0, diffMinutes * 60 + (59 - secs));
+const h = Math.floor(totalSeconds / 3600);
+const m = Math.floor((totalSeconds % 3600) / 60);
+const s = totalSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = `UNTIL ${nextClub.name.toUpperCase()}`;
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, `Next: ${nextClub.name} · Room ${(nextClub.room && String(nextClub.room).trim()) || 'TBD'}`);
+} else if (nextPeriod) {
+const remainingMinutes = nextPeriod.start - now - 1;
+const remainingSeconds = 59 - secs;
+const totalRemainingSeconds = remainingMinutes * 60 + remainingSeconds;
+const h = Math.floor(totalRemainingSeconds / 3600);
+const m = Math.floor((totalRemainingSeconds % 3600) / 60);
+const s = totalRemainingSeconds % 60;
+
+requestAnimationFrame(() => {
+clockLabel.textContent = `UNTIL ${getDisplayPeriodName(nextPeriod.name).toUpperCase()}`;
+displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
+});
+
+updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
+}
+}
+
+if (shouldRefreshToday && typeof updateTodaySchedule === 'function') updateTodaySchedule();
+} catch (e) {
+console.warn('updateClock error:', e);
+}
+}
     
     const clockDisplay = document.getElementById('clockDisplay');
     const clockLabel = document.getElementById('clockLabel');

@@ -1,16 +1,16 @@
 // Clubs data filtering and rendering
 
 function isClubsEnabled() {
-  return localStorage.getItem('clubsEnabled') === 'true';
+return safeLocalStorageGet('clubsEnabled') === 'true';
 }
 
 function getSelectedClubs() {
-  try {
-    const saved = localStorage.getItem('selectedClubs');
-    return saved ? JSON.parse(saved) : [];
-  } catch (e) {
-    return [];
-  }
+try {
+const saved = safeLocalStorageGet('selectedClubs');
+return saved ? JSON.parse(saved) : [];
+} catch (e) {
+return [];
+}
 }
 
 function isLastWeekdayOfMonth(date, dayName) {

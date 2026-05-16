@@ -2,6 +2,25 @@
 
 const MAX_CLASS_SLOTS = 6;
 
+function safeLocalStorageGet(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    console.warn(`safeLocalStorageGet: Failed to get key "${key}"`, e);
+    return null;
+  }
+}
+
+function safeLocalStorageSet(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return true;
+  } catch (e) {
+    console.warn(`safeLocalStorageSet: Failed to set key "${key}"`, e);
+    return false;
+  }
+}
+
 const SCHEDULE_METADATA = [
   {
     scheduleKey: 'leapDay',
@@ -45,20 +64,20 @@ function normalizeClassSlots(rawSlots) {
 }
 
 function isClassesEnabled() {
-  return localStorage.getItem('classesEnabled') === 'true';
+return safeLocalStorageGet('classesEnabled') === 'true';
 }
 
 function setClassesEnabled(enabled) {
-  localStorage.setItem('classesEnabled', enabled ? 'true' : 'false');
+safeLocalStorageSet('classesEnabled', enabled ? 'true' : 'false');
 }
 
 function getSelectedClassesSlots() {
-  try {
-    const saved = localStorage.getItem('selectedClasses');
-    return normalizeClassSlots(saved ? JSON.parse(saved) : []);
-  } catch (e) {
-    return Array(MAX_CLASS_SLOTS).fill('');
-  }
+try {
+const saved = safeLocalStorageGet('selectedClasses');
+return normalizeClassSlots(saved ? JSON.parse(saved) : []);
+} catch (e) {
+return Array(MAX_CLASS_SLOTS).fill('');
+}
 }
 
 function getSelectedClasses() {
@@ -66,9 +85,9 @@ function getSelectedClasses() {
 }
 
 function setSelectedClassesSlots(slots) {
-  const normalized = normalizeClassSlots(slots);
-  localStorage.setItem('selectedClasses', JSON.stringify(normalized));
-  return normalized;
+const normalized = normalizeClassSlots(slots);
+safeLocalStorageSet('selectedClasses', JSON.stringify(normalized));
+return normalized;
 }
 
 function getPeriodNumberFromName(periodName) {
@@ -143,14 +162,14 @@ function getLunchContextPeriodForDay(baseScheduleDay) {
 }
 
 function getLunchPreferencesForScheduleKey(scheduleKey) {
-  const meta = SCHEDULE_METADATA.find(m => m.scheduleKey === scheduleKey);
-  if (meta && meta.storageKey) {
-    try {
-      const stored = localStorage.getItem(meta.storageKey);
-      if (stored) return JSON.parse(stored);
-    } catch (e) {}
-  }
-  return lunchPreferences || getDefaultLunchPrefs();
+const meta = SCHEDULE_METADATA.find(m => m.scheduleKey === scheduleKey);
+if (meta && meta.storageKey) {
+try {
+const stored = safeLocalStorageGet(meta.storageKey);
+if (stored) return JSON.parse(stored);
+} catch (e) {}
+}
+return lunchPreferences || getDefaultLunchPrefs();
 }
 
 function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedule) {
