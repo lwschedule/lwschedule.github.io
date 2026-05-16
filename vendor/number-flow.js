@@ -1,0 +1,1 @@
+import{defineElement as e}from"https://unpkg.com/number-flow@0.6.0?module";e();

@@ -403,48 +403,51 @@
 
     function setSetupCounterText(type, text) {
       if (type === 'classes') {
-        if (setupCounterMorphs.classes) {
-          setupCounterMorphs.classes.update(text);
-        } else {
-          const el = document.getElementById('setupClassesCount');
-          if (el) el.textContent = text;
+        const el = document.getElementById('setupClassesCount');
+        const numberFlow = el ? el.querySelector('number-flow') : null;
+        if (numberFlow) {
+          numberFlow.setAttribute('value', text);
+        } else if (el) {
+          el.textContent = text;
         }
         return;
       }
 
       if (type === 'clubs') {
-        if (setupCounterMorphs.clubs) {
-          setupCounterMorphs.clubs.update(text);
-        } else {
-          const el = document.getElementById('selectedCount');
-          if (el) el.textContent = text;
+        const el = document.getElementById('selectedCount');
+        const numberFlow = el ? el.querySelector('number-flow') : null;
+        if (numberFlow) {
+          numberFlow.setAttribute('value', text);
+        } else if (el) {
+          el.textContent = text;
         }
       }
     }
 
     async function initSetupCounterMorphs() {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
+        // Load Number Flow
+        await import('/vendor/number-flow.js');
+        
         const classesHost = ensureCounterMorphHost(document.getElementById('setupClassesCount'));
-        const clubsHost = ensureCounterMorphHost(document.getElementById('selectedCount'));
+        const clubsHost = ensureCounterMorphs(document.getElementById('selectedCount'));
 
+        // Create Number Flow elements for counters
         if (classesHost) {
-          setupCounterMorphs.classes = new TextMorph({
-            element: classesHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
+          const numberFlow = document.createElement('number-flow');
+          numberFlow.setAttribute('value', '0');
+          classesHost.innerHTML = '';
+          classesHost.appendChild(numberFlow);
         }
-
+        
         if (clubsHost) {
-          setupCounterMorphs.clubs = new TextMorph({
-            element: clubsHost,
-            duration: 400,
-            ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-          });
+          const numberFlow = document.createElement('number-flow');
+          numberFlow.setAttribute('value', '0');
+          clubsHost.innerHTML = '';
+          clubsHost.appendChild(numberFlow);
         }
       } catch (error) {
-        console.warn('Torph failed to load for setup counters, using default updates.', error);
+        console.warn('Number Flow failed to load for setup counters, using default updates.', error);
       }
     }
 

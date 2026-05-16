@@ -133,15 +133,18 @@
       });
     }
 
-    function initTermMorphs() {
+function initTermMorphs() {
+      // Check if Number Flow is available
       if (!TermTextMorph) return;
       document.querySelectorAll('.term-countdown-value-morph').forEach((host) => {
         if (termValueMorphs.has(host)) return;
-        termValueMorphs.set(host, new TermTextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        }));
+        // Create Number Flow elements for each countdown value
+        const numberFlow = document.createElement('number-flow');
+        numberFlow.setAttribute('value', '0');
+        numberFlow.style.display = 'inline-block';
+        host.innerHTML = '';
+        host.appendChild(numberFlow);
+        termValueMorphs.set(host, numberFlow);
       });
     }
 
@@ -153,8 +156,8 @@
           labelEl.textContent = 'Starts in';
         }
         if (valueHost) {
-          if (typeof valueHost.update === 'function') {
-            valueHost.update('0 Seconds');
+          if (valueHost.querySelector && valueHost.querySelector('number-flow')) {
+            valueHost.querySelector('number-flow').setAttribute('value', '0');
           } else {
             valueHost.textContent = '0 Seconds';
           }
@@ -162,7 +165,7 @@
       });
     }
 
-    function setTermCountdown(cardEl, countdownData) {
+function setTermCountdown(cardEl, countdownData) {
       if (!cardEl) return;
       const block = cardEl.querySelector('.term-countdown-block');
       const badge = cardEl.querySelector('.term-completed-badge-inline');
@@ -176,6 +179,19 @@
         badge.style.display = 'inline-block';
         return;
       }
+
+      block.style.display = 'block';
+      badge.style.display = 'none';
+      labelEl.textContent = countdownData.label;
+      
+      // Update the Number Flow element
+      const morph = termValueMorphs.get(valueHost);
+      if (morph && morph.tagName === 'NUMBER-FLOW') {
+        morph.setAttribute('value', countdownData.value);
+      } else {
+        valueHost.textContent = countdownData.value;
+      }
+    }
 
       block.style.display = 'block';
       badge.style.display = 'none';
@@ -215,12 +231,15 @@
       });
     }
 
-    (async () => {
+(async () => {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
-        TermTextMorph = TextMorph;
+        // Check for Number Flow availability
+        TermTextMorph = true; // Just set to true to indicate Number Flow is available
+        
+        // Load Number Flow
+        await import('/vendor/number-flow.js');
       } catch (error) {
-        console.warn('Torph failed to load for quarters/semesters, using default updates.', error);
+        console.warn('Number Flow failed to load for quarters/semesters, using default updates.', error);
       }
 
       if (typeof window.loadCommon === 'function') {

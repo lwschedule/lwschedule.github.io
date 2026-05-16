@@ -271,26 +271,27 @@
     }
 
     function setClubsCountText(text) {
-      if (clubsCountMorph) {
-        clubsCountMorph.update(text);
-      } else {
-        const el = document.getElementById('selectedCount');
-        if (el) el.textContent = text;
+      const el = document.getElementById('selectedCount');
+      const numberFlow = el ? el.querySelector('number-flow') : null;
+      if (numberFlow) {
+        numberFlow.setAttribute('value', text);
+      } else if (el) {
+        el.textContent = text;
       }
     }
 
     async function initClubsCountMorph() {
       try {
-        const { TextMorph } = await import('/vendor/torph.js');
+        // Load Number Flow
+        await import('/vendor/number-flow.js');
         const host = ensureClubsCountMorphHost(document.getElementById('selectedCount'));
         if (!host) return;
-        clubsCountMorph = new TextMorph({
-          element: host,
-          duration: 400,
-          ease: 'cubic-bezier(0.19, 1, 0.22, 1)'
-        });
+        const numberFlow = document.createElement('number-flow');
+        numberFlow.setAttribute('value', '0');
+        host.innerHTML = '';
+        host.appendChild(numberFlow);
       } catch (error) {
-        console.warn('Torph failed to load for clubs counter, using default updates.', error);
+        console.warn('Number Flow failed to load for clubs counter, using default updates.', error);
       }
     }
 

@@ -255,7 +255,7 @@ function getTorphWorkaroundNeeded() {
   if (!isIOS()) return false;
   const safariMatch = navigator.userAgent.match(/Version\/(\d+)/);
   const safariVersion = safariMatch ? parseInt(safariMatch[1], 10) : 0;
-  // iOS Safari versions 14-16 have inconsistent TextMorph behavior; use fallback
+  // iOS Safari versions 14-16 have issues with some animation libraries; use fallback
   return safariVersion < 17;
 }
 
