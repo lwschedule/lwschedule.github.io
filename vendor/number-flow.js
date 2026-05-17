@@ -1,1 +1,1 @@
-Redirecting to /number-flow@0.6.0/dist/number-flow.js
+export * from './index.mjs';

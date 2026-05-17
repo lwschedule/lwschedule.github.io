@@ -51,7 +51,7 @@
   // Dynamically load number-flow.js as an ES Module
   async function loadNumberFlow() {
     try {
-      await import('https://cdn.jsdelivr.net/npm/number-flow/dist/number-flow.js');
+      await import('/vendor/number-flow.js');
       if (!customElements.get('number-flow')) {
         console.warn('Number Flow loaded but custom element not defined.');
         return false;
@@ -63,35 +63,6 @@
     }
   }
 </script>
-<script>
-    // Initialize timer with number-flow.js
-    async function initTimerMorph() {
-        const numberFlowLoaded = await loadNumberFlow();
-        if (!numberFlowLoaded || !customElements.get('number-flow')) {
-            console.warn('Number Flow failed to load for timer, using default updates.');
-            return;
-        }
-        
-        const timerEl = document.getElementById('timer-value');
-        let oldValue = '';
-        const updateTimerValue = () => {
-            const now = Date.now();
-            const end = new Date(globalThis.targetDate).getTime();
-            const diff = Math.max(0, end - now) / 1000;
-            const hours = Math.floor(diff / 3600);
-            const minutes = Math.floor((diff % 3600) / 60);
-            const seconds = Math.floor(diff % 60);
-            const newValue = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            if (newValue !== oldValue) {
-                timerEl.innerHTML = `<number-flow></number-flow>`;
-                timerEl.querySelector('number-flow').value = newValue;
-                oldValue = newValue;
-            }
-        };
-        setInterval(updateTimerValue, 1000);
-        updateTimerValue();
-    }
-    initTimerMorph();
-</script>
+
 </body>
 </html>
