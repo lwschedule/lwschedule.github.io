@@ -1,4 +1,4 @@
-import { BROWSER as o } from "esm-env";
+const o = true;
 const h = String.raw, m = String.raw, v = o && (() => {
   try {
     document.createElement("div").animate({ opacity: 0 }, { easing: "linear(0, 1)" });

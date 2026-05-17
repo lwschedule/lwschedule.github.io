@@ -1,4 +1,4 @@
-import { BROWSER as C } from "esm-env";
+const C = true;
 import { c as U, d as j, e as S, S as T, b as L, p as P, f as M, w as N, g as $, o as w } from "./ssr-Cre0Q1Ju.mjs";
 import { r as q } from "./ssr-Cre0Q1Ju.mjs";
 import { continuous as J } from "./plugins.mjs";

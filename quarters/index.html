@@ -9,13 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script type="importmap">
-{
-  "imports": {
-    "esm-env": "/vendor/esm-env.js"
-  }
-}
-</script>
   <style>
     .academic-term-list { display: flex; flex-direction: column; gap: 15px; }
     .term-card { background: var(--primary); border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
@@ -29,6 +22,7 @@
     .term-countdown-block .countdown-value { font-size: clamp(1.5em, 5vw, 2em); font-weight: 700; color: var(--primary-light); line-height: 1.1; }
     .term-countdown-block .countdown-value .term-countdown-value-morph { display: inline-block; min-width: 6ch; text-align: right; }
     .term-countdown-block .countdown-label { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+    .term-countdown-block .term-countdown-unit { font-size: 0.7em; font-weight: 400; color: var(--text-light); opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; display: block; }
     .term-card.highlight .countdown-value { color: white; }
     .term-card.highlight .countdown-label { color: white; opacity: 0.9; }
     .term-completed-badge { background: var(--primary);   color: white; opacity: 0.8; padding: 8px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 700; }
@@ -114,6 +108,7 @@
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">Starts in</span>
               <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
+              <span class="countdown-label term-countdown-unit">Days</span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -134,6 +129,7 @@
             <div class="term-countdown-block">
               <span class="countdown-label term-countdown-label">Starts in</span>
               <span class="countdown-value term-countdown-value"><span class="term-countdown-value-morph">0 Seconds</span></span>
+              <span class="countdown-label term-countdown-unit">Days</span>
             </div>
             <div class="term-completed-badge term-completed-badge-inline" style="display:none;">Completed</div>
           </div>
@@ -159,8 +155,12 @@ function initTermMorphs() {
       document.querySelectorAll('.term-countdown-block').forEach((block) => {
         const labelEl = block.querySelector('.term-countdown-label');
         const valueHost = block.querySelector('.term-countdown-value-morph');
+        const unitEl = block.parentElement.querySelector('.term-countdown-unit');
         if (labelEl) {
           labelEl.textContent = 'Starts in';
+        }
+        if (unitEl) {
+          unitEl.textContent = 'Days';
         }
         if (valueHost) {
           const morph = termValueMorphs.get(valueHost);
@@ -181,6 +181,7 @@ function setTermCountdown(cardEl, countdownData) {
       const badge = cardEl.querySelector('.term-completed-badge-inline');
       const labelEl = cardEl.querySelector('.term-countdown-label');
       const valueHost = cardEl.querySelector('.term-countdown-value-morph');
+      const unitEl = cardEl.querySelector('.term-countdown-unit');
 
       if (!block || !badge || !labelEl || !valueHost) return;
 
@@ -193,6 +194,10 @@ function setTermCountdown(cardEl, countdownData) {
       block.style.display = 'block';
       badge.style.display = 'none';
       labelEl.textContent = countdownData.label;
+      
+      if (unitEl) {
+        unitEl.textContent = countdownData.unit || 'Days';
+      }
       
       const morph = termValueMorphs.get(valueHost);
       if (morph && morph.tagName === 'NUMBER-FLOW') {
