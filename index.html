@@ -47,66 +47,51 @@
   <div id="homeTickerSpacer" aria-hidden="true"></div>
 
   <script src="/common-core.js"></script>
-<script src="/vendor/number-flow.umd.js"></script>
 <script>
-    // Initialize clock with number-flow.js
-    async function initClockMorphs() {
-        if (!window.NumberFlow?.defineElement) {
-            console.warn('Number Flow failed to load, using default clock updates.');
+  // Dynamically load number-flow.js as an ES Module
+  async function loadNumberFlow() {
+    try {
+      await import('https://cdn.jsdelivr.net/npm/number-flow/dist/number-flow.js');
+      if (!customElements.get('number-flow')) {
+        console.warn('Number Flow loaded but custom element not defined.');
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.warn('Failed to load Number Flow:', error);
+      return false;
+    }
+  }
+</script>
+<script>
+    // Initialize timer with number-flow.js
+    async function initTimerMorph() {
+        const numberFlowLoaded = await loadNumberFlow();
+        if (!numberFlowLoaded || !customElements.get('number-flow')) {
+            console.warn('Number Flow failed to load for timer, using default updates.');
             return;
         }
         
-        const clockDisplay = document.getElementById('clockDisplay');
-        if (!clockDisplay) return;
-        
-        const daysEl = document.getElementById('clockDisplay-days');
-        const hoursEl = document.getElementById('clockDisplay-hours');
-        const minutesEl = document.getElementById('clockDisplay-minutes');
-        const secondsEl = document.getElementById('clockDisplay-seconds');
-        
-        if (daysEl && !daysEl.querySelector('number-flow')) {
-            daysEl.innerHTML = '<number-flow></number-flow>';
-        }
-        if (hoursEl && !hoursEl.querySelector('number-flow')) {
-            hoursEl.innerHTML = '<number-flow></number-flow>';
-        }
-        if (minutesEl && !minutesEl.querySelector('number-flow')) {
-            minutesEl.innerHTML = '<number-flow></number-flow>';
-        }
-        if (secondsEl && !secondsEl.querySelector('number-flow')) {
-            secondsEl.innerHTML = '<number-flow></number-flow>';
-        }
+        const timerEl = document.getElementById('timer-value');
+        let oldValue = '';
+        const updateTimerValue = () => {
+            const now = Date.now();
+            const end = new Date(globalThis.targetDate).getTime();
+            const diff = Math.max(0, end - now) / 1000;
+            const hours = Math.floor(diff / 3600);
+            const minutes = Math.floor((diff % 3600) / 60);
+            const seconds = Math.floor(diff % 60);
+            const newValue = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            if (newValue !== oldValue) {
+                timerEl.innerHTML = `<number-flow></number-flow>`;
+                timerEl.querySelector('number-flow').value = newValue;
+                oldValue = newValue;
+            }
+        };
+        setInterval(updateTimerValue, 1000);
+        updateTimerValue();
     }
-    
-    function updateClockMorphs(data) {
-        const daysEl = document.getElementById('clockDisplay-days');
-        const hoursEl = document.getElementById('clockDisplay-hours');
-        const minutesEl = document.getElementById('clockDisplay-minutes');
-        const secondsEl = document.getElementById('clockDisplay-seconds');
-        
-        if (daysEl) {
-            const flowEl = daysEl.querySelector('number-flow');
-            if (flowEl) flowEl.value = data.days;
-            else daysEl.textContent = data.days;
-        }
-        if (hoursEl) {
-            const flowEl = hoursEl.querySelector('number-flow');
-            if (flowEl) flowEl.value = data.hours;
-            else hoursEl.textContent = data.hours;
-        }
-        if (minutesEl) {
-            const flowEl = minutesEl.querySelector('number-flow');
-            if (flowEl) flowEl.value = data.minutes;
-            else minutesEl.textContent = data.minutes;
-        }
-        if (secondsEl) {
-            const flowEl = secondsEl.querySelector('number-flow');
-            if (flowEl) flowEl.value = data.seconds;
-            else secondsEl.textContent = data.seconds;
-        }
-    }
-    
-    initClockMorphs();
+    initTimerMorph();
 </script>
 </body>
 </html>
