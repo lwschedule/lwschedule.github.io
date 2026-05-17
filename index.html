@@ -47,7 +47,24 @@
   <div id="homeTickerSpacer" aria-hidden="true"></div>
 
   <script src="/common-core.js"></script>
-<script src="https://unpkg.com/number-flow@latest/dist/number-flow.js"></script>
+<script>
+  // Load number-flow.js with local fallback
+  function loadNumberFlow() {
+    const script = document.createElement('script');
+    script.src = '/vendor/number-flow.js';
+    script.onload = () => {
+      // Verify the library loaded correctly
+      if (!window.NumberFlow?.defineElement) {
+        console.warn('Number Flow loaded but API is missing.');
+      }
+    };
+    script.onerror = () => {
+      console.warn('Failed to load Number Flow from local fallback.');
+    };
+    document.head.appendChild(script);
+  }
+  loadNumberFlow();
+</script>
 <script>
     // Initialize clock with number-flow.js
     async function initClockMorphs() {

@@ -1,1 +1,1 @@
-import{defineElement as e}from"https://unpkg.com/number-flow@0.6.0?module";e();
+Redirecting to /number-flow@0.6.0/dist/number-flow.js
