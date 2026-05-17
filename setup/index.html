@@ -388,26 +388,13 @@
     let setupCounterMorphs = { classes: null, clubs: null };
 
     function ensureCounterMorphHost(containerEl) {
-      if (!containerEl) return null;
-      let host = containerEl.querySelector('.counter-morph');
-      if (!host) {
-        const initial = containerEl.textContent || '';
-        containerEl.textContent = '';
-        host = document.createElement('span');
-        host.className = 'counter-morph';
-        host.textContent = initial;
-        containerEl.appendChild(host);
-      }
-      return host;
+      return containerEl;
     }
 
     function setSetupCounterText(type, text) {
       if (type === 'classes') {
         const el = document.getElementById('setupClassesCount');
-        const numberFlow = el ? el.querySelector('number-flow') : null;
-        if (numberFlow) {
-          numberFlow.setAttribute('value', text);
-        } else if (el) {
+        if (el) {
           el.textContent = text;
         }
         return;
@@ -415,40 +402,14 @@
 
       if (type === 'clubs') {
         const el = document.getElementById('selectedCount');
-        const numberFlow = el ? el.querySelector('number-flow') : null;
-        if (numberFlow) {
-          numberFlow.setAttribute('value', text);
-        } else if (el) {
+        if (el) {
           el.textContent = text;
         }
       }
     }
 
     async function initSetupCounterMorphs() {
-      try {
-        // Load Number Flow
-        await import('/vendor/number-flow.js');
-        
-        const classesHost = ensureCounterMorphHost(document.getElementById('setupClassesCount'));
-        const clubsHost = ensureCounterMorphs(document.getElementById('selectedCount'));
-
-        // Create Number Flow elements for counters
-        if (classesHost) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '0');
-          classesHost.innerHTML = '';
-          classesHost.appendChild(numberFlow);
-        }
-        
-        if (clubsHost) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '0');
-          clubsHost.innerHTML = '';
-          clubsHost.appendChild(numberFlow);
-        }
-      } catch (error) {
-        console.warn('Number Flow failed to load for setup counters, using default updates.', error);
-      }
+      // Number Flow not needed for string counters
     }
 
     function escapeSetupHtml(text) {

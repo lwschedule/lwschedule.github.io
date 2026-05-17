@@ -58,7 +58,8 @@
         return {
           completed: true,
           label: '',
-          value: 'Completed'
+          numericValue: 0,
+          unit: 'Completed'
         };
       }
 
@@ -71,16 +72,17 @@
       const totalHours = Math.floor(totalMinutes / 60);
       const totalDays = Math.floor(totalHours / 24);
 
-      let value, unit;
-      if (totalDays > 0) { value = totalDays; unit = totalDays === 1 ? "Day" : "Days"; }
-      else if (totalHours > 0) { value = totalHours; unit = totalHours === 1 ? "Hour" : "Hours"; }
-      else if (totalMinutes > 0) { value = totalMinutes; unit = totalMinutes === 1 ? "Minute" : "Minutes"; }
-      else { value = totalSeconds; unit = totalSeconds === 1 ? "Second" : "Seconds"; }
+      let numericValue, unit;
+      if (totalDays > 0) { numericValue = totalDays; unit = totalDays === 1 ? "Day" : "Days"; }
+      else if (totalHours > 0) { numericValue = totalHours; unit = totalHours === 1 ? "Hour" : "Hours"; }
+      else if (totalMinutes > 0) { numericValue = totalMinutes; unit = totalMinutes === 1 ? "Minute" : "Minutes"; }
+      else { numericValue = totalSeconds; unit = totalSeconds === 1 ? "Second" : "Seconds"; }
 
       return {
         completed: false,
         label,
-        value: `${value} ${unit}`
+        numericValue,
+        unit
       };
     }
 
@@ -134,13 +136,11 @@
     }
 
 function initTermMorphs() {
-      // Check if Number Flow is available
       if (!TermTextMorph) return;
       document.querySelectorAll('.term-countdown-value-morph').forEach((host) => {
         if (termValueMorphs.has(host)) return;
-        // Create Number Flow elements for each countdown value
         const numberFlow = document.createElement('number-flow');
-        numberFlow.setAttribute('value', '0');
+        numberFlow.update(0);
         numberFlow.style.display = 'inline-block';
         host.innerHTML = '';
         host.appendChild(numberFlow);
@@ -156,8 +156,11 @@ function initTermMorphs() {
           labelEl.textContent = 'Starts in';
         }
         if (valueHost) {
-          if (valueHost.querySelector && valueHost.querySelector('number-flow')) {
-            valueHost.querySelector('number-flow').setAttribute('value', '0');
+          const morph = termValueMorphs.get(valueHost);
+          if (morph) {
+            morph.update(0);
+          } else if (valueHost.querySelector && valueHost.querySelector('number-flow')) {
+            valueHost.querySelector('number-flow').update(0);
           } else {
             valueHost.textContent = '0 Seconds';
           }
@@ -184,28 +187,15 @@ function setTermCountdown(cardEl, countdownData) {
       badge.style.display = 'none';
       labelEl.textContent = countdownData.label;
       
-      // Update the Number Flow element
       const morph = termValueMorphs.get(valueHost);
       if (morph && morph.tagName === 'NUMBER-FLOW') {
-        morph.setAttribute('value', countdownData.value);
+        morph.update(countdownData.numericValue ?? 0);
       } else {
-        valueHost.textContent = countdownData.value;
+        valueHost.textContent = `${countdownData.numericValue ?? 0} ${countdownData.unit || ''}`;
       }
     }
 
-      block.style.display = 'block';
-      badge.style.display = 'none';
-      labelEl.textContent = countdownData.label;
-
-      const morph = termValueMorphs.get(valueHost);
-      if (morph) {
-        morph.update(countdownData.value);
-      } else {
-        valueHost.textContent = countdownData.value;
-      }
-    }
-
-    function updateQuartersAndSemesters() {
+      function updateQuartersAndSemesters() {
       const now = new Date();
       const quartersListEl = document.getElementById('quartersList');
       const semestersListEl = document.getElementById('semestersList');

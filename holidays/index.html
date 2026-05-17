@@ -60,17 +60,15 @@
     };
 
 function updateHolidayCountdownMorphs(data) {
-      // Get the elements
       const daysEl = document.getElementById('countdown-days');
       const hoursEl = document.getElementById('countdown-hours');
       const minutesEl = document.getElementById('countdown-minutes');
       const secondsEl = document.getElementById('countdown-seconds');
       
-      // Update each element with the new values
       if (daysEl) {
         const numberFlow = daysEl.querySelector('number-flow');
         if (numberFlow) {
-          numberFlow.setAttribute('value', data.days.toString());
+          numberFlow.update(data.days ?? 0);
         } else {
           daysEl.textContent = data.days.toString();
         }
@@ -79,7 +77,7 @@ function updateHolidayCountdownMorphs(data) {
       if (hoursEl) {
         const numberFlow = hoursEl.querySelector('number-flow');
         if (numberFlow) {
-          numberFlow.setAttribute('value', data.hours.toString().padStart(2, '0'));
+          numberFlow.update(data.hours ?? 0);
         } else {
           hoursEl.textContent = data.hours.toString().padStart(2, '0');
         }
@@ -88,7 +86,7 @@ function updateHolidayCountdownMorphs(data) {
       if (minutesEl) {
         const numberFlow = minutesEl.querySelector('number-flow');
         if (numberFlow) {
-          numberFlow.setAttribute('value', data.minutes.toString().padStart(2, '0'));
+          numberFlow.update(data.minutes ?? 0);
         } else {
           minutesEl.textContent = data.minutes.toString().padStart(2, '0');
         }
@@ -97,7 +95,7 @@ function updateHolidayCountdownMorphs(data) {
       if (secondsEl) {
         const numberFlow = secondsEl.querySelector('number-flow');
         if (numberFlow) {
-          numberFlow.setAttribute('value', data.seconds.toString().padStart(2, '0'));
+          numberFlow.update(data.seconds ?? 0);
         } else {
           secondsEl.textContent = data.seconds.toString().padStart(2, '0');
         }
@@ -191,61 +189,29 @@ async function initHolidayCountdownMorphs() {
 
     window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
 
-    async function initHolidayCountdownMorphs() {
+async function initHolidayCountdownMorphs() {
       try {
-        // Check for iOS workaround
         if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
           window.updateHolidayCountdownMorphs = null;
           console.warn('Number Flow disabled on iOS < 17; using text updates.');
           return;
         }
         
-        // Load Number Flow
         await import('/vendor/number-flow.js');
         
-        // Create Number Flow elements for each countdown value
         const daysEl = document.getElementById('countdown-days');
         const hoursEl = document.getElementById('countdown-hours');
         const minutesEl = document.getElementById('countdown-minutes');
         const secondsEl = document.getElementById('countdown-seconds');
 
-        // Create Number Flow elements
         if (daysEl) {
           const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '0');
-          numberFlow.setAttribute('format', 'decimal');
+          numberFlow.update(0);
           daysEl.innerHTML = '';
           daysEl.appendChild(numberFlow);
         }
         
-        if (hoursEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          hoursEl.innerHTML = '';
-          hoursEl.appendChild(numberFlow);
-        }
-        
-        if (minutesEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          minutesEl.innerHTML = '';
-          minutesEl.appendChild(numberFlow);
-        }
-        
-        if (secondsEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          secondsEl.innerHTML = '';
-          secondsEl.appendChild(numberFlow);
-        }
-
-        // Seed from zero immediately before first live countdown update.
-        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } catch (error) {
-        window.updateHolidayCountdownMorphs = null;
-        console.warn('Number Flow failed to load for holiday countdown, using default updates.', error);
-      }
-    }
+window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
 
     (async () => {
       if (typeof window.loadCommon === 'function') {

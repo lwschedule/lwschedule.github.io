@@ -257,42 +257,18 @@
     let clubsCountMorph = null;
 
     function ensureClubsCountMorphHost(containerEl) {
-      if (!containerEl) return null;
-      let host = containerEl.querySelector('.counter-morph');
-      if (!host) {
-        const initial = containerEl.textContent || '';
-        containerEl.textContent = '';
-        host = document.createElement('span');
-        host.className = 'counter-morph';
-        host.textContent = initial;
-        containerEl.appendChild(host);
-      }
-      return host;
+      return containerEl;
     }
 
     function setClubsCountText(text) {
       const el = document.getElementById('selectedCount');
-      const numberFlow = el ? el.querySelector('number-flow') : null;
-      if (numberFlow) {
-        numberFlow.setAttribute('value', text);
-      } else if (el) {
+      if (el) {
         el.textContent = text;
       }
     }
 
     async function initClubsCountMorph() {
-      try {
-        // Load Number Flow
-        await import('/vendor/number-flow.js');
-        const host = ensureClubsCountMorphHost(document.getElementById('selectedCount'));
-        if (!host) return;
-        const numberFlow = document.createElement('number-flow');
-        numberFlow.setAttribute('value', '0');
-        host.innerHTML = '';
-        host.appendChild(numberFlow);
-      } catch (error) {
-        console.warn('Number Flow failed to load for clubs counter, using default updates.', error);
-      }
+      // Number Flow not needed for string counters
     }
 
     function escapeHtml(text) {

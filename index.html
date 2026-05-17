@@ -62,12 +62,42 @@
       return false;
     }
   }
+
+  async function initClockMorphs() {
+    const loaded = await loadNumberFlow();
+    if (!loaded) return;
+
+    const fields = ['days', 'hours', 'minutes', 'seconds'];
+    const morphs = {};
+    for (const field of fields) {
+      const span = document.getElementById(`clockDisplay-${field}`);
+      if (!span) continue;
+      const nf = document.createElement('number-flow');
+      nf.update(0);
+      span.textContent = '';
+      span.appendChild(nf);
+      morphs[field] = nf;
+    }
+
+    window.updateClockMorphs = (data) => {
+      if (data.days !== undefined) morphs.days?.update(data.days ?? 0);
+      if (data.hours !== undefined) morphs.hours?.update(data.hours ?? 0);
+      morphs.minutes?.update(data.minutes ?? 0);
+      morphs.seconds?.update(data.seconds ?? 0);
+    };
+
+    const timerEl = document.getElementById('timer');
+    window.updateNextPeriodBlock = (text) => {
+      if (timerEl) timerEl.textContent = text;
+    };
+  }
 </script>
 <script>
   (async () => {
     if (typeof window.loadCommon === 'function') {
       try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
     }
+    await initClockMorphs();
     await initApp();
     updateClock();
     setInterval(updateClock, 1000);
