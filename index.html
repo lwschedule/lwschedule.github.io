@@ -63,6 +63,68 @@
     }
   }
 </script>
+<script>
+  (async () => {
+    if (typeof window.loadCommon === 'function') {
+      try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+    }
+    await initApp();
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Ticker
+    try {
+      const res = await fetch('/data/ticker-messages.json');
+      const data = await res.json();
+      const ticker = document.getElementById('homeTicker');
+      const track = document.getElementById('homeTickerTrack');
+      const closeBtn = document.getElementById('homeTickerClose');
+      if (data.messages && data.messages.length && ticker && track) {
+        const group = document.createElement('div');
+        group.className = 'home-ticker-group';
+        data.messages.forEach(msg => {
+          const item = document.createElement('span');
+          item.className = msg.url ? 'home-ticker-item home-ticker-item-with-link' : 'home-ticker-item';
+          item.textContent = msg.text;
+          if (msg.url) {
+            const a = document.createElement('a');
+            a.href = msg.url;
+            a.className = 'home-ticker-link';
+            a.target = '_blank';
+            a.textContent = msg.url;
+            item.appendChild(a);
+          }
+          group.appendChild(item);
+          const sep = document.createElement('span');
+          sep.className = 'home-ticker-separator';
+          sep.textContent = '•';
+          group.appendChild(sep);
+        });
+        track.appendChild(group.cloneNode(true));
+        track.appendChild(group.cloneNode(true));
+        let x = 0;
+        const speed = 0.4;
+        const halfWidth = track.scrollWidth / 2;
+        function animateTicker() {
+          x -= speed;
+          if (Math.abs(x) >= halfWidth) x = 0;
+          track.style.transform = `translateX(${x}px)`;
+          requestAnimationFrame(animateTicker);
+        }
+        requestAnimationFrame(animateTicker);
+        closeBtn && closeBtn.addEventListener('click', () => {
+          ticker.classList.add('hidden');
+          document.getElementById('homeTickerSpacer').style.display = 'none';
+        });
+      } else {
+        ticker && ticker.classList.add('hidden');
+      }
+    } catch(e) {
+      const ticker = document.getElementById('homeTicker');
+      ticker && ticker.classList.add('hidden');
+    }
+  })();
+</script>
 
 </body>
 </html>
