@@ -9,6 +9,13 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script type="importmap">
+{
+  "imports": {
+    "esm-env": "/vendor/esm-env.js"
+  }
+}
+</script>
 </head>
 <body>
   
@@ -104,93 +111,6 @@ function updateHolidayCountdownMorphs(data) {
 
 async function initHolidayCountdownMorphs() {
       try {
-        // Check for iOS workaround
-        if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
-          window.updateHolidayCountdownMorphs = null;
-          console.warn('Number Flow disabled on iOS < 17; using text updates.');
-          return;
-        }
-        
-        // Load Number Flow
-        await import('/vendor/number-flow.js');
-        
-        // Create Number Flow elements for each countdown value
-        const daysEl = document.getElementById('countdown-days');
-        const hoursEl = document.getElementById('countdown-hours');
-        const minutesEl = document.getElementById('countdown-minutes');
-        const secondsEl = document.getElementById('countdown-seconds');
-
-        // Create Number Flow elements
-        if (daysEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '0');
-          numberFlow.setAttribute('format', 'decimal');
-          daysEl.innerHTML = '';
-          daysEl.appendChild(numberFlow);
-        }
-        
-        if (hoursEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          hoursEl.innerHTML = '';
-          hoursEl.appendChild(numberFlow);
-        }
-        
-        if (minutesEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          minutesEl.innerHTML = '';
-          minutesEl.appendChild(numberFlow);
-        }
-        
-        if (secondsEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', '00');
-          secondsEl.innerHTML = '';
-          secondsEl.appendChild(numberFlow);
-        }
-
-        // Seed from zero immediately before first live countdown update.
-        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } catch (error) {
-        window.updateHolidayCountdownMorphs = null;
-        console.warn('Number Flow failed to load for holiday countdown, using default updates.', error);
-      }
-    }
-        
-        if (hoursEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', hoursEl.textContent);
-          hoursEl.innerHTML = '';
-          hoursEl.appendChild(numberFlow);
-        }
-        
-        if (minutesEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', minutesEl.textContent);
-          minutesEl.innerHTML = '';
-          minutesEl.appendChild(numberFlow);
-        }
-        
-        if (secondsEl) {
-          const numberFlow = document.createElement('number-flow');
-          numberFlow.setAttribute('value', secondsEl.textContent);
-          secondsEl.innerHTML = '';
-          secondsEl.appendChild(numberFlow);
-        }
-
-        // Seed from zero immediately before first live countdown update.
-        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } catch (error) {
-        window.updateHolidayCountdownMorphs = null;
-        console.warn('Number Flow failed to load for holiday countdown, using default updates.', error);
-      }
-    }
-
-    window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
-
-async function initHolidayCountdownMorphs() {
-      try {
         if (getTorphWorkaroundNeeded && getTorphWorkaroundNeeded()) {
           window.updateHolidayCountdownMorphs = null;
           console.warn('Number Flow disabled on iOS < 17; using text updates.');
@@ -211,7 +131,35 @@ async function initHolidayCountdownMorphs() {
           daysEl.appendChild(numberFlow);
         }
         
-window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
+        if (hoursEl) {
+          const numberFlow = document.createElement('number-flow');
+          numberFlow.update(0);
+          hoursEl.innerHTML = '';
+          hoursEl.appendChild(numberFlow);
+        }
+        
+        if (minutesEl) {
+          const numberFlow = document.createElement('number-flow');
+          numberFlow.update(0);
+          minutesEl.innerHTML = '';
+          minutesEl.appendChild(numberFlow);
+        }
+        
+        if (secondsEl) {
+          const numberFlow = document.createElement('number-flow');
+          numberFlow.update(0);
+          secondsEl.innerHTML = '';
+          secondsEl.appendChild(numberFlow);
+        }
+
+        updateHolidayCountdownMorphs({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      } catch (error) {
+        window.updateHolidayCountdownMorphs = null;
+        console.warn('Number Flow failed to load for holiday countdown, using default updates.', error);
+      }
+    }
+
+    window.updateHolidayCountdownMorphs = updateHolidayCountdownMorphs;
 
     (async () => {
       if (typeof window.loadCommon === 'function') {
