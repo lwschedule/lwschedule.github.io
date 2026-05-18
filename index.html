@@ -64,6 +64,11 @@
   }
 
   async function initClockMorphs() {
+    if (typeof getTorphWorkaroundNeeded === 'function' && getTorphWorkaroundNeeded()) {
+      console.warn('Number Flow disabled on iOS < 17; using text updates.');
+      return;
+    }
+
     const loaded = await loadNumberFlow();
     if (!loaded) return;
 
@@ -73,10 +78,15 @@
       const span = document.getElementById(`clockDisplay-${field}`);
       if (!span) continue;
       const nf = document.createElement('number-flow');
-      nf.update(0);
       span.textContent = '';
       span.appendChild(nf);
       morphs[field] = nf;
+    }
+
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
+    for (const field of fields) {
+      morphs[field]?.update(0);
     }
 
     window.updateClockMorphs = (data) => {
