@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lwschedule-2026-05-11';
+const CACHE_NAME = 'lwschedule-2026-05-18';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',
