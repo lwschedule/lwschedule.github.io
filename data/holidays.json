@@ -12,12 +12,6 @@
     "isWeekend": true
   },
   {
-    "name": "Last Day of School",
-    "date": "2026-06-17",
-    "displayDate": "June 17, 2026",
-    "isWeekend": false
-  },
-  {
     "name": "Snow Make-Up Day",
     "date": "2026-05-26",
     "displayDate": "May 26, 2026",

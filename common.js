@@ -1107,9 +1107,12 @@ function updateHolidayCountdown() {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
       let countdownTarget;
-      
-      const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-      countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+      if (typeof upcoming.name === 'string' && upcoming.name.toLowerCase() === 'leap week') {
+        countdownTarget = new Date(2026, 4, 21, 15, 15, 0, 0);
+      } else {
+        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+        countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
+      }
       
       if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
