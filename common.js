@@ -7,6 +7,8 @@ let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
+const PROFILE_PURPLE_SHADES = ['#6b2cf5', '#7c3aed', '#8b5cf6', '#9333ea', '#a855f7', '#c084fc'];
+
 // Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
 const SCHEDULE_METADATA = [
   {
@@ -85,6 +87,81 @@ function getSidebarIconUrl(iconId) {
 
 function renderSfSymbol(symbolName, className = 'sf-symbol-icon') {
   return `<img class="${className}" src="${getSidebarIconUrl(symbolName)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
+}
+
+function getProfile() {
+  try {
+    const saved = localStorage.getItem('userProfile');
+    if (!saved) return null;
+    const profile = JSON.parse(saved);
+    return {
+      name: profile.name || '',
+      initials: profile.initials || '',
+      followedEvents: profile.followedEvents || []
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function setProfile(profile) {
+  const data = {
+    name: profile.name || '',
+    initials: profile.initials || '',
+    followedEvents: profile.followedEvents || []
+  };
+  localStorage.setItem('userProfile', JSON.stringify(data));
+  return data;
+}
+
+function getProfileInitials(name) {
+  if (!name || typeof name !== 'string') return '';
+  const words = name.trim().split(/\s+/);
+  if (words.length >= 2) {
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  }
+  return words[0].slice(0, 2).toUpperCase();
+}
+
+function getProfileBackgroundColor(initials) {
+  if (!initials || typeof initials !== 'string') return PROFILE_PURPLE_SHADES[0];
+  let hash = 0;
+  for (let i = 0; i < initials.length; i++) {
+    hash = initials.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % PROFILE_PURPLE_SHADES.length;
+  return PROFILE_PURPLE_SHADES[index];
+}
+
+function getProfilePicture(initials, size = 50, showText = true) {
+  const displayInitials = initials ? initials.toUpperCase() : '?';
+  const bgColor = getProfileBackgroundColor(initials);
+  return `<div class="profile-picture" style="width: ${size}px; height: ${size}px; background: ${bgColor}; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; ${showText ? '' : 'visibility: hidden;'}"><span class="profile-initials" style="color: white; font-weight: 700; font-size: ${size * 0.4}px;">${displayInitials}</span></div>`;
+}
+
+function addFollowedEvent(eventId) {
+  const profile = getProfile() || { name: '', initials: '', followedEvents: [] };
+  if (!profile.followedEvents.includes(eventId)) {
+    profile.followedEvents.push(eventId);
+    return setProfile(profile);
+  }
+  return profile;
+}
+
+function removeFollowedEvent(eventId) {
+  const profile = getProfile() || { name: '', initials: '', followedEvents: [] };
+  profile.followedEvents = profile.followedEvents.filter(id => id !== eventId);
+  return setProfile(profile);
+}
+
+function isEventFollowed(eventId) {
+  const profile = getProfile();
+  return profile && profile.followedEvents.includes(eventId);
+}
+
+function getFollowedEvents() {
+  const profile = getProfile();
+  return profile ? profile.followedEvents : [];
 }
 
 const PAGE_TRANSITION_READY_CLASS = 'page-transition-ready';
@@ -1780,6 +1857,38 @@ function injectGlobalSidebar() {
     }
   });
 
+  const profile = getProfile();
+  let profileHtml = '';
+  if (profile) {
+    const initials = profile.initials || getProfileInitials(profile.name);
+    const bgColor = getProfileBackgroundColor(initials);
+    profileHtml = `
+      <div class="sidebar-profile-section">
+        <div class="sidebar-profile-row" data-action="open-profile-modal">
+          <div class="profile-picture" style="width: 40px; height: 40px; background: ${bgColor}; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+            <span style="color: white; font-weight: 700; font-size: 16px;">${initials.toUpperCase()}</span>
+          </div>
+          <div class="sidebar-profile-info">
+            <div class="sidebar-profile-name">${escapeHtml(profile.name)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    profileHtml = `
+      <div class="sidebar-profile-section">
+        <div class="sidebar-profile-row" data-action="open-profile-modal">
+          <div class="profile-picture" style="width: 40px; height: 40px; background: ${PROFILE_PURPLE_SHADES[0]}; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+            <span style="color: white; font-weight: 700; font-size: 16px;">?</span>
+          </div>
+          <div class="sidebar-profile-info">
+            <div class="sidebar-profile-setup-text">Set up profile</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   sidebar.innerHTML = `
     <div class="sidebar-header">
       <img src="/images/logo.png" alt="Logo" class="sidebar-logo">
@@ -1788,6 +1897,7 @@ function injectGlobalSidebar() {
     <div class="sidebar-links-container">
       <div class="sidebar-bubble" id="sidebarBubble"></div>
       ${linksHtml}
+      ${profileHtml}
     </div>
   `;
   document.body.appendChild(sidebar);
@@ -1860,6 +1970,13 @@ function injectGlobalSidebar() {
     mobileToggle.style.opacity = isOpen ? '0' : '1';
     mobileToggle.style.pointerEvents = isOpen ? 'none' : 'auto';
   });
+
+  const profileRow = sidebar.querySelector('.sidebar-profile-row');
+  if (profileRow) {
+    profileRow.addEventListener('click', () => {
+      openProfileModal();
+    });
+  }
 
   function createMask() {
     const m = document.createElement('div');
