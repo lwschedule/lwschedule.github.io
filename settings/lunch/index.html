@@ -56,6 +56,11 @@
   </div>
   <script src="/common-core.js"></script>
   <script>
+    if (window.location.pathname.startsWith('/settings')) {
+      window.location.replace('/profile');
+    }
+  </script>
+  <script>
     (async () => {
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }

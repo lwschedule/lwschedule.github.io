@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - LW Schedule</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <style>
+    .pageContainer {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .pageSubtitle {
+      text-align: center;
+      opacity: 0.75;
+      margin: -2px 0 24px;
+    }
+
+    .profileCard {
+      background: var(--card-dark);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--glow);
+    }
+
+    .cardHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .cardHeader h3 {
+      margin: 0;
+      text-align: left;
+    }
+
+    .saveSectionBtn {
+      width: auto;
+      margin: 0;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      white-space: nowrap;
+    }
+
+    .profileInfoGrid {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .avatarColumn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profileAvatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profileAvatar span {
+      color: white;
+      font-weight: 700;
+      font-size: 1.4em;
+      letter-spacing: 0.03em;
+    }
+
+    .avatarHint {
+      margin: 0;
+      font-size: 0.8em;
+      opacity: 0.6;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .fieldGroup {
+      margin-bottom: 14px;
+    }
+
+    .fieldGroup:last-child {
+      margin-bottom: 0;
+    }
+
+    .fieldGroup label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .fieldInput {
+      width: 100%;
+      background: #111111;
+      border: 1px solid var(--primary-light);
+      color: var(--text-light);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.95em;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .fieldInput:focus {
+      border-color: var(--primary-light);
+    }
+
+    .followingLabel {
+      margin: 0 0 10px;
+      color: #a855f7;
+      font-weight: 700;
+    }
+
+    .followedChips {
+      min-height: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .eventChip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--primary-light);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #121212;
+      font-size: 0.83em;
+    }
+
+    .eventChipRemove {
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      opacity: 0.7;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      font-size: 1.1em;
+    }
+
+    .eventChipRemove:hover {
+      opacity: 1;
+    }
+
+    .eventsHeading {
+      margin: 0 0 8px;
+      text-align: left;
+      font-size: 1em;
+    }
+
+    .availableEvents {
+      border: 1px solid var(--primary-light);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .availableEventRow {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--primary-light);
+      background: #111111;
+    }
+
+    .availableEventRow:last-child {
+      border-bottom: none;
+    }
+
+    .availableEventTitle {
+      font-size: 0.9em;
+      line-height: 1.3;
+    }
+
+    .availableEventDate {
+      font-size: 0.8em;
+      opacity: 0.75;
+      white-space: nowrap;
+    }
+
+    .eventAddBtn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--primary-light);
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 1.1em;
+      line-height: 1;
+    }
+
+    .eventAddBtn:hover {
+      background: var(--primary-light);
+    }
+
+    .settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; }
+    .settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
+    .lunchButtons { display: flex; gap: 10px; justify-content: center; }
+    .lunchBtn { flex: 1; background: var(--card-dark); color: var(--text-light); border: 2px solid var(--primary-light); padding: 12px 24px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+    .lunchBtn:hover { background: var(--primary-light); color: white; transform: scale(1.05); }
+    .lunchBtn.selected { background: var(--primary-light); color: white; box-shadow: var(--glow); }
+    .lunchBtn:disabled { opacity: 1; cursor: default; }
+    .resetBtn { display: block; width: 100%; background: var(--primary); color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 12px; cursor: pointer; transition: all 0.3s; font-weight: 700; margin-top: 14px; text-decoration: none; text-align: center; }
+    .resetBtn:hover { background: #9d182e; transform: scale(1.02); }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: #111111;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--primary-light);
+    }
+    .toggle-label {
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background: #34c759;
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(28px);
+    }
+    .classes-content,
+    .clubs-content,
+    .caddy-content,
+    .packup-content {
+      display: none;
+    }
+    .classes-content.enabled,
+    .clubs-content.enabled,
+    .caddy-content.enabled,
+    .packup-content.enabled {
+      display: block;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1em;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: #111111;
+      color: var(--text-light);
+      outline: none;
+      transition: all 0.3s;
+      margin-bottom: 15px;
+    }
+    .search-input:focus {
+      box-shadow: none;
+      border-color: var(--primary-light);
+    }
+    .search-input::placeholder {
+      color: #888;
+    }
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .action-btn:hover {
+      background: var(--primary);
+    }
+    .classes-results,
+    .clubs-results {
+      background: #111111;
+      border-radius: 12px;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      border: 1px solid var(--primary-light);
+    }
+
+    .class-result,
+    .club-result {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border: none;
+      border-bottom: 1px solid var(--primary-light);
+      background: transparent;
+      color: var(--text-light);
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.92em;
+    }
+    .class-result:last-child,
+    .club-result:last-child {
+      border-bottom: none;
+    }
+    .class-result:hover,
+    .club-result:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .class-result.added,
+    .class-result:disabled,
+    .club-result.added,
+    .club-result:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .result-tag {
+      font-size: 0.75em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      color: var(--text-light);
+      margin-left: 10px;
+      white-space: nowrap;
+      min-width: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .result-tag-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(98%) sepia(1%) saturate(0%) hue-rotate(88deg) brightness(105%) contrast(90%);
+    }
+    .slots-container {
+      background: #111111;
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid var(--primary-light);
+    }
+    .slot-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .clubsSlots .slot-row {
+      display: flex;
+      gap: 10px;
+    }
+    .slot-row:last-child {
+      margin-bottom: 0;
+    }
+    .slot-arrow {
+      height: 40px;
+      border-radius: 10px;
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .slot-arrow:hover:not(:disabled) {
+      background: var(--primary);
+    }
+    .slot-arrow:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .slot-card {
+      background: #141414;
+      border: 1px solid var(--primary-light);
+      border-radius: 10px;
+      padding: 10px 12px;
+      min-height: 62px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 100%;
+    }
+    .slot-row.empty .slot-card {
+      opacity: 0.75;
+    }
+    .slot-period {
+      font-size: 0.76em;
+      color: #9f9f9f;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .slot-value {
+      font-size: 0.92em;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .slot-clear {
+      margin-top: 2px;
+      width: fit-content;
+      border: 1px solid var(--primary-light);
+      background: transparent;
+      color: #b7b7b7;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.72em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      min-height: 22px;
+    }
+    .slot-clear:hover {
+      color: white;
+      border-color: #7b7b7b;
+    }
+    .slot-clear-icon {
+      width: 12px;
+      height: 12px;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(77%) sepia(1%) saturate(8%) hue-rotate(316deg) brightness(92%) contrast(89%);
+    }
+    .classes-count,
+    .clubs-count {
+      text-align: center;
+      font-size: 0.9em;
+      color: #aaa;
+      margin-top: 14px;
+    }
+    .classes-message {
+      min-height: 1.2em;
+      text-align: center;
+      font-size: 0.86em;
+      color: var(--text-light);
+      opacity: 0.75;
+      margin: 12px 0 2px;
+    }
+
+    .description {
+      text-align: center;
+      opacity: 0.8;
+      font-size: 0.9em;
+      margin: 10px 0 20px;
+    }
+
+    .pack-up-input {
+      background: #111111;
+      color: var(--text-light);
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--primary-light);
+      box-shadow: var(--glow);
+      font-size: 1.2em;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      -moz-appearance: textfield;
+    }
+    .pack-up-input::-webkit-outer-spin-button,
+    .pack-up-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .pack-up-input::placeholder { color: var(--text-light); opacity: 0.5; font-weight: 400; font-size: 0.9em; }
+
+    .pack-up-presets {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .pack-up-preset {
+      flex: 1;
+      min-width: 56px;
+      background: var(--card-dark);
+      color: var(--text-light);
+      border: 2px solid var(--primary-light);
+      padding: 10px 15px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 700;
+    }
+    .pack-up-preset:hover { background: var(--primary-light); color: white; }
+    .pack-up-preset.selected { background: var(--primary-light); color: white; }
+
+    .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ff3b30; transition: .4s; border-radius: 34px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+    .switch input:checked + .slider { background-color: #34c759; }
+    .switch input:checked + .slider:before { transform: translateX(26px); }
+
+    .compactBtn {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid var(--primary-light);
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .compactBtn:hover {
+      background: var(--primary);
+    }
+
+    @media (max-width: 640px) {
+      .profileInfoGrid {
+        grid-template-columns: 1fr;
+      }
+
+      .avatarColumn {
+        margin-bottom: 6px;
+      }
+
+      .availableEventRow {
+        grid-template-columns: 1fr auto;
+      }
+
+      .availableEventDate {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="pageContainer">
+    <h2>Profile</h2>
+    <p class="pageSubtitle">Manage your profile and preferences.</p>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Profile Information</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveProfileBtn">Save Changes</button>
+      </div>
+      <div class="profileInfoGrid">
+        <div class="avatarColumn">
+          <div class="profileAvatar"><span id="profileInitialsPreview">?</span></div>
+          <p class="avatarHint">Your profile picture is generated from your initials.</p>
+        </div>
+        <div>
+          <div class="fieldGroup">
+            <label for="profileNameInput">Display Name</label>
+            <input type="text" id="profileNameInput" class="fieldInput" placeholder="Your name">
+          </div>
+          <div class="fieldGroup">
+            <label for="profileInitialsInput">Initials</label>
+            <input type="text" id="profileInitialsInput" class="fieldInput" maxlength="2" placeholder="e.g. SP">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Events &amp; AP Tests You Follow</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveEventsBtn">Save Changes</button>
+      </div>
+      <p class="followingLabel" id="followingCountLabel">Following (0)</p>
+      <div class="followedChips" id="followedChips"></div>
+      <h4 class="eventsHeading">Available to Follow</h4>
+      <div id="eventsFollowContent"></div>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Lunch Preferences</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveLunchBtn">Save Changes</button>
+      </div>
+      <div id="normalLunches">
+        <div class="settingsRow">
+          <label>Period 3 Lunch <small>(Mon/Fri &amp; most special schedules)</small>:</label>
+          <div class="lunchButtons">
+            <button type="button" class="lunchBtn" data-period="3" data-lunch="A">A Lunch</button>
+            <button type="button" class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
+          </div>
+        </div>
+        <div class="settingsRow">
+          <label>Period 4 Lunch <small>(Tue/Thu &amp; most special schedules)</small>:</label>
+          <div class="lunchButtons">
+            <button type="button" class="lunchBtn" data-period="4" data-lunch="A">A Lunch</button>
+            <button type="button" class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
+          </div>
+        </div>
+        <div class="settingsRow">
+          <label>Wednesday Lunch:</label>
+          <div class="lunchButtons">
+            <button type="button" class="lunchBtn selected" disabled>All School Lunch</button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="resetBtn" id="resetLunchBtn">Reset Lunches</button>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Classes</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveClassesBtn">Save Changes</button>
+      </div>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Classes</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="classesToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="classes-content" id="classesContent">
+        <input type="text" id="classSearch" class="search-input" placeholder="Search classes...">
+
+        <div class="button-row">
+          <button type="button" class="action-btn" id="clearClassesBtn">Clear All Slots</button>
+        </div>
+
+        <div class="classes-results" id="classResults"></div>
+
+        <div class="slots-container" id="selectedClassesList"></div>
+        <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
+        <p class="classes-message" id="classesMessage"></p>
+
+        <button type="button" class="resetBtn" id="resetClassesBtn">Reset Classes to Default</button>
+      </div>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Clubs</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveClubsBtn">Save Changes</button>
+      </div>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Clubs</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="clubsToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="clubs-content" id="clubsContent">
+        <input type="text" id="clubSearch" class="search-input" placeholder="Search clubs...">
+        <div class="button-row">
+          <button type="button" class="action-btn" id="clearClubsBtn">Clear All Clubs</button>
+        </div>
+
+        <div class="clubs-results" id="clubResults"></div>
+
+        <div class="slots-container clubsSlots" id="selectedClubsList"></div>
+        <p class="clubs-count" id="selectedCount">0 clubs selected</p>
+        <button type="button" class="resetBtn" id="resetClubsBtn">Reset Clubs to Default</button>
+      </div>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Phone Caddy</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="saveCaddyBtn">Save Changes</button>
+      </div>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Phone Caddy</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="caddyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="caddy-content enabled" id="caddyContent">
+        <div class="settingsRow">
+          <label>Enter your assigned phone caddy spot number for each class:</label>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="margin-top:10px;"><label style="font-weight:normal; margin-bottom:5px;">Period 1</label><input type="number" id="caddyTime1" class="pack-up-input" min="1" placeholder="e.g. 5"></div>
+            <div><label style="font-weight:normal; margin-bottom:5px;">Period 2</label><input type="number" id="caddyTime2" class="pack-up-input" min="1" placeholder="e.g. 12"></div>
+            <div><label style="font-weight:normal; margin-bottom:5px;">Period 3</label><input type="number" id="caddyTime3" class="pack-up-input" min="1" placeholder="e.g. 15"></div>
+            <div><label style="font-weight:normal; margin-bottom:5px;">Period 4</label><input type="number" id="caddyTime4" class="pack-up-input" min="1" placeholder="e.g. 8"></div>
+            <div><label style="font-weight:normal; margin-bottom:5px;">Period 5</label><input type="number" id="caddyTime5" class="pack-up-input" min="1" placeholder="e.g. 21"></div>
+            <div><label style="font-weight:normal; margin-bottom:5px;">Period 6</label><input type="number" id="caddyTime6" class="pack-up-input" min="1" placeholder="e.g. 4"></div>
+          </div>
+        </div>
+
+        <div class="settingsRow">
+          <div id="caddyStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+        </div>
+
+        <button type="button" class="mainBtn" id="testCaddyNotificationBtn">Test Notification</button>
+        <button type="button" class="compactBtn" id="resetCaddyBtn">Reset Settings</button>
+      </div>
+    </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Pack-Up Reminders</h3>
+        <button type="button" class="mainBtn saveSectionBtn" id="savePackupBtn">Save Changes</button>
+      </div>
+
+      <p class="description">Get notified before class ends so you have time to pack up.</p>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Pack-Up Reminders</span>
+        <label class="switch">
+          <input type="checkbox" id="notificationToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="packup-content enabled" id="packupContent">
+        <div class="settingsRow">
+          <label for="packUpTimeInput">Notify me minutes before class ends:</label>
+          <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below">
+          <div class="pack-up-presets">
+            <button type="button" class="pack-up-preset" data-value="0">Off</button>
+            <button type="button" class="pack-up-preset" data-value="1">1</button>
+            <button type="button" class="pack-up-preset" data-value="3">3</button>
+            <button type="button" class="pack-up-preset" data-value="5">5</button>
+            <button type="button" class="pack-up-preset" data-value="7">7</button>
+            <button type="button" class="pack-up-preset" data-value="10">10</button>
+          </div>
+        </div>
+
+        <div class="settingsRow">
+          <div id="notificationStatus" style="text-align: center; margin-top: 10px; font-size: 0.9em; opacity: 0.8;"></div>
+        </div>
+
+        <button type="button" class="mainBtn" id="testPackupNotificationBtn">Test Notification</button>
+        <button type="button" class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="/common-core.js"></script>
+  <script>
+    const MAX_SLOTS = 6;
+    const DEFAULT_LUNCH_PREFS = { Monday:'A', Tuesday:'A', Wednesday:'All', Thursday:'A', Friday:'A' };
+
+    let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
+    let allClassTitles = [];
+    let selectedClassSlots = Array(MAX_SLOTS).fill('');
+    let classesMessageTimeout = null;
+
+    let allClubs = [];
+    let selectedClubs = [];
+
+    let allUpcomingEvents = [];
+    let followedIds = [];
+
+    let caddyTimes = { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
+
+    let packUpTime = 0;
+
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function parseLocalDate(dateString) {
+      if (typeof dateString !== 'string') return null;
+      const parts = dateString.split('-').map(Number);
+      if (parts.length !== 3 || parts.some(Number.isNaN)) return null;
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function truncateText(text, maxLen) {
+      if (typeof text !== 'string') return '';
+      if (text.length <= maxLen) return text;
+      return `${text.slice(0, maxLen - 1)}…`;
+    }
+
+    function triggerSavedState(button) {
+      if (!button) return;
+      const originalText = 'Save Changes';
+      const originalBg = button.style.backgroundColor;
+      button.style.backgroundColor = '#16a34a';
+      button.textContent = 'Saved ✓';
+      setTimeout(() => {
+        button.style.backgroundColor = originalBg;
+        button.textContent = originalText;
+      }, 2000);
+    }
+
+    function getPreviewInitials(inputValue) {
+      const value = typeof inputValue === 'string' ? inputValue.trim().slice(0, 2).toUpperCase() : '';
+      return value || '?';
+    }
+
+    function updateProfileInitialsPreview(value) {
+      const preview = document.getElementById('profileInitialsPreview');
+      if (!preview) return;
+      preview.textContent = getPreviewInitials(value);
+    }
+
+    function initProfileSection() {
+      const profileNameInput = document.getElementById('profileNameInput');
+      const profileInitialsInput = document.getElementById('profileInitialsInput');
+      const saveBtn = document.getElementById('saveProfileBtn');
+
+      profileNameInput.value = getProfileName();
+      profileInitialsInput.value = getProfileInitials();
+      updateProfileInitialsPreview(profileInitialsInput.value);
+
+      profileInitialsInput.addEventListener('input', () => {
+        updateProfileInitialsPreview(profileInitialsInput.value);
+      });
+
+      saveBtn.addEventListener('click', () => {
+        setProfileName(profileNameInput.value.trim());
+        setProfileInitials(profileInitialsInput.value.trim());
+        profileInitialsInput.value = getProfileInitials();
+        updateProfileInitialsPreview(profileInitialsInput.value);
+        triggerSavedState(saveBtn);
+      });
+    }
+
+    function renderFollowedEvents() {
+      const chipsEl = document.getElementById('followedChips');
+      const countLabel = document.getElementById('followingCountLabel');
+      if (!chipsEl || !countLabel) return;
+
+      const followedEvents = followedIds
+        .map((id) => allUpcomingEvents.find((eventItem) => eventItem.id === id))
+        .filter(Boolean);
+
+      countLabel.textContent = `Following (${followedEvents.length})`;
+
+      if (!followedEvents.length) {
+        chipsEl.innerHTML = '<p style="opacity:0.6; margin:0;">No followed events yet.</p>';
+        return;
+      }
+
+      let html = '';
+      followedEvents.forEach((eventItem) => {
+        html += `<span class="eventChip">${escapeHtml(truncateText(eventItem.title || 'Untitled Event', 40))}<button type="button" class="eventChipRemove" data-remove-id="${escapeHtml(eventItem.id)}" aria-label="Remove ${escapeHtml(eventItem.title || 'event')}">×</button></span>`;
+      });
+      chipsEl.innerHTML = html;
+
+      chipsEl.querySelectorAll('.eventChipRemove').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.removeId;
+          followedIds = followedIds.filter((entry) => entry !== id);
+          renderEventsSection();
+        });
+      });
+    }
+
+    function formatDateLabel(dateObj) {
+      if (!(dateObj instanceof Date)) return '';
+      return dateObj.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    function renderAvailableEvents() {
+      const contentEl = document.getElementById('eventsFollowContent');
+      if (!contentEl) return;
+
+      if (!allUpcomingEvents.length) {
+        contentEl.innerHTML = '<p style="opacity:0.6; text-align:center;">No upcoming events available.</p>';
+        return;
+      }
+
+      const availableEvents = allUpcomingEvents.filter((eventItem) => !followedIds.includes(eventItem.id));
+      if (!availableEvents.length) {
+        contentEl.innerHTML = '<p style="opacity:0.6; text-align:center;">All upcoming events are followed.</p>';
+        return;
+      }
+
+      let html = '<div class="availableEvents">';
+      availableEvents.forEach((eventItem) => {
+        html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</div><div class="availableEventDate">${escapeHtml(formatDateLabel(eventItem.dateObj))}</div><button type="button" class="eventAddBtn" data-add-id="${escapeHtml(eventItem.id)}" aria-label="Follow ${escapeHtml(eventItem.title || 'event')}">+</button></div>`;
+      });
+      html += '</div>';
+      contentEl.innerHTML = html;
+
+      contentEl.querySelectorAll('.eventAddBtn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.addId;
+          if (!followedIds.includes(id)) followedIds.push(id);
+          renderEventsSection();
+        });
+      });
+    }
+
+    function renderEventsSection() {
+      followedIds = followedIds.filter((id, index, arr) => arr.indexOf(id) === index);
+      renderFollowedEvents();
+      renderAvailableEvents();
+    }
+
+    async function initEventsSection() {
+      const saveBtn = document.getElementById('saveEventsBtn');
+
+      try {
+        const response = await fetch('/data/events.json');
+        const data = await response.json();
+        const apTests = Array.isArray(data.apTests) ? data.apTests : [];
+        const standardizedTests = Array.isArray(data.standardizedTests) ? data.standardizedTests : [];
+        const combined = [...apTests, ...standardizedTests];
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        allUpcomingEvents = combined
+          .map((eventItem) => ({ ...eventItem, dateObj: parseLocalDate(eventItem.date) }))
+          .filter((eventItem) => eventItem.id && eventItem.dateObj && eventItem.dateObj >= today)
+          .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
+
+        const validIds = new Set(allUpcomingEvents.map((eventItem) => eventItem.id));
+        followedIds = getProfileFollowedEvents().filter((id) => validIds.has(id));
+
+        renderEventsSection();
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        document.getElementById('eventsFollowContent').innerHTML = '<p style="opacity:0.6; text-align:center;">No upcoming events available.</p>';
+      }
+
+      saveBtn.addEventListener('click', () => {
+        setProfileFollowedEvents(followedIds);
+        triggerSavedState(saveBtn);
+      });
+    }
+
+    function loadLunchPrefs() {
+      try {
+        const saved = localStorage.getItem('lunchPreferences');
+        if (!saved) return { ...DEFAULT_LUNCH_PREFS };
+        const parsed = JSON.parse(saved);
+        return {
+          Monday: parsed.Monday || 'A',
+          Tuesday: parsed.Tuesday || 'A',
+          Wednesday: parsed.Wednesday || 'All',
+          Thursday: parsed.Thursday || 'A',
+          Friday: parsed.Friday || 'A'
+        };
+      } catch (e) {
+        return { ...DEFAULT_LUNCH_PREFS };
+      }
+    }
+
+    function updateLunchUI() {
+      document.querySelectorAll('.lunchBtn[data-period]').forEach((btn) => {
+        const period = btn.dataset.period;
+        const currentLunch = period === '3' ? lunchPrefs.Monday : lunchPrefs.Tuesday;
+        btn.classList.toggle('selected', currentLunch === btn.dataset.lunch);
+      });
+    }
+
+    function initLunchSection() {
+      lunchPrefs = loadLunchPrefs();
+      updateLunchUI();
+
+      document.querySelectorAll('.lunchBtn[data-period]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const period = btn.dataset.period;
+          const lunch = btn.dataset.lunch;
+          if (period === '3') {
+            lunchPrefs.Monday = lunch;
+            lunchPrefs.Friday = lunch;
+          } else {
+            lunchPrefs.Tuesday = lunch;
+            lunchPrefs.Thursday = lunch;
+          }
+          updateLunchUI();
+        });
+      });
+
+      document.getElementById('resetLunchBtn').addEventListener('click', () => {
+        lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
+        updateLunchUI();
+      });
+
+      document.getElementById('saveLunchBtn').addEventListener('click', () => {
+        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+        triggerSavedState(document.getElementById('saveLunchBtn'));
+      });
+    }
+
+    function setClassesCountText(text) {
+      const el = document.getElementById('classesCount');
+      if (el) el.textContent = text;
+    }
+
+    function showClassesMessage(message) {
+      const el = document.getElementById('classesMessage');
+      el.textContent = message;
+      if (classesMessageTimeout) clearTimeout(classesMessageTimeout);
+      classesMessageTimeout = setTimeout(() => {
+        el.textContent = '';
+      }, 2500);
+    }
+
+    function updateClassesCount() {
+      const filledCount = selectedClassSlots.filter(Boolean).length;
+      setClassesCountText(`${filledCount} of 6 slots filled`);
+    }
+
+    function renderClassResults(filter = '') {
+      const resultsEl = document.getElementById('classResults');
+      const filterLower = filter.toLowerCase();
+
+      let filteredClasses = allClassTitles.filter((name) => name.toLowerCase().includes(filterLower));
+      const selectedSet = new Set(selectedClassSlots.filter(Boolean));
+
+      filteredClasses.sort((a, b) => {
+        const aAdded = selectedSet.has(a);
+        const bAdded = selectedSet.has(b);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.localeCompare(b);
+      });
+
+      if (filteredClasses.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClasses.forEach((classTitle) => {
+        const isAdded = selectedSet.has(classTitle);
+        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.class-result:not(.added)').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const classTitle = decodeURIComponent(btn.dataset.class);
+          addClassToSlots(classTitle);
+        });
+      });
+    }
+
+    function renderSelectedSlots() {
+      const listEl = document.getElementById('selectedClassesList');
+      let html = '';
+
+      for (let i = 0; i < MAX_SLOTS; i++) {
+        const classTitle = selectedClassSlots[i] || '';
+        const isEmpty = !classTitle;
+        const upDisabled = i === 0 || isEmpty;
+        const downDisabled = i === MAX_SLOTS - 1 || isEmpty;
+
+        html += `<div class="slot-row ${isEmpty ? 'empty' : ''}"><button type="button" class="slot-arrow" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button><div class="slot-card"><div class="slot-period">Period ${i + 1}</div><div class="slot-value">${isEmpty ? 'Empty' : escapeHtml(classTitle)}</div>${isEmpty ? '' : `<button type="button" class="slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button>`}</div><button type="button" class="slot-arrow" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button></div>`;
+      }
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.slot-arrow').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index, 10);
+          const dir = btn.dataset.dir;
+          const targetIndex = dir === 'up' ? index - 1 : index + 1;
+          moveSlot(index, targetIndex);
+        });
+      });
+
+      listEl.querySelectorAll('.slot-clear').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.clearIndex, 10);
+          selectedClassSlots[index] = '';
+          renderSelectedSlots();
+          renderClassResults(document.getElementById('classSearch').value);
+        });
+      });
+
+      updateClassesCount();
+    }
+
+    function promptReplaceSlot(classTitle) {
+      const choice = prompt(`All 6 slots are full. Replace which period slot with "${classTitle}"? Enter 1-6.`);
+      if (choice === null) return;
+
+      const slotIndex = parseInt(choice, 10) - 1;
+      if (Number.isNaN(slotIndex) || slotIndex < 0 || slotIndex >= MAX_SLOTS) {
+        showClassesMessage('Enter a valid slot number from 1 to 6.');
+        return;
+      }
+
+      selectedClassSlots[slotIndex] = classTitle;
+      renderSelectedSlots();
+      renderClassResults(document.getElementById('classSearch').value);
+      showClassesMessage(`Updated Period ${slotIndex + 1}.`);
+    }
+
+    function addClassToSlots(classTitle) {
+      if (selectedClassSlots.includes(classTitle)) {
+        showClassesMessage('That class is already in your schedule.');
+        return;
+      }
+
+      const emptyIndex = selectedClassSlots.findIndex((slot) => !slot);
+      if (emptyIndex !== -1) {
+        selectedClassSlots[emptyIndex] = classTitle;
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+        return;
+      }
+
+      promptReplaceSlot(classTitle);
+    }
+
+    function moveSlot(fromIndex, toIndex) {
+      if (fromIndex < 0 || fromIndex >= MAX_SLOTS || toIndex < 0 || toIndex >= MAX_SLOTS) return;
+      if (!selectedClassSlots[fromIndex]) return;
+
+      const temp = selectedClassSlots[toIndex];
+      selectedClassSlots[toIndex] = selectedClassSlots[fromIndex];
+      selectedClassSlots[fromIndex] = temp || '';
+
+      renderSelectedSlots();
+      renderClassResults(document.getElementById('classSearch').value);
+    }
+
+    async function loadClasses() {
+      try {
+        const response = await fetch('/data/classes.json');
+        const data = await response.json();
+        allClassTitles = Array.isArray(data.classes) ? data.classes : [];
+        renderClassResults();
+        renderSelectedSlots();
+      } catch (error) {
+        console.error('Error loading classes:', error);
+        document.getElementById('classResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+      }
+    }
+
+    function initClassesSection() {
+      selectedClassSlots = getSelectedClassesSlots();
+
+      const classesToggle = document.getElementById('classesToggle');
+      const classesContent = document.getElementById('classesContent');
+      classesToggle.checked = isClassesEnabled();
+      classesContent.classList.toggle('enabled', classesToggle.checked);
+
+      classesToggle.addEventListener('change', (e) => {
+        classesContent.classList.toggle('enabled', e.target.checked);
+      });
+
+      document.getElementById('classSearch').addEventListener('input', (e) => {
+        renderClassResults(e.target.value);
+      });
+
+      document.getElementById('clearClassesBtn').addEventListener('click', () => {
+        selectedClassSlots = Array(MAX_SLOTS).fill('');
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+      });
+
+      document.getElementById('resetClassesBtn').addEventListener('click', () => {
+        selectedClassSlots = Array(MAX_SLOTS).fill('');
+        document.getElementById('classesToggle').checked = false;
+        document.getElementById('classesContent').classList.remove('enabled');
+        renderSelectedSlots();
+        renderClassResults(document.getElementById('classSearch').value);
+      });
+
+      document.getElementById('saveClassesBtn').addEventListener('click', () => {
+        setSelectedClassesSlots(selectedClassSlots);
+        setClassesEnabled(classesToggle.checked);
+        triggerSavedState(document.getElementById('saveClassesBtn'));
+      });
+
+      loadClasses();
+    }
+
+    function formatClubDays(club) {
+      const days = club.days || (club.day ? [club.day] : []);
+      return days.join(', ');
+    }
+
+    function renderClubResults(filter = '') {
+      const resultsEl = document.getElementById('clubResults');
+      const filterLower = filter.toLowerCase();
+
+      let filteredClubs = allClubs.filter((club) => {
+        const days = club.days || (club.day ? [club.day] : []);
+        return club.name.toLowerCase().includes(filterLower)
+          || club.room.toLowerCase().includes(filterLower)
+          || days.some((d) => d.toLowerCase().includes(filterLower));
+      });
+
+      const selectedSet = new Set(selectedClubs);
+
+      filteredClubs.sort((a, b) => {
+        const aAdded = selectedSet.has(a.id);
+        const bAdded = selectedSet.has(b.id);
+        if (aAdded && !bAdded) return -1;
+        if (!aAdded && bAdded) return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      if (filteredClubs.length === 0) {
+        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
+        return;
+      }
+
+      let html = '';
+      filteredClubs.forEach((club) => {
+        const isAdded = selectedSet.has(club.id);
+        html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(club.name)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+      });
+      resultsEl.innerHTML = html;
+
+      resultsEl.querySelectorAll('.club-result:not(.added)').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          addClub(clubId);
+        });
+      });
+    }
+
+    function updateSelectedCount() {
+      const count = selectedClubs.length;
+      const text = count === 0 ? 'No clubs selected' : (count === 1 ? '1 club selected' : `${count} clubs selected`);
+      const labelEl = document.getElementById('selectedCount');
+      if (labelEl) labelEl.textContent = text;
+
+      const listEl = document.getElementById('selectedClubsList');
+      listEl.style.display = count === 0 ? 'none' : 'block';
+    }
+
+    function renderSelectedList() {
+      const listEl = document.getElementById('selectedClubsList');
+      let html = '';
+
+      const selectedClubObjs = selectedClubs.map((id) => allClubs.find((c) => c.id === id)).filter(Boolean);
+      selectedClubObjs.sort((a, b) => a.name.localeCompare(b.name));
+      selectedClubs = selectedClubObjs.map((c) => c.id);
+
+      selectedClubObjs.forEach((club) => {
+        html += `<div class="slot-row"><div class="slot-card"><div class="slot-value">${escapeHtml(club.name)}</div><button type="button" class="slot-clear" data-id="${escapeHtml(club.id)}" aria-label="Remove ${escapeHtml(club.name)}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button></div></div>`;
+      });
+
+      listEl.innerHTML = html;
+
+      listEl.querySelectorAll('.slot-clear').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const clubId = btn.dataset.id;
+          selectedClubs = selectedClubs.filter((id) => id !== clubId);
+          renderSelectedList();
+          renderClubResults(document.getElementById('clubSearch').value);
+        });
+      });
+
+      updateSelectedCount();
+    }
+
+    function addClub(clubId) {
+      if (!selectedClubs.includes(clubId)) {
+        selectedClubs.push(clubId);
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      }
+    }
+
+    async function loadClubs() {
+      try {
+        const response = await fetch('/data/clubs.json');
+        const data = await response.json();
+        allClubs = Array.isArray(data.clubs) ? data.clubs : [];
+        renderClubResults();
+        renderSelectedList();
+      } catch (error) {
+        console.error('Error loading clubs:', error);
+        document.getElementById('clubResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
+      }
+    }
+
+    function initClubsSection() {
+      const saved = localStorage.getItem('selectedClubs');
+      if (saved) {
+        try {
+          selectedClubs = JSON.parse(saved);
+        } catch (e) {
+          selectedClubs = [];
+        }
+      }
+
+      const clubsEnabled = localStorage.getItem('clubsEnabled');
+      const isEnabled = clubsEnabled !== 'false';
+      const clubsToggle = document.getElementById('clubsToggle');
+      const clubsContent = document.getElementById('clubsContent');
+
+      clubsToggle.checked = isEnabled;
+      clubsContent.classList.toggle('enabled', isEnabled);
+
+      clubsToggle.addEventListener('change', (e) => {
+        clubsContent.classList.toggle('enabled', e.target.checked);
+      });
+
+      document.getElementById('clubSearch').addEventListener('input', (e) => {
+        renderClubResults(e.target.value);
+      });
+
+      document.getElementById('clearClubsBtn').addEventListener('click', () => {
+        selectedClubs = [];
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      });
+
+      document.getElementById('resetClubsBtn').addEventListener('click', () => {
+        selectedClubs = [];
+        document.getElementById('clubsToggle').checked = false;
+        document.getElementById('clubsContent').classList.remove('enabled');
+        renderSelectedList();
+        renderClubResults(document.getElementById('clubSearch').value);
+      });
+
+      document.getElementById('saveClubsBtn').addEventListener('click', () => {
+        localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
+        localStorage.setItem('clubsEnabled', clubsToggle.checked.toString());
+        triggerSavedState(document.getElementById('saveClubsBtn'));
+      });
+
+      loadClubs();
+    }
+
+    function readCaddyTimesFromInputs() {
+      const updated = {};
+      for (let i = 1; i <= 6; i++) {
+        updated[i.toString()] = document.getElementById(`caddyTime${i}`).value || '';
+      }
+      return updated;
+    }
+
+    function updateCaddyStatus() {
+      const caddyToggle = document.getElementById('caddyToggle');
+      const caddyStatus = document.getElementById('caddyStatus');
+      if (!caddyToggle || !caddyStatus) return;
+
+      if (!('Notification' in window)) {
+        caddyStatus.innerHTML = 'Browser does not support notifications';
+        return;
+      }
+
+      if (!caddyToggle.checked) {
+        caddyStatus.innerHTML = '';
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        caddyStatus.innerHTML = '';
+      } else {
+        caddyStatus.innerHTML = 'Reminders on, but browser notification permission missing';
+      }
+    }
+
+    function initPhoneCaddySection() {
+      const caddyToggle = document.getElementById('caddyToggle');
+      const saveBtn = document.getElementById('saveCaddyBtn');
+      const savedTimes = localStorage.getItem('phone-caddy-times');
+      const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+
+      caddyToggle.checked = caddyEnabled;
+
+      try {
+        caddyTimes = savedTimes ? JSON.parse(savedTimes) : { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
+      } catch (e) {
+        caddyTimes = { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
+      }
+
+      for (let i = 1; i <= 6; i++) {
+        const value = caddyTimes[i.toString()];
+        if (value !== undefined && value !== '') {
+          document.getElementById(`caddyTime${i}`).value = value;
+        }
+      }
+
+      caddyToggle.addEventListener('change', async () => {
+        if (!caddyToggle.checked) {
+          updateCaddyStatus();
+          return;
+        }
+
+        if (!('Notification' in window)) {
+          caddyToggle.checked = false;
+          updateCaddyStatus();
+          return;
+        }
+
+        if (Notification.permission !== 'granted') {
+          const permission = await Notification.requestPermission();
+          if (permission !== 'granted') {
+            caddyToggle.checked = false;
+          }
+        }
+        updateCaddyStatus();
+      });
+
+      document.getElementById('testCaddyNotificationBtn').addEventListener('click', async () => {
+        const testSpot = document.getElementById('caddyTime1').value || '12';
+        if (!('Notification' in window)) {
+          alert('This browser does not support desktop notifications.');
+          return;
+        }
+        let perm = Notification.permission;
+        if (perm !== 'granted' && perm !== 'denied') {
+          perm = await Notification.requestPermission();
+        }
+        if (perm === 'granted') {
+          sendNotification('Phone Caddy Reminder', {
+            body: `Class starts in 1 minute! Put your phone in caddy spot #${testSpot}`,
+            icon: '/icons/icon-192.png'
+          });
+        } else {
+          alert('Notification permission is blocked. Please enable it in browser settings.');
+        }
+      });
+
+      document.getElementById('resetCaddyBtn').addEventListener('click', () => {
+        for (let i = 1; i <= 6; i++) {
+          document.getElementById(`caddyTime${i}`).value = '';
+        }
+        caddyToggle.checked = false;
+        updateCaddyStatus();
+      });
+
+      saveBtn.addEventListener('click', () => {
+        const nextTimes = readCaddyTimesFromInputs();
+        localStorage.setItem('phone-caddy-times', JSON.stringify(nextTimes));
+        localStorage.setItem('phone-caddy-enabled', caddyToggle.checked ? 'true' : 'false');
+        if (caddyToggle.checked) {
+          localStorage.setItem('notifications-enabled', 'true');
+        }
+        caddyTimes = nextTimes;
+        triggerSavedState(saveBtn);
+        updateCaddyStatus();
+      });
+
+      updateCaddyStatus();
+    }
+
+    function updatePackUpPresetUI(value) {
+      document.querySelectorAll('.pack-up-preset').forEach((btn) => {
+        btn.classList.toggle('selected', parseInt(btn.dataset.value, 10) === value);
+      });
+    }
+
+    function updateNotificationStatus() {
+      const notificationToggle = document.getElementById('notificationToggle');
+      const notificationStatus = document.getElementById('notificationStatus');
+      if (!notificationToggle || !notificationStatus) return;
+
+      if (!('Notification' in window)) {
+        notificationStatus.textContent = 'Browser does not support notifications';
+        return;
+      }
+
+      if (!notificationToggle.checked) {
+        notificationStatus.textContent = '';
+        return;
+      }
+
+      if (Notification.permission !== 'granted') {
+        notificationStatus.textContent = 'Reminders on, but browser notification permission missing';
+      } else {
+        notificationStatus.textContent = '';
+      }
+    }
+
+    function initPackupSection() {
+      const savedPackup = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
+      packUpTime = Number.isNaN(savedPackup) || savedPackup < 0 ? 0 : savedPackup;
+
+      const input = document.getElementById('packUpTimeInput');
+      const notificationToggle = document.getElementById('notificationToggle');
+      const savedNotificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+
+      if (packUpTime > 0) input.value = packUpTime;
+      updatePackUpPresetUI(packUpTime);
+
+      notificationToggle.checked = savedNotificationsEnabled;
+      updateNotificationStatus();
+
+      document.querySelectorAll('.pack-up-preset').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const val = parseInt(btn.dataset.value, 10);
+          packUpTime = val;
+          input.value = val > 0 ? val : '';
+          updatePackUpPresetUI(val);
+        });
+      });
+
+      input.addEventListener('input', () => {
+        let val = parseInt(input.value, 10);
+        if (Number.isNaN(val) || val < 0) return;
+        if (val > 30) {
+          input.value = '30';
+          val = 30;
+        }
+        packUpTime = val;
+        updatePackUpPresetUI(val);
+      });
+
+      input.addEventListener('change', () => {
+        let val = parseInt(input.value, 10);
+        if (Number.isNaN(val) || val < 0) {
+          input.value = '';
+          packUpTime = 0;
+          updatePackUpPresetUI(0);
+          return;
+        }
+        if (val > 30) {
+          val = 30;
+          input.value = '30';
+        }
+        packUpTime = val;
+        updatePackUpPresetUI(val);
+      });
+
+      notificationToggle.addEventListener('change', async () => {
+        if (!notificationToggle.checked) {
+          updateNotificationStatus();
+          return;
+        }
+        if (!('Notification' in window)) {
+          notificationToggle.checked = false;
+          updateNotificationStatus();
+          return;
+        }
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') {
+          notificationToggle.checked = false;
+        }
+        updateNotificationStatus();
+      });
+
+      document.getElementById('testPackupNotificationBtn').addEventListener('click', () => {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          sendNotification('Pack-Up Reminder', {
+            body: 'This is a test notification.',
+            icon: '/images/logo.png',
+            requireInteraction: true
+          });
+        } else {
+          alert('Please enable browser notifications first.');
+        }
+      });
+
+      document.getElementById('resetPackupBtn').addEventListener('click', () => {
+        input.value = '';
+        packUpTime = 0;
+        updatePackUpPresetUI(0);
+        notificationToggle.checked = false;
+        updateNotificationStatus();
+      });
+
+      document.getElementById('savePackupBtn').addEventListener('click', () => {
+        localStorage.setItem('pack-up-time', String(packUpTime));
+        localStorage.setItem('notifications-enabled', notificationToggle.checked ? 'true' : 'false');
+        triggerSavedState(document.getElementById('savePackupBtn'));
+        updateNotificationStatus();
+      });
+    }
+
+    async function initProfilePage() {
+      initProfileSection();
+      initLunchSection();
+      initClassesSection();
+      initClubsSection();
+      initPhoneCaddySection();
+      initPackupSection();
+      await initEventsSection();
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (typeof window.loadCommon === 'function') {
+        try {
+          await window.loadCommon();
+        } catch (err) {
+          console.error('Failed to load common runtime:', err);
+          return;
+        }
+      }
+
+      if (typeof checkSetupComplete === 'function' && !checkSetupComplete()) {
+        return;
+      }
+
+      await initProfilePage();
+    });
+  </script>
+</body>
+</html>

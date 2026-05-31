@@ -266,22 +266,24 @@
     }
 
     .noEvents {
-      margin-top: 16px;
+      margin: 16px auto 0;
       text-align: center;
-      background: var(--primary);
+      background: var(--card-dark);
       border-radius: 12px;
-      padding: 26px 18px;
-      border: 1px solid #303030;
+      padding: 30px;
+      max-width: 520px;
+      color: var(--text-light);
     }
 
     .noEvents h3 {
       margin: 0 0 10px;
       font-size: 1.25em;
+      opacity: 0.9;
     }
 
     .noEvents p {
       margin: 0;
-      opacity: 0.8;
+      opacity: 0.7;
     }
 
     @media (max-width: 600px) {
@@ -337,6 +339,13 @@
               <span class="filterSlider"></span>
             </span>
           </label>
+          <label class="filterToggleItem" for="filterMyEventsToggle">
+            <span class="filterToggleLabel">My Events</span>
+            <span class="filterSwitch">
+              <input type="checkbox" id="filterMyEventsToggle">
+              <span class="filterSlider"></span>
+            </span>
+          </label>
           <label class="filterToggleItem comingSoon" for="filterSportsToggle">
             <span class="filterToggleLabel">Sports (Coming Soon)</span>
             <span class="filterSwitch">
@@ -359,6 +368,7 @@
     let filtersOpen = true;
     const activeFilters = {
       ap: localStorage.getItem('filterAp') !== 'false',
+      myEvents: false,
       sports: false
     };
 
@@ -426,10 +436,17 @@
     function renderNoEventsMessage() {
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
-      listEl.innerHTML = '<div class="noEvents"><h3>No events found.</h3></div>';
+      const msg = activeFilters.myEvents
+        ? '<div class="noEvents"><h3>No followed events coming up.</h3><p>Add events to follow in your <a href="/profile" style="color:white;">Profile</a>.</p></div>'
+        : '<div class="noEvents"><h3>No events found.</h3><p>Try adjusting your filters.</p></div>';
+      listEl.innerHTML = msg;
     }
 
     function getFilteredEvents(events) {
+      if (activeFilters.myEvents) {
+        const followed = getProfileFollowedEvents();
+        return events.filter(e => followed.includes(e.id));
+      }
       return events.filter((eventItem) => {
         if (eventItem.type === 'standardized-test') return true;
         if (eventItem.type === 'ap-test' && activeFilters.ap) return true;
@@ -458,10 +475,12 @@
       const toggleBtn = document.getElementById('filtersToggleBtn');
       const allToggle = document.getElementById('filterAllToggle');
       const apToggle = document.getElementById('filterApToggle');
+      const myEventsToggle = document.getElementById('filterMyEventsToggle');
       const sportsToggle = document.getElementById('filterSportsToggle');
 
       if (!toggleBtn || !allToggle || !apToggle || !sportsToggle) return;
       apToggle.checked = activeFilters.ap;
+      if (myEventsToggle) myEventsToggle.checked = activeFilters.myEvents;
       activeFilters.sports = false;
       sportsToggle.checked = false;
       allToggle.checked = activeFilters.ap;
@@ -489,6 +508,13 @@
         updateAllToggle();
         applyFiltersAndRender();
       });
+
+      if (myEventsToggle) {
+        myEventsToggle.addEventListener('change', () => {
+          activeFilters.myEvents = myEventsToggle.checked;
+          applyFiltersAndRender();
+        });
+      }
 
     }
 

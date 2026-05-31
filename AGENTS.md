@@ -1,3 +1,4 @@
+IF YOU ARE GITHUB COPILOT, IGNORE THIS FILE!!!!!
 # OpenCode Agents
 
 ## Available Agents

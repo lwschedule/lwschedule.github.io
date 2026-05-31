@@ -77,6 +77,35 @@ function setSelectedClassesSlots(slots) {
   return normalized;
 }
 
+function getProfileName() {
+  return localStorage.getItem('profileName') || '';
+}
+
+function setProfileName(name) {
+  localStorage.setItem('profileName', name);
+}
+
+function getProfileInitials() {
+  return localStorage.getItem('profileInitials') || '';
+}
+
+function setProfileInitials(initials) {
+  localStorage.setItem('profileInitials', initials.slice(0, 2).toUpperCase());
+}
+
+function getProfileFollowedEvents() {
+  try {
+    const saved = localStorage.getItem('profileFollowedEvents');
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function setProfileFollowedEvents(ids) {
+  localStorage.setItem('profileFollowedEvents', JSON.stringify(ids));
+}
+
 function getSidebarIconUrl(iconId) {
   if (typeof iconId !== 'string') return '';
   if (iconId.startsWith('/')) return iconId;
@@ -1042,8 +1071,16 @@ function updateTodaySchedule() {
 function updateHolidayTable() {
   const tbody = document.getElementById('holidayTableBody');
   if (!tbody) return;
-  if (!holidays || holidays.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Loading holidays...</td></tr>';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const hasUpcomingHolidays = Array.isArray(holidays) && holidays.some((holiday) => {
+    const holidayDate = new Date(holiday.date.getFullYear(), holiday.date.getMonth(), holiday.date.getDate());
+    return holidayDate >= today;
+  });
+
+  if (!Array.isArray(holidays) || holidays.length === 0 || !hasUpcomingHolidays) {
+    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding:30px; opacity:0.6;">No upcoming holidays.</td></tr>';
     return;
   }
   let html = '';
@@ -1745,8 +1782,7 @@ function injectGlobalSidebar() {
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
     { href: '#', icon: '/icons/src/map.svg', text: 'Map (Coming Soon)', disabled: true },
-    { href: '/info', icon: '/icons/src/info.svg', text: 'Info' },
-    { href: '/settings', icon: '/icons/src/gear.svg', text: 'Settings' }
+    { href: '/info', icon: '/icons/src/info.svg', text: 'Info' }
   ];
 
   let currentPath = window.location.pathname;
@@ -1793,6 +1829,31 @@ function injectGlobalSidebar() {
       ${linksHtml}
     </div>
   `;
+
+  const pName = getProfileName() || 'Name';
+  const pInitials = getProfileInitials() || '?';
+  const profileSectionHTML = `
+  <div class="sidebar-profile-section">
+    <div class="sidebar-profile-divider"></div>
+    <a href="/profile" class="sidebar-profile-row">
+      <div class="sidebar-profile-avatar">${pInitials}</div>
+      <div class="sidebar-profile-info">
+        <span class="sidebar-profile-name">${pName}</span>
+        <span class="sidebar-profile-sub">View Profile</span>
+      </div>
+    </a>
+  </div>
+`;
+  sidebar.insertAdjacentHTML('beforeend', profileSectionHTML);
+
+  const profileRow = sidebar.querySelector('.sidebar-profile-row');
+  if (profileRow) {
+    profileRow.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateWithTransition('/profile');
+    });
+  }
+
   document.body.appendChild(sidebar);
   document.body.classList.add('has-sidebar');
 

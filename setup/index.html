@@ -206,6 +206,22 @@
     <p class="setupDescription">Let's set up your personalized schedule experience.</p>
 
     <section class="setupSection">
+      <h3>Your Profile</h3>
+      <p class="setupDescription">Choose a display name and initials for your profile picture.</p>
+      <div style="display:flex; align-items:center; gap:20px; margin-bottom:16px;">
+        <div id="setupAvatarCircle" style="width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#a855f7); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <span id="setupAvatarInitials" style="color:white; font-weight:700; font-size:1.3em;">?</span>
+        </div>
+        <div style="flex:1;">
+          <label style="display:block; margin-bottom:6px; font-weight:700;">Display Name</label>
+          <input type="text" id="setupProfileName" class="pack-up-input" placeholder="Your name" style="margin-bottom:12px;">
+          <label style="display:block; margin-bottom:6px; font-weight:700;">Initials</label>
+          <input type="text" id="setupProfileInitials" class="pack-up-input" maxlength="2" placeholder="e.g. SP">
+        </div>
+      </div>
+    </section>
+
+    <section class="setupSection">
       <h3>Lunch Preferences</h3>
       <div class="settingsRow">
         <label>Period 3 Lunch <small>(Mon/Fri & most special schedules)</small>:</label>
@@ -376,7 +392,6 @@
           lunchPrefs.Tuesday = lunch;
           lunchPrefs.Thursday = lunch;
         }
-        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
         updateLunchUI();
       });
     });
@@ -428,10 +443,6 @@
       setupClassMessageTimeout = setTimeout(() => {
         messageEl.textContent = '';
       }, 2500);
-    }
-
-    function saveSetupClassSlots() {
-      setupSelectedClassSlots = setSelectedClassesSlots(setupSelectedClassSlots);
     }
 
     function updateSetupClassCount() {
@@ -509,7 +520,6 @@
         btn.addEventListener('click', () => {
           const index = parseInt(btn.dataset.clearIndex, 10);
           setupSelectedClassSlots[index] = '';
-          saveSetupClassSlots();
           renderSetupClassSlots();
           renderSetupClassResults(document.getElementById('classSearch').value);
         });
@@ -529,7 +539,6 @@
       }
 
       setupSelectedClassSlots[slotIndex] = classTitle;
-      saveSetupClassSlots();
       renderSetupClassSlots();
       renderSetupClassResults(document.getElementById('classSearch').value);
       showSetupClassMessage(`Updated Period ${slotIndex + 1}.`);
@@ -544,7 +553,6 @@
       const emptyIndex = setupSelectedClassSlots.findIndex(slot => !slot);
       if (emptyIndex !== -1) {
         setupSelectedClassSlots[emptyIndex] = classTitle;
-        saveSetupClassSlots();
         renderSetupClassSlots();
         renderSetupClassResults(document.getElementById('classSearch').value);
         return;
@@ -561,7 +569,6 @@
       setupSelectedClassSlots[toIndex] = setupSelectedClassSlots[fromIndex];
       setupSelectedClassSlots[fromIndex] = temp || '';
 
-      saveSetupClassSlots();
       renderSetupClassSlots();
       renderSetupClassResults(document.getElementById('classSearch').value);
     }
@@ -586,7 +593,6 @@
 
       classesToggle.addEventListener('change', () => {
         const enabled = classesToggle.checked;
-        setClassesEnabled(enabled);
         classesSettings.style.display = enabled ? 'block' : 'none';
       });
 
@@ -596,7 +602,6 @@
 
       document.getElementById('clearClassesBtn').addEventListener('click', () => {
         setupSelectedClassSlots = Array(SETUP_MAX_CLASS_SLOTS).fill('');
-        saveSetupClassSlots();
         renderSetupClassSlots();
         renderSetupClassResults(document.getElementById('classSearch').value);
       });
@@ -725,7 +730,6 @@
 
       clubsToggle.addEventListener('change', (e) => {
         const enabled = e.target.checked;
-        localStorage.setItem('clubsEnabled', enabled.toString());
         clubsSettings.style.display = enabled ? 'block' : 'none';
       });
 
@@ -761,7 +765,7 @@
     }
 
     function updateNotificationStatus() {
-      const notificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
+      const notificationsEnabled = packupToggle.checked;
       if (notificationsEnabled) {
         if (Notification.permission !== 'granted') {
           notificationStatus.innerHTML = '⚠️ Reminders on, but browser notification permission missing';
@@ -784,7 +788,6 @@
         const val = parseInt(btn.dataset.value, 10);
         packUpInput.value = val > 0 ? val : '';
         packUpTime = val;
-        localStorage.setItem('pack-up-time', String(val));
         updatePackUpPresetUI(val);
       });
     });
@@ -797,7 +800,6 @@
         val = 30;
       }
       packUpTime = val;
-      localStorage.setItem('pack-up-time', String(val));
       updatePackUpPresetUI(val);
     });
 
@@ -806,12 +808,10 @@
       if (isNaN(val) || val < 0) {
         packUpInput.value = '';
         packUpTime = 0;
-        localStorage.setItem('pack-up-time', '0');
         updatePackUpPresetUI(0);
         return;
       }
       packUpTime = val;
-      localStorage.setItem('pack-up-time', String(val));
       updatePackUpPresetUI(val);
     });
 
@@ -835,7 +835,6 @@
 
       packupToggle.addEventListener('change', async () => {
         const enabled = packupToggle.checked;
-        localStorage.setItem('notifications-enabled', enabled ? 'true' : 'false');
         packupSettings.style.display = enabled ? 'block' : 'none';
 
         if (enabled && Notification.permission === 'default') {
@@ -862,7 +861,7 @@
     let caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{"1": "", "2": "", "3": "", "4": "", "5": "", "6": ""}');
 
     function updateCaddyStatus() {
-      const enabled = localStorage.getItem('phone-caddy-enabled') === 'true';
+      const enabled = caddyToggle.checked;
       if (enabled) {
         if (Notification.permission === 'granted') {
           caddyStatus.innerHTML = '';
@@ -891,12 +890,7 @@
 
       caddyToggle.addEventListener('change', async () => {
         const enabled = caddyToggle.checked;
-        localStorage.setItem('phone-caddy-enabled', enabled ? 'true' : 'false');
         caddySettings.style.display = enabled ? 'block' : 'none';
-
-        if (enabled && localStorage.getItem('notifications-enabled') !== 'true') {
-          localStorage.setItem('notifications-enabled', 'true');
-        }
 
         if (enabled && Notification.permission === 'default') {
           const permission = await Notification.requestPermission();
@@ -942,11 +936,12 @@
         for (let i = 1; i <= 6; i++) {
           caddyTimes[i.toString()] = document.getElementById(`caddyTime${i}`).value || '';
         }
-        localStorage.setItem('phone-caddy-times', JSON.stringify(caddyTimes));
       });
     });
 
     document.getElementById('completeBtn').addEventListener('click', () => {
+      setProfileName(document.getElementById('setupProfileName').value.trim());
+      setProfileInitials(document.getElementById('setupProfileInitials').value.trim());
       localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
       localStorage.setItem('pack-up-time', String(packUpTime));
       localStorage.setItem('notifications-enabled', packupToggle.checked ? 'true' : 'false');
@@ -976,6 +971,19 @@
     });
 
     async function init() {
+      const setupProfileName = document.getElementById('setupProfileName');
+      const setupProfileInitials = document.getElementById('setupProfileInitials');
+      const setupAvatarInitials = document.getElementById('setupAvatarInitials');
+
+      setupProfileName.value = getProfileName();
+      setupProfileInitials.value = getProfileInitials();
+      setupAvatarInitials.textContent = getProfileInitials() || '?';
+
+      setupProfileInitials.addEventListener('input', () => {
+        const value = setupProfileInitials.value.trim().slice(0, 2).toUpperCase();
+        setupAvatarInitials.textContent = value || '?';
+      });
+
       loadLunchPrefs();
       updateLunchUI();
       await initSetupCounterMorphs();

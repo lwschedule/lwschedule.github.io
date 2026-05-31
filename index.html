@@ -11,8 +11,18 @@
   <link rel="stylesheet" href="/common.css">
 </head>
 <body class="homePage">
-  <div class="homeHeaderRow">
-    <h1 style="margin: 0 auto; text-align: center; width: 100%;">LW Schedule</h1>
+  <div class="home-header-new">
+    <div class="home-greeting-col">
+      <h1 class="home-greeting-text" id="homeGreeting">Good evening, <span class="home-greeting-name" id="homeGreetingName">there</span>.</h1>
+      <p class="home-greeting-sub">Here's what's coming up.</p>
+    </div>
+    <div class="home-date-col">
+      <img src="/icons/src/calendar.svg" class="home-date-icon" alt="" aria-hidden="true">
+      <div>
+        <div class="home-date-day" id="homeDateDay"></div>
+        <div class="home-date-full" id="homeDateFull"></div>
+      </div>
+    </div>
   </div>
   <div id="digitalClock">
     <div id="clockLabel">TIME REMAINING</div>
@@ -36,11 +46,43 @@
     </div>
   </div>
   <div id="timer"></div>
+  <section class="upcoming-section">
+    <h2 class="upcoming-heading">Upcoming</h2>
+    <div id="upcomingTiles" class="upcoming-tiles">
+      <div class="upcoming-tile" id="upcomingTile1">
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/filemenu.and.selection.svg" class="upcoming-tile-icon" alt=""></div>
+        <div class="upcoming-tile-body">
+          <div class="upcoming-tile-title" id="upcomingTile1Title">Loading...</div>
+          <div class="upcoming-tile-sub" id="upcomingTile1Sub"></div>
+        </div>
+      </div>
+      <div class="upcoming-tile" id="upcomingTile2">
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/list.bullet.below.rectangle.svg" class="upcoming-tile-icon" alt=""></div>
+        <div class="upcoming-tile-body">
+          <div class="upcoming-tile-title" id="upcomingTile2Title">Loading...</div>
+          <div class="upcoming-tile-sub" id="upcomingTile2Sub"></div>
+        </div>
+      </div>
+      <div class="upcoming-tile" id="upcomingTile3">
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/rectangle.grid.2x2.svg" class="upcoming-tile-icon" alt=""></div>
+        <div class="upcoming-tile-body">
+          <div class="upcoming-tile-title" id="upcomingTile3Title">Loading...</div>
+          <div class="upcoming-tile-sub" id="upcomingTile3Sub"></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
     <div class="home-ticker-inner">
       <div class="home-ticker-viewport">
         <div id="homeTickerTrack" class="home-ticker-track" aria-live="polite"></div>
       </div>
+      <button type="button" id="homeTickerPause" class="home-ticker-pause" aria-label="Pause ticker">
+        <svg id="homeTickerPauseIcon" width="12" height="12" viewBox="0 0 12 12" fill="white">
+          <rect x="2" y="1" width="3" height="10" rx="1"/>
+          <rect x="7" y="1" width="3" height="10" rx="1"/>
+        </svg>
+      </button>
       <button type="button" id="homeTickerClose" class="home-ticker-close" aria-label="Dismiss ticker">&times;</button>
     </div>
   </div>
@@ -100,6 +142,79 @@
     await initClockMorphs();
     await initApp();
     checkSetupComplete();
+
+    // Header greeting
+    (function() {
+      const hour = new Date().getHours();
+      let greeting = 'Good morning';
+      if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+      else if (hour >= 17 && hour < 21) greeting = 'Good evening';
+      else if (hour >= 21 || hour < 5) greeting = 'Good night';
+      const name = getProfileName() || 'there';
+      document.getElementById('homeGreeting').childNodes[0].textContent = greeting + ', ';
+      document.getElementById('homeGreetingName').textContent = name;
+      const now = new Date();
+      document.getElementById('homeDateDay').textContent = now.toLocaleDateString('en-US', { weekday: 'long' });
+      document.getElementById('homeDateFull').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    })();
+
+    // Upcoming tile 3 — Quarter countdown
+    (function() {
+      if (!academicTerms || !academicTerms.quarters) return;
+      const now = new Date();
+      const current = academicTerms.quarters.find(q => now >= q.start && now <= q.end);
+      const next = academicTerms.quarters.find(q => now < q.start);
+      const term = current || next;
+      if (!term) {
+        document.getElementById('upcomingTile3Title').textContent = 'No upcoming quarter';
+        return;
+      }
+      const label = current ? 'End of ' + term.name : 'Start of ' + term.name;
+      const target = current ? term.end : term.start;
+      const diffMs = target - now;
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      document.getElementById('upcomingTile3Title').textContent = label;
+      document.getElementById('upcomingTile3Sub').textContent = diffDays + ' day' + (diffDays !== 1 ? 's' : '') + ' remaining';
+    })();
+
+    // Upcoming tile 2 — Next followed event
+    (async function() {
+      try {
+        const res = await fetch('/data/events.json');
+        const data = await res.json();
+        const all = [...(data.apTests || []), ...(data.standardizedTests || [])];
+        const followed = getProfileFollowedEvents();
+        const today = new Date(); today.setHours(0,0,0,0);
+        const upcoming = all
+          .filter(e => followed.includes(e.id))
+          .map(e => ({ ...e, dateObj: new Date(e.date + 'T00:00:00') }))
+          .filter(e => e.dateObj >= today)
+          .sort((a,b) => a.dateObj - b.dateObj);
+        if (!upcoming.length) {
+          document.getElementById('upcomingTile2Title').textContent = 'Nothing coming soon!';
+          document.getElementById('upcomingTile2Sub').textContent = 'Choose more events in your profile to see them here.';
+        } else {
+          const next = upcoming[0];
+          document.getElementById('upcomingTile2Title').textContent = next.title;
+          document.getElementById('upcomingTile2Sub').textContent = next.dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + (next.time ? ' · ' + next.time : '');
+        }
+      } catch(e) {}
+    })();
+
+    // Upcoming tile 1 — Next period (update every second alongside the clock)
+    function updateUpcomingTile1() {
+      const text = document.getElementById('timer') ? document.getElementById('timer').textContent : '';
+      const label = document.getElementById('clockLabel') ? document.getElementById('clockLabel').textContent : '';
+      if (text) {
+        document.getElementById('upcomingTile1Title').textContent = text;
+        document.getElementById('upcomingTile1Sub').textContent = label;
+      }
+    }
+    const origSetInterval = window.__tile1Interval;
+    if (origSetInterval) clearInterval(origSetInterval);
+    window.__tile1Interval = setInterval(updateUpcomingTile1, 1000);
+    updateUpcomingTile1();
+
     updateClock();
     setInterval(updateClock, 1000);
 
@@ -136,13 +251,27 @@
         let x = 0;
         const speed = 0.4;
         const halfWidth = track.scrollWidth / 2;
+        let tickerPaused = false;
         function animateTicker() {
-          x -= speed;
-          if (Math.abs(x) >= halfWidth) x = 0;
-          track.style.transform = `translateX(${x}px)`;
+          if (!tickerPaused) {
+            x -= speed;
+            if (Math.abs(x) >= halfWidth) x = 0;
+            track.style.transform = 'translateX(' + x + 'px)';
+          }
           requestAnimationFrame(animateTicker);
         }
         requestAnimationFrame(animateTicker);
+        const pauseBtn = document.getElementById('homeTickerPause');
+        const pauseIcon = document.getElementById('homeTickerPauseIcon');
+        const playIconSVG = '<polygon points="3,1 11,6 3,11" fill="white"/>';
+        const pauseIconSVG = '<rect x="2" y="1" width="3" height="10" rx="1"/><rect x="7" y="1" width="3" height="10" rx="1"/>';
+        if (pauseBtn) {
+          pauseBtn.addEventListener('click', () => {
+            tickerPaused = !tickerPaused;
+            if (pauseIcon) pauseIcon.innerHTML = tickerPaused ? playIconSVG : pauseIconSVG;
+            pauseBtn.setAttribute('aria-label', tickerPaused ? 'Play ticker' : 'Pause ticker');
+          });
+        }
         closeBtn && closeBtn.addEventListener('click', () => {
           ticker.classList.add('hidden');
           document.getElementById('homeTickerSpacer').style.display = 'none';
