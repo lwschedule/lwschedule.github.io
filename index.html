@@ -50,27 +50,24 @@
     <h2 class="upcoming-heading">Upcoming</h2>
     <div id="upcomingTiles" class="upcoming-tiles">
       <div class="upcoming-tile" id="upcomingTile1">
-        <!-- Icon removed per request -->
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/filemenu.and.selection.svg" class="upcoming-tile-icon" alt=""></div>
         <div class="upcoming-tile-body">
           <div class="upcoming-tile-title" id="upcomingTile1Title">Loading...</div>
-          <!-- Sub content removed per request -->
-          <div class="upcoming-tile-countdown" id="upcomingTile1Countdown"></div>
+          <div class="upcoming-tile-sub" id="upcomingTile1Sub"></div>
         </div>
       </div>
       <div class="upcoming-tile" id="upcomingTile2">
-        <!-- Icon removed per request -->
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/list.bullet.below.rectangle.svg" class="upcoming-tile-icon" alt=""></div>
         <div class="upcoming-tile-body">
           <div class="upcoming-tile-title" id="upcomingTile2Title">Loading...</div>
-          <!-- Sub content removed per request -->
-          <div class="upcoming-tile-countdown" id="upcomingTile2Countdown"></div>
+          <div class="upcoming-tile-sub" id="upcomingTile2Sub"></div>
         </div>
       </div>
       <div class="upcoming-tile" id="upcomingTile3">
-        <!-- Icon removed per request -->
+        <div class="upcoming-tile-icon-wrap"><img src="/icons/src/rectangle.grid.2x2.svg" class="upcoming-tile-icon" alt=""></div>
         <div class="upcoming-tile-body">
           <div class="upcoming-tile-title" id="upcomingTile3Title">Loading...</div>
-          <!-- Sub content removed per request -->
-          <div class="upcoming-tile-countdown" id="upcomingTile3Countdown"></div>
+          <div class="upcoming-tile-sub" id="upcomingTile3Sub"></div>
         </div>
       </div>
     </div>
@@ -207,7 +204,6 @@
       const term = current || next;
       if (!term) {
         document.getElementById('upcomingTile3Title').textContent = 'No upcoming quarter';
-        window.__nextQuarterTarget = null;
         return;
       }
       const label = current ? 'End of ' + term.name : 'Start of ' + term.name;
@@ -216,7 +212,6 @@
       const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
       document.getElementById('upcomingTile3Title').textContent = label;
       document.getElementById('upcomingTile3Sub').textContent = diffDays + ' day' + (diffDays !== 1 ? 's' : '') + ' remaining';
-      window.__nextQuarterTarget = target;
     })();
 
     // Upcoming tile 2 — Next followed event
@@ -225,7 +220,7 @@
         const res = await fetch('/data/events.json');
         const data = await res.json();
         const all = [...(data.apTests || []), ...(data.standardizedTests || [])];
-        const followed = typeof getProfileFollowedEvents === 'function' ? getProfileFollowedEvents() : [];
+        const followed = getProfileFollowedEvents();
         const today = new Date(); today.setHours(0,0,0,0);
         const upcoming = all
           .filter(e => followed.includes(e.id))
@@ -235,14 +230,12 @@
         if (!upcoming.length) {
           document.getElementById('upcomingTile2Title').textContent = 'Nothing coming soon!';
           document.getElementById('upcomingTile2Sub').textContent = 'Choose more events in your profile to see them here.';
-          window.__nextEventDate = null;
         } else {
           const next = upcoming[0];
           document.getElementById('upcomingTile2Title').textContent = next.title;
           document.getElementById('upcomingTile2Sub').textContent = next.dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + (next.time ? ' · ' + next.time : '');
-          window.__nextEventDate = next.dateObj;
         }
-      } catch(e) { window.__nextEventDate = null; }
+      } catch(e) {}
     })();
 
     // Upcoming tile 1 — Next period (update every second alongside the clock)
@@ -261,60 +254,6 @@
 
     updateClock();
     setInterval(updateClock, 1000);
-
-    // Initialize countdowns for upcoming tiles using NumberFlow
-    (function initUpcomingCountdowns() {
-      // Helper to create a NumberFlow element inside a container
-      function createNumberFlow(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return null;
-        const nf = document.createElement('number-flow');
-        nf.update(0);
-        container.textContent = '';
-        container.appendChild(nf);
-        return nf;
-      }
-
-      // Tile 1: reuse same data as main clock morphs (days/hours/minutes/seconds)
-      const tile1NF = createNumberFlow('upcomingTile1Countdown');
-      // Tile 2: countdown to next followed event (if any)
-      const tile2NF = createNumberFlow('upcomingTile2Countdown');
-      // Tile 3: countdown to next quarter target (if any)
-      const tile3NF = createNumberFlow('upcomingTile3Countdown');
-
-      function updateCountdowns() {
-        // Tile 1: display total seconds remaining until target (same as main clock)
-        if (tile1NF && typeof window.updateClockMorphs === 'function') {
-          // We can reuse the same data that updateClockMorphs receives.
-          // Since we don't have direct access here, compute from clock display values.
-          const days = parseInt(document.getElementById('clockDisplay-days')?.textContent || '0', 10) || 0;
-          const hours = parseInt(document.getElementById('clockDisplay-hours')?.textContent || '0', 10) || 0;
-          const minutes = parseInt(document.getElementById('clockDisplay-minutes')?.textContent || '0', 10) || 0;
-          const seconds = parseInt(document.getElementById('clockDisplay-seconds')?.textContent || '0', 10) || 0;
-          const totalSeconds = ((days * 24 + hours) * 60 + minutes) * 60 + seconds;
-          tile1NF.update(totalSeconds);
-        }
-
-        // Tile 2: next event countdown (seconds remaining)
-        if (tile2NF && window.__nextEventDate instanceof Date) {
-          const diffMs = window.__nextEventDate - new Date();
-          const secs = Math.max(0, Math.floor(diffMs / 1000));
-          tile2NF.update(secs);
-        }
-
-        // Tile 3: next quarter countdown (days remaining, shown as whole days)
-        if (tile3NF && window.__nextQuarterTarget instanceof Date) {
-          const diffMs = window.__nextQuarterTarget - new Date();
-          const days = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-          tile3NF.update(days);
-        }
-      }
-
-      // Update every second
-      setInterval(updateCountdowns, 1000);
-      // Initial call
-      updateCountdowns();
-    })();
 
     // Ticker
     try {
