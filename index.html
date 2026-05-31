@@ -13,7 +13,7 @@
 <body class="homePage">
   <div class="home-header-new">
     <div class="home-greeting-col">
-      <h1 class="home-greeting-text" id="homeGreeting">Good evening, <span class="home-greeting-name" id="homeGreetingName">there</span>.</h1>
+      <h1 class="home-greeting-text" id="homeGreeting">Good evening, <span class="home-greeting-name" id="homeGreetingName">User</span>.</h1>
       <p class="home-greeting-sub">Here's what's coming up.</p>
     </div>
     <div class="home-date-col">
@@ -150,7 +150,7 @@
       if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
       else if (hour >= 17 && hour < 21) greeting = 'Good evening';
       else if (hour >= 21 || hour < 5) greeting = 'Good night';
-      const name = getProfileName() || 'there';
+      const name = getProfileName() || 'User';
       document.getElementById('homeGreeting').childNodes[0].textContent = greeting + ', ';
       document.getElementById('homeGreetingName').textContent = name;
       const now = new Date();
