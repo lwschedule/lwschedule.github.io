@@ -289,10 +289,15 @@ body.calendarPage .pageContainer {
 }
 
 #clockDisplay {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
   margin-top: 15px;
+}
+
+#clockDisplay > .time-block {
+  flex: 1 1 120px;
+  min-width: 80px;
 }
 
 .time-block {

@@ -624,7 +624,7 @@ function displayTimeBlocks(container, data) {
 }
 
 function displayMessage(container, message) {
-  container.innerHTML = `<div class="time-block" style="grid-column: 1/-1;"><span class="time-value" style="font-size: 1.5em;">${message}</span></div>`;
+  container.innerHTML = `<div class="time-block" style="width: 100%;"><span class="time-value" style="font-size: 1.5em;">${message}</span></div>`;
 }
 
 function getNextSchoolDayStartTime() {
