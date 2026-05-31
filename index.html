@@ -143,6 +143,43 @@
     await initApp();
     checkSetupComplete();
 
+    // Hide upcoming tiles when there is no data to display
+    (function hideUnusedUpcomingTiles() {
+      // Tile 2: Followed events
+      try {
+        const followed = typeof getProfileFollowedEvents === 'function' ? getProfileFollowedEvents() : [];
+        if (!followed || followed.length === 0) {
+          const tile2 = document.getElementById('upcomingTile2');
+          if (tile2) tile2.remove();
+        }
+      } catch (e) { /* ignore */ }
+
+      // If all tiles removed, remove the entire upcoming section
+      try {
+        const section = document.querySelector('.upcoming-section');
+        if (section && !section.querySelector('.upcoming-tile')) {
+          section.remove();
+        }
+      } catch (e) { /* ignore */ }
+
+      // Tile 3: Academic quarters
+      try {
+        if (!academicTerms || !academicTerms.quarters || academicTerms.quarters.length === 0) {
+          const tile3 = document.getElementById('upcomingTile3');
+          if (tile3) tile3.remove();
+        }
+      } catch (e) { /* ignore */ }
+
+      // Tile 1: Next school day / period
+      try {
+        const nextSchool = typeof getNextSchoolDayStartTime === 'function' ? getNextSchoolDayStartTime() : null;
+        if (!nextSchool) {
+          const tile1 = document.getElementById('upcomingTile1');
+          if (tile1) tile1.remove();
+        }
+      } catch (e) { /* ignore */ }
+    })();
+
     // Header greeting
     (function() {
       const hour = new Date().getHours();
