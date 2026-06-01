@@ -167,6 +167,15 @@
         if (!academicTerms || !academicTerms.quarters || academicTerms.quarters.length === 0) {
           const tile3 = document.getElementById('upcomingTile3');
           if (tile3) tile3.remove();
+        } else {
+          // Also remove if no current or upcoming quarter
+          const now = new Date();
+          const hasCurrent = academicTerms.quarters.some(q => now >= q.start && now <= q.end);
+          const hasNext = academicTerms.quarters.some(q => now < q.start);
+          if (!hasCurrent && !hasNext) {
+            const tile3 = document.getElementById('upcomingTile3');
+            if (tile3) tile3.remove();
+          }
         }
       } catch (e) { /* ignore */ }
 
@@ -228,8 +237,13 @@
           .filter(e => e.dateObj >= today)
           .sort((a,b) => a.dateObj - b.dateObj);
         if (!upcoming.length) {
-          document.getElementById('upcomingTile2Title').textContent = 'Nothing coming soon!';
-          document.getElementById('upcomingTile2Sub').textContent = 'Choose more events in your profile to see them here.';
+          const tile2 = document.getElementById('upcomingTile2');
+          if (tile2) tile2.remove();
+          // Check if entire upcoming section should be removed
+          const section = document.querySelector('.upcoming-section');
+          if (section && !section.querySelector('.upcoming-tile')) {
+            section.remove();
+          }
         } else {
           const next = upcoming[0];
           document.getElementById('upcomingTile2Title').textContent = next.title;
