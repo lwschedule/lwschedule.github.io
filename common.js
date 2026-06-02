@@ -10,6 +10,18 @@ const MAX_CLASS_SLOTS = 6;
 // Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
 const SCHEDULE_METADATA = [
   {
+    scheduleKey: 'leapDay',
+    dateStart: new Date(2026, 4, 18), // May 18, 2026
+    dateEnd: new Date(2026, 4, 22), // May 22, 2026
+    storageKey: 'leapDayLunchPreferences'
+  },
+  {
+    scheduleKey: 'memorialDay',
+    dateStart: new Date(2026, 4, 25), // May 25, 2026
+    dateEnd: new Date(2026, 4, 29), // May 29, 2026
+    storageKey: 'memorialDayLunchPreferences'
+  },
+  {
     scheduleKey: 'movingUp',
     dateStart: new Date(2026, 5, 8), // June 8, 2026
     dateEnd: new Date(2026, 5, 12), // June 12, 2026
@@ -370,7 +382,7 @@ function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedul
 function getSchedules(date) {
   if (!schedulesData) return {};
   
-  // Get the active schedule key for this date (normal or a special schedule)
+  // Get the active schedule key for this date (normal, leapDay, memorialDay, etc.)
   const scheduleKey = getScheduleKeyForDate(date);
   
   // Access the schedule data - special schedules are nested within schedulesData.normal
@@ -1132,8 +1144,8 @@ function updateHolidayCountdown() {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
       let countdownTarget;
-      if (typeof upcoming.name === 'string' && upcoming.name === 'Summer Break') {
-        countdownTarget = new Date(2026, 5, 17, 11, 40, 0, 0);
+      if (typeof upcoming.name === 'string' && upcoming.name.toLowerCase() === 'leap week') {
+        countdownTarget = new Date(2026, 4, 21, 15, 15, 0, 0);
       } else {
         const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
         countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
@@ -1169,9 +1181,8 @@ function renderCalendar() {
   document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
-  const isJuneOnlyView = (currentYear === 2026 && currentMonth === 5);
   
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 5);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 4);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -1184,13 +1195,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = isJuneOnlyView;
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 4);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
       
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 5)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 4)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1211,15 +1222,8 @@ function renderCalendar() {
   const remainingCells = 7 - (totalCells % 7);
   if (remainingCells < 7) {
     for (let day = 1; day <= remainingCells; day++) {
-      if (isJuneOnlyView) {
-        const emptyCell = document.createElement('div');
-        emptyCell.className = 'calendar-day';
-        emptyCell.style.visibility = 'hidden';
-        grid.appendChild(emptyCell);
-      } else {
-        const cell = createDayCell(day, true, currentMonth + 1, currentYear);
-        grid.appendChild(cell);
-      }
+      const cell = createDayCell(day, true, currentMonth + 1, currentYear);
+      grid.appendChild(cell);
     }
   }
 
@@ -1305,16 +1309,31 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
 }
 
 function changeMonth(delta) {
-  currentMonth = 5;
-  currentYear = 2026;
+  currentMonth += delta;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  } else if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+  
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
+    currentMonth = 4;
+    currentYear = 2026;
+  }
+  if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
+    currentMonth = 5;
+    currentYear = 2026;
+  }
   renderCalendar();
 }
 
-let currentMonth = 5;
-let currentYear = 2026;
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
 
-if (currentYear !== 2026 || currentMonth !== 5) {
-  currentMonth = 5;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
+  currentMonth = 4;
   currentYear = 2026;
 }
 

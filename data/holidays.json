@@ -1,5 +1,17 @@
 [
   {
+    "name": "LEAP Week",
+    "date": "2026-05-22",
+    "displayDate": "May 22, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Memorial Day",
+    "date": "2026-05-25",
+    "displayDate": "May 25, 2026",
+    "isWeekend": true
+  },
+  {
     "name": "Snow Make-Up Day",
     "date": "2026-05-26",
     "displayDate": "May 26, 2026",

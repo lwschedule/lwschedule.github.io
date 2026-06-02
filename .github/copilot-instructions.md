@@ -15,7 +15,7 @@ served as-is.
 
 ### Data Files (`/data/`)
 - `schedules.json` — All bell schedules (normal + special). Special schedules are nested
-  inside `normal` by key (`movingUp`, `lastWeek`).
+  inside `normal` by key (`leapDay`, `memorialDay`, `movingUp`, `lastWeek`).
 - `holidays.json` — Holiday list with `date` (ISO string), `name`, `displayDate`.
 - `clubs.json` — Club list with id, days, frequency, room, start/end times.
 - `classes.json` — Master list of class names for the classes picker.
