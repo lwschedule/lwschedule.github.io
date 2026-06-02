@@ -10,18 +10,6 @@ const MAX_CLASS_SLOTS = 6;
 // Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
 const SCHEDULE_METADATA = [
   {
-    scheduleKey: 'leapDay',
-    dateStart: new Date(2026, 4, 18), // May 18, 2026
-    dateEnd: new Date(2026, 4, 22), // May 22, 2026
-    storageKey: 'leapDayLunchPreferences'
-  },
-  {
-    scheduleKey: 'memorialDay',
-    dateStart: new Date(2026, 4, 25), // May 25, 2026
-    dateEnd: new Date(2026, 4, 29), // May 29, 2026
-    storageKey: 'memorialDayLunchPreferences'
-  },
-  {
     scheduleKey: 'movingUp',
     dateStart: new Date(2026, 5, 8), // June 8, 2026
     dateEnd: new Date(2026, 5, 12), // June 12, 2026
@@ -382,7 +370,7 @@ function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedul
 function getSchedules(date) {
   if (!schedulesData) return {};
   
-  // Get the active schedule key for this date (normal, leapDay, memorialDay, etc.)
+  // Get the active schedule key for this date (normal, movingUp, lastWeek, etc.)
   const scheduleKey = getScheduleKeyForDate(date);
   
   // Access the schedule data - special schedules are nested within schedulesData.normal
@@ -1143,13 +1131,8 @@ function updateHolidayCountdown() {
   } else {
     const upcoming = holidays.find(h => h.date > now);
     if (upcoming) {
-      let countdownTarget;
-      if (typeof upcoming.name === 'string' && upcoming.name.toLowerCase() === 'leap week') {
-        countdownTarget = new Date(2026, 4, 21, 15, 15, 0, 0);
-      } else {
-        const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
-        countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
-      }
+      const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
+      const countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
       
       if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
