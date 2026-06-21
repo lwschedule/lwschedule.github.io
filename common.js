@@ -8,20 +8,7 @@ let lastNextPeriodText = null;
 const MAX_CLASS_SLOTS = 6;
 
 // Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
-const SCHEDULE_METADATA = [
-  {
-    scheduleKey: 'movingUp',
-    dateStart: new Date(2026, 5, 8), // June 8, 2026
-    dateEnd: new Date(2026, 5, 12), // June 12, 2026
-    storageKey: 'movingUpLunchPreferences'
-  },
-  {
-    scheduleKey: 'lastWeek',
-    dateStart: new Date(2026, 5, 15), // June 15, 2026
-    dateEnd: new Date(2026, 5, 19), // June 19, 2026
-    storageKey: 'lastWeekLunchPreferences'
-  }
-];
+const SCHEDULE_METADATA = [];
 
 function normalizeClassSlots(rawSlots) {
   const slots = Array(MAX_CLASS_SLOTS).fill('');
@@ -1242,10 +1229,8 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const dayNumber = document.createElement('div');
   dayNumber.className = 'day-number';
   dayNumber.textContent = day;
-  const isAfterLastDay = (year > 2026) || (year === 2026 && month > 5) || (year === 2026 && month === 5 && day >= 18);
-  if (isAfterLastDay) {
-    cell.classList.add('holiday');
-  } else if (dayName === 'Saturday' || dayName === 'Sunday') {
+  // Removed hard‑coded school‑year end check; rely on schedule data and holidays only.
+  if (dayName === 'Saturday' || dayName === 'Sunday') {
     cell.classList.add('holiday');
   } else {
     if (getHolidayForDate(date)) {
@@ -1463,9 +1448,7 @@ function doesClubMeetOnDate(club, date) {
   if (!clubDays.includes(dayName)) return false;
   
   
-  const schoolEnd = new Date(2026, 5, 18); 
-  if (date >= schoolEnd) return false;
-  
+  // Removed hard‑coded school end date check; schedule data now determines school year.
   
   switch (club.frequency) {
     case 'weekly':
