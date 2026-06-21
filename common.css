@@ -178,7 +178,7 @@ h1, h2, h3 {
 }
 
 .pageContainer {
-  max-width: 1500px;
+  max-width: 1500px !important;
   margin: 0 auto;
   padding: 20px 0 10px 0;
   display: flex;
@@ -1964,7 +1964,7 @@ body.calendarPage .calendar-grid {
 
 /* Home Page Redesign */
 .home-header-new {
-  max-width: 1500px;
+  max-width: 1500px !important;
   margin: 0 auto 20px;
   padding: 0 16px;
   display: flex;
