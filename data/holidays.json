@@ -1,20 +1,62 @@
 [
   {
-    "name": "Memorial Day",
-    "date": "2026-05-25",
-    "displayDate": "May 25, 2026",
-    "isWeekend": true
+    "name": "Labor Day",
+    "date": "2026-09-07",
+    "displayDate": "September 7, 2026",
+    "isWeekend": false
   },
   {
-    "name": "Snow Make-Up Day",
-    "date": "2026-05-26",
-    "displayDate": "May 26, 2026",
+    "name": "Veterans Day",
+    "date": "2026-11-11",
+    "displayDate": "November 11, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Thanksgiving Break",
+    "date": "2026-11-26",
+    "displayDate": "November 26–27, 2026",
+    "isWeekend": false
+  },
+  {
+    "name": "Winter Break",
+    "date": "2026-12-21",
+    "displayDate": "December 21, 2026 – January 1, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "MLK Jr. Day",
+    "date": "2027-01-18",
+    "displayDate": "January 18, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "Mid-Winter Break",
+    "date": "2027-02-11",
+    "displayDate": "February 11–12, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "Presidents Day",
+    "date": "2027-02-15",
+    "displayDate": "February 15, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "Spring Break",
+    "date": "2027-04-12",
+    "displayDate": "April 12–16, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "Memorial Day",
+    "date": "2027-05-31",
+    "displayDate": "May 31, 2027",
     "isWeekend": false
   },
   {
     "name": "Summer Break",
-    "date": "2026-06-18",
-    "displayDate": "June 18–Aug 31, 2026",
-    "isWeekend": true
+    "date": "2027-06-17",
+    "displayDate": "June 17 – September 1, 2027",
+    "isWeekend": false
   }
 ]

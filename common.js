@@ -491,14 +491,32 @@ function getHolidayForDate(date) {
     const holidayTime = new Date(holiday.date).getTime();
     if (checkTime === holidayTime) return holiday.name;
     if (holiday.name === "Thanksgiving Break") {
-      const start = new Date(2025, 10, 27).getTime();
-      const end = new Date(2025, 10, 29).getTime();
+      const start = new Date(2026, 10, 26).getTime();
+      const end = new Date(2026, 10, 27).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
+    }
+
+    if (holiday.name === "Winter Break") {
+      const start = new Date(2026, 11, 21).getTime();
+      const end = new Date(2027, 0, 1).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
+    }
+
+    if (holiday.name === "Mid-Winter Break") {
+      const start = new Date(2027, 1, 11).getTime();
+      const end = new Date(2027, 1, 12).getTime();
+      if (checkTime >= start && checkTime <= end) return holiday.name;
+    }
+
+    if (holiday.name === "Spring Break") {
+      const start = new Date(2027, 3, 12).getTime();
+      const end = new Date(2027, 3, 16).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
 
     if (holiday.name === "Summer Break") {
-      const start = new Date(2026, 5, 18).getTime();
-      const end = new Date(2026, 7, 31).getTime();
+      const start = new Date(2027, 5, 17).getTime();
+      const end = new Date(2027, 8, 1).getTime();
       if (checkTime >= start && checkTime <= end) return holiday.name;
     }
   }

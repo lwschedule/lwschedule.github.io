@@ -1,61 +1,82 @@
-IF YOU ARE GITHUB COPILOT, IGNORE THIS FILE!!!!!
-# OpenCode Agents
+# LW Schedule — Agent Guide
 
-## Available Agents
+## What This Is
 
-### General
-- **Purpose**: Multi-purpose agent for research, planning, and execution.
-- **Usage**: Default agent for most tasks.
+Static PWA for a high school schedule viewer. No build step, no bundler, no `package.json`. Raw HTML/CSS/JS served directly via GitHub Pages.
 
-### Explore
-- **Purpose**: Fast exploration of codebases (file search, pattern matching).
-- **Usage**: Codebase navigation, finding files, or searching for patterns.
+## Architecture
 
-### Custom Agents
-Define new agents in `.opencode/agent/<name>.md` or via `opencode.json`.
+- **`common.js`** (~1974 lines) — all application logic. Loaded lazily by `common-core.js`.
+- **`common-core.js`** — bootstrap loader. Every page includes this; it auto-loads `common.js`.
+- **`common.css`** — single stylesheet for the entire app.
+- **`data/*.json`** — static data: schedules, holidays, terms, clubs, events, classes, ticker messages.
+- **`sw.js`** — service worker. Cache name must change on every deploy (pre-commit hook handles this).
+- **`manifest.json`** — PWA manifest. Portrait orientation, standalone display.
 
-## Planning and Execution Workflow
-Before making changes, create a **step-by-step plan**. Break complex tasks into numbered phases. For each phase:
-1. **State the goal**: Clearly define what this phase aims to achieve.
-2. **List assumptions**: Document any assumptions about the codebase, tools, or environment.
-3. **Identify risks or unknowns**: Highlight potential pitfalls or areas needing clarification.
-4. **Propose the best implementation**: Outline the chosen approach and justify it.
-5. **Verify against the original request**: Ensure alignment with the user's requirements.
+## Pages
 
-After implementing each phase:
-- Review the code for correctness.
-- Check for regressions.
-- Look for simpler solutions.
-- Revise if needed.
+Multi-page app — each feature is a separate `index.html` in its own directory. Key paths:
+- `/index.html` — home dashboard
+- `/today/`, `/week/`, `/month/` — schedule views
+- `/schedules/` — browse all schedule types
+- `/settings/` — preferences (lunch, classes, clubs, pack-up, phone caddy)
+- `/holidays/`, `/quarters/`, `/events/` — academic calendar
+- `/info/` — about page (version badge updated by pre-commit hook)
+- `/setup/` — first-run wizard
+- `/app/` — install prompt
 
-### Best Practices
-- Maintain an **internal scratchpad** to track progress and updates.
-- Update your plan when new information emerges.
-- Do not stop at the first solution. Evaluate at least **two approaches** for non-trivial tasks.
-- Prefer **reversible changes** to minimize risk.
-- Summarize **final reasoning** and any remaining uncertainties.
+## Data Files
 
-## Agent Configuration
-Agents can be configured in `opencode.json`:
+All in `data/`:
 
-```json
-{
-  "agent": {
-    "my-agent": {
-      "model": "anthropic/claude-sonnet-4-6",
-      "mode": "subagent",
-      "description": "Custom task executor.",
-      "permission": {
-        "edit": "deny"
-      }
-    }
-  }
-}
-```
+| File | Structure |
+|---|---|
+| `schedules.json` | Period times in minutes-since-midnight. Mon/Fri have A/B lunch variants. Wed is simple array. |
+| `holidays.json` | Array of `{name, date, displayDate, isWeekend}`. Multi-day breaks need hardcoded ranges in `common.js` `getHolidayForDate()`. |
+| `terms.json` | `{quarters: [...], semesters: [...]}` with `start`/`end` date strings. |
+| `clubs.json` | `{clubs: [{id, name, room, days, frequency, startHour, ...}]}`. Supports weekly/biweekly/every-other/alternating/monthly/last-of-month. |
+| `classes.json` | Flat array of class name strings. |
+| `events.json` | `{standardizedTests: [], apTests: []}`. |
+| `ticker-messages.json` | `{messages: [{text, url?}]}`. |
 
-## Permissions
-- **Plan Mode**: `edit: deny *` (readonly).
-- **Build Mode**: Default permissions apply.
+## Schedule Times Format
 
-## MCP Servers
-Configure MCP servers in `opencode.json` (e.g., `sequential-thinking`). Ensure dependencies (`npx`, Node.js) are installed before enabling.
+Period times are **minutes since midnight**. Example: `8:35 AM` = `8*60+35` = `515`. The `start` and `end` fields use this format. Lunch variants are keyed as `"A"` and `"B"` on Mon/Tue/Thu/Fri; Wednesday has a single `"Lunch"` entry.
+
+## Holiday Range Handling
+
+`getHolidayForDate()` in `common.js:487` has hardcoded date ranges for multi-day breaks. When adding/updating multi-day holidays, you must update both `holidays.json` AND the corresponding range check in this function. Single-day holidays just need the JSON entry.
+
+Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, School Closure Make-up Day, Summer Break.
+
+## Versioning
+
+Every commit must bump the patch version (x.y.**z**). The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
+
+1. `README.md` — version badge + release date
+2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
+3. `info/index.html` — version badge + release date
+
+**Enable locally:** `git config core.hooksPath .githooks`
+
+If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
+
+## User Preferences
+
+All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `selectedClubs`, `profile`, `classesEnabled`, `packupReminder`, `phoneCaddy`. No backend — everything is client-side.
+
+## Special Schedules
+
+`SCHEDULE_METADATA` array in `common.js:11` defines date-range overrides (e.g., "early release week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`. The key maps to a nested object inside `schedulesData.normal`. Currently empty — add entries here for special schedule periods.
+
+## Testing Locally
+
+No test suite. Open `index.html` in a browser or use any static server (`python3 -m http.server`, `npx serve`). The service worker requires HTTPS or localhost.
+
+## Gotchas
+
+- No Node.js toolchain — don't look for `package.json` or `node_modules`
+- Wednesday schedule is a plain array (no A/B lunch), unlike other weekdays
+- The `model-un` club has day-specific time overrides (`friStartHour`, etc.) — not all clubs use the same time fields
+- `common.js` uses global variables, not modules — all functions are on `window`
+- Dark theme is default; no light mode toggle exists
