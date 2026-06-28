@@ -690,10 +690,6 @@
 
       <div class="clubs-content" id="clubsContent">
         <input type="text" id="clubSearch" class="search-input" placeholder="Search clubs...">
-        <div class="button-row">
-          <button type="button" class="action-btn" id="clearClubsBtn">Clear All Clubs</button>
-        </div>
-
         <div class="clubs-results" id="clubResults"></div>
 
         <div class="slots-container clubsSlots" id="selectedClubsList"></div>
@@ -1345,12 +1341,6 @@
 
       document.getElementById('clubSearch').addEventListener('input', (e) => {
         renderClubResults(e.target.value);
-      });
-
-      document.getElementById('clearClubsBtn').addEventListener('click', () => {
-        selectedClubs = [];
-        renderSelectedList();
-        renderClubResults(document.getElementById('clubSearch').value);
       });
 
       document.getElementById('resetClubsBtn').addEventListener('click', () => {
