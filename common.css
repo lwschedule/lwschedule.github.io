@@ -186,8 +186,7 @@ h1, h2, h3 {
 }
 
 body.calendarPage .pageContainer {
-  max-width: none;
-  width: 100%;
+  max-width: 1500px;
   padding: 20px 20px 10px 20px;
   box-sizing: border-box;
   /* ensure the container shrinks to its contents now that the grid is outside */
@@ -276,8 +275,10 @@ body.calendarPage .pageContainer {
   padding: 20px;
   border-radius: 16px;
   box-shadow: var(--glow);
-  max-width: none;
-  margin: 20px 16px;
+  max-width: 1500px;
+  margin: 20px auto;
+  box-sizing: border-box;
+  width: calc(100% - 32px);
 }
 
 #clockLabel {
@@ -351,8 +352,10 @@ body.calendarPage .pageContainer {
   border-radius: 16px;
   box-shadow: var(--glow);
   color: var(--text-light);
-  max-width: none;
-  margin: 20px 16px;
+  max-width: 1500px;
+  margin: 20px auto;
+  box-sizing: border-box;
+  width: calc(100% - 32px);
 }
 
 #timer .timer-value-morph {
