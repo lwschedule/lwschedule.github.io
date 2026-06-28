@@ -660,10 +660,6 @@
       <div class="classes-content" id="classesContent">
         <input type="text" id="classSearch" class="search-input" placeholder="Search classes...">
 
-        <div class="button-row">
-          <button type="button" class="action-btn" id="clearClassesBtn">Clear All Slots</button>
-        </div>
-
         <div class="classes-results" id="classResults"></div>
 
         <div class="slots-container" id="selectedClassesList"></div>
@@ -1189,12 +1185,6 @@
 
       document.getElementById('classSearch').addEventListener('input', (e) => {
         renderClassResults(e.target.value);
-      });
-
-      document.getElementById('clearClassesBtn').addEventListener('click', () => {
-        selectedClassSlots = Array(MAX_SLOTS).fill('');
-        renderSelectedSlots();
-        renderClassResults(document.getElementById('classSearch').value);
       });
 
       document.getElementById('resetClassesBtn').addEventListener('click', () => {
