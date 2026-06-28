@@ -1,5 +1,6 @@
 {
   "quarters": [
+    { "name": "Summer Break", "start": "2026-06-17", "end": "2026-08-30" },
     { "name": "1st Quarter", "start": "2026-08-31", "end": "2026-11-03" },
     { "name": "2nd Quarter", "start": "2026-11-04", "end": "2027-01-22" },
     { "name": "3rd Quarter", "start": "2027-01-23", "end": "2027-04-02" },
