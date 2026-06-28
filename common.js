@@ -1739,7 +1739,18 @@ async function initApp() {
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
     localStorage.setItem('sem2ResetDone', 'true');
   }
-  
+
+  if (!localStorage.getItem('yearResetDone')) {
+    const keysToRemove = [
+      'classesEnabled', 'selectedClasses', 'profileFollowedEvents',
+      'lunchPreferences', 'clubsEnabled', 'selectedClubs',
+      'notifications-enabled', 'phone-caddy-enabled', 'phone-caddy-times',
+      'pack-up-time', 'dataVersion', 'sem2ResetDone'
+    ];
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('yearResetDone', 'true');
+  }
+
   loadLunchPreferences();
     if (document.getElementById('holidayCountdown')) {
     updateHolidayCountdown();
