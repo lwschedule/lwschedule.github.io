@@ -2130,6 +2130,145 @@ function createClassSlotManager(config) {
   return { renderSlots: renderSlotsList, renderResults, add, move, clearSlot, reset, load, getSlots, setSlots, showMessage };
 }
 
+function createClubSlotManager(config) {
+  const {
+    resultsId = 'clubResults',
+    searchId = 'clubSearch',
+    selectedListId = 'selectedClubsList',
+    countId = 'selectedCount',
+    css = { row: 'slot-row', card: 'slot-card', value: 'slot-value', clear: 'slot-clear', clearIcon: 'slot-clear-icon' },
+    onSave = null,
+  } = config;
+
+  let allClubs = [];
+  let selectedClubs = [];
+
+  function el(id) { return document.getElementById(id); }
+
+  function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function formatDays(club) {
+    const days = club.days || (club.day ? [club.day] : []);
+    return days.join(', ');
+  }
+
+  function save() {
+    if (onSave) onSave(selectedClubs);
+  }
+
+  function updateCount() {
+    const count = selectedClubs.length;
+    const text = count === 0 ? 'No clubs selected' :
+      count === 1 ? '1 club selected' :
+      `${count} clubs selected`;
+    const e = el(countId);
+    if (e) e.textContent = text;
+    const listEl = el(selectedListId);
+    if (listEl) listEl.style.display = count === 0 ? 'none' : 'block';
+  }
+
+  function renderResults(filter) {
+    const rEl = el(resultsId);
+    if (!rEl) return;
+    const f = (filter || '').toLowerCase();
+
+    let filtered = allClubs.filter(club => {
+      const days = club.days || (club.day ? [club.day] : []);
+      return club.name.toLowerCase().includes(f) ||
+        (club.room || '').toLowerCase().includes(f) ||
+        days.some(d => d.toLowerCase().includes(f));
+    });
+
+    const selectedSet = new Set(selectedClubs);
+    filtered.sort((a, b) => {
+      const aIn = selectedSet.has(a.id), bIn = selectedSet.has(b.id);
+      if (aIn && !bIn) return -1;
+      if (!aIn && bIn) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    if (filtered.length === 0) {
+      rEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
+      return;
+    }
+
+    let html = '';
+    filtered.forEach(club => {
+      const isAdded = selectedSet.has(club.id);
+      html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(club.name)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+    });
+    rEl.innerHTML = html;
+
+    rEl.querySelectorAll('.club-result:not(.added)').forEach(btn => {
+      btn.addEventListener('click', () => { add(btn.dataset.id); });
+    });
+  }
+
+  function renderSelectedList() {
+    const listEl = el(selectedListId);
+    if (!listEl) return;
+    let html = '';
+
+    const objs = selectedClubs.map(id => allClubs.find(c => c.id === id)).filter(Boolean);
+    objs.sort((a, b) => a.name.localeCompare(b.name));
+    selectedClubs = objs.map(c => c.id);
+    save();
+
+    objs.forEach(club => {
+      html += `<div class="${css.row}"><div class="${css.card}"><div class="${css.value}">${escapeHtml(club.name)}</div><button type="button" class="${css.clear}" data-id="${escapeHtml(club.id)}" aria-label="Remove ${escapeHtml(club.name)}"><img src="/icons/src/minus.svg" class="${css.clearIcon}" alt=""></button></div></div>`;
+    });
+
+    listEl.innerHTML = html;
+    listEl.querySelectorAll(`.${css.clear}`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedClubs = selectedClubs.filter(id => id !== btn.dataset.id);
+        save();
+        renderSelectedList();
+        renderResults(el(searchId) ? el(searchId).value : '');
+      });
+    });
+
+    updateCount();
+  }
+
+  function add(clubId) {
+    if (!selectedClubs.includes(clubId)) {
+      selectedClubs.push(clubId);
+      save();
+      renderSelectedList();
+      renderResults(el(searchId) ? el(searchId).value : '');
+    }
+  }
+
+  async function load() {
+    try {
+      const response = await fetch('/data/clubs.json');
+      const data = await response.json();
+      allClubs = Array.isArray(data.clubs) ? data.clubs : [];
+      renderResults();
+      renderSelectedList();
+    } catch (error) {
+      console.error('Error loading clubs:', error);
+      const r = el(resultsId);
+      if (r) r.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
+    }
+  }
+
+  function initSearch() {
+    const sEl = el(searchId);
+    if (sEl) sEl.addEventListener('input', (e) => { renderResults(e.target.value); });
+  }
+
+  function getSelected() { return selectedClubs; }
+  function setSelected(arr) { selectedClubs = arr; }
+  function getAll() { return allClubs; }
+
+  return { renderResults, renderSelectedList, add, load, initSearch, getSelected, setSelected, getAll, updateCount, formatDays, escapeHtml };
+}
+
 if ('serviceWorker' in navigator) {
     try {
       const reg = await navigator.serviceWorker.ready;

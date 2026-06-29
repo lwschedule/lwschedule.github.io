@@ -776,8 +776,9 @@
 
     let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
 
-    let allClubs = [];
-    let selectedClubs = [];
+    const profileClubsManager = createClubSlotManager({
+      onSave: null,
+    });
 
     let allUpcomingEvents = [];
     let followedIds = [];
@@ -1055,116 +1056,13 @@
       profileClassManager.load();
     }
 
-    function formatClubDays(club) {
-      const days = club.days || (club.day ? [club.day] : []);
-      return days.join(', ');
-    }
-
-    function renderClubResults(filter = '') {
-      const resultsEl = document.getElementById('clubResults');
-      const filterLower = filter.toLowerCase();
-
-      let filteredClubs = allClubs.filter((club) => {
-        const days = club.days || (club.day ? [club.day] : []);
-        return club.name.toLowerCase().includes(filterLower)
-          || club.room.toLowerCase().includes(filterLower)
-          || days.some((d) => d.toLowerCase().includes(filterLower));
-      });
-
-      const selectedSet = new Set(selectedClubs);
-
-      filteredClubs.sort((a, b) => {
-        const aAdded = selectedSet.has(a.id);
-        const bAdded = selectedSet.has(b.id);
-        if (aAdded && !bAdded) return -1;
-        if (!aAdded && bAdded) return 1;
-        return a.name.localeCompare(b.name);
-      });
-
-      if (filteredClubs.length === 0) {
-        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No clubs found</p>';
-        return;
-      }
-
-      let html = '';
-      filteredClubs.forEach((club) => {
-        const isAdded = selectedSet.has(club.id);
-        html += `<button type="button" class="club-result ${isAdded ? 'added' : ''}" data-id="${escapeHtml(club.id)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(club.name)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
-      });
-      resultsEl.innerHTML = html;
-
-      resultsEl.querySelectorAll('.club-result:not(.added)').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const clubId = btn.dataset.id;
-          addClub(clubId);
-        });
-      });
-    }
-
-    function updateSelectedCount() {
-      const count = selectedClubs.length;
-      const text = count === 0 ? 'No clubs selected' : (count === 1 ? '1 club selected' : `${count} clubs selected`);
-      const labelEl = document.getElementById('selectedCount');
-      if (labelEl) labelEl.textContent = text;
-
-      const listEl = document.getElementById('selectedClubsList');
-      listEl.style.display = count === 0 ? 'none' : 'block';
-    }
-
-    function renderSelectedList() {
-      const listEl = document.getElementById('selectedClubsList');
-      let html = '';
-
-      const selectedClubObjs = selectedClubs.map((id) => allClubs.find((c) => c.id === id)).filter(Boolean);
-      selectedClubObjs.sort((a, b) => a.name.localeCompare(b.name));
-      selectedClubs = selectedClubObjs.map((c) => c.id);
-
-      selectedClubObjs.forEach((club) => {
-        html += `<div class="slot-row"><div class="slot-card"><div class="slot-value">${escapeHtml(club.name)}</div><button type="button" class="slot-clear" data-id="${escapeHtml(club.id)}" aria-label="Remove ${escapeHtml(club.name)}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button></div></div>`;
-      });
-
-      listEl.innerHTML = html;
-
-      listEl.querySelectorAll('.slot-clear').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const clubId = btn.dataset.id;
-          selectedClubs = selectedClubs.filter((id) => id !== clubId);
-          renderSelectedList();
-          renderClubResults(document.getElementById('clubSearch').value);
-        });
-      });
-
-      updateSelectedCount();
-    }
-
-    function addClub(clubId) {
-      if (!selectedClubs.includes(clubId)) {
-        selectedClubs.push(clubId);
-        renderSelectedList();
-        renderClubResults(document.getElementById('clubSearch').value);
-      }
-    }
-
-    async function loadClubs() {
-      try {
-        const response = await fetch('/data/clubs.json');
-        const data = await response.json();
-        allClubs = Array.isArray(data.clubs) ? data.clubs : [];
-        renderClubResults();
-        renderSelectedList();
-      } catch (error) {
-        console.error('Error loading clubs:', error);
-        document.getElementById('clubResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading clubs</p>';
-      }
-    }
-
     function initClubsSection() {
       const saved = localStorage.getItem('selectedClubs');
       if (saved) {
         try {
-          selectedClubs = JSON.parse(saved);
+          profileClubsManager.setSelected(JSON.parse(saved));
         } catch (e) {
-          selectedClubs = [];
+          profileClubsManager.setSelected([]);
         }
       }
 
@@ -1180,25 +1078,23 @@
         clubsContent.classList.toggle('enabled', e.target.checked);
       });
 
-      document.getElementById('clubSearch').addEventListener('input', (e) => {
-        renderClubResults(e.target.value);
-      });
+      profileClubsManager.initSearch();
 
       document.getElementById('resetClubsBtn').addEventListener('click', () => {
-        selectedClubs = [];
+        profileClubsManager.setSelected([]);
         document.getElementById('clubsToggle').checked = false;
         document.getElementById('clubsContent').classList.remove('enabled');
-        renderSelectedList();
-        renderClubResults(document.getElementById('clubSearch').value);
+        profileClubsManager.renderSelectedList();
+        profileClubsManager.renderResults(document.getElementById('clubSearch').value);
       });
 
       document.getElementById('saveClubsBtn').addEventListener('click', () => {
-        localStorage.setItem('selectedClubs', JSON.stringify(selectedClubs));
+        localStorage.setItem('selectedClubs', JSON.stringify(profileClubsManager.getSelected()));
         localStorage.setItem('clubsEnabled', clubsToggle.checked.toString());
         triggerSavedState(document.getElementById('saveClubsBtn'));
       });
 
-      loadClubs();
+      profileClubsManager.load();
     }
 
     function readCaddyTimesFromInputs() {
