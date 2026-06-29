@@ -772,9 +772,7 @@
 
   <script src="/common-core.js"></script>
   <script>
-    const DEFAULT_LUNCH_PREFS = { Monday:'A', Tuesday:'A', Wednesday:'All', Thursday:'A', Friday:'A' };
-
-    let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
+    let lunchPrefs = { ...getDefaultLunchPrefs() };
 
     const profileClubsManager = createClubSlotManager({
       onSave: null,
@@ -965,57 +963,18 @@
       });
     }
 
-    function loadLunchPrefs() {
-      try {
-        const saved = localStorage.getItem('lunchPreferences');
-        if (!saved) return { ...DEFAULT_LUNCH_PREFS };
-        const parsed = JSON.parse(saved);
-        return {
-          Monday: parsed.Monday || 'A',
-          Tuesday: parsed.Tuesday || 'A',
-          Wednesday: parsed.Wednesday || 'All',
-          Thursday: parsed.Thursday || 'A',
-          Friday: parsed.Friday || 'A'
-        };
-      } catch (e) {
-        return { ...DEFAULT_LUNCH_PREFS };
-      }
-    }
-
-    function updateLunchUI() {
-      document.querySelectorAll('.lunchBtn[data-period]').forEach((btn) => {
-        const period = btn.dataset.period;
-        const currentLunch = period === '3' ? lunchPrefs.Monday : lunchPrefs.Tuesday;
-        btn.classList.toggle('selected', currentLunch === btn.dataset.lunch);
-      });
-    }
-
     function initLunchSection() {
-      lunchPrefs = loadLunchPrefs();
-      updateLunchUI();
-
-      document.querySelectorAll('.lunchBtn[data-period]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const period = btn.dataset.period;
-          const lunch = btn.dataset.lunch;
-          if (period === '3') {
-            lunchPrefs.Monday = lunch;
-            lunchPrefs.Friday = lunch;
-          } else {
-            lunchPrefs.Tuesday = lunch;
-            lunchPrefs.Thursday = lunch;
-          }
-          updateLunchUI();
-        });
-      });
+      Object.assign(lunchPrefs, getLunchPrefs());
+      updateLunchBtns(lunchPrefs);
+      initLunchBtnListeners(lunchPrefs);
 
       document.getElementById('resetLunchBtn').addEventListener('click', () => {
-        lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
-        updateLunchUI();
+        Object.assign(lunchPrefs, getDefaultLunchPrefs());
+        updateLunchBtns(lunchPrefs);
       });
 
       document.getElementById('saveLunchBtn').addEventListener('click', () => {
-        localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+        setLunchPrefs(lunchPrefs);
         triggerSavedState(document.getElementById('saveLunchBtn'));
       });
     }

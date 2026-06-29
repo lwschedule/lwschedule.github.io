@@ -244,6 +244,54 @@ function getDefaultLunchPrefs() {
   return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
 }
 
+function getLunchPrefs() {
+  try {
+    const saved = localStorage.getItem('lunchPreferences');
+    if (!saved) return { ...getDefaultLunchPrefs() };
+    const parsed = JSON.parse(saved);
+    return {
+      Monday: parsed.Monday || 'A',
+      Tuesday: parsed.Tuesday || 'A',
+      Wednesday: parsed.Wednesday || 'All',
+      Thursday: parsed.Thursday || 'A',
+      Friday: parsed.Friday || 'A'
+    };
+  } catch (e) {
+    return { ...getDefaultLunchPrefs() };
+  }
+}
+
+function setLunchPrefs(prefs) {
+  localStorage.setItem('lunchPreferences', JSON.stringify(prefs));
+}
+
+function updateLunchBtns(prefs) {
+  document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+    const period = btn.dataset.period;
+    const lunch = btn.dataset.lunch;
+    const currentLunch = period === '3' ? prefs.Monday : prefs.Tuesday;
+    btn.classList.toggle('selected', currentLunch === lunch);
+  });
+}
+
+function initLunchBtnListeners(prefs, onSave) {
+  document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const period = btn.dataset.period;
+      const lunch = btn.dataset.lunch;
+      if (period === '3') {
+        prefs.Monday = lunch;
+        prefs.Friday = lunch;
+      } else {
+        prefs.Tuesday = lunch;
+        prefs.Thursday = lunch;
+      }
+      updateLunchBtns(prefs);
+      if (onSave) onSave(prefs);
+    });
+  });
+}
+
 function normalizeLunchChoice(value) {
   return value === 'B' ? 'B' : 'A';
 }

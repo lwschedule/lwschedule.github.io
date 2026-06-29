@@ -348,47 +348,8 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-    const DEFAULT_LUNCH_PREFS = { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
-    let lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
-
-    function loadLunchPrefs() {
-      try {
-        const saved = localStorage.getItem('lunchPreferences');
-        if (!saved) return;
-        const parsed = JSON.parse(saved);
-        lunchPrefs = {
-          Monday: parsed.Monday || 'A',
-          Tuesday: parsed.Tuesday || 'A',
-          Wednesday: parsed.Wednesday || 'All',
-          Thursday: parsed.Thursday || 'A',
-          Friday: parsed.Friday || 'A'
-        };
-      } catch (e) {}
-    }
-
-    function updateLunchUI() {
-      document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
-        const period = btn.dataset.period;
-        const lunch = btn.dataset.lunch;
-        const currentLunch = period === '3' ? lunchPrefs.Monday : lunchPrefs.Tuesday;
-        btn.classList.toggle('selected', currentLunch === lunch);
-      });
-    }
-
-    document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const period = btn.dataset.period;
-        const lunch = btn.dataset.lunch;
-        if (period === '3') {
-          lunchPrefs.Monday = lunch;
-          lunchPrefs.Friday = lunch;
-        } else {
-          lunchPrefs.Tuesday = lunch;
-          lunchPrefs.Thursday = lunch;
-        }
-        updateLunchUI();
-      });
-    });
+    const lunchPrefs = getLunchPrefs();
+    initLunchBtnListeners(lunchPrefs);
 
     const setupClassManager = createClassSlotManager({
       slotsId: 'setupSelectedClassesList',
@@ -632,7 +593,7 @@
     document.getElementById('completeBtn').addEventListener('click', () => {
       setProfileName(document.getElementById('setupProfileName').value.trim());
       setProfileInitials(document.getElementById('setupProfileInitials').value.trim());
-      localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
+      setLunchPrefs(lunchPrefs);
       localStorage.setItem('pack-up-time', String(packUpTime));
       localStorage.setItem('notifications-enabled', packupToggle.checked ? 'true' : 'false');
       localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
@@ -674,8 +635,7 @@
         setupAvatarInitials.textContent = value || '?';
       });
 
-      loadLunchPrefs();
-      updateLunchUI();
+      updateLunchBtns(lunchPrefs);
       initSetupClassesSection();
       initClubsSection();
     }

@@ -65,55 +65,14 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-const DEFAULT_LUNCH_PREFS = { Monday:'A', Tuesday:'A', Wednesday:'All', Thursday:'A', Friday:'A' };
-
-function loadLunchPrefs() {
-  try {
-    const saved = localStorage.getItem('lunchPreferences');
-    if (!saved) return { ...DEFAULT_LUNCH_PREFS };
-    const parsed = JSON.parse(saved);
-    return {
-      Monday: parsed.Monday || 'A',
-      Tuesday: parsed.Tuesday || 'A',
-      Wednesday: parsed.Wednesday || 'All',
-      Thursday: parsed.Thursday || 'A',
-      Friday: parsed.Friday || 'A'
-    };
-  } catch (e) {
-    return { ...DEFAULT_LUNCH_PREFS };
-  }
-}
-
-let lunchPrefs = loadLunchPrefs();
-
-function updateUI() {
-  document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
-    const period = btn.dataset.period;
-    const currentLunch = period === "3" ? lunchPrefs.Monday : lunchPrefs.Tuesday;
-    btn.classList.toggle('selected', currentLunch === btn.dataset.lunch);
-  });
-}
-
-document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const period = btn.dataset.period;
-    const lunch = btn.dataset.lunch;
-    if (period === "3") {
-      lunchPrefs.Monday = lunch;
-      lunchPrefs.Friday = lunch;
-    } else {
-      lunchPrefs.Tuesday = lunch;
-      lunchPrefs.Thursday = lunch;
-    }
-    localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-    updateUI();
-  });
-});
+const lunchPrefs = getLunchPrefs();
+function updateUI() { updateLunchBtns(lunchPrefs); }
+initLunchBtnListeners(lunchPrefs, p => setLunchPrefs(p));
 
 document.getElementById('resetLunchBtn').addEventListener('click', () => {
-  lunchPrefs = { ...DEFAULT_LUNCH_PREFS };
-    localStorage.setItem('lunchPreferences', JSON.stringify(lunchPrefs));
-    updateUI();
+  Object.assign(lunchPrefs, getDefaultLunchPrefs());
+  setLunchPrefs(lunchPrefs);
+  updateUI();
 });
 checkSetupComplete();
 updateUI();
