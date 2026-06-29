@@ -1978,6 +1978,8 @@ if (typeof MutationObserver !== 'undefined') {
 
 async function sendNotification(title, options) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
+}
+
 function createClassSlotManager(config) {
   const {
     resultsId = 'classResults',
