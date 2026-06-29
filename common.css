@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'SF Pro Display';
-  src: url('/SF-Pro-Display-Regular.otf') format('opentype');
+  src: url('/fonts/SF-Pro-Display-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'NewYorkMedium';
-  src: url('/NewYorkMedium-RegularItalic.otf') format('opentype');
+  src: url('/fonts/NewYorkMedium-RegularItalic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
