@@ -1930,7 +1930,207 @@ if (typeof MutationObserver !== 'undefined') {
 
 async function sendNotification(title, options) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  if ('serviceWorker' in navigator) {
+function createClassSlotManager(config) {
+  const {
+    resultsId = 'classResults',
+    searchId = 'classSearch',
+    slotsId,
+    countId,
+    messageId,
+    maxSlots = 6,
+    css = { row: 'slot-row', empty: 'empty', arrow: 'slot-arrow', card: 'slot-card', period: 'slot-period', value: 'slot-value', clear: 'slot-clear', clearIcon: 'slot-clear-icon' },
+    onSave = null,
+  } = config;
+
+  let allTitles = [];
+  let slots = getSelectedClassesSlots();
+  let messageTimeout = null;
+
+  function el(id) { return document.getElementById(id); }
+  function searchEl() { return el(searchId); }
+  function resultsEl() { return el(resultsId); }
+  function slotsEl() { return el(slotsId); }
+  function countEl() { return el(countId); }
+  function messageEl() { return el(messageId); }
+
+  function escapeHtml(text) {
+    if (text === null || text === undefined) return '';
+    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function save() { if (onSave) onSave(slots); }
+
+  function showMessage(message) {
+    const e = messageEl();
+    if (!e) return;
+    e.textContent = message;
+    if (messageTimeout) clearTimeout(messageTimeout);
+    messageTimeout = setTimeout(() => { e.textContent = ''; }, 2500);
+  }
+
+  function updateCount() {
+    const e = countEl();
+    if (!e) return;
+    const filled = slots.filter(Boolean).length;
+    e.textContent = `${filled} of ${maxSlots} slots filled`;
+  }
+
+  function renderResults(filter) {
+    const rEl = resultsEl();
+    if (!rEl) return;
+    const f = (filter || '').toLowerCase();
+    let list = allTitles.filter(name => name.toLowerCase().includes(f));
+    const selectedSet = new Set(slots.filter(Boolean));
+
+    list.sort((a, b) => {
+      const aIn = selectedSet.has(a), bIn = selectedSet.has(b);
+      if (aIn && !bIn) return -1;
+      if (!aIn && bIn) return 1;
+      return a.localeCompare(b);
+    });
+
+    if (list.length === 0) {
+      rEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
+      return;
+    }
+
+    let html = '';
+    list.forEach(title => {
+      const added = selectedSet.has(title);
+      html += `<button type="button" class="class-result ${added ? 'added' : ''}" data-class="${encodeURIComponent(title)}" ${added ? 'disabled' : ''}><span>${escapeHtml(title)}</span><span class="result-tag">${added ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
+    });
+    rEl.innerHTML = html;
+
+    rEl.querySelectorAll('.class-result:not(.added)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        add(decodeURIComponent(btn.dataset.class));
+      });
+    });
+  }
+
+  function renderSlotsList() {
+    const lEl = slotsEl();
+    if (!lEl) return;
+    let html = '';
+
+    for (let i = 0; i < maxSlots; i++) {
+      const title = slots[i] || '';
+      const empty = !title;
+      const upDisabled = i === 0 || empty;
+      const downDisabled = i === maxSlots - 1 || empty;
+      const emptyCls = css.empty ? ` ${css.empty}` : '';
+
+      html += `<div class="${css.row}${empty ? emptyCls : ''}">
+        <button type="button" class="${css.arrow}" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button>
+        <div class="${css.card}">
+          <div class="${css.period}">Period ${i + 1}</div>
+          <div class="${css.value}">${empty ? 'Empty' : escapeHtml(title)}</div>
+          ${empty ? '' : `<button type="button" class="${css.clear}" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="${css.clearIcon}" alt=""></button>`}
+        </div>
+        <button type="button" class="${css.arrow}" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
+      </div>`;
+    }
+
+    lEl.innerHTML = html;
+
+    lEl.querySelectorAll(`.${css.arrow}`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.dataset.index, 10);
+        const dir = btn.dataset.dir;
+        move(index, dir === 'up' ? index - 1 : index + 1);
+      });
+    });
+
+    lEl.querySelectorAll(`.${css.clear}`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.clearIndex, 10);
+        slots[idx] = '';
+        save();
+        renderSlotsList();
+        renderResults(searchEl() ? searchEl().value : '');
+      });
+    });
+
+    updateCount();
+  }
+
+  function promptReplace(title) {
+    const choice = prompt(`All ${maxSlots} slots are full. Replace which period slot with "${title}"? Enter 1-${maxSlots}.`);
+    if (choice === null) return;
+    const idx = parseInt(choice, 10) - 1;
+    if (Number.isNaN(idx) || idx < 0 || idx >= maxSlots) {
+      showMessage(`Enter a valid slot number from 1 to ${maxSlots}.`);
+      return;
+    }
+    slots[idx] = title;
+    save();
+    renderSlotsList();
+    renderResults(searchEl() ? searchEl().value : '');
+    showMessage(`Updated Period ${idx + 1}.`);
+  }
+
+  function add(title) {
+    if (slots.includes(title)) {
+      showMessage('That class is already in your schedule.');
+      return;
+    }
+    const emptyIdx = slots.findIndex(s => !s);
+    if (emptyIdx !== -1) {
+      slots[emptyIdx] = title;
+      save();
+      renderSlotsList();
+      renderResults(searchEl() ? searchEl().value : '');
+      return;
+    }
+    promptReplace(title);
+  }
+
+  function move(fromIdx, toIdx) {
+    if (fromIdx < 0 || fromIdx >= maxSlots || toIdx < 0 || toIdx >= maxSlots) return;
+    if (!slots[fromIdx]) return;
+    const temp = slots[toIdx];
+    slots[toIdx] = slots[fromIdx];
+    slots[fromIdx] = temp || '';
+    save();
+    renderSlotsList();
+    renderResults(searchEl() ? searchEl().value : '');
+  }
+
+  function clearSlot(index) {
+    slots[index] = '';
+    save();
+    renderSlotsList();
+    renderResults(searchEl() ? searchEl().value : '');
+  }
+
+  function reset() {
+    slots = Array(maxSlots).fill('');
+    save();
+    renderSlotsList();
+    renderResults(searchEl() ? searchEl().value : '');
+  }
+
+  async function load() {
+    try {
+      const response = await fetch('/data/classes.json');
+      const data = await response.json();
+      allTitles = Array.isArray(data.classes) ? data.classes : [];
+      renderResults();
+      renderSlotsList();
+    } catch (error) {
+      console.error('Error loading classes:', error);
+      const r = resultsEl();
+      if (r) r.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
+    }
+  }
+
+  function getSlots() { return slots; }
+  function setSlots(newSlots) { slots = newSlots; }
+
+  return { renderSlots: renderSlotsList, renderResults, add, move, clearSlot, reset, load, getSlots, setSlots, showMessage };
+}
+
+if ('serviceWorker' in navigator) {
     try {
       const reg = await navigator.serviceWorker.ready;
       if (reg && reg.showNotification) {

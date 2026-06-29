@@ -290,201 +290,17 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
-    const MAX_SLOTS = 6;
-    let allClassTitles = [];
-    let selectedClassSlots = getSelectedClassesSlots();
-    let messageTimeout = null;
-    let classesCountMorph = null;
-
-    function ensureClassesCountMorphHost(containerEl) {
-      return containerEl;
-    }
-
-    function setClassesCountText(text) {
-      const el = document.getElementById('classesCount');
-      if (el) {
-        el.textContent = text;
-      }
-    }
-
-    async function initClassesCountMorph() {
-      // Number Flow not needed for string counters
-    }
-
-    async function loadClasses() {
-      try {
-        const response = await fetch('/data/classes.json');
-        const data = await response.json();
-        allClassTitles = data.classes;
-        renderClassResults();
-        renderSelectedSlots();
-      } catch (error) {
-        console.error('Error loading classes:', error);
-        document.getElementById('classResults').innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">Error loading classes</p>';
-      }
-    }
-
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function showClassesMessage(message) {
-      const el = document.getElementById('classesMessage');
-      el.textContent = message;
-      if (messageTimeout) clearTimeout(messageTimeout);
-      messageTimeout = setTimeout(() => {
-        el.textContent = '';
-      }, 2500);
-    }
-
-    function saveSlots() {
-      selectedClassSlots = setSelectedClassesSlots(selectedClassSlots);
-    }
-
-    function updateClassesCount() {
-      const filledCount = selectedClassSlots.filter(Boolean).length;
-      setClassesCountText(`${filledCount} of 6 slots filled`);
-    }
-
-    function renderClassResults(filter = '') {
-      const resultsEl = document.getElementById('classResults');
-      const filterLower = filter.toLowerCase();
-
-      let filteredClasses = allClassTitles.filter(name => name.toLowerCase().includes(filterLower));
-      const selectedSet = new Set(selectedClassSlots.filter(Boolean));
-
-      filteredClasses.sort((a, b) => {
-        const aAdded = selectedSet.has(a);
-        const bAdded = selectedSet.has(b);
-        if (aAdded && !bAdded) return -1;
-        if (!aAdded && bAdded) return 1;
-        return a.localeCompare(b);
-      });
-
-      if (filteredClasses.length === 0) {
-        resultsEl.innerHTML = '<p style="text-align:center; padding: 26px; color: #888;">No classes found</p>';
-        return;
-      }
-
-      let html = '';
-      filteredClasses.forEach(classTitle => {
-        const isAdded = selectedSet.has(classTitle);
-        html += `<button type="button" class="class-result ${isAdded ? 'added' : ''}" data-class="${encodeURIComponent(classTitle)}" ${isAdded ? 'disabled' : ''}><span>${escapeHtml(classTitle)}</span><span class="result-tag">${isAdded ? '<img src="/icons/src/checkmark.svg" class="result-tag-icon" alt="">' : '<img src="/icons/src/plus.svg" class="result-tag-icon" alt="">'}</span></button>`;
-      });
-      resultsEl.innerHTML = html;
-
-      resultsEl.querySelectorAll('.class-result:not(.added)').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const classTitle = decodeURIComponent(btn.dataset.class);
-          addClassToSlots(classTitle);
-        });
-      });
-    }
-
-    function renderSelectedSlots() {
-      const listEl = document.getElementById('selectedClassesList');
-      let html = '';
-
-      for (let i = 0; i < MAX_SLOTS; i++) {
-        const classTitle = selectedClassSlots[i] || '';
-        const isEmpty = !classTitle;
-        const upDisabled = i === 0 || isEmpty;
-        const downDisabled = i === MAX_SLOTS - 1 || isEmpty;
-
-        html += `<div class="slot-row ${isEmpty ? 'empty' : ''}">
-          <button type="button" class="slot-arrow" data-index="${i}" data-dir="up" ${upDisabled ? 'disabled' : ''}>&uarr;</button>
-          <div class="slot-card">
-            <div class="slot-period">Period ${i + 1}</div>
-            <div class="slot-value">${isEmpty ? 'Empty' : escapeHtml(classTitle)}</div>
-            ${isEmpty ? '' : `<button type="button" class="slot-clear" data-clear-index="${i}" aria-label="Remove class from Period ${i + 1}"><img src="/icons/src/minus.svg" class="slot-clear-icon" alt=""></button>`}
-          </div>
-          <button type="button" class="slot-arrow" data-index="${i}" data-dir="down" ${downDisabled ? 'disabled' : ''}>&darr;</button>
-        </div>`;
-      }
-
-      listEl.innerHTML = html;
-
-      listEl.querySelectorAll('.slot-arrow').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const index = parseInt(btn.dataset.index, 10);
-          const dir = btn.dataset.dir;
-          const targetIndex = dir === 'up' ? index - 1 : index + 1;
-          moveSlot(index, targetIndex);
-        });
-      });
-
-      listEl.querySelectorAll('.slot-clear').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const index = parseInt(btn.dataset.clearIndex, 10);
-          selectedClassSlots[index] = '';
-          saveSlots();
-          renderSelectedSlots();
-          renderClassResults(document.getElementById('classSearch').value);
-        });
-      });
-
-      updateClassesCount();
-    }
-
-    function promptReplaceSlot(classTitle) {
-      const choice = prompt(`All 6 slots are full. Replace which period slot with "${classTitle}"? Enter 1-6.`);
-      if (choice === null) return;
-
-      const slotIndex = parseInt(choice, 10) - 1;
-      if (Number.isNaN(slotIndex) || slotIndex < 0 || slotIndex >= MAX_SLOTS) {
-        showClassesMessage('Enter a valid slot number from 1 to 6.');
-        return;
-      }
-
-      selectedClassSlots[slotIndex] = classTitle;
-      saveSlots();
-      renderSelectedSlots();
-      renderClassResults(document.getElementById('classSearch').value);
-      showClassesMessage(`Updated Period ${slotIndex + 1}.`);
-    }
-
-    function addClassToSlots(classTitle) {
-      if (selectedClassSlots.includes(classTitle)) {
-        showClassesMessage('That class is already in your schedule.');
-        return;
-      }
-
-      const emptyIndex = selectedClassSlots.findIndex(slot => !slot);
-      if (emptyIndex !== -1) {
-        selectedClassSlots[emptyIndex] = classTitle;
-        saveSlots();
-        renderSelectedSlots();
-        renderClassResults(document.getElementById('classSearch').value);
-        return;
-      }
-
-      promptReplaceSlot(classTitle);
-    }
-
-    function moveSlot(fromIndex, toIndex) {
-      if (fromIndex < 0 || fromIndex >= MAX_SLOTS || toIndex < 0 || toIndex >= MAX_SLOTS) return;
-      if (!selectedClassSlots[fromIndex]) return;
-
-      const temp = selectedClassSlots[toIndex];
-      selectedClassSlots[toIndex] = selectedClassSlots[fromIndex];
-      selectedClassSlots[fromIndex] = temp || '';
-
-      saveSlots();
-      renderSelectedSlots();
-      renderClassResults(document.getElementById('classSearch').value);
-    }
+    const classManager = createClassSlotManager({
+      slotsId: 'selectedClassesList',
+      countId: 'classesCount',
+      messageId: 'classesMessage',
+      onSave: (slots) => setSelectedClassesSlots(slots),
+    });
 
     async function init() {
       const classesEnabled = isClassesEnabled();
       const classesToggle = document.getElementById('classesToggle');
       const classesContent = document.getElementById('classesContent');
-
-      await initClassesCountMorph();
 
       classesToggle.checked = classesEnabled;
       classesContent.classList.toggle('enabled', classesEnabled);
@@ -496,20 +312,17 @@
       });
 
       document.getElementById('classSearch').addEventListener('input', (e) => {
-        renderClassResults(e.target.value);
+        classManager.renderResults(e.target.value);
       });
 
       document.getElementById('resetClassesBtn').addEventListener('click', () => {
-        selectedClassSlots = Array(MAX_SLOTS).fill('');
-        saveSlots();
         setClassesEnabled(false);
         document.getElementById('classesToggle').checked = false;
         document.getElementById('classesContent').classList.remove('enabled');
-        renderSelectedSlots();
-        renderClassResults(document.getElementById('classSearch').value);
+        classManager.reset();
       });
 
-      loadClasses();
+      classManager.load();
     }
 
     checkSetupComplete();
