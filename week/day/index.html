@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuesday - LW Schedule</title>
+  <title id="pageTitle">Day - LW Schedule</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -14,7 +14,7 @@
   
   <div class="pageContainer">
     <a href="/week" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
-    <h2 id="dayTitle">Tuesday's Schedule</h2>
+    <h2 id="dayTitle"></h2>
     <div id="dayContent">
       <p>Loading schedule...</p>
     </div>
@@ -29,17 +29,19 @@
       const scheduleEl = document.getElementById('dayContent');
       if (!scheduleEl) return;
 
-      const path = window.location.pathname;
-      const dayMatch = path.match(/\/week\/(\w+)/);
-      if (!dayMatch) return;
-      const dayName = dayMatch[1].charAt(0).toUpperCase() + dayMatch[1].slice(1);
-
       const urlParams = new URLSearchParams(window.location.search);
+      const dayParam = urlParams.get('day');
+      if (!dayParam) return;
+      const dayName = dayParam.charAt(0).toUpperCase() + dayParam.slice(1);
+      document.getElementById('pageTitle').textContent = `${dayName} - LW Schedule`;
+      document.getElementById('dayTitle').textContent = `${dayName}'s Schedule`;
+
       const dateParam = urlParams.get('date');
       let dayDate;
       if (dateParam) {
         dayDate = new Date(dateParam);
       } else {
+        
         const now = new Date();
         const currentDayOfWeek = now.getDay();
         let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;

@@ -1019,7 +1019,7 @@ function updateWeekSchedule() {
     row.addEventListener('click', () => {
       const day = row.dataset.day;
       const date = row.dataset.date;
-      navigateWithTransition(`/week/${day}?date=${encodeURIComponent(date)}`);
+      navigateWithTransition(`/week/day/?day=${day}&date=${encodeURIComponent(date)}`);
     });
   });
 }
