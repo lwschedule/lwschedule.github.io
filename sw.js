@@ -1,4 +1,4 @@
-// Updated cache name to reflect the new release date (v3.5.16) – June 27, 2026
+// Updated cache name to reflect the new release date (v3.5.17) – June 27, 2026
 const CACHE_NAME = 'lwschedule-2026-06-27';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [

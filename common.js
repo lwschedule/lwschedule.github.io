@@ -7,7 +7,6 @@ let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
-// Special schedule metadata: date ranges, schedule keys, and lunch preference storage keys
 const SCHEDULE_METADATA = [];
 
 function normalizeClassSlots(rawSlots) {
@@ -241,8 +240,6 @@ function loadLunchPreferences() {
 
 window.__lws_common_loaded = true;
 
-
-
 function getDefaultLunchPrefs() {
   return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
 }
@@ -259,7 +256,7 @@ function getTorphWorkaroundNeeded() {
   if (!isIOS()) return false;
   const safariMatch = navigator.userAgent.match(/Version\/(\d+)/);
   const safariVersion = safariMatch ? parseInt(safariMatch[1], 10) : 0;
-  // iOS Safari versions 14-16 have issues with some animation libraries; use fallback
+
   return safariVersion < 17;
 }
 
@@ -279,12 +276,12 @@ function ensureMorphHost(containerEl, className) {
 
 function getLunchPreferencesForScheduleKey(scheduleKey) {
   const defaults = getDefaultLunchPrefs();
-  
-  // Find the storage key for this schedule
+
+
   const metadata = SCHEDULE_METADATA.find(m => m.scheduleKey === scheduleKey);
   const storageKey = metadata?.storageKey;
-  
-  // Try to load schedule-specific preferences from localStorage
+
+
   if (storageKey) {
     try {
       const stored = localStorage.getItem(storageKey);
@@ -293,8 +290,8 @@ function getLunchPreferencesForScheduleKey(scheduleKey) {
       console.error(`Failed to load ${storageKey}:`, e);
     }
   }
-  
-  // Fall back to global preferences
+
+
   return lunchPreferences || schedulesData?.lunchPreferences || defaults;
 }
 
@@ -356,23 +353,23 @@ function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedul
 
 function getSchedules(date) {
   if (!schedulesData) return {};
-  
-  // Get the active schedule key for this date (normal, movingUp, lastWeek, etc.)
+
+
   const scheduleKey = getScheduleKeyForDate(date);
-  
-  // Access the schedule data - special schedules are nested within schedulesData.normal
+
+
   let scheduleData;
   if (scheduleKey === 'normal') {
     scheduleData = schedulesData.normal;
   } else {
     scheduleData = schedulesData.normal[scheduleKey];
   }
-  
+
   if (!scheduleData) return {};
-  
+
   const baseSchedule = scheduleData;
   const today = getDayNameFromDate(date);
-  
+
   const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
 
   const adjusted = { ...baseSchedule };
@@ -384,23 +381,20 @@ function getSchedules(date) {
   return adjusted;
 }
 
-
-
 function getScheduleKeyForDate(date) {
-  // Normalize the date to midnight UTC for consistent comparison
+
   const testDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
-  // Check if the date falls within any special schedule window
+
+
   for (const schedule of SCHEDULE_METADATA) {
     if (testDate >= schedule.dateStart && testDate <= schedule.dateEnd) {
       return schedule.scheduleKey;
     }
   }
-  
-  // Default to normal schedule
+
+
   return 'normal';
 }
-
 
 function renderCalendarModal(date) {
   const dayName = getDayNameFromDate(date);
@@ -423,7 +417,6 @@ function renderCalendarModal(date) {
   }
   return html;
 }
-
 
 function showCalendarModal(date) {
   let modal = document.getElementById('calendarModal');
@@ -527,12 +520,12 @@ function getScheduleSummary(schedules, dayName, useClassTitles = true) {
   const schedule = schedules[dayName];
   if (!schedule || schedule.length === 0) return 'No School';
 
-  
+
   let periodsToProcess = [];
   if (Array.isArray(schedule)) {
     periodsToProcess = schedule;
   } else if (typeof schedule === 'object' && schedule.A) {
-    
+
     periodsToProcess = schedule.A;
   }
 
@@ -559,7 +552,7 @@ function getFirstPeriodFromSchedule(schedule) {
   if (!schedule) return null;
   if (Array.isArray(schedule) && schedule.length > 0) return schedule[0];
   if (typeof schedule === 'object') {
-    // prefer A then B then any key
+
     if (Array.isArray(schedule.A) && schedule.A.length > 0) return schedule.A[0];
     if (Array.isArray(schedule.B) && schedule.B.length > 0) return schedule.B[0];
     const keys = Object.keys(schedule);
@@ -592,15 +585,15 @@ function displayTimeBlocks(container, data) {
   const daysBlock = document.getElementById('clockDisplay-days-block');
   const hoursBlock = document.getElementById('clockDisplay-hours-block');
 
-  
+
   const showDays = (data.days && data.days > 0);
   const showHours = (data.hours !== undefined && (showDays || data.hours > 0));
 
   if (daysBlock) daysBlock.style.display = showDays ? 'block' : 'none';
   if (hoursBlock) hoursBlock.style.display = showHours ? 'block' : 'none';
 
-  
-  // Use Torph morphs if available (home screen only), otherwise fallback to textContent
+
+
   if (window.updateClockMorphs && document.body.classList.contains('homePage')) {
     try {
       window.updateClockMorphs(data);
@@ -708,25 +701,25 @@ function getNextSchoolDayInfo() {
 }
 
 function getNextPeriodInfo(schedule, now, nowDate) {
-  
+
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
     if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
-    
+
     return getNextSchoolDayInfo();
   }
-  
-  
+
+
   if (now < schedule[0].start) {
     return `Next: ${getDisplayPeriodName(schedule[0].name)}`;
   }
-  
-  
+
+
   const next = getNextPeriodStart(schedule, now);
   if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
-  
-  
+
+
   return getNextSchoolDayInfo();
 }
 
@@ -756,7 +749,6 @@ function getCurrentPeriod(schedule, now) {
   return null;
 }
 
-
 function updateNextPeriodText(timerEl, text) {
   if (!timerEl) return;
 
@@ -777,9 +769,6 @@ function updateNextPeriodText(timerEl, text) {
   timerEl.classList.remove('hidden');
 }
 
-
-
-
 function updateClock() {
   const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
@@ -793,7 +782,7 @@ function updateClock() {
 
   const holiday = getHolidayForDate(nowDate);
   if (holiday) {
-    
+
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > nowDate) {
       const diff = nextSchoolStart - nowDate;
@@ -805,10 +794,10 @@ function updateClock() {
       const h = totalHours % 24;
       const d = Math.floor(totalHours / 24);
 
-      
+
       displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
       clockLabel.textContent = `UNTIL SCHOOL RESUMES`;
-      
+
       updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
     }
     return;
@@ -817,7 +806,7 @@ function updateClock() {
   const schedules = getSchedules(nowDate);
   const today = schedules[weekday];
   if (!today || today.length === 0) {
-    
+
     const nextSchoolStartTime = getNextSchoolDayStartTime();
     if (nextSchoolStartTime) {
       const diff = nextSchoolStartTime.getTime() - nowDate.getTime();
@@ -832,7 +821,7 @@ function updateClock() {
 
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        
+
         updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
       }
     }
@@ -850,7 +839,7 @@ function updateClock() {
 
     clockLabel.textContent = getDisplayPeriodName(currentPeriod.name).toUpperCase();
     displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-    
+
     updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
   } else if (now < today[0].start) {
     const firstPeriod = today[0];
@@ -866,7 +855,7 @@ function updateClock() {
 
       clockLabel.textContent = 'UNTIL SCHOOL STARTS';
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      
+
       updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
     }
   } else if (now > today[today.length - 1].end) {
@@ -884,7 +873,7 @@ function updateClock() {
 
         clockLabel.textContent = 'NEXT SCHOOL DAY';
         displayTimeBlocks(clockDisplay, { days: d, hours: h, minutes: m, seconds: s });
-        
+
         updateNextPeriodText(timerEl, getNextPeriodInfoForHoliday(nowDate));
       }
     }
@@ -900,7 +889,7 @@ function updateClock() {
 
       clockLabel.textContent = `UNTIL ${getDisplayPeriodName(nextPeriod.name).toUpperCase()}`;
       displayTimeBlocks(clockDisplay, { hours: h, minutes: m, seconds: s });
-      
+
       updateNextPeriodText(timerEl, getNextPeriodInfo(today, now, nowDate));
     }
   }
@@ -1009,13 +998,13 @@ function updateWeekSchedule() {
     let summary = '';
     const clubOverlapInfo = getClubOverlapSummary(dayDate);
     const clubCount = clubOverlapInfo.clubs.length;
-    
+
     if (holidayName) {
       summary = holidayName;
     } else {
       const schedules = getSchedules(dayDate);
       summary = getScheduleSummary(schedules, dayNameStr, false);
-      
+
       if (clubCount > 0 && isClubsEnabled()) {
         const overlapMarker = clubOverlapInfo.hasOverlap ? ' ⚠' : '';
         const overlapClass = clubOverlapInfo.hasOverlap ? ' club-overlap' : '';
@@ -1057,7 +1046,7 @@ function updateTodaySchedule() {
   if (clubsHtml) {
     html += clubsHtml;
   }
-  
+
   scheduleEl.innerHTML = html;
 }
 
@@ -1092,7 +1081,7 @@ function updateHolidayCountdown() {
   const countdownLabel = document.getElementById('holidayCountdownLabel');
   if (!countdownGrid || !countdownMsg || !countdownLabel) return;
   const setHolidayCountdownValues = (days, hours, minutes, seconds) => {
-    // Check for iOS workaround before using Torph
+
     if (window.updateHolidayCountdownMorphs) {
       try {
         window.updateHolidayCountdownMorphs({ days, hours, minutes, seconds });
@@ -1115,7 +1104,7 @@ function updateHolidayCountdown() {
   const now = new Date();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
-    
+
     const nextSchoolStart = getNextSchoolDayStartTime();
     if (nextSchoolStart && nextSchoolStart > now) {
       countdownGrid.style.display = 'grid';
@@ -1138,7 +1127,7 @@ function updateHolidayCountdown() {
     if (upcoming) {
       const holidayStartDate = new Date(upcoming.date.getFullYear(), upcoming.date.getMonth(), upcoming.date.getDate());
       const countdownTarget = getLastSchoolDayEndTime(holidayStartDate);
-      
+
       if (countdownTarget && countdownTarget > now) {
         countdownGrid.style.display = 'grid';
         countdownMsg.style.display = 'none';
@@ -1169,7 +1158,7 @@ function renderCalendar() {
   document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
-  
+
   prevBtn.disabled = (currentYear === 2026 && currentMonth === 4);
   nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
@@ -1188,7 +1177,7 @@ function renderCalendar() {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
-      
+
       if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 4)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
@@ -1238,7 +1227,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   if (otherMonth) cell.classList.add('other-month');
   if (isToday) cell.classList.add('today');
   const date = new Date(year, month, day);
-  
+
   const scheduleKey = getScheduleKeyForDate(date);
   if (scheduleKey !== 'normal') {
     cell.classList.add('special-schedule');
@@ -1247,7 +1236,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
   const dayNumber = document.createElement('div');
   dayNumber.className = 'day-number';
   dayNumber.textContent = day;
-  // Removed hard‑coded school‑year end check; rely on schedule data and holidays only.
+
   if (dayName === 'Saturday' || dayName === 'Sunday') {
     cell.classList.add('holiday');
   } else {
@@ -1261,24 +1250,21 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
       }
     }
   }
-  
-  
+
+
   const clubs = getClubsForDate(date);
   if (clubs.length > 0) {
-    // show a textual indicator instead of the previous emoji dot.  the
-    // user requested "1 Club" / "2 Clubs" rather than a target emoji on
-    // the monthly view.
+
     const clubIndicator = document.createElement('div');
     clubIndicator.className = 'club-indicator';
     clubIndicator.textContent = `${clubs.length} Club${clubs.length > 1 ? 's' : ''}`;
-    // keep the positioning similar to the old dot so it floats over the
-    // top-right corner of the cell; ensure the text doesn't wrap.
+
     clubIndicator.style.cssText =
       'font-size: 0.7em; position: absolute; top: 2px; right: 4px; white-space: nowrap;';
     cell.style.position = 'relative';
     cell.appendChild(clubIndicator);
   }
-  
+
   const isNov26 = month === 10 && day === 26 && year === 2025;
   const isJun17 = month === 5 && day === 17 && year === 2026;
   if (isNov26 || isJun17) {
@@ -1286,7 +1272,7 @@ function createDayCell(day, otherMonth, month, year, isToday = false) {
     cell.classList.remove('holiday');
   }
   cell.appendChild(dayNumber);
-  
+
   cell.addEventListener('click', () => {
     if (otherMonth) return;
     showCalendarModal(date);
@@ -1303,7 +1289,7 @@ function changeMonth(delta) {
     currentMonth = 0;
     currentYear++;
   }
-  
+
   if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
     currentMonth = 4;
     currentYear = 2026;
@@ -1323,15 +1309,9 @@ if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
   currentYear = 2026;
 }
 
-// sizing now handled entirely in CSS with min(100vw,100vh) so
-// updateCalendarSize is no longer needed.
 function updateCalendarSize() {
-  // intentionally empty
+
 }
-
-
-
-
 
 async function loadData() {
   try {
@@ -1347,12 +1327,12 @@ async function loadData() {
     schedulesData = await schedulesRes.json();
     holidays = await holidaysRes.json();
     academicTerms = await termsRes.json();
-    
+
     holidays = holidays.map(h => ({
       ...h,
       date: new Date(h.date)
     }));
-    
+
     academicTerms.quarters = academicTerms.quarters.map(q => {
       const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
       const [endYear, endMonth, endDay] = q.end.split('-').map(Number);
@@ -1371,17 +1351,17 @@ async function loadData() {
         end: new Date(endYear, endMonth - 1, endDay)
       };
     });
-    
+
     lunchPreferences = schedulesData.lunchPreferences || getDefaultLunchPrefs();
-    loadLunchPreferences(); 
-    
-    
+    loadLunchPreferences();
+
+
     if (clubsRes.ok) {
       clubsData = await clubsRes.json();
     }
   } catch (error) {
     console.error('Error loading data:', error);
-    
+
     schedulesData = {
       normal: {},
       finals: {},
@@ -1393,7 +1373,6 @@ async function loadData() {
     clubsData = { clubs: [] };
   }
 }
-
 
 function isClubsEnabled() {
   return localStorage.getItem('clubsEnabled') === 'true';
@@ -1412,15 +1391,15 @@ function isLastWeekdayOfMonth(date, dayName) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  
-  
+
+
   const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
   const targetDay = dayMap[dayName];
-  
-  
+
+
   const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-  
-  
+
+
   for (let d = lastDayOfMonth; d > 0; d--) {
     const checkDate = new Date(year, month, d);
     if (checkDate.getDay() === targetDay) {
@@ -1434,11 +1413,11 @@ function isFirstWeekdayOfMonth(date, dayName) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  
+
   const dayMap = { 'Sunday': 0, 'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6 };
   const targetDay = dayMap[dayName];
-  
-  
+
+
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   for (let d = 1; d <= daysInMonth; d++) {
     const checkDate = new Date(year, month, d);
@@ -1450,8 +1429,8 @@ function isFirstWeekdayOfMonth(date, dayName) {
 }
 
 function isEvenWeek(date) {
-  
-  const schoolStart = new Date(2025, 8, 3); 
+
+  const schoolStart = new Date(2025, 8, 3);
   const diffTime = date.getTime() - schoolStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   const weekNum = Math.floor(diffDays / 7);
@@ -1460,27 +1439,27 @@ function isEvenWeek(date) {
 
 function doesClubMeetOnDate(club, date) {
   const dayName = getDayNameFromDate(date);
-  
-  
+
+
   const clubDays = club.days || (club.day ? [club.day] : []);
   if (!clubDays.includes(dayName)) return false;
-  
-  
-  // Removed hard‑coded school end date check; schedule data now determines school year.
-  
+
+
+
+
   switch (club.frequency) {
     case 'weekly':
       return true;
     case 'every-other':
     case 'biweekly':
-      
+
       return isEvenWeek(date);
     case 'last-of-month':
       return isLastWeekdayOfMonth(date, dayName);
     case 'monthly':
       return isFirstWeekdayOfMonth(date, dayName);
     case 'alternating':
-      
+
       return isEvenWeek(date);
     default:
       return true;
@@ -1489,19 +1468,19 @@ function doesClubMeetOnDate(club, date) {
 
 function getClubsForDate(date) {
   if (!clubsData || !clubsData.clubs || !isClubsEnabled()) return [];
-  
+
   const selectedClubIds = getSelectedClubs();
   if (selectedClubIds.length === 0) return [];
-  
+
   const dayName = getDayNameFromDate(date);
-  
+
   return clubsData.clubs.filter(club => {
-    
+
     if (!selectedClubIds.includes(club.id)) return false;
-    
+
     return doesClubMeetOnDate(club, date);
   }).map(club => {
-    
+
     return {
       ...club,
       startMinutes: club.startHour * 60 + club.startMinute,
@@ -1522,20 +1501,20 @@ function formatClubTime(club) {
 function renderClubsForDay(date, showHeader = true) {
   const clubs = getClubsForDate(date);
   if (clubs.length === 0) return '';
-  
+
   let html = '';
   if (showHeader) {
     html += '<div class="clubsSection"><h3>My Clubs</h3>';
   }
   html += '<table class="scheduleTable clubsTable"><thead><tr><th>Club</th><th>Time</th><th>Room</th></tr></thead><tbody>';
-  
+
   clubs.forEach(club => {
     html += `<tr><td>${club.name}</td><td>${formatClubTime(club)}</td><td>${club.room}</td></tr>`;
   });
-  
+
   html += '</tbody></table>';
   if (showHeader) html += '</div>';
-  
+
   return html;
 }
 
@@ -1574,11 +1553,10 @@ function renderClubCountdown(club, activeClub) {
   </div>`;
 }
 
-
 function initPackUpNotifications() {
   if ('Notification' in window && localStorage.getItem('notifications-enabled') === 'true') {
     if (Notification.permission === 'granted') {
-      // Defer pack-up monitoring to avoid blocking initialization
+
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => { startPackUpMonitoring(); }, { timeout: 3000 });
       } else {
@@ -1589,18 +1567,18 @@ function initPackUpNotifications() {
 }
 
 function startPackUpMonitoring() {
-  
+
   if (window.packUpInterval) {
     clearInterval(window.packUpInterval);
   }
-  
-  
+
+
   window.packUpInterval = setInterval(() => {
     checkPackUpTime();
     checkPhoneCaddyTime();
-  }, 60000); 
-  
-  
+  }, 60000);
+
+
   checkPackUpTime();
   checkPhoneCaddyTime();
 }
@@ -1613,24 +1591,24 @@ function checkPhoneCaddyTime() {
 
   const dayOfWeek = now.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) return;
-  
+
   const holiday = getHolidayForDate(now);
   if (holiday) return;
 
   const schedules = getSchedules(now);
   const todayName = getDayNameFromDate(now);
   const todaySchedule = schedules[todayName];
-  
+
   if (!todaySchedule || todaySchedule.length === 0) return;
 
   const caddyTimes = JSON.parse(localStorage.getItem('phone-caddy-times') || '{}');
   for (let i = 0; i < todaySchedule.length; i++) {
     const period = todaySchedule[i];
-    
+
     let periodNumMatch = period.name.match(/Period\s*(\d)/i);
     if (!periodNumMatch) continue;
     let periodNum = periodNumMatch[1];
-    
+
     let assignedSpot = caddyTimes[periodNum];
     if (!assignedSpot || assignedSpot.trim() === '') continue;
 
@@ -1668,52 +1646,52 @@ function checkPhoneCaddyTime() {
 function checkPackUpTime() {
   const now = new Date();
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
-  
-  
+
+
   if (packUpTimeMinutes <= 0) return;
-  
-  
+
+
   const dayOfWeek = now.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) return;
-  
-  
+
+
   const holiday = getHolidayForDate(now);
   if (holiday) return;
-  
-  
+
+
   const schedules = getSchedules(now);
   const todayName = getDayNameFromDate(now);
   const todaySchedule = schedules[todayName];
-  
+
   if (!todaySchedule || todaySchedule.length === 0) return;
-  
-  
+
+
   for (let i = 0; i < todaySchedule.length; i++) {
     const period = todaySchedule[i];
     const periodEndTime = new Date(now);
     periodEndTime.setHours(0, period.end, 0, 0);
-    
-    
+
+
     const notificationTime = new Date(periodEndTime);
     notificationTime.setMinutes(periodEndTime.getMinutes() - packUpTimeMinutes);
-    
-    
+
+
     const nowMinutes = now.getHours() * 60 + now.getMinutes();
     const notificationMinutes = notificationTime.getHours() * 60 + notificationTime.getMinutes();
-    
+
     if (nowMinutes === notificationMinutes) {
       showPackUpNotification(period);
-      break; 
+      break;
     }
   }
 }
 
 function showPackUpNotification(period) {
   if (Notification.permission !== 'granted') return;
-  
+
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
   const todayName = getDayNameFromDate(new Date());
-  
+
   sendNotification('Pack Up Time!', {
     body: `Time to pack up for ${period.name} in ${packUpTimeMinutes} minutes (${todayName})`,
     icon: '/icons/icon-192.png',
@@ -1722,20 +1700,20 @@ function showPackUpNotification(period) {
 }
 
 async function initApp() {
-  
+
   const DATA_VERSION = '2.2';
   const currentVersion = localStorage.getItem('dataVersion');
   if (currentVersion !== DATA_VERSION) {
-    // Preserve user data and preferences
+
     localStorage.setItem('dataVersion', DATA_VERSION);
   }
-  
+
   await loadData();
-  
+
   const now = new Date();
-  const sem2Start = new Date(2026, 0, 24); 
+  const sem2Start = new Date(2026, 0, 24);
   if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
-    
+
     localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
     localStorage.setItem('sem2ResetDone', 'true');
   }
@@ -1759,8 +1737,8 @@ async function initApp() {
   if (document.getElementById('holidayTableBody')) {
     updateHolidayTable();
   }
-  
-  
+
+
   initPackUpNotifications();
 }
 
@@ -1788,7 +1766,7 @@ function injectGlobalSidebar() {
 
   const sidebar = document.createElement('nav');
   sidebar.id = 'globalSidebar';
-  
+
   const mobileToggle = document.createElement('button');
   mobileToggle.id = 'sidebarMobileToggle';
   mobileToggle.innerHTML = renderSfSymbol('line.3.horizontal');
@@ -1896,15 +1874,15 @@ function injectGlobalSidebar() {
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       const linkUrl = link.getAttribute('href');
-      // allow ctrl+click to work normally
+
       if (e.ctrlKey || e.metaKey) return;
       e.preventDefault();
-      
+
       links.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
-      
+
       updateBubble(link);
-      
+
       requestAnimationFrame(() => {
         navigateWithTransition(linkUrl, { direction: link.classList.contains('icon-back-btn') ? 'back' : 'forward' });
       });
@@ -1940,18 +1918,15 @@ function syncMobilePrimaryControl() {
   document.body.classList.toggle('has-mobile-back-button', hasBackButton);
 }
 
-// Defer sidebar injection to idle callback to avoid blocking page render
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => { injectGlobalSidebar(); syncMobilePrimaryControl(); }, { timeout: 2000 });
 } else {
   setTimeout(() => { injectGlobalSidebar(); syncMobilePrimaryControl(); }, 100);
 }
 
-// Watch for DOM changes and keep back button class in sync
 if (typeof MutationObserver !== 'undefined') {
   new MutationObserver(syncMobilePrimaryControl).observe(document.body, { childList: true, subtree: true });
 }
-
 
 async function sendNotification(title, options) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
@@ -1969,7 +1944,6 @@ async function sendNotification(title, options) {
   setTimeout(() => n.close(), 5000);
 }
 
-// Register service worker for GitHub Pages
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {

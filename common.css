@@ -82,7 +82,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-/* Calendar page: remove left/right body padding so calendar can go full width */
 body.calendarPage {
   padding-left: 0;
   padding-right: 0;
@@ -108,7 +107,6 @@ h1, h2, h3 {
 }
 
 }
-
 
 .topRightButtons {
   position: static;
@@ -189,13 +187,13 @@ body.calendarPage .pageContainer {
   max-width: 1500px;
   padding: 20px 20px 10px 20px;
   box-sizing: border-box;
-  /* ensure the container shrinks to its contents now that the grid is outside */
+
   height: auto;
 }
 
 #calendarContainer {
   max-width: 100%;
-  padding: 40px 40px 0 40px; /* no bottom padding now that grid sits outside */
+  padding: 40px 40px 0 40px;
   box-sizing: border-box;
 }
 
@@ -211,7 +209,6 @@ body.calendarPage .pageContainer {
   box-sizing: border-box;
 }
 
-/* legend/key styles for monthly calendar */
 .calendar-key {
   margin: 0 auto 10px;
   text-align: center;
@@ -245,7 +242,7 @@ body.calendarPage .pageContainer {
   border-radius: 50%;
   display: inline-block;
   background: var(--card-dark);
-  /* border removed for cleaner look */
+
 }
 
 .key-box.holiday {
@@ -263,9 +260,6 @@ body.calendarPage .pageContainer {
 .key-box.today {
   background: var(--primary-light);
 }
-
-
-
 
 #digitalClock {
   font-weight: 700;
@@ -362,7 +356,6 @@ body.calendarPage .pageContainer {
   display: inline-block;
 }
 
-/* Number Flow animation styles */
 .time-value number-flow,
 .countdown-value number-flow,
 .counter-morph number-flow,
@@ -373,7 +366,6 @@ body.calendarPage .pageContainer {
   text-align: center;
 }
 
-/* Add -webkit- prefixed keyframes for older iOS Safari compatibility */
 @-webkit-keyframes torph-pop {
   0% {
     opacity: 0.45;
@@ -493,11 +485,6 @@ body.calendarPage .pageContainer {
 .homeModeToggleSwitch input:checked + .homeModeToggleSlider:before {
   transform: translateX(22px);
 }
-
-
-
-
-
 
 .mainBtn.disabledBtn {
   opacity: 0.5;
@@ -761,11 +748,11 @@ body.calendarPage .pageContainer {
 }
 
 .calendar-nav {
-  position: relative; /* for absolute title centering */
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* centre the nav and allow it to shrink to content width */
+
   margin: 10px auto;
   padding: 15px;
   background: var(--card-dark);
@@ -807,9 +794,8 @@ body.calendarPage .pageContainer {
   cursor: not-allowed;
 }
 
-
 .calendar-grid {
-  /* moved styles from the former .calendar container so the grid stands on its own */
+
   background: var(--primary);
   border-radius: 12px;
   padding: 15px;
@@ -819,21 +805,20 @@ body.calendarPage .pageContainer {
   margin: 0 auto;
   overflow-x: hidden;
 
-  /* grid-specific properties */
+
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   justify-content: center;
   align-items: center;
 
-  /* height override: prioritize vertical space (nav+key estimated at 180px) */
+
   height: calc(100vh - 180px);
   max-height: calc(100vh - 180px);
-  /* also prevent width from growing beyond the available vertical space */
+
   max-width: calc(100vh - 180px);
   overflow-y: auto;
 }
-
 
 .calendar-day-header {
   text-align: center;
@@ -878,7 +863,6 @@ body.calendarPage .pageContainer {
 .calendar-day.week-special {
   border-color: #216694;
 }
-
 
 .day-number {
   font-weight: 700;
@@ -1043,7 +1027,6 @@ body.calendarPage .pageContainer {
     gap: 8px;
   }
 
-
 }
 
 @media (max-width: 768px) {
@@ -1095,7 +1078,7 @@ body.calendarPage .pageContainer {
     padding: 20px 0 0 0;
   }
 
-  /* smaller padding on narrow screens */
+
   #calendarContainer {
     padding: 0 20px;
   }
@@ -1226,7 +1209,6 @@ body.calendarPage .pageContainer {
   transform: scale(1.1);
 }
 
-/* ─── Large screen calendar (single merged block) ─── */
 @media (min-width: 1200px) {
   #calendarContainer {
     width: 100%;
@@ -1234,7 +1216,7 @@ body.calendarPage .pageContainer {
   }
 
   .calendar-nav {
-    /* keep auto width and centered, no full-width override */
+
     margin: 10px auto;
   }
 
@@ -1242,7 +1224,7 @@ body.calendarPage .pageContainer {
     width: 100%;
     max-width: 100%;
     padding: 25px;
-    /* preserve height-based scaling on large screens */
+
     height: calc(100vh - 180px);
     max-height: calc(100vh - 180px);
     max-width: calc(100vh - 180px);
@@ -1271,7 +1253,7 @@ body.calendarPage .pageContainer {
     font-size: 1.5em;
   }
 
-  
+
 }
 
 .calendar-modal {
@@ -1318,13 +1300,13 @@ body.calendarPage .pageContainer {
 .calendar-modal .modal-close:hover {
   color: var(--primary-light);
 }
-/* Global Sidebar Styles */
+
 body.has-sidebar {
   padding-left: 270px;
 }
 @media (max-width: 768px) {
   body.has-sidebar {
-    padding-left: 20px; /* same as normal */
+    padding-left: 20px;
   }
 }
 
@@ -1413,12 +1395,11 @@ body.has-sidebar {
   height: 1.15em;
 }
 
-/* Fluid Bubble */
 .sidebar-bubble {
   position: absolute;
   left: 10px;
   right: 10px;
-  height: 46px; /* Approx height of link */
+  height: 46px;
   background: var(--primary-light);
   border-radius: 12px;
   z-index: 1; opacity: 0;
@@ -1488,11 +1469,10 @@ body.has-sidebar {
     display: block;
   }
   .homeHeaderRow h1 {
-    margin-left: 50px; /* Room for Hamburger */
+    margin-left: 50px;
   }
 }
 
-/* Icon Back Button (Global back arrows) */
 .icon-back-btn {
   display: inline-flex;
   align-items: center;
@@ -1508,14 +1488,12 @@ body.has-sidebar {
   transition: transform 0.2s;
 }
 
-/* Hide back button by default on desktop */
 @media (min-width: 769px) {
   .icon-back-btn {
     display: none !important;
   }
 }
 
-/* Show back button on mobile only when page has one */
 @media (max-width: 768px) {
   .icon-back-btn {
     display: none;
@@ -1551,13 +1529,8 @@ body.has-sidebar {
   transform: scale(1.05);
 }
 
-/* NOTE: Scrollbar styling is duplicated across these two media queries because CSS
-  media queries cannot be combined (e.g., "both (A) and (B)") natively without a
-  preprocessor. The rules must appear in both queries to apply scrollbar styling
-  in both scenarios: (1) height-constrained, and (2) width-constrained with normal height.
-  If this project later adopts Sass, this duplication can be eliminated with a mixin. */
 @media (max-height: 800px) {
-  /* Scrollbar appears when viewport height constrains sidebar */
+
   #globalSidebar {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-light) var(--card-dark);
@@ -1579,7 +1552,7 @@ body.has-sidebar {
 }
 
 @media (max-width: 960px) and (min-height: 800px) {
-  /* Scrollbar appears on narrower tablets/small laptops */
+
   #globalSidebar {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-light) var(--card-dark);
@@ -1615,7 +1588,6 @@ body.calendarPage .calendar-grid {
   background: #ffffff;
 }
 
-/* Sidebar Profile Section */
 .sidebar-profile-section {
   flex-shrink: 0;
   padding: 8px 10px 16px;
@@ -1671,7 +1643,6 @@ body.calendarPage .calendar-grid {
   font-size: 0.78em;
 }
 
-/* Home Page Redesign */
 .home-header-new {
   max-width: 1500px !important;
   margin: 0 auto 20px;
