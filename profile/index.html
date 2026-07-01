@@ -772,7 +772,7 @@
 
   <script src="/common-core.js"></script>
   <script>
-    let lunchPrefs = { ...getDefaultLunchPrefs() };
+    let lunchPrefs = {};
 
     const profileClubsManager = createClubSlotManager({
       onSave: null,
@@ -964,7 +964,7 @@
     }
 
     function initLunchSection() {
-      Object.assign(lunchPrefs, getLunchPrefs());
+      Object.assign(lunchPrefs, getDefaultLunchPrefs(), getLunchPrefs());
       updateLunchBtns(lunchPrefs);
       initLunchBtnListeners(lunchPrefs);
 
