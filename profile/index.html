@@ -774,9 +774,7 @@
   <script>
     let lunchPrefs = {};
 
-    const profileClubsManager = createClubSlotManager({
-      onSave: null,
-    });
+    let profileClubsManager;
 
     let allUpcomingEvents = [];
     let followedIds = [];
@@ -979,12 +977,7 @@
       });
     }
 
-    const profileClassManager = createClassSlotManager({
-      slotsId: 'selectedClassesList',
-      countId: 'classesCount',
-      messageId: 'classesMessage',
-      onSave: (slots) => setSelectedClassesSlots(slots),
-    });
+    let profileClassManager;
 
     function initClassesSection() {
       const classesToggle = document.getElementById('classesToggle');
@@ -1317,6 +1310,14 @@
       if (typeof checkSetupComplete === 'function' && !checkSetupComplete()) {
         return;
       }
+
+      profileClubsManager = createClubSlotManager({ onSave: null });
+      profileClassManager = createClassSlotManager({
+        slotsId: 'selectedClassesList',
+        countId: 'classesCount',
+        messageId: 'classesMessage',
+        onSave: (slots) => setSelectedClassesSlots(slots),
+      });
 
       await initProfilePage();
     });
