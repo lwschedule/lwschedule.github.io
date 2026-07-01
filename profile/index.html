@@ -708,7 +708,7 @@
         </label>
       </div>
 
-      <div class="caddy-content enabled" id="caddyContent">
+      <div class="caddy-content" id="caddyContent">
         <div class="settingsRow">
           <label>Enter your assigned phone caddy spot number for each class:</label>
           <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -746,7 +746,7 @@
         </label>
       </div>
 
-      <div class="packup-content enabled" id="packupContent">
+      <div class="packup-content" id="packupContent">
         <div class="settingsRow">
           <label for="packUpTimeInput">Notify me minutes before class ends:</label>
           <input type="number" id="packUpTimeInput" class="pack-up-input" min="0" max="30" placeholder="type a number or select from below">
@@ -1081,11 +1081,13 @@
 
     function initPhoneCaddySection() {
       const caddyToggle = document.getElementById('caddyToggle');
+      const caddyContent = document.getElementById('caddyContent');
       const saveBtn = document.getElementById('saveCaddyBtn');
       const savedTimes = localStorage.getItem('phone-caddy-times');
       const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
 
       caddyToggle.checked = caddyEnabled;
+      caddyContent.classList.toggle('enabled', caddyEnabled);
 
       try {
         caddyTimes = savedTimes ? JSON.parse(savedTimes) : { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
@@ -1101,6 +1103,8 @@
       }
 
       caddyToggle.addEventListener('change', async () => {
+        caddyContent.classList.toggle('enabled', caddyToggle.checked);
+
         if (!caddyToggle.checked) {
           updateCaddyStatus();
           return;
@@ -1146,6 +1150,7 @@
           document.getElementById(`caddyTime${i}`).value = '';
         }
         caddyToggle.checked = false;
+        caddyContent.classList.remove('enabled');
         updateCaddyStatus();
       });
 
@@ -1198,12 +1203,14 @@
 
       const input = document.getElementById('packUpTimeInput');
       const notificationToggle = document.getElementById('notificationToggle');
+      const packupContent = document.getElementById('packupContent');
       const savedNotificationsEnabled = localStorage.getItem('notifications-enabled') === 'true';
 
       if (packUpTime > 0) input.value = packUpTime;
       updatePackUpPresetUI(packUpTime);
 
       notificationToggle.checked = savedNotificationsEnabled;
+      packupContent.classList.toggle('enabled', savedNotificationsEnabled);
       updateNotificationStatus();
 
       document.querySelectorAll('.pack-up-preset').forEach((btn) => {
@@ -1243,6 +1250,8 @@
       });
 
       notificationToggle.addEventListener('change', async () => {
+        packupContent.classList.toggle('enabled', notificationToggle.checked);
+
         if (!notificationToggle.checked) {
           updateNotificationStatus();
           return;
@@ -1276,6 +1285,7 @@
         packUpTime = 0;
         updatePackUpPresetUI(0);
         notificationToggle.checked = false;
+        packupContent.classList.remove('enabled');
         updateNotificationStatus();
       });
 
