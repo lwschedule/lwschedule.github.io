@@ -1361,6 +1361,8 @@ body.has-sidebar {
   flex-direction: column;
   gap: 5px;
   overflow-y: auto;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
 }
 
 .sidebar-link {
