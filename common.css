@@ -891,6 +891,12 @@ body.calendarPage .pageContainer {
   -webkit-backdrop-filter: blur(8px);
 }
 
+@media (min-width: 769px) {
+  .home-ticker {
+    left: 286px;
+  }
+}
+
 .home-ticker.hidden {
   display: none;
 }
