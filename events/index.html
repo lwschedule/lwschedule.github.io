@@ -18,153 +18,6 @@
       margin-bottom: 14px;
     }
 
-    .eventsFilters {
-      background: var(--primary);
-      border: 1px solid #303030;
-      border-radius: 12px;
-      margin-bottom: 14px;
-      overflow: hidden;
-    }
-
-    .filtersToggleBtn {
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 14px;
-      font-size: 1em;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .filtersToggleArrow {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.1em;
-      height: 1.1em;
-      line-height: 1;
-    }
-
-    .filtersToggleArrowIcon {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    .filtersPanel {
-      padding: 0 12px 12px;
-      max-height: 240px;
-      opacity: 1;
-      transform: translateY(0);
-      overflow: hidden;
-      transition:
-        max-height 0.34s ease,
-        opacity 0.26s ease,
-        transform 0.34s ease,
-        padding-top 0.34s ease,
-        padding-bottom 0.34s ease;
-      will-change: max-height, opacity, transform;
-    }
-
-    .filtersPanel.is-collapsed {
-      max-height: 0;
-      opacity: 0;
-      transform: translateY(-8px);
-      padding-top: 0;
-      padding-bottom: 0;
-      pointer-events: none;
-    }
-
-    .filtersGrid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      transition: opacity 0.22s ease, transform 0.22s ease;
-    }
-
-    .filtersPanel.is-collapsed .filtersGrid {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-
-    .filterToggleItem {
-      background: #121212;
-      border: 1px solid #2c2c2c;
-      border-radius: 10px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .filterToggleItem.comingSoon {
-      opacity: 0.55;
-    }
-
-    .filterToggleItem.comingSoon .filterSlider {
-      cursor: not-allowed;
-      background: #3f3f3f;
-    }
-
-    .filterToggleLabel {
-      font-size: 0.92em;
-      font-weight: 600;
-      color: #f0f0f0;
-    }
-
-    .filterSwitch {
-      position: relative;
-      width: 44px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-
-    .filterSwitch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .filterSlider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ff3b30;
-      border-radius: 34px;
-      transition: 0.2s;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .filterSlider:before {
-      content: "";
-      position: absolute;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      top: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.2s;
-    }
-
-    .filterSwitch input:checked + .filterSlider {
-      background: #34c759;
-    }
-
-    .filterSwitch input:checked + .filterSlider:before {
-      transform: translateX(20px);
-    }
-
     .key-box.events-sba {
       background: #67c8ff;
     }
@@ -293,10 +146,6 @@
         gap: 4px;
       }
 
-      .filtersGrid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
       .eventCard {
         border-radius: 10px;
       }
@@ -318,45 +167,6 @@
       </ul>
     </div>
 
-    <div class="eventsFilters">
-      <button type="button" id="filtersToggleBtn" class="filtersToggleBtn" aria-expanded="true" aria-controls="filtersPanel">
-        <span>Filters</span>
-        <span class="filtersToggleArrow" aria-hidden="true"><img id="filtersToggleArrowIcon" class="filtersToggleArrowIcon" src="/icons/src/chevron.up.svg" alt=""></span>
-      </button>
-      <div id="filtersPanel" class="filtersPanel">
-        <div class="filtersGrid">
-          <label class="filterToggleItem" for="filterAllToggle">
-            <span class="filterToggleLabel">Select All</span>
-            <span class="filterSwitch">
-              <input type="checkbox" id="filterAllToggle">
-              <span class="filterSlider"></span>
-            </span>
-          </label>
-          <label class="filterToggleItem" for="filterApToggle">
-            <span class="filterToggleLabel">AP</span>
-            <span class="filterSwitch">
-              <input type="checkbox" id="filterApToggle">
-              <span class="filterSlider"></span>
-            </span>
-          </label>
-          <label class="filterToggleItem" for="filterMyEventsToggle">
-            <span class="filterToggleLabel">My Events</span>
-            <span class="filterSwitch">
-              <input type="checkbox" id="filterMyEventsToggle">
-              <span class="filterSlider"></span>
-            </span>
-          </label>
-          <label class="filterToggleItem comingSoon" for="filterSportsToggle">
-            <span class="filterToggleLabel">Sports (Coming Soon)</span>
-            <span class="filterSwitch">
-              <input type="checkbox" id="filterSportsToggle" disabled>
-              <span class="filterSlider"></span>
-            </span>
-          </label>
-        </div>
-      </div>
-    </div>
-
     <div id="eventsList" class="eventsList">
       <p>Loading upcoming events...</p>
     </div>
@@ -365,12 +175,6 @@
   <script src="/common-core.js"></script>
   <script>
     let allEvents = [];
-    let filtersOpen = true;
-    const activeFilters = {
-      ap: localStorage.getItem('filterAp') !== 'false',
-      myEvents: false,
-      sports: false
-    };
 
     function escapeHtml(text) {
       return String(text)
@@ -399,25 +203,11 @@
       if (type === 'sports') return normalized || 'Untitled Event';
       if (!normalized) return 'Untitled Test';
 
-      if (/^AP Testing:/i.test(normalized)) {
-        return normalized;
-      }
-
-      if (/^AP Test\/Portfolio Submission Due:/i.test(normalized)) {
-        return normalized;
-      }
-
-      if (/^AP Performance Task Submission Due:/i.test(normalized)) {
-        return normalized;
-      }
-
-      if (/^AP Portfolio Submission Due:/i.test(normalized)) {
-        return normalized;
-      }
-
-      if (/^AP Late Testing:/i.test(normalized)) {
-        return normalized;
-      }
+      if (/^AP Testing:/i.test(normalized)) return normalized;
+      if (/^AP Test\/Portfolio Submission Due:/i.test(normalized)) return normalized;
+      if (/^AP Performance Task Submission Due:/i.test(normalized)) return normalized;
+      if (/^AP Portfolio Submission Due:/i.test(normalized)) return normalized;
+      if (/^AP Late Testing:/i.test(normalized)) return normalized;
 
       if (/^AP\s+/i.test(normalized)) {
         const subject = normalized.replace(/^AP\s+/i, '').trim();
@@ -429,138 +219,47 @@
     }
 
     function formatEventTime(eventItem) {
-      const timeText = typeof eventItem.time === 'string' ? eventItem.time.trim() : '';
-      return timeText;
+      return typeof eventItem.time === 'string' ? eventItem.time.trim() : '';
     }
 
-    function renderNoEventsMessage() {
+    function renderNoFollowedEvents() {
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
-      const msg = activeFilters.myEvents
-        ? '<div class="noEvents"><h3>No followed events coming up.</h3><p>Add events to follow in your <a href="/profile" style="color:white;">Profile</a>.</p></div>'
-        : '<div class="noEvents"><h3>No events found.</h3><p>Try adjusting your filters.</p></div>';
-      listEl.innerHTML = msg;
+      listEl.innerHTML = '<div class="noEvents"><h3>No followed events coming up.</h3><p>Add events to follow in your <a href="/profile" style="color:white;">Profile</a>.</p></div>';
     }
 
-    function getFilteredEvents(events) {
-      if (activeFilters.myEvents) {
-        const followed = getProfileFollowedEvents();
-        return events.filter(e => followed.includes(e.id));
-      }
-      return events.filter((eventItem) => {
-        if (eventItem.type === 'standardized-test') return true;
-        if (eventItem.type === 'ap-test' && activeFilters.ap) return true;
-        if (eventItem.type === 'sports' && activeFilters.sports) return true;
-        return false;
-      });
-    }
-
-    function applyFiltersAndRender() {
-      renderUpcomingEvents(getFilteredEvents(allEvents));
-    }
-
-    function setFiltersOpen(isOpen) {
-      filtersOpen = isOpen;
-      const panel = document.getElementById('filtersPanel');
-      const toggleBtn = document.getElementById('filtersToggleBtn');
-      const toggleArrowIcon = document.getElementById('filtersToggleArrowIcon');
-      if (panel) panel.classList.toggle('is-collapsed', !isOpen);
-      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      if (toggleArrowIcon) {
-        toggleArrowIcon.src = isOpen ? '/icons/src/chevron.up.svg' : '/icons/src/chevron.down.svg';
-      }
-    }
-
-    function initFilters() {
-      const toggleBtn = document.getElementById('filtersToggleBtn');
-      const allToggle = document.getElementById('filterAllToggle');
-      const apToggle = document.getElementById('filterApToggle');
-      const myEventsToggle = document.getElementById('filterMyEventsToggle');
-      const sportsToggle = document.getElementById('filterSportsToggle');
-
-      if (!toggleBtn || !allToggle || !apToggle || !sportsToggle) return;
-      apToggle.checked = activeFilters.ap;
-      if (myEventsToggle) myEventsToggle.checked = activeFilters.myEvents;
-      activeFilters.sports = false;
-      sportsToggle.checked = false;
-      allToggle.checked = activeFilters.ap;
-      setFiltersOpen(true);
-
-      function updateAllToggle() {
-        allToggle.checked = apToggle.checked;
-      }
-
-      toggleBtn.addEventListener('click', () => {
-        setFiltersOpen(!filtersOpen);
-      });
-
-      allToggle.addEventListener('change', () => {
-        const isChecked = allToggle.checked;
-        apToggle.checked = isChecked;
-        activeFilters.ap = isChecked;
-        localStorage.setItem('filterAp', isChecked);
-        applyFiltersAndRender();
-      });
-
-      apToggle.addEventListener('change', () => {
-        activeFilters.ap = apToggle.checked;
-        localStorage.setItem('filterAp', apToggle.checked);
-        updateAllToggle();
-        applyFiltersAndRender();
-      });
-
-      if (myEventsToggle) {
-        myEventsToggle.addEventListener('change', () => {
-          activeFilters.myEvents = myEventsToggle.checked;
-          applyFiltersAndRender();
-        });
-      }
-
-    }
-
-    function renderUpcomingEvents(rawEvents) {
+    function renderEvents(events) {
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
-
-      if (!Array.isArray(rawEvents) || rawEvents.length === 0) {
-        renderNoEventsMessage();
-        return;
-      }
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      const upcomingEvents = rawEvents
-        .map((eventItem) => ({
-          ...eventItem,
-          dateObj: parseLocalDate(eventItem.date)
-        }))
-        .filter((eventItem) => eventItem.dateObj && eventItem.dateObj >= today)
+      const upcoming = events
+        .map((e) => ({ ...e, dateObj: parseLocalDate(e.date) }))
+        .filter((e) => e.dateObj && e.dateObj >= today)
         .sort((a, b) => {
-          const dateDiff = a.dateObj.getTime() - b.dateObj.getTime();
-          if (dateDiff !== 0) return dateDiff;
+          const d = a.dateObj.getTime() - b.dateObj.getTime();
+          if (d !== 0) return d;
           return (a.title || '').localeCompare(b.title || '');
         });
 
-      if (!upcomingEvents.length) {
-        renderNoEventsMessage();
+      if (!upcoming.length) {
+        renderNoFollowedEvents();
         return;
       }
 
       const grouped = new Map();
-      upcomingEvents.forEach((eventItem) => {
-        const key = eventItem.date;
+      upcoming.forEach((e) => {
+        const key = e.date;
         if (!grouped.has(key)) grouped.set(key, []);
-        grouped.get(key).push(eventItem);
+        grouped.get(key).push(e);
       });
 
       let html = '';
       grouped.forEach((dayEvents) => {
-        const dayDate = dayEvents[0].dateObj;
-        const dayLabel = dayDate.toLocaleDateString('en-US', {
-          weekday: 'long',
-          month: 'short',
-          day: 'numeric'
+        const dayLabel = dayEvents[0].dateObj.toLocaleDateString('en-US', {
+          weekday: 'long', month: 'short', day: 'numeric'
         });
 
         html += `<section class="eventsDay">
@@ -569,12 +268,12 @@
             <span class="eventsDayCount">${dayEvents.length} event${dayEvents.length === 1 ? '' : 's'}</span>
           </div>`;
 
-        dayEvents.forEach((eventItem) => {
-          const cardClass = getEventCardClass(eventItem.type);
-          const eventTime = formatEventTime(eventItem);
+        dayEvents.forEach((e) => {
+          const cardClass = getEventCardClass(e.type);
+          const time = formatEventTime(e);
           html += `<article class="eventCard ${cardClass}">
-            <p class="eventTitle">${escapeHtml(formatEventTitle(eventItem.title, eventItem.type))}</p>
-            ${eventTime ? `<p class="eventTime">${escapeHtml(eventTime)}</p>` : ''}
+            <p class="eventTitle">${escapeHtml(formatEventTitle(e.title, e.type))}</p>
+            ${time ? `<p class="eventTime">${escapeHtml(time)}</p>` : ''}
           </article>`;
         });
 
@@ -591,23 +290,20 @@
         const data = await response.json();
 
         const standardizedTests = Array.isArray(data.standardizedTests)
-          ? data.standardizedTests.map((eventItem) => ({ ...eventItem, type: 'standardized-test' }))
+          ? data.standardizedTests.map((e) => ({ ...e, type: 'standardized-test' }))
           : [];
-
         const apTests = Array.isArray(data.apTests)
-          ? data.apTests.map((eventItem) => ({ ...eventItem, type: 'ap-test' }))
+          ? data.apTests.map((e) => ({ ...e, type: 'ap-test' }))
           : [];
-
         const sportsEvents = Array.isArray(data.sports)
-          ? data.sports.map((eventItem) => ({ ...eventItem, type: 'sports' }))
+          ? data.sports.map((e) => ({ ...e, type: 'sports' }))
           : [];
 
         allEvents = [...standardizedTests, ...apTests, ...sportsEvents];
-        applyFiltersAndRender();
+        renderEvents(allEvents);
       } catch (error) {
         console.error('Events page load error:', error);
-        allEvents = [];
-        applyFiltersAndRender();
+        renderNoFollowedEvents();
       }
     }
 
@@ -616,8 +312,7 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       await initApp();
-      initFilters();
-      await loadEventsPage();
+      loadEventsPage();
     })();
   </script>
 </body>

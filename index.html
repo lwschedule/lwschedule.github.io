@@ -160,14 +160,7 @@
 
     // Hide upcoming tiles when there is no data to display
     (function hideUnusedUpcomingTiles() {
-      // Tile 2: Followed events
-      try {
-        const followed = typeof getProfileFollowedEvents === 'function' ? getProfileFollowedEvents() : [];
-        if (!followed || followed.length === 0) {
-          const tile2 = document.getElementById('upcomingTile2');
-          if (tile2) tile2.remove();
-        }
-      } catch (e) { /* ignore */ }
+      // Tile 2 (followed events) is always visible — shows "no events" message when empty
 
       // If all tiles removed, remove the entire upcoming section
       try {
@@ -268,13 +261,8 @@
           .filter(e => e.dateObj >= today)
           .sort((a,b) => a.dateObj - b.dateObj);
         if (!upcoming.length) {
-          const tile2 = document.getElementById('upcomingTile2');
-          if (tile2) tile2.remove();
-          // Check if entire upcoming section should be removed
-          const section = document.querySelector('.upcoming-section');
-          if (section && !section.querySelector('.upcoming-tile')) {
-            section.remove();
-          }
+          document.getElementById('upcomingTile2Title').textContent = 'No followed events';
+          document.getElementById('upcomingTile2Sub').textContent = 'Add events in your Profile';
         } else {
           const next = upcoming[0];
           document.getElementById('upcomingTile2Title').textContent = next.title;
