@@ -886,7 +886,7 @@
 
       const availableEvents = allUpcomingEvents.filter((eventItem) => !followedIds.includes(eventItem.id));
       if (!availableEvents.length) {
-        contentEl.innerHTML = '<p style="opacity:0.6; text-align:center;">All upcoming events are followed.</p>';
+        contentEl.innerHTML = '<p style="opacity:0.6; text-align:center;">No more events to follow. <a href="/events" style="color:var(--primary-light);">Browse all events</a></p>';
         return;
       }
 

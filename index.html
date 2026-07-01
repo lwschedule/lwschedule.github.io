@@ -262,7 +262,7 @@
           .sort((a,b) => a.dateObj - b.dateObj);
         if (!upcoming.length) {
           document.getElementById('upcomingTile2Title').textContent = 'No followed events';
-          document.getElementById('upcomingTile2Sub').textContent = 'Add events in your Profile';
+          document.getElementById('upcomingTile2Sub').innerHTML = 'Add events in your <a href="/profile" style="color:var(--primary-light);">Profile</a>';
         } else {
           const next = upcoming[0];
           document.getElementById('upcomingTile2Title').textContent = next.title;
