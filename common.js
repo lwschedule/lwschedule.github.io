@@ -1978,6 +1978,19 @@ if (typeof MutationObserver !== 'undefined') {
 
 async function sendNotification(title, options) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      if (reg && reg.showNotification) {
+        await reg.showNotification(title, options);
+        return;
+      }
+    } catch (e) { console.warn(e); }
+  }
+  const n = new Notification(title, options);
+  n.onclick = function() { window.focus(); this.close(); };
+  setTimeout(() => n.close(), 5000);
 }
 
 function createClassSlotManager(config) {
@@ -2317,20 +2330,6 @@ function createClubSlotManager(config) {
   function getAll() { return allClubs; }
 
   return { renderResults, renderSelectedList, add, load, initSearch, getSelected, setSelected, getAll, updateCount, formatDays, escapeHtml };
-}
-
-if ('serviceWorker' in navigator) {
-    try {
-      const reg = await navigator.serviceWorker.ready;
-      if (reg && reg.showNotification) {
-        await reg.showNotification(title, options);
-        return;
-      }
-    } catch (e) { console.warn(e); }
-  }
-  const n = new Notification(title, options);
-  n.onclick = function() { window.focus(); this.close(); };
-  setTimeout(() => n.close(), 5000);
 }
 
 if ('serviceWorker' in navigator) {
