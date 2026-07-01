@@ -61,6 +61,8 @@ Every commit must bump the patch version (x.y.**z**). The pre-commit hook (`.git
 
 If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
 
+After every commit, always push to remote (`git push`).
+
 ## User Preferences
 
 All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `selectedClubs`, `profile`, `classesEnabled`, `packupReminder`, `phoneCaddy`. No backend — everything is client-side.
