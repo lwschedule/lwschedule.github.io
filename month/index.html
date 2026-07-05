@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
 </head>
 <body class="calendarPage">
   
@@ -36,7 +37,21 @@
     </div>
   </div>
   <!-- calendar grid sits directly on the page now and outside pageContainer -->
-  <div class="calendar-grid" id="calendarGrid"></div>
+  <div class="calendar-grid" id="calendarGrid">
+    <!-- 7 header cells + 35 skeleton day cells -->
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day-header skeleton skeleton-text" style="height:14px;margin:0"></div>
+    <div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div>
+    <div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div>
+    <div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div>
+    <div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div>
+    <div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div><div class="calendar-day skeleton skeleton-block"></div>
+  </div>
   <script src="/common-core.js"></script>
   <script>
     (async () => {
@@ -47,6 +62,7 @@
       renderCalendar();
       document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
       document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

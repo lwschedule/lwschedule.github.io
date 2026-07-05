@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
   <style>
     .eventsList {
       width: 100%;
@@ -168,7 +169,9 @@
     </div>
 
     <div id="eventsList" class="eventsList">
-      <p>Loading upcoming events...</p>
+      <div class="skeleton-card" style="height:72px"></div>
+      <div class="skeleton-card" style="height:72px"></div>
+      <div class="skeleton-card" style="height:72px"></div>
     </div>
   </div>
 
@@ -313,6 +316,7 @@
       }
       await initApp();
       loadEventsPage();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

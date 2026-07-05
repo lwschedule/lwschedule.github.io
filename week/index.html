@@ -9,13 +9,26 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
 </head>
 <body>
   
   <div class="pageContainer">
     <h2>This Week's Schedule</h2>
     <div id="weekContent">
-      <p>Loading this week's schedule...</p>
+      <table class="weekTable skeleton-table">
+        <thead><tr>
+          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
+          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
+        </tr></thead>
+        <tbody>
+          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text"></div></td></tr>
+          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
+          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text"></div></td></tr>
+          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
+          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text"></div></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <script src="/common-core.js"></script>
@@ -26,6 +39,7 @@
       }
       await initApp();
       updateWeekSchedule();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

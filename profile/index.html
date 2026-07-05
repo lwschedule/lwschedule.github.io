@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
   <style>
     .pageContainer {
       max-width: 650px;
@@ -594,9 +595,16 @@
         <button type="button" class="mainBtn saveSectionBtn" id="saveEventsBtn">Save Changes</button>
       </div>
       <p class="followingLabel" id="followingCountLabel">Following (0)</p>
-      <div class="followedChips" id="followedChips"></div>
+      <div class="followedChips" id="followedChips">
+        <span class="eventChip skeleton" style="width:120px;height:28px"></span>
+        <span class="eventChip skeleton" style="width:100px;height:28px"></span>
+      </div>
       <h4 class="eventsHeading">Available to Follow</h4>
-      <div id="eventsFollowContent"></div>
+      <div id="eventsFollowContent">
+        <div class="skeleton skeleton-text" style="margin:6px 0"></div>
+        <div class="skeleton skeleton-text medium"></div>
+        <div class="skeleton skeleton-text short"></div>
+      </div>
     </section>
 
     <section class="profileCard">
@@ -648,7 +656,14 @@
 
         <div class="classes-results" id="classResults"></div>
 
-        <div class="slots-container" id="selectedClassesList"></div>
+        <div class="slots-container" id="selectedClassesList">
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+          <div class="slot-row"><button class="slot-arrow skeleton" disabled></button><div class="slot-card skeleton" style="min-height:62px"></div><button class="slot-arrow skeleton" disabled></button></div>
+        </div>
         <p class="classes-count" id="classesCount">0 of 6 slots filled</p>
         <p class="classes-message" id="classesMessage"></p>
 
@@ -674,7 +689,11 @@
         <input type="text" id="clubSearch" class="search-input" placeholder="Search clubs...">
         <div class="clubs-results" id="clubResults"></div>
 
-        <div class="slots-container clubsSlots" id="selectedClubsList"></div>
+        <div class="slots-container clubsSlots" id="selectedClubsList">
+          <div class="slot-row skeleton" style="display:flex;gap:10px;margin-bottom:10px;height:62px"></div>
+          <div class="slot-row skeleton" style="display:flex;gap:10px;margin-bottom:10px;height:62px"></div>
+          <div class="slot-row skeleton" style="display:flex;gap:10px;margin-bottom:10px;height:62px"></div>
+        </div>
         <p class="clubs-count" id="selectedCount">0 clubs selected</p>
         <button type="button" class="resetBtn" id="resetClubsBtn">Reset Clubs to Default</button>
       </div>
@@ -1314,6 +1333,7 @@
       });
 
       await initProfilePage();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     });
   </script>
 </body>

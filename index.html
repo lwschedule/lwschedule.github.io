@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
 </head>
 <body class="homePage">
   <div class="home-header-new">
@@ -45,7 +46,7 @@
       </div>
     </div>
   </div>
-  <div id="timer"></div>
+  <div id="timer"><div class="skeleton skeleton-text medium" style="height:18px;margin:0"></div></div>
   <section class="upcoming-section">
     <h2 class="upcoming-heading">Upcoming</h2>
     <div id="upcomingTiles" class="upcoming-tiles">
@@ -64,8 +65,8 @@
           </svg>
         </div>
         <div class="upcoming-tile-body">
-          <div class="upcoming-tile-title" id="upcomingTile2Title">Loading...</div>
-          <div class="upcoming-tile-sub" id="upcomingTile2Sub"></div>
+          <div class="upcoming-tile-title" id="upcomingTile2Title"><div class="skeleton skeleton-text medium" style="height:16px"></div></div>
+          <div class="upcoming-tile-sub" id="upcomingTile2Sub"><div class="skeleton skeleton-text short" style="height:14px"></div></div>
         </div>
       </div>
       <div class="upcoming-tile" id="upcomingTile3">
@@ -81,8 +82,8 @@
           </svg>
         </div>
         <div class="upcoming-tile-body">
-          <div class="upcoming-tile-title" id="upcomingTile3Title">Loading...</div>
-          <div class="upcoming-tile-sub" id="upcomingTile3Sub"></div>
+          <div class="upcoming-tile-title" id="upcomingTile3Title"><div class="skeleton skeleton-text medium" style="height:16px"></div></div>
+          <div class="upcoming-tile-sub" id="upcomingTile3Sub"><div class="skeleton skeleton-text short" style="height:14px"></div></div>
         </div>
       </div>
     </div>
@@ -90,7 +91,7 @@
   <div id="homeTicker" class="home-ticker" role="region" aria-label="Site messages">
     <div class="home-ticker-inner">
       <div class="home-ticker-viewport">
-        <div id="homeTickerTrack" class="home-ticker-track" aria-live="polite"></div>
+        <div id="homeTickerTrack" class="home-ticker-track" aria-live="polite"><div class="skeleton skeleton-text" style="height:20px;width:60%"></div></div>
       </div>
       <button type="button" id="homeTickerPause" class="home-ticker-pause" aria-label="Pause ticker">
         <svg id="homeTickerPauseIcon" width="12" height="12" viewBox="0 0 12 12" fill="white">
@@ -341,6 +342,7 @@
       const ticker = document.getElementById('homeTicker');
       ticker && ticker.classList.add('hidden');
     }
+    if (typeof window.hideLoader === 'function') window.hideLoader();
   })();
 </script>
 

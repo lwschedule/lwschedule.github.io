@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
   <style>
     .infoContent { text-align: center; padding: 20px; }
     .infoSection { background: var(--card-dark); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
@@ -25,8 +26,8 @@
     <h2>About</h2>
     <div class="infoContent">
       <div class="infoSection">
-        <div class="versionBadge">Version 3.5.33</div>
-        <p>Released June 30, 2026</p>
+        <div class="versionBadge">Version 3.6.1</div>
+        <p>Released July 5, 2026</p>
       </div>
       <a href="https://github.com/lwschedule/lwschedule.github.io/issues" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary) !important;   border-radius: 12px; padding: 15px; margin-bottom: 20px; color: white; text-decoration: none; font-size: 1.2em; font-weight: 700; box-shadow: var(--glow); text-align: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
         <span>Coming Soon</span>
@@ -49,6 +50,7 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       checkSetupComplete();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

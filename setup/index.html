@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
   <style>
     .setupContent { max-width: 650px; margin: 0 auto; padding: 80px 0 20px 0; }
     .setupSection { background: transparent; margin-bottom: 18px; }
@@ -258,7 +259,14 @@
       <div id="classesSettings">
         <input type="text" id="classSearch" class="class-search-input" placeholder="Search classes...">
         <div id="classResults" class="class-results"></div>
-        <div id="setupSelectedClassesList" class="class-slots"></div>
+        <div id="setupSelectedClassesList" class="class-slots">
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+          <div class="class-slot-row"><button class="slot-arrow-btn skeleton" disabled></button><div class="class-slot-card skeleton" style="min-height:58px"></div><button class="slot-arrow-btn skeleton" disabled></button></div>
+        </div>
         <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
         <p id="setupClassesMessage" class="class-message"></p>
       </div>
@@ -277,7 +285,11 @@
       <div id="clubsSettings">
         <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
         <div id="clubResults" class="clubs-results"></div>
-        <div id="setupSelectedClubsList" class="slots-container"></div>
+        <div id="setupSelectedClubsList" class="slots-container">
+          <div class="club-slot-row skeleton" style="height:58px;margin-bottom:10px"></div>
+          <div class="club-slot-row skeleton" style="height:58px;margin-bottom:10px"></div>
+          <div class="club-slot-row skeleton" style="height:58px;margin-bottom:10px"></div>
+        </div>
         <p id="selectedCount" class="clubs-count">0 clubs selected</p>
       </div>
     </section>
@@ -617,7 +629,6 @@
       }
 
       localStorage.setItem('setup-complete', 'true');
-      localStorage.setItem('app-visited', 'true');
       navigateWithTransition('/', { replace: true });
     });
 
@@ -642,5 +653,6 @@
 
     checkSetupComplete();
     init();
+    if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
