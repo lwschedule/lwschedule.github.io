@@ -314,6 +314,7 @@
       }
       await initApp();
       loadEventsPage();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

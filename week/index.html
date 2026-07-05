@@ -27,6 +27,7 @@
       }
       await initApp();
       updateWeekSchedule();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

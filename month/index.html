@@ -48,6 +48,7 @@
       renderCalendar();
       document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
       document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

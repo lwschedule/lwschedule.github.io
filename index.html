@@ -342,6 +342,7 @@
       const ticker = document.getElementById('homeTicker');
       ticker && ticker.classList.add('hidden');
     }
+    if (typeof window.hideLoader === 'function') window.hideLoader();
   })();
 </script>
 

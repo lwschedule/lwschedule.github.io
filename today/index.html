@@ -38,6 +38,7 @@
           updateTodaySchedule();
         }
       }, 60000);
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

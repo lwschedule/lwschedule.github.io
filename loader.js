@@ -14,7 +14,7 @@
     petalCount: 7,
     curveScale: 3.9,
     fadeOutMs: 300,
-    displayDurationMs: 1000,
+    displayDurationMs: 2500,
   };
 
   const PARTICLE_RADIUS_BASE = 0.9;
@@ -24,6 +24,8 @@
   let overlay = null;
   let rafId = null;
   let startedAt = 0;
+  let minDurationReached = false;
+  let hideRequested = false;
 
   // ---- MATH HELPERS -------------------------------------------------
   function normalizeProgress(progress) {
@@ -137,8 +139,8 @@
     rafId = requestAnimationFrame(render);
   }
 
-  // ---- HIDE LOADER --------------------------------------------------
-  function hideLoader() {
+  // ---- PERFORM ACTUAL HIDE ------------------------------------------
+  function doHide() {
     if (!overlay) return;
 
     if (rafId) {
@@ -156,13 +158,28 @@
     }, CONFIG.fadeOutMs + 50);
   }
 
+  // ---- TRY HIDE (checks both conditions) ----------------------------
+  function tryHide() {
+    if (minDurationReached && hideRequested) {
+      doHide();
+    }
+  }
+
+  // ---- PUBLIC API: called by pages when content is ready ------------
+  function hideLoader() {
+    hideRequested = true;
+    tryHide();
+  }
+
   // ---- INIT ---------------------------------------------------------
   const elements = buildOverlay();
   startAnimation(elements.path, elements.particles, elements.group);
 
-  // Auto-hide after display duration (1000ms)
-  setTimeout(hideLoader, CONFIG.displayDurationMs);
+  // Mark min duration as reached after displayDurationMs
+  setTimeout(function () {
+    minDurationReached = true;
+    tryHide();
+  }, CONFIG.displayDurationMs);
 
-  // Export for any manual hide needs
   window.hideLoader = hideLoader;
 })();

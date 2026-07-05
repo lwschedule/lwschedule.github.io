@@ -256,6 +256,7 @@ function setTermCountdown(cardEl, countdownData) {
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

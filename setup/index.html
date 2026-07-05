@@ -642,5 +642,6 @@
 
     checkSetupComplete();
     init();
+    if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>

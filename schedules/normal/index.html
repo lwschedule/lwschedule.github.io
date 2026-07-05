@@ -58,6 +58,7 @@
         }
       });
       content.innerHTML = html;
+      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>
