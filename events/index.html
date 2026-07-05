@@ -169,9 +169,7 @@
     </div>
 
     <div id="eventsList" class="eventsList">
-      <div class="skeleton-card" style="height:72px"></div>
-      <div class="skeleton-card" style="height:72px"></div>
-      <div class="skeleton-card" style="height:72px"></div>
+      <p>Loading upcoming events...</p>
     </div>
   </div>
 
@@ -316,7 +314,6 @@
       }
       await initApp();
       loadEventsPage();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

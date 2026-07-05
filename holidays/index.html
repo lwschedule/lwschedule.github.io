@@ -46,11 +46,7 @@
             </tr>
           </thead>
           <tbody id="holidayTableBody">
-            <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
-            <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
-            <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
-            <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
-            <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td><div class="skeleton skeleton-text short"></div></td></tr>
+            <tr><td colspan="2">Loading holidays...</td></tr>
           </tbody>
         </table>
       </div>
@@ -165,7 +161,6 @@ async function initHolidayCountdownMorphs() {
       }
       await initHolidayCountdownMorphs();
       await initApp();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

@@ -26,7 +26,6 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       checkSetupComplete();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

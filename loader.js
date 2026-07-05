@@ -14,6 +14,7 @@
     petalCount: 7,
     curveScale: 3.9,
     fadeOutMs: 300,
+    displayDurationMs: 1000,
   };
 
   const PARTICLE_RADIUS_BASE = 0.9;
@@ -22,7 +23,6 @@
   // ---- STATE --------------------------------------------------------
   let overlay = null;
   let rafId = null;
-  let hideQueued = false;
   let startedAt = 0;
 
   // ---- MATH HELPERS -------------------------------------------------
@@ -55,17 +55,14 @@
   function buildOverlay() {
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
-    // Overlay container
     overlay = document.createElement('div');
     overlay.id = 'globalLoader';
 
-    // SVG
     const svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('viewBox', '0 0 100 100');
     svg.setAttribute('fill', 'none');
     svg.setAttribute('aria-hidden', 'true');
 
-    // Trail path
     const path = document.createElementNS(SVG_NS, 'path');
     path.setAttribute('stroke', '#e8e8e8');
     path.setAttribute('stroke-linecap', 'round');
@@ -74,7 +71,6 @@
     path.setAttribute('stroke-width', String(CONFIG.strokeWidth));
     svg.appendChild(path);
 
-    // Particle circles
     const particles = [];
     const group = document.createElementNS(SVG_NS, 'g');
     for (let i = 0; i < CONFIG.particleCount; i++) {
@@ -143,11 +139,7 @@
 
   // ---- HIDE LOADER --------------------------------------------------
   function hideLoader() {
-    if (!overlay) {
-      // Loader not yet initialized — queue the hide
-      hideQueued = true;
-      return;
-    }
+    if (!overlay) return;
 
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -156,7 +148,6 @@
 
     overlay.classList.add('hidden');
 
-    // Remove DOM after transition
     setTimeout(function () {
       if (overlay && overlay.parentNode) {
         overlay.parentNode.removeChild(overlay);
@@ -169,12 +160,9 @@
   const elements = buildOverlay();
   startAnimation(elements.path, elements.particles, elements.group);
 
-  // ---- EXPORT API ---------------------------------------------------
-  window.hideLoader = hideLoader;
+  // Auto-hide after display duration (1000ms)
+  setTimeout(hideLoader, CONFIG.displayDurationMs);
 
-  // If hide was called before init completed, execute it now
-  if (hideQueued) {
-    hideQueued = false;
-    hideLoader();
-  }
+  // Export for any manual hide needs
+  window.hideLoader = hideLoader;
 })();

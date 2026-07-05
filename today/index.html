@@ -16,23 +16,7 @@
   <div class="pageContainer">
     <h2>Today's Schedule</h2>
     <div id="todayContent">
-      <table class="scheduleTable skeleton-table">
-        <thead><tr>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-        </tr></thead>
-        <tbody>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text short"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text short"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-        </tbody>
-      </table>
+      <p>Loading schedule...</p>
     </div>
   </div>
   <script src="/common-core.js"></script>
@@ -54,7 +38,6 @@
           updateTodaySchedule();
         }
       }, 60000);
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

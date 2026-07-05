@@ -17,23 +17,7 @@
     <a href="/week" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
     <h2 id="dayTitle"></h2>
     <div id="dayContent">
-      <table class="scheduleTable skeleton-table">
-        <thead><tr>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-          <th><div class="skeleton skeleton-text" style="margin:0;height:14px"></div></th>
-        </tr></thead>
-        <tbody>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text short"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text short"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text"></div></td><td></td><td></td><td></td></tr>
-          <tr class="skeleton-table-row"><td><div class="skeleton skeleton-text medium"></div></td><td></td><td></td><td></td></tr>
-        </tbody>
-      </table>
+      <p>Loading schedule...</p>
     </div>
   </div>
   <script src="/common-core.js"></script>
@@ -98,7 +82,6 @@
       }
       
       scheduleEl.innerHTML = html;
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

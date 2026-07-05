@@ -35,15 +35,11 @@
     <h2>Quarters & Semesters</h2>
     <h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>
     <div id="quartersList" class="academic-term-list">
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card"></div>
+      <p>Loading quarters...</p>
     </div>
     <h3 style="color: white; margin-top: 30px; margin-bottom: 10px;">Semesters 2025-26</h3>
     <div id="semestersList" class="academic-term-list">
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card"></div>
+      <p>Loading semesters...</p>
     </div>
   </div>
   <script src="/common-core.js"></script>
@@ -260,7 +256,6 @@ function setTermCountdown(cardEl, countdownData) {
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>
