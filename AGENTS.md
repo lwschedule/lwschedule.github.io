@@ -18,7 +18,7 @@ Static PWA for a high school schedule viewer. No build step, no bundler, no `pac
 Multi-page app — each feature is a separate `index.html` in its own directory. Key paths:
 - `/index.html` — home dashboard
 - `/today/`, `/week/`, `/month/` — schedule views
-- `/schedules/` — browse all schedule types
+- `/schedules/` — browse all schedule types (Normal, First Week, Labor Day)
 - `/settings/` — preferences (lunch, classes, clubs, pack-up, phone caddy)
 - `/holidays/`, `/quarters/`, `/events/` — academic calendar
 - `/info/` — about page (version badge updated by pre-commit hook)
@@ -47,7 +47,7 @@ Period times are **minutes since midnight**. Example: `8:35 AM` = `8*60+35` = `5
 
 `getHolidayForDate()` in `common.js:487` has hardcoded date ranges for multi-day breaks. When adding/updating multi-day holidays, you must update both `holidays.json` AND the corresponding range check in this function. Single-day holidays just need the JSON entry.
 
-Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, School Closure Make-up Day, Summer Break.
+Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, Summer Break.
 
 ## Versioning
 
@@ -127,7 +127,9 @@ This single entry automatically enables **all** of the following:
      <a class="mainBtn" href="/schedules/my-schedule">My Schedule</a>
    </div>
    ```
+   Use a short name for the button label (e.g., "Normal", "First Week", "Labor Day") — not "Normal Schedule".
 2. Create `schedules/my-schedule/index.html` — copy the pattern from `schedules/normal/index.html`, changing the data source to `schedulesData.normal['my-schedule']` and updating the title/subtitle.
+3. If the schedule key was renamed (e.g., `labor-day-week` → `labor-day`), update the key in `data/schedules.json`, the `scheduleKey` in `SCHEDULE_METADATA`, and the element ID and JS in the schedule page.
 
 #### 4. (If multi-day) Update holiday ranges
 
