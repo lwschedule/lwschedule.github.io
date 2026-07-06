@@ -10,58 +10,18 @@
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
   <script src="/loader.js"></script>
-  <style>
-    .infoHub { text-align: center; padding: 20px; max-width: 700px; margin: 0 auto; }
-    .infoHub p.subtitle { opacity: 0.75; margin: 8px 0 28px; }
-    .infoHubCard {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      background: var(--card-dark);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 18px 22px;
-      margin-bottom: 14px;
-      text-decoration: none;
-      color: white;
-      font-weight: 700;
-      font-size: 1.1em;
-      box-shadow: var(--glow);
-      transition: transform 0.25s, border-color 0.25s, background 0.2s;
-    }
-    .infoHubCard:hover {
-      transform: translateY(-2px);
-      border-color: rgba(168, 85, 247, 0.35);
-      background: rgba(168,85,247,0.06);
-    }
-    .infoHubCard-body { text-align: left; flex: 1; }
-    .infoHubCard-title { display: block; font-size: 1.1em; }
-    .infoHubCard-sub { display: block; font-size: 0.82em; opacity: 0.65; font-weight: 500; margin-top: 2px; }
-    .infoHubCard-arrow { font-size: 1.4em; opacity: 0.55; flex-shrink: 0; }
-  </style>
+
 </head>
 <body>
   <div class="pageContainer">
     <h2>Info</h2>
-    <div class="infoHub">
-      <p class="subtitle">About this app, plus a full change log.</p>
-
-      <a href="/info/about" class="infoHubCard">
-        <span class="infoHubCard-body">
-          <span class="infoHubCard-title">About LW Schedule</span>
-          <span class="infoHubCard-sub">Credits, who made it, and what inspired it.</span>
-        </span>
-        <span class="infoHubCard-arrow">&rarr;</span>
-      </a>
-
-      <a href="/info/whats-new" class="infoHubCard">
-        <span class="infoHubCard-body">
-          <span class="infoHubCard-title">What&rsquo;s New</span>
-          <span class="infoHubCard-sub">Every change ever shipped, newest at the top.</span>
-        </span>
-        <span class="infoHubCard-arrow">&rarr;</span>
-      </a>
+    <div class="mainButtons">
+      <div class="settingsRow">
+        <a class="mainBtn" href="/info/about">About LW Schedule</a>
+      </div>
+      <div class="settingsRow">
+        <a class="mainBtn" href="/info/whats-new">What&rsquo;s New</a>
+      </div>
     </div>
   </div>
   <script src="/common-core.js"></script>

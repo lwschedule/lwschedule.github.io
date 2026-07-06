@@ -67,25 +67,16 @@ def update_sw_cache_name():
     return False
 
 def update_whats_new_page(version_text: str, release_date_text: str):
-    if not WHATS_NEW.exists():
-        return False
-
-    text = WHATS_NEW.read_text(encoding='utf-8')
-    changed = False
-
-    version_re = re.compile(r"(<div class=\"versionBadge\">Version\s+)([^<]+)(</div>)")
-    if version_re.search(text):
-        text = version_re.sub(lambda m: f"{m.group(1)}{version_text.lstrip('v')}{m.group(3)}", text, count=1)
-        changed = True
-
-    released_re = re.compile(r"(<p>Released\s+)([^<]+)(</p>)")
-    if released_re.search(text):
-        text = released_re.sub(lambda m: f"{m.group(1)}{release_date_text}{m.group(3)}", text, count=1)
-        changed = True
-
-    if changed:
-        WHATS_NEW.write_text(text, encoding='utf-8')
-    return changed
+    # The /info/whats-new/ page no longer carries a hero version badge or
+    # 'Released ...' line (removed in v3.6.34). The latest commit is
+    # surfaced via the anchored <div class="changelog-row-anchored"> row at
+    # the top of the changelog list. That row is generated alongside the
+    # commit so this helper is now a deliberate no-op — kept so callers in
+    # main() still have a stable entry-point to swap in a different mechanic
+    # later (e.g. updating a data-latest-version attribute) without churning
+    # the version-bump machinery.
+    del version_text, release_date_text  # explicitly unused
+    return False
 
 def normalize_last_commit_subject(new_version: str) -> bool:
     """

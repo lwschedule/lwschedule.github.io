@@ -425,6 +425,22 @@ body.calendarPage .pageContainer {
   transform: scale(1.05);
 }
 
+
+/* ===== INFO CARDS (used by /info/, /info/about/) ===== */
+.infoCard {
+  background: var(--card-dark);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.infoCard-foot {
+  margin-top: 14px;
+  padding: 14px;
+  font-size: 0.9em;
+  margin-bottom: 0;
+}
+
 .homeModeToggleRow {
   width: 100%;
   max-width: 430px;
@@ -1247,7 +1263,7 @@ body.calendarPage .pageContainer {
   box-shadow:
     0 30px 70px rgba(0, 0, 0, 0.6),
     0 6px 18px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(168, 85, 247, 0.32);
+    0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .update-banner-icon {
@@ -1337,7 +1353,7 @@ body.calendarPage .pageContainer {
 }
 
 .update-banner-btn:focus-visible {
-  outline: 2px solid #a855f7;
+  outline: 2px solid rgba(255, 255, 255, 0.85);
   outline-offset: 2px;
 }
 
@@ -1997,8 +2013,8 @@ body.calendarPage .calendar-grid {
 }
 
 .upcoming-tile:hover {
-  border-color: rgba(168, 85, 247, 0.35);
-  box-shadow: var(--glow), 0 0 12px rgba(168, 85, 247, 0.15);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--glow), 0 0 12px rgba(255, 255, 255, 0.08);
 }
 
 .upcoming-tile-icon-wrap {
@@ -2078,12 +2094,12 @@ body.calendarPage .calendar-grid {
   padding: 10px 12px;
 }
 .changelog-item:hover {
-  border-color: rgba(168, 85, 247, 0.35);
-  background: rgba(168,85,247,0.05);
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
 }
 .changelog-row-anchored {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(168, 85, 247, 0.55);
+  background: rgba(168, 85, 247, 0.08);
 }
 .version-pill {
   display: inline-block;
@@ -2099,8 +2115,9 @@ body.calendarPage .calendar-grid {
   text-align: center;
 }
 .changelog-row-anchored .version-pill {
-  background: #2a2a2a;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  border: none;
 }
 .changelog-item-body { min-width: 0; }
 .commit-meta {
