@@ -20,30 +20,50 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) return response;
+  const req = event.request;
+  const isDataRequest = req.method === 'GET' && req.url.includes('/data/');
 
-      return fetch(event.request).then((networkResponse) => {
-        // Runtime cache for GET requests: scripts, styles, images, and data
-        try {
-          const req = event.request;
-          if (req.method === 'GET' && (req.destination === 'script' || req.destination === 'style' || req.destination === 'image' || req.url.includes('/data/'))) {
-            caches.open(CACHE_NAME).then((cache) => {
-              try { cache.put(req, networkResponse.clone()); } catch (e) {}
-            });
-          }
-        } catch (e) {}
+  if (isDataRequest) {
+    // Network-first for data files: always try fresh, fall back to cache offline
+    event.respondWith(
+      fetch(req).then((networkResponse) => {
+        // Update the cache with the fresh response
+        const clone = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          try { cache.put(req, clone); } catch (e) {}
+        });
         return networkResponse;
       }).catch(() => {
-        // Fallback to index.html for navigation requests when offline
-        if (event.request.mode === 'navigate' || (event.request.headers && event.request.headers.get && event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
-          return caches.match('/index.html');
-        }
-        return undefined;
-      });
-    })
-  );
+        // Offline: serve from cache
+        return caches.match(req);
+      })
+    );
+  } else {
+    // Cache-first for everything else (app shell, scripts, styles, images)
+    event.respondWith(
+      caches.match(req).then((cachedResponse) => {
+        if (cachedResponse) return cachedResponse;
+
+        return fetch(req).then((networkResponse) => {
+          // Runtime cache for GET requests: scripts, styles, images
+          try {
+            if (req.method === 'GET' && (req.destination === 'script' || req.destination === 'style' || req.destination === 'image')) {
+              caches.open(CACHE_NAME).then((cache) => {
+                try { cache.put(req, networkResponse.clone()); } catch (e) {}
+              });
+            }
+          } catch (e) {}
+          return networkResponse;
+        }).catch(() => {
+          // Fallback to index.html for navigation requests when offline
+          if (req.mode === 'navigate' || (req.headers && req.headers.get && req.headers.get('accept') && req.headers.get('accept').includes('text/html'))) {
+            return caches.match('/index.html');
+          }
+          return undefined;
+        });
+      })
+    );
+  }
 });
 
 self.addEventListener('activate', (event) => {
