@@ -1,5 +1,15 @@
 # LW Schedule — Agent Guide
 
+## Communication Style
+
+The user has a tech background but **no coding experience**. When responding or explaining:
+- Use natural, plain language. Avoid code-centric jargon when a plain-English equivalent exists.
+- Don't over-simplify or be condescending — speak to a tech-literate adult.
+- When showing code, briefly explain *what it does in plain words*, not just transcribe the lines.
+- Define jargon the first time it appears (don't assume the user knows terms like "service worker", "byte-compare", "lifecycle", `localStorage`, "scope", "controller", "cache name", etc.).
+- Keep step-by-step explanations short; trust the user to follow general concepts.
+- When in doubt, mirror the user's own words back to them rather than inventing new technical terms.
+
 ## What This Is
 
 Static PWA for a high school schedule viewer. No build step, no bundler, no `package.json`. Raw HTML/CSS/JS served directly via GitHub Pages.
