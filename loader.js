@@ -53,12 +53,26 @@
     };
   }
 
+  // ---- SPLASH TEXT ---------------------------------------------------
+  const SPLASH_TEXTS = [
+    'Building the page',
+    'Grabbing files',
+    'Downloading data',
+    'Optimizing schedule',
+  ];
+
   // ---- BUILD DOM ----------------------------------------------------
   function buildOverlay() {
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
     overlay = document.createElement('div');
     overlay.id = 'globalLoader';
+
+    // Splash text
+    const splash = document.createElement('p');
+    splash.id = 'globalLoaderSplash';
+    splash.textContent = SPLASH_TEXTS[Math.floor(Math.random() * SPLASH_TEXTS.length)];
+    overlay.appendChild(splash);
 
     const svg = document.createElementNS(SVG_NS, 'svg');
     svg.setAttribute('viewBox', '0 0 100 100');
