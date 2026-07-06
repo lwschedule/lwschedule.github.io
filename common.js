@@ -1842,7 +1842,8 @@ function injectGlobalSidebar() {
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
     { href: '#', icon: '/icons/src/map.svg', text: 'Map (Coming Soon)', disabled: true },
-    { href: '/info', icon: '/icons/src/info.svg', text: 'Info' }
+    { href: '/about', icon: '/icons/src/info.svg', text: 'About' },
+    { href: '/whats-new', icon: 'sparkles', text: 'What\u2019s New' }
   ];
 
   let currentPath = window.location.pathname;

@@ -34,6 +34,8 @@ Multi-page app — each feature is a separate `index.html` in its own directory.
 - `/info/` — about page (version badge updated by pre-commit hook)
 - `/setup/` — first-run wizard
 - `/app/` — install prompt
+- `/about/` — short about-page (credits, app description)
+- `/whats-new/` — full version history + latest version badge + Coming Soon link
 
 ## Data Files
 
@@ -67,7 +69,7 @@ The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
 1. `README.md` — version badge + release date
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
-3. `info/index.html` — version badge + release date
+3. `whats-new/index.html` — version badge + release date
 
 **Enable locally:** `git config core.hooksPath .githooks`
 

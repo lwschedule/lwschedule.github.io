@@ -4,54 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About - LW Schedule</title>
-  <link rel="icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/icons/icon-512.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta http-equiv="refresh" content="0; url=/about">
+  <link rel="canonical" href="/about">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
   <style>
-    .infoContent { text-align: center; padding: 20px; }
-    .infoSection { background: var(--card-dark); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
-    .infoContent h3 { color: white; margin-top: 0; margin-bottom: 10px; }
-    .infoContent p { margin: 10px 0; line-height: 1.6; }
-    .infoContent a { color: white; text-decoration: none; font-weight: 700; }
-    .infoContent a:hover { text-decoration: underline; }
-    .versionBadge { display: inline-block; background: var(--primary) !important;   color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 20px 0; box-shadow: var(--glow); }
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; color: var(--text-light); text-align: center; }
+    a { color: white; font-weight: 700; }
   </style>
 </head>
 <body>
-  
-  <div class="pageContainer">
-    <h2>About</h2>
-    <div class="infoContent">
-      <div class="infoSection">
-        <div class="versionBadge">Version 3.6.28</div>
-        <p>Released July 6, 2026</p>
-      </div>
-      <a href="https://github.com/lwschedule/lwschedule.github.io/issues" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary) !important;   border-radius: 12px; padding: 15px; margin-bottom: 20px; color: white; text-decoration: none; font-size: 1.2em; font-weight: 700; box-shadow: var(--glow); text-align: center; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
-        <span>Coming Soon</span>
-        <img class="sf-symbol-icon" src="https://raw.githubusercontent.com/andrewtavis/sf-symbols-online/master/glyphs_white/arrow.up.right.png" alt="" aria-hidden="true">
-      </a>
-      <div class="infoSection">
-        <h3>Created By</h3>
-        <p>Sanchit P.</p>
-      </div>
-      <div class="infoSection">
-        <h3>Inspired By:</h3>
-        <p>Schedule Manager by Rudra Pandit</p>
-      </div>
-    </div>
-  </div>
-  <script src="/common-core.js"></script>
+  <p>Redirecting to <a href="/about">About</a>&hellip;</p>
   <script>
-    (async () => {
-      if (typeof window.loadCommon === 'function') {
-        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
-      }
-      checkSetupComplete();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
-    })();
+    window.location.replace('/about');
   </script>
 </body>
 </html>

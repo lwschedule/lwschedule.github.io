@@ -8,7 +8,9 @@ from datetime import datetime
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / 'README.md'
 SW = ROOT / 'sw.js'
-INFO = ROOT / 'info' / 'index.html'
+# The version + release-date badge lives on /whats-new/. The /info/ path is
+# now a tiny redirect stub to /about/ and no longer carries the badge.
+WHATS_NEW = ROOT / 'whats-new' / 'index.html'
 
 def format_date(dt: datetime) -> str:
     # Format like: May 11, 2026
@@ -63,11 +65,11 @@ def update_sw_cache_name():
         return True
     return False
 
-def update_info_page(version_text: str, release_date_text: str):
-    if not INFO.exists():
+def update_whats_new_page(version_text: str, release_date_text: str):
+    if not WHATS_NEW.exists():
         return False
 
-    text = INFO.read_text(encoding='utf-8')
+    text = WHATS_NEW.read_text(encoding='utf-8')
     changed = False
 
     version_re = re.compile(r"(<div class=\"versionBadge\">Version\s+)([^<]+)(</div>)")
@@ -81,7 +83,7 @@ def update_info_page(version_text: str, release_date_text: str):
         changed = True
 
     if changed:
-        INFO.write_text(text, encoding='utf-8')
+        WHATS_NEW.write_text(text, encoding='utf-8')
     return changed
 
 def normalize_last_commit_subject(new_version: str) -> bool:
@@ -134,14 +136,14 @@ def main():
     date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
     final_version = version_match.group(1) if version_match else 'v0.0.0'
     final_release_date = date_match.group(1) if date_match else format_date(datetime.now())
-    changed_info = update_info_page(final_version, final_release_date)
+    changed_info = update_whats_new_page(final_version, final_release_date)
     files_changed = []
     if changed_readme:
         files_changed.append(str(README.relative_to(ROOT)))
     if changed_sw:
         files_changed.append(str(SW.relative_to(ROOT)))
     if changed_info:
-        files_changed.append(str(INFO.relative_to(ROOT)))
+        files_changed.append(str(WHATS_NEW.relative_to(ROOT)))
 
     if files_changed:
         # Stage files so a pre-commit hook can include them in the commit

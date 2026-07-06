@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - LW Schedule</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/common.css">
+  <script src="/loader.js"></script>
+  <style>
+    .aboutContent { text-align: center; padding: 20px; }
+    .aboutSection { background: var(--card-dark); border-radius: 12px; padding: 18px; margin-bottom: 20px; text-align: left; }
+    .aboutContent h3 { color: white; margin-top: 0; margin-bottom: 10px; text-align: center; }
+    .aboutContent p { margin: 10px 0; line-height: 1.6; }
+    .aboutRelatedLinks { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .aboutRelatedLink { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--primary); color: white; border-radius: 12px; padding: 12px 16px; text-decoration: none; font-weight: 700; box-shadow: var(--glow); transition: transform 0.3s, background 0.3s; }
+    .aboutRelatedLink:hover { transform: scale(1.02); }
+    .aboutRelatedLink .rel-arrow { font-size: 1.2em; opacity: 0.75; }
+    .aboutFoot { margin-top: 12px; padding: 14px; background: var(--card-dark); border-radius: 12px; font-size: 0.85em; opacity: 0.75; }
+  </style>
+</head>
+<body>
+  <div class="pageContainer">
+    <h2>About LW Schedule</h2>
+    <div class="aboutContent">
+      <div class="aboutSection">
+        <p>LW Schedule is a fast, installable class schedule app for students at <b>Lynbrook High School</b>. It shows today, this week, or this month in two taps; quietly notifies you before each period, and reminds you to drop your phone in the caddy or pack up before the bell.</p>
+        <p>Everything runs locally on your device &mdash; no accounts, no tracking, no data ever leaves your phone.</p>
+      </div>
+
+      <div class="aboutRelatedLinks">
+        <a class="aboutRelatedLink" href="/whats-new">
+          <span>What&rsquo;s New</span>
+          <span class="rel-arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <div class="aboutFoot">
+        <p style="margin:6px 0;"><b>Created By</b> &mdash; Sanchit P.</p>
+        <p style="margin:6px 0;"><b>Inspired By</b> &mdash; Schedule Manager by Rudra Pandit</p>
+      </div>
+    </div>
+  </div>
+  <script src="/common-core.js"></script>
+  <script>
+    (async () => {
+      if (typeof window.loadCommon === 'function') {
+        try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
+      }
+      checkSetupComplete();
+      if (typeof window.hideLoader === 'function') window.hideLoader();
+    })();
+  </script>
+</body>
+</html>
