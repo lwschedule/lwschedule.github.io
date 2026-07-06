@@ -28,6 +28,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2026, 8, 7),
     dateEnd: new Date(2026, 8, 11),
     label: 'Labor Day'
+  },
+  {
+    scheduleKey: 'homecoming',
+    dateStart: new Date(2026, 8, 28),
+    dateEnd: new Date(2026, 9, 2),
+    label: 'Homecoming Week'
   }
 ];
 
