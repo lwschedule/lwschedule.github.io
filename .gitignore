@@ -1,0 +1,14 @@
+# Python bytecode caches (auto-generated when running the version-bump script)
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local-only dev files
+*.tmp
+*.local
