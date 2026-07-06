@@ -34,8 +34,9 @@ Multi-page app — each feature is a separate `index.html` in its own directory.
 - `/info/` — about page (version badge updated by pre-commit hook)
 - `/setup/` — first-run wizard
 - `/app/` — install prompt
-- `/about/` — short about-page (credits, app description)
-- `/whats-new/` — full version history + latest version badge + Coming Soon link
+- `/info/` — hub page that links to the two subpages below
+- `/info/about/` — credits (Created By / Inspired By)
+- `/info/whats-new/` — version badge + Coming Soon link + full version history changelog
 
 ## Data Files
 

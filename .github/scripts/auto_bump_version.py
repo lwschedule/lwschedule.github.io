@@ -8,9 +8,10 @@ from datetime import datetime
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / 'README.md'
 SW = ROOT / 'sw.js'
-# The version + release-date badge lives on /whats-new/. The /info/ path is
-# now a tiny redirect stub to /about/ and no longer carries the badge.
-WHATS_NEW = ROOT / 'whats-new' / 'index.html'
+# The version + release-date badge lives on the /info/whats-new/ subpage.
+# The /info/ path is a hub that links to /info/about/ (credits) and
+# /info/whats-new/ (changelog).
+WHATS_NEW = ROOT / 'info' / 'whats-new' / 'index.html'
 
 def format_date(dt: datetime) -> str:
     # Format like: May 11, 2026
