@@ -73,6 +73,8 @@ The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
 If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
 
+**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.6.23: Require version-prefixed commit messages`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
+
 After every commit, always push to remote (`git push`).
 
 ## User Preferences
