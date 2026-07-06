@@ -51,7 +51,9 @@ Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spri
 
 ## Versioning
 
-Every commit must bump the patch version (x.y.**z**). The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
+**CRITICAL: Every commit MUST bump the patch version (x.y.**z**). Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
+
+The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
 1. `README.md` — version badge + release date
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)

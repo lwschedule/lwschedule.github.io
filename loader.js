@@ -14,7 +14,7 @@
     petalCount: 7,
     curveScale: 3.9,
     fadeOutMs: 300,
-    displayDurationMs: 2500,
+    displayDurationMs: 1500,
   };
 
   const PARTICLE_RADIUS_BASE = 0.9;
@@ -122,7 +122,9 @@
       const progress = (time % CONFIG.durationMs) / CONFIG.durationMs;
       const detailScale = getDetailScale(time);
 
-      group.setAttribute('transform', 'rotate(' + getRotation(time) + ' 50 50)');
+      var rotation = 'rotate(' + getRotation(time) + ' 50 50)';
+      group.setAttribute('transform', rotation);
+      path.setAttribute('transform', rotation);
       path.setAttribute('d', buildPath(detailScale));
 
       for (let i = 0; i < CONFIG.particleCount; i++) {
