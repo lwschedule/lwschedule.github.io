@@ -1,5 +1,11 @@
 [
   {
+    "name": "Summer Break",
+    "date": "2026-06-17",
+    "displayDate": "June 17 – August 30, 2026",
+    "isWeekend": false
+  },
+  {
     "name": "Labor Day",
     "date": "2026-09-07",
     "displayDate": "September 7, 2026",

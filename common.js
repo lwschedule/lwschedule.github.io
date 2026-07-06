@@ -556,9 +556,12 @@ function getHolidayForDate(date) {
     }
 
     if (holiday.name === "Summer Break") {
-      const start = new Date(2027, 5, 17).getTime();
-      const end = new Date(2027, 8, 1).getTime();
-      if (checkTime >= start && checkTime <= end) return holiday.name;
+      const start2026 = new Date(2026, 5, 17).getTime();
+      const end2026 = new Date(2026, 7, 30).getTime();
+      if (checkTime >= start2026 && checkTime <= end2026) return holiday.name;
+      const start2027 = new Date(2027, 5, 17).getTime();
+      const end2027 = new Date(2027, 8, 1).getTime();
+      if (checkTime >= start2027 && checkTime <= end2027) return holiday.name;
     }
   }
   return null;
