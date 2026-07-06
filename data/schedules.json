@@ -175,7 +175,7 @@
         ]
       }
     },
-    "labor-day-week": {
+    "labor-day": {
       "Tuesday": {
         "A": [
           {"name": "Period 1", "start": 515, "end": 570},

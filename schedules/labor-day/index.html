@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Labor Day Week Schedule - LW Schedule</title>
+  <title>Labor Day - LW Schedule</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -15,9 +15,9 @@
   <a href="/schedules" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
   
   <div class="pageContainer">
-    <h2>Labor Day Week Schedule</h2>
+    <h2>Labor Day</h2>
     <p style="text-align: center; opacity: 0.8;">Sept 7 – 11, 2026</p>
-    <div id="laborDayWeekContent"></div>
+    <div id="laborDayContent"></div>
   </div>
   <script src="/common-core.js"></script>
   <script>
@@ -26,8 +26,8 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       await initApp();
-      const content = document.getElementById('laborDayWeekContent');
-      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['labor-day-week']) ? schedulesData.normal['labor-day-week'] : {};
+      const content = document.getElementById('laborDayContent');
+      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['labor-day']) ? schedulesData.normal['labor-day'] : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {

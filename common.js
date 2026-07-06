@@ -7,6 +7,15 @@ let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
+const PACIFIC_TZ = 'America/Los_Angeles';
+
+function getPacificNow() {
+  const s = new Date().toLocaleString('en-US', { timeZone: PACIFIC_TZ });
+  return new Date(s);
+}
+
+
+
 const SCHEDULE_METADATA = [
   {
     scheduleKey: 'first-week',
@@ -15,10 +24,10 @@ const SCHEDULE_METADATA = [
     label: 'First Week Schedule'
   },
   {
-    scheduleKey: 'labor-day-week',
+    scheduleKey: 'labor-day',
     dateStart: new Date(2026, 8, 7),
     dateEnd: new Date(2026, 8, 11),
-    label: 'Labor Day Week Schedule'
+    label: 'Labor Day'
   }
 ];
 
@@ -506,16 +515,18 @@ function hideCalendarModal() {
   if (modal) modal.classList.add('hidden');
 }
 
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 function getDayNameFromDate(date) {
-  return date.toLocaleDateString('en-US', { weekday: 'long' });
+  return DAY_NAMES[date.getDay()];
 }
 
 function currentDayName() {
-  return getDayNameFromDate(new Date());
+  return getDayNameFromDate(getPacificNow());
 }
 
 function getNowParts() {
-  const nowDate = new Date();
+  const nowDate = getPacificNow();
   return {
     nowDate,
     weekday: getDayNameFromDate(nowDate),
@@ -544,7 +555,7 @@ function getHolidayForDate(date) {
   if (!holidays) return null;
   const checkTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
   for (const holiday of holidays) {
-    const holidayTime = new Date(holiday.date).getTime();
+    const holidayTime = holiday.date.getTime();
     if (checkTime === holidayTime) return holiday.name;
     if (holiday.name === "Thanksgiving Break") {
       const start = new Date(2026, 10, 26).getTime();
@@ -680,7 +691,7 @@ function displayMessage(container, message) {
 }
 
 function getNextSchoolDayStartTime() {
-  let nextDay = new Date();
+  let nextDay = getPacificNow();
   nextDay.setDate(nextDay.getDate() + 1);
   nextDay.setHours(0, 0, 0, 0);
   for (let i = 0; i < 365; i++) {
@@ -964,12 +975,12 @@ function updateClock() {
 }
 
 function minutesNow() {
-  const d = new Date();
+  const d = getPacificNow();
   return d.getHours()*60 + d.getMinutes();
 }
 
 function getClubMinutesNow() {
-  const d = new Date();
+  const d = getPacificNow();
   return d.getHours() * 60 + d.getMinutes();
 }
 
@@ -1038,7 +1049,7 @@ function updateWeekSchedule() {
   const scheduleEl = document.getElementById('weekContent');
   if (!scheduleEl) return;
   let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th></tr></thead><tbody>`;
-  const now = new Date();
+  const now = getPacificNow();
   let currentDayOfWeek = now.getDay();
   const monday = new Date(now);
   let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
@@ -1093,7 +1104,7 @@ function updateWeekSchedule() {
 function updateTodaySchedule() {
   const scheduleEl = document.getElementById('todayContent');
   if (!scheduleEl) return;
-  const now = new Date();
+  const now = getPacificNow();
   const holiday = getHolidayForDate(now);
   if (holiday) {
     scheduleEl.innerHTML = `<div class="noSchoolMessage"><h3>${holiday}</h3><p>Enjoy the holiday!</p></div>`;
@@ -1119,7 +1130,7 @@ function updateTodaySchedule() {
 function updateHolidayTable() {
   const tbody = document.getElementById('holidayTableBody');
   if (!tbody) return;
-  const today = new Date();
+  const today = getPacificNow();
   today.setHours(0, 0, 0, 0);
 
   const hasUpcomingHolidays = Array.isArray(holidays) && holidays.some((holiday) => {
@@ -1133,7 +1144,7 @@ function updateHolidayTable() {
   }
   let html = '';
   holidays.forEach((holiday, index) => {
-    const now = new Date();
+    const now = getPacificNow();
     const isUpcoming = holiday.date > now;
     const isNext = isUpcoming && holidays.filter(h => h.date > now).indexOf(holiday) === 0;
     html += `<tr class="${isNext ? 'highlight' : ''}"><td><b>${holiday.name}</b></td><td>${holiday.displayDate}</td></tr>`;
@@ -1167,7 +1178,7 @@ function updateHolidayCountdown() {
     if (secondsEl) secondsEl.textContent = seconds.toString().padStart(2,'0');
   };
 
-  const now = new Date();
+  const now = getPacificNow();
   const currentHoliday = getHolidayForDate(now);
   if (currentHoliday) {
 
@@ -1255,7 +1266,7 @@ function renderCalendar() {
     const cell = createDayCell(day, true, currentMonth - 1, currentYear);
     grid.appendChild(cell);
   }
-  const today = new Date();
+  const today = getPacificNow();
   for (let day = 1; day <= daysInMonth; day++) {
     const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
     const cell = createDayCell(day, false, currentMonth, currentYear, isToday);
@@ -1367,8 +1378,8 @@ function changeMonth(delta) {
   renderCalendar();
 }
 
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
+let currentMonth = getPacificNow().getMonth();
+let currentYear = getPacificNow().getFullYear();
 
 if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 7)) {
   currentMonth = 7;
@@ -1398,10 +1409,10 @@ async function loadData() {
     holidays = await holidaysRes.json();
     academicTerms = await termsRes.json();
 
-    holidays = holidays.map(h => ({
-      ...h,
-      date: new Date(h.date)
-    }));
+    holidays = holidays.map(h => {
+      const [y, m, d] = h.date.split('-').map(Number);
+      return { ...h, date: new Date(y, m - 1, d) };
+    });
 
     academicTerms.quarters = academicTerms.quarters.map(q => {
       const [startYear, startMonth, startDay] = q.start.split('-').map(Number);
@@ -1596,7 +1607,7 @@ function renderClubCountdown(club, activeClub) {
   const clubTimeRange = getClubTimeRange(activeClub);
   if (!clubTimeRange) return '';
 
-  const now = new Date();
+  const now = getPacificNow();
   const clubEndTime = new Date(now);
   clubEndTime.setHours(Math.floor(clubTimeRange.endMinutes / 60), clubTimeRange.endMinutes % 60, 0, 0);
 
@@ -1654,7 +1665,7 @@ function startPackUpMonitoring() {
 }
 
 function checkPhoneCaddyTime() {
-  const now = new Date();
+  const now = getPacificNow();
   if (localStorage.getItem('notifications-enabled') !== 'true') return;
   const caddyEnabled = localStorage.getItem('phone-caddy-enabled') === 'true';
   if (!caddyEnabled) return;
@@ -1714,7 +1725,7 @@ function checkPhoneCaddyTime() {
 }
 
 function checkPackUpTime() {
-  const now = new Date();
+  const now = getPacificNow();
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
 
 
@@ -1760,7 +1771,7 @@ function showPackUpNotification(period) {
   if (Notification.permission !== 'granted') return;
 
   const packUpTimeMinutes = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
-  const todayName = getDayNameFromDate(new Date());
+  const todayName = getDayNameFromDate(getPacificNow());
 
   sendNotification('Pack Up Time!', {
     body: `Time to pack up for ${period.name} in ${packUpTimeMinutes} minutes (${todayName})`,
@@ -1780,7 +1791,7 @@ async function initApp() {
 
   await loadData();
 
-  const now = new Date();
+  const now = getPacificNow();
   const sem2Start = new Date(2026, 0, 24);
   if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
 
@@ -2356,8 +2367,29 @@ function createClubSlotManager(config) {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then((registration) => {
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner();
+          }
+        });
+      });
+    }).catch((err) => {
       console.warn('Service Worker registration failed:', err);
     });
   });
+}
+
+function showUpdateBanner() {
+  let banner = document.getElementById('updateBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'updateBanner';
+    banner.innerHTML = '<span>Update available</span><button onclick="location.reload()">Reload</button><button class="update-dismiss" onclick="this.parentElement.classList.remove(\'show\')">✕</button>';
+    document.body.appendChild(banner);
+  }
+  banner.classList.add('show');
 }

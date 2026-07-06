@@ -30,9 +30,9 @@
       updateClock();
       setInterval(updateClock, 1000);
 
-      let currentDay = new Date().getDate();
+      let currentDay = getPacificNow().getDate();
       setInterval(() => {
-        const now = new Date();
+        const now = getPacificNow();
         if (now.getDate() !== currentDay) {
           currentDay = now.getDate();
           updateTodaySchedule();

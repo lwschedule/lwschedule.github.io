@@ -209,7 +209,7 @@ function setTermCountdown(cardEl, countdownData) {
     }
 
       function updateQuartersAndSemesters() {
-      const now = new Date();
+      const now = getPacificNow();
       const quartersListEl = document.getElementById('quartersList');
       const semestersListEl = document.getElementById('semestersList');
       if (!quartersListEl || !semestersListEl) {

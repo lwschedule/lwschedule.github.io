@@ -43,7 +43,7 @@
         dayDate = new Date(dateParam);
       } else {
         
-        const now = new Date();
+        const now = getPacificNow();
         const currentDayOfWeek = now.getDay();
         let diff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
         if (currentDayOfWeek === 6 || currentDayOfWeek === 0) {

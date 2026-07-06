@@ -275,7 +275,7 @@
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
 
-      const today = new Date();
+      const today = getPacificNow();
       today.setHours(0, 0, 0, 0);
 
       const upcoming = events

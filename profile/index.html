@@ -923,7 +923,7 @@
         const standardizedTests = Array.isArray(data.standardizedTests) ? data.standardizedTests : [];
         const combined = [...apTests, ...standardizedTests];
 
-        const today = new Date();
+        const today = getPacificNow();
         today.setHours(0, 0, 0, 0);
 
         allUpcomingEvents = combined
