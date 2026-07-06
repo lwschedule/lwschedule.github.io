@@ -1,4 +1,4 @@
-// Updated cache name to reflect the new release date (v3.5.20) – June 27, 2026
+// LW Schedule service worker — network-first for data, cache-first for assets
 const CACHE_NAME = 'lwschedule-2026-07-06';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
