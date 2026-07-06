@@ -16,7 +16,8 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(urlsToCache))
   );
-  self.skipWaiting();
+  // Do NOT call skipWaiting() here — let the page control when to activate
+  // via the SKIP_WAITING message. This allows the update banner to appear.
 });
 
 self.addEventListener('fetch', (event) => {
