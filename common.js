@@ -2403,13 +2403,13 @@ function showUpdateBanner(worker) {
     document.body.appendChild(banner);
 
     document.getElementById('updateBannerReload').addEventListener('click', () => {
-      if (worker) {
-        worker.postMessage({ type: 'SKIP_WAITING' });
-      }
-      // Reload once the new worker takes control
+      // Register listener BEFORE sending message to avoid race condition
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         window.location.reload();
       });
+      if (worker) {
+        worker.postMessage({ type: 'SKIP_WAITING' });
+      }
       // Fallback: reload after 3s in case controllerchange doesn't fire
       setTimeout(() => { window.location.reload(); }, 3000);
     });
