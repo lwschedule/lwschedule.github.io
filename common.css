@@ -2082,8 +2082,8 @@ body.calendarPage .calendar-grid {
   background: rgba(168,85,247,0.05);
 }
 .changelog-row-anchored {
-  border-color: rgba(168, 85, 247, 0.5);
-  background: rgba(168,85,247,0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
 }
 .version-pill {
   display: inline-block;
@@ -2099,16 +2099,10 @@ body.calendarPage .calendar-grid {
   text-align: center;
 }
 .changelog-row-anchored .version-pill {
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  background: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .changelog-item-body { min-width: 0; }
-.commit-subject {
-  color: white;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.35;
-  word-wrap: break-word;
-}
 .commit-meta {
   display: flex;
   gap: 10px;
@@ -2116,6 +2110,14 @@ body.calendarPage .calendar-grid {
   margin-top: 2px;
   font-size: 0.8em;
   opacity: 0.7;
+}
+.commit-title,
+.commit-subject {
+  color: white;
+  font-weight: 600;
+  font-size: 0.95em;
+  line-height: 1.35;
+  word-wrap: break-word;
 }
 
 @media (max-width: 460px) {
