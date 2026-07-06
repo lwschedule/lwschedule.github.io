@@ -7,7 +7,20 @@ let lastNextPeriodText = null;
 
 const MAX_CLASS_SLOTS = 6;
 
-const SCHEDULE_METADATA = [];
+const SCHEDULE_METADATA = [
+  {
+    scheduleKey: 'first-week',
+    dateStart: new Date(2026, 7, 31),
+    dateEnd: new Date(2026, 8, 4),
+    label: 'First Week Schedule'
+  },
+  {
+    scheduleKey: 'labor-day-week',
+    dateStart: new Date(2026, 8, 7),
+    dateEnd: new Date(2026, 8, 11),
+    label: 'Labor Day Week Schedule'
+  }
+];
 
 function normalizeClassSlots(rawSlots) {
   const slots = Array(MAX_CLASS_SLOTS).fill('');
@@ -1210,8 +1223,8 @@ function renderCalendar() {
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
 
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 4);
-  nextBtn.disabled = (currentYear === 2026 && currentMonth === 5);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 7);
+  nextBtn.disabled = (currentYear === 2027 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
   ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(day => {
@@ -1223,13 +1236,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 4);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 7);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
 
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 4)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 7)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1341,13 +1354,13 @@ function changeMonth(delta) {
     currentYear++;
   }
 
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
-    currentMonth = 4;
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 7)) {
+    currentMonth = 7;
     currentYear = 2026;
   }
-  if (currentYear > 2026 || (currentYear === 2026 && currentMonth > 5)) {
+  if (currentYear > 2027 || (currentYear === 2027 && currentMonth > 5)) {
     currentMonth = 5;
-    currentYear = 2026;
+    currentYear = 2027;
   }
   renderCalendar();
 }
@@ -1355,9 +1368,13 @@ function changeMonth(delta) {
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 4)) {
-  currentMonth = 4;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 7)) {
+  currentMonth = 7;
   currentYear = 2026;
+}
+if (currentYear > 2027 || (currentYear === 2027 && currentMonth > 5)) {
+  currentMonth = 5;
+  currentYear = 2027;
 }
 
 function updateCalendarSize() {

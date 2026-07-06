@@ -71,7 +71,76 @@ All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `
 
 ## Special Schedules
 
-`SCHEDULE_METADATA` array in `common.js:11` defines date-range overrides (e.g., "early release week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`. The key maps to a nested object inside `schedulesData.normal`. Currently empty — add entries here for special schedule periods.
+`SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`.
+
+### Adding a New Special Schedule
+
+Follow these steps to add a special schedule (e.g., finals, early release, first week):
+
+#### 1. Add schedule data to `data/schedules.json`
+
+Add a new key under the top-level object (sibling of `normal`) with the schedule name. Structure must match the normal schedule format:
+
+```json
+"my-schedule": {
+  "Monday": {
+    "A": [{"name": "Period 1", "start": 515, "end": 570}, ...],
+    "B": [{"name": "Period 1", "start": 515, "end": 570}, ...]
+  },
+  "Tuesday": { ... },
+  "Wednesday": [{"name": "Period 1", "start": 515, "end": 552}, ...],
+  "Thursday": { ... },
+  "Friday": { ... }
+}
+```
+
+- Times are **minutes since midnight** (e.g., `8:35 AM` = `515`)
+- Mon/Tue/Thu/Fri must have `"A"` and `"B"` lunch variants
+- Wednesday can be a plain array (no lunch variants) or `{"A": [...], "B": [...]}`
+
+#### 2. Register in `SCHEDULE_METADATA` in `common.js`
+
+Add an entry to the `SCHEDULE_METADATA` array:
+
+```js
+{
+  scheduleKey: 'my-schedule',    // must match the JSON key
+  dateStart: new Date(2026, 7, 31),  // inclusive, month is 0-indexed
+  dateEnd: new Date(2026, 8, 4),     // inclusive
+  label: 'My Schedule'           // optional display label
+}
+```
+
+This single entry automatically enables **all** of the following:
+
+- **Daily/Weekly/Monthly views** — `getScheduleKeyForDate()` matches dates against metadata, then `getSchedules()` serves the correct data
+- **Auto lunch application** — `getLunchForScheduleDay()` applies the user's lunch preferences from `localStorage`. Falls back to global prefs unless a `storageKey` is set on the metadata entry
+- **Pack-up & phone caddy notifications** — use `getSchedules()` so they automatically use the special schedule's period times
+- **Calendar highlighting** — `createDayCell()` adds `special-schedule` CSS class when `getScheduleKeyForDate()` returns a non-`'normal'` key
+- **Class title display** — `getDisplayPeriodName()` maps "Period N" names to user's saved class titles
+
+#### 3. Add to All Schedules browser page
+
+1. Add a link in `schedules/index.html`:
+   ```html
+   <div class="settingsRow">
+     <a class="mainBtn" href="/schedules/my-schedule">My Schedule</a>
+   </div>
+   ```
+2. Create `schedules/my-schedule/index.html` — copy the pattern from `schedules/normal/index.html`, changing the data source to `schedulesData.normal['my-schedule']` and updating the title/subtitle.
+
+#### 4. (If multi-day) Update holiday ranges
+
+If the schedule spans dates that overlap with holidays or breaks, you may also need to update `getHolidayForDate()` in `common.js` to add a hardcoded date range check.
+
+#### Checklist
+
+- [ ] Schedule data added to `data/schedules.json` with correct A/B lunch variants
+- [ ] All times converted to minutes-since-midnight
+- [ ] `SCHEDULE_METADATA` entry added in `common.js` with correct date range
+- [ ] Link added to `schedules/index.html`
+- [ ] Schedule page created at `schedules/<key>/index.html`
+- [ ] Lunch auto-application works (global prefs or custom `storageKey`)
 
 ## Testing Locally
 
