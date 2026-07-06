@@ -2395,28 +2395,59 @@ if ('serviceWorker' in navigator) {
 }
 
 function showUpdateBanner(worker) {
+  // Honor a session-level dismissal so we don't keep nagging on every reload
+  try { if (sessionStorage.getItem('lwsUpdateDismissed') === '1') return; } catch (e) {}
+
   let banner = document.getElementById('updateBanner');
   if (!banner) {
     banner = document.createElement('div');
     banner.id = 'updateBanner';
-    banner.innerHTML = '<span>New version available</span><button id="updateBannerReload">Update</button><button class="update-dismiss" id="updateBannerDismiss">✕</button>';
+    banner.setAttribute('role', 'status');
+    banner.innerHTML =
+      '<div class="update-banner-icon" aria-hidden="true">' +
+        '<img src="/icons/src/arrow.up.forward.svg" alt="">' +
+      '</div>' +
+      '<div class="update-banner-body">' +
+        '<div class="update-banner-title">Update available</div>' +
+        '<div class="update-banner-subtitle">A new version is ready — reload to apply.</div>' +
+      '</div>' +
+      '<div class="update-banner-actions">' +
+        '<button id="updateBannerReload" class="update-banner-btn" type="button">Reload</button>' +
+        '<button id="updateBannerDismiss" class="update-banner-dismiss" type="button" aria-label="Dismiss update notification">✕</button>' +
+      '</div>';
     document.body.appendChild(banner);
+
+    // Store the most recent waiting worker so repeated updatefound events converge on it
+    banner.__worker = worker;
 
     document.getElementById('updateBannerReload').addEventListener('click', () => {
       // Register listener BEFORE sending message to avoid race condition
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         window.location.reload();
       });
-      if (worker) {
-        worker.postMessage({ type: 'SKIP_WAITING' });
+      const targetWorker = banner.__worker;
+      if (targetWorker) {
+        targetWorker.postMessage({ type: 'SKIP_WAITING' });
       }
       // Fallback: reload after 3s in case controllerchange doesn't fire
       setTimeout(() => { window.location.reload(); }, 3000);
     });
 
     document.getElementById('updateBannerDismiss').addEventListener('click', () => {
+      // Drop focus and hide from a11y tree so screen readers don't keep announcing it
+      if (document.activeElement && banner.contains(document.activeElement)) {
+        document.activeElement.blur();
+      }
+      banner.setAttribute('aria-hidden', 'true');
       banner.classList.remove('show');
+      try { sessionStorage.setItem('lwsUpdateDismissed', '1'); } catch (e) {}
     });
+  } else {
+    banner.__worker = worker;
   }
+  banner.removeAttribute('aria-hidden');
   banner.classList.add('show');
+  // Move keyboard focus to the primary action for accessibility
+  const reloadBtn = document.getElementById('updateBannerReload');
+  if (reloadBtn) reloadBtn.focus({ preventScroll: true });
 }
