@@ -19,14 +19,6 @@
       margin-bottom: 14px;
     }
 
-    .key-box.events-sba {
-      background: #67c8ff;
-    }
-
-    .key-box.events-ap {
-      background: #1f4f9a;
-    }
-
     .eventsDay {
       border-top: 1px solid #3a3a3a;
       padding-top: 16px;
@@ -86,18 +78,6 @@
 
     .eventCard:last-child {
       margin-bottom: 0;
-    }
-
-    .eventCard-standardized {
-      --event-accent: #67c8ff;
-    }
-
-    .eventCard-ap {
-      --event-accent: #1f4f9a;
-    }
-
-    .eventCard-default {
-      --event-accent: #7c7c7c;
     }
 
     .eventTitle {
@@ -161,11 +141,9 @@
   
   <div class="pageContainer">
     <h2>Upcoming Events</h2>
-    <div class="calendar-key eventsKey">
+    <div class="calendar-key eventsKey" id="eventsKey" style="display:none;">
       <h3>Key/Legend</h3>
-      <ul>
-        <li><span class="key-box events-ap"></span> AP Testing</li>
-      </ul>
+      <ul id="eventsKeyList"></ul>
     </div>
 
     <div id="eventsList" class="eventsList">
@@ -176,6 +154,66 @@
   <script src="/common-core.js"></script>
   <script>
     let allEvents = [];
+
+    // ---- Rainbow color system ----
+    // Base rainbow colors in order, then lighter variations repeat
+    const EVENT_COLORS = [
+      // Base rainbow
+      '#e53e3e', // red
+      '#ed8936', // orange
+      '#ecc94b', // yellow
+      '#48bb78', // green
+      '#4299e1', // blue
+      '#9f7aea', // purple
+      '#e2e8f0', // white
+      // Lighter variations
+      '#fc8181', // lighter red
+      '#f6ad55', // lighter orange
+      '#faf089', // lighter yellow
+      '#9ae6b4', // lighter green
+      '#7f9cf5', // lighter blue
+      '#c4b5fd', // lighter purple
+      '#ffffff', // lighter white
+    ];
+
+    // Map of event type -> css color hex
+    let eventColorMap = {};
+    let nextColorIndex = 0;
+
+    function getEventColor(type) {
+      if (!eventColorMap[type]) {
+        eventColorMap[type] = EVENT_COLORS[nextColorIndex % EVENT_COLORS.length];
+        nextColorIndex++;
+      }
+      return eventColorMap[type];
+    }
+
+    function getEventTypeLabel(type) {
+      if (type === 'standardized-test') return 'Standardized Test';
+      if (type === 'ap-test') return 'AP Testing';
+      if (type === 'sports') return 'Sports';
+      return type.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function renderEventKey(usedTypes) {
+      const keyEl = document.getElementById('eventsKey');
+      const listEl = document.getElementById('eventsKeyList');
+      if (!keyEl || !listEl) return;
+
+      if (!usedTypes.length) {
+        keyEl.style.display = 'none';
+        return;
+      }
+
+      keyEl.style.display = '';
+      let html = '';
+      usedTypes.forEach(type => {
+        const color = getEventColor(type);
+        const label = getEventTypeLabel(type);
+        html += `<li><span class="key-box" style="background:${color};"></span> ${escapeHtml(label)}</li>`;
+      });
+      listEl.innerHTML = html;
+    }
 
     function escapeHtml(text) {
       return String(text)
@@ -193,10 +231,8 @@
       return new Date(parts[0], parts[1] - 1, parts[2]);
     }
 
-    function getEventCardClass(type) {
-      if (type === 'standardized-test') return 'eventCard-standardized';
-      if (type === 'ap-test') return 'eventCard-ap';
-      return 'eventCard-default';
+    function getEventCardStyle(type) {
+      return '--event-accent:' + getEventColor(type) + ';';
     }
 
     function formatEventTitle(title, type) {
@@ -227,6 +263,12 @@
       const listEl = document.getElementById('eventsList');
       if (!listEl) return;
       listEl.innerHTML = '<div class="noEvents"><h3>No followed events coming up.</h3><p>Add events to follow in your <a href="/profile" style="color:white;">Profile</a>.</p></div>';
+    }
+
+    function getUniqueTypes(events) {
+      const types = new Set();
+      events.forEach(e => types.add(e.type));
+      return [...types].sort();
     }
 
     function renderEvents(events) {
@@ -270,9 +312,9 @@
           </div>`;
 
         dayEvents.forEach((e) => {
-          const cardClass = getEventCardClass(e.type);
+          const cardStyle = getEventCardStyle(e.type);
           const time = formatEventTime(e);
-          html += `<article class="eventCard ${cardClass}">
+          html += `<article class="eventCard" style="${cardStyle}">
             <p class="eventTitle">${escapeHtml(formatEventTitle(e.title, e.type))}</p>
             ${time ? `<p class="eventTime">${escapeHtml(time)}</p>` : ''}
           </article>`;
@@ -301,7 +343,19 @@
           : [];
 
         allEvents = [...standardizedTests, ...apTests, ...sportsEvents];
-        renderEvents(allEvents);
+
+        // Filter to only followed events
+        const followedIds = getProfileFollowedEvents();
+        const followedEvents = allEvents.filter(e => followedIds.includes(e.id));
+
+        // Build color map from followed events first, then render
+        eventColorMap = {};
+        nextColorIndex = 0;
+        const uniqueTypes = getUniqueTypes(followedEvents);
+        uniqueTypes.forEach(type => getEventColor(type));
+
+        renderEvents(followedEvents);
+        renderEventKey(uniqueTypes);
       } catch (error) {
         console.error('Events page load error:', error);
         renderNoFollowedEvents();
