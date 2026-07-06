@@ -71,10 +71,10 @@
     path.setAttribute('stroke-linejoin', 'round');
     path.setAttribute('opacity', '0.1');
     path.setAttribute('stroke-width', String(CONFIG.strokeWidth));
-    svg.appendChild(path);
 
     const particles = [];
     const group = document.createElementNS(SVG_NS, 'g');
+    group.appendChild(path);
     for (let i = 0; i < CONFIG.particleCount; i++) {
       const circle = document.createElementNS(SVG_NS, 'circle');
       circle.setAttribute('fill', '#e8e8e8');
@@ -124,7 +124,6 @@
 
       var rotation = 'rotate(' + getRotation(time) + ' 50 50)';
       group.setAttribute('transform', rotation);
-      path.setAttribute('transform', rotation);
       path.setAttribute('d', buildPath(detailScale));
 
       for (let i = 0; i < CONFIG.particleCount; i++) {
