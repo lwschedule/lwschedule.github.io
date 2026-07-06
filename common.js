@@ -2368,12 +2368,17 @@ function createClubSlotManager(config) {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' }).then((registration) => {
+      // If a worker is already waiting when the page loads, show the banner
+      if (registration.waiting) {
+        showUpdateBanner(registration.waiting);
+      }
+
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (!newWorker) return;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            showUpdateBanner();
+            showUpdateBanner(newWorker);
           }
         });
       });
@@ -2383,13 +2388,29 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-function showUpdateBanner() {
+function showUpdateBanner(worker) {
   let banner = document.getElementById('updateBanner');
   if (!banner) {
     banner = document.createElement('div');
     banner.id = 'updateBanner';
-    banner.innerHTML = '<span>Update available</span><button onclick="location.reload()">Reload</button><button class="update-dismiss" onclick="this.parentElement.classList.remove(\'show\')">✕</button>';
+    banner.innerHTML = '<span>New version available</span><button id="updateBannerReload">Update</button><button class="update-dismiss" id="updateBannerDismiss">✕</button>';
     document.body.appendChild(banner);
+
+    document.getElementById('updateBannerReload').addEventListener('click', () => {
+      if (worker) {
+        worker.postMessage({ type: 'SKIP_WAITING' });
+      }
+      // Reload once the new worker takes control
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
+      // Fallback: reload after 3s in case controllerchange doesn't fire
+      setTimeout(() => { window.location.reload(); }, 3000);
+    });
+
+    document.getElementById('updateBannerDismiss').addEventListener('click', () => {
+      banner.classList.remove('show');
+    });
   }
   banner.classList.add('show');
 }
