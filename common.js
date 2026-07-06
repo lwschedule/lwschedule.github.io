@@ -2372,7 +2372,7 @@ function createClubSlotManager(config) {
 }
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
+  const registerServiceWorker = () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' }).then((registration) => {
       // If a worker is already waiting when the page loads, show the banner
       if (registration.waiting) {
@@ -2391,7 +2391,16 @@ if ('serviceWorker' in navigator) {
     }).catch((err) => {
       console.warn('Service Worker registration failed:', err);
     });
-  });
+  };
+
+  // Register immediately if the page has already finished loading
+  // (common.js may load past `window.load` on cached resources).
+  // Otherwise wait for `window.load` so registration doesn't compete with first-paint.
+  if (document.readyState === 'complete') {
+    registerServiceWorker();
+  } else {
+    window.addEventListener('load', registerServiceWorker);
+  }
 }
 
 function showUpdateBanner(worker) {
