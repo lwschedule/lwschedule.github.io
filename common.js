@@ -231,6 +231,8 @@ function getScheduleSummaryLabel(periodName, useClassTitles = true) {
   if (lowerName.includes('lunch')) return 'L';
   if (lowerName.includes('homeroom')) return 'HR';
   if (lowerName.includes('roo')) return 'Roo';
+  if (lowerName.includes('kang news')) return 'KNews';
+  if (lowerName === 'leap') return 'LEAP';
   return periodName;
 }
 
