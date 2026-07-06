@@ -99,3 +99,5 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
+
+// v3.6.27 release marker

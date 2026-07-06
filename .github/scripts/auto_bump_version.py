@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import re
+import subprocess
 import sys
 from pathlib import Path
 from datetime import datetime
@@ -83,6 +84,47 @@ def update_info_page(version_text: str, release_date_text: str):
         INFO.write_text(text, encoding='utf-8')
     return changed
 
+def normalize_last_commit_subject(new_version: str) -> bool:
+    """
+    If the most recent commit's subject doesn't already start with `vX.Y.Z:`,
+    prepend the prefix and rewrite via `git commit --amend`. Preserves the
+    existing commit body and lets `git add` fold any staged files into the
+    same commit. Returns True when an amend actually happened.
+    """
+    try:
+        result = subprocess.run(
+            ['git', 'log', '-1', '--format=%B'],
+            capture_output=True, text=True, check=True, cwd=str(ROOT)
+        )
+    except subprocess.CalledProcessError:
+        return False  # empty repo — nothing to amend yet
+
+    full_message = result.stdout
+    subject, _, rest = full_message.partition('\n')
+    # Strip surrounding newlines/whitespace but keep inner body content intact
+    body = rest.strip('\r\n')
+
+    prefix_pat = re.compile(r'^v\d+\.\d+\.\d+:\s*')
+    if prefix_pat.match(subject):
+        return False  # already prefixed — leave history alone
+
+    new_subject = f"{new_version}: {subject}"
+    new_message = new_subject if not body else f"{new_subject}\n\n{body}"
+
+    tmp_path = ROOT / '.git' / 'lws_amend_msg.txt'
+    try:
+        tmp_path.write_text(new_message, encoding='utf-8')
+        subprocess.run(
+            ['git', 'commit', '--amend', '-F', str(tmp_path)],
+            check=True, cwd=str(ROOT)
+        )
+        print(f"Rewrote last commit subject to: {new_subject}")
+        return True
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink()
+
+
 def main():
     changed_readme = bump_readme_version_and_date()
     changed_sw = update_sw_cache_name()
@@ -104,12 +146,18 @@ def main():
     if files_changed:
         # Stage files so a pre-commit hook can include them in the commit
         try:
-            import subprocess
             subprocess.run(['git', 'add'] + files_changed, check=True)
             print('Updated and staged:', ', '.join(files_changed))
         except Exception as e:
             print('Failed to git add files:', e, file=sys.stderr)
             sys.exit(2)
+
+        # Now that the version-bump files are staged, fold them into the most
+        # recent commit and rewrite its subject to begin with the new version
+        # prefix — so future commits can't accidentally skip the `vX.Y.Z:`
+        # convention. We only amend when something actually changed, leaving
+        # history alone when the script is a no-op.
+        normalize_last_commit_subject(final_version)
     else:
         print('No version or cache changes necessary.')
 
