@@ -64,21 +64,19 @@ Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spri
 
 ## Versioning
 
-**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
+**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**### Version format: `x.y.z.a`
 
-### Version format: `x.y.z.a`
-
-- **x** — major (rarely bumped; big milestones)
-- **y** — minor (user-visible feature sets, UI redesigns)
-- **z** — patch (individual changes within a minor release)
-- **a** — micro (internal-only changes, docs, tooling, bug fixes between patches)
+- **x** — major (rarely bumped; big milestones). **ONLY the user can decide to bump x.**
+- **y** — minor (user-visible feature sets, UI redesigns). **ONLY the user can decide to bump y.**
+- **z** — patch (individual user-visible changes within a minor release: features, notable fixes, UI changes)
+- **a** — micro (internal-only changes, docs, tooling, minor tweaks, bug fixes between patches)
 
 The agent decides whether to bump `z` or `a` on each commit:
-- Bump **a** for small/internal changes (docs, tooling, minor tweaks).
-- Bump **z** (and reset `a` to 0, or drop the `.a` suffix entirely) for user-visible features, UI changes, or notable fixes.
-- The first commit of a new minor version can drop `.z.a` and just use `x.y` (e.g. `v3.7`).
+- Bump **z** for user-visible features, UI changes, or notable fixes. Reset `a` when `z` bumps (drop the `.a` suffix).
+- Bump **a** for internal changes, docs, tooling, minor tweaks, follow-up fixes to a just-committed feature.
+- **Never bump x or y** — only the user can authorize that.
 
-The pre-commit hook (`auto_bump_version.py`) always increments the **last** component of whatever version is in README.md — so `x.y.z` → `x.y.(z+1)` and `x.y.z.a` → `x.y.z.(a+1)`. To bump `z` instead of `a`, temporarily drop the `.a` suffix from README.md before committing (the hook will then increment `z`).
+The pre-commit hook (`auto_bump_version.py`) always increments the **last** component of whatever version is in README.md — so `x.y.z` → `x.y.(z+1)` and `x.y.z.a` → `x.y.z.(a+1)`. To bump `z` instead of `a`, temporarily drop the `.a` suffix from README.md before committing (the hook will then increment `z`). To bump `y`, the user must tell the agent to change the minor version in README.md and drop any `.z.a` suffix.
 
 The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
