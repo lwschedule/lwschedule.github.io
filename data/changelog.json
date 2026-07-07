@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.14",
+    "title": "Backfill missing v3.7.x changelog entries",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.13",
     "title": "Fix stale changelog title for the version renumbering update",
     "date": "July 7, 2026"
@@ -21,7 +26,42 @@
   },
   {
     "version": "v3.7.2",
-    "title": "Fix recursive guard and changelog entry title",
+    "title": "Matched Info page to All Schedules layout",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.3",
+    "title": "Cleaned up Info and About pages",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.4",
+    "title": "Polished Info and About pages",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.5",
+    "title": "Fixed version ordering in What's New page",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.6",
+    "title": "Shortened page titles",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.7",
+    "title": "Moved version history to a data file",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.8",
+    "title": "Fixed hook to not get stuck in a loop",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.9",
+    "title": "Added changelog writing guidelines to AGENTS.md",
     "date": "July 7, 2026"
   },
   {
