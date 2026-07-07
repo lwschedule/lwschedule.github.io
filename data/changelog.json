@@ -1,0 +1,3824 @@
+[
+  {
+    "version": "v3.6.32",
+    "title": "Fix broken unicode escapes in What's New page title and changelog",
+    "date": "Jul 7, 2026",
+    "anchored": true
+  },
+  {
+    "version": "v3.6.31",
+    "title": "Add Summer Break 2026 range so app recognizes summer break correctly",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.30",
+    "title": "Faster loading screen",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.29",
+    "title": "Add dynamic rainbow-colored key/legend, filter events by subscriptions, remove hardcoded event card colors",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.28",
+    "title": "Fixed loader animation alignment",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.27",
+    "title": "Make loader smaller, add random splash text, fix backdrop/particles alignment",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.26",
+    "title": "Reduce loader SVG size and increase splash text size",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.25",
+    "title": "Added First Week and Labor Day schedules, extended month view",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.24",
+    "title": "Fixed special schedule data loading",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.23",
+    "title": "Add KANG NEWS and LEAP label support to getScheduleSummaryLabel",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.22",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.21",
+    "title": "Improved update banner reliability",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.20",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.19",
+    "title": "Add Homecoming Week schedule (Sept 28 – Oct 2, 2026)",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.18",
+    "title": "Faster schedule data updates",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.17",
+    "title": "Trigger update banner deployment",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.16",
+    "title": "Improved update detection",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.15",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.14",
+    "title": "Redesign update-available notification as floating top-center card",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.13",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.12",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.11",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.10",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.9",
+    "title": "Split info into About and What\\u2019s New",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.8",
+    "title": "Internal Changes",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.7",
+    "title": "Nest About and What\\u2019s New under info as subpages",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.6",
+    "title": "Revamp Version History: per-commit titles, era boundaries, mono design",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.5",
+    "title": "Switch past-commit versions to x.y.z.a, latest row purple, /info pages share design language, hover effects turn white instead of purple",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.4",
+    "title": "Make .followingLabel (\"Following (N)\") text on profile white instead of purple",
+    "date": "Jul 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.3",
+    "title": "Add skeleton loaders with rose trail animation across all pages",
+    "date": "Jul 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.2",
+    "title": "Remove skeleton loaders; set rose trail animation to auto-hide after 1000ms on every page",
+    "date": "Jul 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.6.1",
+    "title": "Rose trail: 2500ms minimum display, waits for content if not loaded; fix loader on all pages",
+    "date": "Jul 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.48",
+    "title": "Restore sendNotification function body (was split by prior edit)",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.47",
+    "title": "Internal Changes",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.46",
+    "title": "Fixed lunch preferences loading in profile",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.45",
+    "title": "Fixed profile page loading",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.44",
+    "title": "Hide phone caddy and packup UI when disabled in profile",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.43",
+    "title": "Match packup toggle to other profile toggles",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.42",
+    "title": "Remove event filters, show permanent no-followed-events message",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.41",
+    "title": "Keep prompt to add events even when some are followed",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.40",
+    "title": "Updated ticker messages",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.39",
+    "title": "Stop ticker before sidebar on large screens",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.38",
+    "title": "Add fade mask to sidebar edges",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.37",
+    "title": "Reverted add fade mask to sidebar edges",
+    "date": "Jun 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.36",
+    "title": "Internal Changes",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.35",
+    "title": "Convert fonts to WOFF2 subsets, saves ~2.2 MB",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.34",
+    "title": "Replace oversized favicon, saves ~1.9 MB",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.33",
+    "title": "Internal Changes",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.32",
+    "title": "Clean up CSS and JS comments and whitespace",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.31",
+    "title": "Consolidate 5 week day pages into 1 parameterized page",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.30",
+    "title": "Internal Changes",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.29",
+    "title": "Internal Changes",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.28",
+    "title": "Internal Changes",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.27",
+    "title": "Fix createClassSlotManager scope (was nested inside sendNotification)",
+    "date": "Jun 28, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.26",
+    "title": "Update holidays and terms for 2026-27 school year",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.25",
+    "title": "Update schedules for 2026-27 bell schedule",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.24",
+    "title": "Add summer break quarter for countdown during off-season",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.23",
+    "title": "Add NewYorkMedium font for home greeting",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.22",
+    "title": "Remove Clear All Clubs buttons",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.21",
+    "title": "Remove Clear All Slots buttons",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.20",
+    "title": "One-time reset of stale user data for 2026-27",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.19",
+    "title": "Unify phone caddy reset button styling",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.18",
+    "title": "Internal Changes",
+    "date": "Jun 27, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.17",
+    "title": "Internal Changes",
+    "date": "Jun 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.16",
+    "title": "Style improvements",
+    "date": "Jun 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.15",
+    "title": "Internal Changes",
+    "date": "Jun 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.14",
+    "title": "Internal Changes",
+    "date": "Jun 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.13",
+    "title": "Updated page, info",
+    "date": "Jun 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.12",
+    "title": "Updated info, schedules",
+    "date": "Jun 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.11",
+    "title": "Reverted changes",
+    "date": "Jun 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.10",
+    "title": "Updated info, schedules",
+    "date": "Jun 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.9",
+    "title": "Internal Changes",
+    "date": "Jun 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.8",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.7",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.6",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.5",
+    "title": "Style improvements",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.4",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.3",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.2",
+    "title": "Internal Changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.5.1",
+    "title": "Reverted changes",
+    "date": "May 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.59",
+    "title": "Fix Thursday schedule by removing duplicate Period 4 entries",
+    "date": "May 21, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.58",
+    "title": "Rename Leap Day UI text, set Leap Week countdown target, and remove last day holiday",
+    "date": "May 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.57",
+    "title": "Updated page, setup",
+    "date": "May 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.56",
+    "title": "Reverted profiles",
+    "date": "May 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.55",
+    "title": "Reverted changes",
+    "date": "May 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.54",
+    "title": "Internal Changes",
+    "date": "May 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.53",
+    "title": "Internal Changes",
+    "date": "May 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.52",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.51",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.50",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.49",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.48",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.47",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.46",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.45",
+    "title": "Updated 5",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.44",
+    "title": "Updated holidays, page, quarters",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.43",
+    "title": "Updated holidays, page, quarters",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.42",
+    "title": "Internal Changes",
+    "date": "May 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.41",
+    "title": "Updated 5",
+    "date": "May 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.40",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.39",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.38",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.37",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.36",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.35",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.34",
+    "title": "IOS Safari compatibility; add -webkit keyframes; update prompts to disallow implicit branching (fixes #26)",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.33",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.32",
+    "title": "Updated info page",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.31",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.30",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.29",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.28",
+    "title": "Add club time detection helpers",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.27",
+    "title": "Internal Changes",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.26",
+    "title": "Updated info page",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.25",
+    "title": "Updated coming soon link",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.24",
+    "title": "Updated docs, info",
+    "date": "May 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.23",
+    "title": "Updated holidays, page",
+    "date": "May 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.22",
+    "title": "Internal Changes",
+    "date": "May 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.21",
+    "title": "Bootstrap playwright for page transition behavior",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.20",
+    "title": "Define failing specs for left-enter and right-exit transitions",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.19",
+    "title": "Make page enter/exit transitions directional and global",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.18",
+    "title": "Make page enter/exit transitions directional and global",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.17",
+    "title": "Add transition coverage checks across representative pages",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.16",
+    "title": "Add transition coverage checks across representative pages",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.15",
+    "title": "Internal Changes",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.14",
+    "title": "Remove april, sba, and pilot3 schedules",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.13",
+    "title": "Add leap day schedule (may 18-22)",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.12",
+    "title": "Internal Changes",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.11",
+    "title": "Reverted add leap day schedule (may 18-22)",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.10",
+    "title": "Remove pilot3/sba, update holidays for v3.4.1",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.9",
+    "title": "Refresh v3.4.1 schedule content",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.8",
+    "title": "Simplify schedule runtime behavior",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.7",
+    "title": "Update v3.4.1 release metadata",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.6",
+    "title": "Restore monthly sidebar and torph behavior",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.5",
+    "title": "Add new special schedule pages",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.4",
+    "title": "Generalize lunch selection for special schedules",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.3",
+    "title": "Internal Changes",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.2",
+    "title": "Updated schedules, setup",
+    "date": "May 5, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.4.1",
+    "title": "Internal Changes",
+    "date": "May 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.9",
+    "title": "Style improvements",
+    "date": "Apr 21, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.8",
+    "title": "Internal Changes",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.7",
+    "title": "Internal Changes",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.6",
+    "title": "Internal Changes",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.5",
+    "title": "Internal Changes",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.4",
+    "title": "Internal Changes",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.3",
+    "title": "Updated holidays, page",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.2",
+    "title": "Updated holidays, page, quarters",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.3.1",
+    "title": "Revert to torph",
+    "date": "Apr 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.6",
+    "title": "Internal Changes",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.5",
+    "title": "Internal Changes",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.4",
+    "title": "Internal Changes",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.3",
+    "title": "Add torph to holidays",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.2",
+    "title": "Updated quarters page",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.2.1",
+    "title": "Updated settings, setup",
+    "date": "Apr 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.30",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.29",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.28",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.27",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.26",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.25",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.24",
+    "title": "Updated events, settings, setup",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.23",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.22",
+    "title": "Internal Changes",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.21",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.20",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.19",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.18",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.17",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.16",
+    "title": "Updated setup wizard page",
+    "date": "Apr 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.15",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.14",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.13",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.12",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.11",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.10",
+    "title": "Unify all back buttons to use icon arrow without text",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.9",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.8",
+    "title": "Strip hardcoded purple themes globally from lunch and packup pages",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.7",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.6",
+    "title": "Add detailed agent instructions for lwschedule.github.io development",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.5",
+    "title": "Add planning agent for lwschedule.github.io with detailed instructions and workflow",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.4",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.3",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.2",
+    "title": "Internal Changes",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.1.1",
+    "title": "Update transition effects and improve icon usage in navigation",
+    "date": "Apr 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.11",
+    "title": "Internal Changes",
+    "date": "Apr 10, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.10",
+    "title": "Updated settings page",
+    "date": "Apr 10, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.9",
+    "title": "Internal Changes",
+    "date": "Apr 10, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.8",
+    "title": "Internal Changes",
+    "date": "Apr 10, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.7",
+    "title": "Internal Changes",
+    "date": "Apr 10, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.6",
+    "title": "Updated info, schedules, setup",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.5",
+    "title": "Internal Changes",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.4",
+    "title": "Internal Changes",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.3",
+    "title": "Internal Changes",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.2",
+    "title": "Internal Changes",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v3.0.1",
+    "title": "Internal Changes",
+    "date": "Apr 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.37",
+    "title": "Internal Changes",
+    "date": "Apr 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.36",
+    "title": "Internal Changes",
+    "date": "Apr 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.35",
+    "title": "Internal Changes",
+    "date": "Apr 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.34",
+    "title": "Internal Changes",
+    "date": "Apr 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.33",
+    "title": "Internal Changes",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.32",
+    "title": "Update filters toggle arrow symbol for consistency",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.31",
+    "title": "Updated events page",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.30",
+    "title": "Remove Sports settings page and update related UI elements",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.29",
+    "title": "Update event key colors and labels for SBA and AP testing",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.28",
+    "title": "Refactor header layout and back button styles for improved UI consistency",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.27",
+    "title": "Updated events, settings",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.26",
+    "title": "Refactor home header layout and button positioning for improved responsiveness",
+    "date": "Apr 2, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.25",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.24",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.23",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.22",
+    "title": "Reverted changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.21",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.20",
+    "title": "Update calendar page layout: center content and reduce gap",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.19",
+    "title": "Remove day schedule elements from calendar cell creation",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.18",
+    "title": "Refactor styles and remove unused animations for improved performance",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.17",
+    "title": "Refactor gradient animations for improved visual consistency across styles",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.16",
+    "title": "Add duplicate ticker messages for enhanced user feedback",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.15",
+    "title": "Reverted add duplicate ticker messages for enhanced user feedback",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.14",
+    "title": "Add upcoming features section to About page",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.13",
+    "title": "Update \"Coming Soon\" section with additional features",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.12",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.11",
+    "title": "Reorder navigation buttons to improve accessibility of Upcoming Events",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.10",
+    "title": "Enhance event card styling and update event title formatting logic",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.9",
+    "title": "Replace events intro text with a key/legend section for better clarity",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.8",
+    "title": "Refactor event card styling for improved visual consistency and accessibility",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.7",
+    "title": "Updated events page",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.6",
+    "title": "Refactor event card styling for enhanced visual appeal and accessibility",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.5",
+    "title": "Refactor event card styling for improved aesthetics and consistency",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.4",
+    "title": "Enhance event card background opacity for improved visibility",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.3",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.2",
+    "title": "Internal Changes",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.13.1",
+    "title": "Update event card layout and improve no events message for better user experience",
+    "date": "Apr 1, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.15",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.14",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.13",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.12",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.11",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.10",
+    "title": "Correct spacing in feedback message text",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.9",
+    "title": "Implement home ticker functionality with improved animation and message display",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.8",
+    "title": "Add gap styling for home ticker items with links",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.7",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.6",
+    "title": "Adjust home ticker gap and improve width calculation logic",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.5",
+    "title": "Reverted adjust home ticker gap and improve width calculation logic",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.4",
+    "title": "Internal Changes",
+    "date": "Mar 31, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.3",
+    "title": "Internal Changes",
+    "date": "Mar 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.2",
+    "title": "Internal Changes",
+    "date": "Mar 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.11.1",
+    "title": "Internal Changes",
+    "date": "Mar 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.13",
+    "title": "Internal Changes",
+    "date": "Mar 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.12",
+    "title": "Reverted changes",
+    "date": "Mar 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.11",
+    "title": "Reapplied changes",
+    "date": "Mar 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.10",
+    "title": "Reverted reapplied changes",
+    "date": "Mar 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.9",
+    "title": "Update 404 page message for clarity",
+    "date": "Mar 18, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.8",
+    "title": "Add SBA schedule and setup functionality; update version to 2.9",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.7",
+    "title": "Add Pilot 3 schedule and lunch setup; update version to 2.10",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.6",
+    "title": "Internal Changes",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.5",
+    "title": "Internal Changes",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.4",
+    "title": "Renamed font file",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.3",
+    "title": "Reverted renamed font file",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.2",
+    "title": "Reverted changes",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.10.1",
+    "title": "Reverted changes",
+    "date": "Mar 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.32",
+    "title": "Internal Changes",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.31",
+    "title": "Show Pilot 1 special schedule for full week of March 16–20, 2026",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.30",
+    "title": "Update lunch period references for Pilot 1 schedule in HTML and adjust schedule logic in JavaScript",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.29",
+    "title": "Updated settings page",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.28",
+    "title": "Add functions to handle schedule periods and update related logic",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.27",
+    "title": "Refactor lunch schedule adjustment logic for Pilot 1",
+    "date": "Mar 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.26",
+    "title": "Internal Changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.25",
+    "title": "Internal Changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.24",
+    "title": "Updated week page",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.23",
+    "title": "Updated schedules page",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.22",
+    "title": "Reverted changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.21",
+    "title": "Reverted changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.20",
+    "title": "Reverted changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.19",
+    "title": "Reverted changes",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.18",
+    "title": "Updated schedules page",
+    "date": "Mar 15, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.17",
+    "title": "Internal Changes",
+    "date": "Mar 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.16",
+    "title": "Internal Changes",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.15",
+    "title": "Added pilot day schedule logic",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.14",
+    "title": "Updated month page",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.13",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.12",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.11",
+    "title": "Updated month page",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.10",
+    "title": "Updated page, month",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.9",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.8",
+    "title": "Internal Changes",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.7",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.6",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.5",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.4",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.3",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.2",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.8.1",
+    "title": "Style improvements",
+    "date": "Mar 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.40",
+    "title": "Internal Changes",
+    "date": "Mar 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.39",
+    "title": "Internal Changes",
+    "date": "Mar 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.38",
+    "title": "Renamed fonts",
+    "date": "Mar 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.37",
+    "title": "Reverted renamed fonts",
+    "date": "Mar 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.36",
+    "title": "Added new font",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.35",
+    "title": "Changed fonts",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.34",
+    "title": "Updated settings page",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.33",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.32",
+    "title": "Reverted changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.31",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.30",
+    "title": "Updated info page",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.29",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.28",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.27",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.26",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.25",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.24",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.23",
+    "title": "Reverted change",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.22",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.21",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.20",
+    "title": "Internal Changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.19",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.18",
+    "title": "Reverted changes",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.17",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.16",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.15",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.14",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.13",
+    "title": "Style improvements",
+    "date": "Mar 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.12",
+    "title": "Update to version 2.7.1 with bug fixes and schedule improvements",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.11",
+    "title": "Update to version 2.7.2 with bug fixes and changelog adjustments",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.10",
+    "title": "Remove version badge for 2.7.2 from About page",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.9",
+    "title": "Update font links and version numbers across multiple HTML files",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.8",
+    "title": "Adjust calendar styles for better layout and visibility",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.7",
+    "title": "Update club indicators to display count instead of emoji in calendar view",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.6",
+    "title": "Improve layout and styling of headers and calendar components",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.5",
+    "title": "Enhance calendar page layout for full-width display",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.4",
+    "title": "Update calendar grid layout for responsive design",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.3",
+    "title": "Refactor calendar styles for improved layout and responsiveness",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.2",
+    "title": "Adjust calendar page layout for full-width display and improved padding",
+    "date": "Mar 7, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.7.1",
+    "title": "Update to version 2.7 with major schedule changes and new Pilot schedules",
+    "date": "Mar 6, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.6.3",
+    "title": "Internal Changes",
+    "date": "Feb 23, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.6.2",
+    "title": "Internal Changes",
+    "date": "Feb 22, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.6.1",
+    "title": "Internal Changes",
+    "date": "Feb 22, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.37",
+    "title": "Updated schedules, setup",
+    "date": "Feb 21, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.36",
+    "title": "Delete presidents schedule data from JSON",
+    "date": "Feb 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.35",
+    "title": "Internal Changes",
+    "date": "Feb 20, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.34",
+    "title": "Delete midWinter schedule and lunch preferences",
+    "date": "Feb 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.33",
+    "title": "Remove holidays from the JSON file",
+    "date": "Feb 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.32",
+    "title": "Delete schedules/midwinter directory",
+    "date": "Feb 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.31",
+    "title": "Removed Mid-Winter Break link",
+    "date": "Feb 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.30",
+    "title": "Update schedule periods for midWinter",
+    "date": "Feb 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.29",
+    "title": "Update schedule periods and timings for midWinter",
+    "date": "Feb 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.28",
+    "title": "Update lunch buttons to reflect new periods",
+    "date": "Feb 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.27",
+    "title": "Internal Changes",
+    "date": "Feb 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.26",
+    "title": "Update LEAP/Mid-Winter schedule logic and add lunch preferences",
+    "date": "Feb 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.25",
+    "title": "Add special countdown logic for Mid-Winter Break",
+    "date": "Feb 8, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.24",
+    "title": "Add dedicated PWA installation page with cross-platform support",
+    "date": "Jan 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.23",
+    "title": "Simplify PWA installation flow and improve UI design",
+    "date": "Jan 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.22",
+    "title": "Replace PWA installation logic with Safari-specific instructions",
+    "date": "Jan 30, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.21",
+    "title": "Remove elapsed finals week schedule and update documentation",
+    "date": "Jan 29, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.20",
+    "title": "Internal Changes",
+    "date": "Jan 29, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.19",
+    "title": "Remove finals week schedule and preferences handling",
+    "date": "Jan 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.18",
+    "title": "Improve next period display logic for school days",
+    "date": "Jan 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.17",
+    "title": "Add browser notifications for pack up reminders",
+    "date": "Jan 26, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.16",
+    "title": "Add dedicated lunch setup pages for special schedules",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.15",
+    "title": "Simplify lunch selection pages setup to avoid redirects",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.14",
+    "title": "Inline theme loading in setup pages",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.13",
+    "title": "Update favicon to use logo image",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.12",
+    "title": "Replace radio buttons with interactive buttons for finals lunch selection",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.11",
+    "title": "Enhance calendar layout for larger screens",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.10",
+    "title": "Adjust calendar grid and container sizing for improved layout",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.9",
+    "title": "Adjust calendar layout for improved responsiveness and scrolling",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.8",
+    "title": "Parse academic term dates in local timezone",
+    "date": "Jan 19, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.7",
+    "title": "Enhance mobile responsiveness with dynamic device warning",
+    "date": "Jan 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.6",
+    "title": "Reverted enhance mobile responsiveness with dynamic device warning",
+    "date": "Jan 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.5",
+    "title": "Reapplied update calendar display and countdown timer logic",
+    "date": "Jan 17, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.4",
+    "title": "Add static file server and project documentation",
+    "date": "Jan 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.3",
+    "title": "Update calendar display and countdown timer logic",
+    "date": "Jan 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.2",
+    "title": "Reverted add static file server and project documentation",
+    "date": "Jan 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.5.1",
+    "title": "Reverted update calendar display and countdown timer logic",
+    "date": "Jan 16, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.42",
+    "title": "Implement separate lunch preferences for finals week",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.41",
+    "title": "Extend Period 5 and 6 end times and update lunch button descriptions",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.40",
+    "title": "Add mid-winter break support with lunch preferences and schedules",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.39",
+    "title": "Expand finals schedule to support multiple dates",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.38",
+    "title": "Add Mid-Winter Break schedule page",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.37",
+    "title": "Standardize 'Roo' naming in schedules and bump version to 2.2",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.36",
+    "title": "Add President's Week schedule for January 16-20, 2026",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.35",
+    "title": "Add B lunch schedule and refactor schedule pages",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.34",
+    "title": "Add leap schedule for 2026 and improve mobile responsiveness",
+    "date": "Jan 14, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.33",
+    "title": "Internal Changes",
+    "date": "Jan 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.32",
+    "title": "Restructure schedule data to support A/B lunch options",
+    "date": "Jan 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.31",
+    "title": "Add comprehensive schedule data for normal and special weeks",
+    "date": "Jan 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.30",
+    "title": "Reverted add comprehensive schedule data for normal and special weeks",
+    "date": "Jan 12, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.29",
+    "title": "Improve calendar container responsiveness and alignment",
+    "date": "Jan 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.28",
+    "title": "Optimize calendar layout and improve mobile responsiveness",
+    "date": "Jan 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.27",
+    "title": "Add responsive design support for large and extra-large desktop screens",
+    "date": "Jan 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.26",
+    "title": "Adjust layout and spacing for better calendar UI",
+    "date": "Jan 11, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.25",
+    "title": "Standardize time display and improve countdown formatting",
+    "date": "Jan 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.24",
+    "title": "Remove Winter Break holiday from schedule system",
+    "date": "Jan 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.23",
+    "title": "Show next period info instead of countdown timer",
+    "date": "Jan 9, 2026",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.22",
+    "title": "Update holiday countdown to show time until school resumes",
+    "date": "Dec 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.21",
+    "title": "Enhance heading styles and add holiday display for today schedule",
+    "date": "Dec 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.20",
+    "title": "Add month navigation to calendar with responsive adjustments",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.19",
+    "title": "Enhance time block display with zero-padding and conditional visibility",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.18",
+    "title": "Optimize time display logic and adjust layout heights",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.17",
+    "title": "Simplify countdown text updates and adjust holiday logic",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.16",
+    "title": "Optimize today page card height and clock update interval",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.15",
+    "title": "Refine layout, update summary format, and refresh holidays",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.14",
+    "title": "Center calendar grid and simplify schedule summary text",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.13",
+    "title": "Update calendar grid layout and heading alignment",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.12",
+    "title": "Add custom 404 error page for LW Schedule site",
+    "date": "Dec 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.11",
+    "title": "Implement holiday end countdown and remove unused academic terms",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.10",
+    "title": "Internal Changes",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.9",
+    "title": "Reverted theme changes",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.8",
+    "title": "Internal Changes",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.7",
+    "title": "Update holiday table logic and UI enhancements for v2.0.1",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.6",
+    "title": "Bump to v2.0.2 with bug fixes including holiday updates, UI tweaks, and schedule polling removal",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.5",
+    "title": "Enhance calendar responsiveness and schedule validation",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.4",
+    "title": "Add error handling to Monday schedule initialization",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.3",
+    "title": "Update calendar grid to enforce 7 columns with minimum width",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.2",
+    "title": "Adjust calendar min-width and simplify monday initialization",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v2.0.1",
+    "title": "Implement holiday display on day schedule pages",
+    "date": "Dec 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.112",
+    "title": "Update README with timer behavior clarification",
+    "date": "Dec 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.111",
+    "title": "Resolve timer display bugs and update README",
+    "date": "Dec 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.110",
+    "title": "Overhaul README with project overview, features, and details; style: widen month calendar max-width to 1400px for better layout",
+    "date": "Dec 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.109",
+    "title": "Enhance holiday countdown to display time remaining during active holidays",
+    "date": "Dec 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.108",
+    "title": "Update README to reflect changes in timer features",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.107",
+    "title": "Internal Changes",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.106",
+    "title": "Reverted merge branch 'main' of https://github.com/lwschedule/lwschedule.github.io",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.105",
+    "title": "Delete .DS_Store",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.104",
+    "title": "Reapplied merge branch 'main' of https://github.com/lwschedule/lwschedule.github.io",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.103",
+    "title": "Internal Changes",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.102",
+    "title": "Enhance school schedule clock with period-aware display",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.101",
+    "title": "Enhance next school day timer display clarity",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.100",
+    "title": "Updated holidays, page",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.99",
+    "title": "Update Mid-Winter Break dates to February 12-15, 2026",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.98",
+    "title": "Change digit-roller to block display with full width",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.97",
+    "title": "Reverted change digit-roller to block display with full width",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.96",
+    "title": "Add visual badges for tech stack and license to README",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.95",
+    "title": "Reduce padding, sizes, and gaps for improved mobile responsiveness",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.94",
+    "title": "Remove features list from README",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.93",
+    "title": "Optimize text update by early equality check and simplify roller width",
+    "date": "Dec 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.92",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.91",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.90",
+    "title": "Xchanges",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.89",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.88",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.87",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.86",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.85",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.84",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.83",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.82",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.81",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.80",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.79",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.78",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.77",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.76",
+    "title": "Internal Changes",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.75",
+    "title": "Update print statement from 'Hello' to 'Goodbye'",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.74",
+    "title": "Updated holidays, page",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.73",
+    "title": "Simplify digit roller width to fixed 100% in holidays page",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.72",
+    "title": "Handle display of next school day when current time exceeds last schedule end",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.71",
+    "title": "Enhance countdown display with rolling text for all units and next school day info",
+    "date": "Dec 16, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.70",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.69",
+    "title": "Refactor clock display logic for clarity and efficiencybug",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.68",
+    "title": "Reverted bug fix",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.67",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.66",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.65",
+    "title": "Updated holidays, page, info",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.64",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.63",
+    "title": "Reverted changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.62",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.61",
+    "title": "Updated holidays, page",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.60",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.59",
+    "title": "PWA icons",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.58",
+    "title": "PWA fixes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.57",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.56",
+    "title": "Internal Changes",
+    "date": "Dec 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.55",
+    "title": "Fix main timer on holidays and add sliding animation",
+    "date": "Dec 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.54",
+    "title": "Updated holidays, page",
+    "date": "Dec 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.53",
+    "title": "Internal Changes",
+    "date": "Dec 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.52",
+    "title": "Internal Changes",
+    "date": "Dec 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.51",
+    "title": "Internal Changes",
+    "date": "Dec 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.50",
+    "title": "Bug fixes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.49",
+    "title": "Updated month page",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.48",
+    "title": "Revise feature list and fix descriptions in README",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.47",
+    "title": "Updated month page",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.46",
+    "title": "Add sliding number animation to timers",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.45",
+    "title": "Updated month page",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.44",
+    "title": "Internal Changes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.43",
+    "title": "Bugfixes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.42",
+    "title": "Bug fixes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.41",
+    "title": "Internal Changes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.40",
+    "title": "Internal Changes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.39",
+    "title": "Reverted bugs",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.38",
+    "title": "Internal Changes",
+    "date": "Dec 13, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.37",
+    "title": "Fix theme application across all pages",
+    "date": "Dec 12, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.36",
+    "title": "Remove static color",
+    "date": "Dec 12, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.35",
+    "title": "Revise README with new features and fixes",
+    "date": "Dec 12, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.34",
+    "title": "Updated page, settings, setup",
+    "date": "Dec 11, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.33",
+    "title": "Reverted changes",
+    "date": "Dec 11, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.32",
+    "title": "Fix formatting in credits section of README",
+    "date": "Dec 10, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.31",
+    "title": "Updated 5",
+    "date": "Dec 8, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.30",
+    "title": "Reverted changes",
+    "date": "Dec 8, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.29",
+    "title": "Restructure 2",
+    "date": "Dec 5, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.28",
+    "title": "Restructure 2 continue",
+    "date": "Dec 5, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.27",
+    "title": "Update README with new features and changes",
+    "date": "Dec 5, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.26",
+    "title": "Internal Changes",
+    "date": "Dec 5, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.25",
+    "title": "Internal Changes",
+    "date": "Dec 5, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.24",
+    "title": "Delete .DS_Store",
+    "date": "Nov 25, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.23",
+    "title": "Internal Changes",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.22",
+    "title": "Internal Changes",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.21",
+    "title": "Internal Changes",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.20",
+    "title": "Reverted changes",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.19",
+    "title": "Updated 5",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.18",
+    "title": "Style improvements",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.17",
+    "title": "Refactor calendar styles and add theme variables",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.16",
+    "title": "Refactor reset button script to external file",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.15",
+    "title": "Add reset button functionality to clear settings",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.14",
+    "title": "Reverted changes",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.13",
+    "title": "Reverted refactor calendar styles and add theme variables",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.12",
+    "title": "Reverted refactor reset button script to external file",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.11",
+    "title": "Reverted add reset button functionality to clear settings",
+    "date": "Nov 24, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.10",
+    "title": "Internal Changes",
+    "date": "Nov 23, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.9",
+    "title": "Internal Changes",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.8",
+    "title": "Update README with weekend and holiday schedule logic",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.7",
+    "title": "Updated schedules page",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.6",
+    "title": "Updated page, month, schedules",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.5",
+    "title": "Internal Changes",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.4",
+    "title": "Internal Changes",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.3",
+    "title": "Updated page, month, setup",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.2",
+    "title": "Internal Changes",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.8.1",
+    "title": "Revise README for version 1.8 and feature updates",
+    "date": "Nov 22, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.73",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.72",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.71",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.70",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.69",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.68",
+    "title": "Changed layout of site",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.67",
+    "title": "Updated some stuff",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.66",
+    "title": "Fixed stuff",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.65",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.64",
+    "title": "Updated settings page",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.63",
+    "title": "Updated settings page",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.62",
+    "title": "Updated settings page",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.61",
+    "title": "Updated settings page",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.60",
+    "title": "Newstructure",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.59",
+    "title": "Updated page, settings, week",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.58",
+    "title": "Updated page, settings",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.57",
+    "title": "Updated settings page",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.56",
+    "title": "Settings",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.55",
+    "title": "Logo",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.54",
+    "title": "Internal Changes",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.53",
+    "title": "Logo",
+    "date": "Nov 21, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.52",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.51",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.50",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.49",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.48",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.47",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.46",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.45",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.44",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.43",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.42",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.41",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.40",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.39",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.38",
+    "title": "Internal Changes",
+    "date": "Nov 20, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.37",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.36",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.35",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.34",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.33",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.32",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.31",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.30",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.29",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.28",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.27",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.26",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.25",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.24",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.23",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.22",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.21",
+    "title": "Internal Changes",
+    "date": "Nov 19, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.20",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.19",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.18",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.17",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.16",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.15",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.14",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.13",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.12",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.11",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.10",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.9",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.8",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.7",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.6",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.5",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.4",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.3",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.2",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.4.1",
+    "title": "Internal Changes",
+    "date": "Nov 18, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.16",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.15",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.14",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.13",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.12",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.11",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.10",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.9",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.8",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.7",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.6",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.5",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.4",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.3",
+    "title": "Internal Changes",
+    "date": "Nov 17, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.2",
+    "title": "Update version from v1.1 to v1.2 in README",
+    "date": "Nov 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.2.1",
+    "title": "Internal Changes",
+    "date": "Nov 15, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.22",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.21",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.20",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.19",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.18",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.17",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.16",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.15",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.14",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.13",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.12",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.11",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.10",
+    "title": "Update lunch selection visibility note in README",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.9",
+    "title": "Refactor holiday countdown size and schedule",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.8",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.7",
+    "title": "Update version from v1.0 to v1.1 in README",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.6",
+    "title": "Enhance holiday data with display dates",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.5",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.4",
+    "title": "Implement lunch settings overlay and toggle functions",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.3",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.2",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  },
+  {
+    "version": "v1.0.1",
+    "title": "Internal Changes",
+    "date": "Nov 14, 2025",
+    "anchored": false
+  }
+]
