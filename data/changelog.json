@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.9",
+    "title": "Fix recursive guard and changelog entry title",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.8",
     "title": "Update pre-commit hook to auto-add changelog entries to JSON",
     "date": "July 7, 2026"

@@ -84,7 +84,9 @@ The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
 1. `README.md` — version badge + release date
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
-3. `whats-new/index.html` — version badge + release date
+3. `data/changelog.json` — prepends a new entry with the new version, commit title, and today's date
+
+The whats-new page (`/info/whats-new/`) fetches `data/changelog.json` and renders it dynamically via JS.
 
 **Enable locally:** `git config core.hooksPath .githooks`
 
@@ -93,6 +95,22 @@ If the hook is not enabled, manually update all three files before committing. N
 **Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.7.1: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
 
 After every commit, always push to remote (`git push`).
+
+## Changelog Writing
+
+**Write changelog titles for end users, not developers.** The audience is high school students — they don't know (or care) about unicode escapes, CSS selectors, function names, regex patterns, or file paths.
+
+**Good titles** (describes the user-visible change):
+- "Fixed garbled characters in What's New page title"
+- "Made profile follower count text white instead of purple"
+- "Added Homecoming Week schedule"
+
+**Bad titles** (code-centric jargon):
+- "Fix broken unicode escapes in What's New page title and changelog"
+- "Make .followingLabel text on profile white instead of purple"
+- "Add KANG NEWS and LEAP label support to getScheduleSummaryLabel"
+
+If the commit only touches internal files (docs, scripts, tooling) or has no user-visible effect, use "Internal Changes" as the title.
 
 ## User Preferences
 
