@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json
 import re
 import subprocess
 import sys
@@ -8,10 +9,7 @@ from datetime import datetime
 ROOT = Path(__file__).resolve().parents[2]
 README = ROOT / 'README.md'
 SW = ROOT / 'sw.js'
-# The version + release-date badge lives on the /info/whats-new/ subpage.
-# The /info/ path is a hub that links to /info/about/ (credits) and
-# /info/whats-new/ (changelog).
-WHATS_NEW = ROOT / 'info' / 'whats-new' / 'index.html'
+CHANGELOG = ROOT / 'data' / 'changelog.json'
 
 def format_date(dt: datetime) -> str:
     # Format like: May 11, 2026
@@ -82,17 +80,49 @@ def update_sw_cache_name():
         return True
     return False
 
-def update_whats_new_page(version_text: str, release_date_text: str):
-    # The /info/whats-new/ page no longer carries a hero version badge or
-    # 'Released ...' line (removed in v3.6.34). The latest commit is
-    # surfaced via the anchored <div class="changelog-row-anchored"> row at
-    # the top of the changelog list. That row is generated alongside the
-    # commit so this helper is now a deliberate no-op — kept so callers in
-    # main() still have a stable entry-point to swap in a different mechanic
-    # later (e.g. updating a data-latest-version attribute) without churning
-    # the version-bump machinery.
-    del version_text, release_date_text  # explicitly unused
-    return False
+def get_commit_title() -> str:
+    """Extract the commit title from the commit being created."""
+    # Try .git/COMMIT_EDITMSG first (available during pre-commit)
+    msg_path = ROOT / '.git' / 'COMMIT_EDITMSG'
+    if msg_path.exists():
+        first_line = msg_path.read_text(encoding='utf-8').split('\n')[0].strip()
+        if first_line and not first_line.startswith('#'):
+            return first_line
+    # Fall back to the most recent commit
+    try:
+        result = subprocess.run(
+            ['git', 'log', '-1', '--format=%s'],
+            capture_output=True, text=True, check=True, cwd=str(ROOT)
+        )
+        return result.stdout.strip()
+    except subprocess.CalledProcessError:
+        return 'Internal Changes'
+
+def prepend_changelog_entry(version: str, title: str, date: str) -> bool:
+    """Prepend a new entry to the changelog JSON file."""
+    try:
+        if CHANGELOG.exists():
+            entries = json.loads(CHANGELOG.read_text(encoding='utf-8'))
+        else:
+            entries = []
+    except (json.JSONDecodeError, FileNotFoundError):
+        entries = []
+
+    # Strip version prefix from title if present
+    version_prefix = f'{version}: '
+    if title.startswith(version_prefix):
+        title = title[len(version_prefix):]
+
+    new_entry = {
+        'version': version,
+        'title': title,
+        'date': date,
+    }
+
+    entries.insert(0, new_entry)
+    CHANGELOG.write_text(json.dumps(entries, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    print(f'Added changelog entry: {version} - {title}')
+    return True
 
 def normalize_last_commit_subject(new_version: str) -> bool:
     """
@@ -144,14 +174,15 @@ def main():
     date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
     final_version = version_match.group(1) if version_match else 'v0.0.0'
     final_release_date = date_match.group(1) if date_match else format_date(datetime.now())
-    changed_info = update_whats_new_page(final_version, final_release_date)
+    commit_title = get_commit_title()
+    changed_changelog = prepend_changelog_entry(final_version, commit_title, final_release_date)
     files_changed = []
     if changed_readme:
         files_changed.append(str(README.relative_to(ROOT)))
     if changed_sw:
         files_changed.append(str(SW.relative_to(ROOT)))
-    if changed_info:
-        files_changed.append(str(WHATS_NEW.relative_to(ROOT)))
+    if changed_changelog:
+        files_changed.append(str(CHANGELOG.relative_to(ROOT)))
 
     if files_changed:
         # Stage files so a pre-commit hook can include them in the commit

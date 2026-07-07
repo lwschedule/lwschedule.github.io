@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.8",
+    "title": "v3.7.7: Refactor changelog to load from JSON instead of hardcoded HTML",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.6.32",
     "title": "Fix broken unicode escapes in What's New page title and changelog",
     "date": "Jul 7, 2026",
