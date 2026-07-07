@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.16",
+    "title": "Replace remaining implementation jargon with user-friendly language",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.15",
     "title": "Reword changelog titles to user-friendly language",
     "date": "July 7, 2026"
@@ -96,12 +101,12 @@
   },
   {
     "version": "v3.6.20",
-    "title": "Fixed loader animation alignment",
+    "title": "Fixed loading screen animation alignment",
     "date": "Jul 6, 2026"
   },
   {
     "version": "v3.6.19",
-    "title": "Make loader smaller, add random splash text, fix backdrop/particles alignment",
+    "title": "Made loading screen smaller, added random splash text, fixed backdrop alignment",
     "date": "Jul 6, 2026"
   },
   {
@@ -131,7 +136,7 @@
   },
   {
     "version": "v3.6.14",
-    "title": "Improved update banner reliability",
+    "title": "Improved update notification reliability",
     "date": "Jul 6, 2026"
   },
   {
@@ -151,7 +156,7 @@
   },
   {
     "version": "v3.6.11",
-    "title": "Trigger update banner deployment",
+    "title": "Triggered update notification",
     "date": "Jul 6, 2026"
   },
   {
@@ -221,17 +226,17 @@
   },
   {
     "version": "v3.6.3",
-    "title": "Add skeleton loaders with rose trail animation across all pages",
+    "title": "Added placeholder animations with rose trail across all pages",
     "date": "Jul 5, 2026"
   },
   {
     "version": "v3.6.2",
-    "title": "Remove skeleton loaders; set rose trail animation to auto-hide after 1000ms on every page",
+    "title": "Removed placeholder animations; made rose trail auto-hide after 1 second",
     "date": "Jul 5, 2026"
   },
   {
     "version": "v3.6.1",
-    "title": "Rose trail: 2500ms minimum display, waits for content if not loaded; fix loader on all pages",
+    "title": "Rose trail shows for at least 2.5 seconds; fixed loading screen on all pages",
     "date": "Jul 5, 2026"
   },
   {
@@ -261,7 +266,7 @@
   },
   {
     "version": "v3.5.18",
-    "title": "Match packup toggle to other profile toggles",
+    "title": "Matched pack-up switch to other profile switches",
     "date": "Jun 30, 2026"
   },
   {
@@ -1076,7 +1081,7 @@
   },
   {
     "version": "v2.13.20",
-    "title": "Update filters toggle arrow symbol for consistency",
+    "title": "Updated filter arrow for consistency",
     "date": "Apr 2, 2026"
   },
   {
@@ -2116,7 +2121,7 @@
   },
   {
     "version": "v2.0.5.1",
-    "title": "Bump to v2.0.2 with bug fixes including holiday updates, UI tweaks, and schedule polling removal",
+    "title": "Updated holidays, tweaked the interface, and improved performance",
     "date": "Dec 19, 2025"
   },
   {
@@ -2216,7 +2221,7 @@
   },
   {
     "version": "v1.8.17",
-    "title": "Change digit-roller to block display with full width",
+    "title": "Changed countdown to full-width display",
     "date": "Dec 17, 2025"
   },
   {
@@ -2341,7 +2346,7 @@
   },
   {
     "version": "v1.8.13",
-    "title": "Simplify digit roller width to fixed 100% in holidays page",
+    "title": "Simplified countdown display on holidays page",
     "date": "Dec 16, 2025"
   },
   {
