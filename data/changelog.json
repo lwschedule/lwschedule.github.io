@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.18",
+    "title": "Rewrite versioning guide in plain language",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.17",
     "title": "Mark v3.7.1 hook change as Internal Changes",
     "date": "July 7, 2026"

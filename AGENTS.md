@@ -62,23 +62,32 @@ Period times are **minutes since midnight**. Example: `8:35 AM` = `8*60+35` = `5
 
 Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, Summer Break.
 
-## Versioning
+## Versioning**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
 
-**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**### Version format: `x.y.z.a`
+### How version numbers work
 
-- **x** — major (rarely bumped; big milestones). **ONLY the user can decide to bump x.**
-- **y** — minor (user-visible feature sets, UI redesigns). **ONLY the user can decide to bump y.**
-- **z** — patch (individual user-visible changes within a minor release: features, notable fixes, UI changes)
-- **a** — micro (internal-only changes, docs, tooling, minor tweaks, bug fixes between patches)
+Version numbers use four parts, like `v3.7.16.2`:
 
-The agent decides whether to bump `z` or `a` on each commit:
-- Bump **z** for user-visible features, UI changes, or notable fixes. Reset `a` when `z` bumps (drop the `.a` suffix).
-- Bump **a** for internal changes, docs, tooling, minor tweaks, follow-up fixes to a just-committed feature.
-- **Never bump x or y** — only the user can authorize that.
+- **First number** — major milestones (rarely changes). **ONLY the user can bump this.**
+- **Second number** — sets of new features or visual redesigns. **ONLY the user can bump this.**
+- **Third number** — individual improvements users can see (new features, notable fixes, design changes). **The agent decides when to bump this.**
+- **Fourth number** — behind-the-scenes changes (documentation, tooling, minor tweaks, follow-up fixes). **The agent decides when to bump this.**
 
-The pre-commit hook (`auto_bump_version.py`) always increments the **last** component of whatever version is in README.md — so `x.y.z` → `x.y.(z+1)` and `x.y.z.a` → `x.y.z.(a+1)`. To bump `z` instead of `a`, temporarily drop the `.a` suffix from README.md before committing (the hook will then increment `z`). To bump `y`, the user must tell the agent to change the minor version in README.md and drop any `.z.a` suffix.
+### How the agent chooses which part to bump
 
-The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
+- Bump the **third number** when the change is something a user would notice (new feature, visual change, important fix). Reset the fourth number back to nothing when this happens (e.g., `v3.7.16` instead of `v3.7.16.2`).
+- Bump the **fourth number** for behind-the-scenes work (docs, scripts, small follow-up tweaks to something just committed).
+- **Never bump the first or second number** — only the user can tell you to do that.
+
+### How the hook handles it
+
+The post-commit hook always bumps the last part of whatever version is in README.md. So if README says `v3.7.16`, the hook bumps it to `v3.7.17`. If README says `v3.7.16.2`, the hook bumps it to `v3.7.16.3`.
+
+To bump the **third number** instead of the fourth: temporarily remove the fourth number from README.md before committing, so the hook bumps the third number.
+
+To bump the **second number**: the user tells you to change it in README.md and remove the third and fourth numbers.
+
+The post-commit hook (`.githooks/post-commit`) auto-bumps three files:
 
 1. `README.md` — version badge + release date
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
