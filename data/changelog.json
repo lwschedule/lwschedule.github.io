@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.17",
+    "title": "Mark v3.7.1 hook change as Internal Changes",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.16",
     "title": "Replace remaining implementation jargon with user-friendly language",
     "date": "July 7, 2026"
