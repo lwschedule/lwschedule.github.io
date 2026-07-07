@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.12",
+    "title": "Move version bumping from pre-commit to post-commit",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.11",
     "title": "Cleaned up version history data",
     "date": "July 7, 2026"

@@ -12,14 +12,16 @@ README = ROOT / 'README.md'
 SW = ROOT / 'sw.js'
 CHANGELOG = ROOT / 'data' / 'changelog.json'
 
+
 def format_date(dt: datetime) -> str:
-    # Format like: May 11, 2026
+    """Format like: July 7, 2026"""
     return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
+
 
 def bump_version(version_text: str) -> str:
     """Increment the last numeric component of a version string.
 
-    Supports 1–4 component versions: v3, v3.7, v3.7.1, v3.7.1.2.
+    Supports 1-4 component versions: v3, v3.7, v3.7.1, v3.7.1.2.
     Always increments the last component by one.
     """
     parts = version_text.lstrip('v').split('.')
@@ -36,16 +38,16 @@ def bump_version(version_text: str) -> str:
         return version_text
 
     # A 2-component version (x.y) is a minor release shorthand.
-    # Append .1 instead of incrementing the minor: v3.7 → v3.7.1
+    # Append .1 instead of incrementing the minor: v3.7 -> v3.7.1
     if len(nums) == 2:
         nums.append(1)
     else:
         nums[-1] += 1
     return 'v' + '.'.join(str(n) for n in nums)
 
+
 def bump_readme_version_and_date():
     text = README.read_text(encoding='utf-8')
-    # Find Current Version: `vX`, `vX.Y`, `vX.Y.Z`, or the same values without the leading `v`
     ver_re = re.compile(r"(\*\*Current Version:\*\*\s*`)(v?\d+(?:\.\d+){0,3})(`)", re.IGNORECASE)
     m = ver_re.search(text)
     changed = False
@@ -55,7 +57,6 @@ def bump_readme_version_and_date():
         text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
         changed = True
 
-    # Update Release Date to today
     now = datetime.now()
     date_str = format_date(now)
     date_re = re.compile(r"(\*\*Release Date:\*\*\s*`)([^`]*)`")
@@ -67,12 +68,11 @@ def bump_readme_version_and_date():
         README.write_text(text, encoding='utf-8')
     return changed
 
+
 def update_sw_cache_name():
     text = SW.read_text(encoding='utf-8')
-    # Compute date from now (date of commit/update)
     now = datetime.now()
     iso_date = now.strftime('%Y-%m-%d')
-    # Replace the CACHE_NAME assignment line only
     cache_re = re.compile(r"const\s+CACHE_NAME\s*=\s*['\"].*?['\"];")
     new_cache = f"const CACHE_NAME = 'lwschedule-{iso_date}';"
     if cache_re.search(text):
@@ -81,15 +81,9 @@ def update_sw_cache_name():
         return True
     return False
 
+
 def get_commit_title() -> str:
-    """Extract the commit title from the commit being created."""
-    # Try .git/COMMIT_EDITMSG first (available during pre-commit)
-    msg_path = ROOT / '.git' / 'COMMIT_EDITMSG'
-    if msg_path.exists():
-        first_line = msg_path.read_text(encoding='utf-8').split('\n')[0].strip()
-        if first_line and not first_line.startswith('#'):
-            return first_line
-    # Fall back to the most recent commit
+    """Read the most recent commit's subject line (only valid in post-commit)."""
     try:
         result = subprocess.run(
             ['git', 'log', '-1', '--format=%s'],
@@ -98,6 +92,7 @@ def get_commit_title() -> str:
         return result.stdout.strip()
     except subprocess.CalledProcessError:
         return 'Internal Changes'
+
 
 def prepend_changelog_entry(version: str, title: str, date: str) -> bool:
     """Prepend a new entry to the changelog JSON file."""
@@ -109,7 +104,7 @@ def prepend_changelog_entry(version: str, title: str, date: str) -> bool:
     except (json.JSONDecodeError, FileNotFoundError):
         entries = []
 
-    # Strip any version prefix from title if present
+    # Strip any version prefix from the title (e.g. "v3.7.12: Some feature" -> "Some feature")
     prefix_match = re.match(r'^v\d+\.\d+(?:\.\d+(?:\.\d+)?)?:\s*', title)
     if prefix_match:
         title = title[prefix_match.end():]
@@ -125,31 +120,26 @@ def prepend_changelog_entry(version: str, title: str, date: str) -> bool:
     print(f'Added changelog entry: {version} - {title}')
     return True
 
-def normalize_last_commit_subject(new_version: str) -> bool:
-    """
-    If the most recent commit's subject doesn't already start with `vX.Y.Z:`,
-    prepend the prefix and rewrite via `git commit --amend`. Preserves the
-    existing commit body and lets `git add` fold any staged files into the
-    same commit. Returns True when an amend actually happened.
-    """
+
+def amend_commit(version: str):
+    """Amend the most recent commit: add version prefix to subject and fold in staged files."""
     try:
         result = subprocess.run(
             ['git', 'log', '-1', '--format=%B'],
             capture_output=True, text=True, check=True, cwd=str(ROOT)
         )
     except subprocess.CalledProcessError:
-        return False  # empty repo — nothing to amend yet
+        return
 
     full_message = result.stdout
     subject, _, rest = full_message.partition('\n')
-    # Strip surrounding newlines/whitespace but keep inner body content intact
     body = rest.strip('\r\n')
 
+    # Strip any existing version prefix before adding the new one
     prefix_pat = re.compile(r'^v\d+\.\d+(?:\.\d+(?:\.\d+)?)?:\s*')
-    if prefix_pat.match(subject):
-        return False  # already prefixed — leave history alone
+    clean_subject = prefix_pat.sub('', subject).strip()
 
-    new_subject = f"{new_version}: {subject}"
+    new_subject = f"{version}: {clean_subject}"
     new_message = new_subject if not body else f"{new_subject}\n\n{body}"
 
     tmp_path = ROOT / '.git' / 'lws_amend_msg.txt'
@@ -157,33 +147,35 @@ def normalize_last_commit_subject(new_version: str) -> bool:
         tmp_path.write_text(new_message, encoding='utf-8')
         os.environ['LWS_AMEND_IN_PROGRESS'] = '1'
         subprocess.run(
-            ['git', 'commit', '--amend', '-F', str(tmp_path)],
+            ['git', 'commit', '--amend', '--no-verify', '-F', str(tmp_path)],
             check=True, cwd=str(ROOT)
         )
         os.environ.pop('LWS_AMEND_IN_PROGRESS', None)
-        print(f"Rewrote last commit subject to: {new_subject}")
-        return True
+        print(f"Amended commit subject: {new_subject}")
     finally:
         if tmp_path.exists():
             tmp_path.unlink()
 
 
 def main():
-    # Guard against recursive invocation: when git commit --amend inside this
-    # hook triggers the pre-commit hook again, bail out immediately.
+    # Guard: if this is a recursive invocation (amend triggers post-commit again), bail out.
     if os.environ.get('LWS_AMEND_IN_PROGRESS') == '1':
         return
 
     changed_readme = bump_readme_version_and_date()
     changed_sw = update_sw_cache_name()
-    # Re-read the README to extract the final current version and date for info pages.
+
+    # Re-read README to get the final bumped version and date.
     readme_text = README.read_text(encoding='utf-8')
     version_match = re.search(r"\*\*Current Version:\*\*\s*`(v?\d+(?:\.\d+){0,3})`", readme_text, re.IGNORECASE)
     date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
     final_version = version_match.group(1) if version_match else 'v0.0.0'
     final_release_date = date_match.group(1) if date_match else format_date(datetime.now())
+
+    # In post-commit, the commit already exists, so git log -1 gives the REAL title.
     commit_title = get_commit_title()
     changed_changelog = prepend_changelog_entry(final_version, commit_title, final_release_date)
+
     files_changed = []
     if changed_readme:
         files_changed.append(str(README.relative_to(ROOT)))
@@ -193,7 +185,6 @@ def main():
         files_changed.append(str(CHANGELOG.relative_to(ROOT)))
 
     if files_changed:
-        # Stage files so a pre-commit hook can include them in the commit
         try:
             subprocess.run(['git', 'add'] + files_changed, check=True)
             print('Updated and staged:', ', '.join(files_changed))
@@ -201,14 +192,11 @@ def main():
             print('Failed to git add files:', e, file=sys.stderr)
             sys.exit(2)
 
-        # Now that the version-bump files are staged, fold them into the most
-        # recent commit and rewrite its subject to begin with the new version
-        # prefix — so future commits can't accidentally skip the `vX.Y.Z:`
-        # convention. We only amend when something actually changed, leaving
-        # history alone when the script is a no-op.
-        normalize_last_commit_subject(final_version)
+        # Amend the just-created commit: fold in staged files + add version prefix to subject.
+        amend_commit(final_version)
     else:
         print('No version or cache changes necessary.')
+
 
 if __name__ == '__main__':
     main()
