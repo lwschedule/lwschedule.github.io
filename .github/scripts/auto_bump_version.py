@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 import re
 import subprocess
 import sys
@@ -108,10 +109,10 @@ def prepend_changelog_entry(version: str, title: str, date: str) -> bool:
     except (json.JSONDecodeError, FileNotFoundError):
         entries = []
 
-    # Strip version prefix from title if present
-    version_prefix = f'{version}: '
-    if title.startswith(version_prefix):
-        title = title[len(version_prefix):]
+    # Strip any version prefix from title if present
+    prefix_match = re.match(r'^v\d+\.\d+(?:\.\d+(?:\.\d+)?)?:\s*', title)
+    if prefix_match:
+        title = title[prefix_match.end():]
 
     new_entry = {
         'version': version,
@@ -154,10 +155,12 @@ def normalize_last_commit_subject(new_version: str) -> bool:
     tmp_path = ROOT / '.git' / 'lws_amend_msg.txt'
     try:
         tmp_path.write_text(new_message, encoding='utf-8')
+        os.environ['LWS_AMEND_IN_PROGRESS'] = '1'
         subprocess.run(
             ['git', 'commit', '--amend', '-F', str(tmp_path)],
             check=True, cwd=str(ROOT)
         )
+        os.environ.pop('LWS_AMEND_IN_PROGRESS', None)
         print(f"Rewrote last commit subject to: {new_subject}")
         return True
     finally:
@@ -166,6 +169,11 @@ def normalize_last_commit_subject(new_version: str) -> bool:
 
 
 def main():
+    # Guard against recursive invocation: when git commit --amend inside this
+    # hook triggers the pre-commit hook again, bail out immediately.
+    if os.environ.get('LWS_AMEND_IN_PROGRESS') == '1':
+        return
+
     changed_readme = bump_readme_version_and_date()
     changed_sw = update_sw_cache_name()
     # Re-read the README to extract the final current version and date for info pages.
