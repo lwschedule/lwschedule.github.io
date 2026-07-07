@@ -18,20 +18,36 @@ def format_date(dt: datetime) -> str:
     return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
 
 def bump_version(version_text: str) -> str:
+    """Increment the last numeric component of a version string.
+
+    Supports 1–4 component versions: v3, v3.7, v3.7.1, v3.7.1.2.
+    Always increments the last component by one.
+    """
     parts = version_text.lstrip('v').split('.')
-    if not parts[0].isdigit():
+    if not parts or not parts[0].isdigit():
         return version_text
 
-    major = int(parts[0])
-    minor = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0
-    patch = int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0
+    nums = []
+    for p in parts:
+        if p.isdigit():
+            nums.append(int(p))
+        else:
+            break
+    if not nums:
+        return version_text
 
-    return f"v{major}.{minor}.{patch + 1}"
+    # A 2-component version (x.y) is a minor release shorthand.
+    # Append .1 instead of incrementing the minor: v3.7 → v3.7.1
+    if len(nums) == 2:
+        nums.append(1)
+    else:
+        nums[-1] += 1
+    return 'v' + '.'.join(str(n) for n in nums)
 
 def bump_readme_version_and_date():
     text = README.read_text(encoding='utf-8')
     # Find Current Version: `vX`, `vX.Y`, `vX.Y.Z`, or the same values without the leading `v`
-    ver_re = re.compile(r"(\*\*Current Version:\*\*\s*`)(v?\d+(?:\.\d+){0,2})(`)", re.IGNORECASE)
+    ver_re = re.compile(r"(\*\*Current Version:\*\*\s*`)(v?\d+(?:\.\d+){0,3})(`)", re.IGNORECASE)
     m = ver_re.search(text)
     changed = False
     if m:
@@ -98,7 +114,7 @@ def normalize_last_commit_subject(new_version: str) -> bool:
     # Strip surrounding newlines/whitespace but keep inner body content intact
     body = rest.strip('\r\n')
 
-    prefix_pat = re.compile(r'^v\d+\.\d+\.\d+:\s*')
+    prefix_pat = re.compile(r'^v\d+\.\d+(?:\.\d+(?:\.\d+)?)?:\s*')
     if prefix_pat.match(subject):
         return False  # already prefixed — leave history alone
 
@@ -124,7 +140,7 @@ def main():
     changed_sw = update_sw_cache_name()
     # Re-read the README to extract the final current version and date for info pages.
     readme_text = README.read_text(encoding='utf-8')
-    version_match = re.search(r"\*\*Current Version:\*\*\s*`(v?\d+(?:\.\d+){0,2})`", readme_text, re.IGNORECASE)
+    version_match = re.search(r"\*\*Current Version:\*\*\s*`(v?\d+(?:\.\d+){0,3})`", readme_text, re.IGNORECASE)
     date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
     final_version = version_match.group(1) if version_match else 'v0.0.0'
     final_release_date = date_match.group(1) if date_match else format_date(datetime.now())

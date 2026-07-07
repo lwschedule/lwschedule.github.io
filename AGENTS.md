@@ -78,7 +78,7 @@ The agent decides whether to bump `z` or `a` on each commit:
 - Bump **z** (and reset `a` to 0, or drop the `.a` suffix entirely) for user-visible features, UI changes, or notable fixes.
 - The first commit of a new minor version can drop `.z.a` and just use `x.y` (e.g. `v3.7`).
 
-**Note:** The pre-commit hook (`auto_bump_version.py`) only handles the `z` (patch) component — it increments `x.y.z` → `x.y.(z+1)`. The `.a` micro suffix is managed manually by the agent in commit messages and does not affect the hook's auto-bump logic.
+The pre-commit hook (`auto_bump_version.py`) always increments the **last** component of whatever version is in README.md — so `x.y.z` → `x.y.(z+1)` and `x.y.z.a` → `x.y.z.(a+1)`. To bump `z` instead of `a`, temporarily drop the `.a` suffix from README.md before committing (the hook will then increment `z`).
 
 The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
