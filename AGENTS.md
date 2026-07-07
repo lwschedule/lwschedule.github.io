@@ -64,7 +64,21 @@ Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spri
 
 ## Versioning
 
-**CRITICAL: Every commit MUST bump the patch version (x.y.**z**). Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
+**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
+
+### Version format: `x.y.z.a`
+
+- **x** — major (rarely bumped; big milestones)
+- **y** — minor (user-visible feature sets, UI redesigns)
+- **z** — patch (individual changes within a minor release)
+- **a** — micro (internal-only changes, docs, tooling, bug fixes between patches)
+
+The agent decides whether to bump `z` or `a` on each commit:
+- Bump **a** for small/internal changes (docs, tooling, minor tweaks).
+- Bump **z** (and reset `a` to 0, or drop the `.a` suffix entirely) for user-visible features, UI changes, or notable fixes.
+- The first commit of a new minor version can drop `.z.a` and just use `x.y` (e.g. `v3.7`).
+
+**Note:** The pre-commit hook (`auto_bump_version.py`) only handles the `z` (patch) component — it increments `x.y.z` → `x.y.(z+1)`. The `.a` micro suffix is managed manually by the agent in commit messages and does not affect the hook's auto-bump logic.
 
 The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
@@ -76,7 +90,7 @@ The pre-commit hook (`.githooks/pre-commit`) auto-bumps three files:
 
 If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
 
-**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.6.23: Require version-prefixed commit messages`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
+**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.7.1: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
 
 After every commit, always push to remote (`git push`).
 
