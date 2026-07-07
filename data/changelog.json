@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.13",
+    "title": "Fix stale changelog title for the version renumbering update",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.12",
     "title": "Move version bumping from pre-commit to post-commit",
     "date": "July 7, 2026"
@@ -11,7 +16,7 @@
   },
   {
     "version": "v3.7.10",
-    "title": "Add changelog writing guidelines to AGENTS.md",
+    "title": "Renumbered past versions to include dot-release numbers",
     "date": "July 7, 2026"
   },
   {
