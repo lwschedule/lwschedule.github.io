@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.15",
+    "title": "Reword changelog titles to user-friendly language",
+    "date": "July 7, 2026"
+  },
+  {
     "version": "v3.7.14",
     "title": "Backfill missing v3.7.x changelog entries",
     "date": "July 7, 2026"
@@ -11,7 +16,7 @@
   },
   {
     "version": "v3.7.12",
-    "title": "Move version bumping from pre-commit to post-commit",
+    "title": "Internal Changes",
     "date": "July 7, 2026"
   },
   {
@@ -56,7 +61,7 @@
   },
   {
     "version": "v3.7.8",
-    "title": "Fixed hook to not get stuck in a loop",
+    "title": "Internal Changes",
     "date": "July 7, 2026"
   },
   {
@@ -66,12 +71,12 @@
   },
   {
     "version": "v3.7.1",
-    "title": "Update pre-commit hook to auto-add changelog entries to JSON",
+    "title": "Internal Changes",
     "date": "July 7, 2026"
   },
   {
     "version": "v3.6.24",
-    "title": "Fix broken unicode escapes in What's New page title and changelog",
+    "title": "Fixed garbled characters on What's New page",
     "date": "Jul 7, 2026"
   },
   {
@@ -101,7 +106,7 @@
   },
   {
     "version": "v3.6.18",
-    "title": "Reduce loader SVG size and increase splash text size",
+    "title": "Made loading screen smaller with larger welcome text",
     "date": "Jul 6, 2026"
   },
   {
@@ -201,12 +206,12 @@
   },
   {
     "version": "v3.6.6",
-    "title": "Revamp Version History: per-commit titles, era boundaries, mono design",
+    "title": "Redesigned version history with era markers",
     "date": "Jul 6, 2026"
   },
   {
     "version": "v3.6.5",
-    "title": "Switch past-commit versions to x.y.z.a, latest row purple, /info pages share design language, hover effects turn white instead of purple",
+    "title": "Redesigned version numbers and info pages with new hover effects",
     "date": "Jul 6, 2026"
   },
   {
@@ -231,7 +236,7 @@
   },
   {
     "version": "v3.5.22",
-    "title": "Restore sendNotification function body (was split by prior edit)",
+    "title": "Fixed push notifications not working",
     "date": "Jun 30, 2026"
   },
   {
@@ -296,7 +301,7 @@
   },
   {
     "version": "v3.5.13",
-    "title": "Convert fonts to WOFF2 subsets, saves ~2.2 MB",
+    "title": "Reduced font file sizes to make the app load faster",
     "date": "Jun 28, 2026"
   },
   {
@@ -311,12 +316,12 @@
   },
   {
     "version": "v3.5.11",
-    "title": "Clean up CSS and JS comments and whitespace",
+    "title": "Internal Changes",
     "date": "Jun 28, 2026"
   },
   {
     "version": "v3.5.10",
-    "title": "Consolidate 5 week day pages into 1 parameterized page",
+    "title": "Simplified week day pages into a single page",
     "date": "Jun 28, 2026"
   },
   {
@@ -336,7 +341,7 @@
   },
   {
     "version": "v3.5.9",
-    "title": "Fix createClassSlotManager scope (was nested inside sendNotification)",
+    "title": "Fixed class schedule slots not appearing correctly",
     "date": "Jun 28, 2026"
   },
   {
@@ -416,7 +421,7 @@
   },
   {
     "version": "v3.5.0.11",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Jun 2, 2026"
   },
   {
@@ -466,7 +471,7 @@
   },
   {
     "version": "v3.5.0.1",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "May 31, 2026"
   },
   {
@@ -486,12 +491,12 @@
   },
   {
     "version": "v3.4.11.22",
-    "title": "Reverted profiles",
+    "title": "Internal Changes",
     "date": "May 19, 2026"
   },
   {
     "version": "v3.4.11.21",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "May 18, 2026"
   },
   {
@@ -541,7 +546,7 @@
   },
   {
     "version": "v3.4.11.11",
-    "title": "Updated 5",
+    "title": "Internal Changes",
     "date": "May 17, 2026"
   },
   {
@@ -561,7 +566,7 @@
   },
   {
     "version": "v3.4.11.7",
-    "title": "Updated 5",
+    "title": "Internal Changes",
     "date": "May 16, 2026"
   },
   {
@@ -596,7 +601,7 @@
   },
   {
     "version": "v3.4.11",
-    "title": "IOS Safari compatibility; add -webkit keyframes; update prompts to disallow implicit branching (fixes #26)",
+    "title": "Fixed animations and compatibility on iPhone and iPad",
     "date": "May 11, 2026"
   },
   {
@@ -1091,7 +1096,7 @@
   },
   {
     "version": "v2.13.17",
-    "title": "Refactor header layout and back button styles for improved UI consistency",
+    "title": "Improved header and back button design",
     "date": "Apr 2, 2026"
   },
   {
@@ -1101,7 +1106,7 @@
   },
   {
     "version": "v2.13.16",
-    "title": "Refactor home header layout and button positioning for improved responsiveness",
+    "title": "Improved home page layout on all screen sizes",
     "date": "Apr 2, 2026"
   },
   {
@@ -1121,7 +1126,7 @@
   },
   {
     "version": "v2.13.15.2",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Apr 1, 2026"
   },
   {
@@ -1141,12 +1146,12 @@
   },
   {
     "version": "v2.13.13",
-    "title": "Refactor styles and remove unused animations for improved performance",
+    "title": "Sped up the app by removing unused animations",
     "date": "Apr 1, 2026"
   },
   {
     "version": "v2.13.12",
-    "title": "Refactor gradient animations for improved visual consistency across styles",
+    "title": "Smoothed gradient animations throughout the app",
     "date": "Apr 1, 2026"
   },
   {
@@ -1191,7 +1196,7 @@
   },
   {
     "version": "v2.13.5",
-    "title": "Refactor event card styling for improved visual consistency and accessibility",
+    "title": "Made event cards more consistent and readable",
     "date": "Apr 1, 2026"
   },
   {
@@ -1201,12 +1206,12 @@
   },
   {
     "version": "v2.13.4",
-    "title": "Refactor event card styling for enhanced visual appeal and accessibility",
+    "title": "Redesigned event cards to be more readable",
     "date": "Apr 1, 2026"
   },
   {
     "version": "v2.13.3",
-    "title": "Refactor event card styling for improved aesthetics and consistency",
+    "title": "Redesigned event cards for consistent look",
     "date": "Apr 1, 2026"
   },
   {
@@ -1261,7 +1266,7 @@
   },
   {
     "version": "v2.11.3",
-    "title": "Implement home ticker functionality with improved animation and message display",
+    "title": "Added scrolling announcement ticker on home page",
     "date": "Mar 31, 2026"
   },
   {
@@ -1311,17 +1316,17 @@
   },
   {
     "version": "v2.10.3.3",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 26, 2026"
   },
   {
     "version": "v2.10.3.2",
-    "title": "Reapplied changes",
+    "title": "Internal Changes",
     "date": "Mar 26, 2026"
   },
   {
     "version": "v2.10.3.1",
-    "title": "Reverted reapplied changes",
+    "title": "Internal Changes",
     "date": "Mar 26, 2026"
   },
   {
@@ -1331,7 +1336,7 @@
   },
   {
     "version": "v2.10.2",
-    "title": "Add SBA schedule and setup functionality; update version to 2.9",
+    "title": "Added SBA testing schedule",
     "date": "Mar 17, 2026"
   },
   {
@@ -1351,22 +1356,22 @@
   },
   {
     "version": "v2.10.0.4",
-    "title": "Renamed font file",
+    "title": "Internal Changes",
     "date": "Mar 17, 2026"
   },
   {
     "version": "v2.10.0.3",
-    "title": "Reverted renamed font file",
+    "title": "Internal Changes",
     "date": "Mar 17, 2026"
   },
   {
     "version": "v2.10.0.2",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 17, 2026"
   },
   {
     "version": "v2.10.0.1",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 17, 2026"
   },
   {
@@ -1381,7 +1386,7 @@
   },
   {
     "version": "v2.8.4",
-    "title": "Update lunch period references for Pilot 1 schedule in HTML and adjust schedule logic in JavaScript",
+    "title": "Updated lunch periods for Pilot 1 week",
     "date": "Mar 16, 2026"
   },
   {
@@ -1391,12 +1396,12 @@
   },
   {
     "version": "v2.8.3",
-    "title": "Add functions to handle schedule periods and update related logic",
+    "title": "Improved schedule period handling",
     "date": "Mar 16, 2026"
   },
   {
     "version": "v2.8.2",
-    "title": "Refactor lunch schedule adjustment logic for Pilot 1",
+    "title": "Updated lunch schedule for Pilot 1 week",
     "date": "Mar 16, 2026"
   },
   {
@@ -1421,22 +1426,22 @@
   },
   {
     "version": "v2.8.1.7",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 15, 2026"
   },
   {
     "version": "v2.8.1.6",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 15, 2026"
   },
   {
     "version": "v2.8.1.5",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 15, 2026"
   },
   {
     "version": "v2.8.1.4",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 15, 2026"
   },
   {
@@ -1541,12 +1546,12 @@
   },
   {
     "version": "v2.7.7.30",
-    "title": "Renamed fonts",
+    "title": "Internal Changes",
     "date": "Mar 9, 2026"
   },
   {
     "version": "v2.7.7.29",
-    "title": "Reverted renamed fonts",
+    "title": "Internal Changes",
     "date": "Mar 9, 2026"
   },
   {
@@ -1556,7 +1561,7 @@
   },
   {
     "version": "v2.7.7.27",
-    "title": "Changed fonts",
+    "title": "Updated fonts",
     "date": "Mar 8, 2026"
   },
   {
@@ -1571,7 +1576,7 @@
   },
   {
     "version": "v2.7.7.24",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 8, 2026"
   },
   {
@@ -1616,7 +1621,7 @@
   },
   {
     "version": "v2.7.7.15",
-    "title": "Reverted change",
+    "title": "Internal Changes",
     "date": "Mar 8, 2026"
   },
   {
@@ -1641,7 +1646,7 @@
   },
   {
     "version": "v2.7.7.10",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Mar 8, 2026"
   },
   {
@@ -1686,7 +1691,7 @@
   },
   {
     "version": "v2.7.7.1",
-    "title": "Update font links and version numbers across multiple HTML files",
+    "title": "Internal Changes",
     "date": "Mar 7, 2026"
   },
   {
@@ -1716,7 +1721,7 @@
   },
   {
     "version": "v2.7.2",
-    "title": "Refactor calendar styles for improved layout and responsiveness",
+    "title": "Improved calendar layout on all screen sizes",
     "date": "Mar 7, 2026"
   },
   {
@@ -1751,7 +1756,7 @@
   },
   {
     "version": "v2.5.23.6",
-    "title": "Delete presidents schedule data from JSON",
+    "title": "Removed old Presidents Week schedule",
     "date": "Feb 20, 2026"
   },
   {
@@ -1766,7 +1771,7 @@
   },
   {
     "version": "v2.5.23.3",
-    "title": "Remove holidays from the JSON file",
+    "title": "Removed old holiday data",
     "date": "Feb 17, 2026"
   },
   {
@@ -1811,17 +1816,17 @@
   },
   {
     "version": "v2.5.18",
-    "title": "Add dedicated PWA installation page with cross-platform support",
+    "title": "Added app installation page for all devices",
     "date": "Jan 30, 2026"
   },
   {
     "version": "v2.5.17",
-    "title": "Simplify PWA installation flow and improve UI design",
+    "title": "Simplified app installation flow",
     "date": "Jan 30, 2026"
   },
   {
     "version": "v2.5.16",
-    "title": "Replace PWA installation logic with Safari-specific instructions",
+    "title": "Updated app installation instructions for iPhone and iPad",
     "date": "Jan 30, 2026"
   },
   {
@@ -1966,7 +1971,7 @@
   },
   {
     "version": "v2.0.28",
-    "title": "Add B lunch schedule and refactor schedule pages",
+    "title": "Added B lunch schedule and redesigned schedule pages",
     "date": "Jan 14, 2026"
   },
   {
@@ -2096,7 +2101,7 @@
   },
   {
     "version": "v2.0.6.2",
-    "title": "Reverted theme changes",
+    "title": "Internal Changes",
     "date": "Dec 19, 2025"
   },
   {
@@ -2141,17 +2146,17 @@
   },
   {
     "version": "v1.8.22.2",
-    "title": "Update README with timer behavior clarification",
+    "title": "Clarified timer behavior description",
     "date": "Dec 18, 2025"
   },
   {
     "version": "v1.8.22.1",
-    "title": "Resolve timer display bugs and update README",
+    "title": "Fixed countdown timer display issues",
     "date": "Dec 18, 2025"
   },
   {
     "version": "v1.8.22",
-    "title": "Overhaul README with project overview, features, and details; style: widen month calendar max-width to 1400px for better layout",
+    "title": "Redesigned project page and made calendar wider on large screens",
     "date": "Dec 18, 2025"
   },
   {
@@ -2161,7 +2166,7 @@
   },
   {
     "version": "v1.8.20.6",
-    "title": "Update README to reflect changes in timer features",
+    "title": "Updated timer feature descriptions",
     "date": "Dec 17, 2025"
   },
   {
@@ -2176,7 +2181,7 @@
   },
   {
     "version": "v1.8.20.3",
-    "title": "Delete .DS_Store",
+    "title": "Internal Changes",
     "date": "Dec 17, 2025"
   },
   {
@@ -2221,7 +2226,7 @@
   },
   {
     "version": "v1.8.16",
-    "title": "Add visual badges for tech stack and license to README",
+    "title": "Added tech stack and license badges to project page",
     "date": "Dec 17, 2025"
   },
   {
@@ -2231,7 +2236,7 @@
   },
   {
     "version": "v1.8.14.1",
-    "title": "Remove features list from README",
+    "title": "Internal Changes",
     "date": "Dec 17, 2025"
   },
   {
@@ -2251,7 +2256,7 @@
   },
   {
     "version": "v1.8.13.17",
-    "title": "Xchanges",
+    "title": "Internal Changes",
     "date": "Dec 16, 2025"
   },
   {
@@ -2356,12 +2361,12 @@
   },
   {
     "version": "v1.8.10",
-    "title": "Refactor clock display logic for clarity and efficiencybug",
+    "title": "Improved clock display reliability",
     "date": "Dec 15, 2025"
   },
   {
     "version": "v1.8.9.13",
-    "title": "Reverted bug fix",
+    "title": "Internal Changes",
     "date": "Dec 15, 2025"
   },
   {
@@ -2386,7 +2391,7 @@
   },
   {
     "version": "v1.8.9.8",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Dec 15, 2025"
   },
   {
@@ -2406,12 +2411,12 @@
   },
   {
     "version": "v1.8.9.4",
-    "title": "PWA icons",
+    "title": "Updated app icons",
     "date": "Dec 15, 2025"
   },
   {
     "version": "v1.8.9.3",
-    "title": "PWA fixes",
+    "title": "Fixed app installation issues",
     "date": "Dec 15, 2025"
   },
   {
@@ -2451,7 +2456,7 @@
   },
   {
     "version": "v1.8.8.2",
-    "title": "Bug fixes",
+    "title": "Fixed various issues",
     "date": "Dec 13, 2025"
   },
   {
@@ -2461,7 +2466,7 @@
   },
   {
     "version": "v1.8.8",
-    "title": "Revise feature list and fix descriptions in README",
+    "title": "Updated feature descriptions on project page",
     "date": "Dec 13, 2025"
   },
   {
@@ -2486,12 +2491,12 @@
   },
   {
     "version": "v1.8.6.6",
-    "title": "Bugfixes",
+    "title": "Fixed various issues",
     "date": "Dec 13, 2025"
   },
   {
     "version": "v1.8.6.5",
-    "title": "Bug fixes",
+    "title": "Fixed various issues",
     "date": "Dec 13, 2025"
   },
   {
@@ -2506,7 +2511,7 @@
   },
   {
     "version": "v1.8.6.2",
-    "title": "Reverted bugs",
+    "title": "Internal Changes",
     "date": "Dec 13, 2025"
   },
   {
@@ -2521,12 +2526,12 @@
   },
   {
     "version": "v1.8.5.2",
-    "title": "Remove static color",
+    "title": "Internal Changes",
     "date": "Dec 12, 2025"
   },
   {
     "version": "v1.8.5.1",
-    "title": "Revise README with new features and fixes",
+    "title": "Updated project page with new features",
     "date": "Dec 12, 2025"
   },
   {
@@ -2536,37 +2541,37 @@
   },
   {
     "version": "v1.8.4.1",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Dec 11, 2025"
   },
   {
     "version": "v1.8.4",
-    "title": "Fix formatting in credits section of README",
+    "title": "Fixed formatting in credits section",
     "date": "Dec 10, 2025"
   },
   {
     "version": "v1.8.3.14",
-    "title": "Updated 5",
+    "title": "Internal Changes",
     "date": "Dec 8, 2025"
   },
   {
     "version": "v1.8.3.13",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Dec 8, 2025"
   },
   {
     "version": "v1.8.3.12",
-    "title": "Restructure 2",
+    "title": "Internal Changes",
     "date": "Dec 5, 2025"
   },
   {
     "version": "v1.8.3.11",
-    "title": "Restructure 2 continue",
+    "title": "Internal Changes",
     "date": "Dec 5, 2025"
   },
   {
     "version": "v1.8.3.10",
-    "title": "Update README with new features and changes",
+    "title": "Updated project page with new features",
     "date": "Dec 5, 2025"
   },
   {
@@ -2581,7 +2586,7 @@
   },
   {
     "version": "v1.8.3.7",
-    "title": "Delete .DS_Store",
+    "title": "Internal Changes",
     "date": "Nov 25, 2025"
   },
   {
@@ -2601,12 +2606,12 @@
   },
   {
     "version": "v1.8.3.3",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.3.2",
-    "title": "Updated 5",
+    "title": "Internal Changes",
     "date": "Nov 24, 2025"
   },
   {
@@ -2616,37 +2621,37 @@
   },
   {
     "version": "v1.8.3",
-    "title": "Refactor calendar styles and add theme variables",
+    "title": "Redesigned calendar with theme support",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.2",
-    "title": "Refactor reset button script to external file",
+    "title": "Internal Changes",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.1",
-    "title": "Add reset button functionality to clear settings",
+    "title": "Added reset button to clear all settings",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.0.14",
-    "title": "Reverted changes",
+    "title": "Internal Changes",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.0.13",
-    "title": "Reverted refactor calendar styles and add theme variables",
+    "title": "Reverted calendar redesign",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.0.12",
-    "title": "Reverted refactor reset button script to external file",
+    "title": "Internal Changes",
     "date": "Nov 24, 2025"
   },
   {
     "version": "v1.8.0.11",
-    "title": "Reverted add reset button functionality to clear settings",
+    "title": "Removed reset button",
     "date": "Nov 24, 2025"
   },
   {
@@ -2661,7 +2666,7 @@
   },
   {
     "version": "v1.8.0.8",
-    "title": "Update README with weekend and holiday schedule logic",
+    "title": "Updated project page with schedule logic details",
     "date": "Nov 22, 2025"
   },
   {
@@ -2696,7 +2701,7 @@
   },
   {
     "version": "v1.8.0.1",
-    "title": "Revise README for version 1.8 and feature updates",
+    "title": "Updated project page for version 1.8",
     "date": "Nov 22, 2025"
   },
   {
@@ -2726,17 +2731,17 @@
   },
   {
     "version": "v1.4.1",
-    "title": "Changed layout of site",
+    "title": "Redesigned page layout",
     "date": "Nov 21, 2025"
   },
   {
     "version": "v1.4.0.67",
-    "title": "Updated some stuff",
+    "title": "Internal Changes",
     "date": "Nov 21, 2025"
   },
   {
     "version": "v1.4.0.66",
-    "title": "Fixed stuff",
+    "title": "Fixed various issues",
     "date": "Nov 21, 2025"
   },
   {
@@ -2766,7 +2771,7 @@
   },
   {
     "version": "v1.4.0.60",
-    "title": "Newstructure",
+    "title": "Redesigned site structure",
     "date": "Nov 21, 2025"
   },
   {
@@ -2786,12 +2791,12 @@
   },
   {
     "version": "v1.4.0.56",
-    "title": "Settings",
+    "title": "Added settings page",
     "date": "Nov 21, 2025"
   },
   {
     "version": "v1.4.0.55",
-    "title": "Logo",
+    "title": "Added logo",
     "date": "Nov 21, 2025"
   },
   {
@@ -2801,7 +2806,7 @@
   },
   {
     "version": "v1.4.0.53",
-    "title": "Logo",
+    "title": "Added logo",
     "date": "Nov 21, 2025"
   },
   {
@@ -3136,7 +3141,7 @@
   },
   {
     "version": "v1.2.0.2",
-    "title": "Update version from v1.1 to v1.2 in README",
+    "title": "Internal Changes",
     "date": "Nov 15, 2025"
   },
   {
@@ -3206,12 +3211,12 @@
   },
   {
     "version": "v1.0.4",
-    "title": "Update lunch selection visibility note in README",
+    "title": "Updated lunch selection visibility info",
     "date": "Nov 14, 2025"
   },
   {
     "version": "v1.0.3",
-    "title": "Refactor holiday countdown size and schedule",
+    "title": "Improved holiday countdown display",
     "date": "Nov 14, 2025"
   },
   {
@@ -3221,7 +3226,7 @@
   },
   {
     "version": "v1.0.2.1",
-    "title": "Update version from v1.0 to v1.1 in README",
+    "title": "Internal Changes",
     "date": "Nov 14, 2025"
   },
   {
@@ -3236,7 +3241,7 @@
   },
   {
     "version": "v1.0.1",
-    "title": "Implement lunch settings overlay and toggle functions",
+    "title": "Added lunch preference panel",
     "date": "Nov 14, 2025"
   },
   {
