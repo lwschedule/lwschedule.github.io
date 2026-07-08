@@ -1,6 +1,11 @@
 [
   {
-    "version": "v3.7.19",
+    "version": "v3.7.20",
+    "title": "v3.7.7",
+    "date": "July 7, 2026"
+  },
+  {
+    "version": "v3.7.7",
     "title": "Renumber changelog to use fourth version number more aggressively",
     "date": "July 7, 2026"
   },
