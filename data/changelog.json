@@ -1,96 +1,101 @@
 [
   {
-    "version": "v3.7.22",
+    "version": "v3.7.0.23",
+    "title": "Renumber changelog to consistent 4-part versions",
+    "date": "August 26, 2026"
+  },
+  {
+    "version": "v3.7.0.22",
     "title": "Internal Changes",
     "date": "August 26, 2026"
   },
   {
-    "version": "v3.7.21",
+    "version": "v3.7.0.21",
     "title": "Add skeleton loading screens instead of the spinner",
     "date": "August 26, 2026"
   },
   {
-    "version": "v3.7.20",
+    "version": "v3.7.0.20",
     "title": "Internal Changes",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.7",
+    "version": "v3.7.0.19",
     "title": "Renumber changelog to use fourth version number more aggressively",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.9",
+    "version": "v3.7.0.18",
     "title": "Rewrite versioning guide in plain language",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.8",
+    "version": "v3.7.0.17",
     "title": "Mark v3.7.1 hook change as Internal Changes",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.7",
+    "version": "v3.7.0.16",
     "title": "Replace remaining implementation jargon with user-friendly language",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.6",
+    "version": "v3.7.0.15",
     "title": "Reword changelog titles to user-friendly language",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.5",
+    "version": "v3.7.0.14",
     "title": "Backfill missing v3.7.x changelog entries",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.4",
+    "version": "v3.7.0.13",
     "title": "Fix stale changelog title for the version renumbering update",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.3",
+    "version": "v3.7.0.12",
     "title": "Internal Changes",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.2",
+    "version": "v3.7.0.11",
     "title": "Cleaned up version history data",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6.1",
+    "version": "v3.7.0.10",
     "title": "Renumbered past versions to include dot-release numbers",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.6",
+    "version": "v3.7.0.9",
     "title": "Matched Info page to All Schedules layout",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.5",
+    "version": "v3.7.0.8",
     "title": "Cleaned up Info and About pages",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.4",
+    "version": "v3.7.0.7",
     "title": "Polished Info and About pages",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.3",
+    "version": "v3.7.0.6",
     "title": "Fixed version ordering in What's New page",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.2",
+    "version": "v3.7.0.5",
     "title": "Shortened page titles",
     "date": "July 7, 2026"
   },
   {
-    "version": "v3.7.1",
+    "version": "v3.7.0.4",
     "title": "Moved version history to a data file",
     "date": "July 7, 2026"
   },
