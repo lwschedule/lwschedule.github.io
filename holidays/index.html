@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
 </head>
 <body>
   
@@ -46,7 +45,11 @@
             </tr>
           </thead>
           <tbody id="holidayTableBody">
-            <tr><td colspan="2">Loading holidays...</td></tr>
+            <tr aria-hidden="true"><td><span class="skeleton sk-line" style="width:62%;"></span></td><td><span class="skeleton sk-line" style="width:38%;"></span></td></tr>
+            <tr aria-hidden="true"><td><span class="skeleton sk-line" style="width:48%;"></span></td><td><span class="skeleton sk-line" style="width:30%;"></span></td></tr>
+            <tr aria-hidden="true"><td><span class="skeleton sk-line" style="width:56%;"></span></td><td><span class="skeleton sk-line" style="width:34%;"></span></td></tr>
+            <tr aria-hidden="true"><td><span class="skeleton sk-line" style="width:40%;"></span></td><td><span class="skeleton sk-line" style="width:28%;"></span></td></tr>
+            <tr aria-hidden="true"><td><span class="skeleton sk-line" style="width:52%;"></span></td><td><span class="skeleton sk-line" style="width:32%;"></span></td></tr>
           </tbody>
         </table>
       </div>
@@ -161,7 +164,6 @@ async function initHolidayCountdownMorphs() {
       }
       await initHolidayCountdownMorphs();
       await initApp();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

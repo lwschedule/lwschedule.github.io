@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
   <style>
     .whatsnewContent { padding: 20px; max-width: 760px; margin: 0 auto; }
     .whatsnewSection { background: var(--card-dark); border-radius: 12px; padding: 18px; margin-bottom: 18px; }
@@ -69,7 +68,15 @@
       </div>
 
       <div class="whatsnewSection">
-<div class="changelog-list" id="changelogList"></div>
+<div class="changelog-list" id="changelogList">
+        <div class="sk-changelog-list" aria-hidden="true">
+          <div class="sk-changelog-item"><span class="skeleton sk-chip" style="width:72px;height:22px;"></span><span class="skeleton sk-line" style="width:60%;"></span></div>
+          <div class="sk-changelog-item"><span class="skeleton sk-chip" style="width:64px;height:22px;"></span><span class="skeleton sk-line" style="width:52%;"></span></div>
+          <div class="sk-changelog-item"><span class="skeleton sk-chip" style="width:70px;height:22px;"></span><span class="skeleton sk-line" style="width:64%;"></span></div>
+          <div class="sk-changelog-item"><span class="skeleton sk-chip" style="width:66px;height:22px;"></span><span class="skeleton sk-line" style="width:48%;"></span></div>
+          <div class="sk-changelog-item"><span class="skeleton sk-chip" style="width:72px;height:22px;"></span><span class="skeleton sk-line" style="width:56%;"></span></div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -91,7 +98,6 @@
         document.getElementById('changelogList').innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">Could not load version history.</p>';
       }
       
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
 
     function renderChangelog(entries) {

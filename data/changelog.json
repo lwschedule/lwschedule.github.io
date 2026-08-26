@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.21",
+    "title": "Add skeleton loading screens instead of the spinner",
+    "date": "August 26, 2026"
+  },
+  {
     "version": "v3.7.20",
     "title": "v3.7.7",
     "date": "July 7, 2026"

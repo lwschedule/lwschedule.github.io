@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
   <style>
     .academic-term-list { display: flex; flex-direction: column; gap: 15px; }
     .term-card { background: var(--primary); border-radius: 12px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; transition: all 0.3s ease; }
@@ -35,11 +34,15 @@
     <h2>Quarters & Semesters</h2>
     <h3 style="color: white; margin-top: 20px; margin-bottom: 10px;">Quarters 2025-26</h3>
     <div id="quartersList" class="academic-term-list">
-      <p>Loading quarters...</p>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:52%;"></span><span class="skeleton sk-sub" style="width:70%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:64px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:40px;margin-left:auto;margin-top:8px;"></span></div></div>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:60%;"></span><span class="skeleton sk-sub" style="width:52%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:70px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:44px;margin-left:auto;margin-top:8px;"></span></div></div>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:46%;"></span><span class="skeleton sk-sub" style="width:64%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:58px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:38px;margin-left:auto;margin-top:8px;"></span></div></div>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:56%;"></span><span class="skeleton sk-sub" style="width:58%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:66px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:42px;margin-left:auto;margin-top:8px;"></span></div></div>
     </div>
     <h3 style="color: white; margin-top: 30px; margin-bottom: 10px;">Semesters 2025-26</h3>
     <div id="semestersList" class="academic-term-list">
-      <p>Loading semesters...</p>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:48%;"></span><span class="skeleton sk-sub" style="width:62%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:60px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:36px;margin-left:auto;margin-top:8px;"></span></div></div>
+      <div class="sk-term-card"><div style="flex:1;min-width:150px;"><span class="skeleton sk-line" style="width:54%;"></span><span class="skeleton sk-sub" style="width:56%;margin-top:8px;"></span></div><div style="flex-shrink:0;text-align:right;min-width:90px;"><span class="skeleton sk-line" style="width:64px;margin-left:auto;"></span><span class="skeleton sk-sub" style="width:40px;margin-left:auto;margin-top:8px;"></span></div></div>
     </div>
   </div>
   <script src="/common-core.js"></script>
@@ -256,7 +259,6 @@ function setTermCountdown(cardEl, countdownData) {
       updateQuartersAndSemesters();
       if (quartersInterval) clearInterval(quartersInterval);
       quartersInterval = setInterval(updateQuartersAndSemesters, 1000);
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

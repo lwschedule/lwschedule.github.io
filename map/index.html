@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
   <style>
     .comingSoonCard {
       background: var(--card-dark);
@@ -48,7 +47,6 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       checkSetupComplete();
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

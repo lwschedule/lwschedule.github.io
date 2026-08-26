@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
 </head>
 <body>
   <a href="/schedules" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
@@ -17,7 +16,21 @@
   <div class="pageContainer">
     <h2>First Week</h2>
     <p style="text-align: center; opacity: 0.8;">Aug 31 – Sept 4, 2026</p>
-    <div id="firstWeekScheduleContent"></div>
+    <div id="firstWeekScheduleContent">
+      <span class="skeleton sk-line" style="width:90px;margin:26px auto 10px;"></span>
+      <div class="sk-table" aria-hidden="true">
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:32%;"></span><span class="skeleton sk-line" style="width:22%;margin-left:auto;"></span></div>
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:44%;"></span><span class="skeleton sk-line" style="width:18%;margin-left:auto;"></span></div>
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:38%;"></span><span class="skeleton sk-line" style="width:24%;margin-left:auto;"></span></div>
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:46%;"></span><span class="skeleton sk-line" style="width:20%;margin-left:auto;"></span></div>
+      </div>
+      <span class="skeleton sk-line" style="width:90px;margin:26px auto 10px;"></span>
+      <div class="sk-table" aria-hidden="true">
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:36%;"></span><span class="skeleton sk-line" style="width:20%;margin-left:auto;"></span></div>
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:42%;"></span><span class="skeleton sk-line" style="width:22%;margin-left:auto;"></span></div>
+        <div class="sk-table-row"><span class="skeleton sk-line" style="width:30%;"></span><span class="skeleton sk-line" style="width:24%;margin-left:auto;"></span></div>
+      </div>
+    </div>
   </div>
   <script src="/common-core.js"></script>
   <script>
@@ -55,7 +68,6 @@
         }
       });
       content.innerHTML = html;
-      if (typeof window.hideLoader === 'function') window.hideLoader();
     })();
   </script>
 </body>

@@ -9,7 +9,6 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <script src="/loader.js"></script>
 </head>
 <body class="homePage">
   <div class="home-header-new">
@@ -20,8 +19,8 @@
     <div class="home-date-col">
       <img src="/icons/src/calendar.svg" class="home-date-icon" alt="" aria-hidden="true">
       <div>
-        <div class="home-date-day" id="homeDateDay"></div>
-        <div class="home-date-full" id="homeDateFull"></div>
+        <div class="home-date-day" id="homeDateDay"><span class="skeleton sk-line" style="width:90px;height:14px;"></span></div>
+        <div class="home-date-full" id="homeDateFull"><span class="skeleton sk-sub" style="width:120px;"></span></div>
       </div>
     </div>
   </div>
@@ -65,8 +64,8 @@
           </svg>
         </div>
         <div class="upcoming-tile-body">
-          <div class="upcoming-tile-title" id="upcomingTile2Title">Loading...</div>
-          <div class="upcoming-tile-sub" id="upcomingTile2Sub"></div>
+          <div class="upcoming-tile-title" id="upcomingTile2Title"><span class="skeleton sk-line" style="width:70%;height:14px;"></span></div>
+          <div class="upcoming-tile-sub" id="upcomingTile2Sub"><span class="skeleton sk-sub" style="width:45%;"></span></div>
         </div>
       </div>
       <div class="upcoming-tile" id="upcomingTile3">
@@ -82,8 +81,8 @@
           </svg>
         </div>
         <div class="upcoming-tile-body">
-          <div class="upcoming-tile-title" id="upcomingTile3Title">Loading...</div>
-          <div class="upcoming-tile-sub" id="upcomingTile3Sub"></div>
+          <div class="upcoming-tile-title" id="upcomingTile3Title"><span class="skeleton sk-line" style="width:70%;height:14px;"></span></div>
+          <div class="upcoming-tile-sub" id="upcomingTile3Sub"><span class="skeleton sk-sub" style="width:45%;"></span></div>
         </div>
       </div>
     </div>
@@ -342,7 +341,6 @@
       const ticker = document.getElementById('homeTicker');
       ticker && ticker.classList.add('hidden');
     }
-    if (typeof window.hideLoader === 'function') window.hideLoader();
   })();
 </script>
 
