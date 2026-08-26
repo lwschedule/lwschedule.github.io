@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.0.24",
+    "title": "New back-to-school ticker message",
+    "date": "August 26, 2026"
+  },
+  {
     "version": "v3.7.0.23",
     "title": "Renumber changelog to consistent 4-part versions",
     "date": "August 26, 2026"
