@@ -66,24 +66,21 @@ Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spri
 
 ### How version numbers work
 
-Version numbers use four parts, like `v3.7.16.2`:
+Version numbers use four parts, like `v3.7.0.23`:
 
 - **First number** — major milestones (rarely changes). **ONLY the user can bump this.**
 - **Second number** — sets of new features or visual redesigns. **ONLY the user can bump this.**
-- **Third number** — individual improvements users can see (new features, notable fixes, design changes). **The agent decides when to bump this.**
-- **Fourth number** — behind-the-scenes changes (documentation, tooling, minor tweaks, follow-up fixes). **The agent decides when to bump this.**
+- **Third number** — part of the 4-part series (the `0` in `v3.7.0.23`). Leave it alone.
+- **Fourth number** — the counter. **Every commit bumps this.**
 
 ### How the agent chooses which part to bump
 
-- Bump the **third number** when the change is something a user would notice (new feature, visual change, important fix). Reset the fourth number back to nothing when this happens (e.g., `v3.7.16` instead of `v3.7.16.2`).
-- Bump the **fourth number** for behind-the-scenes work (docs, scripts, small follow-up tweaks to something just committed).
-- **Never bump the first or second number** — only the user can tell you to do that.
+- **Use the 4-part version number far more aggressively.** The version in README.md is a permanent 4-part series (e.g. `v3.7.0.23`) that simply counts up forever — the hook bumps the last number on every commit, so there is nothing to decide. Never collapse it back to 3 parts, never reset the fourth number, and never bump the third number for a feature or fix. The user wants the series to keep counting up indefinitely.
+- **Never bump the first, second, or third number** — only the user can tell you to change those.
 
 ### How the hook handles it
 
-The post-commit hook always bumps the last part of whatever version is in README.md. So if README says `v3.7.16`, the hook bumps it to `v3.7.17`. If README says `v3.7.16.2`, the hook bumps it to `v3.7.16.3`.
-
-To bump the **third number** instead of the fourth: temporarily remove the fourth number from README.md before committing, so the hook bumps the third number.
+The post-commit hook always bumps the last part of whatever version is in README.md. So if README says `v3.7.0.23`, the hook bumps it to `v3.7.0.24`.
 
 To bump the **second number**: the user tells you to change it in README.md and remove the third and fourth numbers.
 
@@ -99,7 +96,7 @@ The whats-new page (`/info/whats-new/`) fetches `data/changelog.json` and render
 
 If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
 
-**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.7.1: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
+**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.7.0.24: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
 
 After every commit, always push to remote (`git push`).
 

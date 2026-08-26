@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.0.25",
+    "title": "Use 4-part version numbers aggressively from now on",
+    "date": "August 26, 2026"
+  },
+  {
     "version": "v3.7.0.24",
     "title": "New back-to-school ticker message",
     "date": "August 26, 2026"
