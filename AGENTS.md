@@ -36,7 +36,7 @@ Multi-page app — each feature is a separate `index.html` in its own directory.
 - `/app/` — install prompt
 - `/info/` — hub page that links to the two subpages below
 - `/info/about/` — credits (Created By / Inspired By)
-- `/info/whats-new/` — version badge + Coming Soon link + full version history changelog
+- `/info/changelog/` — Coming Soon link + full version history changelog
 
 ## Data Files
 
@@ -90,7 +90,7 @@ The post-commit hook (`.githooks/post-commit`) auto-bumps three files:
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
 3. `data/changelog.json` — prepends a new entry with the new version, commit title, and today's date
 
-The whats-new page (`/info/whats-new/`) fetches `data/changelog.json` and renders it dynamically via JS.
+The changelog page (`/info/changelog/`) fetches `data/changelog.json` and renders it dynamically via JS.
 
 **Enable locally:** `git config core.hooksPath .githooks`
 

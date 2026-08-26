@@ -2169,7 +2169,7 @@ body.calendarPage .calendar-grid {
   }
 }
 
-/* ===== CHANGELOG (used by /whats-new/) ===== */
+/* ===== CHANGELOG (used by /info/changelog/) ===== */
 .changelog-list { display: flex; flex-direction: column; gap: 6px; }
 .changelog-month-heading {
   text-align: left;
