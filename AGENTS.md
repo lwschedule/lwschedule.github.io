@@ -89,6 +89,10 @@ Never reuse a version number, and never renumber or redate entries that are alre
 
 The changelog page (`/info/changelog/`) fetches `data/changelog.json` and renders it dynamically via JS.
 
+### How the changelog page displays entries
+
+Each entry shows only the version pill and the title — no per-entry release date (the date is already inside the date-based version number). Versions display as `v2026.8.27 (2)`: the release count goes in parentheses and only appears when it's greater than one. The `date` field in the JSON is still required — it groups entries under month headings — so keep writing it on every new entry.
+
 Never commit without a version bump.
 
 **Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v2026.8.27.2: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.

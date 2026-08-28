@@ -24,7 +24,7 @@
     .changelog-month-heading:first-child { margin-top: 4px; }
     .changelog-item {
       display: grid;
-      grid-template-columns: 92px 1fr;
+      grid-template-columns: 116px 1fr;
       align-items: center;
       gap: 12px;
       background: var(--card-dark);
@@ -48,11 +48,9 @@
     }
     
     .changelog-item-body { min-width: 0; }
-    
-    .commit-meta { display: flex; gap: 10px; align-items: center; margin-top: 2px; font-size: 0.8em; opacity: 0.7; }
 
     @media (max-width: 460px) {
-      .changelog-item { grid-template-columns: 80px 1fr; padding: 8px 10px; gap: 10px; }
+      .changelog-item { grid-template-columns: 104px 1fr; padding: 8px 10px; gap: 10px; }
       .version-pill { font-size: 0.72em; padding: 3px 6px; }
       
     }
@@ -100,6 +98,14 @@
       
     })();
 
+    // Show versions as v2026.8.27 (2): release count in parentheses, only when greater than one.
+    function formatVersionDisplay(version) {
+      const m = /^v(\d{4}\.\d+\.\d+)(?:\.(\d+))?$/.exec(version);
+      if (!m) return version;
+      const count = m[2] ? parseInt(m[2], 10) : 0;
+      return count > 1 ? 'v' + m[1] + ' (' + count + ')' : 'v' + m[1];
+    }
+
     function renderChangelog(entries) {
       const container = document.getElementById('changelogList');
       
@@ -135,7 +141,7 @@
         html += '<div class="changelog-month-heading">' + group.month + '</div>\n';
         for (const entry of group.items) {
           let anchored = isFirst ? ' changelog-row-anchored' : '';
-          html += '<div class="changelog-item' + anchored + '"><span class="version-pill">' + entry.version + '</span><div class="changelog-item-body"><div class="commit-title">' + entry.title + '</div><div class="commit-meta"><span class="commit-date">' + entry.date + '</span></div></div></div>\n';
+          html += '<div class="changelog-item' + anchored + '"><span class="version-pill">' + formatVersionDisplay(entry.version) + '</span><div class="changelog-item-body"><div class="commit-title">' + entry.title + '</div></div></div>\n';
           isFirst = false;
         }
       }
