@@ -114,9 +114,12 @@
       let currentMonth = null;
       let currentGroup = [];
       
+      // Map abbreviations to full month names so a differently formatted date can't split a month into two headings.
+      const MONTH_NAMES = { Jan: 'January', Feb: 'February', Mar: 'March', Apr: 'April', May: 'May', Jun: 'June', Jul: 'July', Aug: 'August', Sep: 'September', Sept: 'September', Oct: 'October', Nov: 'November', Dec: 'December' };
+
       for (const entry of entries) {
         const parts = entry.date.split(' ');
-        const monthName = parts[0];
+        const monthName = MONTH_NAMES[parts[0]] || parts[0];
         const year = parts[2];
         const monthKey = monthName + ' ' + year;
         

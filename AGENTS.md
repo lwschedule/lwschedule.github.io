@@ -105,7 +105,7 @@ Heads-up: the changelog styles exist in TWO places — the `CHANGELOG` section a
 
 ### Changelog data conventions
 
-- The `date` field format is `August 27, 2026` — always use full month names. Old entries use abbreviations (`Jul 7, 2026`), and month headings come from comparing the raw date strings, so July currently splits into two headings (`July 2026` and `Jul 2026`). Normalizing old abbreviations to full names is safe — it only changes formatting, not the actual dates, so the no-redating rule isn't violated.
+- The `date` field format is `August 27, 2026` — always use full month names. Old entries used abbreviations (`Jul 7, 2026`), which split months into duplicate headings; the data has since been normalized and the changelog page's renderer maps abbreviations to full names as a safety net — but write full names in new entries anyway.
 - Entries are ordered newest-first, and same-day entries must stay contiguous in the file.
 - **Large release counters are real — don't "fix" them.** July 6, 2026 had 28 releases in one day (a big housekeeping sprint), and the changelog matches git commit-for-commit. If a counter looks absurd, verify against git before touching anything: `git log --date=format:'%Y-%m-%d' --format='%ad' | sort | uniq -c`
 - A day's changelog count can trail its git commit count slightly — doc-only commits (AGENTS.md edits and the like) sometimes shipped without a changelog entry. That's expected.
