@@ -2178,6 +2178,17 @@ body.calendarPage .calendar-grid {
 }
 
 /* ===== CHANGELOG (used by /info/changelog/) ===== */
+/* Page layout — legacy "What's New" class names, still used by the changelog page markup.
+   All changelog styles live here only; the page has no inline styles. */
+.whatsnewContent { padding: 20px; max-width: 760px; margin: 0 auto; }
+.whatsnewSection { background: var(--card-dark); border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+.whatsnewContent h3 { color: white; margin-top: 0; margin-bottom: 10px; }
+.whatsnewContent p { margin: 10px 0; line-height: 1.6; }
+.whatsnewContent a { color: white; text-decoration: none; font-weight: 700; }
+.whatsnewContent a:hover { text-decoration: underline; }
+.versionBadge { display: inline-block; background: var(--primary) !important; color: white; padding: 8px 20px; border-radius: 20px; font-size: 1.2em; font-weight: 700; margin: 6px 0 0; box-shadow: var(--glow); }
+.whatsnew-header { text-align: center; }
+
 .changelog-list { display: flex; flex-direction: column; gap: 6px; }
 .changelog-month-heading {
   text-align: left;

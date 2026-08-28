@@ -101,7 +101,7 @@ Each entry shows only the version pill and the title — no per-entry release da
 
 The stored version string is converted for display by `formatVersionDisplay()` in `info/changelog/index.html` — if the version format ever changes, update that function's regex. Keep `entry.version` in the JSON in machine format.
 
-Heads-up: the changelog styles exist in TWO places — the `CHANGELOG` section at the bottom of `common.css` and a near-identical copy inline in `info/changelog/index.html`. Change both together or they will drift.
+The changelog page's styles all live in one place — the `CHANGELOG` section at the bottom of `common.css` (the page itself has no inline styles).
 
 ### Changelog data conventions
 
