@@ -1,5 +1,10 @@
 [
   {
+    "version": "v3.7.0.27",
+    "title": "Fix update banner centering on mobile and desktop",
+    "date": "August 27, 2026"
+  },
+  {
     "version": "v3.7.0.26",
     "title": "Rename What's New page to Changelog",
     "date": "August 26, 2026"

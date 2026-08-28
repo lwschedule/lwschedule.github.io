@@ -43,7 +43,7 @@ body {
   padding-bottom: 100px;
 }
 
-body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner) {
   opacity: 0;
   transform: translateX(calc(var(--page-transition-distance) * -1));
   transition:
@@ -52,27 +52,27 @@ body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSideba
   will-change: transform, opacity;
 }
 
-body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+body.page-transition-ready > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner) {
   opacity: 1;
   transform: translateX(0);
 }
 
-body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
-body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner),
+body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner) {
   opacity: 0;
   transform: translateX(var(--page-transition-distance));
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  body > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner) {
     transition: none;
     transform: none;
     opacity: 1;
   }
 
-  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle),
-  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle) {
+  body.page-transition-exit-forward > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner),
+  body.page-transition-exit-back > *:not(script):not(style):not(link):not(meta):not(title):not(#globalSidebar):not(#sidebarMobileToggle):not(#updateBanner) {
     transform: none;
     opacity: 1;
   }
@@ -1401,8 +1401,9 @@ body.calendarPage .pageContainer {
 }
 
 .update-banner-body {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .update-banner-title {
@@ -1479,11 +1480,33 @@ body.calendarPage .pageContainer {
   outline-offset: 2px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  #updateBanner {
+    transition: opacity 0.2s ease;
+    transform: translateX(-50%) translateY(-140%);
+  }
+
+  #updateBanner.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .update-banner-icon {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   /* Sit below #sidebarMobileToggle / .icon-back-btn which occupy top:15px left:15px (45x45) */
   #updateBanner {
     top: 72px;
-    width: calc(100vw - 20px);
+    left: 10px;
+    right: 10px;
+    width: auto;
+    transform: translateY(-140%);
+  }
+
+  #updateBanner.show {
+    transform: translateY(0);
   }
 }
 
@@ -1516,21 +1539,6 @@ body.calendarPage .pageContainer {
   .update-banner-btn {
     padding: 8px 13px;
     font-size: 0.85em;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #updateBanner {
-    transition: opacity 0.2s ease;
-    transform: translateX(-50%);
-  }
-
-  #updateBanner.show {
-    transform: translateX(-50%);
-  }
-
-  .update-banner-icon {
-    animation: none;
   }
 }
 
