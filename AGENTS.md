@@ -75,17 +75,21 @@ Version numbers are date-based, like `v2026.8.27`:
 - **Third number** — the day of the month (`27`).
 - **Fourth number (optional)** — the release count for that day. The first release of a day is just `v2026.8.27`; the second is `v2026.8.27.2`, the third `.3`, and so on.
 
+Where each format lives: the README badge, commit subjects, and the entries in `data/changelog.json` all store the machine format (`v2026.8.27.4`). Only the changelog page reformats for display — it shows `v2026.8.27 (4)` with the release count in parentheses (see the changelog display section below).
+
 ### How to bump the version
 
 There is no auto-bump hook — do it manually before committing. On every release:
 
-1. `README.md` — version badge + release date
-2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
+1. `README.md` — version badge
+2. `sw.js` — `CACHE_NAME` (format: `lwschedule-<version without the v>`, e.g. `lwschedule-2026.8.27.4`)
 3. `data/changelog.json` — prepend a new entry with the new version, a user-facing title, and today's date
 
 To pick the new number: take today's date. If the newest changelog entry is already dated today, append or increment the release counter (newest is `v2026.8.27` → use `v2026.8.27.2`; newest is `v2026.8.27.2` → use `v2026.8.27.3`). Otherwise start fresh with just today's date, no counter.
 
 Never reuse a version number, and never renumber or redate entries that are already released.
+
+**The cache name must be unique for every single release — this has bitten us before.** On August 27, 2026 the cache name was date-only, so the third release of the day shipped with the same cache name as the first, and returning visitors kept getting served the stale earlier version no matter how many times the site deployed. The version-based format makes collisions impossible; do not regress to date-only names.
 
 The changelog page (`/info/changelog/`) fetches `data/changelog.json` and renders it dynamically via JS.
 
@@ -93,11 +97,36 @@ The changelog page (`/info/changelog/`) fetches `data/changelog.json` and render
 
 Each entry shows only the version pill and the title — no per-entry release date (the date is already inside the date-based version number). Versions display as `v2026.8.27 (2)`: the release count goes in parentheses and only appears when it's greater than one. The `date` field in the JSON is still required — it groups entries under month headings — so keep writing it on every new entry.
 
+**Purple is reserved for the latest release.** The newest entry gets the `changelog-row-anchored` treatment: purple gradient pill plus a purple-tinted row border and background. Every older pill is a neutral translucent chip (`rgba(255, 255, 255, 0.08)` with dimmed text). Don't use the purple pill styling anywhere else.
+
+The stored version string is converted for display by `formatVersionDisplay()` in `info/changelog/index.html` — if the version format ever changes, update that function's regex. Keep `entry.version` in the JSON in machine format.
+
+Heads-up: the changelog styles exist in TWO places — the `CHANGELOG` section at the bottom of `common.css` and a near-identical copy inline in `info/changelog/index.html`. Change both together or they will drift.
+
+### Changelog data conventions
+
+- The `date` field format is `August 27, 2026` — always use full month names. Old entries use abbreviations (`Jul 7, 2026`), and month headings come from comparing the raw date strings, so July currently splits into two headings (`July 2026` and `Jul 2026`). Normalizing old abbreviations to full names is safe — it only changes formatting, not the actual dates, so the no-redating rule isn't violated.
+- Entries are ordered newest-first, and same-day entries must stay contiguous in the file.
+- **Large release counters are real — don't "fix" them.** July 6, 2026 had 28 releases in one day (a big housekeeping sprint), and the changelog matches git commit-for-commit. If a counter looks absurd, verify against git before touching anything: `git log --date=format:'%Y-%m-%d' --format='%ad' | sort | uniq -c`
+- A day's changelog count can trail its git commit count slightly — doc-only commits (AGENTS.md edits and the like) sometimes shipped without a changelog entry. That's expected.
+
 Never commit without a version bump.
 
 **Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v2026.8.27.2: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
 
 After every commit, always push to remote (`git push`).
+
+## Release tooling
+
+`.github/scripts/auto_bump_version.py` automates the release checklist, but **nothing wires it up — there is no git hook anymore**, so it only runs if you run it deliberately:
+
+```bash
+python3 .github/scripts/auto_bump_version.py
+```
+
+What it does, in order: bumps the README version, rewrites `CACHE_NAME` in `sw.js` from the new version, prepends a new entry to `data/changelog.json`, stages those three files, and **amends the most recent commit** — folding the files in and version-prefixing the subject.
+
+Because it amends, run it immediately after committing and NEVER after pushing. It takes the changelog title from the last commit's subject (after stripping the version prefix), stamps the entry with today's date, and guards against re-entrancy with the `LWS_AMEND_IN_PROGRESS` environment variable.
 
 ## Changelog Writing
 
@@ -194,9 +223,32 @@ If the schedule spans dates that overlap with holidays or breaks, you may also n
 - [ ] Schedule page created at `schedules/<key>/index.html`
 - [ ] Lunch auto-application works (global prefs or custom `storageKey`)
 
-## Testing Locally
+## Testing & Verification
 
-No test suite. Open `index.html` in a browser or use any static server (`python3 -m http.server`, `npx serve`). The service worker requires HTTPS or localhost.
+No test suite, no Node toolchain. Verification is manual:
+
+- **Static server:** `python3 -m http.server 8000` from the repo root, then open `http://localhost:8000`. The service worker only activates on HTTPS or localhost.
+- **Data files:** validate JSON after editing — `python3 -c "import json; json.load(open('data/changelog.json'))"`.
+- **Release script:** syntax-check after editing — `python3 -m py_compile .github/scripts/auto_bump_version.py` (then delete the `__pycache__` it creates — it's gitignored, but keep the tree clean).
+- **Never run the release script casually** — it amends the last commit (see Release tooling).
+
+### Verifying pages when background servers won't stay up
+
+In the agent environment, background processes are killed as soon as a terminal command finishes (`setsid` is unavailable on the macOS host), so a server started in one command is dead by the next. To check page rendering anyway:
+
+1. Write a temporary standalone HTML (e.g. `_check.html`) that inlines the exact render code being changed plus a realistic sample of the real data.
+2. Open it with the Preview tab's `htmlPath` mode (no server needed).
+3. Assert with `preview_evaluate` on computed styles and DOM counts — screenshots may fail to composite; DOM checks are more reliable anyway.
+4. **Delete the temp file before committing.** Nothing named `_*.html`, `*check*`, or `*preview*` should ever reach a commit.
+
+### Pre-flight checklist before every commit
+
+- [ ] Version bumped in all three places (README, changelog entry, `CACHE_NAME`)
+- [ ] `git status --short` shows ONLY the files you meant to change — no temp files, no `__pycache__`, no `.DS_Store`
+- [ ] `data/changelog.json` still parses and the new entry is first
+- [ ] Commit subject = `v<version>: <user-facing headline>`; body has 1-3 plain bullets
+- [ ] Push after committing (`git push`)
+- [ ] `.freebuff/` stays untracked — it's local tool state, never commit or delete it
 
 ## Gotchas
 
@@ -205,3 +257,5 @@ No test suite. Open `index.html` in a browser or use any static server (`python3
 - The `model-un` club has day-specific time overrides (`friStartHour`, etc.) — not all clubs use the same time fields
 - `common.js` uses global variables, not modules — all functions are on `window`
 - Dark theme is default; no light mode toggle exists
+- `.freebuff/` and `.mimocode/` are local tool state (`.mimocode/` holds agent plans and vendored dependencies — one plan file is tracked, the rest is ignored). Leave them alone: never commit new files from them, never delete them
+- If a deploy looks stale in your browser, suspect the service worker cache — hard-refresh (Cmd+Shift+R) to bypass it

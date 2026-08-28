@@ -37,35 +37,24 @@ def next_version(current_version: str, today: datetime) -> str:
     return today_ver
 
 
-def bump_readme_version_and_date():
+def bump_readme_version():
     text = README.read_text(encoding='utf-8')
     ver_re = re.compile(r"(\*\*Current Version:\*\*\s*`)(v?\d+(?:\.\d+){0,3})(`)", re.IGNORECASE)
     m = ver_re.search(text)
-    changed = False
-    if m:
-        prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
-        new_ver = next_version(current_version, datetime.now())
-        text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
-        changed = True
-
-    now = datetime.now()
-    date_str = format_date(now)
-    date_re = re.compile(r"(\*\*Release Date:\*\*\s*`)([^`]*)`")
-    if date_re.search(text):
-        text = date_re.sub(rf"\1{date_str}`", text, count=1)
-        changed = True
-
-    if changed:
-        README.write_text(text, encoding='utf-8')
-    return changed
+    if not m:
+        return False
+    prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
+    new_ver = next_version(current_version, datetime.now())
+    text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
+    README.write_text(text, encoding='utf-8')
+    return True
 
 
-def update_sw_cache_name():
+def update_sw_cache_name(version: str) -> bool:
+    """Set CACHE_NAME from the release version so it is unique for every release."""
     text = SW.read_text(encoding='utf-8')
-    now = datetime.now()
-    iso_date = now.strftime('%Y-%m-%d')
     cache_re = re.compile(r"const\s+CACHE_NAME\s*=\s*['\"].*?['\"];")
-    new_cache = f"const CACHE_NAME = 'lwschedule-{iso_date}';"
+    new_cache = f"const CACHE_NAME = 'lwschedule-{version.lstrip('v')}';"
     if cache_re.search(text):
         text = cache_re.sub(new_cache, text, count=1)
         SW.write_text(text, encoding='utf-8')
@@ -153,15 +142,15 @@ def main():
     if os.environ.get('LWS_AMEND_IN_PROGRESS') == '1':
         return
 
-    changed_readme = bump_readme_version_and_date()
-    changed_sw = update_sw_cache_name()
+    changed_readme = bump_readme_version()
 
-    # Re-read README to get the final bumped version and date.
+    # Re-read README to get the final bumped version.
     readme_text = README.read_text(encoding='utf-8')
     version_match = re.search(r"\*\*Current Version:\*\*\s*`(v?\d+(?:\.\d+){0,3})`", readme_text, re.IGNORECASE)
-    date_match = re.search(r"\*\*Release Date:\*\*\s*`([^`]*)`", readme_text)
     final_version = version_match.group(1) if version_match else 'v0.0.0'
-    final_release_date = date_match.group(1) if date_match else format_date(datetime.now())
+    final_release_date = format_date(datetime.now())
+
+    changed_sw = update_sw_cache_name(final_version)
 
     # In post-commit, the commit already exists, so git log -1 gives the REAL title.
     commit_title = get_commit_title()

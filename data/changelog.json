@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.27.4",
+    "title": "Only the latest version number is highlighted now",
+    "date": "August 27, 2026"
+  },
+  {
     "version": "v2026.8.27.3",
     "title": "Removed redundant release dates from changelog entries",
     "date": "August 27, 2026"
