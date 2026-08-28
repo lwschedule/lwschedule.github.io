@@ -20,7 +20,7 @@ Static PWA for a high school schedule viewer. No build step, no bundler, no `pac
 - **`common-core.js`** — bootstrap loader. Every page includes this; it auto-loads `common.js`.
 - **`common.css`** — single stylesheet for the entire app.
 - **`data/*.json`** — static data: schedules, holidays, terms, clubs, events, classes, ticker messages.
-- **`sw.js`** — service worker. Cache name must change on every deploy (pre-commit hook handles this).
+- **`sw.js`** — service worker. Cache name must change on every deploy (update `CACHE_NAME` on each release).
 - **`manifest.json`** — PWA manifest. Portrait orientation, standalone display.
 
 ## Pages
@@ -31,7 +31,7 @@ Multi-page app — each feature is a separate `index.html` in its own directory.
 - `/schedules/` — browse all schedule types (Normal, First Week, Labor Day)
 - `/settings/` — preferences (lunch, classes, clubs, pack-up, phone caddy)
 - `/holidays/`, `/quarters/`, `/events/` — academic calendar
-- `/info/` — about page (version badge updated by pre-commit hook)
+- `/info/` — about page
 - `/setup/` — first-run wizard
 - `/app/` — install prompt
 - `/info/` — hub page that links to the two subpages below
@@ -62,41 +62,36 @@ Period times are **minutes since midnight**. Example: `8:35 AM` = `8*60+35` = `5
 
 Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, Summer Break.
 
-## Versioning**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
+## Versioning
+
+**CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**
 
 ### How version numbers work
 
-Version numbers use four parts, like `v3.7.0.23`:
+Version numbers are date-based, like `v2026.8.27`:
 
-- **First number** — major milestones (rarely changes). **ONLY the user can bump this.**
-- **Second number** — sets of new features or visual redesigns. **ONLY the user can bump this.**
-- **Third number** — part of the 4-part series (the `0` in `v3.7.0.23`). Leave it alone.
-- **Fourth number** — the counter. **Every commit bumps this.**
+- **First number** — the year (`2026`).
+- **Second number** — the month, no zero-padding (`8`, not `08`).
+- **Third number** — the day of the month (`27`).
+- **Fourth number (optional)** — the release count for that day. The first release of a day is just `v2026.8.27`; the second is `v2026.8.27.2`, the third `.3`, and so on.
 
-### How the agent chooses which part to bump
+### How to bump the version
 
-- **Use the 4-part version number far more aggressively.** The version in README.md is a permanent 4-part series (e.g. `v3.7.0.23`) that simply counts up forever — the hook bumps the last number on every commit, so there is nothing to decide. Never collapse it back to 3 parts, never reset the fourth number, and never bump the third number for a feature or fix. The user wants the series to keep counting up indefinitely.
-- **Never bump the first, second, or third number** — only the user can tell you to change those.
-
-### How the hook handles it
-
-The post-commit hook always bumps the last part of whatever version is in README.md. So if README says `v3.7.0.23`, the hook bumps it to `v3.7.0.24`.
-
-To bump the **second number**: the user tells you to change it in README.md and remove the third and fourth numbers.
-
-The post-commit hook (`.githooks/post-commit`) auto-bumps three files:
+There is no auto-bump hook — do it manually before committing. On every release:
 
 1. `README.md` — version badge + release date
 2. `sw.js` — `CACHE_NAME` (format: `lwschedule-YYYY-MM-DD`)
-3. `data/changelog.json` — prepends a new entry with the new version, commit title, and today's date
+3. `data/changelog.json` — prepend a new entry with the new version, a user-facing title, and today's date
+
+To pick the new number: take today's date. If the newest changelog entry is already dated today, append or increment the release counter (newest is `v2026.8.27` → use `v2026.8.27.2`; newest is `v2026.8.27.2` → use `v2026.8.27.3`). Otherwise start fresh with just today's date, no counter.
+
+Never reuse a version number, and never renumber or redate entries that are already released.
 
 The changelog page (`/info/changelog/`) fetches `data/changelog.json` and renders it dynamically via JS.
 
-**Enable locally:** `git config core.hooksPath .githooks`
+Never commit without a version bump.
 
-If the hook is not enabled, manually update all three files before committing. Never commit without a version bump.
-
-**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v3.7.0.24: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
+**Commit message format:** each commit subject starts with the new version number and a colon, then a short headline — e.g. `v2026.8.27.2: Add Homecoming Week schedule`. Use the body for 1-3 plain-language bullets describing what changed and why. Keep the headline under about 60 characters.
 
 After every commit, always push to remote (`git push`).
 

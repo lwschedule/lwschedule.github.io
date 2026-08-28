@@ -18,32 +18,23 @@ def format_date(dt: datetime) -> str:
     return f"{dt.strftime('%B')} {dt.day}, {dt.year}"
 
 
-def bump_version(version_text: str) -> str:
-    """Increment the last numeric component of a version string.
+def next_version(current_version: str, today: datetime) -> str:
+    """Compute the next date-based version.
 
-    Supports 1-4 component versions: v3, v3.7, v3.7.1, v3.7.1.2.
-    Always increments the last component by one.
+    Format: vYYYY.M.D, or vYYYY.M.D.N when there are multiple releases
+    in one day (N = release count that day, so the second release is .2).
+    If the current version is already dated today, increment its release
+    count; otherwise start fresh with today's date.
     """
-    parts = version_text.lstrip('v').split('.')
-    if not parts or not parts[0].isdigit():
-        return version_text
-
-    nums = []
-    for p in parts:
-        if p.isdigit():
-            nums.append(int(p))
-        else:
-            break
-    if not nums:
-        return version_text
-
-    # A 2-component version (x.y) is a minor release shorthand.
-    # Append .1 instead of incrementing the minor: v3.7 -> v3.7.1
-    if len(nums) == 2:
-        nums.append(1)
-    else:
-        nums[-1] += 1
-    return 'v' + '.'.join(str(n) for n in nums)
+    m = re.match(r'^v(\d{4})\.(\d+)\.(\d+)(?:\.(\d+))?$', current_version)
+    today_ver = f'v{today.year}.{today.month}.{today.day}'
+    if not m:
+        return today_ver
+    cur_date = f'v{int(m.group(1))}.{int(m.group(2))}.{int(m.group(3))}'
+    if cur_date == today_ver:
+        n = int(m.group(4)) if m.group(4) else 1
+        return f'{today_ver}.{n + 1}'
+    return today_ver
 
 
 def bump_readme_version_and_date():
@@ -53,7 +44,7 @@ def bump_readme_version_and_date():
     changed = False
     if m:
         prefix, current_version, suffix = m.group(1), m.group(2), m.group(3)
-        new_ver = bump_version(current_version)
+        new_ver = next_version(current_version, datetime.now())
         text = ver_re.sub(f"{prefix}{new_ver}{suffix}", text, count=1)
         changed = True
 
