@@ -1,5 +1,5 @@
 // LW Schedule service worker — network-first for data, cache-first for assets
-const CACHE_NAME = 'lwschedule-2026.8.27.5';
+const CACHE_NAME = 'lwschedule-2026.8.28';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',
@@ -22,10 +22,12 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  const isDataRequest = req.method === 'GET' && req.url.includes('/data/');
+  // Changelog page is included so returning visitors always see the current
+  // rendering, never a stale cached copy from an older release.
+  const isDataRequest = req.method === 'GET' && (req.url.includes('/data/') || req.url.includes('/info/changelog'));
 
   if (isDataRequest) {
-    // Network-first for data files: always try fresh, fall back to cache offline
+    // Network-first for data files and the changelog page: always try fresh, fall back to cache offline
     event.respondWith(
       fetch(req).then((networkResponse) => {
         // Update the cache with the fresh response
