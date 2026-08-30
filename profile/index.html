@@ -1292,6 +1292,10 @@
     }
 
     async function initProfilePage() {
+      // Keep skeleton placeholders visible for at least 1s on page load.
+      if (typeof window.minSkeletonDelay === 'function') {
+        await window.minSkeletonDelay();
+      }
       initProfileSection();
       initLunchSection();
       initClassesSection();

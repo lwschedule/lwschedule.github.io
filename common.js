@@ -9,6 +9,16 @@ const MAX_CLASS_SLOTS = 6;
 
 const PACIFIC_TZ = 'America/Los_Angeles';
 
+// Forces skeleton placeholders to stay visible for at least 1 second per page
+// load. Recorded when common.js is evaluated (near the start of the page),
+// so fast loads pad to a full second while slow loads aren't delayed further.
+const PAGE_LOAD_START = performance.now();
+function minSkeletonDelay() {
+  const remaining = 1000 - (performance.now() - PAGE_LOAD_START);
+  if (remaining <= 0) return Promise.resolve();
+  return new Promise((resolve) => setTimeout(resolve, remaining));
+}
+
 function getPacificNow() {
   const s = new Date().toLocaleString('en-US', { timeZone: PACIFIC_TZ });
   return new Date(s);
@@ -1827,6 +1837,9 @@ async function initApp() {
 
 
   initPackUpNotifications();
+
+  // Hold content render so skeleton placeholders remain visible for 1s.
+  await minSkeletonDelay();
 }
 
 function injectGlobalSidebar() {

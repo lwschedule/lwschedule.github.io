@@ -39,7 +39,12 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       checkSetupComplete();
-      
+
+      // Keep skeleton placeholders visible for at least 1s on page load.
+      if (typeof window.minSkeletonDelay === 'function') {
+        await window.minSkeletonDelay();
+      }
+
       // Load and render changelog from JSON
       try {
         const res = await fetch('/data/changelog.json');
