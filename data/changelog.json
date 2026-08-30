@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.2",
+    "title": "Cap page content at a width that actually shows on screen",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30",
     "title": "Show loading placeholders for a moment on page load and allow wider content",
     "date": "August 30, 2026"
