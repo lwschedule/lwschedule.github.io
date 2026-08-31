@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="mapViewport" id="mapViewport">
-        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 2971" role="img"
+        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 2995" role="img"
              aria-label="Interactive school campus map" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
       <div id="mapStatus" class="mapStatus" role="status"></div>
@@ -224,7 +224,7 @@
 
       function clampPan() {
         zTx = Math.min(0, Math.max(1200 - 1200 * zK, zTx));
-        zTy = Math.min(0, Math.max(2971 - 2971 * zK, zTy));
+        zTy = Math.min(0, Math.max(2995 - 2995 * zK, zTy));
       }
 
       function zoomTo(k1, cx, cy) {
@@ -237,7 +237,7 @@
       }
 
       function visibleCenter() {
-        return { x: (600 - zTx) / zK, y: (1485.5 - zTy) / zK };
+        return { x: (600 - zTx) / zK, y: (1497.5 - zTy) / zK };
       }
 
       function resetView() { zK = 1; zTx = 0; zTy = 0; applyZoom(); }
@@ -249,7 +249,7 @@
       function clientToUser(cx, cy) {
         const rect = svg.getBoundingClientRect();
         const vu = (cx - rect.left) / rect.width * 1200;
-        const vh = (cy - rect.top) / rect.height * 2971;
+        const vh = (cy - rect.top) / rect.height * 2995;
         return { x: (vu - zTx) / zK, y: (vh - zTy) / zK };
       }
 
