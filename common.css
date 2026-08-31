@@ -2394,7 +2394,6 @@ body.calendarPage .calendar-grid {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 72vh;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
@@ -2424,7 +2423,6 @@ body.calendarPage .calendar-grid {
 
 .map-room text {
   fill: var(--text-light);
-  font-size: 20px;
   font-weight: 600;
   text-anchor: middle;
   dominant-baseline: middle;
@@ -2511,17 +2509,106 @@ body.calendarPage .calendar-grid {
     font-size: 1.05em;
   }
 
-  .map-room text {
-    font-size: 24px;
-  }
-
-  .map-room .map-text-v {
-    font-size: 22px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .map-room.selected rect {
     animation: none;
   }
+}
+
+/* Map: floor-plan element types (stairs, gray blocks, X-boxes, arcs, titles, zones) */
+.map-stair {
+  fill: url(#mapHatch);
+  stroke: #3f3f3f;
+  stroke-width: 1;
+}
+
+.map-stair-label {
+  fill: var(--text-light);
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.map-gray {
+  fill: #262626;
+  stroke: #333;
+  stroke-width: 1;
+}
+
+.map-xbox rect {
+  fill: #141414;
+  stroke: #3a3a3a;
+  stroke-width: 1.5;
+}
+
+.map-xbox line {
+  stroke: #3a3a3a;
+  stroke-width: 1;
+}
+
+.map-arc {
+  fill: none;
+  stroke: #3a3a3a;
+  stroke-width: 1.2;
+}
+
+.map-compass line {
+  stroke: #4a4a4a;
+  stroke-width: 1.5;
+}
+
+.map-compass text {
+  fill: var(--text-light);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+  text-anchor: middle;
+}
+
+.map-building-title {
+  fill: white;
+  font-size: 26px;
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+.map-floor-title {
+  fill: var(--text-light);
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.map-sub {
+  fill: var(--text-light);
+  font-weight: 400;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.map-zone text {
+  fill: var(--text-light);
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+.map-arrow line {
+  stroke: #5a5a5a;
+  stroke-width: 3;
+}
+
+.map-arrow polygon {
+  fill: #5a5a5a;
+}
+
+.map-zone.selected text {
+  fill: #d8b4fe;
+}
+
+.map-zone.selected .map-arrow line,
+.map-zone.selected .map-arrow polygon {
+  stroke: #a855f7;
+  fill: #a855f7;
 }

@@ -17,7 +17,7 @@
     <!-- Search bar at the very top -->
     <div class="mapSearchWrap">
       <input id="mapSearch" class="mapSearchInput" type="search" autocomplete="off"
-             placeholder="Search a room by name…" aria-label="Search rooms"
+             placeholder="Search a room by name or number…" aria-label="Search rooms"
              role="combobox" aria-expanded="false" aria-controls="mapSearchResults" />
       <div id="mapSearchResults" class="mapSearchResults" role="listbox" aria-label="Room results" hidden></div>
       <div id="mapSearchLive" class="sr-only" aria-live="polite"></div>
@@ -34,117 +34,8 @@
         </div>
       </div>
       <div class="mapViewport" id="mapViewport">
-        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 800" role="img"
-             aria-label="Interactive school campus map" preserveAspectRatio="xMidYMid meet">
-          <!-- Ground -->
-          <rect class="map-ground" x="0" y="0" width="1200" height="800" />
-
-          <!-- Roads / paths -->
-          <path class="map-path" d="M 60 400 H 1140" />
-          <path class="map-path" d="M 600 60 V 740" />
-
-          <!-- Main gate (south, center) -->
-          <g class="map-room" id="room-main-gate" data-room-id="main-gate" tabindex="0" role="button" aria-label="Main Gate">
-            <title>Main Gate</title>
-            <rect x="540" y="742" width="120" height="38" />
-            <text x="600" y="766">Main Gate</text>
-          </g>
-
-          <!-- Parking (southwest) -->
-          <g class="map-room" id="room-parking" data-room-id="parking" tabindex="0" role="button" aria-label="Parking Lot">
-            <title>Parking Lot</title>
-            <rect x="70" y="700" width="220" height="70" />
-            <text x="180" y="740">Parking</text>
-          </g>
-
-          <!-- Admin office (center, just north of gate) -->
-          <g class="map-room" id="room-admin-office" data-room-id="admin-office" tabindex="0" role="button" aria-label="Admin Office">
-            <title>Admin Office</title>
-            <rect x="480" y="560" width="240" height="120" />
-            <text x="600" y="615">Admin</text>
-            <text x="600" y="640">Office</text>
-          </g>
-
-          <!-- Library (east of admin) -->
-          <g class="map-room" id="room-library" data-room-id="library" tabindex="0" role="button" aria-label="Library">
-            <title>Library</title>
-            <rect x="770" y="560" width="200" height="120" />
-            <text x="870" y="625">Library</text>
-          </g>
-
-          <!-- Science labs (west of admin) -->
-          <g class="map-room" id="room-lab" data-room-id="lab" tabindex="0" role="button" aria-label="Science Labs">
-            <title>Science Labs</title>
-            <rect x="230" y="560" width="200" height="120" />
-            <text x="330" y="615">Science</text>
-            <text x="330" y="640">Labs</text>
-          </g>
-
-          <!-- North teaching wing (top center, horizontal) -->
-          <g class="map-room" id="room-teaching-wing-north" data-room-id="teaching-wing-north" tabindex="0" role="button" aria-label="North Teaching Wing">
-            <title>North Teaching Wing</title>
-            <rect x="300" y="70" width="600" height="110" />
-            <text x="600" y="130">North Teaching Wing</text>
-          </g>
-
-          <!-- East teaching wing (right, vertical) -->
-          <g class="map-room" id="room-teaching-wing-east" data-room-id="teaching-wing-east" tabindex="0" role="button" aria-label="East Teaching Wing">
-            <title>East Teaching Wing</title>
-            <rect x="950" y="70" width="180" height="280" />
-            <text x="1040" y="200" class="map-text-v">East Wing</text>
-          </g>
-
-          <!-- West teaching wing (left, vertical) -->
-          <g class="map-room" id="room-teaching-wing-west" data-room-id="teaching-wing-west" tabindex="0" role="button" aria-label="West Teaching Wing">
-            <title>West Teaching Wing</title>
-            <rect x="70" y="70" width="180" height="280" />
-            <text x="160" y="200" class="map-text-v">West Wing</text>
-          </g>
-
-          <!-- South teaching wing (below admin, horizontal) -->
-          <g class="map-room" id="room-teaching-wing-south" data-room-id="teaching-wing-south" tabindex="0" role="button" aria-label="South Teaching Wing">
-            <title>South Teaching Wing</title>
-            <rect x="300" y="440" width="600" height="90" />
-            <text x="600" y="492">South Teaching Wing</text>
-          </g>
-
-          <!-- Gym (northeast) -->
-          <g class="map-room" id="room-gym" data-room-id="gym" tabindex="0" role="button" aria-label="Gymnasium">
-            <title>Gymnasium</title>
-            <rect x="950" y="390" width="180" height="130" />
-            <text x="1040" y="460">Gym</text>
-          </g>
-
-          <!-- Theater & Music (northwest) -->
-          <g class="map-room" id="room-theater" data-room-id="theater" tabindex="0" role="button" aria-label="Theater and Music">
-            <title>Theater &amp; Music</title>
-            <rect x="70" y="390" width="180" height="130" />
-            <text x="160" y="450">Theater</text>
-            <text x="160" y="472">&amp; Music</text>
-          </g>
-
-          <!-- Cafeteria (center-east, between wings) -->
-          <g class="map-room" id="room-cafeteria" data-room-id="cafeteria" tabindex="0" role="button" aria-label="Cafeteria">
-            <title>Cafeteria</title>
-            <rect x="700" y="220" width="200" height="180" />
-            <text x="800" y="300">Cafeteria</text>
-          </g>
-
-          <!-- Playground / field (center-west open area) -->
-          <g class="map-room" id="room-playground" data-room-id="playground" tabindex="0" role="button" aria-label="Playground">
-            <title>Playground</title>
-            <rect x="300" y="220" width="200" height="180" />
-            <text x="400" y="300">Playground</text>
-          </g>
-
-          <!-- Basketball courts (southeast) -->
-          <g class="map-room" id="room-basketball-court" data-room-id="basketball-court" tabindex="0" role="button" aria-label="Basketball Courts">
-            <title>Basketball Courts</title>
-            <rect x="950" y="560" width="180" height="120" />
-            <text x="1040" y="610">Basketball</text>
-            <text x="1040" y="632">Courts</text>
-          </g>
-        </svg>
+        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 3540" role="img"
+             aria-label="Interactive school campus map" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
       <div id="mapStatus" class="mapStatus" role="status"></div>
     </div>
@@ -168,7 +59,6 @@
 
     function initMapPage() {
       const svg = document.getElementById('schoolMap');
-      const viewport = document.getElementById('mapViewport');
       const search = document.getElementById('mapSearch');
       const resultsBox = document.getElementById('mapSearchResults');
       const live = document.getElementById('mapSearchLive');
@@ -177,34 +67,162 @@
 
       let rooms = [];
       let roomsById = new Map();
-      let selectedRoomId = null;
-      let activeIndex = -1;
       let currentMatches = [];
+      let activeIndex = -1;
+      let mapContent = null;
 
-      fetch('/data/map-rooms.json')
-        .then((r) => r.json())
-        .then((data) => {
-          rooms = data;
-          roomsById = new Map(rooms.map((r) => [r.id, r]));
-        })
-        .catch((err) => console.error('Failed to load map rooms:', err));
+      const NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs, parent) {
+        const node = document.createElementNS(NS, tag);
+        for (const k in attrs) node.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(node);
+        return node;
+      }
+
+      function fontFor(w) {
+        if (w >= 150) return 17;
+        if (w >= 110) return 15;
+        if (w >= 80) return 13;
+        if (w >= 55) return 12;
+        if (w >= 38) return 11;
+        return 9;
+      }
+
+      function displayName(it) {
+        const label = it.label || it.num || it.name;
+        return label;
+      }
+
+      function resultLabel(it) {
+        return displayName(it) + ' — ' + it.floor;
+      }
+
+      function draw() {
+        // defs: hatch pattern for stairs
+        const defs = el('defs', {}, svg);
+        mapContent = el('g', { id: 'mapContent' }, svg);
+        defs.innerHTML = '<pattern id="mapHatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">' +
+          '<rect width="7" height="7" fill="#151515"/><line x1="0" y1="0" x2="0" y2="7" stroke="#4a4a4a" stroke-width="2"/></pattern>';
+
+        fetch('/data/map-rooms.json')
+          .then(r => r.json())
+          .then(data => {
+            for (const it of data.items) renderItem(it);
+            rooms = data.items.filter(i => i.t === 'room' || i.t === 'zone');
+            roomsById = new Map(rooms.map(r => [r.id, r]));
+          })
+          .catch(err => {
+            console.error('Failed to load map rooms:', err);
+            if (status) status.textContent = 'Could not load the map data.';
+          });
+      }
+
+      function renderItem(it) {
+        const cx = it.x + it.w / 2;
+
+        if (it.t === 'text') {
+          el('text', { x: it.x, y: it.y, class: it.cls, 'text-anchor': 'middle' }, mapContent).textContent = it.text;
+          return;
+        }
+        if (it.t === 'compass') {
+          const g = el('g', { class: 'map-compass' }, mapContent);
+          el('line', { x1: it.x, y1: it.y - 60, x2: it.x, y2: it.y + 60 }, g);
+          el('line', { x1: it.x - 55, y1: it.y, x2: it.x + 55, y2: it.y }, g);
+          const L = (x, y, t) => { const n = el('text', { x, y, 'text-anchor': 'middle' }, g); n.textContent = t; };
+          L(it.x, it.y - 68, 'N'); L(it.x, it.y + 82, 'S'); L(it.x - 68, it.y + 4, 'W'); L(it.x + 68, it.y + 4, 'E');
+          return;
+        }
+        if (it.t === 'stair') { el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-stair' }, mapContent); return; }
+        if (it.t === 'stairn') {
+          el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-stair' }, mapContent);
+          const t = el('text', { x: it.x + it.w / 2, y: it.y + it.h / 2, class: 'map-stair-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle', 'font-size': 11 }, mapContent);
+          t.textContent = it.label;
+          return;
+        }
+        if (it.t === 'gray') { el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-gray' }, mapContent); return; }
+        if (it.t === 'x') {
+          const g = el('g', { class: 'map-xbox' }, mapContent);
+          el('rect', { x: it.x, y: it.y, width: it.w, height: it.h }, g);
+          el('line', { x1: it.x, y1: it.y, x2: it.x + it.w, y2: it.y + it.h }, g);
+          el('line', { x1: it.x + it.w, y1: it.y, x2: it.x, y2: it.y + it.h }, g);
+          return;
+        }
+        if (it.t === 'arc') {
+          el('path', { d: `M ${it.x - it.rx} ${it.y} A ${it.rx} ${it.ry} 0 0 1 ${it.x + it.rx} ${it.y}`, class: 'map-arc' }, mapContent);
+          return;
+        }
+
+        // rooms and zones are interactive
+        const interactive = it.t === 'room' || it.t === 'zone';
+        const g = el('g', {
+          class: 'map-room' + (it.t === 'zone' ? ' map-zone' : ''),
+          id: 'room-' + it.id,
+          'data-room-id': it.id,
+          tabindex: interactive ? 0 : -1,
+          role: interactive ? 'button' : null,
+          'aria-label': interactive ? resultLabel(it) : null
+        }, mapContent);
+        if (interactive) {
+          const title = document.createElementNS(NS, 'title');
+          title.textContent = resultLabel(it);
+          g.appendChild(title);
+        }
+
+        if (it.t === 'room') {
+          el('rect', { x: it.x, y: it.y, width: it.w, height: it.h }, g);
+          const cy = it.y + it.h / 2;
+          const fs = it.fz || (it.tiny ? 9 : fontFor(it.w));
+          if (it.vert) {
+            const t = el('text', { x: cx, y: cy, class: 'map-text-v', 'font-size': fs }, g);
+            t.textContent = displayName(it);
+          } else if (it.sub) {
+            const main = el('text', { x: cx, y: cy - 7, 'font-size': fs }, g);
+            main.textContent = displayName(it);
+            const sub = el('text', { x: cx, y: cy + 11, class: 'map-sub', 'font-size': 8 }, g);
+            sub.textContent = it.sub;
+          } else {
+            const t = el('text', { x: cx, y: cy, 'dominant-baseline': 'middle', 'font-size': fs }, g);
+            t.textContent = displayName(it);
+          }
+        } else {
+          // zone: optional block outline, label text, optional arrow
+          if (it.block) {
+            el('rect', { x: it.x, y: it.y, width: it.w, height: it.h }, g);
+          }
+          const fz = it.fz || 15;
+          const ly = it.ly || (it.y + it.h - 6);
+          const t = el('text', { x: cx, y: ly, 'text-anchor': 'middle', 'font-size': fz }, g);
+          t.textContent = it.name;
+          if (it.arrow) {
+            const gArrow = el('g', { class: 'map-arrow' }, g);
+            el('line', { x1: it.ax1, y1: it.ay1, x2: it.ax2, y2: it.ay2 }, gArrow);
+            const head = 9;
+            if (it.arrow === 'left') {
+              el('polygon', { points: `${it.ax1},${it.ay1} ${it.ax1 + head},${it.ay1 - head} ${it.ax1 + head},${it.ay1 + head}` }, gArrow);
+            } else if (it.arrow === 'right') {
+              el('polygon', { points: `${it.ax2},${it.ay2} ${it.ax2 - head},${it.ay2 - head} ${it.ax2 - head},${it.ay2 + head}` }, gArrow);
+            } else {
+              el('polygon', { points: `${it.ax2},${it.ay2} ${it.ax2 - head},${it.ay2 - head} ${it.ax2 + head},${it.ay2 - head}` }, gArrow);
+            }
+          }
+        }
+      }
+      draw();
 
       // ---- Selection / highlight (purple) ----
       function clearHighlight() {
-        svg.querySelectorAll('.map-room.selected').forEach((el) => el.classList.remove('selected'));
-        selectedRoomId = null;
+        svg.querySelectorAll('.map-room.selected').forEach(n => n.classList.remove('selected'));
       }
 
       function selectRoom(roomId, fromSearch) {
         clearHighlight();
-        const node = svg.getElementById ? svg.getElementById('room-' + roomId) : document.getElementById('room-' + roomId);
+        const node = document.getElementById('room-' + roomId);
         if (!node) return;
         node.classList.add('selected');
-        selectedRoomId = roomId;
         const room = roomsById.get(roomId);
-        const label = room ? room.name : roomId;
-        if (status) status.textContent = 'Selected: ' + label;
+        if (status) status.textContent = 'Selected: ' + (room ? resultLabel(room) : roomId);
         if (fromSearch) hideResults();
+        try { node.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
       }
 
       svg.addEventListener('click', (e) => {
@@ -220,113 +238,107 @@
         }
       });
 
-      // ---- Zoom & pan (viewBox based) ----
-      const BASE = { x: 0, y: 0, w: 1200, h: 800 };
-      let view = { ...BASE };
-      const MIN_W = 300;
-      const MAX_W = 1200;
+      // ---- Zoom & pan (transform based, so the tall map keeps its natural page height) ----
+      let zK = 1, zTx = 0, zTy = 0;
+      const K_MIN = 1, K_MAX = 5;
 
-      function applyView() {
-        svg.setAttribute('viewBox', view.x + ' ' + view.y + ' ' + view.w + ' ' + view.h);
+      function applyZoom() {
+        if (mapContent) mapContent.setAttribute('transform', 'translate(' + zTx + ' ' + zTy + ') scale(' + zK + ')');
       }
 
-      function zoomAt(cx, cy, factor) {
-        const newW = Math.min(MAX_W, Math.max(MIN_W, view.w * factor));
-        const ratio = newW / view.w;
-        view.x = cx - (cx - view.x) * ratio;
-        view.y = cy - (cy - view.y) * ratio;
-        view.w = newW;
-        view.h = view.h * ratio;
-        applyView();
+      function clampPan() {
+        zTx = Math.min(0, Math.max(1200 - 1200 * zK, zTx));
+        zTy = Math.min(0, Math.max(3540 - 3540 * zK, zTy));
       }
 
-      function resetView() {
-        view = { ...BASE };
-        applyView();
+      function zoomTo(k1, cx, cy) {
+        k1 = Math.min(K_MAX, Math.max(K_MIN, k1));
+        zTx = zTx + (zK - k1) * cx;
+        zTy = zTy + (zK - k1) * cy;
+        zK = k1;
+        clampPan();
+        applyZoom();
       }
 
-      document.getElementById('mapZoomIn').addEventListener('click', () => zoomAt(view.x + view.w / 2, view.y + view.h / 2, 0.8));
-      document.getElementById('mapZoomOut').addEventListener('click', () => zoomAt(view.x + view.w / 2, view.y + view.h / 2, 1.25));
+      function visibleCenter() {
+        return { x: (600 - zTx) / zK, y: (1770 - zTy) / zK };
+      }
+
+      function resetView() { zK = 1; zTx = 0; zTy = 0; applyZoom(); }
+
+      document.getElementById('mapZoomIn').addEventListener('click', () => { const c = visibleCenter(); zoomTo(zK * 1.3, c.x, c.y); });
+      document.getElementById('mapZoomOut').addEventListener('click', () => { const c = visibleCenter(); zoomTo(zK / 1.3, c.x, c.y); });
       document.getElementById('mapZoomReset').addEventListener('click', resetView);
+
+      function clientToUser(cx, cy) {
+        const rect = svg.getBoundingClientRect();
+        const vu = (cx - rect.left) / rect.width * 1200;
+        const vh = (cy - rect.top) / rect.height * 3540;
+        return { x: (vu - zTx) / zK, y: (vh - zTy) / zK };
+      }
 
       svg.addEventListener('wheel', (e) => {
         e.preventDefault();
-        const pt = clientToSvg(e.clientX, e.clientY);
-        if (!pt) return;
-        zoomAt(pt.x, pt.y, e.deltaY > 0 ? 1.12 : 0.89);
+        const c = clientToUser(e.clientX, e.clientY);
+        zoomTo(zK * (e.deltaY > 0 ? 1.12 : 0.89), c.x, c.y);
       }, { passive: false });
 
-      function clientToSvg(cx, cy) {
-        const rect = svg.getBoundingClientRect();
-        const nx = (cx - rect.left) / rect.width;
-        const ny = (cy - rect.top) / rect.height;
-        if (nx < 0 || nx > 1 || ny < 0 || ny > 1) return null;
-        return { x: view.x + nx * view.w, y: view.y + ny * view.h };
-      }
-
-      // Drag to pan
-      let dragging = false;
-      let dragStart = null;
-      let viewStart = null;
+      let dragging = false, dragStart = null, viewStart = null;
       svg.addEventListener('pointerdown', (e) => {
         if (e.button !== 0) return;
         dragging = true;
         dragStart = { x: e.clientX, y: e.clientY };
-        viewStart = { ...view };
+        viewStart = { k: zK, tx: zTx, ty: zTy };
         svg.setPointerCapture(e.pointerId);
       });
       svg.addEventListener('pointermove', (e) => {
         if (!dragging) return;
         const rect = svg.getBoundingClientRect();
-        const dx = ((e.clientX - dragStart.x) / rect.width) * viewStart.w;
-        const dy = ((e.clientY - dragStart.y) / rect.height) * viewStart.h;
-        view.x = viewStart.x - dx;
-        view.y = viewStart.y - dy;
-        applyView();
+        const du = ((e.clientX - dragStart.x) / rect.width) * 1200;
+        const dv = ((e.clientY - dragStart.y) / rect.height) * 3540;
+        zK = viewStart.k;
+        zTx = viewStart.tx - du;
+        zTy = viewStart.ty - dv;
+        clampPan();
+        applyZoom();
       });
-      ['pointerup', 'pointercancel'].forEach((ev) => svg.addEventListener(ev, () => { dragging = false; }));
+      ['pointerup', 'pointercancel'].forEach(ev => svg.addEventListener(ev, () => { dragging = false; }));
 
-      // ---- Search ----
+            // ---- Search ----
       function hideResults() {
         resultsBox.hidden = true;
         search.setAttribute('aria-expanded', 'false');
         activeIndex = -1;
       }
-
       function showResults() {
         resultsBox.hidden = false;
         search.setAttribute('aria-expanded', 'true');
       }
-
-      function renderResults(matches) {
-        if (!matches.length) {
-          resultsBox.innerHTML = '<div class="mapSearchEmpty">No rooms found</div>';
-          showResults();
-          return;
-        }
-        resultsBox.innerHTML = matches.map((r, i) =>
-          '<div class="mapSearchItem" role="option" data-id="' + r.id + '" aria-selected="' + (i === activeIndex) + '">' +
-          '<span class="mapSearchName">' + r.name + '</span></div>'
-        ).join('');
-        showResults();
-      }
-
       function announce(text) { if (live) live.textContent = text; }
 
       function doSearch(q) {
         const query = q.trim().toLowerCase();
-        if (!query) {
-          currentMatches = [];
-          hideResults();
-          return;
-        }
-        currentMatches = rooms.filter((r) => {
-          if (r.name.toLowerCase().includes(query)) return true;
-          return (r.aliases || []).some((a) => a.toLowerCase().includes(query));
+        if (!query) { currentMatches = []; hideResults(); return; }
+        currentMatches = rooms.filter(r => {
+          const hay = ((r.num || '') + ' ' + r.name + ' ' + (r.aliases || []).join(' ') + ' ' + r.floor).toLowerCase();
+          return hay.includes(query);
         }).slice(0, 8);
         activeIndex = -1;
-        renderResults(currentMatches);
+        renderResults();
         announce(currentMatches.length + (currentMatches.length === 1 ? ' room found' : ' rooms found'));
+      }
+
+      function renderResults() {
+        if (!currentMatches.length) {
+          resultsBox.innerHTML = '<div class="mapSearchEmpty">No rooms found</div>';
+          showResults();
+          return;
+        }
+        resultsBox.innerHTML = currentMatches.map((r, i) =>
+          '<div class="mapSearchItem" role="option" data-id="' + r.id + '" aria-selected="' + (i === activeIndex) + '">' +
+          '<span class="mapSearchName">' + resultLabel(r) + '</span></div>'
+        ).join('');
+        showResults();
       }
 
       search.addEventListener('input', () => doSearch(search.value));
@@ -345,30 +357,28 @@
           updateActive(items);
         } else if (e.key === 'Enter') {
           e.preventDefault();
-          const idx = activeIndex >= 0 ? activeIndex : 0;
-          pickMatch(currentMatches[idx]);
+          pickMatch(currentMatches[activeIndex >= 0 ? activeIndex : 0]);
         } else if (e.key === 'Escape') {
           hideResults();
         }
       });
 
       function updateActive(items) {
-        items.forEach((el, i) => el.setAttribute('aria-selected', i === activeIndex));
+        items.forEach((el2, i) => el2.setAttribute('aria-selected', i === activeIndex));
         if (items[activeIndex]) items[activeIndex].scrollIntoView({ block: 'nearest' });
       }
 
       function pickMatch(match) {
         if (!match) return;
         selectRoom(match.id, true);
-        search.value = match.name;
+        search.value = displayName(match);
         hideResults();
       }
 
       resultsBox.addEventListener('click', (e) => {
         const item = e.target.closest('.mapSearchItem');
         if (!item) return;
-        const match = currentMatches.find((r) => r.id === item.dataset.id);
-        pickMatch(match);
+        pickMatch(currentMatches.find(r => r.id === item.dataset.id));
       });
 
       document.addEventListener('click', (e) => {

@@ -1,16 +1,2763 @@
-[
-  { "id": "main-gate", "name": "Main Gate", "aliases": ["entrance", "front gate", "school gate"] },
-  { "id": "admin-office", "name": "Admin Office", "aliases": ["office", "administration", "front office", "principal"] },
-  { "id": "teaching-wing-north", "name": "North Teaching Wing", "aliases": ["north wing", "classrooms north", "teaching building north"] },
-  { "id": "teaching-wing-south", "name": "South Teaching Wing", "aliases": ["south wing", "classrooms south", "teaching building south"] },
-  { "id": "teaching-wing-east", "name": "East Teaching Wing", "aliases": ["east wing", "classrooms east", "teaching building east"] },
-  { "id": "teaching-wing-west", "name": "West Teaching Wing", "aliases": ["west wing", "classrooms west", "teaching building west"] },
-  { "id": "gym", "name": "Gymnasium", "aliases": ["gym", "basketball", "indoor sports"] },
-  { "id": "theater", "name": "Theater & Music", "aliases": ["theater", "auditorium", "music room", "hall"] },
-  { "id": "cafeteria", "name": "Cafeteria", "aliases": ["canteen", "dining hall", "lunch"] },
-  { "id": "library", "name": "Library", "aliases": ["reading room", "books"] },
-  { "id": "lab", "name": "Science Labs", "aliases": ["laboratory", "labs", "physics", "chemistry", "biology"] },
-  { "id": "playground", "name": "Playground", "aliases": ["field", "sports field", "track", "playground"] },
-  { "id": "basketball-court", "name": "Basketball Courts", "aliases": ["courts", "outdoor basketball"] },
-  { "id": "parking", "name": "Parking Lot", "aliases": ["car park", "parking lot"] }
-]
+{
+ "items": [
+  {
+   "t": "text",
+   "x": 600,
+   "y": 52,
+   "text": "Campus Overview",
+   "cls": "map-building-title"
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "North Building",
+   "x": 120,
+   "y": 70,
+   "w": 300,
+   "h": 110,
+   "aliases": [
+    "north building",
+    "north wing",
+    "north"
+   ],
+   "id": "north-building",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "LWHS Theatre",
+   "x": 50,
+   "y": 210,
+   "w": 240,
+   "h": 120,
+   "aliases": [
+    "theatre",
+    "theater",
+    "lwhs theatre",
+    "music",
+    "theatre music"
+   ],
+   "id": "lwhs-theatre",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "Gym Area",
+   "x": 790,
+   "y": 90,
+   "w": 330,
+   "h": 210,
+   "aliases": [
+    "gym area",
+    "gym",
+    "gyms",
+    "gymnasium"
+   ],
+   "id": "gym-area",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "Main Building",
+   "x": 350,
+   "y": 190,
+   "w": 390,
+   "h": 250,
+   "aliases": [
+    "main building",
+    "main"
+   ],
+   "id": "main-building",
+   "ly": 214,
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "Commons",
+   "x": 470,
+   "y": 260,
+   "w": 150,
+   "h": 60,
+   "aliases": [
+    "commons",
+    "common area",
+    "lunch room"
+   ],
+   "id": "commons",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "Library",
+   "x": 470,
+   "y": 395,
+   "w": 150,
+   "h": 45,
+   "aliases": [
+    "library",
+    "media center"
+   ],
+   "id": "library",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "West Wing (floors 1-3)",
+   "x": 60,
+   "y": 360,
+   "w": 280,
+   "h": 80,
+   "aliases": [
+    "west wing",
+    "west"
+   ],
+   "id": "west-wing-floors-1-3",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "East Wing (floors 2-3)",
+   "x": 760,
+   "y": 360,
+   "w": 380,
+   "h": 80,
+   "aliases": [
+    "east wing",
+    "east"
+   ],
+   "id": "east-wing-floors-2-3",
+   "block": true
+  },
+  {
+   "t": "zone",
+   "sec": "campus",
+   "floor": "Campus",
+   "name": "Parking",
+   "x": 960,
+   "y": 40,
+   "w": 100,
+   "h": 55,
+   "aliases": [
+    "parking",
+    "parking lot",
+    "parking garage"
+   ],
+   "id": "parking",
+   "block": true
+  },
+  {
+   "t": "text",
+   "x": 600,
+   "y": 569,
+   "text": "Lake Washington High School | Main Building",
+   "cls": "map-building-title"
+  },
+  {
+   "t": "text",
+   "x": 600,
+   "y": 655,
+   "text": "1st Floor Main",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "compass",
+   "x": 215,
+   "y": 780
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 171",
+   "num": "171",
+   "x": 73,
+   "y": 975,
+   "w": 58,
+   "h": 62,
+   "aliases": [
+    "171",
+    "room 171"
+   ],
+   "id": "171"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 172",
+   "num": "172",
+   "x": 134,
+   "y": 975,
+   "w": 56,
+   "h": 62,
+   "aliases": [
+    "172",
+    "room 172"
+   ],
+   "id": "172"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 173",
+   "num": "173",
+   "x": 193,
+   "y": 975,
+   "w": 54,
+   "h": 62,
+   "aliases": [
+    "173",
+    "room 173"
+   ],
+   "id": "173"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 170",
+   "num": "170",
+   "x": 78,
+   "y": 1042,
+   "w": 141,
+   "h": 52,
+   "aliases": [
+    "170",
+    "room 170"
+   ],
+   "id": "170"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 169",
+   "num": "169",
+   "x": 73,
+   "y": 1098,
+   "w": 58,
+   "h": 52,
+   "aliases": [
+    "169",
+    "room 169"
+   ],
+   "id": "169"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 168",
+   "num": "168",
+   "x": 134,
+   "y": 1098,
+   "w": 56,
+   "h": 52,
+   "aliases": [
+    "168",
+    "room 168"
+   ],
+   "id": "168"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 167",
+   "num": "167",
+   "x": 193,
+   "y": 1098,
+   "w": 54,
+   "h": 52,
+   "aliases": [
+    "167",
+    "room 167"
+   ],
+   "id": "167"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Faculty 166",
+   "num": "166",
+   "x": 250,
+   "y": 1116,
+   "w": 25,
+   "h": 34,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "166",
+    "room 166",
+    "faculty 166"
+   ],
+   "id": "166"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 177",
+   "num": "177",
+   "x": 335,
+   "y": 975,
+   "w": 62,
+   "h": 62,
+   "aliases": [
+    "177",
+    "room 177"
+   ],
+   "id": "177"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Counseling Office",
+   "num": null,
+   "x": 404,
+   "y": 975,
+   "w": 204,
+   "h": 62,
+   "aliases": [
+    "counseling",
+    "counselor",
+    "counseling office",
+    "guidance"
+   ],
+   "id": "counseling-office"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Career Center (180)",
+   "num": "180",
+   "x": 613,
+   "y": 975,
+   "w": 47,
+   "h": 62,
+   "sub": "Career Center",
+   "aliases": [
+    "180",
+    "room 180",
+    "career center",
+    "career"
+   ],
+   "id": "180"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 164",
+   "num": "164",
+   "x": 321,
+   "y": 1084,
+   "w": 66,
+   "h": 60,
+   "aliases": [
+    "164",
+    "room 164"
+   ],
+   "id": "164"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 162",
+   "num": "162",
+   "x": 394,
+   "y": 1084,
+   "w": 64,
+   "h": 60,
+   "aliases": [
+    "162",
+    "room 162"
+   ],
+   "id": "162"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Room 161",
+   "num": "161",
+   "x": 466,
+   "y": 1084,
+   "w": 107,
+   "h": 60,
+   "aliases": [
+    "161",
+    "room 161"
+   ],
+   "id": "161"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Attendance Office",
+   "num": null,
+   "x": 533,
+   "y": 731,
+   "w": 78,
+   "h": 61,
+   "label": "Attendance",
+   "sub": "Office",
+   "aliases": [
+    "attendance",
+    "attendance office"
+   ],
+   "id": "attendance-office"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Main Office",
+   "num": null,
+   "x": 627,
+   "y": 731,
+   "w": 68,
+   "h": 61,
+   "label": "Main",
+   "sub": "Office",
+   "aliases": [
+    "main office",
+    "office",
+    "front office",
+    "admin",
+    "administration"
+   ],
+   "id": "main-office"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Commons",
+   "num": null,
+   "x": 667,
+   "y": 820,
+   "w": 183,
+   "h": 203,
+   "aliases": [
+    "commons",
+    "common area",
+    "lunch room"
+   ],
+   "id": "commons-2"
+  },
+  {
+   "t": "room",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Cafeteria",
+   "num": null,
+   "x": 696,
+   "y": 1027,
+   "w": 139,
+   "h": 159,
+   "aliases": [
+    "cafeteria",
+    "lunch",
+    "dining",
+    "cafe",
+    "lunch room"
+   ],
+   "id": "cafeteria"
+  },
+  {
+   "t": "zone",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "North Wing",
+   "x": 395,
+   "y": 755,
+   "w": 98,
+   "h": 62,
+   "aliases": [
+    "north wing",
+    "north"
+   ],
+   "arrow": "left",
+   "ax1": 400,
+   "ay1": 808,
+   "ax2": 488,
+   "ay2": 808,
+   "id": "north-wing",
+   "ly": 782
+  },
+  {
+   "t": "zone",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Gym",
+   "x": 881,
+   "y": 838,
+   "w": 76,
+   "h": 60,
+   "aliases": [
+    "gym",
+    "gymnasium",
+    "gyms"
+   ],
+   "arrow": "right",
+   "ax1": 881,
+   "ay1": 882,
+   "ax2": 953,
+   "ay2": 882,
+   "fz": 17,
+   "id": "gym",
+   "ly": 856
+  },
+  {
+   "t": "zone",
+   "sec": "m1",
+   "floor": "1st Floor Main",
+   "name": "Main Entrance",
+   "x": 726,
+   "y": 630,
+   "w": 56,
+   "h": 46,
+   "aliases": [
+    "main entrance",
+    "entrance",
+    "front entrance",
+    "front door",
+    "entry"
+   ],
+   "arrow": "down",
+   "ax1": 755,
+   "ay1": 666,
+   "ax2": 755,
+   "ay2": 786,
+   "id": "main-entrance"
+  },
+  {
+   "t": "stair",
+   "x": 601,
+   "y": 741,
+   "w": 34,
+   "h": 48
+  },
+  {
+   "t": "stair",
+   "x": 769,
+   "y": 958,
+   "w": 42,
+   "h": 41
+  },
+  {
+   "t": "stair",
+   "x": 620,
+   "y": 919,
+   "w": 28,
+   "h": 35
+  },
+  {
+   "t": "stair",
+   "x": 250,
+   "y": 985,
+   "w": 25,
+   "h": 42
+  },
+  {
+   "t": "stair",
+   "x": 620,
+   "y": 1077,
+   "w": 25,
+   "h": 56
+  },
+  {
+   "t": "gray",
+   "x": 856,
+   "y": 950,
+   "w": 84,
+   "h": 80
+  },
+  {
+   "t": "gray",
+   "x": 856,
+   "y": 1034,
+   "w": 135,
+   "h": 85
+  },
+  {
+   "t": "text",
+   "x": 600,
+   "y": 1302,
+   "text": "2nd Floor Main",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "zone",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "2 West",
+   "x": 141,
+   "y": 1374,
+   "w": 75,
+   "h": 28,
+   "aliases": [
+    "2 west",
+    "west wing",
+    "west"
+   ],
+   "fz": 14,
+   "id": "2-west"
+  },
+  {
+   "t": "zone",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "2 East",
+   "x": 996,
+   "y": 1374,
+   "w": 79,
+   "h": 28,
+   "aliases": [
+    "2 east",
+    "east wing",
+    "east"
+   ],
+   "fz": 14,
+   "id": "2-east"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Upper Loft",
+   "num": null,
+   "x": 536,
+   "y": 1397,
+   "w": 94,
+   "h": 26,
+   "aliases": [
+    "upper loft",
+    "loft"
+   ],
+   "id": "upper-loft"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 271",
+   "num": "271",
+   "x": 99,
+   "y": 1432,
+   "w": 36,
+   "h": 48,
+   "aliases": [
+    "271",
+    "room 271"
+   ],
+   "id": "271"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 272",
+   "num": "272",
+   "x": 138,
+   "y": 1432,
+   "w": 35,
+   "h": 48,
+   "aliases": [
+    "272",
+    "room 272"
+   ],
+   "id": "272"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 273",
+   "num": "273",
+   "x": 176,
+   "y": 1432,
+   "w": 37,
+   "h": 48,
+   "aliases": [
+    "273",
+    "room 273"
+   ],
+   "id": "273"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 277",
+   "num": "277",
+   "x": 282,
+   "y": 1432,
+   "w": 51,
+   "h": 48,
+   "aliases": [
+    "277",
+    "room 277"
+   ],
+   "id": "277"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 278",
+   "num": "278",
+   "x": 335,
+   "y": 1432,
+   "w": 50,
+   "h": 48,
+   "aliases": [
+    "278",
+    "room 278"
+   ],
+   "id": "278"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 279",
+   "num": "279",
+   "x": 388,
+   "y": 1432,
+   "w": 50,
+   "h": 48,
+   "aliases": [
+    "279",
+    "room 279"
+   ],
+   "id": "279"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 231",
+   "num": "231",
+   "x": 738,
+   "y": 1432,
+   "w": 54,
+   "h": 48,
+   "aliases": [
+    "231",
+    "room 231"
+   ],
+   "id": "231"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 232",
+   "num": "232",
+   "x": 794,
+   "y": 1432,
+   "w": 51,
+   "h": 48,
+   "aliases": [
+    "232",
+    "room 232"
+   ],
+   "id": "232"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 233",
+   "num": "233",
+   "x": 848,
+   "y": 1432,
+   "w": 51,
+   "h": 48,
+   "aliases": [
+    "233",
+    "room 233"
+   ],
+   "id": "233"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 237",
+   "num": "237",
+   "x": 971,
+   "y": 1432,
+   "w": 52,
+   "h": 48,
+   "aliases": [
+    "237",
+    "room 237"
+   ],
+   "id": "237"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 238",
+   "num": "238",
+   "x": 1026,
+   "y": 1432,
+   "w": 51,
+   "h": 48,
+   "aliases": [
+    "238",
+    "room 238"
+   ],
+   "id": "238"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 239",
+   "num": "239",
+   "x": 1080,
+   "y": 1432,
+   "w": 44,
+   "h": 48,
+   "aliases": [
+    "239",
+    "room 239"
+   ],
+   "id": "239"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 270B",
+   "num": "270B",
+   "x": 96,
+   "y": 1484,
+   "w": 73,
+   "h": 45,
+   "label": "270B",
+   "aliases": [
+    "270b",
+    "270 b",
+    "room 270b",
+    "270"
+   ],
+   "id": "270b"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 240B",
+   "num": "240B",
+   "x": 983,
+   "y": 1484,
+   "w": 83,
+   "h": 45,
+   "label": "240B",
+   "aliases": [
+    "240b",
+    "240 b",
+    "room 240b",
+    "240"
+   ],
+   "id": "240b"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Library (220)",
+   "num": "220",
+   "x": 557,
+   "y": 1499,
+   "w": 77,
+   "h": 101,
+   "label": "220",
+   "sub": "(Library)",
+   "aliases": [
+    "library",
+    "media center",
+    "220",
+    "room 220"
+   ],
+   "id": "220"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 269",
+   "num": "269",
+   "x": 89,
+   "y": 1530,
+   "w": 37,
+   "h": 51,
+   "aliases": [
+    "269",
+    "room 269"
+   ],
+   "id": "269"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 268",
+   "num": "268",
+   "x": 128,
+   "y": 1530,
+   "w": 37,
+   "h": 51,
+   "aliases": [
+    "268",
+    "room 268"
+   ],
+   "id": "268"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 267",
+   "num": "267",
+   "x": 168,
+   "y": 1530,
+   "w": 36,
+   "h": 51,
+   "aliases": [
+    "267",
+    "room 267"
+   ],
+   "id": "267"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 266",
+   "num": "266",
+   "x": 207,
+   "y": 1530,
+   "w": 37,
+   "h": 51,
+   "aliases": [
+    "266",
+    "room 266"
+   ],
+   "id": "266"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Faculty 246",
+   "num": "246",
+   "x": 280,
+   "y": 1536,
+   "w": 18,
+   "h": 42,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "246",
+    "room 246",
+    "faculty 246"
+   ],
+   "id": "246"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 262",
+   "num": "262",
+   "x": 302,
+   "y": 1530,
+   "w": 57,
+   "h": 51,
+   "aliases": [
+    "262",
+    "room 262"
+   ],
+   "id": "262"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 261",
+   "num": "261",
+   "x": 361,
+   "y": 1530,
+   "w": 57,
+   "h": 51,
+   "aliases": [
+    "261",
+    "room 261"
+   ],
+   "id": "261"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 249",
+   "num": "249",
+   "x": 736,
+   "y": 1530,
+   "w": 50,
+   "h": 51,
+   "aliases": [
+    "249",
+    "room 249"
+   ],
+   "id": "249"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 248",
+   "num": "248",
+   "x": 789,
+   "y": 1530,
+   "w": 51,
+   "h": 51,
+   "aliases": [
+    "248",
+    "room 248"
+   ],
+   "id": "248"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 247",
+   "num": "247",
+   "x": 843,
+   "y": 1530,
+   "w": 51,
+   "h": 51,
+   "aliases": [
+    "247",
+    "room 247"
+   ],
+   "id": "247"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Faculty 245",
+   "num": "245",
+   "x": 947,
+   "y": 1536,
+   "w": 15,
+   "h": 42,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "245",
+    "room 245",
+    "faculty 245"
+   ],
+   "id": "245"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 244",
+   "num": "244",
+   "x": 964,
+   "y": 1530,
+   "w": 34,
+   "h": 51,
+   "aliases": [
+    "244",
+    "room 244"
+   ],
+   "id": "244"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 243",
+   "num": "243",
+   "x": 998,
+   "y": 1530,
+   "w": 42,
+   "h": 51,
+   "aliases": [
+    "243",
+    "room 243"
+   ],
+   "id": "243"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 242",
+   "num": "242",
+   "x": 1043,
+   "y": 1530,
+   "w": 50,
+   "h": 51,
+   "aliases": [
+    "242",
+    "room 242"
+   ],
+   "id": "242"
+  },
+  {
+   "t": "room",
+   "sec": "m2",
+   "floor": "2nd Floor Main",
+   "name": "Room 241",
+   "num": "241",
+   "x": 1096,
+   "y": 1530,
+   "w": 46,
+   "h": 51,
+   "aliases": [
+    "241",
+    "room 241"
+   ],
+   "id": "241"
+  },
+  {
+   "t": "stair",
+   "x": 216,
+   "y": 1440,
+   "w": 22,
+   "h": 35
+  },
+  {
+   "t": "stair",
+   "x": 902,
+   "y": 1440,
+   "w": 25,
+   "h": 35
+  },
+  {
+   "t": "stairn",
+   "x": 1124,
+   "y": 1438,
+   "w": 18,
+   "h": 44,
+   "label": "N"
+  },
+  {
+   "t": "text",
+   "x": 600,
+   "y": 1740,
+   "text": "3rd Floor Main",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "zone",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "3 West",
+   "x": 141,
+   "y": 1773,
+   "w": 75,
+   "h": 28,
+   "aliases": [
+    "3 west",
+    "west wing",
+    "west"
+   ],
+   "fz": 14,
+   "id": "3-west"
+  },
+  {
+   "t": "zone",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "3 East",
+   "x": 996,
+   "y": 1773,
+   "w": 79,
+   "h": 28,
+   "aliases": [
+    "3 east",
+    "east wing",
+    "east"
+   ],
+   "fz": 14,
+   "id": "3-east"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 371",
+   "num": "371",
+   "x": 99,
+   "y": 1831,
+   "w": 36,
+   "h": 49,
+   "aliases": [
+    "371",
+    "room 371"
+   ],
+   "id": "371"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 372",
+   "num": "372",
+   "x": 138,
+   "y": 1831,
+   "w": 35,
+   "h": 49,
+   "aliases": [
+    "372",
+    "room 372"
+   ],
+   "id": "372"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 373",
+   "num": "373",
+   "x": 176,
+   "y": 1831,
+   "w": 37,
+   "h": 49,
+   "aliases": [
+    "373",
+    "room 373"
+   ],
+   "id": "373"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 377",
+   "num": "377",
+   "x": 282,
+   "y": 1831,
+   "w": 51,
+   "h": 49,
+   "aliases": [
+    "377",
+    "room 377"
+   ],
+   "id": "377"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 378",
+   "num": "378",
+   "x": 335,
+   "y": 1831,
+   "w": 50,
+   "h": 49,
+   "aliases": [
+    "378",
+    "room 378"
+   ],
+   "id": "378"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 379",
+   "num": "379",
+   "x": 388,
+   "y": 1831,
+   "w": 42,
+   "h": 49,
+   "aliases": [
+    "379",
+    "room 379"
+   ],
+   "id": "379"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 380",
+   "num": "380",
+   "x": 433,
+   "y": 1831,
+   "w": 42,
+   "h": 49,
+   "aliases": [
+    "380",
+    "room 380"
+   ],
+   "id": "380"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 381",
+   "num": "381",
+   "x": 479,
+   "y": 1831,
+   "w": 42,
+   "h": 49,
+   "aliases": [
+    "381",
+    "room 381"
+   ],
+   "id": "381"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 381A",
+   "num": "381A",
+   "x": 710,
+   "y": 1836,
+   "w": 33,
+   "h": 31,
+   "tiny": true,
+   "aliases": [
+    "381a",
+    "381 a",
+    "room 381a",
+    "381"
+   ],
+   "id": "381a"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 330",
+   "num": "330",
+   "x": 747,
+   "y": 1831,
+   "w": 39,
+   "h": 49,
+   "aliases": [
+    "330",
+    "room 330"
+   ],
+   "id": "330"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 331",
+   "num": "331",
+   "x": 792,
+   "y": 1831,
+   "w": 39,
+   "h": 49,
+   "aliases": [
+    "331",
+    "room 331"
+   ],
+   "id": "331"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 332",
+   "num": "332",
+   "x": 833,
+   "y": 1831,
+   "w": 49,
+   "h": 49,
+   "aliases": [
+    "332",
+    "room 332"
+   ],
+   "id": "332"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 333",
+   "num": "333",
+   "x": 886,
+   "y": 1831,
+   "w": 42,
+   "h": 49,
+   "aliases": [
+    "333",
+    "room 333"
+   ],
+   "id": "333"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 337",
+   "num": "337",
+   "x": 971,
+   "y": 1831,
+   "w": 52,
+   "h": 49,
+   "aliases": [
+    "337",
+    "room 337"
+   ],
+   "id": "337"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 338",
+   "num": "338",
+   "x": 1026,
+   "y": 1831,
+   "w": 51,
+   "h": 49,
+   "aliases": [
+    "338",
+    "room 338"
+   ],
+   "id": "338"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 339",
+   "num": "339",
+   "x": 1080,
+   "y": 1831,
+   "w": 44,
+   "h": 49,
+   "aliases": [
+    "339",
+    "room 339"
+   ],
+   "id": "339"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 370B",
+   "num": "370B",
+   "x": 94,
+   "y": 1880,
+   "w": 74,
+   "h": 47,
+   "label": "370B",
+   "aliases": [
+    "370b",
+    "370 b",
+    "room 370b",
+    "370"
+   ],
+   "id": "370b"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 340B",
+   "num": "340B",
+   "x": 983,
+   "y": 1880,
+   "w": 83,
+   "h": 47,
+   "label": "340B",
+   "aliases": [
+    "340b",
+    "340 b",
+    "room 340b",
+    "340"
+   ],
+   "id": "340b"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 369",
+   "num": "369",
+   "x": 86,
+   "y": 1930,
+   "w": 36,
+   "h": 52,
+   "aliases": [
+    "369",
+    "room 369"
+   ],
+   "id": "369"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 368",
+   "num": "368",
+   "x": 125,
+   "y": 1930,
+   "w": 36,
+   "h": 52,
+   "aliases": [
+    "368",
+    "room 368"
+   ],
+   "id": "368"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 367",
+   "num": "367",
+   "x": 165,
+   "y": 1930,
+   "w": 36,
+   "h": 52,
+   "aliases": [
+    "367",
+    "room 367"
+   ],
+   "id": "367"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 366",
+   "num": "366",
+   "x": 205,
+   "y": 1930,
+   "w": 36,
+   "h": 52,
+   "aliases": [
+    "366",
+    "room 366"
+   ],
+   "id": "366"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Faculty 364",
+   "num": "364",
+   "x": 280,
+   "y": 1936,
+   "w": 18,
+   "h": 42,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "364",
+    "room 364",
+    "faculty 364"
+   ],
+   "id": "364"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 362",
+   "num": "362",
+   "x": 302,
+   "y": 1930,
+   "w": 57,
+   "h": 52,
+   "aliases": [
+    "362",
+    "room 362"
+   ],
+   "id": "362"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 361",
+   "num": "361",
+   "x": 361,
+   "y": 1930,
+   "w": 57,
+   "h": 52,
+   "aliases": [
+    "361",
+    "room 361"
+   ],
+   "id": "361"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 321",
+   "num": "321",
+   "x": 421,
+   "y": 1930,
+   "w": 37,
+   "h": 37,
+   "tiny": true,
+   "aliases": [
+    "321",
+    "room 321"
+   ],
+   "id": "321"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 349",
+   "num": "349",
+   "x": 736,
+   "y": 1930,
+   "w": 51,
+   "h": 52,
+   "aliases": [
+    "349",
+    "room 349"
+   ],
+   "id": "349"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 348",
+   "num": "348",
+   "x": 792,
+   "y": 1930,
+   "w": 51,
+   "h": 52,
+   "aliases": [
+    "348",
+    "room 348"
+   ],
+   "id": "348"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 347",
+   "num": "347",
+   "x": 845,
+   "y": 1930,
+   "w": 51,
+   "h": 52,
+   "aliases": [
+    "347",
+    "room 347"
+   ],
+   "id": "347"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Faculty 345",
+   "num": "345",
+   "x": 946,
+   "y": 1936,
+   "w": 16,
+   "h": 42,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "345",
+    "room 345",
+    "faculty 345"
+   ],
+   "id": "345"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 344",
+   "num": "344",
+   "x": 964,
+   "y": 1930,
+   "w": 34,
+   "h": 52,
+   "aliases": [
+    "344",
+    "room 344"
+   ],
+   "id": "344"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 343",
+   "num": "343",
+   "x": 998,
+   "y": 1930,
+   "w": 42,
+   "h": 52,
+   "aliases": [
+    "343",
+    "room 343"
+   ],
+   "id": "343"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 342",
+   "num": "342",
+   "x": 1043,
+   "y": 1930,
+   "w": 50,
+   "h": 52,
+   "aliases": [
+    "342",
+    "room 342"
+   ],
+   "id": "342"
+  },
+  {
+   "t": "room",
+   "sec": "m3",
+   "floor": "3rd Floor Main",
+   "name": "Room 341",
+   "num": "341",
+   "x": 1096,
+   "y": 1930,
+   "w": 46,
+   "h": 52,
+   "aliases": [
+    "341",
+    "room 341"
+   ],
+   "id": "341"
+  },
+  {
+   "t": "stairn",
+   "x": 216,
+   "y": 1860,
+   "w": 25,
+   "h": 41,
+   "label": "F1"
+  },
+  {
+   "t": "stair",
+   "x": 930,
+   "y": 1856,
+   "w": 20,
+   "h": 35
+  },
+  {
+   "t": "stairn",
+   "x": 1124,
+   "y": 1836,
+   "w": 18,
+   "h": 44,
+   "label": "N"
+  },
+  {
+   "t": "text",
+   "x": 600,
+   "y": 2172,
+   "text": "Lake Washington High School | North Wing/Gym",
+   "cls": "map-building-title"
+  },
+  {
+   "t": "compass",
+   "x": 829,
+   "y": 2288
+  },
+  {
+   "t": "text",
+   "x": 277,
+   "y": 2292,
+   "text": "1st Floor North",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N169",
+   "num": "N169",
+   "x": 58,
+   "y": 2330,
+   "w": 65,
+   "h": 55,
+   "label": "N169",
+   "aliases": [
+    "n169",
+    "room n169",
+    "north 169",
+    "n 169"
+   ],
+   "id": "n169"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N168",
+   "num": "N168",
+   "x": 126,
+   "y": 2330,
+   "w": 60,
+   "h": 55,
+   "label": "N168",
+   "aliases": [
+    "n168",
+    "room n168",
+    "north 168",
+    "n 168"
+   ],
+   "id": "n168"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N167",
+   "num": "N167",
+   "x": 189,
+   "y": 2330,
+   "w": 60,
+   "h": 55,
+   "label": "N167",
+   "aliases": [
+    "n167",
+    "room n167",
+    "north 167",
+    "n 167"
+   ],
+   "id": "n167"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N166",
+   "num": "N166",
+   "x": 252,
+   "y": 2330,
+   "w": 41,
+   "h": 55,
+   "label": "N166",
+   "aliases": [
+    "n166",
+    "room n166",
+    "north 166",
+    "n 166"
+   ],
+   "id": "n166"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Faculty N165",
+   "num": "N165",
+   "x": 255,
+   "y": 2390,
+   "w": 24,
+   "h": 33,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "n165",
+    "room n165",
+    "faculty n165"
+   ],
+   "id": "n165"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N162",
+   "num": "N162",
+   "x": 353,
+   "y": 2371,
+   "w": 72,
+   "h": 52,
+   "label": "N162",
+   "aliases": [
+    "n162",
+    "room n162",
+    "north 162",
+    "n 162"
+   ],
+   "id": "n162"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N161",
+   "num": "N161",
+   "x": 432,
+   "y": 2371,
+   "w": 68,
+   "h": 52,
+   "label": "N161",
+   "aliases": [
+    "n161",
+    "room n161",
+    "north 161",
+    "n 161"
+   ],
+   "id": "n161"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N171",
+   "num": "N171",
+   "x": 75,
+   "y": 2481,
+   "w": 62,
+   "h": 50,
+   "label": "N171",
+   "aliases": [
+    "n171",
+    "room n171",
+    "north 171",
+    "n 171"
+   ],
+   "id": "n171"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N172",
+   "num": "N172",
+   "x": 140,
+   "y": 2481,
+   "w": 60,
+   "h": 50,
+   "label": "N172",
+   "aliases": [
+    "n172",
+    "room n172",
+    "north 172",
+    "n 172"
+   ],
+   "id": "n172"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N173",
+   "num": "N173",
+   "x": 203,
+   "y": 2481,
+   "w": 60,
+   "h": 50,
+   "label": "N173",
+   "aliases": [
+    "n173",
+    "room n173",
+    "north 173",
+    "n 173"
+   ],
+   "id": "n173"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N177",
+   "num": "N177",
+   "x": 318,
+   "y": 2475,
+   "w": 72,
+   "h": 60,
+   "label": "N177",
+   "aliases": [
+    "n177",
+    "room n177",
+    "north 177",
+    "n 177"
+   ],
+   "id": "n177"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N178",
+   "num": "N178",
+   "x": 395,
+   "y": 2475,
+   "w": 57,
+   "h": 60,
+   "label": "N178",
+   "aliases": [
+    "n178",
+    "room n178",
+    "north 178",
+    "n 178"
+   ],
+   "id": "n178"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room N179",
+   "num": "N179",
+   "x": 455,
+   "y": 2475,
+   "w": 49,
+   "h": 60,
+   "label": "N179",
+   "aliases": [
+    "n179",
+    "room n179",
+    "north 179",
+    "n 179"
+   ],
+   "id": "n179"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Theater (115)",
+   "num": "115",
+   "x": 55,
+   "y": 2607,
+   "w": 171,
+   "h": 178,
+   "label": "115",
+   "sub": "Theater",
+   "aliases": [
+    "theater",
+    "theatre",
+    "auditorium",
+    "115",
+    "room 115",
+    "stage"
+   ],
+   "id": "115"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room 110",
+   "num": "110",
+   "x": 271,
+   "y": 2776,
+   "w": 33,
+   "h": 24,
+   "tiny": true,
+   "aliases": [
+    "110",
+    "room 110"
+   ],
+   "id": "110"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room 110",
+   "num": "110",
+   "x": 263,
+   "y": 2820,
+   "w": 63,
+   "h": 76,
+   "aliases": [
+    "110",
+    "room 110"
+   ],
+   "id": "110-2"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room 109",
+   "num": "109",
+   "x": 333,
+   "y": 2820,
+   "w": 67,
+   "h": 76,
+   "aliases": [
+    "109",
+    "room 109"
+   ],
+   "id": "109"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Room 108",
+   "num": "108",
+   "x": 405,
+   "y": 2827,
+   "w": 47,
+   "h": 61,
+   "aliases": [
+    "108",
+    "room 108"
+   ],
+   "id": "108"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Main Office",
+   "num": null,
+   "x": 482,
+   "y": 2769,
+   "w": 104,
+   "h": 115,
+   "label": "Main",
+   "sub": "Office",
+   "aliases": [
+    "main office",
+    "office",
+    "front office",
+    "admin"
+   ],
+   "id": "main-office-2"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Commons",
+   "num": null,
+   "x": 573,
+   "y": 2919,
+   "w": 157,
+   "h": 219,
+   "aliases": [
+    "commons",
+    "common area",
+    "lunch room"
+   ],
+   "id": "commons-3"
+  },
+  {
+   "t": "room",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Rooms 112-113",
+   "num": "112-113",
+   "x": 82,
+   "y": 2869,
+   "w": 126,
+   "h": 69,
+   "label": "112-113",
+   "aliases": [
+    "112",
+    "113",
+    "112 113",
+    "112-113",
+    "rooms 112 113"
+   ],
+   "id": "112-113"
+  },
+  {
+   "t": "zone",
+   "sec": "n1",
+   "floor": "1st Floor North",
+   "name": "Main Entrance",
+   "x": 627,
+   "y": 2750,
+   "w": 74,
+   "h": 42,
+   "aliases": [
+    "main entrance",
+    "entrance",
+    "front entrance",
+    "front door",
+    "entry"
+   ],
+   "arrow": "down",
+   "ax1": 666,
+   "ay1": 2796,
+   "ax2": 666,
+   "ay2": 2890,
+   "id": "main-entrance-2"
+  },
+  {
+   "t": "stair",
+   "x": 541,
+   "y": 2388,
+   "w": 32,
+   "h": 34
+  },
+  {
+   "t": "stair",
+   "x": 268,
+   "y": 2485,
+   "w": 27,
+   "h": 43
+  },
+  {
+   "t": "stair",
+   "x": 299,
+   "y": 2485,
+   "w": 23,
+   "h": 43
+  },
+  {
+   "t": "stair",
+   "x": 203,
+   "y": 2609,
+   "w": 44,
+   "h": 41
+  },
+  {
+   "t": "stair",
+   "x": 518,
+   "y": 2865,
+   "w": 33,
+   "h": 41
+  },
+  {
+   "t": "stair",
+   "x": 674,
+   "y": 3066,
+   "w": 33,
+   "h": 41
+  },
+  {
+   "t": "arc",
+   "x": 140,
+   "y": 2680,
+   "rx": 55,
+   "ry": 26
+  },
+  {
+   "t": "arc",
+   "x": 140,
+   "y": 2665,
+   "rx": 75,
+   "ry": 36
+  },
+  {
+   "t": "arc",
+   "x": 140,
+   "y": 2650,
+   "rx": 95,
+   "ry": 46
+  },
+  {
+   "t": "text",
+   "x": 913,
+   "y": 2478,
+   "text": "1st Floor Gym",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "room",
+   "sec": "g1",
+   "floor": "1st Floor Gym",
+   "name": "North Gym",
+   "num": null,
+   "x": 897,
+   "y": 2519,
+   "w": 174,
+   "h": 154,
+   "fz": 17,
+   "aliases": [
+    "north gym",
+    "gym",
+    "gymnasium"
+   ],
+   "id": "north-gym"
+  },
+  {
+   "t": "gray",
+   "x": 873,
+   "y": 2522,
+   "w": 24,
+   "h": 151
+  },
+  {
+   "t": "room",
+   "sec": "g1",
+   "floor": "1st Floor Gym",
+   "name": "Gymnasium",
+   "num": null,
+   "x": 763,
+   "y": 2714,
+   "w": 159,
+   "h": 192,
+   "fz": 17,
+   "aliases": [
+    "gymnasium",
+    "gym",
+    "main gym"
+   ],
+   "id": "gymnasium"
+  },
+  {
+   "t": "room",
+   "sec": "g1",
+   "floor": "1st Floor Gym",
+   "name": "Mat Gym",
+   "num": null,
+   "x": 941,
+   "y": 2714,
+   "w": 130,
+   "h": 71,
+   "aliases": [
+    "mat gym",
+    "gym",
+    "wrestling",
+    "mat"
+   ],
+   "id": "mat-gym"
+  },
+  {
+   "t": "room",
+   "sec": "g1",
+   "floor": "1st Floor Gym",
+   "name": "G115 - Locker Room",
+   "num": "G115",
+   "x": 941,
+   "y": 2796,
+   "w": 59,
+   "h": 98,
+   "label": "G115",
+   "sub": "Locker Room",
+   "aliases": [
+    "g115",
+    "room g115",
+    "locker",
+    "locker room",
+    "gym 115"
+   ],
+   "id": "g115"
+  },
+  {
+   "t": "stair",
+   "x": 959,
+   "y": 2853,
+   "w": 30,
+   "h": 34
+  },
+  {
+   "t": "room",
+   "sec": "g1",
+   "floor": "1st Floor Gym",
+   "name": "G116 - Wrestling Room",
+   "num": "G116",
+   "x": 1007,
+   "y": 2796,
+   "w": 64,
+   "h": 98,
+   "label": "G116",
+   "sub": "Wrestling Room",
+   "aliases": [
+    "g116",
+    "room g116",
+    "wrestling room",
+    "wrestling",
+    "mat room"
+   ],
+   "id": "g116"
+  },
+  {
+   "t": "stair",
+   "x": 1027,
+   "y": 2853,
+   "w": 30,
+   "h": 34
+  },
+  {
+   "t": "text",
+   "x": 901,
+   "y": 3060,
+   "text": "2nd Floor Gym",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "x",
+   "x": 884,
+   "y": 3090,
+   "w": 209,
+   "h": 137
+  },
+  {
+   "t": "x",
+   "x": 751,
+   "y": 3237,
+   "w": 146,
+   "h": 233
+  },
+  {
+   "t": "room",
+   "sec": "g2",
+   "floor": "2nd Floor Gym",
+   "name": "G115 - Weight Room",
+   "num": "G115",
+   "x": 915,
+   "y": 3276,
+   "w": 71,
+   "h": 98,
+   "label": "G115",
+   "sub": "Weight Room",
+   "aliases": [
+    "g115",
+    "room g115",
+    "weight room",
+    "weights",
+    "gym 115"
+   ],
+   "id": "g115-2"
+  },
+  {
+   "t": "stair",
+   "x": 993,
+   "y": 3274,
+   "w": 31,
+   "h": 34
+  },
+  {
+   "t": "room",
+   "sec": "g2",
+   "floor": "2nd Floor Gym",
+   "name": "G116 - Wrestling Room",
+   "num": "G116",
+   "x": 1030,
+   "y": 3276,
+   "w": 66,
+   "h": 98,
+   "label": "G116",
+   "sub": "Wrestling Room",
+   "aliases": [
+    "g116",
+    "room g116",
+    "wrestling room",
+    "wrestling",
+    "mat room"
+   ],
+   "id": "g116-2"
+  },
+  {
+   "t": "text",
+   "x": 277,
+   "y": 3178,
+   "text": "2nd Floor North",
+   "cls": "map-floor-title"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N269",
+   "num": "N269",
+   "x": 58,
+   "y": 3216,
+   "w": 65,
+   "h": 51,
+   "label": "N269",
+   "aliases": [
+    "n269",
+    "room n269",
+    "north 269",
+    "n 269"
+   ],
+   "id": "n269"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N268",
+   "num": "N268",
+   "x": 126,
+   "y": 3216,
+   "w": 60,
+   "h": 51,
+   "label": "N268",
+   "aliases": [
+    "n268",
+    "room n268",
+    "north 268",
+    "n 268"
+   ],
+   "id": "n268"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N267",
+   "num": "N267",
+   "x": 189,
+   "y": 3216,
+   "w": 60,
+   "h": 51,
+   "label": "N267",
+   "aliases": [
+    "n267",
+    "room n267",
+    "north 267",
+    "n 267"
+   ],
+   "id": "n267"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N266",
+   "num": "N266",
+   "x": 252,
+   "y": 3216,
+   "w": 41,
+   "h": 51,
+   "label": "N266",
+   "aliases": [
+    "n266",
+    "room n266",
+    "north 266",
+    "n 266"
+   ],
+   "id": "n266"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Faculty N265",
+   "num": "N265",
+   "x": 255,
+   "y": 3274,
+   "w": 27,
+   "h": 33,
+   "vert": true,
+   "tiny": true,
+   "aliases": [
+    "n265",
+    "room n265",
+    "faculty n265"
+   ],
+   "id": "n265"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N262",
+   "num": "N262",
+   "x": 353,
+   "y": 3257,
+   "w": 72,
+   "h": 50,
+   "label": "N262",
+   "aliases": [
+    "n262",
+    "room n262",
+    "north 262",
+    "n 262"
+   ],
+   "id": "n262"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N263",
+   "num": "N263",
+   "x": 432,
+   "y": 3257,
+   "w": 68,
+   "h": 50,
+   "label": "N263",
+   "aliases": [
+    "n263",
+    "room n263",
+    "north 263",
+    "n 263"
+   ],
+   "id": "n263"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N271",
+   "num": "N271",
+   "x": 75,
+   "y": 3370,
+   "w": 62,
+   "h": 48,
+   "label": "N271",
+   "aliases": [
+    "n271",
+    "room n271",
+    "north 271",
+    "n 271"
+   ],
+   "id": "n271"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N272",
+   "num": "N272",
+   "x": 140,
+   "y": 3370,
+   "w": 60,
+   "h": 48,
+   "label": "N272",
+   "aliases": [
+    "n272",
+    "room n272",
+    "north 272",
+    "n 272"
+   ],
+   "id": "n272"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N273",
+   "num": "N273",
+   "x": 203,
+   "y": 3370,
+   "w": 60,
+   "h": 48,
+   "label": "N273",
+   "aliases": [
+    "n273",
+    "room n273",
+    "north 273",
+    "n 273"
+   ],
+   "id": "n273"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N277",
+   "num": "N277",
+   "x": 318,
+   "y": 3366,
+   "w": 72,
+   "h": 61,
+   "label": "N277",
+   "aliases": [
+    "n277",
+    "room n277",
+    "north 277",
+    "n 277"
+   ],
+   "id": "n277"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N278",
+   "num": "N278",
+   "x": 395,
+   "y": 3366,
+   "w": 57,
+   "h": 61,
+   "label": "N278",
+   "aliases": [
+    "n278",
+    "room n278",
+    "north 278",
+    "n 278"
+   ],
+   "id": "n278"
+  },
+  {
+   "t": "room",
+   "sec": "n2",
+   "floor": "2nd Floor North",
+   "name": "Room N279",
+   "num": "N279",
+   "x": 455,
+   "y": 3366,
+   "w": 49,
+   "h": 61,
+   "label": "N279",
+   "aliases": [
+    "n279",
+    "room n279",
+    "north 279",
+    "n 279"
+   ],
+   "id": "n279"
+  },
+  {
+   "t": "stair",
+   "x": 541,
+   "y": 3274,
+   "w": 32,
+   "h": 33
+  },
+  {
+   "t": "stair",
+   "x": 268,
+   "y": 3373,
+   "w": 27,
+   "h": 44
+  }
+ ]
+}
