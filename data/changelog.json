@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.15",
+    "title": "Rearranged the map to match the real school layout",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.14",
     "title": "Added a floor picker so the map shows one floor at a time",
     "date": "August 30, 2026"

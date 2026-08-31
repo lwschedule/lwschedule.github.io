@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="mapViewport" id="mapViewport">
-        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 1630" role="img"
+        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 960" role="img"
              aria-label="Interactive school floor plan" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
       <div id="mapStatus" class="mapStatus" role="status"></div>
@@ -197,25 +197,23 @@
             // One subgroup per floor; items without a floor (page title) always show.
             for (const f of FLOORS) floorGroups[f] = el('g', { 'data-floor': f }, mapContent);
 
-            // Bounds per floor for the per-floor viewBox
+            // Bounds per floor for the per-floor viewBox.
+            // Each floor is a standalone campus layout in the same coordinate space,
+            // so floors are measured independently (no stacking offsets).
+            const looseTop = Math.min(...items.filter(i => !i.floor && i.y !== undefined).map(itemTop), Infinity);
             for (const f of FLOORS) {
               const flItems = items.filter(i => i.floor === f);
               floorViews[f] = {
-                y0: Math.min(...flItems.map(itemTop)),
+                y0: Math.min(looseTop, ...flItems.map(itemTop)),
                 y1: Math.max(...flItems.map(itemBottom))
               };
             }
-            // Always-visible items (page title) extend the first floor's view upward
-            const loose = items.filter(i => !i.floor && i.y !== undefined);
-            if (loose.length) floorViews['1st Floor'].y0 = Math.min(floorViews['1st Floor'].y0, ...loose.map(itemTop));
 
-            // Per-floor viewBox: pad 50, but never overlap the previous floor's content
-            let prevBottom = null;
+            // Per-floor viewBox: pad, clamped to the canvas top
             for (const f of FLOORS) {
               const b = floorViews[f];
-              b.viewY = (prevBottom === null) ? Math.max(0, b.y0 - 50) : Math.max(prevBottom + 8, b.y0 - 50);
-              b.viewH = (b.y1 + 50) - b.viewY;
-              prevBottom = b.y1;
+              b.viewY = Math.max(0, b.y0 - 40);
+              b.viewH = (b.y1 + 40) - b.viewY;
             }
 
             for (const it of items) {
