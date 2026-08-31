@@ -2581,21 +2581,6 @@ body.calendarPage .calendar-grid {
   opacity: 0.95;
 }
 
-.map-arrow line {
-  stroke: #5a5a5a;
-  stroke-width: 3;
-}
-
-.map-arrow polygon {
-  fill: #5a5a5a;
-}
-
 .map-zone.selected text {
   fill: #d8b4fe;
-}
-
-.map-zone.selected .map-arrow line,
-.map-zone.selected .map-arrow polygon {
-  stroke: #a855f7;
-  fill: #a855f7;
 }

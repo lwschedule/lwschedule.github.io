@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.9",
+    "title": "Removed the campus overview and direction arrows from the map",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.8",
     "title": "Removed the stair icons from the school map",
     "date": "August 30, 2026"
