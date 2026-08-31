@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.16",
+    "title": "Removed the empty space above the 3rd floor map",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.15",
     "title": "Rearranged the map to match the real school layout",
     "date": "August 30, 2026"
