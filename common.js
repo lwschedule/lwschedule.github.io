@@ -47,6 +47,16 @@ const SCHEDULE_METADATA = [
   }
 ];
 
+// Which lunch block ('p3' = the Period 3 lunch, 'p4' = the Period 4 lunch)
+// each weekday uses, per schedule. Wednesday always has a single all-school
+// lunch, so it maps to 'wednesday'.
+const LUNCH_SLOT_BY_DAY = {
+  normal:       { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'first-week': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'labor-day':  { Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' }
+};
+
 function normalizeClassSlots(rawSlots) {
   const slots = Array(MAX_CLASS_SLOTS).fill('');
   if (!Array.isArray(rawSlots)) return slots;
@@ -271,30 +281,42 @@ function checkSetupComplete() {
   return true;
 }
 
+function migrateLunchPrefs(prefs) {
+  // Older versions stored one A/B choice per weekday ({Monday, Tuesday, ...}).
+  // Convert to the slot-based shape: p3 = the choice for P3-lunch days,
+  // p4 = the choice for P4-lunch days.
+  if (prefs && typeof prefs === 'object' && typeof prefs.Monday === 'string') {
+    return {
+      p3: prefs.Monday || 'A',
+      p4: prefs.Tuesday || 'A',
+      wednesday: prefs.Wednesday || 'All'
+    };
+  }
+  return prefs;
+}
+
 function loadLunchPreferences() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
-    if (saved) lunchPreferences = JSON.parse(saved);
+    if (saved) lunchPreferences = migrateLunchPrefs(JSON.parse(saved));
   } catch (e) {}
 }
 
 window.__lws_common_loaded = true;
 
 function getDefaultLunchPrefs() {
-  return { Monday: 'A', Tuesday: 'A', Wednesday: 'All', Thursday: 'A', Friday: 'A' };
+  return { p3: 'A', p4: 'A', wednesday: 'All' };
 }
 
 function getLunchPrefs() {
   try {
     const saved = localStorage.getItem('lunchPreferences');
     if (!saved) return { ...getDefaultLunchPrefs() };
-    const parsed = JSON.parse(saved);
+    const migrated = migrateLunchPrefs(JSON.parse(saved));
     return {
-      Monday: parsed.Monday || 'A',
-      Tuesday: parsed.Tuesday || 'A',
-      Wednesday: parsed.Wednesday || 'All',
-      Thursday: parsed.Thursday || 'A',
-      Friday: parsed.Friday || 'A'
+      p3: migrated.p3 || 'A',
+      p4: migrated.p4 || 'A',
+      wednesday: migrated.wednesday || 'All'
     };
   } catch (e) {
     return { ...getDefaultLunchPrefs() };
@@ -309,7 +331,7 @@ function updateLunchBtns(prefs) {
   document.querySelectorAll('.lunchBtn[data-period]').forEach(btn => {
     const period = btn.dataset.period;
     const lunch = btn.dataset.lunch;
-    const currentLunch = period === '3' ? prefs.Monday : prefs.Tuesday;
+    const currentLunch = period === '3' ? prefs.p3 : prefs.p4;
     btn.classList.toggle('selected', currentLunch === lunch);
   });
 }
@@ -319,13 +341,7 @@ function initLunchBtnListeners(prefs, onSave) {
     btn.addEventListener('click', () => {
       const period = btn.dataset.period;
       const lunch = btn.dataset.lunch;
-      if (period === '3') {
-        prefs.Monday = lunch;
-        prefs.Friday = lunch;
-      } else {
-        prefs.Tuesday = lunch;
-        prefs.Thursday = lunch;
-      }
+      prefs[period === '3' ? 'p3' : 'p4'] = lunch;
       updateLunchBtns(prefs);
       if (onSave) onSave(prefs);
     });
@@ -383,60 +399,13 @@ function getLunchPreferencesForScheduleKey(scheduleKey) {
   return lunchPreferences || schedulesData?.lunchPreferences || defaults;
 }
 
-function getNearbyPeriodNumber(schedule, lunchIndex) {
-  const periodRegex = /\bPeriod\s+(\d)\b/i;
-  for (let i = lunchIndex + 1; i < schedule.length; i++) {
-    const match = schedule[i].name.match(periodRegex);
-    if (match) return parseInt(match[1], 10);
-  }
-  for (let i = lunchIndex - 1; i >= 0; i--) {
-    const match = schedule[i].name.match(periodRegex);
-    if (match) return parseInt(match[1], 10);
-  }
-  return null;
-}
-
-function getLunchContextPeriodForDay(baseScheduleDay) {
-  if (!baseScheduleDay || Array.isArray(baseScheduleDay) || !baseScheduleDay.A || !baseScheduleDay.B) return null;
-  const lunchRegex = /\blunch\b/i;
-
-  const aLunchIndex = baseScheduleDay.A.findIndex(p => lunchRegex.test(p.name));
-  const bLunchIndex = baseScheduleDay.B.findIndex(p => lunchRegex.test(p.name));
-  if (aLunchIndex === -1 && bLunchIndex === -1) return null;
-
-  const aPeriod = aLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.A, aLunchIndex);
-  const bPeriod = bLunchIndex === -1 ? null : getNearbyPeriodNumber(baseScheduleDay.B, bLunchIndex);
-
-  if (aPeriod && bPeriod && aPeriod === bPeriod) return aPeriod;
-  return aPeriod || bPeriod || null;
-}
-
 function getLunchForScheduleDay(scheduleKey, today, baseScheduleDay, baseSchedule) {
   const lunchPrefs = getLunchPreferencesForScheduleKey(scheduleKey);
-  const todayChoice = lunchPrefs?.[today];
-
-  if (!baseScheduleDay || Array.isArray(baseScheduleDay)) {
-    return normalizeLunchChoice(todayChoice);
+  const slot = LUNCH_SLOT_BY_DAY[scheduleKey]?.[today];
+  if (slot === 'p3' || slot === 'p4') {
+    return normalizeLunchChoice(lunchPrefs[slot]);
   }
-
-  const targetPeriod = getLunchContextPeriodForDay(baseScheduleDay);
-  if (!targetPeriod || !baseSchedule) {
-    return normalizeLunchChoice(todayChoice);
-  }
-
-  const candidateDays = [
-    today,
-    ...Object.keys(baseSchedule).filter(day => day !== today)
-  ];
-
-  for (const day of candidateDays) {
-    const daySchedule = baseSchedule[day];
-    if (getLunchContextPeriodForDay(daySchedule) !== targetPeriod) continue;
-    const pref = lunchPrefs?.[day];
-    if (pref === 'A' || pref === 'B') return pref;
-  }
-
-  return normalizeLunchChoice(todayChoice);
+  return normalizeLunchChoice(lunchPrefs[today] || 'A');
 }
 
 function getSchedules(date) {
@@ -1811,7 +1780,7 @@ async function initApp() {
   const sem2Start = new Date(2026, 0, 24);
   if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
 
-    localStorage.setItem('lunchPreferences', JSON.stringify({Monday:'A',Tuesday:'A',Wednesday:'All',Thursday:'A',Friday:'A'}));
+    localStorage.setItem('lunchPreferences', JSON.stringify({ p3: 'A', p4: 'A', wednesday: 'All' }));
     localStorage.setItem('sem2ResetDone', 'true');
   }
 

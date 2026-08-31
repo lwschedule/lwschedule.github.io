@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.4",
+    "title": "Fixed which days use the Period 3 vs Period 4 lunch, and removed clubs for now",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.3",
     "title": "Center page content at 1200px so the limit is clearly visible",
     "date": "August 30, 2026"

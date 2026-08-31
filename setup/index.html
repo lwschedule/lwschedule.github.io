@@ -224,14 +224,14 @@
     <section class="setupSection">
       <h3>Lunch Preferences</h3>
       <div class="settingsRow">
-        <label>Period 3 Lunch <small>(Mon/Fri & most special schedules)</small>:</label>
+        <label>Period 3 Lunch <small>(Mon/Tue/Thu on normal weeks)</small>:</label>
         <div class="lunchButtons">
           <button class="lunchBtn" data-period="3" data-lunch="A">A Lunch</button>
           <button class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
         </div>
       </div>
       <div class="settingsRow">
-        <label>Period 4 Lunch <small>(Tue/Thu & most special schedules)</small>:</label>
+        <label>Period 4 Lunch <small>(Friday on normal weeks; varies by special schedule)</small>:</label>
         <div class="lunchButtons">
           <button class="lunchBtn" data-period="4" data-lunch="A">A Lunch</button>
           <button class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
@@ -261,24 +261,6 @@
         <div id="setupSelectedClassesList" class="class-slots"></div>
         <p id="setupClassesCount" class="class-count">0 of 6 slots filled</p>
         <p id="setupClassesMessage" class="class-message"></p>
-      </div>
-    </section>
-
-    <section class="setupSection">
-      <h3>Clubs</h3>
-      <p class="setupDescription">Browse and select clubs to see them in your schedule.</p>
-      <div class="toggle-container">
-        <span class="toggle-label">Clubs</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="clubsToggle">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div id="clubsSettings">
-        <input type="text" id="clubSearch" class="class-search-input" placeholder="Search clubs...">
-        <div id="clubResults" class="clubs-results"></div>
-        <div id="setupSelectedClubsList" class="slots-container"></div>
-        <p id="selectedCount" class="clubs-count">0 clubs selected</p>
       </div>
     </section>
 
@@ -374,33 +356,8 @@
       setupClassManager.load();
     }
 
-    const setupClubsManager = createClubSlotManager({
-      selectedListId: 'setupSelectedClubsList',
-      css: { row: 'club-slot-row', card: 'club-slot-card', value: 'class-slot-value', clear: 'class-slot-clear', clearIcon: 'class-slot-clear-icon' },
-    });
-
     const classesToggle = document.getElementById('classesToggle');
     const classesSettings = document.getElementById('classesSettings');
-    const clubsToggle = document.getElementById('clubsToggle');
-    const clubsSettings = document.getElementById('clubsSettings');
-
-    function initClubsSection() {
-      const isEnabled = isClubsEnabled();
-      clubsToggle.checked = isEnabled;
-      clubsSettings.style.display = isEnabled ? 'block' : 'none';
-
-      clubsToggle.addEventListener('change', (e) => {
-        clubsSettings.style.display = e.target.checked ? 'block' : 'none';
-      });
-
-      const saved = localStorage.getItem('selectedClubs');
-      if (saved) {
-        try { setupClubsManager.setSelected(JSON.parse(saved)); } catch (e) { setupClubsManager.setSelected([]); }
-      }
-
-      setupClubsManager.initSearch();
-      setupClubsManager.load();
-    }
 
     let packUpTime = parseInt(localStorage.getItem('pack-up-time') || '0', 10);
     if (Number.isNaN(packUpTime) || packUpTime < 0) packUpTime = 0;
@@ -598,8 +555,6 @@
       localStorage.setItem('notifications-enabled', packupToggle.checked ? 'true' : 'false');
       localStorage.setItem('classesEnabled', classesToggle.checked ? 'true' : 'false');
       localStorage.setItem('selectedClasses', JSON.stringify(setSelectedClassesSlots(setupClassManager.getSlots())));
-      localStorage.setItem('clubsEnabled', clubsToggle.checked ? 'true' : 'false');
-      localStorage.setItem('selectedClubs', JSON.stringify(setupClubsManager.getSelected()));
 
       if (caddyToggle.checked) {
         const savedTimes = {};
@@ -636,7 +591,6 @@
 
       updateLunchBtns(lunchPrefs);
       initSetupClassesSection();
-      initClubsSection();
     }
 
     checkSetupComplete();

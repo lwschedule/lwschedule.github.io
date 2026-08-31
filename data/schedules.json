@@ -326,5 +326,5 @@
       }
     }
   },
-  "lunchPreferences": {"Monday": "A", "Tuesday": "A", "Wednesday": "All", "Thursday": "A", "Friday": "A"}
+  "lunchPreferences": {"p3": "A", "p4": "A", "wednesday": "All"}
 }

@@ -616,14 +616,14 @@
       </div>
       <div id="normalLunches">
         <div class="settingsRow">
-          <label>Period 3 Lunch <small>(Mon/Fri &amp; most special schedules)</small>:</label>
+          <label>Period 3 Lunch <small>(Mon/Tue/Thu on normal weeks)</small>:</label>
           <div class="lunchButtons">
             <button type="button" class="lunchBtn" data-period="3" data-lunch="A">A Lunch</button>
             <button type="button" class="lunchBtn" data-period="3" data-lunch="B">B Lunch</button>
           </div>
         </div>
         <div class="settingsRow">
-          <label>Period 4 Lunch <small>(Tue/Thu &amp; most special schedules)</small>:</label>
+          <label>Period 4 Lunch <small>(Friday on normal weeks; varies by special schedule)</small>:</label>
           <div class="lunchButtons">
             <button type="button" class="lunchBtn" data-period="4" data-lunch="A">A Lunch</button>
             <button type="button" class="lunchBtn" data-period="4" data-lunch="B">B Lunch</button>
@@ -663,30 +663,6 @@
         <p class="classes-message" id="classesMessage"></p>
 
         <button type="button" class="resetBtn" id="resetClassesBtn">Reset Classes to Default</button>
-      </div>
-    </section>
-
-    <section class="profileCard">
-      <div class="cardHeader">
-        <h3>Clubs</h3>
-        <button type="button" class="mainBtn saveSectionBtn" id="saveClubsBtn">Save Changes</button>
-      </div>
-
-      <div class="toggle-container">
-        <span class="toggle-label">Clubs</span>
-        <label class="toggle-switch">
-          <input type="checkbox" id="clubsToggle">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-
-      <div class="clubs-content" id="clubsContent">
-        <input type="text" id="clubSearch" class="search-input" placeholder="Search clubs...">
-        <div class="clubs-results" id="clubResults"></div>
-
-        <div class="slots-container clubsSlots" id="selectedClubsList"></div>
-        <p class="clubs-count" id="selectedCount">0 clubs selected</p>
-        <button type="button" class="resetBtn" id="resetClubsBtn">Reset Clubs to Default</button>
       </div>
     </section>
 
@@ -767,8 +743,6 @@
   <script src="/common-core.js"></script>
   <script>
     let lunchPrefs = {};
-
-    let profileClubsManager;
 
     let allUpcomingEvents = [];
     let followedIds = [];
@@ -1000,47 +974,6 @@
       });
 
       profileClassManager.load();
-    }
-
-    function initClubsSection() {
-      const saved = localStorage.getItem('selectedClubs');
-      if (saved) {
-        try {
-          profileClubsManager.setSelected(JSON.parse(saved));
-        } catch (e) {
-          profileClubsManager.setSelected([]);
-        }
-      }
-
-      const clubsEnabled = localStorage.getItem('clubsEnabled');
-      const isEnabled = clubsEnabled !== 'false';
-      const clubsToggle = document.getElementById('clubsToggle');
-      const clubsContent = document.getElementById('clubsContent');
-
-      clubsToggle.checked = isEnabled;
-      clubsContent.classList.toggle('enabled', isEnabled);
-
-      clubsToggle.addEventListener('change', (e) => {
-        clubsContent.classList.toggle('enabled', e.target.checked);
-      });
-
-      profileClubsManager.initSearch();
-
-      document.getElementById('resetClubsBtn').addEventListener('click', () => {
-        profileClubsManager.setSelected([]);
-        document.getElementById('clubsToggle').checked = false;
-        document.getElementById('clubsContent').classList.remove('enabled');
-        profileClubsManager.renderSelectedList();
-        profileClubsManager.renderResults(document.getElementById('clubSearch').value);
-      });
-
-      document.getElementById('saveClubsBtn').addEventListener('click', () => {
-        localStorage.setItem('selectedClubs', JSON.stringify(profileClubsManager.getSelected()));
-        localStorage.setItem('clubsEnabled', clubsToggle.checked.toString());
-        triggerSavedState(document.getElementById('saveClubsBtn'));
-      });
-
-      profileClubsManager.load();
     }
 
     function readCaddyTimesFromInputs() {
@@ -1299,7 +1232,6 @@
       initProfileSection();
       initLunchSection();
       initClassesSection();
-      initClubsSection();
       initPhoneCaddySection();
       initPackupSection();
       await initEventsSection();
@@ -1319,7 +1251,6 @@
         return;
       }
 
-      profileClubsManager = createClubSlotManager({ onSave: null });
       profileClassManager = createClassSlotManager({
         slotsId: 'selectedClassesList',
         countId: 'classesCount',
