@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.5",
+    "title": "Added a note on lunch preferences showing where A and B lunch are",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.4",
     "title": "Fixed which days use the Period 3 vs Period 4 lunch, and removed clubs for now",
     "date": "August 30, 2026"
