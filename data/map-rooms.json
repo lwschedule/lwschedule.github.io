@@ -423,17 +423,17 @@
    "t": "room",
    "sec": "m2",
    "floor": "2nd Floor Main",
-   "name": "Upper Loft",
+   "name": "Upper Commons",
    "num": null,
    "x": 536,
    "y": 828,
    "w": 94,
    "h": 26,
    "aliases": [
-    "upper loft",
-    "loft"
+    "upper commons",
+    "commons"
    ],
-   "id": "upper-loft"
+   "id": "upper-commons"
   },
   {
    "t": "room",
