@@ -2535,19 +2535,6 @@ body.calendarPage .calendar-grid {
   stroke-width: 1.2;
 }
 
-.map-compass line {
-  stroke: #4a4a4a;
-  stroke-width: 1.5;
-}
-
-.map-compass text {
-  fill: var(--text-light);
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0.8;
-  text-anchor: middle;
-}
-
 .map-building-title {
   fill: white;
   font-size: 26px;

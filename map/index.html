@@ -120,14 +120,6 @@
           el('text', { x: it.x, y: it.y, class: it.cls, 'text-anchor': 'middle' }, mapContent).textContent = it.text;
           return;
         }
-        if (it.t === 'compass') {
-          const g = el('g', { class: 'map-compass' }, mapContent);
-          el('line', { x1: it.x, y1: it.y - 60, x2: it.x, y2: it.y + 60 }, g);
-          el('line', { x1: it.x - 55, y1: it.y, x2: it.x + 55, y2: it.y }, g);
-          const L = (x, y, t) => { const n = el('text', { x, y, 'text-anchor': 'middle' }, g); n.textContent = t; };
-          L(it.x, it.y - 68, 'N'); L(it.x, it.y + 82, 'S'); L(it.x - 68, it.y + 4, 'W'); L(it.x + 68, it.y + 4, 'E');
-          return;
-        }
         if (it.t === 'x') {
           const g = el('g', { class: 'map-xbox' }, mapContent);
           el('rect', { x: it.x, y: it.y, width: it.w, height: it.h }, g);

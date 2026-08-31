@@ -15,11 +15,6 @@
    "cls": "map-floor-title"
   },
   {
-   "t": "compass",
-   "x": 215,
-   "y": 245
-  },
-  {
    "t": "room",
    "sec": "m1",
    "floor": "1st Floor",
