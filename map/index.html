@@ -98,11 +98,7 @@
       }
 
       function draw() {
-        // defs: hatch pattern for stairs
-        const defs = el('defs', {}, svg);
         mapContent = el('g', { id: 'mapContent' }, svg);
-        defs.innerHTML = '<pattern id="mapHatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">' +
-          '<rect width="7" height="7" fill="#151515"/><line x1="0" y1="0" x2="0" y2="7" stroke="#4a4a4a" stroke-width="2"/></pattern>';
 
         fetch('/data/map-rooms.json')
           .then(r => r.json())
@@ -130,13 +126,6 @@
           el('line', { x1: it.x - 55, y1: it.y, x2: it.x + 55, y2: it.y }, g);
           const L = (x, y, t) => { const n = el('text', { x, y, 'text-anchor': 'middle' }, g); n.textContent = t; };
           L(it.x, it.y - 68, 'N'); L(it.x, it.y + 82, 'S'); L(it.x - 68, it.y + 4, 'W'); L(it.x + 68, it.y + 4, 'E');
-          return;
-        }
-        if (it.t === 'stair') { el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-stair' }, mapContent); return; }
-        if (it.t === 'stairn') {
-          el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-stair' }, mapContent);
-          const t = el('text', { x: it.x + it.w / 2, y: it.y + it.h / 2, class: 'map-stair-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle', 'font-size': 11 }, mapContent);
-          t.textContent = it.label;
           return;
         }
         if (it.t === 'gray') { el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-gray' }, mapContent); return; }

@@ -2517,20 +2517,7 @@ body.calendarPage .calendar-grid {
   }
 }
 
-/* Map: floor-plan element types (stairs, gray blocks, X-boxes, arcs, titles, zones) */
-.map-stair {
-  fill: url(#mapHatch);
-  stroke: #3f3f3f;
-  stroke-width: 1;
-}
-
-.map-stair-label {
-  fill: var(--text-light);
-  font-weight: 600;
-  pointer-events: none;
-  opacity: 0.85;
-}
-
+/* Map: floor-plan element types (gray blocks, X-boxes, arcs, titles, zones) */
 .map-gray {
   fill: #262626;
   stroke: #333;
