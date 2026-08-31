@@ -128,7 +128,6 @@
           L(it.x, it.y - 68, 'N'); L(it.x, it.y + 82, 'S'); L(it.x - 68, it.y + 4, 'W'); L(it.x + 68, it.y + 4, 'E');
           return;
         }
-        if (it.t === 'gray') { el('rect', { x: it.x, y: it.y, width: it.w, height: it.h, class: 'map-gray' }, mapContent); return; }
         if (it.t === 'x') {
           const g = el('g', { class: 'map-xbox' }, mapContent);
           el('rect', { x: it.x, y: it.y, width: it.w, height: it.h }, g);

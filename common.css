@@ -2518,12 +2518,6 @@ body.calendarPage .calendar-grid {
 }
 
 /* Map: floor-plan element types (gray blocks, X-boxes, arcs, titles, zones) */
-.map-gray {
-  fill: #262626;
-  stroke: #333;
-  stroke-width: 1;
-}
-
 .map-xbox rect {
   fill: #141414;
   stroke: #3a3a3a;
