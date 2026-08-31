@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.30.3",
+    "title": "Center page content at 1200px so the limit is clearly visible",
+    "date": "August 30, 2026"
+  },
+  {
     "version": "v2026.8.30.2",
     "title": "Cap page content at a width that actually shows on screen",
     "date": "August 30, 2026"
