@@ -9,34 +9,144 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/common.css">
-  <style>
-    .comingSoonCard {
-      background: var(--card-dark);
-      border: 1px solid var(--primary-light);
-      border-radius: 12px;
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: var(--glow);
-    }
-
-    .comingSoonCard h3 {
-      margin: 0 0 10px;
-      font-size: 1.4em;
-    }
-
-    .comingSoonCard p {
-      margin: 0;
-      opacity: 0.85;
-      line-height: 1.5;
-    }
-  </style>
 </head>
-<body>
+<body class="mapPage">
   <div class="pageContainer">
     <h2>Map</h2>
-    <div class="comingSoonCard">
-      <h3>Coming Soon</h3>
-      <p>The campus map is on the way.</p>
+
+    <!-- Search bar at the very top -->
+    <div class="mapSearchWrap">
+      <input id="mapSearch" class="mapSearchInput" type="search" autocomplete="off"
+             placeholder="Search a room by name…" aria-label="Search rooms"
+             role="combobox" aria-expanded="false" aria-controls="mapSearchResults" />
+      <div id="mapSearchResults" class="mapSearchResults" role="listbox" aria-label="Room results" hidden></div>
+      <div id="mapSearchLive" class="sr-only" aria-live="polite"></div>
+    </div>
+
+    <!-- Map card -->
+    <div class="mapCard">
+      <div class="mapToolbar">
+        <div class="mapHint">Tap a room to highlight it</div>
+        <div class="mapZoomBtns">
+          <button id="mapZoomOut" class="mapZoomBtn" aria-label="Zoom out">−</button>
+          <button id="mapZoomReset" class="mapZoomBtn" aria-label="Reset view">⟲</button>
+          <button id="mapZoomIn" class="mapZoomBtn" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+      <div class="mapViewport" id="mapViewport">
+        <svg id="schoolMap" class="schoolMap" viewBox="0 0 1200 800" role="img"
+             aria-label="Interactive school campus map" preserveAspectRatio="xMidYMid meet">
+          <!-- Ground -->
+          <rect class="map-ground" x="0" y="0" width="1200" height="800" />
+
+          <!-- Roads / paths -->
+          <path class="map-path" d="M 60 400 H 1140" />
+          <path class="map-path" d="M 600 60 V 740" />
+
+          <!-- Main gate (south, center) -->
+          <g class="map-room" id="room-main-gate" data-room-id="main-gate" tabindex="0" role="button" aria-label="Main Gate">
+            <title>Main Gate</title>
+            <rect x="540" y="742" width="120" height="38" />
+            <text x="600" y="766">Main Gate</text>
+          </g>
+
+          <!-- Parking (southwest) -->
+          <g class="map-room" id="room-parking" data-room-id="parking" tabindex="0" role="button" aria-label="Parking Lot">
+            <title>Parking Lot</title>
+            <rect x="70" y="700" width="220" height="70" />
+            <text x="180" y="740">Parking</text>
+          </g>
+
+          <!-- Admin office (center, just north of gate) -->
+          <g class="map-room" id="room-admin-office" data-room-id="admin-office" tabindex="0" role="button" aria-label="Admin Office">
+            <title>Admin Office</title>
+            <rect x="480" y="560" width="240" height="120" />
+            <text x="600" y="615">Admin</text>
+            <text x="600" y="640">Office</text>
+          </g>
+
+          <!-- Library (east of admin) -->
+          <g class="map-room" id="room-library" data-room-id="library" tabindex="0" role="button" aria-label="Library">
+            <title>Library</title>
+            <rect x="770" y="560" width="200" height="120" />
+            <text x="870" y="625">Library</text>
+          </g>
+
+          <!-- Science labs (west of admin) -->
+          <g class="map-room" id="room-lab" data-room-id="lab" tabindex="0" role="button" aria-label="Science Labs">
+            <title>Science Labs</title>
+            <rect x="230" y="560" width="200" height="120" />
+            <text x="330" y="615">Science</text>
+            <text x="330" y="640">Labs</text>
+          </g>
+
+          <!-- North teaching wing (top center, horizontal) -->
+          <g class="map-room" id="room-teaching-wing-north" data-room-id="teaching-wing-north" tabindex="0" role="button" aria-label="North Teaching Wing">
+            <title>North Teaching Wing</title>
+            <rect x="300" y="70" width="600" height="110" />
+            <text x="600" y="130">North Teaching Wing</text>
+          </g>
+
+          <!-- East teaching wing (right, vertical) -->
+          <g class="map-room" id="room-teaching-wing-east" data-room-id="teaching-wing-east" tabindex="0" role="button" aria-label="East Teaching Wing">
+            <title>East Teaching Wing</title>
+            <rect x="950" y="70" width="180" height="280" />
+            <text x="1040" y="200" class="map-text-v">East Wing</text>
+          </g>
+
+          <!-- West teaching wing (left, vertical) -->
+          <g class="map-room" id="room-teaching-wing-west" data-room-id="teaching-wing-west" tabindex="0" role="button" aria-label="West Teaching Wing">
+            <title>West Teaching Wing</title>
+            <rect x="70" y="70" width="180" height="280" />
+            <text x="160" y="200" class="map-text-v">West Wing</text>
+          </g>
+
+          <!-- South teaching wing (below admin, horizontal) -->
+          <g class="map-room" id="room-teaching-wing-south" data-room-id="teaching-wing-south" tabindex="0" role="button" aria-label="South Teaching Wing">
+            <title>South Teaching Wing</title>
+            <rect x="300" y="440" width="600" height="90" />
+            <text x="600" y="492">South Teaching Wing</text>
+          </g>
+
+          <!-- Gym (northeast) -->
+          <g class="map-room" id="room-gym" data-room-id="gym" tabindex="0" role="button" aria-label="Gymnasium">
+            <title>Gymnasium</title>
+            <rect x="950" y="390" width="180" height="130" />
+            <text x="1040" y="460">Gym</text>
+          </g>
+
+          <!-- Theater & Music (northwest) -->
+          <g class="map-room" id="room-theater" data-room-id="theater" tabindex="0" role="button" aria-label="Theater and Music">
+            <title>Theater &amp; Music</title>
+            <rect x="70" y="390" width="180" height="130" />
+            <text x="160" y="450">Theater</text>
+            <text x="160" y="472">&amp; Music</text>
+          </g>
+
+          <!-- Cafeteria (center-east, between wings) -->
+          <g class="map-room" id="room-cafeteria" data-room-id="cafeteria" tabindex="0" role="button" aria-label="Cafeteria">
+            <title>Cafeteria</title>
+            <rect x="700" y="220" width="200" height="180" />
+            <text x="800" y="300">Cafeteria</text>
+          </g>
+
+          <!-- Playground / field (center-west open area) -->
+          <g class="map-room" id="room-playground" data-room-id="playground" tabindex="0" role="button" aria-label="Playground">
+            <title>Playground</title>
+            <rect x="300" y="220" width="200" height="180" />
+            <text x="400" y="300">Playground</text>
+          </g>
+
+          <!-- Basketball courts (southeast) -->
+          <g class="map-room" id="room-basketball-court" data-room-id="basketball-court" tabindex="0" role="button" aria-label="Basketball Courts">
+            <title>Basketball Courts</title>
+            <rect x="950" y="560" width="180" height="120" />
+            <text x="1040" y="610">Basketball</text>
+            <text x="1040" y="632">Courts</text>
+          </g>
+        </svg>
+      </div>
+      <div id="mapStatus" class="mapStatus" role="status"></div>
     </div>
   </div>
 
@@ -47,7 +157,224 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       checkSetupComplete();
+
+      // Keep skeleton placeholders visible for at least 1s on page load.
+      if (typeof window.minSkeletonDelay === 'function') {
+        await window.minSkeletonDelay();
+      }
+
+      initMapPage();
     })();
+
+    function initMapPage() {
+      const svg = document.getElementById('schoolMap');
+      const viewport = document.getElementById('mapViewport');
+      const search = document.getElementById('mapSearch');
+      const resultsBox = document.getElementById('mapSearchResults');
+      const live = document.getElementById('mapSearchLive');
+      const status = document.getElementById('mapStatus');
+      if (!svg || !search) return;
+
+      let rooms = [];
+      let roomsById = new Map();
+      let selectedRoomId = null;
+      let activeIndex = -1;
+      let currentMatches = [];
+
+      fetch('/data/map-rooms.json')
+        .then((r) => r.json())
+        .then((data) => {
+          rooms = data;
+          roomsById = new Map(rooms.map((r) => [r.id, r]));
+        })
+        .catch((err) => console.error('Failed to load map rooms:', err));
+
+      // ---- Selection / highlight (purple) ----
+      function clearHighlight() {
+        svg.querySelectorAll('.map-room.selected').forEach((el) => el.classList.remove('selected'));
+        selectedRoomId = null;
+      }
+
+      function selectRoom(roomId, fromSearch) {
+        clearHighlight();
+        const node = svg.getElementById ? svg.getElementById('room-' + roomId) : document.getElementById('room-' + roomId);
+        if (!node) return;
+        node.classList.add('selected');
+        selectedRoomId = roomId;
+        const room = roomsById.get(roomId);
+        const label = room ? room.name : roomId;
+        if (status) status.textContent = 'Selected: ' + label;
+        if (fromSearch) hideResults();
+      }
+
+      svg.addEventListener('click', (e) => {
+        const g = e.target.closest('.map-room');
+        if (g && g.dataset.roomId) selectRoom(g.dataset.roomId, false);
+      });
+      svg.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const g = e.target.closest('.map-room');
+        if (g && g.dataset.roomId) {
+          e.preventDefault();
+          selectRoom(g.dataset.roomId, false);
+        }
+      });
+
+      // ---- Zoom & pan (viewBox based) ----
+      const BASE = { x: 0, y: 0, w: 1200, h: 800 };
+      let view = { ...BASE };
+      const MIN_W = 300;
+      const MAX_W = 1200;
+
+      function applyView() {
+        svg.setAttribute('viewBox', view.x + ' ' + view.y + ' ' + view.w + ' ' + view.h);
+      }
+
+      function zoomAt(cx, cy, factor) {
+        const newW = Math.min(MAX_W, Math.max(MIN_W, view.w * factor));
+        const ratio = newW / view.w;
+        view.x = cx - (cx - view.x) * ratio;
+        view.y = cy - (cy - view.y) * ratio;
+        view.w = newW;
+        view.h = view.h * ratio;
+        applyView();
+      }
+
+      function resetView() {
+        view = { ...BASE };
+        applyView();
+      }
+
+      document.getElementById('mapZoomIn').addEventListener('click', () => zoomAt(view.x + view.w / 2, view.y + view.h / 2, 0.8));
+      document.getElementById('mapZoomOut').addEventListener('click', () => zoomAt(view.x + view.w / 2, view.y + view.h / 2, 1.25));
+      document.getElementById('mapZoomReset').addEventListener('click', resetView);
+
+      svg.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const pt = clientToSvg(e.clientX, e.clientY);
+        if (!pt) return;
+        zoomAt(pt.x, pt.y, e.deltaY > 0 ? 1.12 : 0.89);
+      }, { passive: false });
+
+      function clientToSvg(cx, cy) {
+        const rect = svg.getBoundingClientRect();
+        const nx = (cx - rect.left) / rect.width;
+        const ny = (cy - rect.top) / rect.height;
+        if (nx < 0 || nx > 1 || ny < 0 || ny > 1) return null;
+        return { x: view.x + nx * view.w, y: view.y + ny * view.h };
+      }
+
+      // Drag to pan
+      let dragging = false;
+      let dragStart = null;
+      let viewStart = null;
+      svg.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        dragging = true;
+        dragStart = { x: e.clientX, y: e.clientY };
+        viewStart = { ...view };
+        svg.setPointerCapture(e.pointerId);
+      });
+      svg.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const rect = svg.getBoundingClientRect();
+        const dx = ((e.clientX - dragStart.x) / rect.width) * viewStart.w;
+        const dy = ((e.clientY - dragStart.y) / rect.height) * viewStart.h;
+        view.x = viewStart.x - dx;
+        view.y = viewStart.y - dy;
+        applyView();
+      });
+      ['pointerup', 'pointercancel'].forEach((ev) => svg.addEventListener(ev, () => { dragging = false; }));
+
+      // ---- Search ----
+      function hideResults() {
+        resultsBox.hidden = true;
+        search.setAttribute('aria-expanded', 'false');
+        activeIndex = -1;
+      }
+
+      function showResults() {
+        resultsBox.hidden = false;
+        search.setAttribute('aria-expanded', 'true');
+      }
+
+      function renderResults(matches) {
+        if (!matches.length) {
+          resultsBox.innerHTML = '<div class="mapSearchEmpty">No rooms found</div>';
+          showResults();
+          return;
+        }
+        resultsBox.innerHTML = matches.map((r, i) =>
+          '<div class="mapSearchItem" role="option" data-id="' + r.id + '" aria-selected="' + (i === activeIndex) + '">' +
+          '<span class="mapSearchName">' + r.name + '</span></div>'
+        ).join('');
+        showResults();
+      }
+
+      function announce(text) { if (live) live.textContent = text; }
+
+      function doSearch(q) {
+        const query = q.trim().toLowerCase();
+        if (!query) {
+          currentMatches = [];
+          hideResults();
+          return;
+        }
+        currentMatches = rooms.filter((r) => {
+          if (r.name.toLowerCase().includes(query)) return true;
+          return (r.aliases || []).some((a) => a.toLowerCase().includes(query));
+        }).slice(0, 8);
+        activeIndex = -1;
+        renderResults(currentMatches);
+        announce(currentMatches.length + (currentMatches.length === 1 ? ' room found' : ' rooms found'));
+      }
+
+      search.addEventListener('input', () => doSearch(search.value));
+
+      search.addEventListener('keydown', (e) => {
+        if (resultsBox.hidden) return;
+        const items = resultsBox.querySelectorAll('.mapSearchItem');
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIndex = (activeIndex + 1) % items.length;
+          updateActive(items);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIndex = (activeIndex - 1 + items.length) % items.length;
+          updateActive(items);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const idx = activeIndex >= 0 ? activeIndex : 0;
+          pickMatch(currentMatches[idx]);
+        } else if (e.key === 'Escape') {
+          hideResults();
+        }
+      });
+
+      function updateActive(items) {
+        items.forEach((el, i) => el.setAttribute('aria-selected', i === activeIndex));
+        if (items[activeIndex]) items[activeIndex].scrollIntoView({ block: 'nearest' });
+      }
+
+      function pickMatch(match) {
+        if (!match) return;
+        selectRoom(match.id, true);
+        search.value = match.name;
+        hideResults();
+      }
+
+      resultsBox.addEventListener('click', (e) => {
+        const item = e.target.closest('.mapSearchItem');
+        if (!item) return;
+        const match = currentMatches.find((r) => r.id === item.dataset.id);
+        pickMatch(match);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.mapSearchWrap')) hideResults();
+      });
+    }
   </script>
 </body>
 </html>

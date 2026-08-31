@@ -1823,7 +1823,7 @@ function injectGlobalSidebar() {
     { href: '/events', icon: 'list.bullet.below.rectangle', text: 'Events' },
     { href: '/holidays', icon: 'beach.umbrella', text: 'Holidays' },
     { href: '/quarters', icon: 'rectangle.grid.2x2', text: 'Quarters/Semesters' },
-    { href: '#', icon: '/icons/src/map.svg', text: 'Map (Coming Soon)', disabled: true },
+    { href: '/map', icon: '/icons/src/map.svg', text: 'Map' },
     { href: '/info', icon: '/icons/src/info.svg', text: 'Info' }
   ];
 

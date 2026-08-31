@@ -1,0 +1,16 @@
+[
+  { "id": "main-gate", "name": "Main Gate", "aliases": ["entrance", "front gate", "school gate"] },
+  { "id": "admin-office", "name": "Admin Office", "aliases": ["office", "administration", "front office", "principal"] },
+  { "id": "teaching-wing-north", "name": "North Teaching Wing", "aliases": ["north wing", "classrooms north", "teaching building north"] },
+  { "id": "teaching-wing-south", "name": "South Teaching Wing", "aliases": ["south wing", "classrooms south", "teaching building south"] },
+  { "id": "teaching-wing-east", "name": "East Teaching Wing", "aliases": ["east wing", "classrooms east", "teaching building east"] },
+  { "id": "teaching-wing-west", "name": "West Teaching Wing", "aliases": ["west wing", "classrooms west", "teaching building west"] },
+  { "id": "gym", "name": "Gymnasium", "aliases": ["gym", "basketball", "indoor sports"] },
+  { "id": "theater", "name": "Theater & Music", "aliases": ["theater", "auditorium", "music room", "hall"] },
+  { "id": "cafeteria", "name": "Cafeteria", "aliases": ["canteen", "dining hall", "lunch"] },
+  { "id": "library", "name": "Library", "aliases": ["reading room", "books"] },
+  { "id": "lab", "name": "Science Labs", "aliases": ["laboratory", "labs", "physics", "chemistry", "biology"] },
+  { "id": "playground", "name": "Playground", "aliases": ["field", "sports field", "track", "playground"] },
+  { "id": "basketball-court", "name": "Basketball Courts", "aliases": ["courts", "outdoor basketball"] },
+  { "id": "parking", "name": "Parking Lot", "aliases": ["car park", "parking lot"] }
+]
