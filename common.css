@@ -2556,6 +2556,14 @@ body.calendarPage .calendar-grid {
   pointer-events: none;
 }
 
+.map-pod {
+  fill: var(--text-light);
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
 .map-zone text {
   fill: var(--text-light);
   font-weight: 700;

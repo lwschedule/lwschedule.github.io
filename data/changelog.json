@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.8.31",
+    "title": "Added Pod labels and tidied up the school map",
+    "date": "August 31, 2026"
+  },
+  {
     "version": "v2026.8.30.16",
     "title": "Removed the empty space above the 3rd floor map",
     "date": "August 30, 2026"
