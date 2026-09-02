@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.2",
+    "title": "Fixed home page crash during first-week Wednesday schedule",
+    "date": "September 2, 2026"
+  },
+  {
     "version": "v2026.9.1.2",
     "title": "Added the 2027 AP exam schedule",
     "date": "September 1, 2026"

@@ -430,9 +430,12 @@ function getSchedules(date) {
   const lunch = getLunchForScheduleDay(scheduleKey, today, baseSchedule[today], baseSchedule);
 
   const adjusted = { ...baseSchedule };
-  if (today === 'Monday' || today === 'Tuesday' || today === 'Thursday' || today === 'Friday') {
-    if (baseSchedule[today][lunch]) {
-      adjusted[today] = baseSchedule[today][lunch];
+  const dayData = baseSchedule[today];
+  // Flatten any day defined as an {A, B} lunch-variant object (e.g. Wednesday
+  // in a special schedule). A plain array (the normal Wednesday) is left as-is.
+  if (dayData && typeof dayData === 'object' && !Array.isArray(dayData)) {
+    if (dayData[lunch]) {
+      adjusted[today] = dayData[lunch];
     }
   }
   return adjusted;
