@@ -30,6 +30,8 @@
         <option value="1st Floor">1st Floor</option>
         <option value="2nd Floor">2nd Floor</option>
         <option value="3rd Floor">3rd Floor</option>
+        <option value="North 1">North 1</option>
+        <option value="North 2">North 2</option>
       </select>
     </div>
 
@@ -76,7 +78,7 @@
       const floorSelect = document.getElementById('mapFloorSelect');
       if (!svg || !search || !floorSelect) return;
 
-      const FLOORS = ['1st Floor', '2nd Floor', '3rd Floor'];
+      const FLOORS = ['1st Floor', '2nd Floor', '3rd Floor', 'North 1', 'North 2'];
       const NS = 'http://www.w3.org/2000/svg';
 
       let rooms = [];
