@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.3.2",
+    "title": "Added search to the event picker so you see a few at a time",
+    "date": "September 3, 2026"
+  },
+  {
     "version": "v2026.9.3",
     "title": "Removed Summer Break from the holidays list now that it's over",
     "date": "September 3, 2026"
