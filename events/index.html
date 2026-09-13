@@ -289,6 +289,11 @@
         .sort((a, b) => {
           const d = a.dateObj.getTime() - b.dateObj.getTime();
           if (d !== 0) return d;
+          const ta = parseEventTimeString(a.startTime || a.time);
+          const tb = parseEventTimeString(b.startTime || b.time);
+          if (ta !== null && tb !== null && ta !== tb) return ta - tb;
+          if (ta !== null && tb === null) return -1;
+          if (ta === null && tb !== null) return 1;
           return (a.title || '').localeCompare(b.title || '');
         });
 
@@ -343,15 +348,17 @@
         const apTests = Array.isArray(data.apTests)
           ? data.apTests.map((e) => ({ ...e, type: 'ap-test' }))
           : [];
-        const sportsEvents = Array.isArray(data.sports)
-          ? data.sports.map((e) => ({ ...e, type: 'sports' }))
-          : [];
+        const sportsEvents = getSportsGamesAsEvents(data.sports).map((e) => ({ ...e, type: 'sports' }));
 
         allEvents = [...standardizedTests, ...apTests, ...sportsEvents];
 
-        // Filter to only followed events
+        // Followed individual events plus every game of any followed team
         const followedIds = getProfileFollowedEvents();
-        const followedEvents = allEvents.filter(e => followedIds.includes(e.id));
+        const followedTeamIds = getProfileFollowedTeams();
+        const followedEvents = allEvents.filter(e =>
+          followedIds.includes(e.id) ||
+          (e.type === 'sports' && e.teamId && followedTeamIds.includes(e.teamId))
+        );
 
         // Build color map from followed events first, then render
         eventColorMap = {};

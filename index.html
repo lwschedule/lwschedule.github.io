@@ -252,11 +252,16 @@
       try {
         const res = await fetch('/data/events.json');
         const data = await res.json();
-        const all = [...(data.apTests || []), ...(data.standardizedTests || [])];
+        const all = [
+          ...(data.apTests || []),
+          ...(data.standardizedTests || []),
+          ...getSportsGamesAsEvents(data.sports)
+        ];
         const followed = getProfileFollowedEvents();
+        const followedTeams = getProfileFollowedTeams();
         const today = getPacificNow(); today.setHours(0,0,0,0);
         const upcoming = all
-          .filter(e => followed.includes(e.id))
+          .filter(e => followed.includes(e.id) || (e.type === 'sports' && e.teamId && followedTeams.includes(e.teamId)))
           .map(e => { const [y,m,d] = e.date.split('-').map(Number); return { ...e, dateObj: new Date(y, m-1, d) }; })
           .filter(e => e.dateObj >= today)
           .sort((a,b) => a.dateObj - b.dateObj);

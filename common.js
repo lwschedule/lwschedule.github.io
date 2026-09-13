@@ -128,6 +128,59 @@ function setProfileFollowedEvents(ids) {
   localStorage.setItem('profileFollowedEvents', JSON.stringify(ids));
 }
 
+function getProfileFollowedTeams() {
+  try {
+    const saved = localStorage.getItem('profileFollowedTeams');
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function setProfileFollowedTeams(ids) {
+  localStorage.setItem('profileFollowedTeams', JSON.stringify(ids));
+}
+
+// Converts sports games from events.json into event-like objects so they can
+// be rendered, followed, and sorted exactly like individually followed events.
+// Title is derived from homeAway: "vs. Opponent" (home) or "at Opponent" (away).
+function getSportsGamesAsEvents(sportsData) {
+  if (!sportsData || !Array.isArray(sportsData.games)) return [];
+  const teams = Array.isArray(sportsData.teams) ? sportsData.teams : [];
+  return sportsData.games.map((game) => {
+    const team = teams.find((t) => t && t.id === game.teamId);
+    const teamName = team ? team.name : (game.teamId || 'Sports Event');
+    const connector = game.homeAway === 'away' ? 'at' : 'vs.';
+    return {
+      id: game.id,
+      title: game.opponent ? `${teamName} ${connector} ${game.opponent}` : teamName,
+      date: game.date,
+      time: [game.startTime, game.endTime].filter(Boolean).join(' - '),
+      type: 'sports',
+      teamId: game.teamId,
+      startTime: game.startTime || ''
+    };
+  });
+}
+
+// Parses a display time like "4:45 PM" into minutes since midnight so events
+// within a day can be sorted chronologically (plain string compare fails on
+// "12:00 PM" vs "4:45 PM"). Returns null when the string is unrecognized.
+function parseEventTimeString(timeStr) {
+  if (typeof timeStr !== 'string') return null;
+  const match = timeStr.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return null;
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const meridiem = match[3].toUpperCase();
+  if (meridiem === 'AM') {
+    if (hours === 12) hours = 0;
+  } else if (hours !== 12) {
+    hours += 12;
+  }
+  return hours * 60 + minutes;
+}
+
 function getSidebarIconUrl(iconId) {
   if (typeof iconId !== 'string') return '';
   if (iconId.startsWith('/')) return iconId;

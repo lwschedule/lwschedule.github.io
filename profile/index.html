@@ -220,6 +220,27 @@
       opacity: 0.6;
     }
 
+    .pickerGroupHeading {
+      padding: 9px 12px 7px;
+      background: #0d0d0d;
+      font-size: 0.78em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.75;
+      text-align: left;
+    }
+
+    .sportGroupHeading {
+      padding: 7px 12px 3px;
+      font-size: 0.72em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.55;
+      text-align: left;
+    }
+
     .settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; }
     .settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
     .lunchButtons { display: flex; gap: 10px; justify-content: center; }
@@ -759,7 +780,10 @@
 
     let allUpcomingEvents = [];
     let followedIds = [];
+    let allSportsTeams = [];
+    let followedTeamIds = [];
     const EVENTS_PREVIEW_LIMIT = 6;
+    const SPORTS_PREVIEW_LIMIT = 6;
 
     let caddyTimes = { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
 
@@ -841,10 +865,13 @@
       const followedEvents = followedIds
         .map((id) => allUpcomingEvents.find((eventItem) => eventItem.id === id))
         .filter(Boolean);
+      const followedTeams = followedTeamIds
+        .map((id) => allSportsTeams.find((team) => team.id === id))
+        .filter(Boolean);
 
-      countLabel.textContent = `Following (${followedEvents.length})`;
+      countLabel.textContent = `Following (${followedEvents.length + followedTeams.length})`;
 
-      if (!followedEvents.length) {
+      if (!followedEvents.length && !followedTeams.length) {
         chipsEl.innerHTML = '<p style="opacity:0.6; margin:0;">No followed events yet.</p>';
         return;
       }
@@ -853,12 +880,19 @@
       followedEvents.forEach((eventItem) => {
         html += `<span class="eventChip">${escapeHtml(truncateText(eventItem.title || 'Untitled Event', 40))}<button type="button" class="eventChipRemove" data-remove-id="${escapeHtml(eventItem.id)}" aria-label="Remove ${escapeHtml(eventItem.title || 'event')}">×</button></span>`;
       });
+      followedTeams.forEach((team) => {
+        html += `<span class="eventChip">${escapeHtml(truncateText(team.name || 'Team', 40))}<button type="button" class="eventChipRemove" data-remove-kind="team" data-remove-id="${escapeHtml(team.id)}" aria-label="Remove ${escapeHtml(team.name || 'team')}">×</button></span>`;
+      });
       chipsEl.innerHTML = html;
 
       chipsEl.querySelectorAll('.eventChipRemove').forEach((btn) => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.removeId;
-          followedIds = followedIds.filter((entry) => entry !== id);
+          if (btn.dataset.removeKind === 'team') {
+            followedTeamIds = followedTeamIds.filter((entry) => entry !== id);
+          } else {
+            followedIds = followedIds.filter((entry) => entry !== id);
+          }
           renderEventsSection();
         });
       });
@@ -882,36 +916,67 @@
       const contentEl = document.getElementById('eventsFollowContent');
       if (!contentEl) return;
 
-      if (!allUpcomingEvents.length) {
+      if (!allUpcomingEvents.length && !allSportsTeams.length) {
         contentEl.innerHTML = '<p style="opacity:0.6; text-align:center;">No upcoming events available.</p>';
         return;
       }
 
       const filter = getAvailableEventsSearchFilter();
       const isSearching = filter.length > 0;
+
+      // Sports teams: match on team name or sport name, capped when not searching
+      const availableTeams = allSportsTeams.filter((team) => !followedTeamIds.includes(team.id));
+      const matchingTeams = isSearching
+        ? availableTeams.filter((team) => (team.name || '').toLowerCase().includes(filter) || (team.sport || '').toLowerCase().includes(filter))
+        : availableTeams;
+      const shownTeams = isSearching ? matchingTeams : matchingTeams.slice(0, SPORTS_PREVIEW_LIMIT);
+
+      // Exam/test events: unchanged behavior, capped when not searching
       const availableEvents = allUpcomingEvents.filter((eventItem) => !followedIds.includes(eventItem.id));
       const matchingEvents = isSearching
         ? availableEvents.filter((eventItem) => (eventItem.title || '').toLowerCase().includes(filter))
         : availableEvents;
+      const shownEvents = isSearching ? matchingEvents : matchingEvents.slice(0, EVENTS_PREVIEW_LIMIT);
 
-      if (!matchingEvents.length) {
+      if (!shownTeams.length && !shownEvents.length) {
         contentEl.innerHTML = isSearching
           ? '<p style="opacity:0.6; text-align:center;">No events match your search.</p>'
           : '<p style="opacity:0.6; text-align:center;">No more events to follow. <a href="/events" style="color:var(--primary-light);">Browse all events</a></p>';
         return;
       }
 
-      const shownEvents = isSearching ? matchingEvents : matchingEvents.slice(0, EVENTS_PREVIEW_LIMIT);
-
       let html = '<div class="availableEvents">';
-      shownEvents.forEach((eventItem) => {
-        html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</div><div class="availableEventDate">${escapeHtml(formatDateLabel(eventItem.dateObj))}</div><button type="button" class="eventAddBtn" data-add-id="${escapeHtml(eventItem.id)}" aria-label="Follow ${escapeHtml(eventItem.title || 'event')}">+</button></div>`;
-      });
+
+      if (shownTeams.length) {
+        html += '<div class="pickerGroupHeading">Sports Teams</div>';
+        const teamsBySport = new Map();
+        shownTeams.forEach((team) => {
+          const sportKey = team.sport || 'Other';
+          if (!teamsBySport.has(sportKey)) teamsBySport.set(sportKey, []);
+          teamsBySport.get(sportKey).push(team);
+        });
+        [...teamsBySport.keys()].sort((a, b) => a.localeCompare(b)).forEach((sportKey) => {
+          html += `<div class="sportGroupHeading">${escapeHtml(sportKey)}</div>`;
+          teamsBySport.get(sportKey).forEach((team) => {
+            html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(team.name || 'Team')}</div><button type="button" class="eventAddBtn" data-add-kind="team" data-add-id="${escapeHtml(team.id)}" aria-label="Follow ${escapeHtml(team.name || 'team')}">+</button></div>`;
+          });
+        });
+      }
+
+      if (shownEvents.length) {
+        html += '<div class="pickerGroupHeading">Exams &amp; Tests</div>';
+        shownEvents.forEach((eventItem) => {
+          html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</div><div class="availableEventDate">${escapeHtml(formatDateLabel(eventItem.dateObj))}</div><button type="button" class="eventAddBtn" data-add-id="${escapeHtml(eventItem.id)}" aria-label="Follow ${escapeHtml(eventItem.title || 'event')}">+</button></div>`;
+        });
+      }
+
       html += '</div>';
 
-      const hiddenCount = matchingEvents.length - shownEvents.length;
+      const hiddenCount = (matchingTeams.length - shownTeams.length) + (matchingEvents.length - shownEvents.length);
       if (hiddenCount > 0) {
-        html += `<p class="availableEventsHint">Showing ${shownEvents.length} of ${matchingEvents.length} — search to find more</p>`;
+        const totalMatching = matchingTeams.length + matchingEvents.length;
+        const totalShown = shownTeams.length + shownEvents.length;
+        html += `<p class="availableEventsHint">Showing ${totalShown} of ${totalMatching} — search to find more</p>`;
       }
 
       contentEl.innerHTML = html;
@@ -919,7 +984,11 @@
       contentEl.querySelectorAll('.eventAddBtn').forEach((btn) => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.addId;
-          if (!followedIds.includes(id)) followedIds.push(id);
+          if (btn.dataset.addKind === 'team') {
+            if (!followedTeamIds.includes(id)) followedTeamIds.push(id);
+          } else {
+            if (!followedIds.includes(id)) followedIds.push(id);
+          }
           renderEventsSection();
         });
       });
@@ -941,6 +1010,11 @@
         const standardizedTests = Array.isArray(data.standardizedTests) ? data.standardizedTests : [];
         const combined = [...apTests, ...standardizedTests];
 
+        const sportsData = data.sports || {};
+        allSportsTeams = Array.isArray(sportsData.teams)
+          ? sportsData.teams.filter((team) => team && team.id && team.name)
+          : [];
+
         const today = getPacificNow();
         today.setHours(0, 0, 0, 0);
 
@@ -951,6 +1025,9 @@
 
         const validIds = new Set(allUpcomingEvents.map((eventItem) => eventItem.id));
         followedIds = getProfileFollowedEvents().filter((id) => validIds.has(id));
+
+        const validTeamIds = new Set(allSportsTeams.map((team) => team.id));
+        followedTeamIds = getProfileFollowedTeams().filter((id) => validTeamIds.has(id));
 
         renderEventsSection();
       } catch (error) {
@@ -965,6 +1042,7 @@
 
       saveBtn.addEventListener('click', () => {
         setProfileFollowedEvents(followedIds);
+        setProfileFollowedTeams(followedTeamIds);
         triggerSavedState(saveBtn);
       });
     }

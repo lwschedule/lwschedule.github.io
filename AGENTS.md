@@ -10,6 +10,11 @@ The user has a tech background but **no coding experience**. When responding or 
 - Keep step-by-step explanations short; trust the user to follow general concepts.
 - When in doubt, mirror the user's own words back to them rather than inventing new technical terms.
 
+### Workflow notes
+- In plan mode, produce a complete plan and stop — don't attempt edits until the user switches to build mode. (An agent once looped trying to edit files while still in plan mode.)
+- The user often stacks several small fixes into one message; handle each item separately and confirm every one, rather than bundling them.
+- When the user says "commit and push" but the tree is clean and everything already shipped, verify and confirm — never create an empty commit or re-bump the version.
+
 ## What This Is
 
 Static PWA for a high school schedule viewer. No build step, no bundler, no `package.json`. Raw HTML/CSS/JS served directly via GitHub Pages.
@@ -34,6 +39,7 @@ Multi-page app — each feature is a separate `index.html` in its own directory.
 - `/info/` — about page
 - `/setup/` — first-run wizard
 - `/app/` — install prompt
+- `/map/` — interactive school map (searchable rooms, floor picker)
 - `/info/` — hub page that links to the two subpages below
 - `/info/about/` — credits (Created By / Inspired By)
 - `/info/changelog/` — Coming Soon link + full version history changelog
@@ -47,10 +53,19 @@ All in `data/`:
 | `schedules.json` | Period times in minutes-since-midnight. Mon/Fri have A/B lunch variants. Wed is simple array. |
 | `holidays.json` | Array of `{name, date, displayDate, isWeekend}`. Multi-day breaks need hardcoded ranges in `common.js` `getHolidayForDate()`. |
 | `terms.json` | `{quarters: [...], semesters: [...]}` with `start`/`end` date strings. |
-| `clubs.json` | `{clubs: [{id, name, room, days, frequency, startHour, ...}]}`. Supports weekly/biweekly/every-other/alternating/monthly/last-of-month. |
+| `clubs.json` | `{clubs: [{id, name, room, days, frequency, startHour, ...}]}`. Supports weekly/biweekly/every-other/alternating/monthly/last-of-month. **Currently empty — club schedules aren't out for the year; the user will supply them when published. The rendering logic handles zero clubs fine.** |
 | `classes.json` | Flat array of class name strings. |
-| `events.json` | `{standardizedTests: [], apTests: []}`. |
+| `events.json` | `{standardizedTests: [], apTests: [], sports: {teams, games}}`. AP/standardized entries are `{id, title, date, time}`: id like `ap-testing-<subject-slug>-<YYYY-MM-DD>-<am|pm>`, title `AP Testing: <Subject>`, time = the session window (`8:00 AM - 11:00 AM` for `am` ids, `12:00 PM - 3:00 PM` for `pm` ids). See [Sports Schedules](#sports-schedules) for the `sports` shape. Skip pilot-school-only exams when transcribing the AP calendar. |
 | `ticker-messages.json` | `{messages: [{text, url?}]}`. |
+
+## School Map
+
+The map lives at `/map/` with room data in `data/map-rooms.json` — a single flat `items` array where every item carries a `floor` field (`1st Floor`, `2nd Floor`, `3rd Floor`, `North 1`, `North 2`). Item types:
+
+- `t: "room"` — a clickable, searchable room: `{sec, floor, name, num, x, y, w, h, aliases, id}`. Coordinates are SVG units on a ~1200-wide canvas; `num` is what search matches, plus `aliases` (e.g. `"wrestling"` for the wrestling room).
+- `t: "text"` — plain labels: floor titles (`cls: "map-floor-title"`), section headings, and small area markers like "Pod". **Area labels are text, not rooms** — not clickable, never in search.
+
+The floor list exists in only two places: `data/map-rooms.json` and the picker in `map/index.html`. North Wing classrooms have their own `North 1` / `North 2` floors (re-centered horizontally); the 1st floor keeps the Theatre (115), rooms 110/109/108 (flush with the office row), 112-113, the gyms, offices, and Commons. The user actively maintains this map — when they describe a move ("line it up with the offices", "move it farther up"), they mean relative alignment with neighboring rooms on the same floor.
 
 ## Schedule Times Format
 
@@ -61,6 +76,27 @@ Period times are **minutes since midnight**. Example: `8:35 AM` = `8*60+35` = `5
 `getHolidayForDate()` in `common.js:487` has hardcoded date ranges for multi-day breaks. When adding/updating multi-day holidays, you must update both `holidays.json` AND the corresponding range check in this function. Single-day holidays just need the JSON entry.
 
 Current range handlers: Thanksgiving Break, Winter Break, Mid-Winter Break, Spring Break, Summer Break.
+
+## Sports Schedules
+
+Sports games live in `data/events.json` under a `sports` key with two lists:
+
+- **`sports.teams`** — one entry per team students can follow: `{id, sport, name}`. `id` is a kebab-case slug (`varsity-boys-golf`), `sport` is the group heading shown in the picker (e.g. `Golf`), `name` is the display name (`Varsity Boys Golf`).
+- **`sports.games`** — one entry per game: `{id, teamId, date, startTime, endTime, homeAway, opponent}`.
+
+Conventions:
+
+- Game `id` is `sports-<teamId>-<date>` (e.g. `sports-varsity-boys-golf-2026-09-14`). If a team ever plays twice in one day, append `-2`, `-3`, etc.
+- Unlike schedule times, game times are **display strings, not minutes-since-midnight**: `startTime` like `"4:00 PM"`, `endTime` like `"7:00 PM"`. They render joined as `4:00 PM - 7:00 PM`.
+- **Never store "vs." or "at" in the data.** Titles are built from `homeAway`: `"home"` renders `<Team> vs. <Opponent>`, `"away"` renders `<Team> at <Opponent>`.
+- Transcribing a new week: one game object per row of the athletic-site grid. Example — `9/20 5:15p - 6:45p JV Girls Volleyball vs. Shorewood High School` becomes `{ "id": "sports-junior-varsity-girls-volleyball-2026-09-20", "teamId": "junior-varsity-girls-volleyball", "date": "2026-09-20", "startTime": "5:15 PM", "endTime": "6:45 PM", "homeAway": "home", "opponent": "Shorewood High School" }`.
+- A team with no games yet is fine — it still shows in the picker, and its games appear once transcribed.
+
+How subscriptions work:
+
+- Team choices are made in the **Profile → Events You Follow** picker, treated exactly like individual events: sport-grouped rows, `+` to follow, chips to remove, saved by the section's Save Changes button. Stored under **`profileFollowedTeams`** (array of team ids) via `getProfileFollowedTeams()`/`setProfileFollowedTeams()` in `common.js`.
+- `getSportsGamesAsEvents()` in `common.js` converts games into event-like objects (`title`, `date`, `time`, `type: 'sports'`). The Events page and the home "Next followed event" tile merge games of followed teams with individually followed events; within a day, cards sort by start time via `parseEventTimeString()`.
+- The team picker follows the app-wide picker rule: ~6 team rows visible by default, search matches team **and** sport names (uncapped while searching), and the "Showing X of Y — search to find more" hint whenever results are hidden.
 
 ## Versioning
 
@@ -146,11 +182,27 @@ If the commit only touches internal files (docs, scripts, tooling) or has no use
 
 ## User Preferences
 
-All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `selectedClubs`, `profile`, `classesEnabled`, `packupReminder`, `phoneCaddy`. No backend — everything is client-side.
+All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `selectedClubs`, `profileFollowedEvents`, `profileFollowedTeams`, `profile`, `classesEnabled`, `packupReminder`, `phoneCaddy`. No backend — everything is client-side.
 
 ## Special Schedules
 
 `SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`.
+
+Current special schedules: `first-week`, `labor-day`, `homecoming`, plus `last-week` and `moving-up` (each has a page under `/schedules/`).
+
+### Lunch Basis Rules
+
+Which lunch a user's A/B choice applies to is set per schedule and weekday in `LUNCH_SLOT_BY_DAY` (in `common.js`) — it records which period "goes to lunch" that day, as of the 2026–27 school year:
+
+| Schedule | p3 basis | p4 basis |
+|---|---|---|
+| `normal`, `first-week` | Mon, Tue, Thu | Fri |
+| `labor-day` | Thu | Tue, Fri |
+| `homecoming` | Mon | Tue, Thu, Fri |
+
+(Wednesday always has the single all-school lunch, mapped as `'wednesday'`.)
+
+When the user says lunches are "based on p3/p4", they mean the day's A/B variant follows the lunch preference saved for that period slot — `getLunchForScheduleDay()` reads the matching `p3`/`p4` key from the user's lunch preferences (global, or per-schedule when the metadata entry has a `storageKey`). If a schedule changes which period goes to lunch, update `LUNCH_SLOT_BY_DAY` — never the schedule JSON, whose A/B variants already hold both options.
 
 ### Adding a New Special Schedule
 
@@ -250,6 +302,12 @@ In the agent environment, background processes are killed as soon as a terminal 
 - [ ] Push after committing (`git push`)
 - [ ] `.freebuff/` stays untracked — it's local tool state, never commit or delete it
 
+## UI Conventions
+
+- **Skeleton loaders show for a minimum of 1 second on every page load.** This is deliberate, not a bug to optimize away. The shared `minSkeletonDelay()` helper in `common.js` pads each render to 1s from page start (slow loads aren't padded longer). Data pages get it inside `await initApp()`; pages that render outside that path (Profile, changelog, map) call it directly — new pages must too.
+- **Pickers must never dump the whole list at once.** Any choose-from list (classes, clubs, followed events) follows the Profile's "Available to Follow" pattern: show only the next ~6 by default, a search box that filters by title (uncapped while searching), and a "Showing 6 of 38 — search to find more" hint whenever results are hidden. The user asked for this explicitly when the 38-exam AP list went in — a flat list of everything is a regression.
+- **Main content is capped at 1500px.** `.pageContainer` and friends (plus the home clock/timer blocks) max out at 1500px and center. Don't raise the cap — a 2000px version shipped and was reverted the same day because no display is that wide.
+
 ## Gotchas
 
 - No Node.js toolchain — don't look for `package.json` or `node_modules`
@@ -259,3 +317,4 @@ In the agent environment, background processes are killed as soon as a terminal 
 - Dark theme is default; no light mode toggle exists
 - `.freebuff/` and `.mimocode/` are local tool state (`.mimocode/` holds agent plans and vendored dependencies — one plan file is tracked, the rest is ignored). Leave them alone: never commit new files from them, never delete them
 - If a deploy looks stale in your browser, suspect the service worker cache — hard-refresh (Cmd+Shift+R) to bypass it
+- Never reintroduce old version formats (e.g. `v3.8`) — a slip once required rewriting 11 pushed commits. If a user-requested version doesn't match the date scheme, compute the correct one and confirm before committing
