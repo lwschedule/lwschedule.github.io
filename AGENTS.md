@@ -86,10 +86,11 @@ Sports games live in `data/events.json` under a `sports` key with two lists:
 
 Conventions:
 
-- Game `id` is `sports-<teamId>-<date>` (e.g. `sports-varsity-boys-golf-2026-09-14`). If a team ever plays twice in one day, append `-2`, `-3`, etc.
+- Game `id` is `sports-<teamId>-<date>` (e.g. `sports-varsity-boys-golf-2026-09-14`). If a team ever plays twice in one day, append `-2`, `-3`, etc. Team ids keep the full words (`junior-varsity-boys-golf`) even though display names abbreviate to `JV`.
+- Team display names abbreviate **Junior Varsity as `JV`** (`JV Boys Tennis`, `JV Girls Soccer`); varsity/C-team names stay full.
 - Unlike schedule times, game times are **display strings, not minutes-since-midnight**: `startTime` like `"4:00 PM"`, `endTime` like `"7:00 PM"`. They render joined as `4:00 PM - 7:00 PM`.
-- **Never store "vs." or "at" in the data.** Titles are built from `homeAway`: `"home"` renders `<Team> vs. <Opponent>`, `"away"` renders `<Team> at <Opponent>`.
-- Transcribing a new week: one game object per row of the athletic-site grid. Example — `9/20 5:15p - 6:45p JV Girls Volleyball vs. Shorewood High School` becomes `{ "id": "sports-junior-varsity-girls-volleyball-2026-09-20", "teamId": "junior-varsity-girls-volleyball", "date": "2026-09-20", "startTime": "5:15 PM", "endTime": "6:45 PM", "homeAway": "home", "opponent": "Shorewood High School" }`.
+- **Never store "vs.", "at", or "@" in the data.** Titles are derived from `homeAway` and always read `<Team> vs. <Opponent> @ <Location>`, where the location is `Home` for home games or the opponent's school for away games (e.g. `Varsity Boys Golf vs. Eastlake High School @ Home`, `Varsity Boys Football vs. Yelm High School @ Yelm High School`).
+- Transcribing a new week: one game object per row of the athletic-site grid. Example — `9/20 5:15p - 6:45p JV Girls Volleyball vs. Shorewood High School` becomes `{ "id": "sports-junior-varsity-girls-volleyball-2026-09-20", "teamId": "junior-varsity-girls-volleyball", "date": "2026-09-20", "startTime": "5:15 PM", "endTime": "6:45 PM", "homeAway": "home", "opponent": "Shorewood High School" }` (display title comes out as `JV Girls Volleyball vs. Shorewood High School @ Home`).
 - A team with no games yet is fine — it still shows in the picker, and its games appear once transcribed.
 
 How subscriptions work:

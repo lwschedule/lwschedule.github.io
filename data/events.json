@@ -233,14 +233,22 @@
   "sports": {
     "teams": [
       { "id": "varsity-boys-golf", "sport": "Golf", "name": "Varsity Boys Golf" },
-      { "id": "junior-varsity-boys-tennis", "sport": "Tennis", "name": "Junior Varsity Boys Tennis" },
+      { "id": "junior-varsity-boys-tennis", "sport": "Tennis", "name": "JV Boys Tennis" },
       { "id": "varsity-boys-tennis", "sport": "Tennis", "name": "Varsity Boys Tennis" },
       { "id": "varsity-girls-swimming", "sport": "Swimming", "name": "Varsity Girls Swimming" },
       { "id": "c-team-girls-volleyball", "sport": "Volleyball", "name": "C-Team Girls Volleyball" },
-      { "id": "junior-varsity-girls-volleyball", "sport": "Volleyball", "name": "Junior Varsity Girls Volleyball" },
+      { "id": "junior-varsity-girls-volleyball", "sport": "Volleyball", "name": "JV Girls Volleyball" },
       { "id": "varsity-girls-volleyball", "sport": "Volleyball", "name": "Varsity Girls Volleyball" },
       { "id": "varsity-girls-softball-slow-pitch", "sport": "Softball", "name": "Varsity Girls Softball - Slow Pitch" },
-      { "id": "c-team-girls-soccer", "sport": "Soccer", "name": "C-Team Girls Soccer" }
+      { "id": "c-team-girls-soccer", "sport": "Soccer", "name": "C-Team Girls Soccer" },
+      { "id": "junior-varsity-girls-soccer", "sport": "Soccer", "name": "JV Girls Soccer" },
+      { "id": "varsity-girls-soccer", "sport": "Soccer", "name": "Varsity Girls Soccer" },
+      { "id": "junior-varsity-boys-golf", "sport": "Golf", "name": "JV Boys Golf" },
+      { "id": "varsity-girls-cross-country", "sport": "Cross Country", "name": "Varsity Girls Cross Country" },
+      { "id": "varsity-boys-cross-country", "sport": "Cross Country", "name": "Varsity Boys Cross Country" },
+      { "id": "junior-varsity-girls-softball-slow-pitch", "sport": "Softball", "name": "JV Girls Softball - Slow Pitch" },
+      { "id": "c-team-boys-football", "sport": "Football", "name": "C-Team Boys Football" },
+      { "id": "varsity-boys-football", "sport": "Football", "name": "Varsity Boys Football" }
     ],
     "games": [
       {
@@ -359,6 +367,114 @@
         "endTime": "5:00 PM",
         "homeAway": "home",
         "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-golf-2026-09-17",
+        "teamId": "junior-varsity-boys-golf",
+        "date": "2026-09-17",
+        "startTime": "3:30 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Sammamish High School"
+      },
+      {
+        "id": "sports-varsity-girls-cross-country-2026-09-17",
+        "teamId": "varsity-girls-cross-country",
+        "date": "2026-09-17",
+        "startTime": "3:30 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-boys-cross-country-2026-09-17",
+        "teamId": "varsity-boys-cross-country",
+        "date": "2026-09-17",
+        "startTime": "3:30 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-softball-slow-pitch-2026-09-17",
+        "teamId": "junior-varsity-girls-softball-slow-pitch",
+        "date": "2026-09-17",
+        "startTime": "4:00 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-boys-tennis-2026-09-17",
+        "teamId": "varsity-boys-tennis",
+        "date": "2026-09-17",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-tennis-2026-09-17",
+        "teamId": "junior-varsity-boys-tennis",
+        "date": "2026-09-17",
+        "startTime": "4:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-soccer-2026-09-17",
+        "teamId": "junior-varsity-girls-soccer",
+        "date": "2026-09-17",
+        "startTime": "5:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-slow-pitch-2026-09-17",
+        "teamId": "varsity-girls-softball-slow-pitch",
+        "date": "2026-09-17",
+        "startTime": "6:00 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-c-team-boys-football-2026-09-17",
+        "teamId": "c-team-boys-football",
+        "date": "2026-09-17",
+        "startTime": "7:00 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-soccer-2026-09-17",
+        "teamId": "varsity-girls-soccer",
+        "date": "2026-09-17",
+        "startTime": "7:30 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-boys-golf-2026-09-18",
+        "teamId": "varsity-boys-golf",
+        "date": "2026-09-18",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-boys-football-2026-09-18",
+        "teamId": "varsity-boys-football",
+        "date": "2026-09-18",
+        "startTime": "7:00 PM",
+        "endTime": "10:00 PM",
+        "homeAway": "away",
+        "opponent": "Yelm High School"
       }
     ]
   }

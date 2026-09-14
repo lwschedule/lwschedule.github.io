@@ -143,17 +143,18 @@ function setProfileFollowedTeams(ids) {
 
 // Converts sports games from events.json into event-like objects so they can
 // be rendered, followed, and sorted exactly like individually followed events.
-// Title is derived from homeAway: "vs. Opponent" (home) or "at Opponent" (away).
+// Title is always "<Team> vs. <Opponent> @ <location>", where the location is
+// "Home" for home games or the opponent's school for away games.
 function getSportsGamesAsEvents(sportsData) {
   if (!sportsData || !Array.isArray(sportsData.games)) return [];
   const teams = Array.isArray(sportsData.teams) ? sportsData.teams : [];
   return sportsData.games.map((game) => {
     const team = teams.find((t) => t && t.id === game.teamId);
     const teamName = team ? team.name : (game.teamId || 'Sports Event');
-    const connector = game.homeAway === 'away' ? 'at' : 'vs.';
+    const location = game.homeAway === 'away' ? (game.opponent || 'Away') : 'Home';
     return {
       id: game.id,
-      title: game.opponent ? `${teamName} ${connector} ${game.opponent}` : teamName,
+      title: game.opponent ? `${teamName} vs. ${game.opponent} @ ${location}` : teamName,
       date: game.date,
       time: [game.startTime, game.endTime].filter(Boolean).join(' - '),
       type: 'sports',

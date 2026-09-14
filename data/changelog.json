@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.13.3",
+    "title": "Added the Sept 17-18 games and made game titles show the location",
+    "date": "September 13, 2026"
+  },
+  {
     "version": "v2026.9.13.2",
     "title": "Made the event picker more compact so only a couple of options show per section",
     "date": "September 13, 2026"
