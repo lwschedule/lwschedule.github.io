@@ -1061,6 +1061,96 @@
         "endTime": "9:00 PM",
         "homeAway": "home",
         "opponent": "Bellevue High School"
+      },
+      {
+        "id": "sports-varsity-boys-golf-2026-10-07",
+        "teamId": "varsity-boys-golf",
+        "date": "2026-10-07",
+        "startTime": "2:30 PM",
+        "endTime": "4:30 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-girls-swimming-2026-10-07",
+        "teamId": "varsity-girls-swimming",
+        "date": "2026-10-07",
+        "startTime": "3:00 PM",
+        "endTime": "5:00 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-c-team-girls-soccer-2026-10-07",
+        "teamId": "c-team-girls-soccer",
+        "date": "2026-10-07",
+        "startTime": "4:00 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-girls-cross-country-2026-10-07",
+        "teamId": "varsity-girls-cross-country",
+        "date": "2026-10-07",
+        "startTime": "4:00 PM",
+        "endTime": "4:30 PM",
+        "homeAway": "away",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-varsity-boys-cross-country-2026-10-07",
+        "teamId": "varsity-boys-cross-country",
+        "date": "2026-10-07",
+        "startTime": "4:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-c-team-girls-volleyball-2026-10-07",
+        "teamId": "c-team-girls-volleyball",
+        "date": "2026-10-07",
+        "startTime": "4:45 PM",
+        "endTime": "6:15 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-volleyball-2026-10-07",
+        "teamId": "junior-varsity-girls-volleyball",
+        "date": "2026-10-07",
+        "startTime": "5:15 PM",
+        "endTime": "6:45 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-slow-pitch-2026-10-07",
+        "teamId": "varsity-girls-softball-slow-pitch",
+        "date": "2026-10-07",
+        "startTime": "6:00 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-c-team-boys-football-2026-10-07",
+        "teamId": "c-team-boys-football",
+        "date": "2026-10-07",
+        "startTime": "6:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-girls-volleyball-2026-10-07",
+        "teamId": "varsity-girls-volleyball",
+        "date": "2026-10-07",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
       }
     ]
   }
