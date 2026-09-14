@@ -692,6 +692,267 @@
         "endTime": "10:30 PM",
         "homeAway": "away",
         "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-boys-golf-2026-09-28",
+        "teamId": "varsity-boys-golf",
+        "date": "2026-09-28",
+        "startTime": "3:15 PM",
+        "endTime": "5:45 PM",
+        "homeAway": "away",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-c-team-girls-soccer-2026-09-28",
+        "teamId": "c-team-girls-soccer",
+        "date": "2026-09-28",
+        "startTime": "4:00 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Liberty High School (Issaquah)"
+      },
+      {
+        "id": "sports-c-team-girls-volleyball-2026-09-28",
+        "teamId": "c-team-girls-volleyball",
+        "date": "2026-09-28",
+        "startTime": "4:45 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-varsity-girls-softball-slow-pitch-2026-09-28",
+        "teamId": "varsity-girls-softball-slow-pitch",
+        "date": "2026-09-28",
+        "startTime": "5:00 PM",
+        "endTime": "6:15 PM",
+        "homeAway": "away",
+        "opponent": "Inglemoor High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-volleyball-2026-09-28",
+        "teamId": "junior-varsity-girls-volleyball",
+        "date": "2026-09-28",
+        "startTime": "5:15 PM",
+        "endTime": "6:45 PM",
+        "homeAway": "away",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-junior-varsity-girls-softball-slow-pitch-2026-09-28",
+        "teamId": "junior-varsity-girls-softball-slow-pitch",
+        "date": "2026-09-28",
+        "startTime": "6:30 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "away",
+        "opponent": "Inglemoor High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-football-2026-09-28",
+        "teamId": "junior-varsity-boys-football",
+        "date": "2026-09-28",
+        "startTime": "6:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-volleyball-2026-09-28",
+        "teamId": "varsity-girls-volleyball",
+        "date": "2026-09-28",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-junior-varsity-boys-tennis-2026-09-29",
+        "teamId": "junior-varsity-boys-tennis",
+        "date": "2026-09-29",
+        "startTime": "4:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-boys-tennis-2026-09-29",
+        "teamId": "varsity-boys-tennis",
+        "date": "2026-09-29",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-soccer-2026-09-29",
+        "teamId": "junior-varsity-girls-soccer",
+        "date": "2026-09-29",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-varsity-girls-soccer-2026-09-29",
+        "teamId": "varsity-girls-soccer",
+        "date": "2026-09-29",
+        "startTime": "7:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-varsity-boys-golf-2026-09-30",
+        "teamId": "varsity-boys-golf",
+        "date": "2026-09-30",
+        "startTime": "3:15 PM",
+        "endTime": "6:15 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-slow-pitch-2026-09-30",
+        "teamId": "varsity-girls-softball-slow-pitch",
+        "date": "2026-09-30",
+        "startTime": "3:45 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "away",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-c-team-girls-volleyball-2026-09-30",
+        "teamId": "c-team-girls-volleyball",
+        "date": "2026-09-30",
+        "startTime": "5:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-volleyball-2026-09-30",
+        "teamId": "junior-varsity-girls-volleyball",
+        "date": "2026-09-30",
+        "startTime": "5:15 PM",
+        "endTime": "6:45 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-softball-slow-pitch-2026-09-30",
+        "teamId": "junior-varsity-girls-softball-slow-pitch",
+        "date": "2026-09-30",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-soccer-2026-09-30",
+        "teamId": "junior-varsity-girls-soccer",
+        "date": "2026-09-30",
+        "startTime": "5:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "Cedarcrest High School"
+      },
+      {
+        "id": "sports-c-team-boys-football-2026-09-30",
+        "teamId": "c-team-boys-football",
+        "date": "2026-09-30",
+        "startTime": "7:00 PM",
+        "endTime": "8:15 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-volleyball-2026-09-30",
+        "teamId": "varsity-girls-volleyball",
+        "date": "2026-09-30",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-golf-2026-10-01",
+        "teamId": "junior-varsity-boys-golf",
+        "date": "2026-10-01",
+        "startTime": "3:15 PM",
+        "endTime": "6:15 PM",
+        "homeAway": "away",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-boys-tennis-2026-10-01",
+        "teamId": "varsity-boys-tennis",
+        "date": "2026-10-01",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-tennis-2026-10-01",
+        "teamId": "junior-varsity-boys-tennis",
+        "date": "2026-10-01",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-girls-swimming-2026-10-01",
+        "teamId": "varsity-girls-swimming",
+        "date": "2026-10-01",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Liberty High School (Issaquah)"
+      },
+      {
+        "id": "sports-junior-varsity-girls-soccer-2026-10-01",
+        "teamId": "junior-varsity-girls-soccer",
+        "date": "2026-10-01",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-slow-pitch-2026-10-01",
+        "teamId": "varsity-girls-softball-slow-pitch",
+        "date": "2026-10-01",
+        "startTime": "6:00 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "home",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-girls-soccer-2026-10-01",
+        "teamId": "varsity-girls-soccer",
+        "date": "2026-10-01",
+        "startTime": "7:30 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-boys-football-2026-10-02",
+        "teamId": "varsity-boys-football",
+        "date": "2026-10-02",
+        "startTime": "7:00 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "home",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-boys-cross-country-2026-10-03",
+        "teamId": "varsity-boys-cross-country",
+        "date": "2026-10-03",
+        "startTime": "2:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Marysville Getchell High School"
       }
     ]
   }
