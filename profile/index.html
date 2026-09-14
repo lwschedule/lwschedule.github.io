@@ -782,8 +782,9 @@
     let followedIds = [];
     let allSportsTeams = [];
     let followedTeamIds = [];
-    const EVENTS_PREVIEW_LIMIT = 6;
-    const SPORTS_PREVIEW_LIMIT = 6;
+    // Cap rows per section (each sport group and the exams group) while
+    // browsing; searching always shows everything.
+    const PICKER_GROUP_LIMIT = 2;
 
     let caddyTimes = { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
 
@@ -924,21 +925,27 @@
       const filter = getAvailableEventsSearchFilter();
       const isSearching = filter.length > 0;
 
-      // Sports teams: match on team name or sport name, capped when not searching
+      // Sports teams: match on team name or sport name
       const availableTeams = allSportsTeams.filter((team) => !followedTeamIds.includes(team.id));
       const matchingTeams = isSearching
         ? availableTeams.filter((team) => (team.name || '').toLowerCase().includes(filter) || (team.sport || '').toLowerCase().includes(filter))
         : availableTeams;
-      const shownTeams = isSearching ? matchingTeams : matchingTeams.slice(0, SPORTS_PREVIEW_LIMIT);
 
-      // Exam/test events: unchanged behavior, capped when not searching
+      // Exam/test events
       const availableEvents = allUpcomingEvents.filter((eventItem) => !followedIds.includes(eventItem.id));
       const matchingEvents = isSearching
         ? availableEvents.filter((eventItem) => (eventItem.title || '').toLowerCase().includes(filter))
         : availableEvents;
-      const shownEvents = isSearching ? matchingEvents : matchingEvents.slice(0, EVENTS_PREVIEW_LIMIT);
 
-      if (!shownTeams.length && !shownEvents.length) {
+      // Group teams by sport up front so each sport group can be capped
+      const teamsBySport = new Map();
+      matchingTeams.forEach((team) => {
+        const sportKey = team.sport || 'Other';
+        if (!teamsBySport.has(sportKey)) teamsBySport.set(sportKey, []);
+        teamsBySport.get(sportKey).push(team);
+      });
+
+      if (!matchingTeams.length && !matchingEvents.length) {
         contentEl.innerHTML = isSearching
           ? '<p style="opacity:0.6; text-align:center;">No events match your search.</p>'
           : '<p style="opacity:0.6; text-align:center;">No more events to follow. <a href="/events" style="color:var(--primary-light);">Browse all events</a></p>';
@@ -947,36 +954,40 @@
 
       let html = '<div class="availableEvents">';
 
-      if (shownTeams.length) {
+      // While browsing, each section (sport group or exams) shows only a couple
+      // of rows and the hint below reports how much is hidden.
+      const sortedSportKeys = [...teamsBySport.keys()].sort((a, b) => a.localeCompare(b));
+      let hiddenRows = 0;
+      let shownRows = 0;
+
+      if (sortedSportKeys.length) {
         html += '<div class="pickerGroupHeading">Sports Teams</div>';
-        const teamsBySport = new Map();
-        shownTeams.forEach((team) => {
-          const sportKey = team.sport || 'Other';
-          if (!teamsBySport.has(sportKey)) teamsBySport.set(sportKey, []);
-          teamsBySport.get(sportKey).push(team);
-        });
-        [...teamsBySport.keys()].sort((a, b) => a.localeCompare(b)).forEach((sportKey) => {
+        sortedSportKeys.forEach((sportKey) => {
+          const sportTeams = teamsBySport.get(sportKey);
+          const shownInSport = isSearching ? sportTeams : sportTeams.slice(0, PICKER_GROUP_LIMIT);
+          hiddenRows += sportTeams.length - shownInSport.length;
+          shownRows += shownInSport.length;
           html += `<div class="sportGroupHeading">${escapeHtml(sportKey)}</div>`;
-          teamsBySport.get(sportKey).forEach((team) => {
+          shownInSport.forEach((team) => {
             html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(team.name || 'Team')}</div><button type="button" class="eventAddBtn" data-add-kind="team" data-add-id="${escapeHtml(team.id)}" aria-label="Follow ${escapeHtml(team.name || 'team')}">+</button></div>`;
           });
         });
       }
 
-      if (shownEvents.length) {
+      if (matchingEvents.length) {
+        const shownInEvents = isSearching ? matchingEvents : matchingEvents.slice(0, PICKER_GROUP_LIMIT);
+        hiddenRows += matchingEvents.length - shownInEvents.length;
+        shownRows += shownInEvents.length;
         html += '<div class="pickerGroupHeading">Exams &amp; Tests</div>';
-        shownEvents.forEach((eventItem) => {
+        shownInEvents.forEach((eventItem) => {
           html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</div><div class="availableEventDate">${escapeHtml(formatDateLabel(eventItem.dateObj))}</div><button type="button" class="eventAddBtn" data-add-id="${escapeHtml(eventItem.id)}" aria-label="Follow ${escapeHtml(eventItem.title || 'event')}">+</button></div>`;
         });
       }
 
       html += '</div>';
 
-      const hiddenCount = (matchingTeams.length - shownTeams.length) + (matchingEvents.length - shownEvents.length);
-      if (hiddenCount > 0) {
-        const totalMatching = matchingTeams.length + matchingEvents.length;
-        const totalShown = shownTeams.length + shownEvents.length;
-        html += `<p class="availableEventsHint">Showing ${totalShown} of ${totalMatching} — search to find more</p>`;
+      if (hiddenRows > 0) {
+        html += `<p class="availableEventsHint">Showing ${shownRows} of ${shownRows + hiddenRows} — search to find more</p>`;
       }
 
       contentEl.innerHTML = html;
