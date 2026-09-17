@@ -201,10 +201,8 @@
       if (greetingEl) {
         const firstNode = greetingEl.firstChild;
         if (firstNode) {
-          console.log('Setting greeting text');
           firstNode.textContent = greeting + ', ';
         } else {
-          console.log('Greeting element has no child, creating text node');
           greetingEl.insertBefore(document.createTextNode(greeting + ', '), greetingEl.firstChild);
         }
       }
@@ -222,11 +220,9 @@
       const current = academicTerms.quarters.find(q => now >= q.start && now <= q.end);
       const next = academicTerms.quarters.find(q => now < q.start);
       const term = current || next;
-      console.log('Quarter countdown: term', term);
       if (!term) {
         const titleEl = document.getElementById('upcomingTile3Title');
         if (titleEl) {
-          console.log('No term found, setting title to No upcoming quarter');
           titleEl.textContent = 'No upcoming quarter';
         }
         return;
@@ -238,11 +234,9 @@
       const titleEl = document.getElementById('upcomingTile3Title');
       const subEl = document.getElementById('upcomingTile3Sub');
       if (titleEl) {
-        console.log('Setting quarter title', label);
         titleEl.textContent = label;
       }
       if (subEl) {
-        console.log('Setting quarter subtext', diffDays);
         subEl.textContent = diffDays + ' day' + (diffDays !== 1 ? 's' : '') + ' remaining';
       }
     })();
@@ -264,7 +258,18 @@
           .filter(e => followed.includes(e.id) || (e.type === 'sports' && e.teamId && followedTeams.includes(e.teamId)))
           .map(e => { const [y,m,d] = e.date.split('-').map(Number); return { ...e, dateObj: new Date(y, m-1, d) }; })
           .filter(e => e.dateObj >= today)
-          .sort((a,b) => a.dateObj - b.dateObj);
+          .sort((a,b) => {
+            // Same convention as the Events page: date first, then start time,
+            // so same-day events appear chronologically instead of data order.
+            const d = a.dateObj.getTime() - b.dateObj.getTime();
+            if (d !== 0) return d;
+            const ta = parseEventTimeString(a.startTime || a.time);
+            const tb = parseEventTimeString(b.startTime || b.time);
+            if (ta !== null && tb !== null && ta !== tb) return ta - tb;
+            if (ta !== null && tb === null) return -1;
+            if (ta === null && tb !== null) return 1;
+            return (a.title || '').localeCompare(b.title || '');
+          });
         if (!upcoming.length) {
           document.getElementById('upcomingTile2Title').textContent = 'No followed events';
           document.getElementById('upcomingTile2Sub').innerHTML = 'Add events in your <a href="/profile" style="color:var(--primary-light);">Profile</a>';

@@ -1,5 +1,5 @@
 // LW Schedule service worker — network-first for data, cache-first for assets
-const CACHE_NAME = 'lwschedule-2026.9.17.10';
+const CACHE_NAME = 'lwschedule-2026.9.17.11';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',
@@ -101,5 +101,3 @@ self.addEventListener('notificationclick', (event) => {
     })
   );
 });
-
-// v2026.8.31 release marker

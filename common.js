@@ -1539,7 +1539,6 @@ async function loadData() {
 
     schedulesData = {
       normal: {},
-      finals: {},
       lunchPreferences: getDefaultLunchPrefs()
     };
     lunchPreferences = schedulesData.lunchPreferences;
@@ -1875,37 +1874,9 @@ function showPackUpNotification(period) {
 }
 
 async function initApp() {
-
-  const DATA_VERSION = '2.2';
-  const currentVersion = localStorage.getItem('dataVersion');
-  if (currentVersion !== DATA_VERSION) {
-
-    localStorage.setItem('dataVersion', DATA_VERSION);
-  }
-
   await loadData();
 
-  const now = getPacificNow();
-  const sem2Start = new Date(2026, 0, 24);
-  if (now >= sem2Start && !localStorage.getItem('sem2ResetDone')) {
-
-    localStorage.setItem('lunchPreferences', JSON.stringify({ p3: 'A', p4: 'A', wednesday: 'All' }));
-    localStorage.setItem('sem2ResetDone', 'true');
-  }
-
-  if (!localStorage.getItem('yearResetDone')) {
-    const keysToRemove = [
-      'classesEnabled', 'selectedClasses', 'profileFollowedEvents',
-      'lunchPreferences', 'clubsEnabled', 'selectedClubs',
-      'notifications-enabled', 'phone-caddy-enabled', 'phone-caddy-times',
-      'pack-up-time', 'dataVersion', 'sem2ResetDone'
-    ];
-    keysToRemove.forEach(k => localStorage.removeItem(k));
-    localStorage.setItem('yearResetDone', 'true');
-  }
-
-  loadLunchPreferences();
-    if (document.getElementById('holidayCountdown')) {
+  if (document.getElementById('holidayCountdown')) {
     updateHolidayCountdown();
     setInterval(updateHolidayCountdown, 1000);
   }

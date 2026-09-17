@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.17.11",
+    "title": "Internal cleanup and fixed event ordering on the home page",
+    "date": "September 17, 2026"
+  },
+  {
     "version": "v2026.9.17.10",
     "title": "Added the May LEAP week and fixed the holiday calendar",
     "date": "September 17, 2026"
