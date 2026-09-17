@@ -99,6 +99,13 @@ How subscriptions work:
 - `getSportsGamesAsEvents()` in `common.js` converts games into event-like objects (`title`, `date`, `time`, `type: 'sports'`). The Events page and the home "Next followed event" tile merge games of followed teams with individually followed events; within a day, cards sort by start time via `parseEventTimeString()`.
 - The team picker follows the app-wide picker rule: ~6 team rows visible by default, search matches team **and** sport names (uncapped while searching), and the "Showing X of Y — search to find more" hint whenever results are hidden.
 
+## Data Cleanup Policy
+
+Old schedule data stays out of the app on a rolling basis. Two rules, depending on the kind of data:
+
+- **Events & sports games (`data/events.json`):** whenever the data is touched (e.g., transcribing a new week of games), delete anything dated **before today**. Today's and future entries always stay — a game happening tonight is still relevant.
+- **Month-scoped data — special schedules (`SCHEDULE_METADATA` + their `data/schedules.json` blocks), holidays (`data/holidays.json`), and anything else that maps onto the calendar views:** only purge at the **start of a new month**. At that point remove the previous month's entries *and anything older*. Example: when October 1 arrives, remove September's special schedules (First Week, Labor Day week) and the Labor Day holiday, even though they ended weeks earlier — the month view still renders September's calendar until then, so its data must survive the whole month.
+
 ## Versioning
 
 **CRITICAL: Every commit MUST bump the version. Do not skip this under any circumstances unless the user explicitly instructs otherwise.**

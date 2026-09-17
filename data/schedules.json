@@ -41,12 +41,12 @@
       ]
     },
     "Wednesday": [
-      {"name": "Period 1", "start": 515, "end": 552},
-      {"name": "Period 2", "start": 559, "end": 599},
-      {"name": "Period 3", "start": 606, "end": 643},
-      {"name": "Period 4", "start": 650, "end": 687},
-      {"name": "Period 5", "start": 694, "end": 731},
-      {"name": "Period 6", "start": 738, "end": 775},
+      {"name": "Period 1", "start": 515, "end": 553},
+      {"name": "Period 2", "start": 560, "end": 600},
+      {"name": "Period 3", "start": 607, "end": 645},
+      {"name": "Period 4", "start": 652, "end": 690},
+      {"name": "Period 5", "start": 697, "end": 735},
+      {"name": "Period 6", "start": 742, "end": 780},
       {"name": "Lunch", "start": 780, "end": 810}
     ],
     "Thursday": {
