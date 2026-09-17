@@ -196,7 +196,7 @@ All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `
 
 `SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`.
 
-Current special schedules: `first-week`, `labor-day`, `homecoming`, `veterans-day`, `thanksgiving`, plus `last-week` and `moving-up` (each has a page under `/schedules/`).
+Current special schedules: `first-week`, `labor-day`, `homecoming`, `veterans-day`, `thanksgiving`, `mlk-day`, plus `last-week` and `moving-up` (each has a page under `/schedules/`).
 
 ### Lunch Basis Rules
 
@@ -207,6 +207,7 @@ Which lunch a user's A/B choice applies to is set per schedule and weekday in `L
 | `normal`, `first-week`, `veterans-day`, `thanksgiving` | Mon, Tue, Thu | Fri |
 | `labor-day` | Thu | Tue, Fri |
 | `homecoming` | Mon | Tue, Thu, Fri |
+| `mlk-day` | Mon, Thu, Fri | Tue |
 
 (Wednesday always has the single all-school lunch, mapped as `'wednesday'`.)
 

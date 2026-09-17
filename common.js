@@ -56,6 +56,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2026, 10, 23),
     dateEnd: new Date(2026, 10, 25),
     label: 'Thanksgiving Week'
+  },
+  {
+    scheduleKey: 'mlk-day',
+    dateStart: new Date(2027, 0, 11),
+    dateEnd: new Date(2027, 0, 15),
+    label: 'MLK Assembly Week'
   }
 ];
 
@@ -68,7 +74,8 @@ const LUNCH_SLOT_BY_DAY = {
   'labor-day':  { Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' },
   'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'mlk-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' }
 };
 
 function normalizeClassSlots(rawSlots) {
