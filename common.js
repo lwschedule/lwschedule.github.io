@@ -80,6 +80,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2027, 1, 15),
     dateEnd: new Date(2027, 1, 19),
     label: 'Presidents Day Week'
+  },
+  {
+    scheduleKey: 'leap-day',
+    dateStart: new Date(2027, 2, 8),
+    dateEnd: new Date(2027, 2, 12),
+    label: 'LEAP Day Week'
   }
 ];
 
@@ -96,7 +102,8 @@ const LUNCH_SLOT_BY_DAY = {
   'mlk-assembly': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' }
 };
 
 function normalizeClassSlots(rawSlots) {

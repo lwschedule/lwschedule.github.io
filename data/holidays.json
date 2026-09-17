@@ -42,6 +42,12 @@
     "isWeekend": false
   },
   {
+    "name": "LEAP Day",
+    "date": "2027-03-12",
+    "displayDate": "March 12, 2027",
+    "isWeekend": false
+  },
+  {
     "name": "Spring Break",
     "date": "2027-04-12",
     "displayDate": "April 12–16, 2027",
