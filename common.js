@@ -50,6 +50,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2026, 10, 9),
     dateEnd: new Date(2026, 10, 13),
     label: 'Veterans Day Week'
+  },
+  {
+    scheduleKey: 'thanksgiving',
+    dateStart: new Date(2026, 10, 23),
+    dateEnd: new Date(2026, 10, 25),
+    label: 'Thanksgiving Week'
   }
 ];
 
@@ -61,7 +67,8 @@ const LUNCH_SLOT_BY_DAY = {
   'first-week': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'labor-day':  { Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' },
-  'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 
 function normalizeClassSlots(rawSlots) {
@@ -786,7 +793,7 @@ function getLastSchoolDayEndTime(beforeDate) {
 }
 
 function getHolidayEndDate(holidayName) {
-  if (holidayName === "Thanksgiving Break") return new Date(2025, 10, 29, 23, 59, 59);
+  if (holidayName === "Thanksgiving Break") return new Date(2026, 10, 27, 23, 59, 59);
 
   for (const holiday of holidays) {
     if (holiday.name === holidayName) {
@@ -1556,7 +1563,7 @@ function isFirstWeekdayOfMonth(date, dayName) {
 
 function isEvenWeek(date) {
 
-  const schoolStart = new Date(2025, 8, 3);
+  const schoolStart = new Date(2026, 7, 31);
   const diffTime = date.getTime() - schoolStart.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   const weekNum = Math.floor(diffDays / 7);

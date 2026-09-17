@@ -401,6 +401,56 @@
           {"name": "Period 6", "start": 815, "end": 915}
         ]
       }
+    },
+    "thanksgiving": {
+      "Monday": {
+        "A": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "A Lunch", "start": 696, "end": 726},
+          {"name": "Period 4", "start": 736, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ],
+        "B": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "Period 4", "start": 703, "end": 758},
+          {"name": "B Lunch", "start": 761, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ]
+      },
+      "Tuesday": {
+        "A": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "A Lunch", "start": 696, "end": 726},
+          {"name": "Period 4", "start": 736, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ],
+        "B": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "Period 4", "start": 703, "end": 758},
+          {"name": "B Lunch", "start": 761, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ]
+      },
+      "Wednesday": [
+        {"name": "Period 1", "start": 515, "end": 540},
+        {"name": "Period 2", "start": 547, "end": 572},
+        {"name": "Period 3", "start": 579, "end": 604},
+        {"name": "Period 4", "start": 611, "end": 636},
+        {"name": "Period 5", "start": 643, "end": 668},
+        {"name": "Period 6", "start": 675, "end": 700}
+      ]
     }
   },
   "lunchPreferences": {"p3": "A", "p4": "A", "wednesday": "All"}

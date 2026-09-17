@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.17.4",
+    "title": "Added the Thanksgiving week schedule and fixed two outdated dates",
+    "date": "September 17, 2026"
+  },
+  {
     "version": "v2026.9.17.3",
     "title": "Added the Veterans Day week schedule",
     "date": "September 17, 2026"
