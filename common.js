@@ -44,6 +44,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2026, 8, 28),
     dateEnd: new Date(2026, 9, 2),
     label: 'Homecoming Week'
+  },
+  {
+    scheduleKey: 'veterans-day',
+    dateStart: new Date(2026, 10, 9),
+    dateEnd: new Date(2026, 10, 13),
+    label: 'Veterans Day Week'
   }
 ];
 
@@ -54,7 +60,8 @@ const LUNCH_SLOT_BY_DAY = {
   normal:       { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'first-week': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'labor-day':  { Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' }
+  'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' },
+  'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 
 function normalizeClassSlots(rawSlots) {
