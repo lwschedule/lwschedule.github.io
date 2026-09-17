@@ -74,6 +74,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2027, 1, 8),
     dateEnd: new Date(2027, 1, 12),
     label: 'Mid-Winter Break Week'
+  },
+  {
+    scheduleKey: 'presidents-day',
+    dateStart: new Date(2027, 1, 15),
+    dateEnd: new Date(2027, 1, 19),
+    label: 'Presidents Day Week'
   }
 ];
 
@@ -89,7 +95,8 @@ const LUNCH_SLOT_BY_DAY = {
   'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mlk-assembly': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 
 function normalizeClassSlots(rawSlots) {
