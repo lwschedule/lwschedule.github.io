@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MLK Day</title>
+  <title>MLK Assembly Week</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -14,9 +14,9 @@
   <a href="/schedules" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
   
   <div class="pageContainer">
-    <h2>MLK Day</h2>
-    <p style="text-align: center; opacity: 0.8;">MLK Jr. Day Week — Jan 18 – 22, 2027</p>
-    <div id="mlkDayContent">
+    <h2>MLK Assembly Week</h2>
+    <p style="text-align: center; opacity: 0.8;">MLK Assembly Week — Jan 11 – 15, 2027</p>
+    <div id="mlkAssemblyContent">
       <span class="skeleton sk-line" style="width:90px;margin:26px auto 10px;"></span>
       <div class="sk-table" aria-hidden="true">
         <div class="sk-table-row"><span class="skeleton sk-line" style="width:32%;"></span><span class="skeleton sk-line" style="width:22%;margin-left:auto;"></span></div>
@@ -39,8 +39,8 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       await initApp();
-      const content = document.getElementById('mlkDayContent');
-      const scheduleData = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['mlk-day']) ? schedulesData.normal['mlk-day'] : {};
+      const content = document.getElementById('mlkAssemblyContent');
+      const scheduleData = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['mlk-assembly']) ? schedulesData.normal['mlk-assembly'] : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {
@@ -62,10 +62,7 @@
           || daySchedule === 'No School'
           || (Array.isArray(daySchedule) && daySchedule.length === 1 && daySchedule[0] === 'No School');
         if (isNoSchool) {
-          const msg = (day === 'Monday')
-            ? '<div class="noSchoolMessage"><h3>Happy MLK Jr. Day</h3><p>No School</p></div>'
-            : '<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>';
-          html += msg;
+          html += '<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }
