@@ -86,6 +86,13 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2027, 2, 8),
     dateEnd: new Date(2027, 2, 12),
     label: 'LEAP Day Week'
+  },
+  {
+    // Same structure as the March LEAP week — reuses the 'leap-day' data.
+    scheduleKey: 'leap-day',
+    dateStart: new Date(2027, 4, 24),
+    dateEnd: new Date(2027, 4, 28),
+    label: 'LEAP Day Week'
   }
 ];
 

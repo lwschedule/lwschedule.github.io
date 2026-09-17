@@ -6,6 +6,12 @@
     "isWeekend": false
   },
   {
+    "name": "LEAP Day",
+    "date": "2026-10-16",
+    "displayDate": "October 16, 2026",
+    "isWeekend": false
+  },
+  {
     "name": "Veterans Day",
     "date": "2026-11-11",
     "displayDate": "November 11, 2026",
@@ -51,6 +57,12 @@
     "name": "Spring Break",
     "date": "2027-04-12",
     "displayDate": "April 12–16, 2027",
+    "isWeekend": false
+  },
+  {
+    "name": "LEAP Day",
+    "date": "2027-05-28",
+    "displayDate": "May 28, 2027",
     "isWeekend": false
   },
   {

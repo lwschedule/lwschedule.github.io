@@ -194,7 +194,7 @@ All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `
 
 ## Special Schedules
 
-`SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`.
+`SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`. Multiple entries may share one `scheduleKey` when identical weeks recur (the two LEAP weeks in 2026–27 both point at the `leap-day` data) — add a second metadata entry with the new dates, no duplicated schedule JSON needed.
 
 Current special schedules: `first-week`, `labor-day`, `homecoming`, `veterans-day`, `thanksgiving`, `mlk-assembly`, `mlk-day`, `mid-winter-break`, `presidents-day`, `leap-day`, plus `last-week` and `moving-up` (each has a page under `/schedules/`).
 
