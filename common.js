@@ -68,6 +68,12 @@ const SCHEDULE_METADATA = [
     dateStart: new Date(2027, 0, 18),
     dateEnd: new Date(2027, 0, 22),
     label: 'MLK Jr. Day Week'
+  },
+  {
+    scheduleKey: 'mid-winter-break',
+    dateStart: new Date(2027, 1, 8),
+    dateEnd: new Date(2027, 1, 12),
+    label: 'Mid-Winter Break Week'
   }
 ];
 
@@ -82,7 +88,8 @@ const LUNCH_SLOT_BY_DAY = {
   'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mlk-assembly': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
-  'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 
 function normalizeClassSlots(rawSlots) {
