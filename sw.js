@@ -1,5 +1,5 @@
 // LW Schedule service worker — network-first for data, cache-first for assets
-const CACHE_NAME = 'lwschedule-2026.9.17.11';
+const CACHE_NAME = 'lwschedule-2026.9.17.12';
 // Minimal app-shell to keep install fast; other assets cached at runtime
 const urlsToCache = [
   '/',
@@ -8,7 +8,9 @@ const urlsToCache = [
   '/common.css',
   '/manifest.json',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  '/fonts/SF-Pro-Display-Regular.woff2',
+  '/fonts/NewYorkMedium-RegularItalic.woff2'
 ];
 
 self.addEventListener('install', (event) => {
@@ -50,7 +52,7 @@ self.addEventListener('fetch', (event) => {
         return fetch(req).then((networkResponse) => {
           // Runtime cache for GET requests: scripts, styles, images
           try {
-            if (req.method === 'GET' && (req.destination === 'script' || req.destination === 'style' || req.destination === 'image')) {
+            if (req.method === 'GET' && (req.destination === 'script' || req.destination === 'style' || req.destination === 'image' || req.destination === 'font')) {
               caches.open(CACHE_NAME).then((cache) => {
                 try { cache.put(req, networkResponse.clone()); } catch (e) {}
               });
