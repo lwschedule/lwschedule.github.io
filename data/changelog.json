@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.27",
+    "title": "Added a days-until countdown to each event card",
+    "date": "September 27, 2026"
+  },
+  {
     "version": "v2026.9.17.12",
     "title": "Made custom fonts work offline",
     "date": "September 17, 2026"

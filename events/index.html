@@ -98,6 +98,54 @@
       opacity: 0.88;
     }
 
+    .eventCardMeta {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .eventCardBody {
+      min-width: 0;
+    }
+
+    .eventCardBody .eventTitle,
+    .eventCardBody .eventTime {
+      position: static;
+    }
+
+    .eventDays {
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .eventDays .eventDaysValue {
+      display: block;
+      font-size: 1.2em;
+      font-weight: 700;
+      color: var(--event-accent);
+      line-height: 1.1;
+    }
+
+    .eventDays .eventDaysValue number-flow {
+      display: inline-block;
+      min-width: 2ch;
+      text-align: right;
+    }
+
+    .eventDays .eventDaysUnit {
+      display: block;
+      font-size: 0.62em;
+      font-weight: 400;
+      color: var(--text-light);
+      opacity: 0.65;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
     .noEvents {
       margin: 16px auto 0;
       text-align: center;
@@ -236,6 +284,36 @@
       return new Date(parts[0], parts[1] - 1, parts[2]);
     }
 
+    // ---- Days-remaining counter (Number Flow digit morph, like the home clock) ----
+    // Plain numbers render first; if the library loads, each value animates 0 → N.
+    let numberFlowReady = false;
+
+    async function loadNumberFlow() {
+      try {
+        await import('/vendor/number-flow.js');
+        numberFlowReady = !!customElements.get('number-flow');
+        if (!numberFlowReady) {
+          console.warn('Number Flow loaded but custom element not defined.');
+        }
+      } catch (error) {
+        console.warn('Number Flow failed to load for events, using plain numbers.', error);
+      }
+    }
+
+    function initEventDaysMorphs() {
+      if (!numberFlowReady) return;
+      document.querySelectorAll('.eventDays').forEach((block) => {
+        const host = block.querySelector('.eventDaysValue');
+        if (!host || host.querySelector('number-flow')) return;
+        const morph = document.createElement('number-flow');
+        morph.update(0);
+        host.textContent = '';
+        host.appendChild(morph);
+        const days = parseInt(block.getAttribute('data-event-days'), 10);
+        morph.update(Number.isFinite(days) ? days : 0);
+      });
+    }
+
     function getEventCardStyle(type) {
       return '--event-accent:' + getEventColor(type) + ';';
     }
@@ -324,9 +402,19 @@
         dayEvents.forEach((e) => {
           const cardStyle = getEventCardStyle(e.type);
           const time = formatEventTime(e);
+          const daysLeft = Math.round((e.dateObj.getTime() - today.getTime()) / 86400000);
+          const daysLabel = daysLeft === 1 ? 'Day' : 'Days';
           html += `<article class="eventCard" style="${cardStyle}">
-            <p class="eventTitle">${escapeHtml(formatEventTitle(e.title, e.type))}</p>
-            ${time ? `<p class="eventTime">${escapeHtml(time)}</p>` : ''}
+            <div class="eventCardMeta">
+              <div class="eventCardBody">
+                <p class="eventTitle">${escapeHtml(formatEventTitle(e.title, e.type))}</p>
+                ${time ? `<p class="eventTime">${escapeHtml(time)}</p>` : ''}
+              </div>
+              <div class="eventDays" data-event-days="${daysLeft}">
+                <span class="eventDaysValue">${daysLeft}</span>
+                <span class="eventDaysUnit">${daysLabel}</span>
+              </div>
+            </div>
           </article>`;
         });
 
@@ -368,6 +456,7 @@
 
         renderEvents(followedEvents);
         renderEventKey(uniqueTypes);
+        initEventDaysMorphs();
       } catch (error) {
         console.error('Events page load error:', error);
         renderNoFollowedEvents();
@@ -378,6 +467,7 @@
       if (typeof window.loadCommon === 'function') {
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
+      await loadNumberFlow();
       await initApp();
       loadEventsPage();
     })();
