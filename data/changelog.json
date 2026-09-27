@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.9.27.2",
+    "title": "Made sports teams collapsible in the events picker and updated game schedules",
+    "date": "September 27, 2026"
+  },
+  {
     "version": "v2026.9.27",
     "title": "Added a days-until countdown to each event card",
     "date": "September 27, 2026"

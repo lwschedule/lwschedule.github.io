@@ -241,6 +241,53 @@
       text-align: left;
     }
 
+    .sportGroupHeader {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 9px 12px;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .sportGroupHeader:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sportGroupChevron {
+      display: inline-block;
+      font-size: 0.8em;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+    }
+
+    .sportGroup.open .sportGroupChevron {
+      transform: rotate(90deg);
+    }
+
+    .sportGroupTitle {
+      flex: 1;
+      font-size: 0.72em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+    }
+
+    .sportGroupCount {
+      font-size: 0.72em;
+      opacity: 0.45;
+    }
+
+    .sportGroupBody[hidden] {
+      display: none;
+    }
+
     .settingsRow { padding: 0; margin: 0 0 15px 0; background: transparent; }
     .settingsRow label { display: block; margin-bottom: 8px; font-weight: 700; }
     .lunchButtons { display: flex; gap: 10px; justify-content: center; }
@@ -786,6 +833,10 @@
     // browsing; searching always shows everything.
     const PICKER_GROUP_LIMIT = 2;
 
+    // Which sport groups in the available-events picker are expanded.
+    // In-memory only: groups start collapsed on each visit.
+    const openSportGroups = new Set();
+
     let caddyTimes = { '1': '', '2': '', '3': '', '4': '', '5': '', '6': '' };
 
     let packUpTime = 0;
@@ -964,13 +1015,20 @@
         html += '<div class="pickerGroupHeading">Sports Teams</div>';
         sortedSportKeys.forEach((sportKey) => {
           const sportTeams = teamsBySport.get(sportKey);
-          const shownInSport = isSearching ? sportTeams : sportTeams.slice(0, PICKER_GROUP_LIMIT);
-          hiddenRows += sportTeams.length - shownInSport.length;
-          shownRows += shownInSport.length;
-          html += `<div class="sportGroupHeading">${escapeHtml(sportKey)}</div>`;
-          shownInSport.forEach((team) => {
-            html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(team.name || 'Team')}</div><button type="button" class="eventAddBtn" data-add-kind="team" data-add-id="${escapeHtml(team.id)}" aria-label="Follow ${escapeHtml(team.name || 'team')}">+</button></div>`;
-          });
+          // Collapsed groups hide every row; expanded groups show them all.
+          // While searching, every group is forced open.
+          const groupIsOpen = isSearching || openSportGroups.has(sportKey);
+          if (!groupIsOpen) hiddenRows += sportTeams.length;
+          else shownRows += sportTeams.length;
+          const sportSlug = 'sportGroup-' + sportKey.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          html += `<div class="sportGroup${groupIsOpen ? ' open' : ''}" data-sport="${escapeHtml(sportKey)}">`;
+          html += `<button type="button" class="sportGroupHeader" aria-expanded="${groupIsOpen}" aria-controls="${sportSlug}">`;
+          html += `<span class="sportGroupChevron" aria-hidden="true">\u25B8</span>`;
+          html += `<span class="sportGroupTitle">${escapeHtml(sportKey)}</span>`;
+          html += `<span class="sportGroupCount">${sportTeams.length}</span>`;
+          html += `</button>`;
+          html += `<div class="sportGroupBody" id="${sportSlug}"${groupIsOpen ? '' : ' hidden'}>`;
+          html += `</div></div>`;
         });
       }
 
@@ -987,10 +1045,61 @@
       html += '</div>';
 
       if (hiddenRows > 0) {
-        html += `<p class="availableEventsHint">Showing ${shownRows} of ${shownRows + hiddenRows} — search to find more</p>`;
+        const hint = isSearching
+          ? `Showing ${shownRows} of ${shownRows + hiddenRows} — search to find more`
+          : (shownRows === 0
+            ? `${shownRows + hiddenRows} available — tap a sport to expand`
+            : `Showing ${shownRows} of ${shownRows + hiddenRows} — tap a sport to see more`);
+        html += `<p class="availableEventsHint">${hint}</p>`;
       }
 
       contentEl.innerHTML = html;
+
+      // Collapsed groups render with empty bodies to keep the list light.
+      // Fill a group's rows the first time it opens (lazy render), and
+      // pre-fill groups that start expanded (search, or open before re-render).
+      const fillSportGroupBody = (body, teams) => {
+        body.innerHTML = teams.map((team) =>
+          `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(team.name || 'Team')}</div><button type="button" class="eventAddBtn" data-add-kind="team" data-add-id="${escapeHtml(team.id)}" aria-label="Follow ${escapeHtml(team.name || 'team')}">+</button></div>`
+        ).join('');
+        // Rows created after the render-time binding pass need their own handlers.
+        body.querySelectorAll('.eventAddBtn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.addId;
+            if (!followedTeamIds.includes(id)) followedTeamIds.push(id);
+            renderEventsSection();
+          });
+        });
+      };
+
+      contentEl.querySelectorAll('.sportGroup').forEach((group) => {
+        const sportKey = group.dataset.sport;
+        const body = group.querySelector('.sportGroupBody');
+        const teams = teamsBySport.get(sportKey) || [];
+        group.__sportTeams = teams;
+        if (!body.hidden) fillSportGroupBody(body, teams);
+      });
+
+      contentEl.querySelectorAll('.sportGroupHeader').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const group = btn.closest('.sportGroup');
+          const sportKey = group ? group.dataset.sport : '';
+          const body = group ? group.querySelector('.sportGroupBody') : null;
+          if (!group || !body) return;
+          const willOpen = body.hidden;
+          if (willOpen && !body.dataset.filled) {
+            fillSportGroupBody(body, group.__sportTeams || []);
+            body.dataset.filled = '1';
+          }
+          body.hidden = !willOpen;
+          group.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', String(willOpen));
+          if (sportKey) {
+            if (willOpen) openSportGroups.add(sportKey);
+            else openSportGroups.delete(sportKey);
+          }
+        });
+      });
 
       contentEl.querySelectorAll('.eventAddBtn').forEach((btn) => {
         btn.addEventListener('click', () => {
