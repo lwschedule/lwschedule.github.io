@@ -264,6 +264,10 @@
       { "id": "varsity-girls-badminton", "sport": "Badminton", "name": "Varsity Girls Badminton" },
       { "id": "varsity-girls-softball", "sport": "Softball", "name": "Varsity Girls Softball" },
       { "id": "varsity-girls-tennis", "sport": "Tennis", "name": "Varsity Girls Tennis" },
+      { "id": "junior-varsity-girls-softball", "sport": "Softball", "name": "JV Girls Softball" },
+      { "id": "junior-varsity-boys-soccer", "sport": "Soccer", "name": "JV Boys Soccer" },
+      { "id": "varsity-boys-soccer", "sport": "Soccer", "name": "Varsity Boys Soccer" },
+      { "id": "junior-varsity-girls-tennis", "sport": "Tennis", "name": "JV Girls Tennis" },
       { "id": "junior-varsity-boys-wrestling", "sport": "Wrestling", "name": "JV Boys Wrestling" },
       { "id": "varsity-girls-gymnastics", "sport": "Gymnastics", "name": "Varsity Girls Gymnastics" },
       { "id": "junior-varsity-girls-flag-football", "sport": "Flag Football", "name": "JV Girls Flag Football" },
@@ -2398,6 +2402,141 @@
         "id": "sports-varsity-girls-tennis-2027-03-30",
         "teamId": "varsity-girls-tennis",
         "date": "2027-03-30",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-softball-2027-04-02",
+        "teamId": "junior-varsity-girls-softball",
+        "date": "2027-04-02",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-boys-baseball-2027-04-02",
+        "teamId": "varsity-boys-baseball",
+        "date": "2027-04-02",
+        "startTime": "4:30 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-2027-04-02",
+        "teamId": "varsity-girls-softball",
+        "date": "2027-04-02",
+        "startTime": "6:30 PM",
+        "endTime": "8:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-baseball-2027-04-05",
+        "teamId": "junior-varsity-boys-baseball",
+        "date": "2027-04-05",
+        "startTime": "4:30 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-badminton-2027-04-06",
+        "teamId": "varsity-girls-badminton",
+        "date": "2027-04-06",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-soccer-2027-04-06",
+        "teamId": "junior-varsity-boys-soccer",
+        "date": "2027-04-06",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-boys-soccer-2027-04-06",
+        "teamId": "varsity-boys-soccer",
+        "date": "2027-04-06",
+        "startTime": "7:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-softball-2027-04-07",
+        "teamId": "junior-varsity-girls-softball",
+        "date": "2027-04-07",
+        "startTime": "4:30 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-girls-softball-2027-04-07",
+        "teamId": "varsity-girls-softball",
+        "date": "2027-04-07",
+        "startTime": "6:30 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "away",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-soccer-2027-04-15",
+        "teamId": "junior-varsity-boys-soccer",
+        "date": "2027-04-15",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-varsity-boys-soccer-2027-04-15",
+        "teamId": "varsity-boys-soccer",
+        "date": "2027-04-15",
+        "startTime": "7:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-varsity-girls-badminton-2027-04-20",
+        "teamId": "varsity-girls-badminton",
+        "date": "2027-04-20",
+        "startTime": "4:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Liberty High School (Issaquah)"
+      },
+      {
+        "id": "sports-junior-varsity-boys-soccer-2027-04-22",
+        "teamId": "junior-varsity-boys-soccer",
+        "date": "2027-04-22",
+        "startTime": "5:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-varsity-boys-soccer-2027-04-22",
+        "teamId": "varsity-boys-soccer",
+        "date": "2027-04-22",
+        "startTime": "7:30 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-tennis-2027-04-28",
+        "teamId": "junior-varsity-girls-tennis",
+        "date": "2027-04-28",
         "startTime": "4:00 PM",
         "endTime": "6:00 PM",
         "homeAway": "away",
