@@ -249,7 +249,14 @@
       { "id": "junior-varsity-girls-softball-slow-pitch", "sport": "Softball", "name": "JV Girls Softball - Slow Pitch" },
       { "id": "c-team-boys-football", "sport": "Football", "name": "C-Team Boys Football" },
       { "id": "varsity-boys-football", "sport": "Football", "name": "Varsity Boys Football" },
-      { "id": "junior-varsity-boys-football", "sport": "Football", "name": "JV Boys Football" }
+      { "id": "junior-varsity-boys-football", "sport": "Football", "name": "JV Boys Football" },
+      { "id": "c-team-boys-basketball", "sport": "Basketball", "name": "C-Team Boys Basketball" },
+      { "id": "junior-varsity-boys-basketball", "sport": "Basketball", "name": "JV Boys Basketball" },
+      { "id": "varsity-boys-basketball", "sport": "Basketball", "name": "Varsity Boys Basketball" },
+      { "id": "junior-varsity-girls-basketball", "sport": "Basketball", "name": "JV Girls Basketball" },
+      { "id": "varsity-girls-basketball", "sport": "Basketball", "name": "Varsity Girls Basketball" },
+      { "id": "varsity-boys-swimming", "sport": "Swimming", "name": "Varsity Boys Swimming" },
+      { "id": "varsity-boys-wrestling", "sport": "Wrestling", "name": "Varsity Boys Wrestling" }
     ],
     "games": [
       {
@@ -1178,6 +1185,114 @@
         "endTime": "9:00 PM",
         "homeAway": "home",
         "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2026-12-01",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2026-12-01",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "away",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2026-12-01",
+        "teamId": "varsity-boys-basketball",
+        "date": "2026-12-01",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "away",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2026-12-02",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2026-12-02",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "away",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2026-12-02",
+        "teamId": "varsity-girls-basketball",
+        "date": "2026-12-02",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "away",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-boys-swimming-2026-12-03",
+        "teamId": "varsity-boys-swimming",
+        "date": "2026-12-03",
+        "startTime": "3:00 PM",
+        "endTime": "5:00 PM",
+        "homeAway": "away",
+        "opponent": "Foster High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2026-12-03",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2026-12-03",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2026-12-03-2",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2026-12-03",
+        "startTime": "7:15 PM",
+        "endTime": "8:15 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2026-12-05",
+        "teamId": "c-team-boys-basketball",
+        "date": "2026-12-05",
+        "startTime": "1:00 PM",
+        "endTime": "2:30 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2026-12-05",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2026-12-05",
+        "startTime": "2:30 PM",
+        "endTime": "4:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2026-12-05",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2026-12-05",
+        "startTime": "4:00 PM",
+        "endTime": "4:30 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2026-12-05",
+        "teamId": "varsity-girls-basketball",
+        "date": "2026-12-05",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2026-12-05",
+        "teamId": "varsity-boys-basketball",
+        "date": "2026-12-05",
+        "startTime": "7:00 PM",
+        "endTime": "8:30 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
       }
     ]
   }
