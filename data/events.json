@@ -2235,6 +2235,60 @@
         "endTime": "9:25 PM",
         "homeAway": "away",
         "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2027-02-02",
+        "teamId": "c-team-boys-basketball",
+        "date": "2027-02-02",
+        "startTime": "4:15 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-02-02",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-02-02",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-02-02",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-02-02",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-c-team-girls-basketball-2027-02-03",
+        "teamId": "c-team-girls-basketball",
+        "date": "2027-02-03",
+        "startTime": "4:15 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-02-03",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-02-03",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-02-03",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-02-03",
+        "startTime": "7:15 PM",
+        "endTime": "8:30 PM",
+        "homeAway": "home",
+        "opponent": "Bothell High School"
       }
     ]
   }
