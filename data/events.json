@@ -258,6 +258,7 @@
       { "id": "c-team-girls-basketball", "sport": "Basketball", "name": "C-Team Girls Basketball" },
       { "id": "varsity-boys-swimming", "sport": "Swimming", "name": "Varsity Boys Swimming" },
       { "id": "varsity-boys-wrestling", "sport": "Wrestling", "name": "Varsity Boys Wrestling" },
+      { "id": "varsity-girls-wrestling", "sport": "Wrestling", "name": "Varsity Girls Wrestling" },
       { "id": "junior-varsity-boys-wrestling", "sport": "Wrestling", "name": "JV Boys Wrestling" },
       { "id": "varsity-girls-gymnastics", "sport": "Gymnastics", "name": "Varsity Girls Gymnastics" },
       { "id": "junior-varsity-girls-flag-football", "sport": "Flag Football", "name": "JV Girls Flag Football" },
@@ -1631,6 +1632,609 @@
         "endTime": "5:00 PM",
         "homeAway": "away",
         "opponent": "Sammamish High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2027-01-05",
+        "teamId": "c-team-boys-basketball",
+        "date": "2027-01-05",
+        "startTime": "4:15 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-05",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-05",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-05",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-05",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-05",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-05",
+        "startTime": "6:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "home",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-05",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-05",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-boys-swimming-2027-01-06",
+        "teamId": "varsity-boys-swimming",
+        "date": "2027-01-06",
+        "startTime": "3:00 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-06",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-06",
+        "startTime": "5:40 PM",
+        "endTime": "7:10 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-06",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-06",
+        "startTime": "7:15 PM",
+        "endTime": "8:30 PM",
+        "homeAway": "home",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-07",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-07",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-wrestling-2027-01-07",
+        "teamId": "junior-varsity-boys-wrestling",
+        "date": "2027-01-07",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-07",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-07",
+        "startTime": "6:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-girls-gymnastics-2027-01-07",
+        "teamId": "varsity-girls-gymnastics",
+        "date": "2027-01-07",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-07",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-07",
+        "startTime": "7:00 PM",
+        "endTime": "8:00 PM",
+        "homeAway": "home",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-08",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-08",
+        "startTime": "3:30 PM",
+        "endTime": "5:00 PM",
+        "homeAway": "away",
+        "opponent": "Bellevue High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-08",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-08",
+        "startTime": "5:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-08",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-08",
+        "startTime": "6:30 PM",
+        "endTime": "7:45 PM",
+        "homeAway": "away",
+        "opponent": "Bellevue High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-08",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-08",
+        "startTime": "8:00 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "away",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-12",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-12",
+        "startTime": "4:00 PM",
+        "endTime": "5:00 PM",
+        "homeAway": "away",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-12",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-12",
+        "startTime": "5:30 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "Hazen High School"
+      },
+      {
+        "id": "sports-varsity-boys-swimming-2027-01-13",
+        "teamId": "varsity-boys-swimming",
+        "date": "2027-01-13",
+        "startTime": "3:00 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2027-01-14",
+        "teamId": "c-team-boys-basketball",
+        "date": "2027-01-14",
+        "startTime": "4:00 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-14",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-14",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-14",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-14",
+        "startTime": "5:30 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-girls-wrestling-2027-01-14",
+        "teamId": "varsity-girls-wrestling",
+        "date": "2027-01-14",
+        "startTime": "6:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-14",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-14",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-14",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-14",
+        "startTime": "6:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "home",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-girls-gymnastics-2027-01-14",
+        "teamId": "varsity-girls-gymnastics",
+        "date": "2027-01-14",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "home",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-14-2",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-14",
+        "startTime": "7:15 PM",
+        "endTime": "8:15 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-15",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-15",
+        "startTime": "4:15 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-15",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-15",
+        "startTime": "5:40 PM",
+        "endTime": "6:55 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-15",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-15",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-16",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-16",
+        "startTime": "1:00 PM",
+        "endTime": "2:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-16",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-16",
+        "startTime": "2:30 PM",
+        "endTime": "4:00 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-16",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-16",
+        "startTime": "4:00 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-16",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-16",
+        "startTime": "5:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2027-01-18",
+        "teamId": "c-team-boys-basketball",
+        "date": "2027-01-18",
+        "startTime": "4:15 PM",
+        "endTime": "5:30 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-18",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-18",
+        "startTime": "5:40 PM",
+        "endTime": "6:55 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-18",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-18",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-19",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-19",
+        "startTime": "4:15 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "away",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-19",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-19",
+        "startTime": "5:45 PM",
+        "endTime": "6:45 PM",
+        "homeAway": "away",
+        "opponent": "Eastlake High School"
+      },
+      {
+        "id": "sports-varsity-boys-swimming-2027-01-19",
+        "teamId": "varsity-boys-swimming",
+        "date": "2027-01-19",
+        "startTime": "8:30 PM",
+        "endTime": "11:30 PM",
+        "homeAway": "away",
+        "opponent": "Sammamish High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-20",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-20",
+        "startTime": "5:40 PM",
+        "endTime": "6:55 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-20",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-20",
+        "startTime": "7:15 PM",
+        "endTime": "8:45 PM",
+        "homeAway": "away",
+        "opponent": "Redmond High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-21",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-21",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "home",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-junior-varsity-boys-wrestling-2027-01-21",
+        "teamId": "junior-varsity-boys-wrestling",
+        "date": "2027-01-21",
+        "startTime": "6:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-21",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-21",
+        "startTime": "6:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "home",
+        "opponent": "Newport High School (Bellevue)"
+      },
+      {
+        "id": "sports-varsity-girls-gymnastics-2027-01-21",
+        "teamId": "varsity-girls-gymnastics",
+        "date": "2027-01-21",
+        "startTime": "7:00 PM",
+        "endTime": "9:00 PM",
+        "homeAway": "away",
+        "opponent": "Mercer Island High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-21",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-21",
+        "startTime": "7:15 PM",
+        "endTime": "8:15 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-c-team-boys-basketball-2027-01-23",
+        "teamId": "c-team-boys-basketball",
+        "date": "2027-01-23",
+        "startTime": "2:00 PM",
+        "endTime": "3:15 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-23",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-23",
+        "startTime": "3:30 PM",
+        "endTime": "5:00 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-23",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-23",
+        "startTime": "5:00 PM",
+        "endTime": "6:30 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-23",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-23",
+        "startTime": "6:30 PM",
+        "endTime": "7:45 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-23",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-23",
+        "startTime": "8:00 PM",
+        "endTime": "9:30 PM",
+        "homeAway": "home",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-flag-football-2027-01-26",
+        "teamId": "junior-varsity-girls-flag-football",
+        "date": "2027-01-26",
+        "startTime": "5:00 PM",
+        "endTime": "6:00 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-26",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-26",
+        "startTime": "5:45 PM",
+        "endTime": "7:15 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-girls-flag-football-2027-01-26",
+        "teamId": "varsity-girls-flag-football",
+        "date": "2027-01-26",
+        "startTime": "6:30 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "Juanita High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-26",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-26",
+        "startTime": "7:15 PM",
+        "endTime": "7:45 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-boys-swimming-2027-01-27",
+        "teamId": "varsity-boys-swimming",
+        "date": "2027-01-27",
+        "startTime": "3:00 PM",
+        "endTime": "5:15 PM",
+        "homeAway": "home",
+        "opponent": "Skyline High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-27",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-27",
+        "startTime": "5:45 PM",
+        "endTime": "7:15 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-27",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-27",
+        "startTime": "7:00 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-28",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-28",
+        "startTime": "6:00 PM",
+        "endTime": "7:00 PM",
+        "homeAway": "home",
+        "opponent": "Issaquah High School"
+      },
+      {
+        "id": "sports-varsity-girls-gymnastics-2027-01-28",
+        "teamId": "varsity-girls-gymnastics",
+        "date": "2027-01-28",
+        "startTime": "7:00 PM",
+        "endTime": "7:30 PM",
+        "homeAway": "away",
+        "opponent": "North Creek High School"
+      },
+      {
+        "id": "sports-varsity-boys-wrestling-2027-01-28-2",
+        "teamId": "varsity-boys-wrestling",
+        "date": "2027-01-28",
+        "startTime": "7:15 PM",
+        "endTime": "8:15 PM",
+        "homeAway": "home",
+        "opponent": "Mount Si High School"
+      },
+      {
+        "id": "sports-junior-varsity-girls-basketball-2027-01-29",
+        "teamId": "junior-varsity-girls-basketball",
+        "date": "2027-01-29",
+        "startTime": "4:10 PM",
+        "endTime": "5:25 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-junior-varsity-boys-basketball-2027-01-29",
+        "teamId": "junior-varsity-boys-basketball",
+        "date": "2027-01-29",
+        "startTime": "5:30 PM",
+        "endTime": "6:45 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-girls-basketball-2027-01-29",
+        "teamId": "varsity-girls-basketball",
+        "date": "2027-01-29",
+        "startTime": "6:50 PM",
+        "endTime": "8:05 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
+      },
+      {
+        "id": "sports-varsity-boys-basketball-2027-01-29",
+        "teamId": "varsity-boys-basketball",
+        "date": "2027-01-29",
+        "startTime": "8:10 PM",
+        "endTime": "9:25 PM",
+        "homeAway": "away",
+        "opponent": "Woodinville High School"
       }
     ]
   }
