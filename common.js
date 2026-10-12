@@ -934,27 +934,6 @@ function updateNextPeriodText(timerEl, text) {
   timerEl.classList.remove('hidden');
 }
 
-// PSAT/SAT testing day (Wednesday of the PSAT/SAT Testing week): the school
-// day is just testing (8:35 AM – 12:00 PM) followed by lunch (12:00 – 1:00 PM).
-// The homepage swaps this in only when the user has switched on the "I'm
-// testing" toggle; otherwise the empty day reads like no school.
-const PSAT_SAT_TEST_DAY_SCHEDULE = [
-  { name: 'PSAT/SAT Testing', start: 515, end: 720 },
-  { name: 'Lunch', start: 720, end: 780 }
-];
-
-function isPsatSatTestingDay(date) {
-  return getScheduleKeyForDate(date) === 'psat-sat-testing' && getDayNameFromDate(date) === 'Wednesday';
-}
-
-function getPsatSatTesting() {
-  return localStorage.getItem('psatSatTesting') === 'true';
-}
-
-function setPsatSatTesting(enabled) {
-  localStorage.setItem('psatSatTesting', enabled ? 'true' : 'false');
-}
-
 function updateClock() {
   const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
@@ -991,9 +970,6 @@ function updateClock() {
 
   const schedules = getSchedules(nowDate);
   let today = schedules[weekday];
-  if ((!today || today.length === 0) && isPsatSatTestingDay(nowDate) && getPsatSatTesting()) {
-    today = PSAT_SAT_TEST_DAY_SCHEDULE;
-  }
   if (!today || today.length === 0) {
 
     const nextSchoolStartTime = getNextSchoolDayStartTime();

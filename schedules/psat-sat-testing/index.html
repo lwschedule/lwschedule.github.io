@@ -61,9 +61,7 @@
           || daySchedule.length === 0
           || daySchedule === 'No School'
           || (Array.isArray(daySchedule) && daySchedule.length === 1 && daySchedule[0] === 'No School');
-        if (day === 'Wednesday' && isNoSchool) {
-          html += '<div class="noSchoolMessage"><h3>PSAT &amp; SAT Testing Day</h3><p>Testers arrive at 8:35 AM. Testing runs 8:35 – 12:00, lunch 12:00 – 1:00. Non-testing students do not attend school today.</p></div>';
-        } else if (isNoSchool) {
+        if (isNoSchool) {
           html += '<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>';
         } else {
           html += renderScheduleTable(daySchedule, null, true);

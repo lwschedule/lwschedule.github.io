@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.10.12.2",
+    "title": "Updated the PSAT/SAT testing week and removed the testing toggle",
+    "date": "October 12, 2026"
+  },
+  {
     "version": "v2026.10.12",
     "title": "Named the LEAP days by month and cleared out old data",
     "date": "October 12, 2026"

@@ -24,13 +24,6 @@
       </div>
     </div>
   </div>
-  <div class="homeModeToggleRow" id="psatToggleRow" style="display:none;">
-    <span class="homeModeToggleLabel">I'm testing (PSAT/SAT)</span>
-    <label class="homeModeToggleSwitch">
-      <input type="checkbox" id="psatToggleInput">
-      <span class="homeModeToggleSlider"></span>
-    </label>
-  </div>
   <div id="digitalClock">
     <div id="clockLabel">TIME REMAINING</div>
     <div id="clockDisplay">
@@ -163,21 +156,6 @@
     }
     await initClockMorphs();
     await initApp();
-
-    // Testing-day toggle — shown only on the PSAT/SAT testing Wednesday, and
-    // only on the homepage. Its stored choice decides whether the otherwise
-    // empty day counts down through Testing/Lunch or reads like no school.
-    (function wirePsatSatToggle() {
-      const row = document.getElementById('psatToggleRow');
-      const input = document.getElementById('psatToggleInput');
-      if (!row || !input || !isPsatSatTestingDay(getPacificNow())) return;
-      row.style.display = 'flex';
-      input.checked = getPsatSatTesting();
-      input.addEventListener('change', () => {
-        setPsatSatTesting(input.checked);
-        updateClock();
-      });
-    })();
 
     checkSetupComplete();
 

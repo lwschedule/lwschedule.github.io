@@ -700,7 +700,31 @@
           {"name": "Period 6", "start": 860, "end": 915}
         ]
       },
-      "Wednesday": [],
+      "Tuesday": {
+        "A": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "A Lunch", "start": 696, "end": 726},
+          {"name": "Period 4", "start": 736, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ],
+        "B": [
+          {"name": "Period 1", "start": 515, "end": 570},
+          {"name": "Period 2", "start": 577, "end": 634},
+          {"name": "Period 3", "start": 641, "end": 696},
+          {"name": "Period 4", "start": 703, "end": 758},
+          {"name": "B Lunch", "start": 761, "end": 791},
+          {"name": "Period 5", "start": 798, "end": 853},
+          {"name": "Period 6", "start": 860, "end": 915}
+        ]
+      },
+      "Wednesday": [
+        {"name": "PSAT/SAT Testing", "start": 515, "end": 720},
+        {"name": "Lunch", "start": 720, "end": 780},
+        {"name": "LEAP", "start": 810, "end": 915}
+      ],
       "Thursday": {
         "A": [
           {"name": "Period 1", "start": 515, "end": 615},
