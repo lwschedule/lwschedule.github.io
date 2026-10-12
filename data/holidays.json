@@ -1,11 +1,5 @@
 [
   {
-    "name": "Labor Day",
-    "date": "2026-09-07",
-    "displayDate": "September 7, 2026",
-    "isWeekend": false
-  },
-  {
     "name": "LEAP Day",
     "date": "2026-10-16",
     "displayDate": "October 16, 2026",

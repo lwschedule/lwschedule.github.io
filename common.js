@@ -28,22 +28,16 @@ function getPacificNow() {
 
 const SCHEDULE_METADATA = [
   {
-    scheduleKey: 'first-week',
-    dateStart: new Date(2026, 7, 31),
-    dateEnd: new Date(2026, 8, 4),
-    label: 'First Week Schedule'
+    scheduleKey: 'leap-day',
+    dateStart: new Date(2026, 9, 12),
+    dateEnd: new Date(2026, 9, 16),
+    label: 'LEAP Day Week'
   },
   {
-    scheduleKey: 'labor-day',
-    dateStart: new Date(2026, 8, 7),
-    dateEnd: new Date(2026, 8, 11),
-    label: 'Labor Day'
-  },
-  {
-    scheduleKey: 'homecoming',
-    dateStart: new Date(2026, 8, 28),
-    dateEnd: new Date(2026, 9, 2),
-    label: 'Homecoming Week'
+    scheduleKey: 'psat-sat-testing',
+    dateStart: new Date(2026, 9, 19),
+    dateEnd: new Date(2026, 9, 23),
+    label: 'PSAT/SAT Testing Week'
   },
   {
     scheduleKey: 'veterans-day',
@@ -101,16 +95,14 @@ const SCHEDULE_METADATA = [
 // lunch, so it maps to 'wednesday'.
 const LUNCH_SLOT_BY_DAY = {
   normal:       { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'first-week': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'labor-day':  { Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'homecoming': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p4', Friday: 'p4' },
   'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mlk-assembly': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' }
+  'leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
+  'psat-sat-testing': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 
 function normalizeClassSlots(rawSlots) {
@@ -940,6 +932,27 @@ function updateNextPeriodText(timerEl, text) {
   timerEl.classList.remove('hidden');
 }
 
+// PSAT/SAT testing day (Wednesday of the PSAT/SAT Testing week): the school
+// day is just testing (8:35 AM – 12:00 PM) followed by lunch (12:00 – 1:00 PM).
+// The homepage swaps this in only when the user has switched on the "I'm
+// testing" toggle; otherwise the empty day reads like no school.
+const PSAT_SAT_TEST_DAY_SCHEDULE = [
+  { name: 'PSAT/SAT Testing', start: 515, end: 720 },
+  { name: 'Lunch', start: 720, end: 780 }
+];
+
+function isPsatSatTestingDay(date) {
+  return getScheduleKeyForDate(date) === 'psat-sat-testing' && getDayNameFromDate(date) === 'Wednesday';
+}
+
+function getPsatSatTesting() {
+  return localStorage.getItem('psatSatTesting') === 'true';
+}
+
+function setPsatSatTesting(enabled) {
+  localStorage.setItem('psatSatTesting', enabled ? 'true' : 'false');
+}
+
 function updateClock() {
   const shouldRefreshToday = Boolean(document.getElementById('todayContent'));
   const { nowDate, weekday, minutes: now, seconds: secs } = getNowParts();
@@ -975,7 +988,10 @@ function updateClock() {
   }
 
   const schedules = getSchedules(nowDate);
-  const today = schedules[weekday];
+  let today = schedules[weekday];
+  if ((!today || today.length === 0) && isPsatSatTestingDay(nowDate) && getPsatSatTesting()) {
+    today = PSAT_SAT_TEST_DAY_SCHEDULE;
+  }
   if (!today || today.length === 0) {
 
     const nextSchoolStartTime = getNextSchoolDayStartTime();
