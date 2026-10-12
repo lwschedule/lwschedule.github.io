@@ -28,10 +28,10 @@ function getPacificNow() {
 
 const SCHEDULE_METADATA = [
   {
-    scheduleKey: 'leap-day',
+    scheduleKey: 'october-leap-day',
     dateStart: new Date(2026, 9, 12),
     dateEnd: new Date(2026, 9, 16),
-    label: 'LEAP Day Week'
+    label: 'October Leap Day Week'
   },
   {
     scheduleKey: 'psat-sat-testing',
@@ -76,17 +76,17 @@ const SCHEDULE_METADATA = [
     label: 'Presidents Day Week'
   },
   {
-    scheduleKey: 'leap-day',
+    scheduleKey: 'march-leap-day',
     dateStart: new Date(2027, 2, 8),
     dateEnd: new Date(2027, 2, 12),
-    label: 'LEAP Day Week'
+    label: 'March Leap Day Week'
   },
   {
-    // Same structure as the March LEAP week — reuses the 'leap-day' data.
-    scheduleKey: 'leap-day',
+    // March and May currently hold the same times as October — each LEAP week keeps its own data block.
+    scheduleKey: 'may-leap-day',
     dateStart: new Date(2027, 4, 24),
     dateEnd: new Date(2027, 4, 28),
-    label: 'LEAP Day Week'
+    label: 'May Leap Day Week'
   }
 ];
 
@@ -101,7 +101,9 @@ const LUNCH_SLOT_BY_DAY = {
   'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
+  'october-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
+  'march-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
+  'may-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'psat-sat-testing': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
 };
 

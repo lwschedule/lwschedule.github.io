@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>First Week</title>
+  <title>March Leap Day</title>
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
@@ -14,9 +14,9 @@
   <a href="/schedules" class="icon-back-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></a>
   
   <div class="pageContainer">
-    <h2>First Week</h2>
-    <p style="text-align: center; opacity: 0.8;">Aug 31 – Sept 4, 2026</p>
-    <div id="firstWeekScheduleContent">
+    <h2>March Leap Day</h2>
+    <p style="text-align: center; opacity: 0.8;">March Leap Day — Mar 8 – 12, 2027</p>
+    <div id="marchLeapDayContent">
       <span class="skeleton sk-line" style="width:90px;margin:26px auto 10px;"></span>
       <div class="sk-table" aria-hidden="true">
         <div class="sk-table-row"><span class="skeleton sk-line" style="width:32%;"></span><span class="skeleton sk-line" style="width:22%;margin-left:auto;"></span></div>
@@ -39,12 +39,12 @@
         try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
       }
       await initApp();
-      const content = document.getElementById('firstWeekScheduleContent');
-      const schedules = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['first-week']) ? schedulesData.normal['first-week'] : {};
+      const content = document.getElementById('marchLeapDayContent');
+      const scheduleData = (typeof schedulesData === 'object' && schedulesData && schedulesData.normal && schedulesData.normal['march-leap-day']) ? schedulesData.normal['march-leap-day'] : {};
       const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
       function getScheduleForDay(dayName, defaultLunch = 'A') {
-        const daySchedule = schedules[dayName];
+        const daySchedule = scheduleData[dayName];
         if (Array.isArray(daySchedule)) {
           return daySchedule;
         } else if (daySchedule && daySchedule[defaultLunch]) {
@@ -62,7 +62,10 @@
           || daySchedule === 'No School'
           || (Array.isArray(daySchedule) && daySchedule.length === 1 && daySchedule[0] === 'No School');
         if (isNoSchool) {
-          html += '<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>';
+          const msg = (day === 'Friday')
+            ? '<div class="noSchoolMessage"><h3>March Leap Day</h3><p>No School</p></div>'
+            : '<div class="noSchoolMessage"><h3>No School</h3><p>Enjoy your day!</p></div>';
+          html += msg;
         } else {
           html += renderScheduleTable(daySchedule, null, true);
         }

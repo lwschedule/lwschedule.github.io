@@ -33,7 +33,7 @@ Static PWA for a high school schedule viewer. No build step, no bundler, no `pac
 Multi-page app — each feature is a separate `index.html` in its own directory. Key paths:
 - `/index.html` — home dashboard
 - `/today/`, `/week/`, `/month/` — schedule views
-- `/schedules/` — browse all schedule types (Normal, First Week, Labor Day)
+- `/schedules/` — browse all schedule types (Normal, PSAT/SAT Testing, Veterans Day, and more)
 - `/settings/` — preferences (lunch, classes, clubs, pack-up, phone caddy)
 - `/holidays/`, `/quarters/`, `/events/` — academic calendar
 - `/info/` — about page
@@ -194,9 +194,9 @@ All stored in `localStorage`. Key keys: `lunchPreferences`, `selectedClasses`, `
 
 ## Special Schedules
 
-`SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`. Multiple entries may share one `scheduleKey` when identical weeks recur (the two LEAP weeks in 2026–27 both point at the `leap-day` data) — add a second metadata entry with the new dates, no duplicated schedule JSON needed.
+`SCHEDULE_METADATA` array in `common.js` defines date-range overrides (e.g., "first week", "finals schedule"). Each entry has `scheduleKey`, `dateStart`, `dateEnd`, and an optional `label`. The key maps to a nested object inside `schedulesData.normal`, and must match the page folder and URL. Multiple entries may share one `scheduleKey` when identical weeks recur — add a second metadata entry with the new dates, no duplicated schedule JSON needed. The three LEAP weeks are the exception: each is named after its month (`october-leap-day`, `march-leap-day`, `may-leap-day`) with its own data block, metadata entry, lunch row and page, even though the three blocks currently hold the same period times — update each block separately if one week's schedule changes.
 
-Current special schedules: `first-week`, `labor-day`, `homecoming`, `veterans-day`, `thanksgiving`, `mlk-assembly`, `mlk-day`, `mid-winter-break`, `presidents-day`, `leap-day`, plus `last-week` and `moving-up` (each has a page under `/schedules/`).
+Current special schedules: `veterans-day`, `thanksgiving`, `mlk-assembly`, `mlk-day`, `mid-winter-break`, `presidents-day`, `october-leap-day`, `march-leap-day`, `may-leap-day`, `psat-sat-testing`.
 
 ### Lunch Basis Rules
 
@@ -204,12 +204,8 @@ Which lunch a user's A/B choice applies to is set per schedule and weekday in `L
 
 | Schedule | p3 basis | p4 basis |
 |---|---|---|
-| `normal`, `first-week`, `veterans-day`, `thanksgiving` | Mon, Tue, Thu | Fri |
-| `labor-day` | Thu | Tue, Fri |
-| `homecoming` | Mon | Tue, Thu, Fri |
-| `mlk-assembly` | Mon, Thu, Fri | Tue |
-| `mlk-day`, `mid-winter-break`, `presidents-day` | Mon, Tue, Thu | Fri |
-| `leap-day` | Mon, Thu, Fri | Tue |
+| `normal`, `veterans-day`, `thanksgiving`, `mlk-day`, `mid-winter-break`, `presidents-day`, `psat-sat-testing` | Mon, Tue, Thu | Fri |
+| `mlk-assembly`, `october-leap-day`, `march-leap-day`, `may-leap-day` | Mon, Thu, Fri | Tue |
 
 (Wednesday always has the single all-school lunch, mapped as `'wednesday'`.)
 
@@ -269,7 +265,7 @@ This single entry automatically enables **all** of the following:
      <a class="mainBtn" href="/schedules/my-schedule">My Schedule</a>
    </div>
    ```
-   Use a short name for the button label (e.g., "Normal", "First Week", "Labor Day") — not "Normal Schedule".
+   Use a short name for the button label (e.g., "Normal", "Veterans Day", "October Leap Day") — not "Normal Schedule".
 2. Create `schedules/my-schedule/index.html` — copy the pattern from `schedules/normal/index.html`, changing the data source to `schedulesData.normal['my-schedule']` and updating the title/subtitle.
 3. If the schedule key was renamed (e.g., `labor-day-week` → `labor-day`), update the key in `data/schedules.json`, the `scheduleKey` in `SCHEDULE_METADATA`, and the element ID and JS in the schedule page.
 

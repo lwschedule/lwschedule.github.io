@@ -1,6 +1,6 @@
 [
   {
-    "name": "LEAP Day",
+    "name": "October Leap Day",
     "date": "2026-10-16",
     "displayDate": "October 16, 2026",
     "isWeekend": false
@@ -42,7 +42,7 @@
     "isWeekend": false
   },
   {
-    "name": "LEAP Day",
+    "name": "March Leap Day",
     "date": "2027-03-12",
     "displayDate": "March 12, 2027",
     "isWeekend": false
@@ -54,7 +54,7 @@
     "isWeekend": false
   },
   {
-    "name": "LEAP Day",
+    "name": "May Leap Day",
     "date": "2027-05-28",
     "displayDate": "May 28, 2027",
     "isWeekend": false
