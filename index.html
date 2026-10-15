@@ -209,6 +209,16 @@
       }
       const nameEl = document.getElementById('homeGreetingName');
       if (nameEl) nameEl.textContent = name;
+      const subEl = document.querySelector('.home-greeting-sub');
+      const subMessages = [
+        "Here's what's coming up.",
+        "Here's what's on deck.",
+        "Here's what's next.",
+        "Here's a quick look ahead.",
+        "Here's what's on the calendar.",
+        "Here's what's ahead."
+      ];
+      if (subEl) subEl.textContent = subMessages[Math.floor(Math.random() * subMessages.length)];
       const now = getPacificNow();
       document.getElementById('homeDateDay').textContent = now.toLocaleDateString('en-US', { weekday: 'long' });
       document.getElementById('homeDateFull').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });

@@ -1153,7 +1153,7 @@ function getClubOverlapSummary(date) {
 function updateWeekSchedule() {
   const scheduleEl = document.getElementById('weekContent');
   if (!scheduleEl) return;
-  let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th><th>Median Duration</th></tr></thead><tbody>`;
+  let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th><th>Duration</th></tr></thead><tbody>`;
   const now = getPacificNow();
   let currentDayOfWeek = now.getDay();
   const monday = new Date(now);

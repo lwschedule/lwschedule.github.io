@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.10.15.2",
+    "title": "Added rotating home page subtitles and renamed the This Week column to Duration",
+    "date": "October 15, 2026"
+  },
+  {
     "version": "v2026.10.15",
     "title": "Added median period length to This Week's schedule",
     "date": "October 15, 2026"
