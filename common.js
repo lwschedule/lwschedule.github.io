@@ -865,6 +865,10 @@ function getNextPeriodStart(schedule, now) {
   return null;
 }
 
+function formatNextPeriodLabel(period, prefix = '') {
+  return `Next: ${prefix}${getDisplayPeriodName(period.name)} (${format(period.start)} - ${format(period.end)})`;
+}
+
 function getNextSchoolDayInfo() {
   const nextSchoolStart = getNextSchoolDayStartTime();
   if (nextSchoolStart) {
@@ -876,7 +880,7 @@ function getNextSchoolDayInfo() {
       const schedule = schedules[dayName];
       if (scheduleHasPeriods(schedule)) {
         const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
+        if (first) return formatNextPeriodLabel(first, `${dayName} ${month} ${day} - `);
       }
   }
   return 'Next: School';
@@ -887,19 +891,19 @@ function getNextPeriodInfo(schedule, now, nowDate) {
   const currentPeriod = getCurrentPeriod(schedule, now);
   if (currentPeriod) {
     const next = getNextPeriodStart(schedule, now);
-    if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
+    if (next) return formatNextPeriodLabel(next);
 
     return getNextSchoolDayInfo();
   }
 
 
   if (now < schedule[0].start) {
-    return `Next: ${getDisplayPeriodName(schedule[0].name)}`;
+    return formatNextPeriodLabel(schedule[0]);
   }
 
 
   const next = getNextPeriodStart(schedule, now);
-  if (next) return `Next: ${getDisplayPeriodName(next.name)}`;
+  if (next) return formatNextPeriodLabel(next);
 
 
   return getNextSchoolDayInfo();
@@ -916,7 +920,7 @@ function getNextPeriodInfoForHoliday(nowDate) {
       const schedule = schedules[dayName];
       if (scheduleHasPeriods(schedule)) {
         const first = getFirstPeriodFromSchedule(schedule);
-        if (first) return `Next: ${dayName} ${month} ${day} - ${getDisplayPeriodName(first.name)}`;
+        if (first) return formatNextPeriodLabel(first, `${dayName} ${month} ${day} - `);
       }
   }
   return 'Next: School';
