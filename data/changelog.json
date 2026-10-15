@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.10.15.5",
+    "title": "Updated the home page ticker messages",
+    "date": "October 15, 2026"
+  },
+  {
     "version": "v2026.10.15.4",
     "title": "Added start and end times to the Next Period box on the home page",
     "date": "October 15, 2026"
