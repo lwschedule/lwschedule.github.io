@@ -520,7 +520,7 @@ body.calendarPage .pageContainer {
   white-space: nowrap;
 }
 
-.weekTable td:last-child {
+.weekTable td:nth-child(n+2) {
   text-align: right;
 }
 

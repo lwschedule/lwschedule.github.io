@@ -702,6 +702,23 @@ function getScheduleSummary(schedules, dayName, useClassTitles = true) {
   return uniqueNames.join(', ');
 }
 
+function getMedianPeriodDuration(schedules, dayName) {
+  const schedule = schedules[dayName];
+  if (!schedule || schedule.length === 0) return null;
+  let periods = [];
+  if (Array.isArray(schedule)) {
+    periods = schedule;
+  } else if (typeof schedule === 'object' && schedule.A) {
+    periods = schedule.A;
+  }
+  periods = periods.filter(p => p.name !== "Break" && p.name !== "Period 4 (Part 2)");
+  const durations = periods.map(p => p.end - p.start).sort((a, b) => a - b);
+  if (durations.length === 0) return null;
+  const mid = Math.floor(durations.length / 2);
+  const median = durations.length % 2 === 0 ? (durations[mid - 1] + durations[mid]) / 2 : durations[mid];
+  return Math.round(median);
+}
+
 function scheduleHasPeriods(schedule) {
   if (!schedule) return false;
   if (Array.isArray(schedule)) return schedule.length > 0;
@@ -1136,7 +1153,7 @@ function getClubOverlapSummary(date) {
 function updateWeekSchedule() {
   const scheduleEl = document.getElementById('weekContent');
   if (!scheduleEl) return;
-  let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th></tr></thead><tbody>`;
+  let html = `<table class="weekTable"><thead><tr><th>Day</th><th>Schedule</th><th>Median Duration</th></tr></thead><tbody>`;
   const now = getPacificNow();
   let currentDayOfWeek = now.getDay();
   const monday = new Date(now);
@@ -1161,6 +1178,7 @@ function updateWeekSchedule() {
     const isToday = (dayNameStr === todayName && dayDate.toDateString() === now.toDateString());
     const holidayName = getHolidayForDate(dayDate);
     let summary = '';
+    let medianText = '—';
     const clubOverlapInfo = getClubOverlapSummary(dayDate);
     const clubCount = clubOverlapInfo.clubs.length;
 
@@ -1169,6 +1187,8 @@ function updateWeekSchedule() {
     } else {
       const schedules = getSchedules(dayDate);
       summary = getScheduleSummary(schedules, dayNameStr, false);
+      const medianMinutes = getMedianPeriodDuration(schedules, dayNameStr);
+      if (medianMinutes !== null) medianText = formatDuration(medianMinutes);
 
       if (clubCount > 0 && isClubsEnabled()) {
         const overlapMarker = clubOverlapInfo.hasOverlap ? ' ⚠' : '';
@@ -1176,7 +1196,7 @@ function updateWeekSchedule() {
         summary += ` <span class="club-indicator${overlapClass}">+${clubCount} club${clubCount > 1 ? 's' : ''}${overlapMarker}</span>`;
       }
     }
-    html += `<tr class="${isToday ? 'highlight' : ''} clickable-row" data-day="${dayNameStr.toLowerCase()}" data-date="${dayDate.toISOString()}"><td>${dayNameStr}</td><td>${summary}</td></tr>`;
+    html += `<tr class="${isToday ? 'highlight' : ''} clickable-row" data-day="${dayNameStr.toLowerCase()}" data-date="${dayDate.toISOString()}"><td>${dayNameStr}</td><td>${summary}</td><td>${medianText}</td></tr>`;
   }
   html += '</tbody></table>';
   scheduleEl.innerHTML = html;
