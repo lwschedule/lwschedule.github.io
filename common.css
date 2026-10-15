@@ -1781,6 +1781,31 @@ body.has-sidebar {
   .homeHeaderRow h1 {
     margin-left: 50px;
   }
+
+  /* Home page on phones: the floating menu button is replaced by the Menu rectangle below Next Period */
+  body.homePage #sidebarMobileToggle {
+    display: none !important;
+  }
+  body.homePage .home-menu-btn {
+    display: block;
+    width: calc(100% - 32px);
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    box-sizing: border-box;
+    padding: 15px;
+    background: var(--primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--glow);
+    font-size: clamp(0.9em, 4vw, 1.1em);
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+.home-menu-btn {
+  display: none;
 }
 
 .icon-back-btn {

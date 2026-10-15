@@ -46,6 +46,7 @@
     </div>
   </div>
   <div id="timer"></div>
+  <button type="button" id="homeMenuBtn" class="home-menu-btn">Menu</button>
   <section class="upcoming-section">
     <h2 class="upcoming-heading">Upcoming</h2>
     <div id="upcomingTiles" class="upcoming-tiles">
@@ -151,6 +152,11 @@
 </script>
 <script>
   (async () => {
+    // Menu button (phones): opens the same sidebar as the floating menu button
+    document.getElementById('homeMenuBtn').addEventListener('click', () => {
+      document.getElementById('sidebarMobileToggle')?.click();
+    });
+
     if (typeof window.loadCommon === 'function') {
       try { await window.loadCommon(); } catch (err) { console.error('Failed to load common runtime:', err); }
     }

@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.10.15.3",
+    "title": "Added a Menu button to the home page on phones",
+    "date": "October 15, 2026"
+  },
+  {
     "version": "v2026.10.15.2",
     "title": "Added rotating home page subtitles and renamed the This Week column to Duration",
     "date": "October 15, 2026"
