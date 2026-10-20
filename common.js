@@ -370,8 +370,6 @@ function getScheduleSummaryLabel(periodName, useClassTitles = true) {
   if (lowerName.includes('lunch')) return 'L';
   if (lowerName.includes('homeroom')) return 'HR';
   if (lowerName.includes('roo')) return 'Roo';
-  if (lowerName.includes('kang news')) return 'KNews';
-  if (lowerName === 'leap') return 'LEAP';
   return periodName;
 }
 
@@ -711,7 +709,8 @@ function getMedianPeriodDuration(schedules, dayName) {
   } else if (typeof schedule === 'object' && schedule.A) {
     periods = schedule.A;
   }
-  periods = periods.filter(p => p.name !== "Break" && p.name !== "Period 4 (Part 2)");
+  // Lunch and passing time don't count toward the median (passing time isn't stored in the data, so only lunch needs filtering)
+  periods = periods.filter(p => p.name !== "Break" && p.name !== "Period 4 (Part 2)" && !/lunch/i.test(p.name));
   const durations = periods.map(p => p.end - p.start).sort((a, b) => a - b);
   if (durations.length === 0) return null;
   const mid = Math.floor(durations.length / 2);

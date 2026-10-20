@@ -1787,7 +1787,10 @@ body.has-sidebar {
     display: none !important;
   }
   body.homePage .home-menu-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     width: calc(100% - 32px);
     max-width: 1200px;
     margin: 0 auto 20px;
@@ -1795,7 +1798,7 @@ body.has-sidebar {
     padding: 15px;
     background: var(--primary);
     color: var(--text-light);
-    border: none;
+    border: 2px solid #ffffff;
     border-radius: 16px;
     box-shadow: var(--glow);
     font-size: clamp(0.9em, 4vw, 1.1em);
@@ -1806,6 +1809,12 @@ body.has-sidebar {
 
 .home-menu-btn {
   display: none;
+}
+
+.home-menu-btn-icon {
+  width: 1.1em;
+  height: auto;
+  flex: 0 0 auto;
 }
 
 .icon-back-btn {
@@ -2126,14 +2135,24 @@ body.calendarPage .calendar-grid {
   .home-header-new {
     margin-left: 0;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 8px;
   }
+  .home-greeting-col {
+    width: 100%;
+  }
   .home-greeting-text {
-    margin-left: 55px;
+    margin-left: 0;
+    text-align: center;
+  }
+  .home-greeting-sub {
+    text-align: center;
   }
   .home-date-col {
-    margin-left: 55px;
-    text-align: left;
+    margin-left: 0;
+    justify-content: center;
+    text-align: center;
   }
 }
 

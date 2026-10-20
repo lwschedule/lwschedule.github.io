@@ -248,8 +248,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -323,8 +322,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -407,8 +405,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": [],
       "Friday": []
@@ -442,8 +439,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -498,16 +494,14 @@
       "Tuesday": {
         "A": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "A Lunch", "start": 671, "end": 701},
           {"name": "Period 4", "start": 708, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
         ],
         "B": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "Period 4", "start": 678, "end": 778},
           {"name": "B Lunch", "start": 778, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
@@ -520,8 +514,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -565,16 +558,14 @@
       "Tuesday": {
         "A": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "A Lunch", "start": 671, "end": 701},
           {"name": "Period 4", "start": 708, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
         ],
         "B": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "Period 4", "start": 678, "end": 778},
           {"name": "B Lunch", "start": 778, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
@@ -587,8 +578,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -632,16 +622,14 @@
       "Tuesday": {
         "A": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "A Lunch", "start": 671, "end": 701},
           {"name": "Period 4", "start": 708, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
         ],
         "B": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "Period 4", "start": 678, "end": 778},
           {"name": "B Lunch", "start": 778, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
@@ -654,8 +642,7 @@
         {"name": "Period 4", "start": 652, "end": 690},
         {"name": "Period 5", "start": 697, "end": 735},
         {"name": "Period 6", "start": 742, "end": 780},
-        {"name": "Lunch", "start": 780, "end": 810},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 780, "end": 810}
       ],
       "Thursday": {
         "A": [
@@ -722,8 +709,7 @@
       },
       "Wednesday": [
         {"name": "PSAT/SAT Testing", "start": 515, "end": 720},
-        {"name": "Lunch", "start": 720, "end": 780},
-        {"name": "LEAP", "start": 810, "end": 915}
+        {"name": "Lunch", "start": 720, "end": 780}
       ],
       "Thursday": {
         "A": [
@@ -744,16 +730,14 @@
       "Friday": {
         "A": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "A Lunch", "start": 671, "end": 701},
           {"name": "Period 4", "start": 708, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
         ],
         "B": [
           {"name": "Period 2", "start": 515, "end": 615},
-          {"name": "Kang News", "start": 622, "end": 632},
-          {"name": "ROO Time", "start": 632, "end": 671},
+          {"name": "ROO Time", "start": 622, "end": 671},
           {"name": "Period 4", "start": 678, "end": 778},
           {"name": "B Lunch", "start": 778, "end": 808},
           {"name": "Period 6", "start": 815, "end": 915}
