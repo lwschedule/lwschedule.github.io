@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.10.19.2",
+    "title": "Centered the date on the home page on phones",
+    "date": "October 19, 2026"
+  },
+  {
     "version": "v2026.10.19",
     "title": "Refreshed the home page header and menu button, merged Kang News into ROO Time, and removed LEAP from Wednesday",
     "date": "October 19, 2026"

@@ -2151,8 +2151,18 @@ body.calendarPage .calendar-grid {
   }
   .home-date-col {
     margin-left: 0;
+    position: relative;
+    gap: 0;
     justify-content: center;
     text-align: center;
+  }
+  /* Pull the calendar icon out of the row so the day/date text is centered on its own */
+  .home-date-icon {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 8px;
   }
 }
 
