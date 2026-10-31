@@ -104,7 +104,7 @@ How subscriptions work:
 Old schedule data stays out of the app on a rolling basis. Two rules, depending on the kind of data:
 
 - **Events & sports games (`data/events.json`):** whenever the data is touched (e.g., transcribing a new week of games), delete anything dated **before today**. Today's and future entries always stay — a game happening tonight is still relevant.
-- **Month-scoped data — special schedules (`SCHEDULE_METADATA` + their `data/schedules.json` blocks), holidays (`data/holidays.json`), and anything else that maps onto the calendar views:** only purge at the **start of a new month**. At that point remove the previous month's entries *and anything older*. Example: when October 1 arrives, remove September's special schedules (First Week, Labor Day week) and the Labor Day holiday, even though they ended weeks earlier — the month view still renders September's calendar until then, so its data must survive the whole month.
+- **Month-scoped data — special schedules (`SCHEDULE_METADATA` + their `data/schedules.json` blocks), holidays (`data/holidays.json`), and anything else that maps onto the calendar views:** only purge once the **full previous month has passed**. The purge can happen on any date after that month ends, not necessarily on the 1st. At that point remove the previous month's entries *and anything older*. Example: once September is over (any day from October 1 on), remove September's special schedules (First Week, Labor Day week) and the Labor Day holiday, even though they ended weeks earlier — the month view still renders September's calendar until the month ends, so its data must survive the whole month.
 
 ## Versioning
 

@@ -275,60 +275,6 @@
     ],
     "games": [
       {
-        "id": "sports-c-team-girls-volleyball-2026-10-26",
-        "teamId": "c-team-girls-volleyball",
-        "date": "2026-10-26",
-        "startTime": "4:45 PM",
-        "endTime": "6:45 PM",
-        "homeAway": "away",
-        "opponent": "Mount Si High School"
-      },
-      {
-        "id": "sports-c-team-girls-volleyball-2026-10-26-2",
-        "teamId": "c-team-girls-volleyball",
-        "date": "2026-10-26",
-        "startTime": "4:45 PM",
-        "endTime": "6:45 PM",
-        "homeAway": "away",
-        "opponent": "Mount Si High School"
-      },
-      {
-        "id": "sports-junior-varsity-girls-volleyball-2026-10-26",
-        "teamId": "junior-varsity-girls-volleyball",
-        "date": "2026-10-26",
-        "startTime": "5:15 PM",
-        "endTime": "7:00 PM",
-        "homeAway": "away",
-        "opponent": "Mount Si High School"
-      },
-      {
-        "id": "sports-junior-varsity-boys-football-2026-10-26",
-        "teamId": "junior-varsity-boys-football",
-        "date": "2026-10-26",
-        "startTime": "7:00 PM",
-        "endTime": "9:00 PM",
-        "homeAway": "away",
-        "opponent": "Bothell High School"
-      },
-      {
-        "id": "sports-varsity-girls-volleyball-2026-10-26",
-        "teamId": "varsity-girls-volleyball",
-        "date": "2026-10-26",
-        "startTime": "7:00 PM",
-        "endTime": "9:00 PM",
-        "homeAway": "away",
-        "opponent": "Mount Si High School"
-      },
-      {
-        "id": "sports-c-team-boys-football-2026-10-28",
-        "teamId": "c-team-boys-football",
-        "date": "2026-10-28",
-        "startTime": "6:30 PM",
-        "endTime": "9:00 PM",
-        "homeAway": "home",
-        "opponent": "Bothell High School"
-      },
-      {
         "id": "sports-junior-varsity-boys-basketball-2026-12-01",
         "teamId": "junior-varsity-boys-basketball",
         "date": "2026-12-01",
