@@ -28,18 +28,6 @@ function getPacificNow() {
 
 const SCHEDULE_METADATA = [
   {
-    scheduleKey: 'october-leap-day',
-    dateStart: new Date(2026, 9, 12),
-    dateEnd: new Date(2026, 9, 16),
-    label: 'October Leap Day Week'
-  },
-  {
-    scheduleKey: 'psat-sat-testing',
-    dateStart: new Date(2026, 9, 19),
-    dateEnd: new Date(2026, 9, 23),
-    label: 'PSAT/SAT Testing Week'
-  },
-  {
     scheduleKey: 'veterans-day',
     dateStart: new Date(2026, 10, 9),
     dateEnd: new Date(2026, 10, 13),
@@ -82,7 +70,7 @@ const SCHEDULE_METADATA = [
     label: 'March Leap Day Week'
   },
   {
-    // March and May currently hold the same times as October — each LEAP week keeps its own data block.
+    // March and May currently hold the same times — each LEAP week keeps its own data block.
     scheduleKey: 'may-leap-day',
     dateStart: new Date(2027, 4, 24),
     dateEnd: new Date(2027, 4, 28),
@@ -101,10 +89,8 @@ const LUNCH_SLOT_BY_DAY = {
   'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'october-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'march-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
-  'may-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
-  'psat-sat-testing': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' }
+  'may-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' }
 };
 
 function normalizeClassSlots(rawSlots) {

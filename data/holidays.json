@@ -1,11 +1,5 @@
 [
   {
-    "name": "October Leap Day",
-    "date": "2026-10-16",
-    "displayDate": "October 16, 2026",
-    "isWeekend": false
-  },
-  {
     "name": "Veterans Day",
     "date": "2026-11-11",
     "displayDate": "November 11, 2026",
