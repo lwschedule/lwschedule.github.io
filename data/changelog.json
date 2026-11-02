@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.2",
+    "title": "The monthly calendar now starts at November, so past months are no longer reachable",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2",
     "title": "Removed the October Leap Day and PSAT/SAT Testing schedules now that October is over",
     "date": "November 2, 2026"

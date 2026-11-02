@@ -1333,7 +1333,7 @@ function renderCalendar() {
   const prevBtn = document.getElementById('prevMonth');
   const nextBtn = document.getElementById('nextMonth');
 
-  prevBtn.disabled = (currentYear === 2026 && currentMonth === 7);
+  prevBtn.disabled = (currentYear === 2026 && currentMonth === 10);
   nextBtn.disabled = (currentYear === 2027 && currentMonth === 5);
   const grid = document.getElementById('calendarGrid');
   grid.innerHTML = '';
@@ -1346,13 +1346,13 @@ function renderCalendar() {
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
-  const isFirstMonth = (currentYear === 2026 && currentMonth === 7);
+  const isFirstMonth = (currentYear === 2026 && currentMonth === 10);
   for (let i = firstDay - 1; i >= 0; i--) {
     const day = daysInPrevMonth - i;
     if (isFirstMonth) {
       const prevMonthDate = new Date(currentYear, currentMonth - 1, day);
 
-      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 7)) {
+      if (prevMonthDate.getFullYear() < 2026 || (prevMonthDate.getFullYear() === 2026 && prevMonthDate.getMonth() < 10)) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-day';
         emptyCell.style.visibility = 'hidden';
@@ -1464,8 +1464,8 @@ function changeMonth(delta) {
     currentYear++;
   }
 
-  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 7)) {
-    currentMonth = 7;
+  if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 10)) {
+    currentMonth = 10;
     currentYear = 2026;
   }
   if (currentYear > 2027 || (currentYear === 2027 && currentMonth > 5)) {
@@ -1478,8 +1478,8 @@ function changeMonth(delta) {
 let currentMonth = getPacificNow().getMonth();
 let currentYear = getPacificNow().getFullYear();
 
-if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 7)) {
-  currentMonth = 7;
+if (currentYear < 2026 || (currentYear === 2026 && currentMonth < 10)) {
+  currentMonth = 10;
   currentYear = 2026;
 }
 if (currentYear > 2027 || (currentYear === 2027 && currentMonth > 5)) {
