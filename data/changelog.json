@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.5",
+    "title": "Standby mode on the home page now shows a dimmed timer with a label, and the ticker is centered on desktop",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.4",
     "title": "Home page now shows just the timer after 10 seconds of no activity; the menu button is in the corner on phones and desktop",
     "date": "November 2, 2026"
