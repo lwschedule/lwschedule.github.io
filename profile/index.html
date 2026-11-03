@@ -829,10 +829,6 @@
     let followedIds = [];
     let allSportsTeams = [];
     let followedTeamIds = [];
-    // Cap rows per section (each sport group and the exams group) while
-    // browsing; searching always shows everything.
-    const PICKER_GROUP_LIMIT = 2;
-
     // Which sport groups in the available-events picker are expanded.
     // In-memory only: groups start collapsed on each visit.
     const openSportGroups = new Set();
@@ -975,6 +971,7 @@
 
       const filter = getAvailableEventsSearchFilter();
       const isSearching = filter.length > 0;
+      const EXAMS_GROUP = 'Exams & Tests';
 
       // Sports teams: match on team name or sport name
       const availableTeams = allSportsTeams.filter((team) => !followedTeamIds.includes(team.id));
@@ -982,65 +979,60 @@
         ? availableTeams.filter((team) => (team.name || '').toLowerCase().includes(filter) || (team.sport || '').toLowerCase().includes(filter))
         : availableTeams;
 
-      // Exam/test events
+      // Exam/test events: match on title
       const availableEvents = allUpcomingEvents.filter((eventItem) => !followedIds.includes(eventItem.id));
       const matchingEvents = isSearching
         ? availableEvents.filter((eventItem) => (eventItem.title || '').toLowerCase().includes(filter))
         : availableEvents;
 
-      // Group teams by sport up front so each sport group can be capped
-      const teamsBySport = new Map();
+      // Every dropdown (one per sport, plus one for exams and tests) holds its items
+      const groups = new Map();
       matchingTeams.forEach((team) => {
         const sportKey = team.sport || 'Other';
-        if (!teamsBySport.has(sportKey)) teamsBySport.set(sportKey, []);
-        teamsBySport.get(sportKey).push(team);
+        if (!groups.has(sportKey)) groups.set(sportKey, []);
+        groups.get(sportKey).push({ kind: 'team', id: team.id, title: team.name || 'Team', sub: '' });
       });
+      if (matchingEvents.length) {
+        groups.set(EXAMS_GROUP, matchingEvents.map((eventItem) => ({
+          kind: 'event',
+          id: eventItem.id,
+          title: eventItem.title || 'Untitled Event',
+          sub: formatDateLabel(eventItem.dateObj)
+        })));
+      }
 
-      if (!matchingTeams.length && !matchingEvents.length) {
+      if (!groups.size) {
         contentEl.innerHTML = isSearching
           ? '<p style="opacity:0.6; text-align:center;">No events match your search.</p>'
           : '<p style="opacity:0.6; text-align:center;">No more events to follow. <a href="/events" style="color:var(--primary-light);">Browse all events</a></p>';
         return;
       }
 
-      let html = '<div class="availableEvents">';
+      const sportKeys = [...groups.keys()].filter((key) => key !== EXAMS_GROUP).sort((a, b) => a.localeCompare(b));
+      const orderedKeys = groups.has(EXAMS_GROUP) ? [...sportKeys, EXAMS_GROUP] : sportKeys;
 
-      // While browsing, each section (sport group or exams) shows only a couple
-      // of rows and the hint below reports how much is hidden.
-      const sortedSportKeys = [...teamsBySport.keys()].sort((a, b) => a.localeCompare(b));
+      // Collapsed groups hide every row; expanded groups show them all.
+      // While searching, every group is forced open.
       let hiddenRows = 0;
       let shownRows = 0;
+      let html = '<div class="availableEvents">';
 
-      if (sortedSportKeys.length) {
-        html += '<div class="pickerGroupHeading">Sports Teams</div>';
-        sortedSportKeys.forEach((sportKey) => {
-          const sportTeams = teamsBySport.get(sportKey);
-          // Collapsed groups hide every row; expanded groups show them all.
-          // While searching, every group is forced open.
-          const groupIsOpen = isSearching || openSportGroups.has(sportKey);
-          if (!groupIsOpen) hiddenRows += sportTeams.length;
-          else shownRows += sportTeams.length;
-          const sportSlug = 'sportGroup-' + sportKey.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          html += `<div class="sportGroup${groupIsOpen ? ' open' : ''}" data-sport="${escapeHtml(sportKey)}">`;
-          html += `<button type="button" class="sportGroupHeader" aria-expanded="${groupIsOpen}" aria-controls="${sportSlug}">`;
-          html += `<span class="sportGroupChevron" aria-hidden="true">\u25B8</span>`;
-          html += `<span class="sportGroupTitle">${escapeHtml(sportKey)}</span>`;
-          html += `<span class="sportGroupCount">${sportTeams.length}</span>`;
-          html += `</button>`;
-          html += `<div class="sportGroupBody" id="${sportSlug}"${groupIsOpen ? '' : ' hidden'}>`;
-          html += `</div></div>`;
-        });
-      }
-
-      if (matchingEvents.length) {
-        const shownInEvents = isSearching ? matchingEvents : matchingEvents.slice(0, PICKER_GROUP_LIMIT);
-        hiddenRows += matchingEvents.length - shownInEvents.length;
-        shownRows += shownInEvents.length;
-        html += '<div class="pickerGroupHeading">Exams &amp; Tests</div>';
-        shownInEvents.forEach((eventItem) => {
-          html += `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(eventItem.title || 'Untitled Event')}</div><div class="availableEventDate">${escapeHtml(formatDateLabel(eventItem.dateObj))}</div><button type="button" class="eventAddBtn" data-add-id="${escapeHtml(eventItem.id)}" aria-label="Follow ${escapeHtml(eventItem.title || 'event')}">+</button></div>`;
-        });
-      }
+      orderedKeys.forEach((key, index) => {
+        const items = groups.get(key);
+        const isExams = key === EXAMS_GROUP;
+        if (!isExams && index === 0) html += '<div class="pickerGroupHeading">Sports Teams</div>';
+        const groupIsOpen = isSearching || openSportGroups.has(key);
+        if (!groupIsOpen) hiddenRows += items.length;
+        else shownRows += items.length;
+        const groupSlug = 'sportGroup-' + key.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        html += `<div class="sportGroup${groupIsOpen ? ' open' : ''}" data-sport="${escapeHtml(key)}">`;
+        html += `<button type="button" class="sportGroupHeader" aria-expanded="${groupIsOpen}" aria-controls="${groupSlug}">`;
+        html += `<span class="sportGroupChevron" aria-hidden="true">\u25B8</span>`;
+        html += `<span class="sportGroupTitle">${escapeHtml(key)}</span>`;
+        html += `<span class="sportGroupCount">${items.length}</span>`;
+        html += `</button>`;
+        html += `<div class="sportGroupBody" id="${groupSlug}"${groupIsOpen ? '' : ' hidden'}></div></div>`;
+      });
 
       html += '</div>';
 
@@ -1048,36 +1040,38 @@
         const hint = isSearching
           ? `Showing ${shownRows} of ${shownRows + hiddenRows} — search to find more`
           : (shownRows === 0
-            ? `${shownRows + hiddenRows} available — tap a sport to expand`
-            : `Showing ${shownRows} of ${shownRows + hiddenRows} — tap a sport to see more`);
+            ? `${shownRows + hiddenRows} available — tap a group to expand`
+            : `Showing ${shownRows} of ${shownRows + hiddenRows} — tap a group to see more`);
         html += `<p class="availableEventsHint">${hint}</p>`;
       }
 
       contentEl.innerHTML = html;
 
-      // Collapsed groups render with empty bodies to keep the list light.
-      // Fill a group's rows the first time it opens (lazy render), and
-      // pre-fill groups that start expanded (search, or open before re-render).
-      const fillSportGroupBody = (body, teams) => {
-        body.innerHTML = teams.map((team) =>
-          `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(team.name || 'Team')}</div><button type="button" class="eventAddBtn" data-add-kind="team" data-add-id="${escapeHtml(team.id)}" aria-label="Follow ${escapeHtml(team.name || 'team')}">+</button></div>`
+      const addFollow = (btn) => {
+        const id = btn.dataset.addId;
+        if (btn.dataset.addKind === 'team') {
+          if (!followedTeamIds.includes(id)) followedTeamIds.push(id);
+        } else if (!followedIds.includes(id)) {
+          followedIds.push(id);
+        }
+        renderEventsSection();
+      };
+
+      // Group rows are rendered the first time a group opens (lazy render),
+      // and groups that start expanded (search, or open before re-render) are filled now.
+      const fillGroupBody = (body, items) => {
+        body.innerHTML = items.map((item) =>
+          `<div class="availableEventRow"><div class="availableEventTitle">${escapeHtml(item.title)}</div>${item.sub ? `<div class="availableEventDate">${escapeHtml(item.sub)}</div>` : ''}<button type="button" class="eventAddBtn" data-add-kind="${item.kind}" data-add-id="${escapeHtml(item.id)}" aria-label="Follow ${escapeHtml(item.title)}">+</button></div>`
         ).join('');
-        // Rows created after the render-time binding pass need their own handlers.
         body.querySelectorAll('.eventAddBtn').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const id = btn.dataset.addId;
-            if (!followedTeamIds.includes(id)) followedTeamIds.push(id);
-            renderEventsSection();
-          });
+          btn.addEventListener('click', () => addFollow(btn));
         });
       };
 
       contentEl.querySelectorAll('.sportGroup').forEach((group) => {
-        const sportKey = group.dataset.sport;
         const body = group.querySelector('.sportGroupBody');
-        const teams = teamsBySport.get(sportKey) || [];
-        group.__sportTeams = teams;
-        if (!body.hidden) fillSportGroupBody(body, teams);
+        group.__items = groups.get(group.dataset.sport) || [];
+        if (!body.hidden) fillGroupBody(body, group.__items);
       });
 
       contentEl.querySelectorAll('.sportGroupHeader').forEach((btn) => {
@@ -1088,7 +1082,7 @@
           if (!group || !body) return;
           const willOpen = body.hidden;
           if (willOpen && !body.dataset.filled) {
-            fillSportGroupBody(body, group.__sportTeams || []);
+            fillGroupBody(body, group.__items || []);
             body.dataset.filled = '1';
           }
           body.hidden = !willOpen;
@@ -1098,18 +1092,6 @@
             if (willOpen) openSportGroups.add(sportKey);
             else openSportGroups.delete(sportKey);
           }
-        });
-      });
-
-      contentEl.querySelectorAll('.eventAddBtn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const id = btn.dataset.addId;
-          if (btn.dataset.addKind === 'team') {
-            if (!followedTeamIds.includes(id)) followedTeamIds.push(id);
-          } else {
-            if (!followedIds.includes(id)) followedIds.push(id);
-          }
-          renderEventsSection();
         });
       });
     }
