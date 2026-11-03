@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.13",
+    "title": "Timer is now centered on the screen in standby mode",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.12",
     "title": "Standby hint to move the mouse now sits below the timer box",
     "date": "November 2, 2026"

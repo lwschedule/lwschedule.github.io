@@ -1815,8 +1815,20 @@ body.homePage.standby-pending > *:not(#digitalClock):not(#timer):not(#sidebarMob
 body.homePage > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
   transition: opacity 0.6s ease 0.9s, visibility 0s linear 0s;
 }
+/* Standby: the timer block is centered in the viewport; other content is taken out of the layout */
+body.homePage.timer-only {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+body.homePage.timer-only > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
+  position: absolute;
+}
 body.homePage.timer-only #digitalClock {
-  margin-top: 30vh;
   position: relative;
 }
 /* Smooth move and dim when entering/leaving standby */
