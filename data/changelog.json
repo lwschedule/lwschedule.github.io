@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.6",
+    "title": "Standby mode on the home page now fades in its label and glides the timer into place",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.5",
     "title": "Standby mode on the home page now shows a dimmed timer with a label, and the ticker is centered on desktop",
     "date": "November 2, 2026"

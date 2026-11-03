@@ -1808,6 +1808,11 @@ body.homePage.timer-only > *:not(#digitalClock):not(#timer):not(#sidebarMobileTo
 body.homePage.timer-only #digitalClock {
   margin-top: 30vh;
 }
+/* Smooth move and dim when entering/leaving standby */
+body.homePage #digitalClock,
+body.homePage #timer {
+  transition: opacity 0.9s ease, margin-top 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
 /* Standby view: dim everything except the timer */
 body.homePage.timer-only #digitalClock,
 body.homePage.timer-only #timer {
@@ -1823,6 +1828,19 @@ body.homePage.timer-only #digitalClock::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-light);
+  animation: standbyLabelIn 0.8s ease 0.5s both;
+}
+@keyframes standbyLabelIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.homePage #digitalClock,
+  body.homePage #timer,
+  body.homePage.timer-only #digitalClock::before {
+    transition: none;
+    animation: none;
+  }
 }
 /* Ticker stays centered on desktop, offset for the sidebar only when it is open */
 @media (min-width: 769px) {
