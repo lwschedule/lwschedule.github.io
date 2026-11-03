@@ -106,8 +106,6 @@ h1, h2, h3 {
   text-align: left;
 }
 
-}
-
 .topRightButtons {
   position: static;
   display: flex;
@@ -1126,7 +1124,7 @@ body.calendarPage .pageContainer {
     bottom: 12px;
     border-radius: 18px;
   }
-}
+
   body.homePage .homeHeaderRow h1 {
     margin: 0;
     text-align: left;
@@ -1845,9 +1843,10 @@ body.homePage.timer-only #digitalClock::before {
 /* Ticker stays centered on desktop, offset for the sidebar only when it is open */
 @media (min-width: 769px) {
   body.homePage .home-ticker {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none;
     width: min(1200px, calc(100% - 32px));
   }
 }
