@@ -179,7 +179,12 @@
         }
         idleTimer = setTimeout(() => {
           if (!document.getElementById('globalSidebar')?.classList.contains('open')) {
+            // Entering standby: other content fades out first, then the timer glides
+          document.body.classList.add('standby-pending');
+          setTimeout(() => {
+            document.body.classList.remove('standby-pending');
             flipTo(() => document.body.classList.add('timer-only'));
+          }, 600);
           }
         }, IDLE_MS);
       };

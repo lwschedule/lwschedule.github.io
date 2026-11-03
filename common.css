@@ -1801,7 +1801,19 @@ body.homePage.has-sidebar {
 
 /* Home page timer-only view: after 10 seconds without interaction, only the timer and corner button remain */
 body.homePage.timer-only > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
-  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+}
+/* Entering standby: other content fades out first, before the timer glides */
+body.homePage.standby-pending > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+/* Leaving standby: other content fades back in only after the timer has moved */
+body.homePage > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
+  transition: opacity 0.6s ease 0.9s, visibility 0s linear 0s;
 }
 body.homePage.timer-only #digitalClock {
   margin-top: 30vh;
