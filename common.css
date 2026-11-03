@@ -1828,16 +1828,20 @@ body.homePage #timer {
 body.homePage.timer-only #digitalClock,
 body.homePage.timer-only #timer {
   opacity: 0.45;
+  position: relative;
 }
 body.homePage.timer-only #timer::after {
   content: 'Move mouse to exit standby mode';
-  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
   margin-top: 8px;
+  text-align: center;
   font-size: 0.75em;
   font-weight: 400;
   color: #8a8a8a;
-}
-body.homePage.timer-only #digitalClock::before {
+}body.homePage.timer-only #digitalClock::before {
   content: 'Standby Mode';
   position: absolute;
   left: 0;

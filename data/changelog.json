@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.12",
+    "title": "Standby hint to move the mouse now sits below the timer box",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.11",
     "title": "Standby mode now fades the rest of the page in and out around the timer move",
     "date": "November 2, 2026"
