@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.10",
+    "title": "Standby mode now shows a hint to move the mouse to exit, and its label is gray",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.9",
     "title": "Timer and next period now glide smoothly into their standby position",
     "date": "November 2, 2026"

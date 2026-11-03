@@ -1817,6 +1817,14 @@ body.homePage.timer-only #digitalClock,
 body.homePage.timer-only #timer {
   opacity: 0.45;
 }
+body.homePage.timer-only #timer::after {
+  content: 'Move mouse to exit standby mode';
+  display: block;
+  margin-top: 8px;
+  font-size: 0.75em;
+  font-weight: 400;
+  color: #8a8a8a;
+}
 body.homePage.timer-only #digitalClock::before {
   content: 'Standby Mode';
   position: absolute;
@@ -1827,7 +1835,7 @@ body.homePage.timer-only #digitalClock::before {
   font-size: 1.1em;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--text-light);
+  color: #8a8a8a;
   animation: standbyLabelIn 0.8s ease 0.5s both;
 }
 @keyframes standbyLabelIn {
