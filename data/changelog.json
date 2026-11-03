@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.4",
+    "title": "Home page now shows just the timer after 10 seconds of no activity; the menu button is in the corner on phones and desktop",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.3",
     "title": "Exams & Tests in the event picker now open and close like the sports groups",
     "date": "November 2, 2026"

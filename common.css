@@ -1782,39 +1782,31 @@ body.has-sidebar {
     margin-left: 50px;
   }
 
-  /* Home page on phones: the floating menu button is replaced by the Menu rectangle below Next Period */
-  body.homePage #sidebarMobileToggle {
-    display: none !important;
-  }
-  body.homePage .home-menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: calc(100% - 32px);
-    max-width: 1200px;
-    margin: 0 auto 20px;
-    box-sizing: border-box;
-    padding: 15px;
-    background: var(--primary);
-    color: var(--text-light);
-    border: 2px solid #ffffff;
-    border-radius: 16px;
-    box-shadow: var(--glow);
-    font-size: clamp(0.9em, 4vw, 1.1em);
-    font-weight: 700;
-    cursor: pointer;
-  }
 }
 
-.home-menu-btn {
-  display: none;
+/* Home page: the sidebar stays hidden until the corner button opens it (phones and desktop) */
+body.homePage #globalSidebar {
+  transform: translateX(-100%);
+}
+body.homePage #globalSidebar.open {
+  transform: translateX(0);
+}
+body.homePage #sidebarMobileToggle {
+  display: flex;
+}
+body.homePage .sidebar-mask.show {
+  display: block;
+}
+body.homePage.has-sidebar {
+  padding-left: 20px;
 }
 
-.home-menu-btn-icon {
-  width: 1.1em;
-  height: auto;
-  flex: 0 0 auto;
+/* Home page timer-only view: after 10 seconds without interaction, only the timer and corner button remain */
+body.homePage.timer-only > *:not(#digitalClock):not(#timer):not(#sidebarMobileToggle):not(#globalSidebar):not(#sidebarMask):not(#updateBanner):not(script):not(style):not(link):not(meta):not(title) {
+  display: none !important;
+}
+body.homePage.timer-only #digitalClock {
+  margin-top: 30vh;
 }
 
 .icon-back-btn {
