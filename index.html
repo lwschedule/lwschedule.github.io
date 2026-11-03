@@ -155,12 +155,31 @@
     (function setupTimerOnlyView() {
       const IDLE_MS = 10000;
       let idleTimer = null;
+      const movers = () => [document.getElementById('digitalClock'), document.getElementById('timer')].filter(Boolean);
+      // Glide the timer and next-period text from where they were to where they now sit
+      const flipTo = (apply) => {
+        const els = movers();
+        const before = els.map((el) => el.getBoundingClientRect().top);
+        apply();
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        els.forEach((el, i) => {
+          const dy = before[i] - el.getBoundingClientRect().top;
+          if (reduce || !dy) return;
+          el.style.transition = 'none';
+          el.style.transform = `translateY(${dy}px)`;
+          el.offsetHeight;
+          el.style.transition = 'transform 1.1s cubic-bezier(0.22, 1, 0.36, 1)';
+          el.style.transform = '';
+        });
+      };
       const showFull = () => {
         clearTimeout(idleTimer);
-        document.body.classList.remove('timer-only');
+        if (document.body.classList.contains('timer-only')) {
+          flipTo(() => document.body.classList.remove('timer-only'));
+        }
         idleTimer = setTimeout(() => {
           if (!document.getElementById('globalSidebar')?.classList.contains('open')) {
-            document.body.classList.add('timer-only');
+            flipTo(() => document.body.classList.add('timer-only'));
           }
         }, IDLE_MS);
       };
