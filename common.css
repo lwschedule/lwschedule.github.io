@@ -1805,6 +1805,7 @@ body.homePage.timer-only > *:not(#digitalClock):not(#timer):not(#sidebarMobileTo
 }
 body.homePage.timer-only #digitalClock {
   margin-top: 30vh;
+  position: relative;
 }
 /* Smooth move and dim when entering/leaving standby */
 body.homePage #digitalClock,
@@ -1818,13 +1819,14 @@ body.homePage.timer-only #timer {
 }
 body.homePage.timer-only #digitalClock::before {
   content: 'Standby Mode';
-  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2.2em;
   text-align: center;
-  margin-bottom: 12px;
   font-size: 1.1em;
   font-weight: 700;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--text-light);
   animation: standbyLabelIn 0.8s ease 0.5s both;
 }

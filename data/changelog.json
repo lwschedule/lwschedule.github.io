@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.8",
+    "title": "Standby Mode label on the home page now sits above the timer box in normal case",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.7",
     "title": "Home page ticker is now truly centered on desktop",
     "date": "November 2, 2026"
