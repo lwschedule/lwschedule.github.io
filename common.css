@@ -1843,7 +1843,7 @@ body.homePage.timer-only #timer {
   position: relative;
 }
 body.homePage.timer-only #timer::after {
-  content: 'Move mouse to exit standby mode';
+  content: 'Touch screen or move mouse to exit standby mode';
   position: absolute;
   left: 0;
   right: 0;

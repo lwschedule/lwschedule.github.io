@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.2.14",
+    "title": "Standby hint now mentions touch screen, and lunch labels updated in setup and profile",
+    "date": "November 2, 2026"
+  },
+  {
     "version": "v2026.11.2.13",
     "title": "Timer is now centered on the screen in standby mode",
     "date": "November 2, 2026"
