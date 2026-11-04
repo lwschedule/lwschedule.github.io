@@ -82,13 +82,13 @@ const SCHEDULE_METADATA = [
 // each weekday uses, per schedule. Wednesday always has a single all-school
 // lunch, so it maps to 'wednesday'.
 const LUNCH_SLOT_BY_DAY = {
-  normal:       { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'veterans-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'thanksgiving': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  normal:       { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'veterans-day': { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'thanksgiving': { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'mlk-assembly': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
-  'mlk-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'mid-winter-break': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
-  'presidents-day': { Monday: 'p3', Tuesday: 'p3', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'mlk-day': { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'mid-winter-break': { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
+  'presidents-day': { Monday: 'p4', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p4' },
   'march-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' },
   'may-leap-day': { Monday: 'p3', Tuesday: 'p4', Wednesday: 'wednesday', Thursday: 'p3', Friday: 'p3' }
 };

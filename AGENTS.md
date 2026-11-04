@@ -204,7 +204,7 @@ Which lunch a user's A/B choice applies to is set per schedule and weekday in `L
 
 | Schedule | p3 basis | p4 basis |
 |---|---|---|
-| `normal`, `veterans-day`, `thanksgiving`, `mlk-day`, `mid-winter-break`, `presidents-day` | Mon, Tue, Thu | Fri |
+| `normal`, `veterans-day`, `thanksgiving`, `mlk-day`, `mid-winter-break`, `presidents-day` | Thu | Mon, Tue, Fri |
 | `mlk-assembly`, `march-leap-day`, `may-leap-day` | Mon, Thu, Fri | Tue |
 
 (Wednesday always has the single all-school lunch, mapped as `'wednesday'`.)
