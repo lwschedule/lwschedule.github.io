@@ -1610,12 +1610,7 @@ body.calendarPage .pageContainer {
 }
 
 body.has-sidebar {
-  padding-left: 270px;
-}
-@media (max-width: 768px) {
-  body.has-sidebar {
-    padding-left: 20px;
-  }
+  padding-left: 20px;
 }
 
 #globalSidebar {
@@ -1629,7 +1624,7 @@ body.has-sidebar {
   display: flex;
   flex-direction: column;
   z-index: 1000;
-  transform: translateX(0);
+  transform: translateX(-100%);
   transition: transform 0.3s ease;
   overflow: hidden;
   border-right: 1px solid var(--primary);
@@ -1717,7 +1712,7 @@ body.has-sidebar {
 }
 
 #sidebarMobileToggle {
-  display: none;
+  display: flex;
   position: fixed;
   top: 15px;
   left: 15px;
@@ -1745,6 +1740,13 @@ body.has-sidebar {
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(3px);
   z-index: 999;
+}
+
+#globalSidebar.open {
+  transform: translateX(0);
+}
+.sidebar-mask.show {
+  display: block;
 }
 
 @media (max-width: 768px) {
@@ -1904,17 +1906,7 @@ body.homePage.timer-only #timer::after {
   transition: transform 0.2s;
 }
 
-@media (min-width: 769px) {
-  .icon-back-btn {
-    display: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .icon-back-btn {
-    display: none;
-  }
-  body.has-mobile-back-button .icon-back-btn {
+body.has-mobile-back-button .icon-back-btn {
     display: flex !important;
     position: fixed !important;
     top: 15px !important;
@@ -1926,7 +1918,6 @@ body.homePage.timer-only #timer::after {
     border-radius: 50%;
     width: 42px;
     height: 42px;
-  }
 }
 
 .icon-back-btn::before {
