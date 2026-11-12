@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.12.3",
+    "title": "Moving the mouse during the standby fade now cancels it, so the home page stays awake",
+    "date": "November 12, 2026"
+  },
+  {
     "version": "v2026.11.12.2",
     "title": "Turning Standby Mode off now takes effect right away, even on the home page open in another tab",
     "date": "November 12, 2026"

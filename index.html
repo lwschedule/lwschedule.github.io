@@ -185,6 +185,9 @@
       };
       const showFull = () => {
         clearTimeout(idleTimer);
+        // Interaction also cancels a fade that is already under way
+        clearTimeout(standbyPendingTimer);
+        document.body.classList.remove('standby-pending');
         if (document.body.classList.contains('timer-only')) {
           flipTo(() => document.body.classList.remove('timer-only'));
         }
