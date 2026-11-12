@@ -1,5 +1,10 @@
 [
   {
+    "version": "v2026.11.12.2",
+    "title": "Turning Standby Mode off now takes effect right away, even on the home page open in another tab",
+    "date": "November 12, 2026"
+  },
+  {
     "version": "v2026.11.12",
     "title": "Added a Preferences section on Profile and Setup with a Standby Mode toggle",
     "date": "November 12, 2026"

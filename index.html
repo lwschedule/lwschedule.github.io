@@ -155,6 +155,8 @@
     (function setupTimerOnlyView() {
       const IDLE_MS = 10000;
       let idleTimer = null;
+      let standbyPendingTimer = null;
+      const standbyOn = () => typeof window.isStandbyEnabled !== 'function' || window.isStandbyEnabled();
       const movers = () => [document.getElementById('digitalClock'), document.getElementById('timer')].filter(Boolean);
       // Glide the timer and next-period text from where they were to where they now sit
       const flipTo = (apply) => {
@@ -172,17 +174,28 @@
           el.style.transform = '';
         });
       };
+      // Leave standby right away (used when Preferences turns Standby Mode off)
+      const exitStandby = () => {
+        clearTimeout(idleTimer);
+        clearTimeout(standbyPendingTimer);
+        document.body.classList.remove('standby-pending');
+        if (document.body.classList.contains('timer-only')) {
+          flipTo(() => document.body.classList.remove('timer-only'));
+        }
+      };
       const showFull = () => {
         clearTimeout(idleTimer);
         if (document.body.classList.contains('timer-only')) {
           flipTo(() => document.body.classList.remove('timer-only'));
         }
+        // Standby off: never schedule the idle timer at all
+        if (!standbyOn()) return;
         idleTimer = setTimeout(() => {
-          if (typeof window.isStandbyEnabled === 'function' && !window.isStandbyEnabled()) return;
+          if (!standbyOn()) return;
           if (!document.getElementById('globalSidebar')?.classList.contains('open')) {
             // Entering standby: other content fades out first, then the timer glides
           document.body.classList.add('standby-pending');
-          setTimeout(() => {
+          standbyPendingTimer = setTimeout(() => {
             document.body.classList.remove('standby-pending');
             flipTo(() => document.body.classList.add('timer-only'));
           }, 600);
@@ -191,6 +204,12 @@
       };
       ['pointerdown', 'pointermove', 'keydown', 'touchstart', 'wheel', 'scroll'].forEach((evt) =>
         window.addEventListener(evt, showFull, { passive: true }));
+      // Other tabs (Profile/Setup) report preference changes through the storage event
+      window.addEventListener('storage', (e) => {
+        if (e.key !== 'standbyModeEnabled' && e.key !== null) return;
+        if (standbyOn()) showFull();
+        else exitStandby();
+      });
       showFull();
     })();
 
