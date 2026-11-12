@@ -156,7 +156,10 @@
       const IDLE_MS = 10000;
       let idleTimer = null;
       let standbyPendingTimer = null;
-      const standbyOn = () => typeof window.isStandbyEnabled !== 'function' || window.isStandbyEnabled();
+      // common.js loads later, so read the saved preference directly until it does
+      const standbyOn = () => typeof window.isStandbyEnabled === 'function'
+        ? window.isStandbyEnabled()
+        : localStorage.getItem('standbyModeEnabled') !== 'false';
       const movers = () => [document.getElementById('digitalClock'), document.getElementById('timer')].filter(Boolean);
       // Glide the timer and next-period text from where they were to where they now sit
       const flipTo = (apply) => {
