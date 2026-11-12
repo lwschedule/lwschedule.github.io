@@ -819,6 +819,22 @@
         <button type="button" class="resetBtn" id="resetPackupBtn">Reset Pack-Up Reminders to Default</button>
       </div>
     </section>
+
+    <section class="profileCard">
+      <div class="cardHeader">
+        <h3>Preferences</h3>
+      </div>
+
+      <div class="toggle-container">
+        <span class="toggle-label">Standby Mode</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="standbyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <p style="opacity:0.8; font-size:0.9em; margin:10px 0 0 0;">When on, the home page shows only the clock and timer after 10 seconds of no activity. Turn it off to keep the full home page on screen.</p>
+    </section>
   </div>
 
   <script src="/common-core.js"></script>
@@ -1167,6 +1183,14 @@
 
     let profileClassManager;
 
+    function initPreferencesSection() {
+      const standbyToggle = document.getElementById('standbyToggle');
+      standbyToggle.checked = isStandbyEnabled();
+      standbyToggle.addEventListener('change', () => {
+        setStandbyEnabled(standbyToggle.checked);
+      });
+    }
+
     function initClassesSection() {
       const classesToggle = document.getElementById('classesToggle');
       const classesContent = document.getElementById('classesContent');
@@ -1454,6 +1478,7 @@
       initClassesSection();
       initPhoneCaddySection();
       initPackupSection();
+      initPreferencesSection();
       await initEventsSection();
     }
 

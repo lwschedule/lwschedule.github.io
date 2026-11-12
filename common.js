@@ -112,6 +112,16 @@ function isClassesEnabled() {
   return localStorage.getItem('classesEnabled') === 'true';
 }
 
+// Standby mode (home page dims to just the clock and timer when idle) is on
+// unless the user turned it off in Preferences.
+function isStandbyEnabled() {
+  return localStorage.getItem('standbyModeEnabled') !== 'false';
+}
+
+function setStandbyEnabled(enabled) {
+  localStorage.setItem('standbyModeEnabled', enabled ? 'true' : 'false');
+}
+
 function setClassesEnabled(enabled) {
   localStorage.setItem('classesEnabled', enabled ? 'true' : 'false');
 }

@@ -178,6 +178,7 @@
           flipTo(() => document.body.classList.remove('timer-only'));
         }
         idleTimer = setTimeout(() => {
+          if (typeof window.isStandbyEnabled === 'function' && !window.isStandbyEnabled()) return;
           if (!document.getElementById('globalSidebar')?.classList.contains('open')) {
             // Entering standby: other content fades out first, then the timer glides
           document.body.classList.add('standby-pending');

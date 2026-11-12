@@ -325,6 +325,19 @@
       </div>
     </section>
 
+    <section class="setupSection">
+      <h3>Preferences</h3>
+      <p class="setupDescription">Choose how the app behaves for you.</p>
+      <div class="toggle-container">
+        <span class="toggle-label">Standby Mode</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="standbyToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <p class="setupDescription" style="margin:10px 0 0 0;">When on, the home page shows only the clock and timer after 10 seconds of no activity. Turn it off to keep the full home page on screen.</p>
+    </section>
+
     <button class="completeBtn" id="completeBtn">Complete Setup</button>
   </div>
 
@@ -551,7 +564,14 @@
       });
     });
 
+    const standbyToggle = document.getElementById('standbyToggle');
+    standbyToggle.checked = isStandbyEnabled();
+    standbyToggle.addEventListener('change', () => {
+      setStandbyEnabled(standbyToggle.checked);
+    });
+
     document.getElementById('completeBtn').addEventListener('click', () => {
+      setStandbyEnabled(standbyToggle.checked);
       setProfileName(document.getElementById('setupProfileName').value.trim());
       setProfileInitials(document.getElementById('setupProfileInitials').value.trim());
       setLunchPrefs(lunchPrefs);
